@@ -1,0 +1,31 @@
+{
+  "id": "tracer-bullet",
+  "initialJourneyHistory": {
+    "completedJourneys": 0,
+    "exploredPathChoices": {}
+  },
+  "steps": [
+    "show-opening-storybook-moment",
+    "continue",
+    "begin-flight",
+    "choose-lacewood-route",
+    "encounter-playful-bump",
+    "encounter-playful-bump",
+    "encounter-playful-bump",
+    "show-cloud-rest",
+    "resume-flight",
+    "gather-birthday-star",
+    "open-rainbow-path",
+    "show-birthday-star-moment",
+    "continue",
+    "show-celebration",
+    "commit-journey-history"
+  ],
+  "requiredFacts": {
+    "birthdayStars": ["birthday-star.lacewood"],
+    "rainbowPaths": ["rainbow-path.lacewood"],
+    "chosenPathRecorded": true,
+    "cloudRestPreservesProgress": true,
+    "networkRequests": 0
+  }
+}

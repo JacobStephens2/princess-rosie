@@ -1,3 +1,7 @@
+---
+status: superseded by ADR-0008
+---
+
 # Build matching Godot and Unity Production Editions
 
 Keep the existing Phaser web game unchanged as the Original Edition, and build complete, independently releasable Production Editions in Godot 4.7.2 with GDScript and Unity 6.3 LTS with C#. Both native macOS editions will implement the same canonical player-facing design, content, source art and audio, tuning targets, and acceptance suite so the comparison tests their production workflows and resulting experience rather than two different game designs; after both are evaluated, one will become the canonical Production Edition and the other will be preserved without a promise of indefinite feature parity.

@@ -1,0 +1,19 @@
+{
+  "media": [
+    {
+      "id": "opening.celebration-preparations",
+      "role": "illustration",
+      "path": "source-media/opening-storybook/celebration-preparations.png"
+    },
+    {
+      "id": "opening.scattered-stars",
+      "role": "illustration",
+      "path": "source-media/opening-storybook/scattered-stars.png"
+    },
+    {
+      "id": "opening.rosi-stella-departure",
+      "role": "illustration",
+      "path": "source-media/opening-storybook/rosi-stella-departure.png"
+    }
+  ]
+}
