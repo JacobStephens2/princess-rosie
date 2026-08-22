@@ -1,0 +1,50 @@
+{
+  "editionId": "princess-rosi-production",
+  "title": "Princess Rosi and the Seven Birthday Stars",
+  "locale": "en",
+  "storybookStage": {
+    "width": 1280,
+    "height": 720,
+    "cropEssentialContent": false
+  },
+  "playerAction": {
+    "pressed": "rise",
+    "released": "glide",
+    "bindings": ["keyboard.space", "pointer.primary"]
+  },
+  "openingMoment": {
+    "id": "opening.departure",
+    "eyebrow": "A brave big sister",
+    "title": "Rosi and Stella can help",
+    "copy": "Princess Rosi climbed onto Stella, her flying unicorn. “We’ll find every Star and bring everyone to the celebration!”",
+    "illustration": "opening.rosi-stella-departure"
+  },
+  "place": {
+    "id": "lacewood",
+    "name": "Zélie’s Lacewood",
+    "familyGuest": "Gram",
+    "pathChoice": {
+      "id": "path-choice.lacewood",
+      "routes": [
+        {
+          "id": "lacewood.canopy",
+          "name": "Silver-ribbon canopy",
+          "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
+          "celebrationEcho": "silver-ribbons"
+        },
+        {
+          "id": "lacewood.floor",
+          "name": "Rose-lit woodland floor",
+          "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
+          "celebrationEcho": "rose-lights"
+        }
+      ]
+    },
+    "birthdayStar": "birthday-star.lacewood",
+    "rainbowPath": "rainbow-path.lacewood"
+  },
+  "celebration": {
+    "id": "celebration.tracer",
+    "actions": ["dance-again", "fly-again"]
+  }
+}

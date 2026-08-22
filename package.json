@@ -3,15 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "workspaces": [
-    "apps/phaser-original"
+    "apps/phaser-original",
+    "tools/edition-contract"
   ],
   "scripts": {
     "dev": "npm run dev --workspace princess-rosi-phaser-original",
     "build": "npm run build --workspace princess-rosi-phaser-original",
     "preview": "npm run preview --workspace princess-rosi-phaser-original",
     "test": "npm run test --workspace princess-rosi-phaser-original",
+    "test:contract": "npm run test --workspace rosi-edition-contract",
     "test:e2e": "npm run test:e2e --workspace princess-rosi-phaser-original",
     "test:e2e:install": "npm run test:e2e:install --workspace princess-rosi-phaser-original",
-    "check": "npm run check --workspace princess-rosi-phaser-original"
+    "check": "npm run test:contract && npm run check --workspace princess-rosi-phaser-original"
   }
 }
