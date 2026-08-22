@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 
 import { describe, expect, test } from "vitest";
@@ -5,97 +6,26 @@ import { describe, expect, test } from "vitest";
 import { prepareEditionPack, proveEditionPack } from "../src/editionContract";
 
 const tracerPackRoot = fileURLToPath(new URL("../../../shared/edition", import.meta.url));
-const tracerSoundEvents: Array<{
+const tracerScenarioPath = fileURLToPath(
+  new URL("../../../shared/edition/parity/tracer-bullet.json", import.meta.url),
+);
+
+type TestSoundEvent = {
   event: string;
   context: Record<string, string | boolean>;
-}> = [
-  {
-    event: "sound-event.opening-storybook-moment",
-    context: { moment: "opening.departure" },
-  },
-  { event: "sound-event.story-confirmation", context: { action: "continue" } },
-  { event: "sound-event.flight-launch", context: {} },
-  { event: "sound-event.movement-state", context: { state: "flight" } },
-  { event: "sound-event.place-entry", context: { place: "lacewood" } },
-  {
-    event: "sound-event.path-choice-available",
-    context: { pathChoice: "path-choice.lacewood" },
-  },
-  {
-    event: "sound-event.path-choice-selected",
-    context: { pathChoice: "path-choice.lacewood", route: "lacewood.canopy" },
-  },
-  {
-    event: "sound-event.vignette-interaction",
-    context: { place: "lacewood", interaction: "silver-ribbon-canopy" },
-  },
-  {
-    event: "sound-event.playful-bump",
-    context: { place: "lacewood", kind: "silver-ribbon" },
-  },
-  {
-    event: "sound-event.playful-bump",
-    context: { place: "lacewood", kind: "silver-ribbon" },
-  },
-  {
-    event: "sound-event.playful-bump",
-    context: { place: "lacewood", kind: "silver-ribbon" },
-  },
-  { event: "sound-event.cloud-rest-entered", context: { place: "lacewood" } },
-  { event: "sound-event.cloud-rest-exited", context: { place: "lacewood" } },
-  { event: "sound-event.movement-state", context: { state: "flight" } },
-  {
-    event: "sound-event.birthday-star-proximity",
-    context: { birthdayStar: "birthday-star.lacewood" },
-  },
-  {
-    event: "sound-event.birthday-star-gathered",
-    context: { birthdayStar: "birthday-star.lacewood" },
-  },
-  {
-    event: "sound-event.rainbow-path-opened",
-    context: { rainbowPath: "rainbow-path.lacewood", familyGuest: "Gram" },
-  },
-  {
-    event: "sound-event.birthday-star-moment",
-    context: { place: "lacewood", familyGuest: "Gram" },
-  },
-  { event: "sound-event.birthday-castle-arrival", context: {} },
-  {
-    event: "sound-event.celebration-interaction",
-    context: { action: "dance-again" },
-  },
-  { event: "sound-event.replay", context: { destination: "opening-storybook" } },
-  {
-    event: "sound-event.opening-storybook-moment",
-    context: { moment: "opening.departure" },
-  },
-  { event: "sound-event.flight-launch", context: {} },
-  { event: "sound-event.movement-state", context: { state: "flight" } },
-  { event: "sound-event.place-entry", context: { place: "lacewood" } },
-  {
-    event: "sound-event.path-choice-available",
-    context: { pathChoice: "path-choice.lacewood" },
-  },
-  {
-    event: "sound-event.journey-history-shimmer",
-    context: { pathChoice: "path-choice.lacewood", route: "lacewood.floor" },
-  },
-  {
-    event: "sound-event.path-choice-selected",
-    context: { pathChoice: "path-choice.lacewood", route: "lacewood.floor" },
-  },
-  {
-    event: "sound-event.vignette-interaction",
-    context: { place: "lacewood", interaction: "rose-lit-floor" },
-  },
-  { event: "sound-event.sound-preference-changed", context: { enabled: false } },
-  { event: "sound-event.sound-preference-changed", context: { enabled: true } },
-];
+};
+
+async function readTracerSoundEvents(): Promise<TestSoundEvent[]> {
+  const scenario = JSON.parse(await readFile(tracerScenarioPath, "utf8")) as {
+    requiredSoundEvents: TestSoundEvent[];
+  };
+  return scenario.requiredSoundEvents;
+}
 
 describe("Edition Contract proof", () => {
   test("accepts conforming Godot Lacewood tracer evidence", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
+    const tracerSoundEvents = await readTracerSoundEvents();
 
     const proof = await proveEditionPack(tracerPackRoot, prepared, {
       edition: "godot",
@@ -124,6 +54,7 @@ describe("Edition Contract proof", () => {
 
   test("rejects sound events emitted in the wrong order", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
+    const tracerSoundEvents = await readTracerSoundEvents();
     const outOfOrderEvents = [...tracerSoundEvents];
     outOfOrderEvents.splice(26, 2, tracerSoundEvents[27]!, tracerSoundEvents[26]!);
 

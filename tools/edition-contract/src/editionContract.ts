@@ -71,8 +71,22 @@ function invalidCatalogField(entryId: unknown, field: string): never {
 function assertUniqueIds(items: Array<{ id: string }>, kind: string): void {
   const ids = new Set<string>();
   for (const item of items) {
+    if (!isNonEmptyString(item.id)) throw new Error(`Invalid soundscape ${kind} id`);
     if (ids.has(item.id)) throw new Error(`Duplicate soundscape ${kind} id: ${item.id}`);
     ids.add(item.id);
+  }
+}
+
+function validateEventDefinitions(events: SoundscapeEventFile): void {
+  assertUniqueIds(events.events, "event");
+  for (const event of events.events) {
+    const parameters = new Set<string>();
+    for (const parameter of event.parameters) {
+      if (!isNonEmptyString(parameter) || parameters.has(parameter)) {
+        throw new Error(`Invalid soundscape event parameter: ${event.id}`);
+      }
+      parameters.add(parameter);
+    }
   }
 }
 
@@ -248,7 +262,7 @@ function prepareSoundscape(
   const catalog = JSON.parse(catalogBytes.toString("utf8")) as SoundscapeCatalogFile;
   const sourceMedia = JSON.parse(sourceMediaBytes.toString("utf8")) as SoundscapeSourceMediaFile;
   const provenance = JSON.parse(provenanceBytes.toString("utf8")) as SoundscapeProvenanceFile;
-  assertUniqueIds(events.events, "event");
+  validateEventDefinitions(events);
 
   const eventsById = new Map(events.events.map((event) => [event.id, event]));
   const { sourceMasterIds, fallbackRoleIds } = validateSourceMedia(sourceMedia, provenance);
@@ -300,6 +314,12 @@ export async function prepareEditionPack(packRoot: string): Promise<PreparedEdit
   for (const file of files) {
     if (typeof file.path !== "string" || typeof file.role !== "string") {
       throw new Error("Every Edition Pack file needs a role and relative path");
+    }
+    if (
+      SOUNDSCAPE_FILE_ROLES.some((role) => role === file.role) &&
+      filesByRole.has(file.role)
+    ) {
+      throw new Error(`Duplicate Edition Pack role: ${file.role}`);
     }
     const bytes = await readFile(resolvePackFile(packRoot, file.path));
     digest.update("\0");

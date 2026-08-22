@@ -25,6 +25,14 @@ const soundscapeInputPaths = [
   "soundscape/source-media.json",
   "soundscape/provenance.json",
 ];
+const invalidIdentifierCases: Array<[string, string, string]> = [
+  ["event", "soundscape/events.json", "events"],
+  ["catalog", "soundscape/catalog.json", "entries"],
+  ["source-media role", "soundscape/source-media.json", "roles"],
+  ["fallback role", "soundscape/source-media.json", "fallbackRoles"],
+  ["source master", "soundscape/source-media.json", "sourceMasters"],
+  ["provenance role", "soundscape/provenance.json", "roles"],
+];
 
 async function withPackCopy(assertion: (packRoot: string) => Promise<void>): Promise<void> {
   const packRoot = await mkdtemp(join(tmpdir(), "rosi-edition-pack-"));
@@ -117,6 +125,25 @@ describe("Edition Contract", () => {
         "cue.sound.off",
         "cue.sound.on",
       ],
+    });
+  });
+
+  test("preserves preparation for an Edition Pack without a soundscape contract", async () => {
+    await withPackCopy(async (packRoot) => {
+      await editPackJson<{
+        files: Array<{ role: string }>;
+      }>(packRoot, "edition.json", (manifest) => {
+        manifest.files = manifest.files.filter((file) => !file.role.startsWith("soundscape-"));
+      });
+      await editPackJson<{
+        requiredSoundEvents?: unknown;
+      }>(packRoot, "parity/tracer-bullet.json", (scenario) => {
+        delete scenario.requiredSoundEvents;
+      });
+
+      const prepared = await prepareEditionPack(packRoot);
+
+      expect(prepared.soundscape).toBeUndefined();
     });
   });
 
@@ -286,6 +313,55 @@ describe("Edition Contract", () => {
 
       await expect(prepareEditionPack(packRoot)).rejects.toThrow(
         "Duplicate soundscape catalog id: cue.opening.celebration-reveal",
+      );
+    });
+  });
+
+  test("rejects duplicate reserved soundscape roles in the Edition Pack manifest", async () => {
+    await withPackCopy(async (packRoot) => {
+      await editPackJson<{
+        files: Array<{ role: string; path: string }>;
+      }>(packRoot, "edition.json", (manifest) => {
+        manifest.files.push({
+          role: "soundscape-catalog",
+          path: "soundscape/catalog.json",
+        });
+      });
+
+      await expect(prepareEditionPack(packRoot)).rejects.toThrow(
+        "Duplicate Edition Pack role: soundscape-catalog",
+      );
+    });
+  });
+
+  test.each(invalidIdentifierCases)(
+    "rejects an empty soundscape %s identifier",
+    async (kind, path, collection) => {
+      await withPackCopy(async (packRoot) => {
+        await editPackJson<Record<string, Array<{ id: string }>>>(packRoot, path, (document) => {
+          document[collection]![0]!.id = "";
+        });
+
+        await expect(prepareEditionPack(packRoot)).rejects.toThrow(
+          `Invalid soundscape ${kind} id`,
+        );
+      });
+    },
+  );
+
+  test.each([
+    ["empty", [""]],
+    ["duplicate", ["moment", "moment"]],
+  ])("rejects %s semantic event parameter names", async (_kind, parameters) => {
+    await withPackCopy(async (packRoot) => {
+      await editPackJson<{
+        events: Array<{ parameters: string[] }>;
+      }>(packRoot, "soundscape/events.json", (events) => {
+        events.events[0]!.parameters = parameters;
+      });
+
+      await expect(prepareEditionPack(packRoot)).rejects.toThrow(
+        "Invalid soundscape event parameter: sound-event.opening-storybook-moment",
       );
     });
   });
