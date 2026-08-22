@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/storybook_shell.gd" id="1_shell"]
 [ext_resource type="Texture2D" path="res://assets/storybook-cover.png" id="2_cover"]
 [ext_resource type="Texture2D" path="res://assets/opening-storybook-moment.png" id="3_opening"]
+[ext_resource type="Script" path="res://scripts/export_smoke_probe.gd" id="4_smoke"]
 
 [sub_resource type="StyleBoxFlat" id="StyleTitle"]
 bg_color = Color(0.133333, 0.0784314, 0.2, 0.78)
@@ -98,6 +99,10 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_shell")
 
+[node name="ExportSmokeProbe" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("4_smoke")
+
 [node name="DecorativeBackground" type="TextureRect" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
@@ -148,6 +153,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="CoverArt" type="TextureRect" parent="Stage/CoverPresentation"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -164,6 +170,7 @@ stretch_mode = 0
 mouse_filter = 2
 
 [node name="TitleCard" type="PanelContainer" parent="Stage/CoverPresentation"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 52.0
 offset_top = 48.0
@@ -355,7 +362,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Card" type="PanelContainer" parent="Stage/PauseOverlay/Center"]
-custom_minimum_size = Vector2(520, 500)
+custom_minimum_size = Vector2(520, 440)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StylePause")
 
@@ -400,13 +407,6 @@ theme_override_font_sizes/font_size = 21
 theme_override_styles/normal = SubResource("StylePrimary")
 theme_override_styles/hover = SubResource("StylePrimaryHover")
 text = "Return to the story"
-
-[node name="SoundButton" type="Button" parent="Stage/PauseOverlay/Center/Card/Margin/Controls"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "Sound: On"
 
 [node name="WindowModeButton" type="Button" parent="Stage/PauseOverlay/Center/Card/Margin/Controls"]
 unique_name_in_owner = true

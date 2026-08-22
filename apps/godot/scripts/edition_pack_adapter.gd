@@ -33,20 +33,22 @@ func prepare(pack_source: String, expected_digest: String = "") -> Dictionary:
 	hashing.update(PackedByteArray([0]))
 	hashing.update(manifest_bytes_result.value)
 
-	var files: Array = manifest_files.duplicate()
+	var files: Array[Dictionary] = []
+	for file_value: Variant in manifest_files:
+		if not file_value is Dictionary:
+			return _failure("Every Edition Pack file needs a role and relative path")
+		var file: Dictionary = file_value
+		if not file.get("role") is String or not file.get("path") is String:
+			return _failure("Every Edition Pack file needs a role and relative path")
+		files.append(file)
 	files.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
 		return str(left.get("path")) < str(right.get("path"))
 	)
 	var scenario_ids: Array[String] = []
 
-	for file_value: Variant in files:
-		if not file_value is Dictionary:
-			return _failure("Every Edition Pack file needs a role and relative path")
-		var file: Dictionary = file_value
-		var role: Variant = file.get("role")
-		var relative_path: Variant = file.get("path")
-		if not role is String or not relative_path is String:
-			return _failure("Every Edition Pack file needs a role and relative path")
+	for file: Dictionary in files:
+		var role: String = file.get("role")
+		var relative_path: String = file.get("path")
 		if not _is_safe_relative_path(relative_path):
 			return _failure("Edition Pack path must stay inside its root: %s" % relative_path)
 
