@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "id": "cue.story.confirmation",
+      "event": "sound-event.story-confirmation",
+      "match": { "action": "continue" },
+      "priority": 60,
+      "durationSeconds": 0.6,
+      "sourceMaster": "source-master.story.confirmation",
+      "fallbackRole": "fallback.story-confirmation"
+    }
+  ]
+}
