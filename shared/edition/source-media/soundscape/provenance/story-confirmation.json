@@ -1,9 +1,12 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "cueId": "cue.story.confirmation",
   "sourceMasterId": "source-master.story.confirmation",
+  "runtimeMapping": "runtime-cue.story.confirmation",
+  "jobHash": "sha256:9a2a9ed1226f449b995906ba48708a6224d08bef5b55b1a579357b329a2a1a6a",
   "provider": "ElevenLabs",
   "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
   "sdkVersion": "2.64.0",
   "model": "eleven_text_to_sound_v2",
   "parameters": {
@@ -34,6 +37,17 @@
     "peak-ceiling--6dbfs",
     "wav-wrap-pcm16le"
   ],
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -9.88,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:5a93b99080993e78c877170af5400b9178b7a06a4f735a34d8c808cfcb909192",
   "formatProbe": {
     "requestedFormat": "pcm_48000",
     "outcome": "accepted",
@@ -49,6 +63,10 @@
     "status": "active",
     "activePaid": true
   },
+  "masteringIntent": "gentle-short-confirmation-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
   "approvedCandidate": "candidate-2",
   "selectionReason": "Best-balanced gentle bell-like cue: clearly audible on small speakers, controlled decay, no large harsh transient, and comfortably below the -6 dBFS ceiling."
 }

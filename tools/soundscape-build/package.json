@@ -4,9 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "build": "node --import tsx src/bin.ts build",
     "build:confirmation": "node --import tsx src/bin.ts confirmation",
+    "media-docs": "node --import tsx src/bin.ts media-docs",
+    "remaster": "node --import tsx src/bin.ts remaster",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate": "node --import tsx src/bin.ts validate"
   },
   "dependencies": {
     "@elevenlabs/elevenlabs-js": "2.64.0"

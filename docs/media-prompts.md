@@ -96,16 +96,21 @@ Execution: Mureka API, model `mureka-9`, one non-streaming instrumental; locally
 
 Output: `public/assets/audio/birthday-flight.mp3`
 
-## Story confirmation sound effect
+<!-- soundscape-build:start -->
+## Fairytale Soundscape
 
-Execution: ElevenLabs Sound Effects API through exact-pinned official SDK `@elevenlabs/elevenlabs-js` 2.64.0, model `eleven_text_to_sound_v2`, under an active Starter commercial plan. Three serial candidates were requested as 48 kHz PCM with generation retries disabled. Candidate 2 was selected; the stereo source was downmixed to mono, given 10 ms/20 ms fades, limited to a −6 dBFS peak ceiling, and wrapped as signed 16-bit little-endian WAV.
+Credit: ElevenLabs Sound Effects API. This project documentation records the provider; No in-game provider credit is added.
+
+### cue.story.confirmation
 
 > A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.
 
-Parameters: 0.6 seconds, prompt influence 0.3, looping off, requested source format `pcm_48000` (accepted).
+Parameters: 0.6 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
 
-Selection: candidate 2, chosen as the best-balanced gentle bell-like cue: clearly audible on small speakers, controlled decay, no large harsh transient, and comfortably below the −6 dBFS ceiling.
+Production treatment: inspect-pcm-s16le, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le.
 
-Source master: `shared/edition/source-media/soundscape/masters/story-confirmation.wav`
+Selection: Best-balanced gentle bell-like cue: clearly audible on small speakers, controlled decay, no large harsh transient, and comfortably below the -6 dBFS ceiling.
 
-Provenance: `shared/edition/source-media/soundscape/provenance/story-confirmation.json`
+Source master: `source-master.story.confirmation`
+
+<!-- soundscape-build:end -->

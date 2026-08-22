@@ -1,6 +1,10 @@
 {
+  "schemaVersion": 2,
   "cueId": "cue.story.confirmation",
   "status": "approved",
+  "jobHash": "sha256:9a2a9ed1226f449b995906ba48708a6224d08bef5b55b1a579357b329a2a1a6a",
+  "requestLimit": 30,
+  "paidRequestCount": 3,
   "requests": [
     {
       "text": "A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.",
