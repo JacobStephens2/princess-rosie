@@ -351,6 +351,7 @@ export class RosiGameScene extends Phaser.Scene {
       guest.add(layers);
     }
     guest.add(this.add.text(0, 32, name, { fontFamily: "Arial, sans-serif", fontStyle: "bold", fontSize: "20px", color: "#69395d", backgroundColor: "#fff8eacc", padding: { x: 9, y: 5 } }).setOrigin(.5));
+    if (name === "Uncle") guest.setScale(1.14);
     this.tweens.add({ targets: guest, y: groundY - 7, yoyo: true, repeat: -1, duration: 780, ease: "Sine.easeInOut" });
     return guest;
   }

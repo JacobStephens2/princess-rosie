@@ -264,6 +264,11 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 
 .ending { align-items: center; }
 .ending__art { background-image: url("/assets/celebration-art.png"); }
+.ending-character { position: absolute; inset: -3%; z-index: -1; background: url("/assets/celebration-art.png") center 42% / cover no-repeat; pointer-events: none; }
+.ending-character--rosi { clip-path: polygon(10% 42%, 40% 42%, 40% 100%, 8% 100%); transform-origin: 25% 76%; }
+.ending-character--stella { clip-path: polygon(18% 12%, 48% 12%, 48% 66%, 18% 66%); transform-origin: 33% 40%; }
+.ending-character--gigi { clip-path: polygon(0 8%, 27% 8%, 27% 100%, 0 100%); transform-origin: 12% 72%; }
+.ending-character--guests { clip-path: polygon(40% 15%, 100% 15%, 100% 100%, 40% 100%); transform-origin: 72% 68%; }
 .ending::before { content: ""; position: absolute; inset: 0; z-index: -2; background: rgba(68,24,64,.25); }
 .ending__card { max-width: 780px; margin: 20px; }
 .ending h2 { margin: 6px 0 14px; color: var(--berry); font-size: clamp(45px, 7vw, 82px); line-height: .95; }
@@ -278,6 +283,10 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 .ending.is-dancing .party-dancers__stella { animation: stella-prance .35s ease-in-out 8 alternate; }
 .ending.is-dancing .party-dancers__gigi { animation: gigi-dance .46s ease-in-out 6 alternate; }
 .ending.is-dancing .party-dancers__guests { animation: guests-clap .25s ease-in-out 12 alternate; }
+.ending.is-dancing .ending-character--rosi { animation: illustrated-rosi-twirl .7s ease-in-out 4; }
+.ending.is-dancing .ending-character--stella { animation: illustrated-stella-prance .35s ease-in-out 8 alternate; }
+.ending.is-dancing .ending-character--gigi { animation: illustrated-gigi-dance .46s ease-in-out 6 alternate; }
+.ending.is-dancing .ending-character--guests { animation: illustrated-guests-clap .25s ease-in-out 12 alternate; }
 .text-button { padding: 16px; color: var(--berry); font-weight: bold; background: transparent; border: 0; text-decoration: underline; cursor: pointer; }
 #confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 
@@ -292,6 +301,10 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 @keyframes stella-prance { to { transform: translateY(-10px) rotate(8deg); } }
 @keyframes gigi-dance { to { transform: rotate(-12deg) translateY(-5px); } }
 @keyframes guests-clap { to { transform: scale(.86); } }
+@keyframes illustrated-rosi-twirl { 50% { transform: rotate(3deg) translateY(-7px) scale(1.015); } }
+@keyframes illustrated-stella-prance { to { transform: translateY(-9px) rotate(-1.5deg); } }
+@keyframes illustrated-gigi-dance { to { transform: rotate(-1.8deg) translateY(-5px); } }
+@keyframes illustrated-guests-clap { to { transform: scale(1.012) translateY(-3px); } }
 
 @media (pointer: coarse) { .touch-control { display: grid; } .flight-hint { left: 24px; transform: none; } }
 @media (max-height: 650px) {
