@@ -175,9 +175,34 @@ function burstConfetti(count: number): void {
     color: colors[Math.floor(Math.random() * colors.length)] ?? "#ffd45a",
     kind: kinds[Math.floor(Math.random() * kinds.length)] ?? "confetti",
   }));
+  const fireworks = Array.from({ length: 7 }, (_, index) => ({
+    x: window.innerWidth * (.1 + Math.random() * .8),
+    y: window.innerHeight * (.08 + Math.random() * .38),
+    delay: 220 + index * 520,
+    color: colors[index % colors.length] ?? "#ffd45a",
+  }));
   const started = performance.now();
   const frame = (now: number): void => {
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    const elapsed = now - started;
+    fireworks.forEach((firework) => {
+      const progress = (elapsed - firework.delay) / 900;
+      if (progress < 0 || progress > 1) return;
+      const radius = 12 + progress * 82;
+      context.save();
+      context.globalAlpha = 1 - progress;
+      context.strokeStyle = firework.color;
+      context.lineWidth = 3;
+      context.translate(firework.x, firework.y);
+      context.beginPath();
+      for (let ray = 0; ray < 14; ray += 1) {
+        const angle = ray * Math.PI * 2 / 14;
+        context.moveTo(Math.cos(angle) * radius * .42, Math.sin(angle) * radius * .42);
+        context.lineTo(Math.cos(angle) * radius, Math.sin(angle) * radius);
+      }
+      context.stroke();
+      context.restore();
+    });
     pieces.forEach((piece) => {
       piece.x += piece.vx;
       piece.y += piece.vy;
