@@ -4,3 +4,14 @@ playwright-report/
 test-results/
 .DS_Store
 tmp/
+.godot/
+.import/
+Library/
+Logs/
+MemoryCaptures/
+Obj/
+Temp/
+UserSettings/
+Builds/
+*.csproj
+*.sln
