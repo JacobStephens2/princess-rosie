@@ -22,6 +22,14 @@ async function readTracerSoundEvents(): Promise<TestSoundEvent[]> {
   return scenario.requiredSoundEvents;
 }
 
+const tracerFacts = {
+  birthdayStars: ["birthday-star.lacewood"],
+  rainbowPaths: ["rainbow-path.lacewood"],
+  chosenPathRecorded: true,
+  cloudRestPreservesProgress: true,
+  networkRequests: 0,
+};
+
 describe("Edition Contract proof", () => {
   test("accepts conforming Godot Lacewood tracer evidence", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
@@ -33,13 +41,7 @@ describe("Edition Contract proof", () => {
       packDigest: prepared.packDigest,
       scenarioId: "tracer-bullet",
       soundEvents: tracerSoundEvents,
-      facts: {
-        birthdayStars: ["birthday-star.lacewood"],
-        rainbowPaths: ["rainbow-path.lacewood"],
-        chosenPathRecorded: true,
-        cloudRestPreservesProgress: true,
-        networkRequests: 0,
-      },
+      facts: tracerFacts,
     });
 
     expect(proof).toEqual({
@@ -56,7 +58,19 @@ describe("Edition Contract proof", () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
     const tracerSoundEvents = await readTracerSoundEvents();
     const outOfOrderEvents = [...tracerSoundEvents];
-    outOfOrderEvents.splice(26, 2, tracerSoundEvents[27]!, tracerSoundEvents[26]!);
+    const shimmerIndex = outOfOrderEvents.findIndex(
+      ({ event, context }) =>
+        event === "sound-event.journey-history-shimmer" && context.route === "lacewood.floor",
+    );
+    const selectionIndex = outOfOrderEvents.findIndex(
+      ({ event, context }) =>
+        event === "sound-event.path-choice-selected" && context.route === "lacewood.floor",
+    );
+    const shimmerEvent = outOfOrderEvents[shimmerIndex];
+    const selectionEvent = outOfOrderEvents[selectionIndex];
+    if (!shimmerEvent || !selectionEvent) throw new Error("Tracer route events are missing");
+    outOfOrderEvents[shimmerIndex] = selectionEvent;
+    outOfOrderEvents[selectionIndex] = shimmerEvent;
 
     const proof = await proveEditionPack(tracerPackRoot, prepared, {
       edition: "godot",
@@ -64,13 +78,7 @@ describe("Edition Contract proof", () => {
       packDigest: prepared.packDigest,
       scenarioId: "tracer-bullet",
       soundEvents: outOfOrderEvents,
-      facts: {
-        birthdayStars: ["birthday-star.lacewood"],
-        rainbowPaths: ["rainbow-path.lacewood"],
-        chosenPathRecorded: true,
-        cloudRestPreservesProgress: true,
-        networkRequests: 0,
-      },
+      facts: tracerFacts,
     });
 
     expect(proof).toMatchObject({
