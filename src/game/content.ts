@@ -27,15 +27,21 @@ export const STORY_PAGES = [
     eyebrow: "Once upon a birthday…",
     title: "A celebration across the sea",
     copy: "Far across the sparkling Sapphire Sea, Princess Zélie’s very first birthday celebration was almost ready. Gigi hung roses and ribbons from every golden arch.",
+    image: "/assets/storybook-celebration-preparations.webp",
+    imagePosition: "50% 42%",
   },
   {
     eyebrow: "Then—WHOOSH!",
     title: "Seven Stars flew away",
     copy: "A playful wind scattered seven Birthday Stars across Fairytale Sicily. The Rainbow Paths to the castle vanished!",
+    image: "/assets/storybook-scattered-stars.webp",
+    imagePosition: "54% 42%",
   },
   {
     eyebrow: "A brave big sister",
     title: "Rosi and Stella can help",
     copy: "Princess Rosi climbed onto Stella, her flying unicorn. “We’ll find every Star and bring everyone to the celebration!”",
+    image: "/assets/storybook-rosi-stella-departure.webp",
+    imagePosition: "52% 40%",
   },
 ] as const;

@@ -2,7 +2,7 @@
 
 The game remains playable without generation services. These calls produced the polished, local media bundled with the static site; no runtime API calls or credentials ship to players.
 
-## Opening storybook illustration
+## Opening storybook cover illustration
 
 Execution: built-in OpenAI image-generation tool.
 
@@ -19,6 +19,66 @@ Execution: built-in OpenAI image-generation tool.
 > Avoid: Disney or any named studio style, 3D render, anime, overly intricate costume, dark cave, bones, plague motifs, realistic child portrait, extra main characters
 
 Output: `public/assets/storybook-key-art.png`
+
+## Opening Storybook Moment: celebration preparations
+
+Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the visual style and Fairytale Sicily reference; `public/assets/celebration-art.png` provided Gigi's established appearance. Two targeted edits raised the cake and crown into the crop-safe area and replaced the generated candle flame with a short dark wick.
+
+> Use case: illustration-story
+> Asset type: 16:9 full-screen Opening Storybook Moment background for a gentle browser game for a four-year-old
+> Primary request: Gigi prepares Princess Zélie's first-birthday celebration before anyone arrives
+> Scene/backdrop: an airy terrace inside the Birthday Castle, with warm golden mosaic arches, the Sapphire Sea and flowered coast beyond, and rose garlands and rainbow ribbons being hung
+> Subject: one tall, friendly Gigi joyfully decorating; a rose-covered cake with exactly one clearly visible unlit candle; and a tiny child-size gold crown at an empty place setting; Princess Zélie remains deliberately offscreen
+> Style/medium: match the cover's premium flat modern children's picture-book illustration, solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, and expressive friendly face
+> Composition/framing: wide cinematic 16:9; keep Gigi's face and decorating action, the cake, unlit candle, and crown in the central crop-safe area above the lower 35 percent reserved for the HTML story card
+> Lighting/mood: warm sunny morning, safe, expectant, buoyant, celebratory
+> Color palette: luminous mosaic gold, warm cream, blush pink, rose, lavender, sapphire, and restrained rainbow accents
+> Constraints: exactly one giraffe and no other characters; exactly one cake, one unlit candle with a short dark wick and no flame, and one tiny crown; no written text, watermark, logos, photorealism, scary imagery, weapons, peril, religious figures, or symbols; coherent anatomy and decorating pose
+> Avoid: extra party guests, extra giraffes, embedded writing, flame, smoke, glow, dark interiors, realistic child portrait, named-studio imitation, 3D render, anime, malformed limbs
+
+Source: `art-source/opening-storybook/celebration-preparations.png`
+
+Deployed output: `public/assets/storybook-celebration-preparations.webp`
+
+## Opening Storybook Moment: scattered Stars
+
+Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the visual style, palette, architecture, landscape, rose, lace, cloud, sea, castle, and luminous-gold reference.
+
+> Use case: illustration-story
+> Asset type: 16:9 full-screen Opening Storybook Moment background for a gentle browser game for a four-year-old
+> Primary request: a playful, non-frightening wind has scattered exactly seven Birthday Stars across Fairytale Sicily while their Rainbow Paths fade
+> Scene/backdrop: a coherent panorama combining Rosalia's rose-covered garden, silver lace ribbons among friendly trees, a warm golden bell abbey and cloud arches, a flowered mountain peak, the sparkling Sapphire Sea, and the distant Birthday Castle
+> Subject: exactly seven large, clearly separated golden mosaic five-pointed Birthday Stars flying outward on exactly seven softly fading rainbow trails; motion appears through lace ribbons, petals, leaves, and curved cloud wisps rather than a personified wind
+> Style/medium: match the cover's premium flat modern children's picture-book illustration, solid color blocks, gently rounded shapes, limited soft shadows, and subtle paper texture
+> Composition/framing: wide cinematic 16:9 panorama; keep all seven Stars large and complete in the central crop-safe area above the lower 35 percent reserved for the HTML story card
+> Lighting/mood: one continuous sunny day, breezy, surprising, safe, and buoyant
+> Color palette: sapphire and lavender led, with blush rose, fresh green, warm cream, restrained rainbow arcs, and luminous mosaic gold
+> Constraints: exactly seven Birthday Stars and seven trails; no other star-shaped objects; no characters, faces, or personified wind; no written text, watermark, logos, photorealism, scary weather, peril, religious figures, or symbols
+> Avoid: map labels, separate comic panels, cluttered miniature scenes, tiny Stars, extra castles, named-studio imitation, 3D render, anime
+
+Source: `art-source/opening-storybook/scattered-stars.png`
+
+Deployed output: `public/assets/storybook-scattered-stars.webp`
+
+## Opening Storybook Moment: Rosi and Stella depart
+
+Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the identity reference for Princess Rosi and Stella as well as the visual style, palette, roses, lace, sky, and Fairytale Sicily.
+
+> Use case: illustration-story
+> Asset type: 16:9 full-screen Opening Storybook Moment background for a gentle browser game for a four-year-old
+> Primary request: Princess Rosi has just climbed onto Stella in Rosalia's Rose Garden and they are ready to find the Birthday Stars
+> Scene/backdrop: a rose-crowned garden terrace with warm cream arches, pink roses, fresh green leaves, silver lace ribbons, flowered hills, and sunny sapphire sky
+> Subject: preserve the cover's fictional Princess Rosi and Stella designs; Stella stands safely on the garden path with two lavender wings beginning to open while Rosi sits securely with a brave, joyful expression; exactly one distant golden mosaic Birthday Star glows ahead
+> Style/medium: match the cover's premium flat modern children's picture-book illustration, solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, and expressive friendly faces
+> Composition/framing: wide cinematic 16:9 medium-wide three-quarter view; keep both faces, Rosi's torso, Stella's rainbow horn and two wings, and the single Star in the central crop-safe area above the lower 35 percent reserved for the HTML story card
+> Lighting/mood: one continuous sunny day, hopeful rose-tinted morning, safe, brave, affectionate, and anticipatory
+> Color palette: blush and rose pink, fresh garden green, lavender, sapphire, warm cream, restrained rainbow accents, and luminous mosaic gold
+> Constraints: exactly Princess Rosi and Stella with no other characters; exactly one Birthday Star and no other star shapes; Stella has exactly one rainbow horn and two wings; no falling or peril; no written text, watermark, logos, photorealism, scary imagery, weapons, religious figures, or symbols; coherent anatomy and rider contact
+> Avoid: high flight, castle arrival, extra crowns, horns, wings, limbs, characters, or Family Guests; danger, realistic child portrait, named-studio imitation, 3D render, anime
+
+Source: `art-source/opening-storybook/rosi-stella-departure.png`
+
+Deployed output: `public/assets/storybook-rosi-stella-departure.webp`
 
 ## Birthday Castle celebration illustration
 

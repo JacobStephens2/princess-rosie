@@ -1,4 +1,4 @@
-# Rosi Game
+# Princess Rosi and the Seven Birthday Stars
 
 A joyful, replayable birthday game centered on a fictional storybook hero inspired by Rosi.
 
@@ -24,6 +24,10 @@ _Avoid_: Coin, point, collectible
 The magical route opened by a gathered Birthday Star that carries a Family Guest safely ahead to Princess Zélie's celebration.
 _Avoid_: Teleporter, guest collection
 
+**Path Choice**:
+One of three moments in Zélie's Lacewood, the Cloister of Clouds, or the Sapphire Sea where Princess Rosi guides Stella onto either of two equally safe routes that rejoin before the Birthday Star. Each route rewards her choice with a different interaction, Birthday Star Moment detail, and echo in the celebration.
+_Avoid_: Branch, difficulty path, correct route
+
 **Stella**:
 Princess Rosi's friendly Flying Unicorn, distinguished by her rainbow horn and connection to the Birthday Stars.
 _Avoid_: Pegasus, alicorn, vehicle
@@ -43,6 +47,10 @@ _Avoid_: Pet collectible
 **Fairytale Sicily**:
 The bright fantasy world surrounding the Birthday Castle, inspired by Sicily's warm coast, mountains, gardens, golden mosaics, jewel colors, and Arab-Norman architecture, with rose and lace motifs honoring the sisters' saint-inspired names.
 _Avoid_: Historical Sicily, generic medieval kingdom, Moorish fantasy
+
+**Fairytale Soundscape**:
+The warm, nonverbal storybook-acoustic world of soft bells, celesta, harp, airy shimmer, and gentle natural textures that gives Princess Rosi's journey a cohesive sonic identity.
+_Avoid_: Arcade soundtrack, cinematic battle audio, realistic simulation
 
 **Rosalia's Rose Garden**:
 The rose-crowned garden where Princess Rosi and Stella begin their journey through Fairytale Sicily.
@@ -72,10 +80,34 @@ _Avoid_: Water level, Mediterranean Sea
 A brief, gentle pause after several obstacle bumps in which Stella lands safely on a cloud and can immediately resume nearby with every Birthday Star preserved.
 _Avoid_: Game over, death, loss
 
+**Playful Bump**:
+A soft, place-specific encounter that makes Stella wobble without danger; three in short succession lead to a Cloud Rest.
+_Avoid_: Damage, injury, failure, enemy collision
+
 **Storybook Moment**:
 A short, lightly animated illustrated scene with a few large sentences intended for the Grown-up Helper to read aloud with the child.
 _Avoid_: Cutscene, exposition screen
 
+**Storybook Stage**:
+The cinematic 16:9 frame containing every essential story, play, and text element; taller displays extend its illustrated surroundings without cropping the frame.
+_Avoid_: Canvas, viewport, black bars
+
+**Opening Storybook Moment**:
+A Storybook Moment before the flight begins, comprising the title-cover moment and the three moments that establish the celebration, the scattered Birthday Stars, and Princess Rosi's promise to help.
+_Avoid_: Opening page, intro screen
+
+**Birthday Star Moment**:
+A Storybook Moment during the flight that celebrates a gathered Birthday Star and the opening of its Family Guest's Rainbow Path.
+_Avoid_: Collectible popup, checkpoint modal
+
 **Grown-up Helper**:
 An adult who sits alongside the child and may offer help without taking over the child's meaningful choices.
 _Avoid_: Second player, operator
+
+**Journey History**:
+The private, local record of completed journeys and explored Path Choices, used only to give an unseen route a gentle shimmer on a later journey.
+_Avoid_: Profile, score, progression, analytics
+
+**Grown-up Corner**:
+A quiet set of secondary controls for sound, window mode, replaying the story, and resetting Journey History, available from the cover and pause state.
+_Avoid_: Settings screen, child menu, parental controls
