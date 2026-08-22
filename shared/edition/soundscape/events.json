@@ -1,0 +1,88 @@
+{
+  "events": [
+    {
+      "id": "sound-event.opening-storybook-moment",
+      "parameters": ["moment"]
+    },
+    {
+      "id": "sound-event.story-confirmation",
+      "parameters": ["action"]
+    },
+    {
+      "id": "sound-event.flight-launch",
+      "parameters": []
+    },
+    {
+      "id": "sound-event.movement-state",
+      "parameters": ["state"]
+    },
+    {
+      "id": "sound-event.place-entry",
+      "parameters": ["place"]
+    },
+    {
+      "id": "sound-event.vignette-interaction",
+      "parameters": ["place", "interaction"]
+    },
+    {
+      "id": "sound-event.path-choice-available",
+      "parameters": ["pathChoice"]
+    },
+    {
+      "id": "sound-event.path-choice-selected",
+      "parameters": ["pathChoice", "route"]
+    },
+    {
+      "id": "sound-event.journey-history-shimmer",
+      "parameters": ["pathChoice", "route"]
+    },
+    {
+      "id": "sound-event.playful-bump",
+      "parameters": ["place", "kind"]
+    },
+    {
+      "id": "sound-event.near-miss",
+      "parameters": ["place", "kind"]
+    },
+    {
+      "id": "sound-event.birthday-star-proximity",
+      "parameters": ["birthdayStar"]
+    },
+    {
+      "id": "sound-event.birthday-star-gathered",
+      "parameters": ["birthdayStar"]
+    },
+    {
+      "id": "sound-event.rainbow-path-opened",
+      "parameters": ["rainbowPath", "familyGuest"]
+    },
+    {
+      "id": "sound-event.birthday-star-moment",
+      "parameters": ["place", "familyGuest"]
+    },
+    {
+      "id": "sound-event.cloud-rest-entered",
+      "parameters": ["place"]
+    },
+    {
+      "id": "sound-event.cloud-rest-exited",
+      "parameters": ["place"]
+    },
+    {
+      "id": "sound-event.birthday-castle-arrival",
+      "parameters": []
+    },
+    {
+      "id": "sound-event.celebration-interaction",
+      "parameters": ["action"]
+    },
+    {
+      "id": "sound-event.replay",
+      "parameters": ["destination"]
+    },
+    {
+      "id": "sound-event.sound-preference-changed",
+      "parameters": ["enabled"]
+    }
+  ]
+}
