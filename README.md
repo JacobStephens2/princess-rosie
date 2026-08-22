@@ -36,6 +36,8 @@ npm run test:e2e
 
 The production build is a static site in `dist/`.
 
+To publish a verified build, follow the [deployment runbook](docs/deployment.md).
+
 ## Media
 
 - Storybook illustration: generated for this project with OpenAI image generation.
