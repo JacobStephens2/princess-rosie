@@ -2,7 +2,7 @@ import Phaser from "phaser";
 import { registerSW } from "virtual:pwa-register";
 
 import "./style.css";
-import { STOP_STORIES, STORY_PAGES, type StopStory } from "./game/content";
+import { OPENING_STORYBOOK_MOMENTS_AFTER_COVER, STOP_STORIES, type StopStory } from "./game/content";
 import { GAME_SIZE, RosiGameScene } from "./game/RosiGameScene";
 import { GameAudio } from "./game/sound";
 
@@ -32,8 +32,8 @@ const soundButtons = [getElement<HTMLButtonElement>("sound-toggle"), getElement<
 const storyArtworks = Array.from(storybook.querySelectorAll<HTMLImageElement>(".storybook__art"));
 const sound = new GameAudio();
 
-let storyPage = 0;
-let visibleStoryArtwork = 0;
+let openingMomentIndex = 0;
+let visibleStoryArtworkIndex = 0;
 let scene: RosiGameScene | undefined;
 let finalStarWaiting = false;
 
@@ -59,10 +59,10 @@ function preloadStoryArtwork(src: string): Promise<boolean> {
   return load;
 }
 
-async function transitionStoryArtwork(src: string, position: string, expectedPage: number): Promise<void> {
-  if (!await preloadStoryArtwork(src) || storyPage !== expectedPage) return;
+async function transitionStoryArtwork(src: string, position: string, expectedMomentIndex: number): Promise<void> {
+  if (!await preloadStoryArtwork(src) || openingMomentIndex !== expectedMomentIndex) return;
 
-  const nextArtworkIndex = visibleStoryArtwork === 0 ? 1 : 0;
+  const nextArtworkIndex = visibleStoryArtworkIndex === 0 ? 1 : 0;
   const nextArtwork = getStoryArtwork(nextArtworkIndex);
   nextArtwork.src = src;
   nextArtwork.style.objectPosition = position;
@@ -71,41 +71,41 @@ async function transitionStoryArtwork(src: string, position: string, expectedPag
   } catch {
     return;
   }
-  if (storyPage !== expectedPage) return;
+  if (openingMomentIndex !== expectedMomentIndex) return;
 
-  getStoryArtwork(visibleStoryArtwork).classList.remove("is-visible");
+  getStoryArtwork(visibleStoryArtworkIndex).classList.remove("is-visible");
   nextArtwork.classList.add("is-visible");
-  visibleStoryArtwork = nextArtworkIndex;
+  visibleStoryArtworkIndex = nextArtworkIndex;
 }
 
 function renderDots(): void {
-  pageDots.replaceChildren(...Array.from({ length: STORY_PAGES.length + 1 }, (_, index) => {
+  pageDots.replaceChildren(...Array.from({ length: OPENING_STORYBOOK_MOMENTS_AFTER_COVER.length + 1 }, (_, index) => {
     const dot = document.createElement("span");
-    if (index === storyPage) dot.className = "active";
+    if (index === openingMomentIndex) dot.className = "active";
     return dot;
   }));
-  pageDots.setAttribute("aria-label", `Story page ${storyPage + 1} of ${STORY_PAGES.length + 1}`);
+  pageDots.setAttribute("aria-label", `Story page ${openingMomentIndex + 1} of ${OPENING_STORYBOOK_MOMENTS_AFTER_COVER.length + 1}`);
 }
 
-function renderStoryPage(): void {
+function renderOpeningStorybookMoment(): void {
   renderDots();
-  if (storyPage === 0) return;
-  const page = STORY_PAGES[storyPage - 1];
-  if (!page) return;
-  eyebrow.textContent = page.eyebrow;
-  storyTitle.textContent = page.title;
-  storyCopy.textContent = page.copy;
-  void transitionStoryArtwork(page.image, page.imagePosition, storyPage);
+  if (openingMomentIndex === 0) return;
+  const momentContent = OPENING_STORYBOOK_MOMENTS_AFTER_COVER[openingMomentIndex - 1];
+  if (!momentContent) return;
+  eyebrow.textContent = momentContent.eyebrow;
+  storyTitle.textContent = momentContent.title;
+  storyCopy.textContent = momentContent.copy;
+  void transitionStoryArtwork(momentContent.image, momentContent.imagePosition, openingMomentIndex);
   const buttonText = storyNext.querySelector("span");
-  if (buttonText) buttonText.textContent = storyPage === STORY_PAGES.length ? "Fly with Rosi" : "Turn the page";
+  if (buttonText) buttonText.textContent = openingMomentIndex === OPENING_STORYBOOK_MOMENTS_AFTER_COVER.length ? "Fly with Rosi" : "Turn the page";
 }
 
 async function advanceStory(): Promise<void> {
   await sound.start();
   sound.play("button");
-  if (storyPage < STORY_PAGES.length) {
-    storyPage += 1;
-    renderStoryPage();
+  if (openingMomentIndex < OPENING_STORYBOOK_MOMENTS_AFTER_COVER.length) {
+    openingMomentIndex += 1;
+    renderOpeningStorybookMoment();
     return;
   }
   startGame();
@@ -302,5 +302,5 @@ document.addEventListener("keydown", (event) => {
 });
 
 renderDots();
-STORY_PAGES.forEach((page) => void preloadStoryArtwork(page.image));
+OPENING_STORYBOOK_MOMENTS_AFTER_COVER.forEach((momentContent) => void preloadStoryArtwork(momentContent.image));
 registerSW({ immediate: true });
