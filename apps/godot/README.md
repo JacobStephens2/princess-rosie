@@ -10,7 +10,7 @@ Open `project.godot` with the exact 4.7.2 editor, or run:
 /Applications/Godot.app/Contents/MacOS/Godot --path apps/godot
 ```
 
-The application prepares `edition-pack.zip` before showing the cover and retains its exact Edition Contract digest. The ZIP is a byte-for-byte bundle of the immutable files under `shared/edition/`; presentation textures live separately under `assets/` so Godot can import them normally.
+The application prepares `edition-pack.zip` against the binding in `edition-pack.digest` before showing the cover and retains that exact Edition Contract digest. The ZIP is a byte-for-byte bundle of the immutable files under `shared/edition/`; presentation textures live separately under `assets/` so Godot can import them normally.
 
 ## Verify
 

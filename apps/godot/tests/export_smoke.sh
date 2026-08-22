@@ -8,6 +8,7 @@ app_path="$build_dir/Princess Rosi.app"
 app_binary="$app_path/Contents/MacOS/Princess Rosi and the Seven Birthday Stars"
 capture_path="$build_dir/storybook-stage.png"
 evidence_path="$build_dir/export-smoke-evidence.json"
+expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
 
 mkdir -p "$build_dir"
 rm -f "$capture_path" "$evidence_path"
@@ -26,14 +27,18 @@ sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- -
 
 test -s "$capture_path"
 test -s "$evidence_path"
-jq -e '
+test "$(stat -f '%z' "$capture_path")" -gt 100000
+jq -e --arg expected_pack_digest "$expected_pack_digest" '
   .state == "cover"
   and .window_mode == "windowed"
   and .engine_version == "4.7.2"
-  and .pack_digest == "sha256:03898d8b734cd94d98ae8130dda328fee62bbbfc52faa3e22c5c5edaefac1c9e"
+  and .pack_digest == $expected_pack_digest
   and .network_requests == 0
+  and .capture_sample_colors >= 8
   and .storybook_stage.aspect == "16:9"
   and .storybook_stage.essential_content_cropped == false
+  and .storybook_stage.cover_visible == true
+  and .storybook_stage.entry_points_visible == true
 ' "$evidence_path" >/dev/null
 
 echo "PASS: exported arm64 application launch and Storybook Stage capture"
