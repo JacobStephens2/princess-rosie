@@ -20,11 +20,16 @@ const PACK_DIGEST_ASSET := "res://edition-pack.digest"
 const COVER_ASSET := "res://assets/storybook-cover.png"
 const STAGE_ASPECT := 16.0 / 9.0
 const EDITION_PACK_ADAPTER := preload("res://scripts/edition_pack_adapter.gd")
+const SOUNDSCAPE_PLAYER := preload("res://scripts/soundscape_player.gd")
+const GODOT_AUDIO_ADAPTER := preload("res://scripts/godot_audio_adapter.gd")
 
 const INTENT_BEGIN: StringName = &"begin"
 const INTENT_GROWN_UP_CORNER: StringName = &"grown-up-corner"
 const INTENT_ESCAPE: StringName = &"escape"
 const INTENT_RESUME: StringName = &"resume"
+const INTENT_TOGGLE_SOUND: StringName = &"toggle-sound"
+const EVENT_STORY_CONFIRMATION := &"sound-event.story-confirmation"
+const EVENT_SOUND_PREFERENCE_CHANGED := &"sound-event.sound-preference-changed"
 
 const STATE_IDS := {
 	PresentationState.UNPREPARED: "unprepared",
@@ -46,6 +51,9 @@ var _window_mode: PresentationWindowMode = PresentationWindowMode.WINDOWED
 var _launch_error := ""
 var _grown_up_corner_visible := false
 var _paused_from: PresentationState = PresentationState.COVER
+var _sound_enabled := true
+var _soundscape: RefCounted
+var _engine_audio: Node
 
 @onready var _stage: Control = %Stage
 @onready var _cover_presentation: Control = %CoverPresentation
@@ -63,6 +71,7 @@ var _paused_from: PresentationState = PresentationState.COVER
 @onready var _pack_badge: Label = %PackBadge
 @onready var _error_label: Label = %ErrorLabel
 @onready var _export_smoke_probe: Node = %ExportSmokeProbe
+@onready var _sound_button: Button = %SoundButton
 
 
 func _ready() -> void:
@@ -71,9 +80,14 @@ func _ready() -> void:
 	_grown_up_corner_button.pressed.connect(_on_grown_up_corner_pressed)
 	%ResumeButton.pressed.connect(_on_resume_pressed)
 	%WindowModeButton.pressed.connect(_on_window_mode_pressed)
+	_sound_button.pressed.connect(_on_sound_pressed)
 	%ReplayButton.pressed.connect(_on_replay_pressed)
 
 	var launched := prepare_launch()
+	if launched.ok:
+		_engine_audio = GODOT_AUDIO_ADAPTER.new()
+		add_child(_engine_audio)
+		_soundscape = SOUNDSCAPE_PLAYER.new(DEFAULT_PACK_SOURCE, _engine_audio)
 	_layout_storybook_stage()
 	_render_presentation()
 	if launched.ok:
@@ -123,6 +137,7 @@ func presentation_evidence() -> Dictionary:
 		"pack_digest": _pack_digest,
 		"error": _launch_error,
 		"grown_up_corner_visible": _grown_up_corner_visible,
+		"sound_enabled": _sound_enabled,
 		"engine_version": _engine_version(),
 	}
 
@@ -167,6 +182,7 @@ func handle_player_intent(intent: StringName) -> bool:
 			_state = PresentationState.OPENING_STORYBOOK_MOMENT
 			_grown_up_corner_visible = false
 			_set_window_mode(PresentationWindowMode.FULLSCREEN)
+			_report_sound_event(EVENT_STORY_CONFIRMATION, {"action": "continue"})
 			return true
 		INTENT_GROWN_UP_CORNER:
 			if _state != PresentationState.COVER:
@@ -197,6 +213,15 @@ func handle_player_intent(intent: StringName) -> bool:
 				PresentationWindowMode.WINDOWED
 				if _state == PresentationState.COVER
 				else PresentationWindowMode.FULLSCREEN,
+			)
+			return true
+		INTENT_TOGGLE_SOUND:
+			if _state != PresentationState.PAUSED:
+				return false
+			_sound_enabled = not _sound_enabled
+			_report_sound_event(
+				EVENT_SOUND_PREFERENCE_CHANGED,
+				{"enabled": _sound_enabled},
 			)
 			return true
 		_:
@@ -246,6 +271,7 @@ func _render_presentation() -> void:
 	_opening_copy.text = str(opening.get("copy", ""))
 	_pack_badge.text = "EDITION PACK  •  %s" % _pack_digest.trim_prefix("sha256:").left(10).to_upper()
 	_error_label.text = _launch_error
+	_sound_button.text = "Sound: On" if _sound_enabled else "Sound: Off"
 
 	_error_presentation.visible = _state == PresentationState.PACK_ERROR
 	_pause_overlay.visible = _state == PresentationState.PAUSED
@@ -300,6 +326,11 @@ func _on_window_mode_pressed() -> void:
 		_center_large_window.call_deferred()
 
 
+func _on_sound_pressed() -> void:
+	if handle_player_intent(INTENT_TOGGLE_SOUND):
+		_render_presentation()
+
+
 func _on_replay_pressed() -> void:
 	_state = PresentationState.COVER
 	_paused_from = PresentationState.COVER
@@ -317,6 +348,11 @@ func _set_window_mode(mode: PresentationWindowMode) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+
+func _report_sound_event(event_id: StringName, parameters: Dictionary) -> void:
+	if _soundscape != null:
+		_soundscape.report_event(event_id, parameters)
 
 
 func _read_expected_pack_digest() -> Dictionary:

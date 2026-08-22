@@ -20,6 +20,11 @@ func _init() -> void:
 	test.expect(paused.get("state") == "paused", "Escape returns control to a paused presentation")
 	test.expect(paused.get("window_mode") == "windowed", "Escape restores windowed control")
 	test.expect(paused.get("grown_up_corner_visible") == true, "the Grown-up Corner is available while paused")
+	test.expect(paused.get("sound_enabled") == true, "Sound starts enabled")
+	test.expect(shell.handle_player_intent("toggle-sound"), "the Grown-up Helper can disable Sound")
+	test.expect(shell.presentation_evidence().get("sound_enabled") == false, "one Sound preference records disabled")
+	test.expect(shell.handle_player_intent("toggle-sound"), "the Grown-up Helper can enable Sound")
+	test.expect(shell.presentation_evidence().get("sound_enabled") == true, "the same Sound preference records enabled")
 	test.expect(not shell.handle_player_intent("escape"), "Escape is ignored when already paused")
 
 	test.expect(shell.handle_player_intent("resume"), "the Grown-up Helper can resume")

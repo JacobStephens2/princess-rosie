@@ -20,7 +20,19 @@ Run each focused public-seam acceptance test:
 /Applications/Godot.app/Contents/MacOS/Godot --headless --path apps/godot --script res://tests/edition_pack_acceptance.gd
 /Applications/Godot.app/Contents/MacOS/Godot --headless --path apps/godot --script res://tests/shell_launch_acceptance.gd
 /Applications/Godot.app/Contents/MacOS/Godot --headless --path apps/godot --script res://tests/presentation_transition_acceptance.gd
+/Applications/Godot.app/Contents/MacOS/Godot --headless --path apps/godot --script res://tests/soundscape_player_acceptance.gd
+/Applications/Godot.app/Contents/MacOS/Godot --headless --path apps/godot --script res://tests/godot_audio_adapter_acceptance.gd
 apps/godot/tests/export_smoke.sh
 ```
 
 The export smoke test uses the official universal 4.7.2 debug template, thins the packaged executable to arm64, signs it ad hoc, launches it with network access denied, and verifies its semantic evidence and Storybook Stage capture under `build/`.
+
+## Hear the offline Soundscape tracer
+
+On the target MacBook, run the audible acceptance harness without `--headless`:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path apps/godot --script res://tests/soundscape_offline_acceptance.gd
+```
+
+It reports and plays the approved confirmation WAV from the immutable Edition Pack, then reports the same semantic confirmation against an intentionally missing asset and plays the locally synthesized fallback. The harness makes no network request.
