@@ -1,5 +1,21 @@
 import { expect, test } from "@playwright/test";
 
+test("each Opening Storybook Moment shows its own illustration", async ({ page }) => {
+  await page.goto("/");
+
+  const visibleArtwork = page.locator(".storybook__art.is-visible");
+  await expect(visibleArtwork).toHaveAttribute("src", "/assets/storybook-key-art.png");
+
+  await page.getByRole("button", { name: "Begin the story" }).click();
+  await expect(visibleArtwork).toHaveAttribute("src", "/assets/storybook-celebration-preparations.webp");
+
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await expect(visibleArtwork).toHaveAttribute("src", "/assets/storybook-scattered-stars.webp");
+
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await expect(visibleArtwork).toHaveAttribute("src", "/assets/storybook-rosi-stella-departure.webp");
+});
+
 test("a grown-up can read the story and Rosi can begin flying", async ({ page }) => {
   await page.goto("/");
 
@@ -41,4 +57,12 @@ test("the storybook reopens offline after its first visit", async ({ context, pa
   await page.reload();
 
   await expect(page.getByRole("heading", { name: "Princess Rosi and the Seven Birthday Stars" })).toBeVisible();
+
+  const visibleArtwork = page.locator(".storybook__art.is-visible");
+  await page.getByRole("button", { name: "Begin the story" }).click();
+  await expect(visibleArtwork).toHaveAttribute("src", "/assets/storybook-celebration-preparations.webp");
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await expect(visibleArtwork).toHaveAttribute("src", "/assets/storybook-scattered-stars.webp");
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await expect(visibleArtwork).toHaveAttribute("src", "/assets/storybook-rosi-stella-departure.webp");
 });

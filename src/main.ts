@@ -29,11 +29,54 @@ const cloudRest = getElement<HTMLElement>("cloud-rest");
 const restNext = getElement<HTMLButtonElement>("rest-next");
 const touchControl = getElement<HTMLButtonElement>("touch-control");
 const soundButtons = [getElement<HTMLButtonElement>("sound-toggle"), getElement<HTMLButtonElement>("game-sound-toggle")];
+const storyArtworks = Array.from(storybook.querySelectorAll<HTMLImageElement>(".storybook__art"));
 const sound = new GameAudio();
 
 let storyPage = 0;
+let visibleStoryArtwork = 0;
 let scene: RosiGameScene | undefined;
 let finalStarWaiting = false;
+
+const storyArtworkLoads = new Map<string, Promise<boolean>>();
+
+function getStoryArtwork(index: number): HTMLImageElement {
+  const artwork = storyArtworks[index];
+  if (!artwork) throw new Error(`Missing story artwork layer ${index}`);
+  return artwork;
+}
+
+function preloadStoryArtwork(src: string): Promise<boolean> {
+  const existing = storyArtworkLoads.get(src);
+  if (existing) return existing;
+
+  const load = new Promise<boolean>((resolve) => {
+    const image = new Image();
+    image.addEventListener("load", () => resolve(true), { once: true });
+    image.addEventListener("error", () => resolve(false), { once: true });
+    image.src = src;
+  });
+  storyArtworkLoads.set(src, load);
+  return load;
+}
+
+async function transitionStoryArtwork(src: string, position: string, expectedPage: number): Promise<void> {
+  if (!await preloadStoryArtwork(src) || storyPage !== expectedPage) return;
+
+  const nextArtworkIndex = visibleStoryArtwork === 0 ? 1 : 0;
+  const nextArtwork = getStoryArtwork(nextArtworkIndex);
+  nextArtwork.src = src;
+  nextArtwork.style.objectPosition = position;
+  try {
+    await nextArtwork.decode();
+  } catch {
+    return;
+  }
+  if (storyPage !== expectedPage) return;
+
+  getStoryArtwork(visibleStoryArtwork).classList.remove("is-visible");
+  nextArtwork.classList.add("is-visible");
+  visibleStoryArtwork = nextArtworkIndex;
+}
 
 function renderDots(): void {
   pageDots.replaceChildren(...Array.from({ length: STORY_PAGES.length + 1 }, (_, index) => {
@@ -52,6 +95,7 @@ function renderStoryPage(): void {
   eyebrow.textContent = page.eyebrow;
   storyTitle.textContent = page.title;
   storyCopy.textContent = page.copy;
+  void transitionStoryArtwork(page.image, page.imagePosition, storyPage);
   const buttonText = storyNext.querySelector("span");
   if (buttonText) buttonText.textContent = storyPage === STORY_PAGES.length ? "Fly with Rosi" : "Turn the page";
 }
@@ -258,4 +302,5 @@ document.addEventListener("keydown", (event) => {
 });
 
 renderDots();
+STORY_PAGES.forEach((page) => void preloadStoryArtwork(page.image));
 registerSW({ immediate: true });
