@@ -5,11 +5,16 @@
       "description": "Evidence for a selected nonverbal effect generated under a commercial plan.",
       "requiredEvidence": [
         "provider",
+        "sdkVersion",
         "model",
         "parameters",
         "generationTimestamp",
+        "providerReportedUsage",
         "sourceHash",
         "selectedOutputHash",
+        "channelLayout",
+        "formatProbe",
+        "processing",
         "commercialPlanStatus",
         "selectionReason"
       ]

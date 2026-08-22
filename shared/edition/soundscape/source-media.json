@@ -35,7 +35,13 @@
     { "id": "source-master.opening.celebration-reveal", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
     { "id": "source-master.opening.star-scatter", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
     { "id": "source-master.opening.departure", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
-    { "id": "source-master.story.confirmation", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    {
+      "id": "source-master.story.confirmation",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/story-confirmation.wav",
+      "provenancePath": "source-media/soundscape/provenance/story-confirmation.json"
+    },
     { "id": "source-master.flight.launch", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
     { "id": "source-master.movement.flight", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
     { "id": "source-master.movement.rise", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
