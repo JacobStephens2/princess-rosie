@@ -1,0 +1,71 @@
+{
+  "roles": [
+    {
+      "id": "source-media.generated-master",
+      "description": "An approved, immutable source master selected by the soundscape authoring workflow."
+    }
+  ],
+  "fallbackRoles": [
+    {
+      "id": "fallback.story-confirmation",
+      "description": "A gentle synthesized confirmation for core story and presentation events."
+    },
+    {
+      "id": "fallback.birthday-star",
+      "description": "A recognizable synthesized magical response for Birthday Star stages."
+    },
+    {
+      "id": "fallback.playful-bump",
+      "description": "A soft synthesized Playful Bump response."
+    },
+    {
+      "id": "fallback.cloud-rest",
+      "description": "A reassuring synthesized Cloud Rest response."
+    },
+    {
+      "id": "fallback.celebration",
+      "description": "A warm synthesized celebration response."
+    },
+    {
+      "id": "fallback.optional-silence",
+      "description": "Silence when an optional detail has no approved source master."
+    }
+  ],
+  "sourceMasters": [
+    { "id": "source-master.opening.celebration-reveal", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.opening.star-scatter", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.opening.departure", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    {
+      "id": "source-master.story.confirmation",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/story-confirmation.wav",
+      "provenancePath": "source-media/soundscape/provenance/story-confirmation.json"
+    },
+    { "id": "source-master.flight.launch", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.movement.flight", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.movement.rise", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.movement.glide", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.place.lacewood", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.vignette.lacewood.canopy", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.vignette.lacewood.floor", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.path-choice.available", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.path-choice.lacewood.canopy", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.path-choice.lacewood.floor", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.journey-history.shimmer", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.playful-bump.lacewood", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.near-miss", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.birthday-star.proximity", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.birthday-star.gather", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.rainbow-path.open", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.birthday-star-moment.lacewood", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.cloud-rest.enter", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.cloud-rest.ambience", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.cloud-rest.exit", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.birthday-castle.arrival", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.celebration.dance-again", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.replay", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.sound.off", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    { "id": "source-master.sound.on", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" }
+  ]
+}

@@ -1,13 +1,20 @@
 {
   "contractVersion": "rosi-edition-contract/1",
-  "revision": "tracer-lacewood-1",
+  "revision": "tracer-lacewood-soundscape-1",
   "files": [
     { "role": "content", "path": "content.json" },
     { "role": "tuning-intent", "path": "tuning-intent.json" },
     { "role": "media", "path": "media.json" },
+    { "role": "soundscape-events", "path": "soundscape/events.json" },
+    { "role": "soundscape-catalog", "path": "soundscape/catalog.json" },
+    { "role": "soundscape-source-media", "path": "soundscape/source-media.json" },
+    { "role": "soundscape-provenance", "path": "soundscape/provenance.json" },
     { "role": "scenario", "id": "tracer-bullet", "path": "parity/tracer-bullet.json" },
     { "role": "source-media", "path": "source-media/opening-storybook/celebration-preparations.png" },
     { "role": "source-media", "path": "source-media/opening-storybook/scattered-stars.png" },
-    { "role": "source-media", "path": "source-media/opening-storybook/rosi-stella-departure.png" }
+    { "role": "source-media", "path": "source-media/opening-storybook/rosi-stella-departure.png" },
+    { "role": "source-media", "path": "source-media/soundscape/masters/story-confirmation.wav" },
+    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/story-confirmation.json" },
+    { "role": "source-media-build-report", "path": "source-media/soundscape/soundscape-build-report.json" }
   ]
 }

@@ -1,0 +1,28 @@
+{
+  "roles": [
+    {
+      "id": "provenance.commercial-generated-effect",
+      "description": "Evidence for a selected nonverbal effect generated under a commercial plan.",
+      "requiredEvidence": [
+        "provider",
+        "sdkVersion",
+        "model",
+        "parameters",
+        "generationTimestamp",
+        "providerReportedUsage",
+        "sourceHash",
+        "selectedOutputHash",
+        "channelLayout",
+        "formatProbe",
+        "processing",
+        "commercialPlanStatus",
+        "selectionReason"
+      ]
+    },
+    {
+      "id": "provenance.project-authored-fallback",
+      "description": "Evidence for a deterministic fallback authored and retained by the project.",
+      "requiredEvidence": ["implementationRevision", "sourceHash"]
+    }
+  ]
+}

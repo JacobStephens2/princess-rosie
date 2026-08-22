@@ -95,3 +95,17 @@ Execution: Mureka API, model `mureka-9`, one non-streaming instrumental; locally
 > Joyful whimsical instrumental soundtrack for a gentle childrens picture-book flying game, about two minutes, bright fairytale Sicily, pizzicato strings, celesta, glockenspiel, soft hand percussion, warm woodwinds, graceful three-four waltz pulse, playful and magical, calm enough for a four-year-old, clear celebratory lift near the ending, no vocals, no darkness, seamless-feeling loop
 
 Output: `public/assets/audio/birthday-flight.mp3`
+
+## Story confirmation sound effect
+
+Execution: ElevenLabs Sound Effects API through exact-pinned official SDK `@elevenlabs/elevenlabs-js` 2.64.0, model `eleven_text_to_sound_v2`, under an active Starter commercial plan. Three serial candidates were requested as 48 kHz PCM with generation retries disabled. Candidate 2 was selected; the stereo source was downmixed to mono, given 10 ms/20 ms fades, limited to a −6 dBFS peak ceiling, and wrapped as signed 16-bit little-endian WAV.
+
+> A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.
+
+Parameters: 0.6 seconds, prompt influence 0.3, looping off, requested source format `pcm_48000` (accepted).
+
+Selection: candidate 2, chosen as the best-balanced gentle bell-like cue: clearly audible on small speakers, controlled decay, no large harsh transient, and comfortably below the −6 dBFS ceiling.
+
+Source master: `shared/edition/source-media/soundscape/masters/story-confirmation.wav`
+
+Provenance: `shared/edition/source-media/soundscape/provenance/story-confirmation.json`

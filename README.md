@@ -52,6 +52,7 @@ To publish a verified build, follow the [deployment runbook](docs/deployment.md)
 - Storybook illustration: generated for this project with OpenAI image generation.
 - Celebration illustration: generated for this project with GPT Image 2 through Inkvoke.
 - Instrumental soundtrack: generated for this project with Mureka V9.
+- Production story-confirmation sound effect: generated for this project with ElevenLabs Sound Effects V2.
 - Interface sounds and fallback music: synthesized locally with the Web Audio API.
 
 API keys are build-time secrets only. They are never included in the application or repository.

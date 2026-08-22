@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "cueId": "cue.story.confirmation",
+  "sourceMasterId": "source-master.story.confirmation",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.",
+    "durationSeconds": 0.6,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-22T19:08:52.332Z",
+  "traceId": "8d610ca36bba686412fa1fc2eaecc0eb",
+  "providerReportedUsage": {
+    "characterCost": "6"
+  },
+  "sourceHash": "sha256:dbf0187681a9f37cfbbb7b47677dfc09f681ea791bbeeae71dec9ffcfb923728",
+  "selectedOutputHash": "sha256:5a93b99080993e78c877170af5400b9178b7a06a4f735a34d8c808cfcb909192",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Best-balanced gentle bell-like cue: clearly audible on small speakers, controlled decay, no large harsh transient, and comfortably below the -6 dBFS ceiling."
+}

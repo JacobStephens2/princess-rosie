@@ -4,7 +4,8 @@
   "private": true,
   "workspaces": [
     "apps/phaser-original",
-    "tools/edition-contract"
+    "tools/edition-contract",
+    "tools/soundscape-build"
   ],
   "scripts": {
     "dev": "npm run dev --workspace princess-rosi-phaser-original",
@@ -12,8 +13,10 @@
     "preview": "npm run preview --workspace princess-rosi-phaser-original",
     "test": "npm run test --workspace princess-rosi-phaser-original",
     "test:contract": "npm run test --workspace rosi-edition-contract",
+    "test:soundscape-build": "npm run test --workspace rosi-soundscape-build",
+    "soundscape:build-confirmation": "npm run build:confirmation --workspace rosi-soundscape-build --",
     "test:e2e": "npm run test:e2e --workspace princess-rosi-phaser-original",
     "test:e2e:install": "npm run test:e2e:install --workspace princess-rosi-phaser-original",
-    "check": "npm run test:contract && npm run check --workspace princess-rosi-phaser-original"
+    "check": "npm run typecheck --workspace rosi-edition-contract && npm run typecheck --workspace rosi-soundscape-build && npm run test:contract && npm run test:soundscape-build && npm run check --workspace princess-rosi-phaser-original"
   }
 }
