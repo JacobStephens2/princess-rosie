@@ -1,0 +1,36 @@
+{
+  "cueId": "cue.story.confirmation",
+  "status": "approved",
+  "requests": [
+    {
+      "text": "A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.",
+      "model": "eleven_text_to_sound_v2",
+      "durationSeconds": 0.6,
+      "promptInfluence": 0.3,
+      "loop": false,
+      "format": "pcm_48000",
+      "candidate": "candidate-1",
+      "outcome": "succeeded"
+    },
+    {
+      "text": "A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.",
+      "model": "eleven_text_to_sound_v2",
+      "durationSeconds": 0.6,
+      "promptInfluence": 0.3,
+      "loop": false,
+      "format": "pcm_48000",
+      "candidate": "candidate-2",
+      "outcome": "succeeded"
+    },
+    {
+      "text": "A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.",
+      "model": "eleven_text_to_sound_v2",
+      "durationSeconds": 0.6,
+      "promptInfluence": 0.3,
+      "loop": false,
+      "format": "pcm_48000",
+      "candidate": "candidate-3",
+      "outcome": "succeeded"
+    }
+  ]
+}
