@@ -19,7 +19,16 @@ Open the deployed game once while online. In Chrome or Edge, use the install ico
 
 ## Develop
 
-Requires Node.js and npm.
+The repository contains the deployed Phaser Original Edition and the native Godot and Unity Production Editions:
+
+```text
+apps/phaser-original/
+apps/godot/
+apps/unity/
+shared/
+```
+
+The root npm commands operate on the Original Edition and preserve the deployable static site in `dist/`. Requires Node.js and npm.
 
 ```sh
 npm install
