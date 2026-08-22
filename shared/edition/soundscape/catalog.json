@@ -56,6 +56,13 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "gentle-short-confirmation-for-macbook",
+      "authoring": {
+        "prompt": "A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": ["pcm_48000", "pcm_24000"],
+        "candidateCount": 3
+      },
       "sourceMaster": "source-master.story.confirmation",
       "runtimeMapping": "runtime-cue.story.confirmation",
       "fallbackRole": "fallback.story-confirmation"
