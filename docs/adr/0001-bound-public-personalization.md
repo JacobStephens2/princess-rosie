@@ -1,0 +1,3 @@
+# Bound public personalization
+
+The indexable public game may use the children's first names, the family-role labels Mom, Dad, Pop, Gram, Aunt, and Uncle, Beasley's name, and likeness details expressly approved by the project owner. Those likenesses will be based on written appearance cues; family photographs will not be sent to image-generation services. The game must not publish surnames, schools, parishes, towns, home details, precise locations, or other unapproved personal information. This keeps the birthday gift recognizably personal while limiting the searchable identifying information attached to the children and their family.
