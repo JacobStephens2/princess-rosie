@@ -8,6 +8,7 @@
         "sdkVersion",
         "model",
         "parameters",
+        "jobHash",
         "generationTimestamp",
         "providerReportedUsage",
         "sourceHash",
@@ -15,6 +16,11 @@
         "channelLayout",
         "formatProbe",
         "processing",
+        "audioQa",
+        "runtimeDerivativeHash",
+        "masteringIntent",
+        "channelPolicy",
+        "priority",
         "commercialPlanStatus",
         "selectionReason"
       ]

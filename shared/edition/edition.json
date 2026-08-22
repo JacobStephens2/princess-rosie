@@ -8,6 +8,7 @@
     { "role": "soundscape-events", "path": "soundscape/events.json" },
     { "role": "soundscape-catalog", "path": "soundscape/catalog.json" },
     { "role": "soundscape-source-media", "path": "soundscape/source-media.json" },
+    { "role": "soundscape-runtime-mappings", "path": "soundscape/runtime-mappings.json" },
     { "role": "soundscape-provenance", "path": "soundscape/provenance.json" },
     { "role": "scenario", "id": "tracer-bullet", "path": "parity/tracer-bullet.json" },
     { "role": "source-media", "path": "source-media/opening-storybook/celebration-preparations.png" },
@@ -15,6 +16,9 @@
     { "role": "source-media", "path": "source-media/opening-storybook/rosi-stella-departure.png" },
     { "role": "source-media", "path": "source-media/soundscape/masters/story-confirmation.wav" },
     { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/story-confirmation.json" },
+    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/story-confirmation.wav" },
+    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/story-confirmation.json" },
+    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/story-confirmation.json" },
     { "role": "source-media-build-report", "path": "source-media/soundscape/soundscape-build-report.json" }
   ]
 }

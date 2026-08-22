@@ -14,7 +14,11 @@
     "test": "npm run test --workspace princess-rosi-phaser-original",
     "test:contract": "npm run test --workspace rosi-edition-contract",
     "test:soundscape-build": "npm run test --workspace rosi-soundscape-build",
+    "soundscape:build": "npm run build --workspace rosi-soundscape-build --",
     "soundscape:build-confirmation": "npm run build:confirmation --workspace rosi-soundscape-build --",
+    "soundscape:media-docs": "npm run media-docs --workspace rosi-soundscape-build --",
+    "soundscape:remaster": "npm run remaster --workspace rosi-soundscape-build --",
+    "soundscape:validate": "npm run validate --workspace rosi-soundscape-build --",
     "test:e2e": "npm run test:e2e --workspace princess-rosi-phaser-original",
     "test:e2e:install": "npm run test:e2e:install --workspace princess-rosi-phaser-original",
     "check": "npm run typecheck --workspace rosi-edition-contract && npm run typecheck --workspace rosi-soundscape-build && npm run test:contract && npm run test:soundscape-build && npm run check --workspace princess-rosi-phaser-original"

@@ -28,6 +28,18 @@ provideDefault(
   "--output-root",
   productionOutputRoot,
 );
+provideDefault(
+  "--source-media",
+  join(repositoryRoot, "shared", "edition", "soundscape", "source-media.json"),
+);
+provideDefault(
+  "--runtime-mappings",
+  join(repositoryRoot, "shared", "edition", "soundscape", "runtime-mappings.json"),
+);
+provideDefault(
+  "--media-doc",
+  join(repositoryRoot, "docs", "media-prompts.md"),
+);
 provideDefault("--provider", "real");
 
 const result = await runSoundscapeBuildCli({
@@ -48,7 +60,7 @@ const result = await runSoundscapeBuildCli({
       const prompts = createInterface({ input: process.stdin, output: process.stdout });
       try {
         const approvedCandidate = await prompts.question(
-          "Approve candidate-1, candidate-2, or candidate-3: ",
+          "Approve one listed candidate, or enter none to request another batch: ",
         );
         const selectionReason = await prompts.question("Selection reason: ");
         return { approvedCandidate: approvedCandidate.trim(), selectionReason: selectionReason.trim() };
