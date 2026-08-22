@@ -7,21 +7,23 @@ const SOUND_BUS := &"Sound"
 const CUE_GAIN_DB := -3.0
 const SOUND_PREFERENCE_EVENT := &"sound-event.sound-preference-changed"
 const SOUND_OFF_LIMIT_MS := 200
+const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 
 var _pack_source: String
 var _audio: Object
 var _catalog_entries: Array = []
 var _source_masters: Dictionary = {}
 var _sound_enabled := true
+var _reader: RefCounted = EDITION_PACK_READER.new()
 
 
 func _init(pack_source: String, engine_audio_adapter: Object) -> void:
 	_pack_source = pack_source
 	_audio = engine_audio_adapter
-	var catalog := _read_pack_json(CATALOG_PATH)
+	var catalog: Dictionary = _reader.read_json_object(_pack_source, CATALOG_PATH)
 	if catalog.get("ok") == true:
 		_catalog_entries = catalog.value.get("entries", [])
-	var source_media := _read_pack_json(SOURCE_MEDIA_PATH)
+	var source_media: Dictionary = _reader.read_json_object(_pack_source, SOURCE_MEDIA_PATH)
 	if source_media.get("ok") == true:
 		for source_master: Variant in source_media.value.get("sourceMasters", []):
 			if source_master is Dictionary:
@@ -91,25 +93,3 @@ func _resolve_cue(event_id: StringName, parameters: Dictionary) -> Dictionary:
 		if matches:
 			return cue
 	return {}
-
-
-func _read_pack_json(relative_path: String) -> Dictionary:
-	var bytes := PackedByteArray()
-	if _pack_source.get_extension().to_lower() == "zip":
-		var archive := ZIPReader.new()
-		if archive.open(_pack_source) != OK or not archive.get_files().has(relative_path):
-			archive.close()
-			return {"ok": false}
-		bytes = archive.read_file(relative_path)
-		archive.close()
-	else:
-		var path := _pack_source.path_join(relative_path)
-		if not FileAccess.file_exists(path):
-			return {"ok": false}
-		bytes = FileAccess.get_file_as_bytes(path)
-	if bytes.is_empty():
-		return {"ok": false}
-	var json := JSON.new()
-	if json.parse(bytes.get_string_from_utf8()) != OK or not json.data is Dictionary:
-		return {"ok": false}
-	return {"ok": true, "value": json.data}

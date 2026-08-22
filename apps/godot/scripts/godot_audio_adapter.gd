@@ -4,10 +4,12 @@ extends Node
 const FALLBACK_MIX_RATE := 48000
 const FALLBACK_DURATION_SECONDS := 0.18
 const FALLBACK_FREQUENCY_HZ := 783.99
+const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 
 var _player := AudioStreamPlayer.new()
 var _playback_revision := 0
 var _active_priority := -1
+var _reader: RefCounted = EDITION_PACK_READER.new()
 
 
 func _init() -> void:
@@ -16,10 +18,10 @@ func _init() -> void:
 
 
 func load_wav(pack_source: String, relative_path: String) -> Variant:
-	var bytes := _read_pack_bytes(pack_source, relative_path)
-	if bytes.is_empty():
+	var bytes_result: Dictionary = _reader.read_bytes(pack_source, relative_path)
+	if not bytes_result.get("ok"):
 		return null
-	return AudioStreamWAV.load_from_buffer(bytes)
+	return AudioStreamWAV.load_from_buffer(bytes_result.value)
 
 
 func synthesize_confirmation() -> AudioStreamWAV:
@@ -79,21 +81,3 @@ func _stop_after(maximum_duration_ms: int, playback_revision: int) -> void:
 
 func _on_playback_finished() -> void:
 	_active_priority = -1
-
-
-func _read_pack_bytes(pack_source: String, relative_path: String) -> PackedByteArray:
-	if pack_source.get_extension().to_lower() == "zip":
-		var archive := ZIPReader.new()
-		if archive.open(pack_source) != OK:
-			return PackedByteArray()
-		if not archive.get_files().has(relative_path):
-			archive.close()
-			return PackedByteArray()
-		var bytes := archive.read_file(relative_path)
-		archive.close()
-		return bytes
-
-	var path := pack_source.path_join(relative_path)
-	if not FileAccess.file_exists(path):
-		return PackedByteArray()
-	return FileAccess.get_file_as_bytes(path)
