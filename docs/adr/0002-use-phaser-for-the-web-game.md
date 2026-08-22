@@ -1,0 +1,3 @@
+# Use Phaser for the web game
+
+Build the game with an exact-pinned Phaser 4.2.1, TypeScript, and Vite stack, with the installable PWA layer handled separately. Phaser was chosen over PixiJS because this game needs scenes, forgiving collision physics, unified keyboard and pointer input, cameras, parallax, animation, and audio orchestration under a same-day deadline; its integrated systems let the work concentrate on story, art, motion, sound, and child-friendly tuning. PixiJS offers greater low-level rendering control and a smaller core, but would require a custom game layer whose benefits are not visible in this experience.

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#e94f9b" />
+    <meta name="description" content="Princess Rosi and Stella fly across Fairytale Sicily to gather seven Birthday Stars for Princess Zélie." />
+    <meta property="og:title" content="Princess Rosi and the Seven Birthday Stars" />
+    <meta property="og:description" content="A joyful flying birthday adventure." />
+    <meta property="og:image" content="/assets/storybook-key-art.png" />
+    <meta property="og:url" content="https://rosi.stephens.page/" />
+    <link rel="canonical" href="https://rosi.stephens.page/" />
+    <link rel="icon" href="/icons/star.svg" type="image/svg+xml" />
+    <title>Princess Rosi and the Seven Birthday Stars</title>
+  </head>
+  <body>
+    <main id="app">
+      <section id="storybook" class="storybook" aria-live="polite">
+        <div class="storybook__art" aria-hidden="true"></div>
+        <div class="storybook__shade" aria-hidden="true"></div>
+        <div class="storybook__card">
+          <p id="eyebrow" class="eyebrow">A birthday adventure</p>
+          <h1 id="story-title">Princess Rosi <span>and the Seven Birthday Stars</span></h1>
+          <p id="story-copy">A tiny storybook game made with love for Rosi and Princess Zélie’s very first birthday.</p>
+          <div class="storybook__actions">
+            <button id="story-next" class="storybook-button" type="button">
+              <span>Begin the story</span><b aria-hidden="true">✦</b>
+            </button>
+            <button id="sound-toggle" class="round-button" type="button" aria-label="Turn sound off" aria-pressed="true">♪</button>
+          </div>
+          <div id="page-dots" class="page-dots" aria-label="Story page 1 of 4"></div>
+        </div>
+      </section>
+
+      <section id="game-shell" class="game-shell" hidden>
+        <div id="game" class="game" aria-label="Flying game area"></div>
+        <header class="game-hud">
+          <div class="logo-small">Princess Rosi</div>
+          <div id="star-tracker" class="star-tracker" aria-label="0 of 7 Birthday Stars">
+            <span class="star is-lit">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <button id="game-sound-toggle" class="round-button round-button--small" type="button" aria-label="Turn sound off" aria-pressed="true">♪</button>
+        </header>
+        <div id="flight-hint" class="flight-hint"><span aria-hidden="true">↑</span> Hold to rise · let go to glide</div>
+        <button id="touch-control" class="touch-control" type="button" aria-label="Hold to help Stella fly up">
+          <span aria-hidden="true">☁</span><b>FLY</b>
+        </button>
+
+        <div id="moment" class="moment" hidden aria-live="assertive">
+          <div class="moment__card">
+            <div id="moment-icon" class="moment__icon" aria-hidden="true">★</div>
+            <p id="moment-place" class="eyebrow">Rosalia’s Rose Garden</p>
+            <h2 id="moment-copy">Mom found a Star among Rosalia’s roses!</h2>
+            <p id="moment-path">The Rainbow Path is open!</p>
+            <button id="moment-next" class="storybook-button" type="button">Keep flying <b aria-hidden="true">→</b></button>
+          </div>
+        </div>
+
+        <div id="cloud-rest" class="moment cloud-rest" hidden aria-live="assertive">
+          <div class="moment__card">
+            <div class="moment__icon moment__icon--cloud" aria-hidden="true">☁</div>
+            <p class="eyebrow">A soft place to pause</p>
+            <h2>Stella needs a little Cloud Rest.</h2>
+            <p>All your Birthday Stars are safe!</p>
+            <p>Press Space when you’re ready to fly again.</p>
+            <button id="rest-next" class="storybook-button" type="button">Fly again <b aria-hidden="true">↑</b></button>
+          </div>
+        </div>
+      </section>
+
+      <section id="ending" class="ending" hidden aria-live="polite">
+        <div class="ending__art" aria-hidden="true"></div>
+        <canvas id="confetti" aria-hidden="true"></canvas>
+        <div class="ending__card">
+          <p class="eyebrow">Every Birthday Star shone. Every Rainbow Path opened.</p>
+          <h2>Happy Birthday,<br /><span>Princess Zélie!</span></h2>
+          <p>Princess Rosi and Stella had brought the whole family together for Princess Zélie’s very first birthday.</p>
+          <div class="party-dancers" aria-hidden="true">
+            <span class="party-dancers__rosi">👸</span>
+            <span class="party-dancers__stella">🦄</span>
+            <span class="party-dancers__gigi">🦒</span>
+            <span class="party-dancers__guests">👏 👏 👏</span>
+          </div>
+          <div class="ending__actions">
+            <button id="dance-button" class="storybook-button" type="button">Dance again <b aria-hidden="true">♪</b></button>
+            <button id="replay-button" class="text-button" type="button">Fly the adventure again</button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <noscript>This storybook game needs JavaScript to fly.</noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
