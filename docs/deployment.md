@@ -2,6 +2,14 @@
 
 Use this runbook to publish a revision to [rosi.stephens.page](https://rosi.stephens.page/). The production site is the static Vite build in `dist/`, served by Apache from `jacob@stephens.page:/var/www/rosi.stephens.page/public/`.
 
+## Automatic production deployments
+
+Every push to `main` runs [the production deployment workflow](../.github/workflows/deploy.yml). The workflow installs locked dependencies, runs the complete unit, build, and browser checks, uploads `dist/`, and smoke-tests the live site. It can also be started manually with GitHub's **Run workflow** action.
+
+The workflow uses the `production` GitHub environment secrets `DEPLOY_SSH_KEY` and `DEPLOY_KNOWN_HOSTS`. Its dedicated SSH key is forced through `rrsync` in write-only mode and restricted to `/var/www/rosi.stephens.page/public/`; it cannot open a general server shell or write elsewhere.
+
+Use the manual procedure below only for recovery or when GitHub Actions is unavailable.
+
 ## 1. Verify the revision
 
 Install the locked dependencies when needed, then run every project check:
