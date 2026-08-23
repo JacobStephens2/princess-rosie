@@ -16,6 +16,12 @@ This is a single-context repository. See `docs/agents/domain.md`.
 
 Use paid model services only when they are billed directly by a US-headquartered provider, unless the project owner explicitly approves an exception.
 
+### Commit and pull request attribution
+
+Do not add tool attribution to commit messages or pull request bodies. Omit `Co-Authored-By`
+trailers naming an AI assistant, `Claude-Session` or other session-link trailers, and
+"Generated with" footers. Messages and PR bodies end with their actual content.
+
 ### Audio evaluation
 
 For tasks that generate, select, or review audio assets, follow `docs/agents/audio-evaluation.md`.
