@@ -1,6 +1,6 @@
 {
   "contractVersion": "rosi-edition-contract/1",
-  "revision": "lacewood-birthday-star-soundscape-1",
+  "revision": "lacewood-birthday-star-soundscape-2",
   "files": [
     { "role": "content", "path": "content.json" },
     { "role": "tuning-intent", "path": "tuning-intent.json" },

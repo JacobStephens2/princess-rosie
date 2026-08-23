@@ -235,13 +235,13 @@ Source master: `source-master.movement.rise`
 
 ### cue.near-miss
 
-> A restrained cooldown accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+> Short abstract near-miss cooldown: a soft sideways ribbon-air flutter and muted wood chime settling down. Give the chime a clean rounded upper-mid attack and healthy level, audible beneath music at quiet MacBook playback, never sharp or loud. Entirely acoustic and nonverbal. No breath, gasp, human or animal vocalization, voice, speech, singing, melody, whisper-quiet output, harsh transient, alarm, aggressive impact, simulation, or arcade sound.
 
 Parameters: 0.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
 
 Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
 
-Selection: Best restrained near-miss accent: lowest crossing activity with compact low-crest energy, producing a clear but non-alarming detail that remains subtle at the optional-detail gain.
+Selection: Gemini native-audio review passed this candidate in isolation and at the exact -16.7 dB optional-detail gain beneath music and Lacewood ambience: entirely nonverbal, gentle and non-punitive, with an audible airy flutter and muted descending wood-chime contour; local Whisper screening found no credible speech.
 
 Source master: `source-master.near-miss`
 

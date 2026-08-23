@@ -3,39 +3,37 @@
   "requestLimit": 30,
   "requests": [
     {
-      "text": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+      "text": "Short abstract near-miss cooldown: a soft sideways ribbon-air flutter and muted wood chime settling down. Give the chime a clean rounded upper-mid attack and healthy level, audible beneath music at quiet MacBook playback, never sharp or loud. Entirely acoustic and nonverbal. No breath, gasp, human or animal vocalization, voice, speech, singing, melody, whisper-quiet output, harsh transient, alarm, aggressive impact, simulation, or arcade sound.",
       "model": "eleven_text_to_sound_v2",
-      "durationSeconds": 12,
+      "durationSeconds": 0.5,
       "promptInfluence": 0.3,
-      "loop": true,
+      "loop": false,
       "format": "pcm_48000",
-      "cueId": "cue.place.lacewood",
+      "cueId": "cue.near-miss",
       "candidate": "candidate-1",
-      "outcome": "failed",
-      "qaFailure": "PCM loop seam exceeds the allowed threshold"
+      "outcome": "succeeded"
     },
     {
-      "text": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+      "text": "Short abstract near-miss cooldown: a soft sideways ribbon-air flutter and muted wood chime settling down. Give the chime a clean rounded upper-mid attack and healthy level, audible beneath music at quiet MacBook playback, never sharp or loud. Entirely acoustic and nonverbal. No breath, gasp, human or animal vocalization, voice, speech, singing, melody, whisper-quiet output, harsh transient, alarm, aggressive impact, simulation, or arcade sound.",
       "model": "eleven_text_to_sound_v2",
-      "durationSeconds": 12,
+      "durationSeconds": 0.5,
       "promptInfluence": 0.3,
-      "loop": true,
+      "loop": false,
       "format": "pcm_48000",
-      "cueId": "cue.place.lacewood",
+      "cueId": "cue.near-miss",
       "candidate": "candidate-2",
       "outcome": "succeeded"
     },
     {
-      "text": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+      "text": "Short abstract near-miss cooldown: a soft sideways ribbon-air flutter and muted wood chime settling down. Give the chime a clean rounded upper-mid attack and healthy level, audible beneath music at quiet MacBook playback, never sharp or loud. Entirely acoustic and nonverbal. No breath, gasp, human or animal vocalization, voice, speech, singing, melody, whisper-quiet output, harsh transient, alarm, aggressive impact, simulation, or arcade sound.",
       "model": "eleven_text_to_sound_v2",
-      "durationSeconds": 12,
+      "durationSeconds": 0.5,
       "promptInfluence": 0.3,
-      "loop": true,
+      "loop": false,
       "format": "pcm_48000",
-      "cueId": "cue.place.lacewood",
+      "cueId": "cue.near-miss",
       "candidate": "candidate-3",
-      "outcome": "failed",
-      "qaFailure": "PCM loop seam exceeds the allowed threshold"
+      "outcome": "succeeded"
     }
   ]
 }
