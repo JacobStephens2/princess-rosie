@@ -27,17 +27,22 @@ func run_if_requested(shell: StorybookShell) -> void:
 		begin_button.pressed.emit()
 		await get_tree().process_frame
 	if requested_state == "flight":
-		var continue_button := shell.get_node_or_null("%ContinueButton") as Button
-		if continue_button == null:
-			push_error("Export smoke could not find the Continue control")
-			get_tree().quit(6)
-			return
-		for _page: int in 3:
-			continue_button.pressed.emit()
-			await get_tree().process_frame
-		_emit_flight_input(true)
+		_emit_keyboard_action(true)
 		await get_tree().process_frame
-		_emit_flight_input(false)
+		_emit_keyboard_action(false)
+		await get_tree().process_frame
+		_emit_pointer_action(true)
+		await get_tree().process_frame
+		_emit_pointer_action(false)
+		await get_tree().process_frame
+		_emit_keyboard_action(true)
+		await get_tree().process_frame
+		_emit_pointer_action(true)
+		await get_tree().process_frame
+		_emit_keyboard_action(false)
+		await get_tree().process_frame
+		_emit_pointer_action(false)
+		await get_tree().process_frame
 
 	for _frame: int in 4:
 		await get_tree().process_frame
@@ -76,9 +81,16 @@ func _sample_color_count(image: Image) -> int:
 	return sampled_colors.size()
 
 
-func _emit_flight_input(pressed: bool) -> void:
+func _emit_keyboard_action(pressed: bool) -> void:
 	var event := InputEventKey.new()
 	event.physical_keycode = KEY_SPACE
+	event.pressed = pressed
+	Input.parse_input_event(event)
+
+
+func _emit_pointer_action(pressed: bool) -> void:
+	var event := InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT
 	event.pressed = pressed
 	Input.parse_input_event(event)
 

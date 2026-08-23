@@ -1,6 +1,14 @@
 {
   "flight": {
     "automaticForwardMotion": true,
+    "forwardSpeedStageWidthsPerSecond": 0.18,
+    "riseAccelerationStageHeightsPerSecondSquared": 2.4,
+    "glideAccelerationStageHeightsPerSecondSquared": -1.6,
+    "maximumRiseSpeedStageHeightsPerSecond": 0.6,
+    "maximumGlideSpeedStageHeightsPerSecond": -0.48,
+    "startingAltitudeStageHeights": 0.5,
+    "minimumAltitudeStageHeights": 0.14,
+    "maximumAltitudeStageHeights": 0.86,
     "directContactResponse": "richest",
     "nearbyBirthdayStarResponse": "flies-to-stella",
     "failure": "forbidden",

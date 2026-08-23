@@ -82,12 +82,33 @@ test "$(stat -f '%z' "$flight_capture_path")" -gt 100000
 jq -e --arg expected_pack_digest "$expected_pack_digest" '
   .state == "active_play"
   and .movement_state == "glide"
+  and .active_action_sources == []
+  and .observed_action_sources == ["keyboard.space", "pointer.primary"]
   and .pack_digest == $expected_pack_digest
   and .network_requests == 0
   and .capture_sample_colors >= 8
   and .storybook_stage.aspect == "16:9"
   and .storybook_stage.essential_content_cropped == false
   and .storybook_stage.active_play_visible == true
+  and .storybook_stage.flight_background_visible == true
+  and .storybook_stage.flight_character_visible == true
+  and .opening_storybook == {
+    "momentCount": 3,
+    "birthdayStarCount": 7,
+    "celebrationPreparationHost": "Gigi",
+    "promiseKeepers": ["Princess Rosie", "Stella"],
+    "waitsForPlayerIntent": true
+  }
+  and .player_action.bindings == ["keyboard.space", "pointer.primary"]
+  and .player_action.overlapPolicy == "shared-held-action"
+  and .flight.automatic_forward_motion == true
+  and .flight.frame_rate_independent == true
+  and .flight.transparent_character_layer_required == true
+  and .flight.distance_stage_widths > 0
+  and .flight_media_paths == {
+    "flight.rose-garden-background": "source-media/flight/rose-garden-background.png",
+    "flight.rosie-stella": "source-media/flight/rosie-stella.png"
+  }
   and .sound_events == [
     {
       "event": "sound-event.opening-storybook-moment",

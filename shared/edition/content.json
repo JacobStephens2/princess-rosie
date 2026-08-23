@@ -10,7 +10,15 @@
   "playerAction": {
     "pressed": "rise",
     "released": "glide",
-    "bindings": ["keyboard.space", "pointer.primary"]
+    "bindings": ["keyboard.space", "pointer.primary"],
+    "overlapPolicy": "shared-held-action"
+  },
+  "openingStorybookEvidence": {
+    "momentCount": 3,
+    "birthdayStarCount": 7,
+    "celebrationPreparationHost": "Gigi",
+    "promiseKeepers": ["Princess Rosie", "Stella"],
+    "waitsForPlayerIntent": true
   },
   "openingMoments": [
     {
@@ -35,6 +43,10 @@
       "illustration": "opening.rosie-stella-departure"
     }
   ],
+  "initialFlight": {
+    "background": "flight.rose-garden-background",
+    "character": "flight.rosie-stella"
+  },
   "place": {
     "id": "lacewood",
     "name": "Zélie’s Lacewood",

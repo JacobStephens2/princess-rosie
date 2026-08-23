@@ -33,6 +33,8 @@ const INTENT_CONTINUE: StringName = &"continue"
 const INTENT_ACTION_PRESSED: StringName = &"action-pressed"
 const INTENT_ACTION_RELEASED: StringName = &"action-released"
 const INTENT_REPLAY: StringName = &"replay"
+const SOURCE_KEYBOARD_SPACE: StringName = &"keyboard.space"
+const SOURCE_POINTER_PRIMARY: StringName = &"pointer.primary"
 const EVENT_OPENING_MOMENT := &"sound-event.opening-storybook-moment"
 const EVENT_FLIGHT_LAUNCH := &"sound-event.flight-launch"
 const EVENT_MOVEMENT_STATE := &"sound-event.movement-state"
@@ -64,9 +66,19 @@ var _sound_enabled := true
 var _opening_moments: Array = []
 var _opening_textures: Dictionary = {}
 var _opening_media_paths: Dictionary = {}
+var _flight_background_texture: Texture2D
+var _flight_character_texture: Texture2D
+var _flight_media_paths: Dictionary = {}
 var _opening_moment_index := 0
 var _movement_state := ""
+var _flight_tuning: Dictionary = {}
+var _flight_distance_stage_widths := 0.0
+var _flight_altitude_stage_heights := 0.0
+var _flight_vertical_speed_stage_heights_per_second := 0.0
+var _authored_motion_seconds := 0.0
 var _sound_events: Array[Dictionary] = []
+var _active_action_sources: Dictionary = {}
+var _observed_action_sources: Dictionary = {}
 var _soundscape: RefCounted
 var _engine_audio: Node
 
@@ -85,7 +97,10 @@ var _engine_audio: Node
 @onready var _opening_title: Label = %OpeningTitle
 @onready var _opening_copy: Label = %OpeningCopy
 @onready var _opening_art: TextureRect = %OpeningArt
+@onready var _opening_story_card: Control = $Stage/OpeningPresentation/StoryCard
 @onready var _continue_button: Button = %ContinueButton
+@onready var _flight_background: TextureRect = %FlightBackground
+@onready var _flight_character: TextureRect = %FlightCharacter
 @onready var _pack_badge: Label = %PackBadge
 @onready var _error_label: Label = %ErrorLabel
 @onready var _export_smoke_probe: Node = %ExportSmokeProbe
@@ -122,9 +137,19 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	_opening_moments = []
 	_opening_textures = {}
 	_opening_media_paths = {}
+	_flight_background_texture = null
+	_flight_character_texture = null
+	_flight_media_paths = {}
 	_opening_moment_index = 0
 	_movement_state = ""
+	_flight_tuning = {}
+	_flight_distance_stage_widths = 0.0
+	_flight_altitude_stage_heights = 0.0
+	_flight_vertical_speed_stage_heights_per_second = 0.0
+	_authored_motion_seconds = 0.0
 	_sound_events = []
+	_active_action_sources = {}
+	_observed_action_sources = {}
 	_sound_enabled = true
 	_grown_up_corner_visible = false
 	_paused_from = PresentationState.COVER
@@ -151,6 +176,13 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 		return _fail_launch(content_result.error)
 
 	_content = content_result.value
+	var tuning_result: Dictionary = _adapter.load_tuning_intent(pack_source, prepared)
+	if not tuning_result.ok:
+		return _fail_launch(tuning_result.error)
+	var flight_tuning_value: Variant = tuning_result.value.get("flight")
+	if not flight_tuning_value is Dictionary:
+		return _fail_launch("Edition Pack flight tuning is missing")
+	_flight_tuning = flight_tuning_value
 	_opening_moments = _content.get("openingMoments", [])
 	if _opening_moments.is_empty():
 		return _fail_launch("Edition Pack has no Opening Storybook Moments")
@@ -164,6 +196,8 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 
 
 func presentation_evidence() -> Dictionary:
+	var opening_storybook: Variant = _content.get("openingStorybookEvidence", {})
+	var player_action: Variant = _content.get("playerAction", {})
 	return {
 		"state": STATE_IDS[_state],
 		"window_mode": WINDOW_MODE_IDS[_window_mode],
@@ -174,14 +208,37 @@ func presentation_evidence() -> Dictionary:
 		"grown_up_corner_visible": _grown_up_corner_visible,
 		"sound_enabled": _sound_enabled,
 		"opening_moment": _current_opening_moment().get("id", ""),
+		"opening_storybook": (
+			opening_storybook.duplicate(true) if opening_storybook is Dictionary else {}
+		),
+		"player_action": player_action.duplicate(true) if player_action is Dictionary else {},
 		"opening_media_paths": _opening_media_paths.duplicate(true),
+		"flight_media_paths": _flight_media_paths.duplicate(true),
 		"movement_state": _movement_state,
+		"active_action_sources": _active_action_source_ids(),
+		"observed_action_sources": _observed_action_source_ids(),
+		"flight": flight_evidence(),
 		"engine_version": _engine_version(),
 	}
 
 
 func sound_event_evidence() -> Array[Dictionary]:
 	return _sound_events.duplicate(true)
+
+
+func flight_evidence() -> Dictionary:
+	return {
+		"automatic_forward_motion": _flight_tuning.get("automaticForwardMotion", false),
+		"frame_rate_independent": true,
+		"transparent_character_layer_required": true,
+		"distance_stage_widths": _flight_distance_stage_widths,
+		"altitude_stage_heights": _flight_altitude_stage_heights,
+		"vertical_speed_stage_heights_per_second": (
+			_flight_vertical_speed_stage_heights_per_second
+		),
+		"minimum_altitude_stage_heights": _flight_tuning.get("minimumAltitudeStageHeights", 0.0),
+		"maximum_altitude_stage_heights": _flight_tuning.get("maximumAltitudeStageHeights", 1.0),
+	}
 
 
 func storybook_stage_evidence() -> Dictionary:
@@ -215,6 +272,29 @@ func storybook_stage_evidence() -> Dictionary:
 		"position": {"x": stage_rect.position.x, "y": stage_rect.position.y},
 		"size": {"width": stage_rect.size.x, "height": stage_rect.size.y},
 		"decorative_surroundings": has_decorative_surroundings(size),
+		"opening_motion": {
+			"art_scale": _opening_art.scale.x,
+			"story_card_y": _opening_story_card.position.y,
+		},
+		"flight_motion": {
+			"background_offset_x": _flight_background.position.x,
+			"background_scale": _flight_background.scale.x,
+			"character_position": {
+				"x": _flight_character.position.x,
+				"y": _flight_character.position.y,
+			},
+			"character_rotation": _flight_character.rotation,
+		},
+		"flight_background_visible": (
+			_flight_background.texture != null and _flight_background.is_visible_in_tree()
+		),
+		"flight_character_visible": (
+			_flight_character.texture != null and _flight_character.is_visible_in_tree()
+		),
+		"opening_text_minimum_font_size": mini(
+			_opening_title.get_theme_font_size("font_size"),
+			_opening_copy.get_theme_font_size("font_size"),
+		),
 	}
 
 
@@ -233,8 +313,7 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _opening_moment_index < _opening_moments.size() - 1:
 				_show_opening_moment(_opening_moment_index + 1)
 				return true
-			_state = PresentationState.ACTIVE_PLAY
-			_movement_state = "flight"
+			_start_flight()
 			_report_sound_event(EVENT_FLIGHT_LAUNCH, {})
 			_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
 			return true
@@ -298,11 +377,80 @@ func handle_player_intent(intent: StringName) -> bool:
 			_paused_from = PresentationState.COVER
 			_opening_moment_index = 0
 			_movement_state = ""
+			_reset_flight_motion()
 			_grown_up_corner_visible = false
 			_set_window_mode(PresentationWindowMode.WINDOWED)
 			return true
 		_:
 			return false
+
+
+func handle_player_action(source: StringName, pressed: bool) -> bool:
+	if source not in [SOURCE_KEYBOARD_SPACE, SOURCE_POINTER_PRIMARY]:
+		return false
+	if pressed:
+		if _active_action_sources.has(source):
+			return false
+		var action_was_held := not _active_action_sources.is_empty()
+		_active_action_sources[source] = true
+		_observed_action_sources[source] = true
+		if action_was_held:
+			return false
+		if _state == PresentationState.OPENING_STORYBOOK_MOMENT:
+			var continued := handle_player_intent(INTENT_CONTINUE)
+			if continued and _state == PresentationState.ACTIVE_PLAY:
+				handle_player_intent(INTENT_ACTION_PRESSED)
+			return continued
+		if _state == PresentationState.ACTIVE_PLAY:
+			return handle_player_intent(INTENT_ACTION_PRESSED)
+		return false
+
+	if not _active_action_sources.has(source):
+		return false
+	_active_action_sources.erase(source)
+	if not _active_action_sources.is_empty():
+		return false
+	if _state == PresentationState.ACTIVE_PLAY:
+		return handle_player_intent(INTENT_ACTION_RELEASED)
+	return true
+
+
+func advance_simulation(delta: float) -> bool:
+	if _state != PresentationState.ACTIVE_PLAY or not is_finite(delta) or delta <= 0.0:
+		return false
+	if _flight_tuning.get("automaticForwardMotion", false):
+		_flight_distance_stage_widths += (
+			float(_flight_tuning.get("forwardSpeedStageWidthsPerSecond", 0.0)) * delta
+		)
+	var acceleration_key := (
+		"riseAccelerationStageHeightsPerSecondSquared"
+		if _movement_state == "rise"
+		else "glideAccelerationStageHeightsPerSecondSquared"
+	)
+	var acceleration := float(_flight_tuning.get(acceleration_key, 0.0))
+	var previous_speed := _flight_vertical_speed_stage_heights_per_second
+	var next_speed := clampf(
+		previous_speed + acceleration * delta,
+		float(_flight_tuning.get("maximumGlideSpeedStageHeightsPerSecond", -0.48)),
+		float(_flight_tuning.get("maximumRiseSpeedStageHeightsPerSecond", 0.6)),
+	)
+	_flight_altitude_stage_heights += (previous_speed + next_speed) * 0.5 * delta
+	_flight_vertical_speed_stage_heights_per_second = next_speed
+	var minimum_altitude := float(_flight_tuning.get("minimumAltitudeStageHeights", 0.0))
+	var maximum_altitude := float(_flight_tuning.get("maximumAltitudeStageHeights", 1.0))
+	if _flight_altitude_stage_heights <= minimum_altitude:
+		_flight_altitude_stage_heights = minimum_altitude
+		_flight_vertical_speed_stage_heights_per_second = maxf(
+			0.0,
+			_flight_vertical_speed_stage_heights_per_second,
+		)
+	elif _flight_altitude_stage_heights >= maximum_altitude:
+		_flight_altitude_stage_heights = maximum_altitude
+		_flight_vertical_speed_stage_heights_per_second = minf(
+			0.0,
+			_flight_vertical_speed_stage_heights_per_second,
+		)
+	return true
 
 
 func storybook_stage_rect(viewport_size: Vector2) -> Rect2:
@@ -323,19 +471,48 @@ func _engine_version() -> String:
 	return "%s.%s.%s" % [version.major, version.minor, version.patch]
 
 
+func _physics_process(delta: float) -> void:
+	advance_simulation(delta)
+
+
+func _process(delta: float) -> void:
+	if not is_node_ready() or not is_finite(delta) or delta <= 0.0:
+		return
+	_authored_motion_seconds += delta
+	var page_breath := sin(_authored_motion_seconds * 0.55)
+	_opening_art.scale = Vector2.ONE * (1.035 + page_breath * 0.006)
+	_opening_story_card.position.y = 420.0 + sin(_authored_motion_seconds * 0.72) * 4.0
+	_flight_background.scale = Vector2.ONE * 1.035
+	_flight_background.position.x = (
+		sin(_authored_motion_seconds * 0.28) * -5.0
+		- fmod(_flight_distance_stage_widths * 96.0, 24.0)
+	)
+	var character_breath := sin(_authored_motion_seconds * 2.1)
+	_flight_character.position = Vector2(
+		615.0 + sin(_authored_motion_seconds * 0.8) * 5.0,
+		lerpf(350.0, -10.0, _flight_altitude_stage_heights) + character_breath * 4.0,
+	)
+	_flight_character.rotation = clampf(
+		-_flight_vertical_speed_stage_heights_per_second * 0.12,
+		-0.07,
+		0.07,
+	)
+	_flight_character.scale = Vector2.ONE * (1.0 + character_breath * 0.006)
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_presentation") and handle_player_intent(INTENT_ESCAPE):
 		get_viewport().set_input_as_handled()
 		_render_presentation()
 		return
-	if _state == PresentationState.ACTIVE_PLAY and event.is_action_pressed("flight_action"):
-		if handle_player_intent(INTENT_ACTION_PRESSED):
-			get_viewport().set_input_as_handled()
-			_render_presentation()
-	elif _state == PresentationState.ACTIVE_PLAY and event.is_action_released("flight_action"):
-		if handle_player_intent(INTENT_ACTION_RELEASED):
-			get_viewport().set_input_as_handled()
-			_render_presentation()
+	var source := _player_action_source(event)
+	if source.is_empty():
+		return
+	var pressed := event.is_action_pressed("flight_action", false)
+	var released := event.is_action_released("flight_action")
+	if (pressed or released) and handle_player_action(source, pressed):
+		get_viewport().set_input_as_handled()
+		_render_presentation()
 
 
 func _layout_storybook_stage() -> void:
@@ -358,6 +535,10 @@ func _render_presentation() -> void:
 	var illustration_id: String = opening.get("illustration", "")
 	if _opening_textures.has(illustration_id):
 		_opening_art.texture = _opening_textures[illustration_id]
+	if _flight_background_texture != null:
+		_flight_background.texture = _flight_background_texture
+	if _flight_character_texture != null:
+		_flight_character.texture = _flight_character_texture
 	_continue_button.text = (
 		"Begin flying"
 		if _opening_moment_index == _opening_moments.size() - 1
@@ -433,7 +614,9 @@ func _on_sound_pressed() -> void:
 
 
 func _on_continue_pressed() -> void:
-	if handle_player_intent(INTENT_CONTINUE):
+	var accepted := handle_player_action(SOURCE_POINTER_PRIMARY, true)
+	handle_player_action(SOURCE_POINTER_PRIMARY, false)
+	if accepted:
 		_render_presentation()
 
 
@@ -466,11 +649,51 @@ func _show_opening_moment(index: int) -> void:
 	_report_sound_event(EVENT_OPENING_MOMENT, {"moment": opening.get("id", "")})
 
 
+func _start_flight() -> void:
+	_state = PresentationState.ACTIVE_PLAY
+	_movement_state = "flight"
+	_reset_flight_motion()
+
+
+func _reset_flight_motion() -> void:
+	_flight_distance_stage_widths = 0.0
+	_flight_altitude_stage_heights = float(
+		_flight_tuning.get("startingAltitudeStageHeights", 0.5),
+	)
+	_flight_vertical_speed_stage_heights_per_second = 0.0
+
+
 func _current_opening_moment() -> Dictionary:
 	if _opening_moments.is_empty() or _opening_moment_index >= _opening_moments.size():
 		return {}
 	var opening: Variant = _opening_moments[_opening_moment_index]
 	return opening if opening is Dictionary else {}
+
+
+func _active_action_source_ids() -> Array[String]:
+	var sources: Array[String] = []
+	for source: Variant in _active_action_sources:
+		sources.append(str(source))
+	sources.sort()
+	return sources
+
+
+func _observed_action_source_ids() -> Array[String]:
+	var sources: Array[String] = []
+	for source: Variant in _observed_action_sources:
+		sources.append(str(source))
+	sources.sort()
+	return sources
+
+
+func _player_action_source(event: InputEvent) -> StringName:
+	if not event.is_action("flight_action"):
+		return &""
+	if event is InputEventKey and event.physical_keycode == KEY_SPACE:
+		return SOURCE_KEYBOARD_SPACE
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		return SOURCE_POINTER_PRIMARY
+	return &""
 
 
 func _load_opening_media(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
@@ -497,6 +720,31 @@ func _load_opening_media(pack_source: String, prepared_pack: Dictionary) -> Dict
 			return texture_result
 		_opening_textures[illustration_id] = texture_result.texture
 		_opening_media_paths[illustration_id] = relative_path
+	var initial_flight: Variant = _content.get("initialFlight")
+	if not initial_flight is Dictionary:
+		return {"ok": false, "error": "Edition Pack initial flight content is invalid"}
+	var background_id: String = initial_flight.get("background", "")
+	var background_media: Dictionary = media_by_id.get(background_id, {})
+	var background_path: String = background_media.get("path", "")
+	if background_path.is_empty():
+		return {"ok": false, "error": "Initial flight background media is missing: %s" % background_id}
+	var background_result: Dictionary = _adapter.load_png_texture(pack_source, background_path)
+	if not background_result.ok:
+		return background_result
+	_flight_background_texture = background_result.texture
+	_flight_media_paths[background_id] = background_path
+	var character_id: String = initial_flight.get("character", "")
+	var character_media: Dictionary = media_by_id.get(character_id, {})
+	var character_path: String = character_media.get("path", "")
+	if character_media.get("role") != "character-layer" or character_path.is_empty():
+		return {"ok": false, "error": "Initial flight character media is missing: %s" % character_id}
+	var character_result: Dictionary = _adapter.load_png_texture(pack_source, character_path)
+	if not character_result.ok:
+		return character_result
+	if character_result.get("has_transparency") != true:
+		return {"ok": false, "error": "Initial flight character layer needs genuine transparency"}
+	_flight_character_texture = character_result.texture
+	_flight_media_paths[character_id] = character_path
 	return {"ok": true}
 
 

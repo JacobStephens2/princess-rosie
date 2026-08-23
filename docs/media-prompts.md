@@ -80,6 +80,26 @@ Source: `art-source/opening-storybook/rosie-stella-departure.png`
 
 Deployed output: `public/assets/storybook-rosie-stella-departure.webp`
 
+## Opening flight: Rose Garden background plate
+
+Execution: built-in OpenAI image-generation tool. `shared/edition/source-media/opening-storybook/rosie-stella-departure.png` provided the approved Rose Garden palette, architecture, lighting, and picture-book style.
+
+> Use case: production game background layer
+> Asset type: 16:9 character-free flight background plate for native Godot parallax
+> Primary request: preserve the approved sunny rose-covered garden terrace, cream arches, sapphire sky and sea, distant flowered hills, silver lace ribbons, and warm picture-book lighting while removing Princess Rosie, Stella, the Birthday Star, and every character-shaped foreground subject
+> Composition/framing: continuous spacious Rose Garden vista with clear sky and garden depth behind the flight path; fill the complete 16:9 frame without text or interface elements
+> Constraints: no people, unicorns, animals, Birthday Stars, written text, watermark, logos, checkerboard, empty cutout holes, photorealism, named-studio imitation, 3D render, or anime
+
+Output: `shared/edition/source-media/flight/rose-garden-background.png`
+
+## Opening flight: Rosie and Stella character layer
+
+Execution: OpenAI Image API CLI fallback, `gpt-image-1.5`, high quality and input fidelity, transparent 1536×1024 PNG. `shared/edition/source-media/opening-storybook/rosie-stella-departure.png` provided the approved fictional character identities and illustration style.
+
+> Use case: production game character-layer extraction. Preserve exactly the approved characters and picture-book illustration style from the reference: young Princess Rosie with long golden-blonde hair, small gold crown, joyful expression, ornate bright pink rose-patterned dress and pink shoes, seated astride Stella; Stella is a friendly white winged unicorn with a pastel pink-purple-blue mane and tail, rainbow horn, two large lavender feathered wings, gold-and-heart bridle, complete body with all four legs and hooves. Isolate only Rosie riding Stella as one complete cohesive character cutout. Remove the garden, archways, sky, sea, flowers, ribbons, star, floor, scenery, shadows, and every other object. Keep the entire silhouette fully inside the canvas with generous transparent padding and no cropping. Output a genuine RGBA PNG with fully transparent pixels everywhere outside the clean character silhouette. No checkerboard, no painted transparency pattern, no white matte, no rectangular background, no halo, no text, no added objects, no anatomy changes, no duplicate limbs or wings.
+
+Output: `shared/edition/source-media/flight/rosie-stella.png`
+
 ## Birthday Castle celebration illustration
 
 Execution: Inkvoke 1.0.1, GPT Image 2, high quality, 1680×944 PNG.

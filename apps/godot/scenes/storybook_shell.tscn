@@ -286,12 +286,14 @@ offset_right = -3.0
 offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(640, 360)
 texture = ExtResource("3_opening")
 expand_mode = 1
 stretch_mode = 0
 mouse_filter = 2
 
 [node name="StoryCard" type="PanelContainer" parent="Stage/OpeningPresentation"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 646.0
 offset_top = 420.0
@@ -355,7 +357,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="FlightArt" type="TextureRect" parent="Stage/ActivePlayPresentation"]
+[node name="FlightBackground" type="TextureRect" parent="Stage/ActivePlayPresentation"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -366,6 +369,7 @@ offset_right = -3.0
 offset_bottom = -3.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(640, 360)
 texture = ExtResource("3_opening")
 expand_mode = 1
 stretch_mode = 0
@@ -380,6 +384,18 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0.14902, 0.403922, 0.568627, 0.22)
+
+[node name="FlightCharacter" type="TextureRect" parent="Stage/ActivePlayPresentation"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 615.0
+offset_top = 170.0
+offset_right = 1225.0
+offset_bottom = 580.0
+pivot_offset = Vector2(305, 205)
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
 
 [node name="FlightCard" type="PanelContainer" parent="Stage/ActivePlayPresentation"]
 layout_mode = 0
