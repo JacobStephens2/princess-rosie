@@ -1,6 +1,7 @@
 extends SceneTree
 
 const SOUNDSCAPE_PLAYER := preload("res://scripts/soundscape_player.gd")
+const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
 
 
@@ -13,6 +14,7 @@ class FakeEngineAudioAdapter extends RefCounted:
 	var loaded_paths: Array[String] = []
 	var played_streams: Array[Variant] = []
 	var playback_settings: Array[Dictionary] = []
+	var playback_requests_are_typed := true
 	var loaded_music_paths: Array[String] = []
 	var stopped_slots: Array[String] = []
 	var sound_preference_changes: Array[Dictionary] = []
@@ -33,9 +35,22 @@ class FakeEngineAudioAdapter extends RefCounted:
 	func synthesize_confirmation() -> Variant:
 		return "synthesized-confirmation"
 
-	func play(stream: Variant, playback: Dictionary) -> bool:
+	func play(stream: Variant, playback: Variant) -> bool:
 		played_streams.append(stream)
-		playback_settings.append(playback)
+		if playback is SOUNDSCAPE_PLAYBACK:
+			playback_settings.append({
+				"bus": playback.bus,
+				"category": playback.category,
+				"slot": playback.slot,
+				"gain_db": playback.gain_db,
+				"priority": playback.priority,
+				"looping": playback.looping,
+				"max_duration_ms": playback.max_duration_ms,
+				"music_duck_db": playback.music_duck_db,
+			})
+		else:
+			playback_requests_are_typed = false
+			playback_settings.append(playback)
 		if fail_music_playback and stream == "birthday-flight":
 			return false
 		return not fail_approved_playback or stream != "approved-confirmation"
@@ -144,6 +159,10 @@ func _init() -> void:
 		and movement_playback.get("looping") == true
 		and movement_playback.get("gain_db") == -16.7,
 		"flight owns one quiet continuous movement layer",
+	)
+	test.expect(
+		opening_audio.playback_requests_are_typed,
+		"the player sends typed playback requests across the engine-audio boundary",
 	)
 	test.expect(
 		opening_soundscape.report_event(

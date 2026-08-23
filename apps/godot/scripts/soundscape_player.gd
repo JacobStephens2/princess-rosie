@@ -20,6 +20,7 @@ const REPLAY_EVENT := &"sound-event.replay"
 const SOUND_PREFERENCE_EVENT := &"sound-event.sound-preference-changed"
 const SOUND_OFF_LIMIT_MS := 200
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
+const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 
 var _pack_source: String
 var _audio: Object
@@ -128,18 +129,19 @@ func _ensure_music() -> bool:
 
 func _play_music_stream(stream: Variant, soundtrack: Dictionary) -> bool:
 	var category_gains: Dictionary = _mix.get("categoryGainDb", {})
-	_music_started = _audio.play(stream, {
-		"bus": MUSIC_BUS,
-		"category": "music",
-		"slot": "music",
-		"gain_db": (
+	var playback := SOUNDSCAPE_PLAYBACK.new(
+		MUSIC_BUS,
+		&"music",
+		SOUNDSCAPE_PLAYBACK.SLOT_MUSIC,
+		(
 			float(soundtrack.get("gainDb", 0.0))
 			+ float(category_gains.get("music", 0.0))
 		),
-		"priority": 0,
-		"looping": soundtrack.get("looping", true),
-		"max_duration_ms": 0,
-	})
+		0,
+		soundtrack.get("looping", true),
+		0,
+	)
+	_music_started = _audio.play(stream, playback)
 	return _music_started
 
 
@@ -186,50 +188,50 @@ func _runtime_path_for(cue: Dictionary) -> String:
 	return source_master.get("runtimePath", source_master.get("path", ""))
 
 
-func _playback_for(cue: Dictionary, event_id: StringName, duration_ms: int) -> Dictionary:
+func _playback_for(cue: Dictionary, event_id: StringName, duration_ms: int) -> SoundscapePlayback:
 	var category_gains: Dictionary = _mix.get("categoryGainDb", {})
 	var soundtrack: Dictionary = _mix.get("soundtrack", {})
 	var music_reference_gain_db := float(soundtrack.get("gainDb", -6.7))
 	var priority: int = cue.get("priority", 0)
-	var playback := {
-		"bus": FOREGROUND_BUS,
-		"category": "ordinary-foreground",
-		"slot": "foreground",
-		"gain_db": (
+	var playback := SOUNDSCAPE_PLAYBACK.new(
+		FOREGROUND_BUS,
+		&"ordinary-foreground",
+		SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND,
+		(
 			music_reference_gain_db
 			+ float(category_gains.get("ordinaryForeground", 3.0))
 		),
-		"priority": priority,
-		"looping": cue.get("looping", false),
-		"max_duration_ms": duration_ms,
-	}
+		priority,
+		cue.get("looping", false),
+		duration_ms,
+	)
 	if priority >= 100:
 		playback.bus = CRITICAL_BUS
-		playback.category = "critical-foreground"
+		playback.category = &"critical-foreground"
 		playback.gain_db = (
 			music_reference_gain_db
 			+ float(category_gains.get("criticalForeground", 3.0))
 		)
-		playback.music_duck_db = int(_mix.get("musicDuckDb", -4))
+		playback.music_duck_db = float(_mix.get("musicDuckDb", -4))
 		return playback
 	if event_id == MOVEMENT_EVENT:
 		playback.bus = MOVEMENT_BUS
-		playback.category = "movement"
+		playback.category = &"movement"
 		playback.gain_db = music_reference_gain_db + float(category_gains.get("movement", -10.0))
 		if cue.get("looping") == true:
-			playback.slot = "movement"
+			playback.slot = SOUNDSCAPE_PLAYBACK.SLOT_MOVEMENT
 			playback.max_duration_ms = 0
 		return playback
 	if cue.get("category") == "place" or cue.get("looping") == true:
 		playback.bus = AMBIENCE_BUS
-		playback.category = "ambience"
-		playback.slot = "ambience"
+		playback.category = &"ambience"
+		playback.slot = SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE
 		playback.gain_db = music_reference_gain_db + float(category_gains.get("ambience", -10.0))
 		playback.max_duration_ms = 0
 		return playback
 	if priority <= 20:
 		playback.bus = DETAIL_BUS
-		playback.category = "optional-detail"
+		playback.category = &"optional-detail"
 		playback.gain_db = (
 			music_reference_gain_db
 			+ float(category_gains.get("optionalDetail", -10.0))
