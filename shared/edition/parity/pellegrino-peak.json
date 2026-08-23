@@ -2,10 +2,10 @@
   "id": "pellegrino-peak",
   "steps": [
     "enter-pellegrino-peak",
+    "hold-into-the-flower-petal-updrafts",
+    "release-to-settle",
     "encounter-peak-near-miss",
-    "ride-flower-petal-updraft",
     "encounter-peak-playful-bump",
-    "release-flower-petal-updraft",
     "encounter-peak-playful-bump",
     "approach-peak-birthday-star",
     "gather-peak-birthday-star",
@@ -24,10 +24,9 @@
       }
     },
     {
-      "event": "sound-event.near-miss",
+      "event": "sound-event.movement-state",
       "context": {
-        "kind": "flower-petal",
-        "place": "pellegrino-peak"
+        "state": "glide"
       }
     },
     {
@@ -44,16 +43,23 @@
       }
     },
     {
-      "event": "sound-event.playful-bump",
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "glide"
+      }
+    },
+    {
+      "event": "sound-event.near-miss",
       "context": {
         "kind": "flower-petal",
         "place": "pellegrino-peak"
       }
     },
     {
-      "event": "sound-event.movement-state",
+      "event": "sound-event.playful-bump",
       "context": {
-        "state": "glide"
+        "kind": "flower-petal",
+        "place": "pellegrino-peak"
       }
     },
     {
@@ -109,6 +115,11 @@
       "rainbow-path.lacewood",
       "rainbow-path.pellegrino-peak"
     ],
+    "singleRoute": "single-route.pellegrino-peak",
+    "observedInteractions": [
+      "flower-petal-updraft"
+    ],
+    "canonicalCelebrationEcho": "flower-petal-updrafts",
     "ambienceLayers": 1,
     "peakCuesArePlaceSpecific": true,
     "networkRequests": 0

@@ -3,7 +3,7 @@ set -euo pipefail
 
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 godot_bin="${GODOT_BIN:-/Applications/Godot.app/Contents/MacOS/Godot}"
-log_dir="${TMPDIR:-/tmp}/rosi-godot-acceptance"
+log_dir="${TMPDIR:-/tmp}/rosie-godot-acceptance"
 
 mkdir -p "$log_dir"
 "$godot_bin" \
@@ -18,7 +18,15 @@ tests=(
   opening_media_acceptance.gd
   shell_launch_acceptance.gd
   presentation_transition_acceptance.gd
+  one_action_input_acceptance.gd
+  flight_motion_acceptance.gd
+  flight_media_acceptance.gd
+  presentation_motion_acceptance.gd
   lacewood_tracer_acceptance.gd
+  lacewood_flight_control_acceptance.gd
+  lacewood_interaction_acceptance.gd
+  cloud_rest_auto_resume_acceptance.gd
+  lacewood_presentation_acceptance.gd
   pellegrino_peak_tracer_acceptance.gd
   edition_contract_tracer_acceptance.gd
   soundscape_player_acceptance.gd

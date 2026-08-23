@@ -127,17 +127,7 @@
       "catalogStatePath": "source-media/soundscape/catalog-state/place-lacewood.json"
     },
     {
-      "id": "source-master.place.pellegrino-peak",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/place-pellegrino-peak.wav",
-      "provenancePath": "source-media/soundscape/provenance/place-pellegrino-peak.json",
-      "runtimePath": "source-media/soundscape/runtime/place-pellegrino-peak.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/place-pellegrino-peak.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/place-pellegrino-peak.json"
-    },
-    {
-      "id": "source-master.vignette.lacewood.canopy",
+      "id": "source-master.vignette.lacewood.silver-ribbons",
       "role": "source-media.generated-master",
       "provenanceRole": "provenance.commercial-generated-effect",
       "path": "source-media/soundscape/masters/vignette-lacewood-canopy.wav",
@@ -147,7 +137,7 @@
       "catalogStatePath": "source-media/soundscape/catalog-state/vignette-lacewood-canopy.json"
     },
     {
-      "id": "source-master.vignette.lacewood.floor",
+      "id": "source-master.vignette.lacewood.rose-lights",
       "role": "source-media.generated-master",
       "provenanceRole": "provenance.commercial-generated-effect",
       "path": "source-media/soundscape/masters/vignette-lacewood-floor.wav",
@@ -155,56 +145,6 @@
       "runtimePath": "source-media/soundscape/runtime/vignette-lacewood-floor.wav",
       "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-lacewood-floor.json",
       "catalogStatePath": "source-media/soundscape/catalog-state/vignette-lacewood-floor.json"
-    },
-    {
-      "id": "source-master.vignette.pellegrino-peak.updraft",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/vignette-pellegrino-peak-updraft.wav",
-      "provenancePath": "source-media/soundscape/provenance/vignette-pellegrino-peak-updraft.json",
-      "runtimePath": "source-media/soundscape/runtime/vignette-pellegrino-peak-updraft.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-pellegrino-peak-updraft.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/vignette-pellegrino-peak-updraft.json"
-    },
-    {
-      "id": "source-master.path-choice.available",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/path-choice-available.wav",
-      "provenancePath": "source-media/soundscape/provenance/path-choice-available.json",
-      "runtimePath": "source-media/soundscape/runtime/path-choice-available.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/path-choice-available.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/path-choice-available.json"
-    },
-    {
-      "id": "source-master.path-choice.lacewood.canopy",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/path-choice-lacewood-canopy.wav",
-      "provenancePath": "source-media/soundscape/provenance/path-choice-lacewood-canopy.json",
-      "runtimePath": "source-media/soundscape/runtime/path-choice-lacewood-canopy.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/path-choice-lacewood-canopy.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/path-choice-lacewood-canopy.json"
-    },
-    {
-      "id": "source-master.path-choice.lacewood.floor",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/path-choice-lacewood-floor.wav",
-      "provenancePath": "source-media/soundscape/provenance/path-choice-lacewood-floor.json",
-      "runtimePath": "source-media/soundscape/runtime/path-choice-lacewood-floor.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/path-choice-lacewood-floor.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/path-choice-lacewood-floor.json"
-    },
-    {
-      "id": "source-master.journey-history.shimmer",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/journey-history-shimmer.wav",
-      "provenancePath": "source-media/soundscape/provenance/journey-history-shimmer.json",
-      "runtimePath": "source-media/soundscape/runtime/journey-history-shimmer.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/journey-history-shimmer.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/journey-history-shimmer.json"
     },
     {
       "id": "source-master.playful-bump.lacewood",
@@ -217,16 +157,6 @@
       "catalogStatePath": "source-media/soundscape/catalog-state/playful-bump-lacewood.json"
     },
     {
-      "id": "source-master.playful-bump.pellegrino-peak",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/playful-bump-pellegrino-peak.wav",
-      "provenancePath": "source-media/soundscape/provenance/playful-bump-pellegrino-peak.json",
-      "runtimePath": "source-media/soundscape/runtime/playful-bump-pellegrino-peak.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/playful-bump-pellegrino-peak.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/playful-bump-pellegrino-peak.json"
-    },
-    {
       "id": "source-master.near-miss",
       "role": "source-media.generated-master",
       "provenanceRole": "provenance.commercial-generated-effect",
@@ -235,16 +165,6 @@
       "runtimePath": "source-media/soundscape/runtime/near-miss.wav",
       "runtimeImportPath": "source-media/soundscape/runtime-imports/near-miss.json",
       "catalogStatePath": "source-media/soundscape/catalog-state/near-miss.json"
-    },
-    {
-      "id": "source-master.near-miss.pellegrino-peak",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/near-miss-pellegrino-peak.wav",
-      "provenancePath": "source-media/soundscape/provenance/near-miss-pellegrino-peak.json",
-      "runtimePath": "source-media/soundscape/runtime/near-miss-pellegrino-peak.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/near-miss-pellegrino-peak.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/near-miss-pellegrino-peak.json"
     },
     {
       "id": "source-master.birthday-star.proximity",
@@ -277,16 +197,6 @@
       "catalogStatePath": "source-media/soundscape/catalog-state/rainbow-path-open.json"
     },
     {
-      "id": "source-master.rainbow-path.pellegrino-peak",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/rainbow-path-pellegrino-peak.wav",
-      "provenancePath": "source-media/soundscape/provenance/rainbow-path-pellegrino-peak.json",
-      "runtimePath": "source-media/soundscape/runtime/rainbow-path-pellegrino-peak.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/rainbow-path-pellegrino-peak.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/rainbow-path-pellegrino-peak.json"
-    },
-    {
       "id": "source-master.birthday-star-moment.lacewood",
       "role": "source-media.generated-master",
       "provenanceRole": "provenance.commercial-generated-effect",
@@ -295,16 +205,6 @@
       "runtimePath": "source-media/soundscape/runtime/birthday-star-moment-lacewood.wav",
       "runtimeImportPath": "source-media/soundscape/runtime-imports/birthday-star-moment-lacewood.json",
       "catalogStatePath": "source-media/soundscape/catalog-state/birthday-star-moment-lacewood.json"
-    },
-    {
-      "id": "source-master.birthday-star-moment.pellegrino-peak",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/birthday-star-moment-pellegrino-peak.wav",
-      "provenancePath": "source-media/soundscape/provenance/birthday-star-moment-pellegrino-peak.json",
-      "runtimePath": "source-media/soundscape/runtime/birthday-star-moment-pellegrino-peak.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/birthday-star-moment-pellegrino-peak.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/birthday-star-moment-pellegrino-peak.json"
     },
     {
       "id": "source-master.cloud-rest.enter",
@@ -340,6 +240,66 @@
     { "id": "source-master.celebration.dance-again", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
     { "id": "source-master.replay", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
     { "id": "source-master.sound.off", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
-    { "id": "source-master.sound.on", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" }
+    { "id": "source-master.sound.on", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    {
+      "id": "source-master.place.pellegrino-peak",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/place-pellegrino-peak.wav",
+      "provenancePath": "source-media/soundscape/provenance/place-pellegrino-peak.json",
+      "runtimePath": "source-media/soundscape/runtime/place-pellegrino-peak.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/place-pellegrino-peak.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/place-pellegrino-peak.json"
+    },
+    {
+      "id": "source-master.vignette.pellegrino-peak.updraft",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/vignette-pellegrino-peak-updraft.wav",
+      "provenancePath": "source-media/soundscape/provenance/vignette-pellegrino-peak-updraft.json",
+      "runtimePath": "source-media/soundscape/runtime/vignette-pellegrino-peak-updraft.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-pellegrino-peak-updraft.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/vignette-pellegrino-peak-updraft.json"
+    },
+    {
+      "id": "source-master.playful-bump.pellegrino-peak",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/playful-bump-pellegrino-peak.wav",
+      "provenancePath": "source-media/soundscape/provenance/playful-bump-pellegrino-peak.json",
+      "runtimePath": "source-media/soundscape/runtime/playful-bump-pellegrino-peak.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/playful-bump-pellegrino-peak.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/playful-bump-pellegrino-peak.json"
+    },
+    {
+      "id": "source-master.near-miss.pellegrino-peak",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/near-miss-pellegrino-peak.wav",
+      "provenancePath": "source-media/soundscape/provenance/near-miss-pellegrino-peak.json",
+      "runtimePath": "source-media/soundscape/runtime/near-miss-pellegrino-peak.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/near-miss-pellegrino-peak.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/near-miss-pellegrino-peak.json"
+    },
+    {
+      "id": "source-master.rainbow-path.pellegrino-peak",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/rainbow-path-pellegrino-peak.wav",
+      "provenancePath": "source-media/soundscape/provenance/rainbow-path-pellegrino-peak.json",
+      "runtimePath": "source-media/soundscape/runtime/rainbow-path-pellegrino-peak.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/rainbow-path-pellegrino-peak.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/rainbow-path-pellegrino-peak.json"
+    },
+    {
+      "id": "source-master.birthday-star-moment.pellegrino-peak",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/birthday-star-moment-pellegrino-peak.wav",
+      "provenancePath": "source-media/soundscape/provenance/birthday-star-moment-pellegrino-peak.json",
+      "runtimePath": "source-media/soundscape/runtime/birthday-star-moment-pellegrino-peak.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/birthday-star-moment-pellegrino-peak.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/birthday-star-moment-pellegrino-peak.json"
+    }
   ]
 }

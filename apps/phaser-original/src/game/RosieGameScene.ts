@@ -38,7 +38,7 @@ export interface GameCallbacks {
   onCelebration: () => void;
 }
 
-export class RosiGameScene extends Phaser.Scene {
+export class RosieGameScene extends Phaser.Scene {
   private readonly callbacks: GameCallbacks;
   private journey: Journey = createJourney();
   private player!: Phaser.GameObjects.Container;
@@ -54,7 +54,7 @@ export class RosiGameScene extends Phaser.Scene {
   private sparkleTrail!: Phaser.GameObjects.Particles.ParticleEmitter;
 
   constructor(callbacks: GameCallbacks) {
-    super("rosi-adventure");
+    super("rosie-adventure");
     this.callbacks = callbacks;
   }
 
@@ -374,13 +374,13 @@ export class RosiGameScene extends Phaser.Scene {
     const horn = hornColors.map((color, index) => this.add.rectangle(91 + index * 5, -118 - index * 9, 13 - index, 17, color).setRotation(.48));
 
     const dress = this.add.triangle(-6, -39, 0, 85, 70, 85, 34, 0, 0xe94f9b).setStrokeStyle(3, 0xb83276);
-    const rosiHead = this.add.circle(-3, -93, 27, 0xffd7bd);
+    const rosieHead = this.add.circle(-3, -93, 27, 0xffd7bd);
     const hair = this.add.circle(-10, -103, 29, 0xf0c36a);
     const hairBack = this.add.ellipse(-31, -76, 38, 62, 0xf0c36a).setRotation(.2);
     const face = this.add.circle(5, -94, 3, 0x553146);
     const crown = this.add.triangle(-7, -137, 0, 27, 17, 0, 34, 27, 0xffd65e).setStrokeStyle(2, 0xd18a2a);
 
-    player.add([...tails, backWing, this.wing, ...legs, unicornBody, neck, head, ear, ...mane, ...horn, eye, smile, hairBack, dress, hair, rosiHead, face, crown]);
+    player.add([...tails, backWing, this.wing, ...legs, unicornBody, neck, head, ear, ...mane, ...horn, eye, smile, hairBack, dress, hair, rosieHead, face, crown]);
     this.tweens.add({ targets: this.wing, rotation: -.28, scaleY: .75, yoyo: true, repeat: -1, duration: 220, ease: "Sine.easeInOut" });
     this.tweens.add({ targets: tails, angle: "+=9", yoyo: true, repeat: -1, duration: 680, ease: "Sine.easeInOut", stagger: 55 });
     return player;

@@ -1,0 +1,52 @@
+{
+  "assets": [
+    {
+      "id": "flight.rose-garden-background",
+      "execution": "built-in OpenAI image-generation tool",
+      "input": {
+        "path": "source-media/opening-storybook/rosie-stella-departure.png",
+        "sha256": "ca7d2a1544eabb64cd9b926410eb50d4ed96c51dda32358c340d7e7d10bb67a6"
+      },
+      "output": {
+        "path": "source-media/flight/rose-garden-background.png",
+        "sha256": "da9eabdb23b01639e01b9d6f3b304ba10ae4876a44ce6a00ccd4a371d1ba6c81"
+      },
+      "purpose": "A character-free Rosalia's Rose Garden flight plate derived from the approved departure illustration.",
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-17 implementation review",
+        "reason": "The packaged capture preserves the approved setting, gives flight a clear focal corridor, and contains no residual characters.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-08-23"
+      }
+    },
+    {
+      "id": "flight.rosie-stella",
+      "execution": "OpenAI Image API CLI fallback",
+      "model": "gpt-image-1.5",
+      "quality": "high",
+      "inputFidelity": "high",
+      "background": "transparent",
+      "input": {
+        "path": "source-media/opening-storybook/rosie-stella-departure.png",
+        "sha256": "ca7d2a1544eabb64cd9b926410eb50d4ed96c51dda32358c340d7e7d10bb67a6"
+      },
+      "output": {
+        "path": "source-media/flight/rosie-stella.png",
+        "sha256": "5b711626b4e43be16084d6c1a879b61ac958a7dd08b5b326fd80f0e273e62532",
+        "format": "RGBA PNG",
+        "size": "1536x1024"
+      },
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-17 implementation review",
+        "reason": "The packaged capture retains coherent Rosie and Stella identities, complete anatomy, clean alpha, and consistent picture-book styling.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-08-23"
+      },
+      "prompt": "Use case: production game character-layer extraction. Preserve exactly the approved characters and picture-book illustration style from the reference: young Princess Rosie with long golden-blonde hair, small gold crown, joyful expression, ornate bright pink rose-patterned dress and pink shoes, seated astride Stella; Stella is a friendly white winged unicorn with a pastel pink-purple-blue mane and tail, rainbow horn, two large lavender feathered wings, gold-and-heart bridle, complete body with all four legs and hooves. Isolate only Rosie riding Stella as one complete cohesive character cutout. Remove the garden, archways, sky, sea, flowers, ribbons, star, floor, scenery, shadows, and every other object. Keep the entire silhouette fully inside the canvas with generous transparent padding and no cropping. Output a genuine RGBA PNG with fully transparent pixels everywhere outside the clean character silhouette. No checkerboard, no painted transparency pattern, no white matte, no rectangular background, no halo, no text, no added objects, no anatomy changes, no duplicate limbs or wings."
+    }
+  ]
+}

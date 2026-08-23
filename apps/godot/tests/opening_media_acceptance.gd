@@ -12,8 +12,8 @@ const APPROVED_MEDIA := {
 		"path": "source-media/opening-storybook/scattered-stars.png",
 		"sha256": "d32b9ec5f56342bf7a8aed2b4c8816ade67fc6a771d7379fd4005db153b7fda7",
 	},
-	"opening.rosi-stella-departure": {
-		"path": "source-media/opening-storybook/rosi-stella-departure.png",
+	"opening.rosie-stella-departure": {
+		"path": "source-media/opening-storybook/rosie-stella-departure.png",
 		"sha256": "50d6d95b8d330cb1663d8f7327700569c35f7fc25fbf386d94b73e5cb25abcb3",
 	},
 }

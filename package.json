@@ -1,5 +1,5 @@
 {
-  "name": "princess-rosi-editions",
+  "name": "princess-rosie-editions",
   "version": "1.0.0",
   "private": true,
   "workspaces": [
@@ -8,20 +8,20 @@
     "tools/soundscape-build"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace princess-rosi-phaser-original",
-    "build": "npm run build --workspace princess-rosi-phaser-original",
-    "preview": "npm run preview --workspace princess-rosi-phaser-original",
-    "test": "npm run test --workspace princess-rosi-phaser-original",
-    "test:contract": "npm run test --workspace rosi-edition-contract",
-    "test:soundscape-build": "npm run test --workspace rosi-soundscape-build",
+    "dev": "npm run dev --workspace princess-rosie-phaser-original",
+    "build": "npm run build --workspace princess-rosie-phaser-original",
+    "preview": "npm run preview --workspace princess-rosie-phaser-original",
+    "test": "npm run test --workspace princess-rosie-phaser-original",
+    "test:contract": "npm run test --workspace rosie-edition-contract",
+    "test:soundscape-build": "npm run test --workspace rosie-soundscape-build",
     "test:godot": "apps/godot/tests/run_acceptance.sh",
-    "soundscape:build": "npm run build --workspace rosi-soundscape-build --",
-    "soundscape:build-confirmation": "npm run build:confirmation --workspace rosi-soundscape-build --",
-    "soundscape:media-docs": "npm run media-docs --workspace rosi-soundscape-build --",
-    "soundscape:remaster": "npm run remaster --workspace rosi-soundscape-build --",
-    "soundscape:validate": "npm run validate --workspace rosi-soundscape-build --",
-    "test:e2e": "npm run test:e2e --workspace princess-rosi-phaser-original",
-    "test:e2e:install": "npm run test:e2e:install --workspace princess-rosi-phaser-original",
-    "check": "npm run typecheck --workspace rosi-edition-contract && npm run typecheck --workspace rosi-soundscape-build && npm run test:contract && npm run test:soundscape-build && npm run check --workspace princess-rosi-phaser-original"
+    "soundscape:build": "npm run build --workspace rosie-soundscape-build --",
+    "soundscape:build-confirmation": "npm run build:confirmation --workspace rosie-soundscape-build --",
+    "soundscape:media-docs": "npm run media-docs --workspace rosie-soundscape-build --",
+    "soundscape:remaster": "npm run remaster --workspace rosie-soundscape-build --",
+    "soundscape:validate": "npm run validate --workspace rosie-soundscape-build --",
+    "test:e2e": "npm run test:e2e --workspace princess-rosie-phaser-original",
+    "test:e2e:install": "npm run test:e2e:install --workspace princess-rosie-phaser-original",
+    "check": "npm run typecheck --workspace rosie-edition-contract && npm run typecheck --workspace rosie-soundscape-build && npm run test:contract && npm run test:soundscape-build && npm run check --workspace princess-rosie-phaser-original"
   }
 }

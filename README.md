@@ -1,6 +1,6 @@
-# Princess Rosi and the Seven Birthday Stars
+# Princess Rosie and the Seven Birthday Stars
 
-A short, joyful flying game made for Rosi to play with a grown-up at Princess Zélie’s very first birthday celebration.
+A short, joyful flying game made for Rosie to play with a grown-up at Princess Zélie’s very first birthday celebration.
 
 Play at [rosi.stephens.page](https://rosi.stephens.page/).
 

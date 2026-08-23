@@ -25,18 +25,6 @@
       "parameters": ["place", "interaction"]
     },
     {
-      "id": "sound-event.path-choice-available",
-      "parameters": ["pathChoice"]
-    },
-    {
-      "id": "sound-event.path-choice-selected",
-      "parameters": ["pathChoice", "route"]
-    },
-    {
-      "id": "sound-event.journey-history-shimmer",
-      "parameters": ["pathChoice", "route"]
-    },
-    {
       "id": "sound-event.playful-bump",
       "parameters": ["place", "kind"]
     },

@@ -279,11 +279,11 @@
       "fallbackRole": "fallback.optional-silence"
     },
     {
-      "id": "cue.vignette.lacewood.canopy",
+      "id": "cue.vignette.lacewood.silver-ribbons",
       "event": "sound-event.vignette-interaction",
       "match": {
         "place": "lacewood",
-        "interaction": "silver-ribbon-canopy"
+        "interaction": "silver-ribbons"
       },
       "category": "interaction",
       "priority": 60,
@@ -303,16 +303,16 @@
         ],
         "candidateCount": 3
       },
-      "sourceMaster": "source-master.vignette.lacewood.canopy",
-      "runtimeMapping": "runtime-cue.vignette.lacewood.canopy",
+      "sourceMaster": "source-master.vignette.lacewood.silver-ribbons",
+      "runtimeMapping": "runtime-cue.vignette.lacewood.silver-ribbons",
       "fallbackRole": "fallback.story-confirmation"
     },
     {
-      "id": "cue.vignette.lacewood.floor",
+      "id": "cue.vignette.lacewood.rose-lights",
       "event": "sound-event.vignette-interaction",
       "match": {
         "place": "lacewood",
-        "interaction": "rose-lit-floor"
+        "interaction": "rose-lights"
       },
       "category": "interaction",
       "priority": 60,
@@ -332,8 +332,8 @@
         ],
         "candidateCount": 3
       },
-      "sourceMaster": "source-master.vignette.lacewood.floor",
-      "runtimeMapping": "runtime-cue.vignette.lacewood.floor",
+      "sourceMaster": "source-master.vignette.lacewood.rose-lights",
+      "runtimeMapping": "runtime-cue.vignette.lacewood.rose-lights",
       "fallbackRole": "fallback.story-confirmation"
     },
     {
@@ -364,120 +364,6 @@
       "sourceMaster": "source-master.vignette.pellegrino-peak.updraft",
       "runtimeMapping": "runtime-cue.vignette.pellegrino-peak.updraft",
       "fallbackRole": "fallback.story-confirmation"
-    },
-    {
-      "id": "cue.path-choice.available",
-      "event": "sound-event.path-choice-available",
-      "match": {
-        "pathChoice": "path-choice.lacewood"
-      },
-      "category": "interaction",
-      "priority": 60,
-      "requirement": "optional",
-      "durationSeconds": 0.8,
-      "looping": false,
-      "channelPolicy": "focused-mono",
-      "masteringIntent": "quiet-invitation-without-reward-language-for-macbook",
-      "selectionStatus": "approved",
-      "authoring": {
-        "prompt": "A quiet invitation without reward language. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
-        "model": "eleven_text_to_sound_v2",
-        "promptInfluence": 0.3,
-        "sourceFormats": [
-          "pcm_48000",
-          "pcm_24000"
-        ],
-        "candidateCount": 3
-      },
-      "sourceMaster": "source-master.path-choice.available",
-      "runtimeMapping": "runtime-cue.path-choice.available",
-      "fallbackRole": "fallback.optional-silence"
-    },
-    {
-      "id": "cue.path-choice.lacewood.canopy",
-      "event": "sound-event.path-choice-selected",
-      "match": {
-        "pathChoice": "path-choice.lacewood",
-        "route": "lacewood.canopy"
-      },
-      "category": "interaction",
-      "priority": 60,
-      "requirement": "required",
-      "durationSeconds": 1.4,
-      "looping": false,
-      "channelPolicy": "focused-mono",
-      "masteringIntent": "airy-ribbon-choice-response-for-macbook",
-      "selectionStatus": "approved",
-      "authoring": {
-        "prompt": "A airy ribbon choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
-        "model": "eleven_text_to_sound_v2",
-        "promptInfluence": 0.3,
-        "sourceFormats": [
-          "pcm_48000",
-          "pcm_24000"
-        ],
-        "candidateCount": 3
-      },
-      "sourceMaster": "source-master.path-choice.lacewood.canopy",
-      "runtimeMapping": "runtime-cue.path-choice.lacewood.canopy",
-      "fallbackRole": "fallback.story-confirmation"
-    },
-    {
-      "id": "cue.path-choice.lacewood.floor",
-      "event": "sound-event.path-choice-selected",
-      "match": {
-        "pathChoice": "path-choice.lacewood",
-        "route": "lacewood.floor"
-      },
-      "category": "interaction",
-      "priority": 60,
-      "requirement": "required",
-      "durationSeconds": 1.4,
-      "looping": false,
-      "channelPolicy": "focused-mono",
-      "masteringIntent": "warm-rose-choice-response-for-macbook",
-      "selectionStatus": "approved",
-      "authoring": {
-        "prompt": "A warm rose choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
-        "model": "eleven_text_to_sound_v2",
-        "promptInfluence": 0.3,
-        "sourceFormats": [
-          "pcm_48000",
-          "pcm_24000"
-        ],
-        "candidateCount": 3
-      },
-      "sourceMaster": "source-master.path-choice.lacewood.floor",
-      "runtimeMapping": "runtime-cue.path-choice.lacewood.floor",
-      "fallbackRole": "fallback.story-confirmation"
-    },
-    {
-      "id": "cue.journey-history.shimmer",
-      "event": "sound-event.journey-history-shimmer",
-      "match": {
-        "pathChoice": "path-choice.lacewood"
-      },
-      "category": "journey",
-      "priority": 20,
-      "requirement": "optional",
-      "durationSeconds": 1.2,
-      "looping": false,
-      "channelPolicy": "focused-mono",
-      "masteringIntent": "restrained-unseen-route-shimmer-for-macbook",
-      "selectionStatus": "approved",
-      "authoring": {
-        "prompt": "A restrained unseen route shimmer. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
-        "model": "eleven_text_to_sound_v2",
-        "promptInfluence": 0.3,
-        "sourceFormats": [
-          "pcm_48000",
-          "pcm_24000"
-        ],
-        "candidateCount": 3
-      },
-      "sourceMaster": "source-master.journey-history.shimmer",
-      "runtimeMapping": "runtime-cue.journey-history.shimmer",
-      "fallbackRole": "fallback.optional-silence"
     },
     {
       "id": "cue.playful-bump.lacewood",

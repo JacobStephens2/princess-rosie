@@ -1,20 +1,36 @@
 {
   "flight": {
     "automaticForwardMotion": true,
+    "forwardSpeedStageWidthsPerSecond": 0.18,
+    "riseAccelerationStageHeightsPerSecondSquared": 2.4,
+    "glideAccelerationStageHeightsPerSecondSquared": -1.6,
+    "maximumRiseSpeedStageHeightsPerSecond": 0.6,
+    "maximumGlideSpeedStageHeightsPerSecond": -0.48,
+    "startingAltitudeStageHeights": 0.5,
+    "minimumAltitudeStageHeights": 0.14,
+    "maximumAltitudeStageHeights": 0.86,
     "directContactResponse": "richest",
     "nearbyBirthdayStarResponse": "flies-to-stella",
     "failure": "forbidden",
     "backtracking": "forbidden"
   },
-  "pathChoice": {
-    "routeCount": 2,
-    "routesEquallySafe": true,
-    "rejoinBeforeBirthdayStar": true
+  "singleRoute": {
+    "durationSeconds": 18.0,
+    "minimumControlCycles": 3,
+    "safeLimitsPreserveForwardMotion": true,
+    "silverRibbonAltitudeMinimum": 0.56,
+    "roseLightAltitudeMaximum": 0.52
+  },
+  "peakRoute": {
+    "durationSeconds": 12.0,
+    "minimumControlCycles": 2,
+    "safeLimitsPreserveForwardMotion": true,
+    "flowerPetalUpdraftAltitudeMinimum": 0.56
   },
   "cloudRest": {
     "afterNearbyPlayfulBumps": 3,
     "birthdayStarsPreserved": true,
-    "pathChoicesPreserved": true,
+    "automaticResumeSeconds": 1.2,
     "maximumHelpLevel": 2
   },
   "performance": {
