@@ -17,6 +17,7 @@
   "pathChoice": {
     "routeCount": 2,
     "routesEquallySafe": true,
+    "routeDurationSeconds": 1.8,
     "rejoinBeforeBirthdayStar": true
   },
   "cloudRest": {

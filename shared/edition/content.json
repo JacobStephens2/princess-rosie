@@ -59,12 +59,16 @@
         {
           "id": "lacewood.canopy",
           "name": "Silver-ribbon canopy",
+          "interaction": "silver-ribbon-canopy",
+          "visualResponse": "silver-ribbons-unfurl",
           "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
           "celebrationEcho": "silver-ribbons"
         },
         {
           "id": "lacewood.floor",
           "name": "Rose-lit woodland floor",
+          "interaction": "rose-lit-floor",
+          "visualResponse": "rose-lights-bloom",
           "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
           "celebrationEcho": "rose-lights"
         }

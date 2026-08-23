@@ -12,6 +12,8 @@ opening_capture_path="$build_dir/opening-storybook-stage.png"
 opening_evidence_path="$build_dir/opening-export-smoke-evidence.json"
 flight_capture_path="$build_dir/opening-flight-stage.png"
 flight_evidence_path="$build_dir/opening-flight-export-smoke-evidence.json"
+lacewood_choice_capture_path="$build_dir/lacewood-path-choice-stage.png"
+lacewood_choice_evidence_path="$build_dir/lacewood-path-choice-export-smoke-evidence.json"
 lacewood_capture_path="$build_dir/lacewood-tracer-stage.png"
 lacewood_evidence_path="$build_dir/lacewood-tracer-export-smoke-evidence.json"
 expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
@@ -19,7 +21,8 @@ expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
 mkdir -p "$build_dir"
 rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path" \
   "$flight_capture_path" "$flight_evidence_path" "$lacewood_capture_path" \
-  "$lacewood_evidence_path"
+  "$lacewood_evidence_path" "$lacewood_choice_capture_path" \
+  "$lacewood_choice_evidence_path"
 
 "$godot_bin" --headless --path "$project_dir" --export-debug "macOS Development" "$app_path"
 
@@ -142,6 +145,42 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
 ' "$flight_evidence_path" >/dev/null
 
 sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
+  "--smoke-state=lacewood-choice" \
+  "--smoke-capture=$lacewood_choice_capture_path" \
+  "--smoke-evidence=$lacewood_choice_evidence_path"
+
+test -s "$lacewood_choice_capture_path"
+test -s "$lacewood_choice_evidence_path"
+test "$(stat -f '%z' "$lacewood_choice_capture_path")" -gt 100000
+jq -e --arg expected_pack_digest "$expected_pack_digest" '
+  .state == "active_play"
+  and .journey_phase == "lacewood-path-choice"
+  and .chosen_route == ""
+  and .active_action_sources == ["keyboard.space"]
+  and .pack_digest == $expected_pack_digest
+  and .network_requests == 0
+  and .capture_sample_colors >= 8
+  and .lacewood_media_paths == {
+    "lacewood.background": "source-media/lacewood/lacewood-background.png"
+  }
+  and .storybook_stage.aspect == "16:9"
+  and .storybook_stage.essential_content_cropped == false
+  and .storybook_stage.lacewood_background_visible == true
+  and .storybook_stage.flight_character_visible == true
+  and .storybook_stage.lacewood_route_composition == {
+    "both_routes_visible": true,
+    "routes_equal_emphasis": true,
+    "atmospheric_motion": true,
+    "selected_visual_response": "",
+    "shimmer_route": ""
+  }
+  and ([.sound_events[].event] | contains([
+    "sound-event.place-entry",
+    "sound-event.path-choice-available"
+  ]))
+' "$lacewood_choice_evidence_path" >/dev/null
+
+sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
   "--smoke-state=lacewood" \
   "--smoke-capture=$lacewood_capture_path" \
   "--smoke-evidence=$lacewood_evidence_path"
@@ -182,4 +221,4 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   ]))
 ' "$lacewood_evidence_path" >/dev/null
 
-echo "PASS: exported arm64 application launch, cover, opening, active-flight, and audible Lacewood-to-celebration tracer captures"
+echo "PASS: exported arm64 launch, opening, flight, equal Lacewood Path Choice, and celebration captures"

@@ -102,9 +102,12 @@ var _flight_background_texture: Texture2D
 var _flight_character_texture: Texture2D
 var _flight_character_has_transparency := false
 var _flight_media_paths: Dictionary = {}
+var _lacewood_background_texture: Texture2D
+var _lacewood_media_paths: Dictionary = {}
 var _opening_moment_index := 0
 var _movement_state := ""
 var _flight_tuning: Dictionary = {}
+var _path_choice_tuning: Dictionary = {}
 var _flight_distance_stage_widths := 0.0
 var _flight_altitude_stage_heights := 0.0
 var _flight_vertical_speed_stage_heights_per_second := 0.0
@@ -125,6 +128,8 @@ var _birthday_stars: Array[String] = []
 var _rainbow_paths: Array[String] = []
 var _path_choices := {}
 var _journey_history := {}
+var _shimmer_route := ""
+var _observed_route_responses := {}
 var _soundscape: RefCounted
 var _engine_audio: Node
 
@@ -146,7 +151,10 @@ var _engine_audio: Node
 @onready var _opening_story_card: Control = $Stage/OpeningPresentation/StoryCard
 @onready var _continue_button: Button = %ContinueButton
 @onready var _flight_background: TextureRect = %FlightBackground
+@onready var _lacewood_background: TextureRect = %LacewoodBackground
+@onready var _lacewood_visuals: LacewoodVisuals = %LacewoodVisuals
 @onready var _flight_character: TextureRect = %FlightCharacter
+@onready var _flight_card: Control = $Stage/ActivePlayPresentation/FlightCard
 @onready var _pack_badge: Label = %PackBadge
 @onready var _error_label: Label = %ErrorLabel
 @onready var _export_smoke_probe: Node = %ExportSmokeProbe
@@ -190,9 +198,12 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	_flight_character_texture = null
 	_flight_character_has_transparency = false
 	_flight_media_paths = {}
+	_lacewood_background_texture = null
+	_lacewood_media_paths = {}
 	_opening_moment_index = 0
 	_movement_state = ""
 	_flight_tuning = {}
+	_path_choice_tuning = {}
 	_flight_distance_stage_widths = 0.0
 	_flight_altitude_stage_heights = 0.0
 	_flight_vertical_speed_stage_heights_per_second = 0.0
@@ -202,6 +213,7 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	_observed_action_sources = {}
 	_observed_opening_moments = []
 	_observed_opening_checkpoints = []
+	_observed_route_responses = {}
 	_journey_history = {}
 	_reset_current_journey()
 	_sound_enabled = true
@@ -237,6 +249,10 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	if not flight_tuning_value is Dictionary:
 		return _fail_launch("Edition Pack flight tuning is missing")
 	_flight_tuning = flight_tuning_value
+	var path_choice_tuning_value: Variant = tuning_result.value.get("pathChoice")
+	if not path_choice_tuning_value is Dictionary:
+		return _fail_launch("Edition Pack Path Choice tuning is missing")
+	_path_choice_tuning = path_choice_tuning_value
 	_opening_moments = _content.get("openingMoments", [])
 	if _opening_moments.is_empty():
 		return _fail_launch("Edition Pack has no Opening Storybook Moments")
@@ -264,6 +280,7 @@ func presentation_evidence() -> Dictionary:
 		"observed_opening_checkpoints": _observed_opening_checkpoints.duplicate(true),
 		"opening_media_paths": _opening_media_paths.duplicate(true),
 		"flight_media_paths": _flight_media_paths.duplicate(true),
+		"lacewood_media_paths": _lacewood_media_paths.duplicate(true),
 		"movement_state": _movement_state,
 		"active_action_sources": _active_action_source_ids(),
 		"observed_action_sources": _observed_action_source_ids(),
@@ -276,6 +293,8 @@ func presentation_evidence() -> Dictionary:
 		"rainbow_paths": _rainbow_paths.duplicate(),
 		"path_choices": _path_choices.duplicate(true),
 		"journey_history": _journey_history.duplicate(true),
+		"shimmer_route": _shimmer_route,
+		"observed_route_responses": _observed_route_responses.duplicate(true),
 		"engine_version": _engine_version(),
 	}
 
@@ -298,6 +317,29 @@ func flight_evidence() -> Dictionary:
 	}
 
 
+func path_choice_evidence() -> Dictionary:
+	var path_choice := _lacewood_path_choice_content()
+	var route_ids: Array[String] = []
+	for route_value: Variant in path_choice.get("routes", []):
+		if route_value is Dictionary:
+			route_ids.append(str(route_value.get("id", "")))
+	var chosen_route_content := _lacewood_route_content(_chosen_route)
+	return {
+		"path_choice": path_choice.get("id", ""),
+		"available_routes": route_ids,
+		"chosen_route": _chosen_route,
+		"interaction": chosen_route_content.get("interaction", ""),
+		"visual_response": chosen_route_content.get("visualResponse", ""),
+		"routes_equally_safe": _path_choice_tuning.get("routesEquallySafe", false),
+		"route_duration_seconds": _path_choice_tuning.get("routeDurationSeconds", 0.0),
+		"rejoin_before_birthday_star": _path_choice_tuning.get(
+			"rejoinBeforeBirthdayStar",
+			false,
+		),
+		"correctness_signals": 0,
+	}
+
+
 func storybook_stage_evidence() -> Dictionary:
 	if not is_node_ready():
 		return {"ready": false}
@@ -308,6 +350,9 @@ func storybook_stage_evidence() -> Dictionary:
 		_begin_button,
 		_grown_up_corner_button,
 	]
+	if _state in [PresentationState.ACTIVE_PLAY, PresentationState.CELEBRATION]:
+		essential_controls.append(_flight_character)
+		essential_controls.append(_flight_card)
 	var essential_content_cropped := false
 	for essential_control in essential_controls:
 		if not stage_rect.encloses(essential_control.get_global_rect()):
@@ -354,6 +399,10 @@ func storybook_stage_evidence() -> Dictionary:
 		"flight_background_visible": (
 			_flight_background.texture != null and _flight_background.is_visible_in_tree()
 		),
+		"lacewood_background_visible": (
+			_lacewood_background.texture != null and _lacewood_background.is_visible_in_tree()
+		),
+		"lacewood_route_composition": _lacewood_visuals.visual_evidence(),
 		"flight_character_visible": (
 			_flight_character.texture != null and _flight_character.is_visible_in_tree()
 		),
@@ -590,6 +639,7 @@ func _enter_lacewood() -> void:
 	elif _journey_history.has(LACEWOOD_FLOOR_ROUTE) and not _journey_history.has(LACEWOOD_CANOPY_ROUTE):
 		unseen_route = LACEWOOD_CANOPY_ROUTE
 	if not unseen_route.is_empty():
+		_shimmer_route = unseen_route
 		_report_sound_event(
 			EVENT_JOURNEY_HISTORY_SHIMMER,
 			{"pathChoice": LACEWOOD_PATH_CHOICE, "route": unseen_route},
@@ -598,7 +648,12 @@ func _enter_lacewood() -> void:
 
 func _choose_lacewood_route() -> void:
 	_chosen_route = LACEWOOD_CANOPY_ROUTE if _action_held else LACEWOOD_FLOOR_ROUTE
+	var route_content := _lacewood_route_content(_chosen_route)
 	_path_choices[LACEWOOD_PATH_CHOICE] = _chosen_route
+	_observed_route_responses[_chosen_route] = {
+		"interaction": route_content.get("interaction", ""),
+		"visual": route_content.get("visualResponse", ""),
+	}
 	_journey_phase = PHASE_ROUTE
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
@@ -610,11 +665,7 @@ func _choose_lacewood_route() -> void:
 		EVENT_VIGNETTE_INTERACTION,
 		{
 			"place": LACEWOOD_PLACE,
-			"interaction": (
-				"silver-ribbon-canopy"
-				if _chosen_route == LACEWOOD_CANOPY_ROUTE
-				else "rose-lit-floor"
-			),
+			"interaction": route_content.get("interaction", ""),
 		},
 	)
 
@@ -705,6 +756,7 @@ func _reset_current_journey() -> void:
 	_birthday_stars = []
 	_rainbow_paths = []
 	_path_choices = {}
+	_shimmer_route = ""
 
 
 func storybook_stage_rect(viewport_size: Vector2) -> Rect2:
@@ -743,6 +795,8 @@ func _process(delta: float) -> void:
 		sin(_authored_motion_seconds * 0.28) * -5.0
 		- forward_parallax * 18.0
 	)
+	_lacewood_background.scale = Vector2.ONE * (1.025 + sin(_authored_motion_seconds * 0.32) * 0.003)
+	_lacewood_background.position.x = sin(_authored_motion_seconds * 0.24) * -4.0
 	var character_breath := sin(_authored_motion_seconds * 2.1)
 	_flight_character.position = Vector2(
 		615.0 + sin(_authored_motion_seconds * 0.8) * 5.0,
@@ -798,8 +852,18 @@ func _render_presentation() -> void:
 		_opening_art.texture = _opening_textures[illustration_id]
 	if _flight_background_texture != null:
 		_flight_background.texture = _flight_background_texture
+	if _lacewood_background_texture != null:
+		_lacewood_background.texture = _lacewood_background_texture
 	if _flight_character_texture != null:
 		_flight_character.texture = _flight_character_texture
+	var lacewood_visible := (
+		not _journey_phase.is_empty()
+		and _journey_phase != PHASE_FLIGHT
+	)
+	_flight_background.visible = not lacewood_visible
+	_lacewood_background.visible = lacewood_visible
+	_lacewood_visuals.visible = lacewood_visible
+	_lacewood_visuals.set_story_state(_journey_phase, _chosen_route, _shimmer_route)
 	_continue_button.text = (
 		"Keep flying"
 		if _state == PresentationState.BIRTHDAY_STAR_MOMENT
@@ -981,15 +1045,25 @@ func _player_action_source(event: InputEvent) -> StringName:
 
 
 func _birthday_star_moment_copy() -> String:
-	var place: Dictionary = _content.get("place", {})
-	var path_choice: Dictionary = place.get("pathChoice", {})
-	for route_value: Variant in path_choice.get("routes", []):
-		if route_value is Dictionary and route_value.get("id") == _chosen_route:
-			return route_value.get(
-				"birthdayStarMoment",
-				"Gram followed the gentle lights through Zélie's Lacewood!",
-			)
-	return "Gram followed the gentle lights through Zélie's Lacewood!"
+	return _lacewood_route_content(_chosen_route).get(
+		"birthdayStarMoment",
+		"Gram followed the gentle lights through Zélie's Lacewood!",
+	)
+
+
+func _lacewood_path_choice_content() -> Dictionary:
+	var place: Variant = _content.get("place")
+	if not place is Dictionary:
+		return {}
+	var path_choice: Variant = place.get("pathChoice")
+	return path_choice if path_choice is Dictionary else {}
+
+
+func _lacewood_route_content(route_id: String) -> Dictionary:
+	for route_value: Variant in _lacewood_path_choice_content().get("routes", []):
+		if route_value is Dictionary and route_value.get("id") == route_id:
+			return route_value
+	return {}
 
 
 func _flight_presentation_copy() -> Dictionary:
@@ -1080,6 +1154,15 @@ func _load_opening_media(pack_source: String, prepared_pack: Dictionary) -> Dict
 	_flight_character_texture = character_result.texture
 	_flight_character_has_transparency = character_result.has_transparency
 	_flight_media_paths[character_id] = character_path
+	var lacewood_media: Dictionary = media_by_id.get("lacewood.background", {})
+	var lacewood_path: String = lacewood_media.get("path", "")
+	if lacewood_media.get("role") != "illustration-layer" or lacewood_path.is_empty():
+		return {"ok": false, "error": "Zélie's Lacewood background media is missing"}
+	var lacewood_result: Dictionary = _adapter.load_png_texture(pack_source, lacewood_path)
+	if not lacewood_result.ok:
+		return lacewood_result
+	_lacewood_background_texture = lacewood_result.texture
+	_lacewood_media_paths["lacewood.background"] = lacewood_path
 	return {"ok": true}
 
 

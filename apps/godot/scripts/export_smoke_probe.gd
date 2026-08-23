@@ -18,7 +18,7 @@ func run_if_requested(shell: StorybookShell) -> void:
 		get_tree().quit(2)
 		return
 	var requested_state := _argument_value(arguments, STATE_ARGUMENT)
-	if requested_state in ["opening", "flight", "lacewood"]:
+	if requested_state in ["opening", "flight", "lacewood-choice", "lacewood"]:
 		var begin_button := shell.get_node_or_null("%BeginButton") as Button
 		if begin_button == null:
 			push_error("Export smoke could not find the Begin control")
@@ -26,7 +26,7 @@ func run_if_requested(shell: StorybookShell) -> void:
 			return
 		begin_button.pressed.emit()
 		await get_tree().process_frame
-	if requested_state in ["flight", "lacewood"]:
+	if requested_state in ["flight", "lacewood-choice", "lacewood"]:
 		_emit_keyboard_action(true)
 		await get_tree().process_frame
 		_emit_keyboard_action(false)
@@ -43,15 +43,19 @@ func run_if_requested(shell: StorybookShell) -> void:
 		await get_tree().process_frame
 		_emit_pointer_action(false)
 		await get_tree().process_frame
-	if requested_state == "lacewood":
+	if requested_state == "lacewood-choice":
+		_emit_keyboard_action(true)
 		await get_tree().create_timer(0.8).timeout
-		shell.handle_player_intent("action-pressed")
+	if requested_state == "lacewood":
+		_emit_keyboard_action(true)
+		await get_tree().create_timer(0.8).timeout
 		await get_tree().create_timer(1.3).timeout
-		shell.handle_player_intent("action-released")
+		_emit_keyboard_action(false)
 		await get_tree().create_timer(1.85).timeout
-		shell.handle_player_intent("action-pressed")
+		_emit_keyboard_action(true)
+		await get_tree().process_frame
+		_emit_keyboard_action(false)
 		await get_tree().create_timer(5.0).timeout
-		await get_tree().create_timer(2.05).timeout
 		var moment_continue := shell.get_node_or_null("%ContinueButton") as Button
 		if moment_continue == null:
 			push_error("Export smoke could not find the Birthday Star Continue control")

@@ -1,6 +1,6 @@
 {
   "contractVersion": "rosie-edition-contract/1",
-  "revision": "opening-lacewood-soundscape-1",
+  "revision": "lacewood-playable-1",
   "files": [
     { "role": "content", "path": "content.json" },
     { "role": "tuning-intent", "path": "tuning-intent.json" },
@@ -19,6 +19,8 @@
     { "role": "source-media", "path": "source-media/flight/rose-garden-background.png" },
     { "role": "source-media", "path": "source-media/flight/rosie-stella.png" },
     { "role": "source-media-provenance", "path": "source-media/flight/provenance.json" },
+    { "role": "source-media", "path": "source-media/lacewood/lacewood-background.png" },
+    { "role": "source-media-provenance", "path": "source-media/lacewood/provenance.json" },
     { "role": "source-media-music", "path": "source-media/soundscape/music/birthday-flight.mp3" },
     { "role": "source-media", "path": "source-media/soundscape/masters/opening-celebration-reveal.wav" },
     { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/opening-celebration-reveal.json" },

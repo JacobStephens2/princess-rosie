@@ -23,6 +23,8 @@ tests=(
   flight_media_acceptance.gd
   presentation_motion_acceptance.gd
   lacewood_tracer_acceptance.gd
+  lacewood_path_choice_acceptance.gd
+  lacewood_presentation_acceptance.gd
   edition_contract_tracer_acceptance.gd
   soundscape_player_acceptance.gd
   godot_audio_adapter_acceptance.gd
