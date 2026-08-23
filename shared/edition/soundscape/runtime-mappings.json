@@ -1,0 +1,149 @@
+{
+  "mappings": [
+    {
+      "id": "runtime-cue.opening.celebration-reveal",
+      "sourceMaster": "source-master.opening.celebration-reveal",
+      "path": "runtime/opening-celebration-reveal.wav"
+    },
+    {
+      "id": "runtime-cue.opening.star-scatter",
+      "sourceMaster": "source-master.opening.star-scatter",
+      "path": "runtime/opening-star-scatter.wav"
+    },
+    {
+      "id": "runtime-cue.opening.departure",
+      "sourceMaster": "source-master.opening.departure",
+      "path": "runtime/opening-departure.wav"
+    },
+    {
+      "id": "runtime-cue.story.confirmation",
+      "sourceMaster": "source-master.story.confirmation",
+      "path": "runtime/story-confirmation.wav"
+    },
+    {
+      "id": "runtime-cue.flight.launch",
+      "sourceMaster": "source-master.flight.launch",
+      "path": "runtime/flight-launch.wav"
+    },
+    {
+      "id": "runtime-cue.movement.flight",
+      "sourceMaster": "source-master.movement.flight",
+      "path": "runtime/movement-flight.wav"
+    },
+    {
+      "id": "runtime-cue.movement.rise",
+      "sourceMaster": "source-master.movement.rise",
+      "path": "runtime/movement-rise.wav"
+    },
+    {
+      "id": "runtime-cue.movement.glide",
+      "sourceMaster": "source-master.movement.glide",
+      "path": "runtime/movement-glide.wav"
+    },
+    {
+      "id": "runtime-cue.place.lacewood",
+      "sourceMaster": "source-master.place.lacewood",
+      "path": "runtime/place-lacewood.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.lacewood.canopy",
+      "sourceMaster": "source-master.vignette.lacewood.canopy",
+      "path": "runtime/vignette-lacewood-canopy.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.lacewood.floor",
+      "sourceMaster": "source-master.vignette.lacewood.floor",
+      "path": "runtime/vignette-lacewood-floor.wav"
+    },
+    {
+      "id": "runtime-cue.path-choice.available",
+      "sourceMaster": "source-master.path-choice.available",
+      "path": "runtime/path-choice-available.wav"
+    },
+    {
+      "id": "runtime-cue.path-choice.lacewood.canopy",
+      "sourceMaster": "source-master.path-choice.lacewood.canopy",
+      "path": "runtime/path-choice-lacewood-canopy.wav"
+    },
+    {
+      "id": "runtime-cue.path-choice.lacewood.floor",
+      "sourceMaster": "source-master.path-choice.lacewood.floor",
+      "path": "runtime/path-choice-lacewood-floor.wav"
+    },
+    {
+      "id": "runtime-cue.journey-history.shimmer",
+      "sourceMaster": "source-master.journey-history.shimmer",
+      "path": "runtime/journey-history-shimmer.wav"
+    },
+    {
+      "id": "runtime-cue.playful-bump.lacewood",
+      "sourceMaster": "source-master.playful-bump.lacewood",
+      "path": "runtime/playful-bump-lacewood.wav"
+    },
+    {
+      "id": "runtime-cue.near-miss",
+      "sourceMaster": "source-master.near-miss",
+      "path": "runtime/near-miss.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star.proximity",
+      "sourceMaster": "source-master.birthday-star.proximity",
+      "path": "runtime/birthday-star-proximity.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star.gather",
+      "sourceMaster": "source-master.birthday-star.gather",
+      "path": "runtime/birthday-star-gather.wav"
+    },
+    {
+      "id": "runtime-cue.rainbow-path.open",
+      "sourceMaster": "source-master.rainbow-path.open",
+      "path": "runtime/rainbow-path-open.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.lacewood",
+      "sourceMaster": "source-master.birthday-star-moment.lacewood",
+      "path": "runtime/birthday-star-moment-lacewood.wav"
+    },
+    {
+      "id": "runtime-cue.cloud-rest.enter",
+      "sourceMaster": "source-master.cloud-rest.enter",
+      "path": "runtime/cloud-rest-enter.wav"
+    },
+    {
+      "id": "runtime-cue.cloud-rest.ambience",
+      "sourceMaster": "source-master.cloud-rest.ambience",
+      "path": "runtime/cloud-rest-ambience.wav"
+    },
+    {
+      "id": "runtime-cue.cloud-rest.exit",
+      "sourceMaster": "source-master.cloud-rest.exit",
+      "path": "runtime/cloud-rest-exit.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-castle.arrival",
+      "sourceMaster": "source-master.birthday-castle.arrival",
+      "path": "runtime/birthday-castle-arrival.wav"
+    },
+    {
+      "id": "runtime-cue.celebration.dance-again",
+      "sourceMaster": "source-master.celebration.dance-again",
+      "path": "runtime/celebration-dance-again.wav"
+    },
+    {
+      "id": "runtime-cue.replay",
+      "sourceMaster": "source-master.replay",
+      "path": "runtime/replay.wav"
+    },
+    {
+      "id": "runtime-cue.sound.off",
+      "sourceMaster": "source-master.sound.off",
+      "path": "runtime/sound-off.wav"
+    },
+    {
+      "id": "runtime-cue.sound.on",
+      "sourceMaster": "source-master.sound.on",
+      "path": "runtime/sound-on.wav"
+    }
+  ]
+}

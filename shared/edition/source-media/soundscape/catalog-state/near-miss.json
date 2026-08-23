@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.near-miss",
+  "sourceMaster": "source-master.near-miss",
+  "runtimeMapping": "runtime-cue.near-miss",
+  "status": "approved",
+  "jobHash": "sha256:0dbd16a74834369e046c117dc81a8a488432c3c6183c708eaac7e29a6bfdf577",
+  "masterPath": "masters/near-miss.wav",
+  "masterHash": "sha256:d384160591508e92535ba53903d9e631740636af71a07441c10867bfa3b610a3",
+  "runtimePath": "runtime/near-miss.wav",
+  "runtimeHash": "sha256:d384160591508e92535ba53903d9e631740636af71a07441c10867bfa3b610a3"
+}

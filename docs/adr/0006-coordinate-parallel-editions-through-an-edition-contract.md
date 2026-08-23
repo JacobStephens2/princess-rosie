@@ -1,3 +1,7 @@
+---
+status: superseded by ADR-0008
+---
+
 # Coordinate parallel editions through an Edition Contract
 
 Reorganize the repository as a monorepo with the Original Edition, Godot Production Edition, and Unity Production Edition under `apps/`, and engine-neutral design, source media, fonts, tuning intent, and parity scenarios under `shared/`. A small, immutable Edition Contract is the authoring, build, and test seam: Godot and Unity each provide native adapters that prepare the same checksummed Edition Pack and prove observable journey behavior without sharing runtime code, scene graphs, rigs, UI, persistence, or build machinery.

@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.path-choice.available",
+  "runtimeMapping": "runtime-cue.path-choice.available",
+  "sourceMaster": "source-master.path-choice.available",
+  "sourcePath": "masters/path-choice-available.wav",
+  "runtimePath": "runtime/path-choice-available.wav",
+  "sourceHash": "sha256:57688cb3ec64402295b3a37507305522279d527e254ea50af1a9f6e4cea34d22",
+  "derivativeHash": "sha256:57688cb3ec64402295b3a37507305522279d527e254ea50af1a9f6e4cea34d22",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

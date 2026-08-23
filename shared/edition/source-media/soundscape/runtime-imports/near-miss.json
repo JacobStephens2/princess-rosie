@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.near-miss",
+  "runtimeMapping": "runtime-cue.near-miss",
+  "sourceMaster": "source-master.near-miss",
+  "sourcePath": "masters/near-miss.wav",
+  "runtimePath": "runtime/near-miss.wav",
+  "sourceHash": "sha256:d384160591508e92535ba53903d9e631740636af71a07441c10867bfa3b610a3",
+  "derivativeHash": "sha256:d384160591508e92535ba53903d9e631740636af71a07441c10867bfa3b610a3",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

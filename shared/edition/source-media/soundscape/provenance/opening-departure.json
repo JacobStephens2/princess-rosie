@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "cueId": "cue.opening.departure",
+  "sourceMasterId": "source-master.opening.departure",
+  "runtimeMapping": "runtime-cue.opening.departure",
+  "jobHash": "sha256:2a7c7b9e82719f3c8f80e30c9653e2d4df2a48ea316b57866e6d5ef4e6ffc125",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A brave but tender storybook readiness flourish for a young princess and her friendly flying unicorn: two soft rising harp gestures, a warm celesta glint, and a calm airy resolve. Nonverbal, acoustic, encouraging, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, fanfare blast, harsh transient, alarm, impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 2.5,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T01:07:03.265Z",
+  "traceId": "6c0978f0869c626d233dd9ecb81959f7",
+  "providerReportedUsage": {
+    "characterCost": "25"
+  },
+  "sourceHash": "sha256:55c9df61c5573221a1ee2fe41563ebb84611bf76d85a4cbd5f3010c879e1fc1e",
+  "selectedOutputHash": "sha256:1f78bd7f74fd29c04a79c983381bec2d8c7796d762cda071366f78b1cb834e32",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -7.799,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:1f78bd7f74fd29c04a79c983381bec2d8c7796d762cda071366f78b1cb834e32",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "brave-gentle-storybook-acoustic-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Strongest gentle readiness balance for small speakers: clear sustained body, the lowest crest factor, and low high-frequency crossing activity without approaching the asset ceiling."
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 2,
+  "cueId": "cue.movement.flight",
+  "sourceMasterId": "source-master.movement.flight",
+  "runtimeMapping": "runtime-cue.movement.flight",
+  "jobHash": "sha256:c79863b533f2a74def1018a04ed7fd0499fbc74d2dfeedcab1dd3c1c55620fda",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A very quiet seamless storybook flight texture beneath existing music: soft flowing air, silky wing motion, and sparse blended sparkle dust in one graceful continuous layer. Warm stereo, nonverbal, fatigue-free, and clear on MacBook speakers, with no individual wing beats. Smooth seamless loop. No voice, speech, singing, recognizable melody, rhythmic pulse, harsh transient, alarm, impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 8,
+    "promptInfluence": 0.3,
+    "loop": true,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T01:09:16.112Z",
+  "traceId": "e856543e330c32e42205f12d1aa1d918",
+  "providerReportedUsage": {
+    "characterCost": "80"
+  },
+  "sourceHash": "sha256:bed97f172509c77b1d83488d708e3b683f144742b2c68ba24aa4aaa7ccebc797",
+  "selectedOutputHash": "sha256:861d0842216e8f75713b628a079cf0fd7f9699463d92fedc80bc22eb592cbc57",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 2,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "preserve-stereo",
+    "peak-ceiling--6dbfs",
+    "loop-seam-qa",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": 0.00018310546875
+  },
+  "runtimeDerivativeHash": "sha256:861d0842216e8f75713b628a079cf0fd7f9699463d92fedc80bc22eb592cbc57",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "quiet-airy-movement-under-music-for-macbook",
+  "channelPolicy": "warm-stereo-loop",
+  "priority": 40,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Most suitable continuous flight bed: strongest low-crest body at the deliberately quiet movement gain, balanced stereo energy, low high-frequency crossing activity, and a validated seamless loop."
+}
