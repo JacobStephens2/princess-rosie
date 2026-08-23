@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.path-choice.lacewood.canopy",
+  "runtimeMapping": "runtime-cue.path-choice.lacewood.canopy",
+  "sourceMaster": "source-master.path-choice.lacewood.canopy",
+  "sourcePath": "masters/path-choice-lacewood-canopy.wav",
+  "runtimePath": "runtime/path-choice-lacewood-canopy.wav",
+  "sourceHash": "sha256:40d6a841a78d07ef03c21a95dee785f6ce2b0dfc7d487c0e20736622d17dead1",
+  "derivativeHash": "sha256:40d6a841a78d07ef03c21a95dee785f6ce2b0dfc7d487c0e20736622d17dead1",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

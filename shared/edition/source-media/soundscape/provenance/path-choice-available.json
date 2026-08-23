@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.path-choice.available",
+  "sourceMasterId": "source-master.path-choice.available",
+  "runtimeMapping": "runtime-cue.path-choice.available",
+  "jobHash": "sha256:fac7610ee5728c687b4b393ebbb2d292b673a797f89e56ec9dfa4ce0a3ca5b78",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A quiet invitation without reward language. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 0.8,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T01:58:16.476Z",
+  "traceId": "650c27c0248b93debbc48960bc71a0e9",
+  "providerReportedUsage": {
+    "characterCost": "8"
+  },
+  "sourceHash": "sha256:f264b4d1d3367e6b997ddb8b159f3136e5ceda77dd7bfe7ce004f47f92394761",
+  "selectedOutputHash": "sha256:57688cb3ec64402295b3a37507305522279d527e254ea50af1a9f6e4cea34d22",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -7.773,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:57688cb3ec64402295b3a37507305522279d527e254ea50af1a9f6e4cea34d22",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "quiet-invitation-without-reward-language-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Best quiet Path Choice invitation: clearly audible body, moderate crossing activity, controlled crest factor, and ample headroom without using a reward-like or emphatic transient."
+}

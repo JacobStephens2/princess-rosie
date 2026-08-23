@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.vignette.lacewood.canopy",
+  "runtimeMapping": "runtime-cue.vignette.lacewood.canopy",
+  "sourceMaster": "source-master.vignette.lacewood.canopy",
+  "sourcePath": "masters/vignette-lacewood-canopy.wav",
+  "runtimePath": "runtime/vignette-lacewood-canopy.wav",
+  "sourceHash": "sha256:a66e82af705b104c3a8789d33bb07c377e814e57fbb21a3d43455f48ec5f6e18",
+  "derivativeHash": "sha256:a66e82af705b104c3a8789d33bb07c377e814e57fbb21a3d43455f48ec5f6e18",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

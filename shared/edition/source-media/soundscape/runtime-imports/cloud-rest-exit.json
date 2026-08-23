@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.cloud-rest.exit",
+  "runtimeMapping": "runtime-cue.cloud-rest.exit",
+  "sourceMaster": "source-master.cloud-rest.exit",
+  "sourcePath": "masters/cloud-rest-exit.wav",
+  "runtimePath": "runtime/cloud-rest-exit.wav",
+  "sourceHash": "sha256:7fbf9adece1c03f4674d826d8e793e108f5ca2befe83148a25e9307a461f6a39",
+  "derivativeHash": "sha256:7fbf9adece1c03f4674d826d8e793e108f5ca2befe83148a25e9307a461f6a39",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

@@ -13,6 +13,24 @@ const OPENING_FLIGHT_CUE_PATHS := [
 	"source-media/soundscape/runtime/movement-rise.wav",
 	"source-media/soundscape/runtime/movement-glide.wav",
 ]
+const LACEWOOD_CUE_PATHS := [
+	"source-media/soundscape/runtime/place-lacewood.wav",
+	"source-media/soundscape/runtime/vignette-lacewood-canopy.wav",
+	"source-media/soundscape/runtime/vignette-lacewood-floor.wav",
+	"source-media/soundscape/runtime/path-choice-available.wav",
+	"source-media/soundscape/runtime/path-choice-lacewood-canopy.wav",
+	"source-media/soundscape/runtime/path-choice-lacewood-floor.wav",
+	"source-media/soundscape/runtime/journey-history-shimmer.wav",
+	"source-media/soundscape/runtime/playful-bump-lacewood.wav",
+	"source-media/soundscape/runtime/near-miss.wav",
+	"source-media/soundscape/runtime/birthday-star-proximity.wav",
+	"source-media/soundscape/runtime/birthday-star-gather.wav",
+	"source-media/soundscape/runtime/rainbow-path-open.wav",
+	"source-media/soundscape/runtime/birthday-star-moment-lacewood.wav",
+	"source-media/soundscape/runtime/cloud-rest-enter.wav",
+	"source-media/soundscape/runtime/cloud-rest-ambience.wav",
+	"source-media/soundscape/runtime/cloud-rest-exit.wav",
+]
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -30,7 +48,7 @@ func _run() -> void:
 	if approved_stream is AudioStreamWAV:
 		test.expect(approved_stream.mix_rate == 48000, "the approved 48 kHz master reaches Godot unchanged")
 		test.expect(not approved_stream.stereo, "the approved focused-mono master stays mono")
-	for cue_path: String in OPENING_FLIGHT_CUE_PATHS:
+	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS:
 		var cue_stream: Variant = audio.load_wav("res://edition-pack.zip", cue_path)
 		test.expect(
 			cue_stream is AudioStreamWAV,
@@ -39,7 +57,7 @@ func _run() -> void:
 		if cue_stream is AudioStreamWAV:
 			test.expect(cue_stream.mix_rate == 48000, "%s decodes at 48 kHz" % cue_path)
 			test.expect(
-				cue_stream.stereo == cue_path.ends_with("movement-flight.wav"),
+				cue_stream.stereo == _expects_stereo(cue_path),
 				"%s retains its authored channel policy" % cue_path,
 			)
 
@@ -49,6 +67,28 @@ func _run() -> void:
 		test.expect(fallback_stream.mix_rate == 48000, "the local fallback is synthesized at 48 kHz")
 		test.expect(not fallback_stream.stereo, "the local fallback is focused mono")
 		test.expect(not fallback_stream.data.is_empty(), "the local fallback contains synthesized PCM")
+	for fallback_method: StringName in [
+		&"synthesize_birthday_star",
+		&"synthesize_playful_bump",
+		&"synthesize_cloud_rest",
+		&"synthesize_celebration",
+	]:
+		var core_fallback: Variant = (
+			audio.call(fallback_method)
+			if audio.has_method(fallback_method)
+			else null
+		)
+		test.expect(
+			core_fallback is AudioStreamWAV,
+			"%s returns local engine-native PCM" % fallback_method,
+		)
+		if core_fallback is AudioStreamWAV:
+			test.expect(
+				core_fallback.mix_rate == 48000
+				and not core_fallback.stereo
+				and not core_fallback.data.is_empty(),
+				"%s remains a focused, non-empty 48 kHz fallback" % fallback_method,
+			)
 
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	var soundtrack: Variant = audio.load_mp3(
@@ -148,3 +188,12 @@ func _run() -> void:
 	audio.queue_free()
 	await create_timer(0.1).timeout
 	test.finish(self, "Godot audio adapter acceptance")
+
+
+func _expects_stereo(cue_path: String) -> bool:
+	return (
+		cue_path.ends_with("movement-flight.wav")
+		or cue_path.ends_with("place-lacewood.wav")
+		or cue_path.ends_with("rainbow-path-open.wav")
+		or cue_path.ends_with("cloud-rest-ambience.wav")
+	)

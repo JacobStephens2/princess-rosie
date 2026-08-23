@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.birthday-star-moment.lacewood",
+  "sourceMasterId": "source-master.birthday-star-moment.lacewood",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.lacewood",
+  "jobHash": "sha256:94a0e4b30cb9cebc96f3e6663b5a793ede4b28e9696c3fa3ce58fd395c78d4ca",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A lacewood resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 2,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T02:04:54.748Z",
+  "traceId": "f303b6046d20580cd9f502c3dcc8de47",
+  "providerReportedUsage": {
+    "characterCost": "20"
+  },
+  "sourceHash": "sha256:e4b30e97e09979e73f7426c7da4ab9ade1d8fd5b35f2c7386a8bda60f5c432f6",
+  "selectedOutputHash": "sha256:5b37adfd90f696645f93ae75b66c11e3dbc6d87a9b0e18111e5e1904fde0d35a",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6.921,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:5b37adfd90f696645f93ae75b66c11e3dbc6d87a9b0e18111e5e1904fde0d35a",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "lacewood-resolution-accent-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Best Gram Birthday Star Moment resolution: clear sustained body, low crossing activity, controlled crest, and safe peak headroom for a warm place-specific close after the Rainbow Path travel stage."
+}

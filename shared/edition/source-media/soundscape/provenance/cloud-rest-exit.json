@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.cloud-rest.exit",
+  "sourceMasterId": "source-master.cloud-rest.exit",
+  "runtimeMapping": "runtime-cue.cloud-rest.exit",
+  "jobHash": "sha256:4eb2ea4948b05fc078b50ffc4701aedb746ec03913a8be757b7df8a2669d8491",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A safe immediate takeoff. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.2,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T02:08:00.667Z",
+  "traceId": "513c9a6fa53311619d1b594153dc89b4",
+  "providerReportedUsage": {
+    "characterCost": "12"
+  },
+  "sourceHash": "sha256:925921c467597c20f8adc79904caf0ec7f19c33bfdf7dc6d99eb427600d185f8",
+  "selectedOutputHash": "sha256:7fbf9adece1c03f4674d826d8e793e108f5ca2befe83148a25e9307a461f6a39",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:7fbf9adece1c03f4674d826d8e793e108f5ca2befe83148a25e9307a461f6a39",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "safe-immediate-takeoff-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Best safe Cloud Rest takeoff: strongest clear body, low crossing activity, controlled crest, and a mastered -6 dBFS peak for an immediate reassuring resume into the restored Lacewood and movement layers."
+}

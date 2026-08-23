@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.journey-history.shimmer",
+  "runtimeMapping": "runtime-cue.journey-history.shimmer",
+  "sourceMaster": "source-master.journey-history.shimmer",
+  "sourcePath": "masters/journey-history-shimmer.wav",
+  "runtimePath": "runtime/journey-history-shimmer.wav",
+  "sourceHash": "sha256:659c6b5aa56b67f0f78412bc742546980b656ff0f0a43f318e7b7765b94a030b",
+  "derivativeHash": "sha256:659c6b5aa56b67f0f78412bc742546980b656ff0f0a43f318e7b7765b94a030b",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

@@ -52,7 +52,7 @@ const require = createRequire(import.meta.url);
 const SDK_VERSION = (
   require("@elevenlabs/elevenlabs-js/package.json") as { version: string }
 ).version;
-const PIPELINE_SCHEMA_VERSION = 2;
+const PIPELINE_SCHEMA_VERSION = 3;
 
 interface CliInput {
   argv: readonly string[];
@@ -84,7 +84,14 @@ interface BuildArgs extends CatalogInputPaths {
   outputRoot: string;
   provider: "fake" | "real";
   fake48Khz: "accept" | "reject";
-  fakeAudio: "valid" | "silent" | "short" | "bad-loop";
+  fakeAudio:
+    | "valid"
+    | "silent"
+    | "short"
+    | "bad-loop"
+    | "padded"
+    | "anti-phase"
+    | "duration-drift";
   cue: string | "all";
   paidRequestLimit: number;
   approvedCandidate?: string;
@@ -231,7 +238,15 @@ function parseArgs(argv: readonly string[]): ParsedArgs {
       !cue ||
       !["fake", "real"].includes(provider ?? "") ||
       !["accept", "reject"].includes(fake48Khz) ||
-      !["valid", "silent", "short", "bad-loop"].includes(fakeAudio) ||
+      ![
+        "valid",
+        "silent",
+        "short",
+        "bad-loop",
+        "padded",
+        "anti-phase",
+        "duration-drift",
+      ].includes(fakeAudio) ||
       !Number.isSafeInteger(paidRequestLimit) ||
       paidRequestLimit < 1 ||
       (hasExplicitApproval && !approvedCandidateValue) ||
@@ -247,7 +262,7 @@ function parseArgs(argv: readonly string[]): ParsedArgs {
       outputRoot,
       provider: provider as "fake" | "real",
       fake48Khz: fake48Khz as "accept" | "reject",
-      fakeAudio: fakeAudio as "valid" | "silent" | "short" | "bad-loop",
+      fakeAudio: fakeAudio as BuildArgs["fakeAudio"],
       cue,
       paidRequestLimit,
       ...(approvedCandidateValue ? { approvedCandidate: approvedCandidateValue } : {}),
@@ -699,6 +714,9 @@ async function buildCatalog(
           cueId: cue.id,
           candidate: id,
           outcome: "failed",
+          qaFailure: error instanceof Error
+            ? error.message
+            : "Candidate PCM inspection failed",
         });
         await writeInvocationReport(args.outputRoot, report);
         await writeCueJobState(args.outputRoot, {
@@ -869,12 +887,15 @@ async function buildCatalog(
             ...candidate,
             ...masterCatalogAudio(candidate.pcm, candidate.inspection, cue),
           });
-        } catch {
+        } catch (error) {
           const requestRecord = [...report.requests].reverse().find((entry) =>
             entry.cueId === cue.id && entry.candidate === candidate.id
           );
           if (requestRecord) {
             requestRecord.outcome = "failed";
+            requestRecord.qaFailure = error instanceof Error
+              ? error.message
+              : "Candidate audio QA failed";
             reportChanged = true;
           }
           await rm(join(candidateRoot, `${candidate.id}.pcm`), { force: true });

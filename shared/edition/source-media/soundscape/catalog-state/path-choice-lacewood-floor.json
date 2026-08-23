@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.path-choice.lacewood.floor",
+  "sourceMaster": "source-master.path-choice.lacewood.floor",
+  "runtimeMapping": "runtime-cue.path-choice.lacewood.floor",
+  "status": "approved",
+  "jobHash": "sha256:8d6ab866b3f4d67cd82026aa43f148a29e0905a01239ae7c53af52100a196456",
+  "masterPath": "masters/path-choice-lacewood-floor.wav",
+  "masterHash": "sha256:9cf6cc5e6ea88769010e7f604f38fcd1a4cdb60cf50c19215b8151cfa431d223",
+  "runtimePath": "runtime/path-choice-lacewood-floor.wav",
+  "runtimeHash": "sha256:9cf6cc5e6ea88769010e7f604f38fcd1a4cdb60cf50c19215b8151cfa431d223"
+}

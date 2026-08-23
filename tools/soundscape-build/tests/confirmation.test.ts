@@ -184,7 +184,7 @@ describe("Soundscape Build confirmation command", () => {
       channels: 1,
       requests: ["pcm_48000", "pcm_48000", "pcm_48000"],
       provenance: {
-        schemaVersion: 2,
+        schemaVersion: 3,
         cueId: "cue.story.confirmation",
         sourceMasterId: "source-master.story.confirmation",
         provider: "ElevenLabs",

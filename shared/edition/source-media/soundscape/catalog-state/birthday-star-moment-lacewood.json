@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.birthday-star-moment.lacewood",
+  "sourceMaster": "source-master.birthday-star-moment.lacewood",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.lacewood",
+  "status": "approved",
+  "jobHash": "sha256:94a0e4b30cb9cebc96f3e6663b5a793ede4b28e9696c3fa3ce58fd395c78d4ca",
+  "masterPath": "masters/birthday-star-moment-lacewood.wav",
+  "masterHash": "sha256:5b37adfd90f696645f93ae75b66c11e3dbc6d87a9b0e18111e5e1904fde0d35a",
+  "runtimePath": "runtime/birthday-star-moment-lacewood.wav",
+  "runtimeHash": "sha256:5b37adfd90f696645f93ae75b66c11e3dbc6d87a9b0e18111e5e1904fde0d35a"
+}
