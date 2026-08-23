@@ -43,6 +43,10 @@ func _run() -> void:
 	)
 
 	var continue_button := shell.get_node("%ContinueButton") as Button
+	test.expect(
+		continue_button.focus_mode == Control.FOCUS_NONE,
+		"Space stays on the global real-event path instead of being relabeled as pointer input",
+	)
 	for _moment: int in 2:
 		continue_button.button_down.emit()
 		continue_button.button_up.emit()

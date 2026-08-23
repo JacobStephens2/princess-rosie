@@ -685,16 +685,16 @@ func _current_opening_moment() -> Dictionary:
 
 
 func _active_action_source_ids() -> Array[String]:
-	var sources: Array[String] = []
-	for source: Variant in _active_action_sources:
-		sources.append(str(source))
-	sources.sort()
-	return sources
+	return _sorted_source_ids(_active_action_sources)
 
 
 func _observed_action_source_ids() -> Array[String]:
+	return _sorted_source_ids(_observed_action_sources)
+
+
+func _sorted_source_ids(source_set: Dictionary) -> Array[String]:
 	var sources: Array[String] = []
-	for source: Variant in _observed_action_sources:
+	for source: Variant in source_set:
 		sources.append(str(source))
 	sources.sort()
 	return sources
