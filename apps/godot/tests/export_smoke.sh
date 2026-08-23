@@ -14,6 +14,8 @@ flight_capture_path="$build_dir/opening-flight-stage.png"
 flight_evidence_path="$build_dir/opening-flight-export-smoke-evidence.json"
 lacewood_choice_capture_path="$build_dir/lacewood-path-choice-stage.png"
 lacewood_choice_evidence_path="$build_dir/lacewood-path-choice-export-smoke-evidence.json"
+lacewood_traversal_capture_path="$build_dir/lacewood-traversal-stage.png"
+lacewood_traversal_evidence_path="$build_dir/lacewood-traversal-export-smoke-evidence.json"
 lacewood_capture_path="$build_dir/lacewood-tracer-stage.png"
 lacewood_evidence_path="$build_dir/lacewood-tracer-export-smoke-evidence.json"
 expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
@@ -22,7 +24,8 @@ mkdir -p "$build_dir"
 rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path" \
   "$flight_capture_path" "$flight_evidence_path" "$lacewood_capture_path" \
   "$lacewood_evidence_path" "$lacewood_choice_capture_path" \
-  "$lacewood_choice_evidence_path"
+  "$lacewood_choice_evidence_path" "$lacewood_traversal_capture_path" \
+  "$lacewood_traversal_evidence_path"
 
 "$godot_bin" --headless --path "$project_dir" --export-debug "macOS Development" "$app_path"
 
@@ -167,12 +170,15 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .storybook_stage.essential_content_cropped == false
   and .storybook_stage.lacewood_background_visible == true
   and .storybook_stage.flight_character_visible == true
+  and .storybook_stage.route_choice_targets_visible == true
+  and .storybook_stage.route_choice_targets_equal_size == true
   and .storybook_stage.lacewood_route_composition == {
     "both_routes_visible": true,
     "routes_equal_emphasis": true,
     "atmospheric_motion": true,
     "selected_visual_response": "",
     "rendered_visual_response": "",
+    "preview_route": "",
     "shimmer_route": "",
     "celebration_echo": ""
   }
@@ -181,6 +187,40 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
     "sound-event.path-choice-available"
   ]))
 ' "$lacewood_choice_evidence_path" >/dev/null
+
+sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
+  "--smoke-state=lacewood-traversal" \
+  "--smoke-capture=$lacewood_traversal_capture_path" \
+  "--smoke-evidence=$lacewood_traversal_evidence_path"
+
+test -s "$lacewood_traversal_capture_path"
+test -s "$lacewood_traversal_evidence_path"
+test "$(stat -f '%z' "$lacewood_traversal_capture_path")" -gt 100000
+jq -e --arg expected_pack_digest "$expected_pack_digest" '
+  .state == "active_play"
+  and .journey_phase == "lacewood-route"
+  and .chosen_route == "lacewood.canopy"
+  and .lacewood_route_progress >= 0.45
+  and .lacewood_route_progress <= 0.55
+  and .active_action_sources == []
+  and .pack_digest == $expected_pack_digest
+  and .network_requests == 0
+  and .capture_sample_colors >= 8
+  and .storybook_stage.aspect == "16:9"
+  and .storybook_stage.essential_content_cropped == false
+  and .storybook_stage.lacewood_background_visible == true
+  and .storybook_stage.flight_character_visible == true
+  and .storybook_stage.route_choice_targets_visible == false
+  and .storybook_stage.flight_motion.character_position.x >= 390
+  and .storybook_stage.flight_motion.background_offset_x <= -35
+  and .storybook_stage.lacewood_route_composition.selected_visual_response == "silver-ribbons-unfurl"
+  and ([.sound_events[].event] | contains([
+    "sound-event.path-choice-selected",
+    "sound-event.vignette-interaction",
+    "sound-event.near-miss",
+    "sound-event.playful-bump"
+  ]))
+' "$lacewood_traversal_evidence_path" >/dev/null
 
 sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
   "--smoke-state=lacewood" \
@@ -226,4 +266,4 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   ]))
 ' "$lacewood_evidence_path" >/dev/null
 
-echo "PASS: exported arm64 launch, opening, flight, equal Lacewood Path Choice, and celebration captures"
+echo "PASS: exported arm64 launch, opening, flight, direct Lacewood choice, traversal, and celebration captures"

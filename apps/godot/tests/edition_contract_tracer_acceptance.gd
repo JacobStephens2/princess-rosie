@@ -20,12 +20,15 @@ func _init() -> void:
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the Godot tracer prepares")
 	_start_journey(shell, KEYBOARD_SPACE, true)
-	_complete_route(shell, KEYBOARD_SPACE, true)
+	_complete_route(shell, KEYBOARD_SPACE, "lacewood.canopy")
 	test.expect(shell.handle_player_intent("escape"), "the first celebration can pause")
 	test.expect(shell.handle_player_intent("replay"), "Journey History can replay the tracer")
 	_start_journey(shell, POINTER_PRIMARY, false)
 	shell.advance_journey(0.75)
-	shell.advance_journey(1.25)
+	test.expect(
+		shell.handle_route_choice_intent("lacewood.floor", POINTER_PRIMARY),
+		"the lower route target starts the floor vignette",
+	)
 	test.expect(shell.handle_player_intent("escape"), "the floor vignette can pause")
 	test.expect(shell.handle_player_intent("toggle-sound"), "the shared journey turns Sound off")
 	test.expect(shell.handle_player_intent("toggle-sound"), "the shared journey turns Sound on")
@@ -80,17 +83,20 @@ func _start_journey(shell: StorybookShell, source: StringName, hold_into_lacewoo
 			shell.handle_player_action(source, false)
 
 
-func _complete_route(shell: StorybookShell, source: StringName, choose_canopy: bool) -> void:
+func _complete_route(shell: StorybookShell, source: StringName, route_id: String) -> void:
 	shell.advance_journey(0.75)
-	shell.advance_journey(1.25)
-	if choose_canopy:
+	test.expect(
+		shell.handle_route_choice_intent(route_id, POINTER_PRIMARY),
+		"the direct route target starts the chosen Lacewood traversal",
+	)
+	if route_id == "lacewood.canopy":
 		test.expect(shell.handle_player_action(source, false), "the canopy hold releases")
 	_complete_route_from_vignette(shell, source)
 
 
 func _complete_route_from_vignette(shell: StorybookShell, source: StringName) -> void:
 	var progress_before_rest: Dictionary = shell.presentation_evidence()
-	shell.advance_journey(1.8)
+	shell.advance_journey(6.0)
 	var progress_during_rest: Dictionary = shell.presentation_evidence()
 	test.expect(
 		progress_during_rest.get("birthday_stars") == progress_before_rest.get("birthday_stars")

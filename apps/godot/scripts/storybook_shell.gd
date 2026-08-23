@@ -121,7 +121,12 @@ var _journey_phase := ""
 var _journey_phase_elapsed := 0.0
 var _journey_checkpoint := 0
 var _action_held := false
+var _path_choice_input_armed := false
+var _path_choice_action_started := false
+var _path_choice_action_seconds := 0.0
 var _chosen_route := ""
+var _lacewood_route_progress := 0.0
+var _preview_route := ""
 var _playful_bump_count := 0
 var _cloud_rest_count := 0
 var _birthday_stars: Array[String] = []
@@ -153,6 +158,8 @@ var _engine_audio: Node
 @onready var _flight_background: TextureRect = %FlightBackground
 @onready var _lacewood_background: TextureRect = %LacewoodBackground
 @onready var _lacewood_visuals: LacewoodVisuals = %LacewoodVisuals
+@onready var _canopy_route_target: Button = %CanopyRouteTarget
+@onready var _floor_route_target: Button = %FloorRouteTarget
 @onready var _flight_character: TextureRect = %FlightCharacter
 @onready var _flight_card: Control = $Stage/ActivePlayPresentation/FlightCard
 @onready var _pack_badge: Label = %PackBadge
@@ -172,6 +179,24 @@ func _ready() -> void:
 	_sound_button.pressed.connect(_on_sound_pressed)
 	_continue_button.button_down.connect(_on_continue_button_down)
 	_continue_button.button_up.connect(_on_continue_button_up)
+	_canopy_route_target.pressed.connect(
+		_on_route_target_pressed.bind(LACEWOOD_CANOPY_ROUTE),
+	)
+	_canopy_route_target.mouse_entered.connect(
+		_on_route_target_hovered.bind(LACEWOOD_CANOPY_ROUTE),
+	)
+	_canopy_route_target.mouse_exited.connect(
+		_on_route_target_unhovered.bind(LACEWOOD_CANOPY_ROUTE),
+	)
+	_floor_route_target.pressed.connect(
+		_on_route_target_pressed.bind(LACEWOOD_FLOOR_ROUTE),
+	)
+	_floor_route_target.mouse_entered.connect(
+		_on_route_target_hovered.bind(LACEWOOD_FLOOR_ROUTE),
+	)
+	_floor_route_target.mouse_exited.connect(
+		_on_route_target_unhovered.bind(LACEWOOD_FLOOR_ROUTE),
+	)
 	%ReplayButton.pressed.connect(_on_replay_pressed)
 
 	var launched := prepare_launch()
@@ -295,6 +320,7 @@ func presentation_evidence() -> Dictionary:
 		"journey_history": _journey_history.duplicate(true),
 		"shimmer_route": _shimmer_route,
 		"observed_route_responses": _observed_route_responses.duplicate(true),
+		"lacewood_route_progress": _lacewood_route_progress,
 		"engine_version": _engine_version(),
 	}
 
@@ -332,6 +358,7 @@ func path_choice_evidence() -> Dictionary:
 		"visual_response": chosen_route_content.get("visualResponse", ""),
 		"routes_equally_safe": _path_choice_tuning.get("routesEquallySafe", false),
 		"route_duration_seconds": _path_choice_tuning.get("routeDurationSeconds", 0.0),
+		"route_progress": _lacewood_route_progress,
 		"rejoin_before_birthday_star": _path_choice_tuning.get(
 			"rejoinBeforeBirthdayStar",
 			false,
@@ -388,8 +415,16 @@ func storybook_stage_evidence() -> Dictionary:
 			"story_card_y": _opening_story_card.position.y,
 		},
 		"flight_motion": {
-			"background_offset_x": _flight_background.position.x,
-			"background_scale": _flight_background.scale.x,
+			"background_offset_x": (
+				_lacewood_background.position.x
+				if _lacewood_background.is_visible_in_tree()
+				else _flight_background.position.x
+			),
+			"background_scale": (
+				_lacewood_background.scale.x
+				if _lacewood_background.is_visible_in_tree()
+				else _flight_background.scale.x
+			),
 			"character_position": {
 				"x": _flight_character.position.x,
 				"y": _flight_character.position.y,
@@ -403,6 +438,13 @@ func storybook_stage_evidence() -> Dictionary:
 			_lacewood_background.texture != null and _lacewood_background.is_visible_in_tree()
 		),
 		"lacewood_route_composition": _lacewood_visuals.visual_evidence(),
+		"route_choice_targets_visible": (
+			_canopy_route_target.is_visible_in_tree()
+			and _floor_route_target.is_visible_in_tree()
+		),
+		"route_choice_targets_equal_size": (
+			_canopy_route_target.size.is_equal_approx(_floor_route_target.size)
+		),
 		"flight_character_visible": (
 			_flight_character.texture != null and _flight_character.is_visible_in_tree()
 		),
@@ -454,6 +496,11 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false
 			_action_held = true
+			if _journey_phase == PHASE_PATH_CHOICE:
+				if _path_choice_input_armed and not _path_choice_action_started:
+					_path_choice_action_started = true
+					_path_choice_action_seconds = 0.0
+				return true
 			if _journey_phase == PHASE_CLOUD_REST:
 				_resume_from_cloud_rest()
 				return true
@@ -473,6 +520,22 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false
 			_action_held = false
+			if _journey_phase == PHASE_PATH_CHOICE:
+				if not _path_choice_input_armed:
+					_path_choice_input_armed = true
+					_path_choice_action_started = false
+					_path_choice_action_seconds = 0.0
+					return true
+				if _path_choice_action_started:
+					var gesture_seconds := _path_choice_action_seconds
+					_path_choice_action_started = false
+					_path_choice_action_seconds = 0.0
+					if gesture_seconds >= float(
+						_path_choice_tuning.get("minimumChoiceGestureSeconds", 0.18),
+					):
+						_choose_lacewood_route(LACEWOOD_FLOOR_ROUTE)
+					return true
+				return true
 			if _journey_phase != PHASE_FLIGHT:
 				return true
 			if _movement_state == "glide":
@@ -615,9 +678,19 @@ func advance_journey(delta: float) -> void:
 			if _journey_phase_elapsed >= 0.75:
 				_enter_lacewood()
 		PHASE_PATH_CHOICE:
-			if _journey_phase_elapsed >= 1.25:
-				_choose_lacewood_route()
+			if _path_choice_input_armed and _path_choice_action_started:
+				_path_choice_action_seconds += delta
+				if _path_choice_action_seconds >= float(
+					_path_choice_tuning.get("canopyHoldSeconds", 0.55),
+				):
+					_choose_lacewood_route(LACEWOOD_CANOPY_ROUTE)
 		PHASE_ROUTE:
+			_lacewood_route_progress = clampf(
+				_journey_phase_elapsed
+				/ float(_path_choice_tuning.get("routeDurationSeconds", 6.0)),
+				0.0,
+				1.0,
+			)
 			_advance_lacewood_route()
 		PHASE_STAR_APPROACH:
 			_advance_birthday_star_sequence()
@@ -628,6 +701,10 @@ func _enter_lacewood() -> void:
 	_journey_phase = PHASE_PATH_CHOICE
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
+	_path_choice_input_armed = not _action_held
+	_path_choice_action_started = false
+	_path_choice_action_seconds = 0.0
+	_preview_route = ""
 	_report_sound_event(EVENT_PLACE_ENTRY, {"place": LACEWOOD_PLACE})
 	_report_sound_event(
 		EVENT_PATH_CHOICE_AVAILABLE,
@@ -646,8 +723,26 @@ func _enter_lacewood() -> void:
 		)
 
 
-func _choose_lacewood_route() -> void:
-	_chosen_route = LACEWOOD_CANOPY_ROUTE if _action_held else LACEWOOD_FLOOR_ROUTE
+func handle_route_choice_intent(route_id: String, source: StringName) -> bool:
+	if (
+		_state != PresentationState.ACTIVE_PLAY
+		or _journey_phase != PHASE_PATH_CHOICE
+		or source != SOURCE_POINTER_PRIMARY
+		or route_id not in [LACEWOOD_CANOPY_ROUTE, LACEWOOD_FLOOR_ROUTE]
+	):
+		return false
+	_observed_action_sources[source] = true
+	_choose_lacewood_route(route_id)
+	_render_presentation()
+	return true
+
+
+func _choose_lacewood_route(route_id: String) -> void:
+	_chosen_route = route_id
+	_lacewood_route_progress = 0.0
+	_preview_route = ""
+	_path_choice_action_started = false
+	_path_choice_action_seconds = 0.0
 	var route_content := _lacewood_route_content(_chosen_route)
 	_path_choices[LACEWOOD_PATH_CHOICE] = _chosen_route
 	_observed_route_responses[_chosen_route] = {
@@ -756,7 +851,12 @@ func _reset_current_journey() -> void:
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
 	_action_held = false
+	_path_choice_input_armed = false
+	_path_choice_action_started = false
+	_path_choice_action_seconds = 0.0
 	_chosen_route = ""
+	_lacewood_route_progress = 0.0
+	_preview_route = ""
 	_playful_bump_count = 0
 	_cloud_rest_count = 0
 	_birthday_stars = []
@@ -814,6 +914,7 @@ func _process(delta: float) -> void:
 		0.07,
 	)
 	_flight_character.scale = Vector2.ONE * (1.0 + character_breath * 0.006)
+	_apply_lacewood_traversal_presentation()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -873,12 +974,16 @@ func _render_presentation() -> void:
 	_flight_background.visible = not lacewood_visible
 	_lacewood_background.visible = lacewood_visible
 	_lacewood_visuals.visible = lacewood_visible or celebration_visible
+	_canopy_route_target.visible = _journey_phase == PHASE_PATH_CHOICE
+	_floor_route_target.visible = _journey_phase == PHASE_PATH_CHOICE
 	_lacewood_visuals.configure_routes(_lacewood_path_choice_content().get("routes", []))
 	_lacewood_visuals.set_story_state({
 		"phase": _journey_phase,
 		"chosen_route": _chosen_route,
+		"preview_route": _preview_route,
 		"shimmer_route": _shimmer_route,
 	})
+	_apply_lacewood_traversal_presentation()
 	_continue_button.text = (
 		"Keep flying"
 		if _state == PresentationState.BIRTHDAY_STAR_MOMENT
@@ -974,6 +1079,24 @@ func _on_continue_button_down() -> void:
 func _on_continue_button_up() -> void:
 	if handle_player_action(SOURCE_POINTER_PRIMARY, false):
 		_render_presentation()
+
+
+func _on_route_target_pressed(route_id: String) -> void:
+	handle_route_choice_intent(route_id, SOURCE_POINTER_PRIMARY)
+
+
+func _on_route_target_hovered(route_id: String) -> void:
+	if _journey_phase != PHASE_PATH_CHOICE:
+		return
+	_preview_route = route_id
+	_render_presentation()
+
+
+func _on_route_target_unhovered(route_id: String) -> void:
+	if _journey_phase != PHASE_PATH_CHOICE or _preview_route != route_id:
+		return
+	_preview_route = ""
+	_render_presentation()
 
 
 func _on_replay_pressed() -> void:
@@ -1081,12 +1204,31 @@ func _lacewood_route_content(route_id: String) -> Dictionary:
 	return {}
 
 
+func _apply_lacewood_traversal_presentation() -> void:
+	if not is_node_ready() or _journey_phase not in [PHASE_PATH_CHOICE, PHASE_ROUTE]:
+		return
+	var route_id := _chosen_route if _journey_phase == PHASE_ROUTE else LACEWOOD_CANOPY_ROUTE
+	var progress := _lacewood_route_progress if _journey_phase == PHASE_ROUTE else 0.0
+	var character_center := _lacewood_visuals.route_position(route_id, progress)
+	_flight_character.position = character_center - _flight_character.pivot_offset
+	_flight_character.scale = Vector2.ONE * 0.65
+	var previous_center := _lacewood_visuals.route_position(route_id, maxf(0.0, progress - 0.015))
+	var next_center := _lacewood_visuals.route_position(route_id, minf(1.0, progress + 0.015))
+	var heading := (next_center - previous_center).angle()
+	_flight_character.rotation = clampf(heading, -0.18, 0.18)
+	_lacewood_background.scale = Vector2.ONE * 1.12
+	_lacewood_background.position.x = (
+		-_lacewood_route_progress * 90.0
+		+ sin(_authored_motion_seconds * 0.24) * -4.0
+	)
+
+
 func _flight_presentation_copy() -> Dictionary:
 	match _journey_phase:
 		PHASE_PATH_CHOICE:
 			return {
 				"title": "Zélie's Lacewood",
-				"instruction": "Hold for silver ribbons • release for rose lights",
+				"instruction": "Click the silver ribbons or the rose lights",
 			}
 		PHASE_ROUTE:
 			return {

@@ -23,7 +23,7 @@ apps/godot/tests/export_smoke.sh
 
 The export smoke test uses the official universal 4.7.2 debug template, thins the packaged executable to arm64, signs it ad hoc, and launches it with network access denied. It verifies the opening, active flight, equal-emphasis Lacewood Path Choice, and complete Lacewood-to-Birthday-Star semantic evidence and Storybook Stage captures under `build/`.
 
-Zélie's Lacewood uses a digest-bound picture-book environment plate with native atmospheric motion and route-response layers. Holding the shared flight action carries Stella through the silver-ribbon canopy; releasing it offers the equally safe rose-lit woodland floor. Both routes retain stable Path Choice identities, matched timing, route-specific visual and sound responses, and a common rejoin before the Birthday Star.
+Zélie's Lacewood uses a digest-bound picture-book environment plate with native atmospheric motion and route-response layers. Large, equally sized pointer targets let the player click the silver-ribbon canopy or the equally safe rose-lit woodland floor directly; an optional deliberate Space hold or press-and-release gesture selects the same routes without allowing carried-over or accidental input. Stella then visibly traverses the selected route over a matched six-second envelope before both paths rejoin ahead of the Birthday Star.
 
 ## Hear the offline Soundscape tracer
 

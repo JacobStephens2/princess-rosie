@@ -11,6 +11,8 @@ var test: RefCounted = ACCEPTANCE_TEST.new()
 func _init() -> void:
 	var canopy := _choose_route(KEYBOARD_SPACE, true)
 	var floor := _choose_route(POINTER_PRIMARY, false)
+	_route_waits_for_direct_pointer_choice()
+	_space_gesture_requires_deliberate_input()
 	_route_duration_follows_tuning()
 
 	test.expect(
@@ -21,7 +23,8 @@ func _init() -> void:
 			"interaction": "silver-ribbon-canopy",
 			"visual_response": "silver-ribbons-unfurl",
 			"routes_equally_safe": true,
-			"route_duration_seconds": 1.8,
+			"route_duration_seconds": 6.0,
+			"route_progress": 0.0,
 			"rejoin_before_birthday_star": true,
 			"correctness_signals": 0,
 		},
@@ -35,13 +38,92 @@ func _init() -> void:
 			"interaction": "rose-lit-floor",
 			"visual_response": "rose-lights-bloom",
 			"routes_equally_safe": true,
-			"route_duration_seconds": 1.8,
+			"route_duration_seconds": 6.0,
+			"route_progress": 0.0,
 			"rejoin_before_birthday_star": true,
 			"correctness_signals": 0,
 		},
 		"releasing the same flight action chooses an equally rich rose-lit woodland floor",
 	)
 	test.finish(self, "Lacewood Path Choice acceptance")
+
+
+func _route_waits_for_direct_pointer_choice() -> void:
+	var shell := STORYBOOK_SHELL.new()
+	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
+	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the direct choice prepares")
+	test.expect(shell.handle_player_intent("begin"), "the direct-choice journey begins")
+	for _moment: int in 3:
+		shell.handle_player_action(KEYBOARD_SPACE, true)
+		shell.handle_player_action(KEYBOARD_SPACE, false)
+	shell.advance_journey(0.75)
+	shell.advance_journey(5.0)
+	test.expect(
+		shell.path_choice_evidence().get("chosen_route") == "",
+		"Lacewood waits without choosing a route until the player acts on a path",
+	)
+	var chose_floor: bool = (
+		shell.handle_route_choice_intent("lacewood.floor", POINTER_PRIMARY)
+		if shell.has_method("handle_route_choice_intent")
+		else false
+	)
+	test.expect(
+		chose_floor
+		and shell.path_choice_evidence().get("chosen_route") == "lacewood.floor"
+		and shell.presentation_evidence().get("observed_action_sources", []).has(
+			"pointer.primary",
+		),
+		"a fresh pointer intent on the woodland floor chooses that route directly",
+	)
+	shell.free()
+
+
+func _space_gesture_requires_deliberate_input() -> void:
+	var floor_shell := _start_path_choice()
+	floor_shell.handle_player_action(KEYBOARD_SPACE, true)
+	floor_shell.advance_journey(0.05)
+	floor_shell.handle_player_action(KEYBOARD_SPACE, false)
+	test.expect(
+		floor_shell.path_choice_evidence().get("chosen_route") == "",
+		"a 50 ms accidental Space tap cannot commit either Lacewood route",
+	)
+	floor_shell.handle_player_action(KEYBOARD_SPACE, true)
+	floor_shell.advance_journey(0.25)
+	floor_shell.handle_player_action(KEYBOARD_SPACE, false)
+	test.expect(
+		floor_shell.path_choice_evidence().get("chosen_route") == "lacewood.floor",
+		"a deliberate short Space gesture chooses the rose-lit woodland floor",
+	)
+	floor_shell.free()
+
+	var canopy_shell := _start_path_choice(true)
+	canopy_shell.advance_journey(1.0)
+	test.expect(
+		canopy_shell.path_choice_evidence().get("chosen_route") == "",
+		"an action held before Lacewood appears cannot pre-arm the canopy",
+	)
+	canopy_shell.handle_player_action(KEYBOARD_SPACE, false)
+	canopy_shell.handle_player_action(KEYBOARD_SPACE, true)
+	canopy_shell.advance_journey(0.6)
+	test.expect(
+		canopy_shell.path_choice_evidence().get("chosen_route") == "lacewood.canopy",
+		"a fresh sustained Space hold chooses the silver-ribbon canopy",
+	)
+	canopy_shell.free()
+
+
+func _start_path_choice(preheld: bool = false) -> StorybookShell:
+	var shell := STORYBOOK_SHELL.new()
+	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
+	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the gesture choice prepares")
+	test.expect(shell.handle_player_intent("begin"), "the gesture-choice journey begins")
+	for _moment: int in 3:
+		shell.handle_player_action(KEYBOARD_SPACE, true)
+		shell.handle_player_action(KEYBOARD_SPACE, false)
+	if preheld:
+		shell.handle_player_action(KEYBOARD_SPACE, true)
+	shell.advance_journey(0.75)
+	return shell
 
 
 func _route_duration_follows_tuning() -> void:
@@ -55,8 +137,11 @@ func _route_duration_follows_tuning() -> void:
 		shell.handle_player_action(KEYBOARD_SPACE, false)
 	shell.handle_player_action(KEYBOARD_SPACE, true)
 	shell.advance_journey(0.75)
-	shell.advance_journey(1.25)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
+	test.expect(
+		shell.handle_route_choice_intent("lacewood.canopy", POINTER_PRIMARY),
+		"the tuned route starts through a direct path intent",
+	)
 	shell.advance_journey(1.8)
 	test.expect(
 		shell.presentation_evidence().get("journey_phase") == "lacewood-route",
@@ -80,14 +165,14 @@ func _choose_route(source: StringName, choose_canopy: bool) -> Dictionary:
 		test.expect(shell.handle_player_action(source, true), "the shared action advances the story")
 		shell.handle_player_action(source, false)
 
-	# Both player paths enter the decision while holding the same flight action.
-	test.expect(shell.handle_player_action(source, true), "the shared action is held into Lacewood")
+	test.expect(shell.handle_player_action(source, true), "the shared action flies into Lacewood")
 	shell.advance_journey(0.75)
-	if not choose_canopy:
-		test.expect(shell.handle_player_action(source, false), "release expresses the woodland-floor choice")
-	shell.advance_journey(1.25)
-	if choose_canopy:
-		test.expect(shell.handle_player_action(source, false), "the canopy hold releases after selection")
+	test.expect(shell.handle_player_action(source, false), "the flight action neutralizes at the fork")
+	var route_id := "lacewood.canopy" if choose_canopy else "lacewood.floor"
+	test.expect(
+		shell.handle_route_choice_intent(route_id, POINTER_PRIMARY),
+		"the player acts directly on the chosen Lacewood route",
+	)
 
 	var evidence: Dictionary = (
 		shell.path_choice_evidence()
