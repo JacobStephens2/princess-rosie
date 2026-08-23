@@ -1,6 +1,6 @@
 {
   "contractVersion": "rosie-edition-contract/1",
-  "revision": "opening-flight-1",
+  "revision": "opening-flight-2",
   "files": [
     { "role": "content", "path": "content.json" },
     { "role": "tuning-intent", "path": "tuning-intent.json" },
