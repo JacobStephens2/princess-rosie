@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.vignette.lacewood.floor",
+  "runtimeMapping": "runtime-cue.vignette.lacewood.floor",
+  "sourceMaster": "source-master.vignette.lacewood.floor",
+  "sourcePath": "masters/vignette-lacewood-floor.wav",
+  "runtimePath": "runtime/vignette-lacewood-floor.wav",
+  "sourceHash": "sha256:14871e03c7be1d13ba7572a68dad9473d78f5ac36476f7e8a6bf2b3513dc028b",
+  "derivativeHash": "sha256:14871e03c7be1d13ba7572a68dad9473d78f5ac36476f7e8a6bf2b3513dc028b",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

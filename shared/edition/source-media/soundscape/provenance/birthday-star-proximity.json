@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.birthday-star.proximity",
+  "sourceMasterId": "source-master.birthday-star.proximity",
+  "runtimeMapping": "runtime-cue.birthday-star.proximity",
+  "jobHash": "sha256:51fb937d131cec21f1cd83ba275543f9ea151826373e4ab8e16344bc71184b7c",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A capped magical shimmer. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T02:02:40.119Z",
+  "traceId": "d74e2069fb070cfcec15076664e522db",
+  "providerReportedUsage": {
+    "characterCost": "10"
+  },
+  "sourceHash": "sha256:07eb0918a1e8b6c8fc3416b1e7f786921a3463ba9926b857a859c8e06f8b30a7",
+  "selectedOutputHash": "sha256:32e7bae2241350198c403f74bd4dd8f53577e7853cc303bbe35dba73fee698ef",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -8.538,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:32e7bae2241350198c403f74bd4dd8f53577e7853cc303bbe35dba73fee698ef",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "capped-magical-shimmer-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 20,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Clearest capped Birthday Star shimmer on small speakers: balanced audible energy, airy high-frequency activity appropriate to a shimmer, controlled crest, and ample peak headroom at the quiet detail gain."
+}

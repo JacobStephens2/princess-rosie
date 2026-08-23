@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.vignette.lacewood.canopy",
+  "sourceMaster": "source-master.vignette.lacewood.canopy",
+  "runtimeMapping": "runtime-cue.vignette.lacewood.canopy",
+  "status": "approved",
+  "jobHash": "sha256:283441daf3429514f40b2c8ad49f1e612813bbc51de0575d5f66c36890cdb119",
+  "masterPath": "masters/vignette-lacewood-canopy.wav",
+  "masterHash": "sha256:a66e82af705b104c3a8789d33bb07c377e814e57fbb21a3d43455f48ec5f6e18",
+  "runtimePath": "runtime/vignette-lacewood-canopy.wav",
+  "runtimeHash": "sha256:a66e82af705b104c3a8789d33bb07c377e814e57fbb21a3d43455f48ec5f6e18"
+}

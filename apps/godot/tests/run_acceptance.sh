@@ -22,6 +22,8 @@ tests=(
   flight_motion_acceptance.gd
   flight_media_acceptance.gd
   presentation_motion_acceptance.gd
+  lacewood_tracer_acceptance.gd
+  edition_contract_tracer_acceptance.gd
   soundscape_player_acceptance.gd
   godot_audio_adapter_acceptance.gd
 )

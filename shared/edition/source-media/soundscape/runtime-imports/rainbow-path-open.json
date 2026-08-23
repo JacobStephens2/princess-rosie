@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.rainbow-path.open",
+  "runtimeMapping": "runtime-cue.rainbow-path.open",
+  "sourceMaster": "source-master.rainbow-path.open",
+  "sourcePath": "masters/rainbow-path-open.wav",
+  "runtimePath": "runtime/rainbow-path-open.wav",
+  "sourceHash": "sha256:4be308dbe38bdca563af1c49740affde51133cf25d68d35f72fdbbf9c3c71d56",
+  "derivativeHash": "sha256:4be308dbe38bdca563af1c49740affde51133cf25d68d35f72fdbbf9c3c71d56",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "looping": false
+  }
+}

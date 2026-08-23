@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.place.lacewood",
+  "sourceMaster": "source-master.place.lacewood",
+  "runtimeMapping": "runtime-cue.place.lacewood",
+  "status": "approved",
+  "jobHash": "sha256:f6c33d16fd7f4fdf6260e6d795602798af1a695526941a0796da2498a5dac228",
+  "masterPath": "masters/place-lacewood.wav",
+  "masterHash": "sha256:aa67ec4aa71976bb4ef6ad71fe1c4d8462baa40d5178353c7648ac38b8769196",
+  "runtimePath": "runtime/place-lacewood.wav",
+  "runtimeHash": "sha256:aa67ec4aa71976bb4ef6ad71fe1c4d8462baa40d5178353c7648ac38b8769196"
+}

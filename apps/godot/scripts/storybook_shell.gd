@@ -7,6 +7,8 @@ enum PresentationState {
 	COVER,
 	OPENING_STORYBOOK_MOMENT,
 	ACTIVE_PLAY,
+	BIRTHDAY_STAR_MOMENT,
+	CELEBRATION,
 	PAUSED,
 }
 
@@ -38,8 +40,36 @@ const SOURCE_POINTER_PRIMARY: StringName = &"pointer.primary"
 const EVENT_OPENING_MOMENT := &"sound-event.opening-storybook-moment"
 const EVENT_FLIGHT_LAUNCH := &"sound-event.flight-launch"
 const EVENT_MOVEMENT_STATE := &"sound-event.movement-state"
+const EVENT_PLACE_ENTRY := &"sound-event.place-entry"
+const EVENT_VIGNETTE_INTERACTION := &"sound-event.vignette-interaction"
+const EVENT_PATH_CHOICE_AVAILABLE := &"sound-event.path-choice-available"
+const EVENT_PATH_CHOICE_SELECTED := &"sound-event.path-choice-selected"
+const EVENT_JOURNEY_HISTORY_SHIMMER := &"sound-event.journey-history-shimmer"
+const EVENT_PLAYFUL_BUMP := &"sound-event.playful-bump"
+const EVENT_NEAR_MISS := &"sound-event.near-miss"
+const EVENT_BIRTHDAY_STAR_PROXIMITY := &"sound-event.birthday-star-proximity"
+const EVENT_BIRTHDAY_STAR_GATHERED := &"sound-event.birthday-star-gathered"
+const EVENT_RAINBOW_PATH_OPENED := &"sound-event.rainbow-path-opened"
+const EVENT_BIRTHDAY_STAR_MOMENT := &"sound-event.birthday-star-moment"
+const EVENT_CLOUD_REST_ENTERED := &"sound-event.cloud-rest-entered"
+const EVENT_CLOUD_REST_EXITED := &"sound-event.cloud-rest-exited"
+const EVENT_BIRTHDAY_CASTLE_ARRIVAL := &"sound-event.birthday-castle-arrival"
+const EVENT_CELEBRATION_INTERACTION := &"sound-event.celebration-interaction"
 const EVENT_REPLAY := &"sound-event.replay"
 const EVENT_SOUND_PREFERENCE_CHANGED := &"sound-event.sound-preference-changed"
+const PHASE_FLIGHT := "flight"
+const PHASE_PATH_CHOICE := "lacewood-path-choice"
+const PHASE_ROUTE := "lacewood-route"
+const PHASE_CLOUD_REST := "cloud-rest"
+const PHASE_STAR_APPROACH := "birthday-star-approach"
+const PHASE_BIRTHDAY_STAR_MOMENT := "birthday-star-moment"
+const PHASE_CELEBRATION := "celebration"
+const LACEWOOD_PLACE := "lacewood"
+const LACEWOOD_PATH_CHOICE := "path-choice.lacewood"
+const LACEWOOD_CANOPY_ROUTE := "lacewood.canopy"
+const LACEWOOD_FLOOR_ROUTE := "lacewood.floor"
+const LACEWOOD_BIRTHDAY_STAR := "birthday-star.lacewood"
+const LACEWOOD_RAINBOW_PATH := "rainbow-path.lacewood"
 
 const STATE_IDS := {
 	PresentationState.UNPREPARED: "unprepared",
@@ -47,6 +77,8 @@ const STATE_IDS := {
 	PresentationState.COVER: "cover",
 	PresentationState.OPENING_STORYBOOK_MOMENT: "opening_storybook_moment",
 	PresentationState.ACTIVE_PLAY: "active_play",
+	PresentationState.BIRTHDAY_STAR_MOMENT: "birthday_star_moment",
+	PresentationState.CELEBRATION: "celebration",
 	PresentationState.PAUSED: "paused",
 }
 const WINDOW_MODE_IDS := {
@@ -82,6 +114,17 @@ var _active_action_sources: Dictionary = {}
 var _observed_action_sources: Dictionary = {}
 var _observed_opening_moments: Array[String] = []
 var _observed_opening_checkpoints: Array[Dictionary] = []
+var _journey_phase := ""
+var _journey_phase_elapsed := 0.0
+var _journey_checkpoint := 0
+var _action_held := false
+var _chosen_route := ""
+var _playful_bump_count := 0
+var _cloud_rest_count := 0
+var _birthday_stars: Array[String] = []
+var _rainbow_paths: Array[String] = []
+var _path_choices := {}
+var _journey_history := {}
 var _soundscape: RefCounted
 var _engine_audio: Node
 
@@ -108,6 +151,8 @@ var _engine_audio: Node
 @onready var _error_label: Label = %ErrorLabel
 @onready var _export_smoke_probe: Node = %ExportSmokeProbe
 @onready var _sound_button: Button = %SoundButton
+@onready var _flight_title: Label = %FlightTitle
+@onready var _flight_instruction: Label = %FlightInstruction
 
 
 func _ready() -> void:
@@ -157,6 +202,8 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	_observed_action_sources = {}
 	_observed_opening_moments = []
 	_observed_opening_checkpoints = []
+	_journey_history = {}
+	_reset_current_journey()
 	_sound_enabled = true
 	_grown_up_corner_visible = false
 	_paused_from = PresentationState.COVER
@@ -221,6 +268,14 @@ func presentation_evidence() -> Dictionary:
 		"active_action_sources": _active_action_source_ids(),
 		"observed_action_sources": _observed_action_source_ids(),
 		"flight": flight_evidence(),
+		"journey_phase": _journey_phase,
+		"chosen_route": _chosen_route,
+		"playful_bumps": _playful_bump_count,
+		"cloud_rests": _cloud_rest_count,
+		"birthday_stars": _birthday_stars.duplicate(),
+		"rainbow_paths": _rainbow_paths.duplicate(),
+		"path_choices": _path_choices.duplicate(true),
+		"journey_history": _journey_history.duplicate(true),
 		"engine_version": _engine_version(),
 	}
 
@@ -265,6 +320,15 @@ func storybook_stage_evidence() -> Dictionary:
 		"essential_content_cropped": essential_content_cropped,
 		"cover_visible": _cover_art.texture != null and _cover_art.is_visible_in_tree(),
 		"opening_visible": _opening_art.texture != null and _opening_art.is_visible_in_tree(),
+		"birthday_star_moment_visible": (
+			_state == PresentationState.BIRTHDAY_STAR_MOMENT
+			and _opening_art.texture != null
+			and _opening_art.is_visible_in_tree()
+		),
+		"celebration_visible": (
+			_state == PresentationState.CELEBRATION
+			and _active_play_presentation.is_visible_in_tree()
+		),
 		"active_play_visible": _active_play_presentation.is_visible_in_tree(),
 		"entry_points_visible": (
 			_begin_button.is_visible_in_tree()
@@ -310,23 +374,59 @@ func handle_player_intent(intent: StringName) -> bool:
 			_show_opening_moment(0)
 			return true
 		INTENT_CONTINUE:
+			if _state == PresentationState.BIRTHDAY_STAR_MOMENT:
+				_journey_history[_chosen_route] = true
+				_action_held = false
+				_journey_phase = PHASE_CELEBRATION
+				_state = PresentationState.CELEBRATION
+				_report_sound_event(EVENT_BIRTHDAY_CASTLE_ARRIVAL, {})
+				return true
 			if _state != PresentationState.OPENING_STORYBOOK_MOMENT:
 				return false
 			if _opening_moment_index < _opening_moments.size() - 1:
 				_show_opening_moment(_opening_moment_index + 1)
 				return true
 			_start_flight()
+			_reset_current_journey()
+			_journey_phase = PHASE_FLIGHT
 			_report_sound_event(EVENT_FLIGHT_LAUNCH, {})
 			_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
 			return true
 		INTENT_ACTION_PRESSED:
-			if _state != PresentationState.ACTIVE_PLAY or _movement_state == "rise":
+			if _state == PresentationState.CELEBRATION:
+				if _action_held:
+					return false
+				_action_held = true
+				_report_sound_event(
+					EVENT_CELEBRATION_INTERACTION,
+					{"action": "dance-again"},
+				)
+				return true
+			if _state != PresentationState.ACTIVE_PLAY:
+				return false
+			_action_held = true
+			if _journey_phase == PHASE_CLOUD_REST:
+				_resume_from_cloud_rest()
+				return true
+			if _journey_phase != PHASE_FLIGHT:
+				return true
+			if _movement_state == "rise":
 				return false
 			_movement_state = "rise"
 			_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
 			return true
 		INTENT_ACTION_RELEASED:
-			if _state != PresentationState.ACTIVE_PLAY or _movement_state == "glide":
+			if _state == PresentationState.CELEBRATION:
+				if not _action_held:
+					return false
+				_action_held = false
+				return true
+			if _state != PresentationState.ACTIVE_PLAY:
+				return false
+			_action_held = false
+			if _journey_phase != PHASE_FLIGHT:
+				return true
+			if _movement_state == "glide":
 				return false
 			_movement_state = "glide"
 			_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
@@ -380,12 +480,12 @@ func handle_player_intent(intent: StringName) -> bool:
 			_opening_moment_index = 0
 			_movement_state = ""
 			_reset_flight_motion()
+			_reset_current_journey()
 			_grown_up_corner_visible = false
 			_set_window_mode(PresentationWindowMode.WINDOWED)
 			return true
 		_:
 			return false
-
 
 func handle_player_action(source: StringName, pressed: bool) -> bool:
 	if source not in [SOURCE_KEYBOARD_SPACE, SOURCE_POINTER_PRIMARY]:
@@ -403,7 +503,9 @@ func handle_player_action(source: StringName, pressed: bool) -> bool:
 			if continued and _state == PresentationState.ACTIVE_PLAY:
 				handle_player_intent(INTENT_ACTION_PRESSED)
 			return continued
-		if _state == PresentationState.ACTIVE_PLAY:
+		if _state == PresentationState.BIRTHDAY_STAR_MOMENT:
+			return handle_player_intent(INTENT_CONTINUE)
+		if _state in [PresentationState.ACTIVE_PLAY, PresentationState.CELEBRATION]:
 			return handle_player_intent(INTENT_ACTION_PRESSED)
 		return false
 
@@ -412,7 +514,7 @@ func handle_player_action(source: StringName, pressed: bool) -> bool:
 	_active_action_sources.erase(source)
 	if not _active_action_sources.is_empty():
 		return false
-	if _state == PresentationState.ACTIVE_PLAY:
+	if _state in [PresentationState.ACTIVE_PLAY, PresentationState.CELEBRATION]:
 		return handle_player_intent(INTENT_ACTION_RELEASED)
 	return true
 
@@ -455,6 +557,156 @@ func advance_simulation(delta: float) -> bool:
 	return true
 
 
+func advance_journey(delta: float) -> void:
+	if _state != PresentationState.ACTIVE_PLAY or delta <= 0.0:
+		return
+	_journey_phase_elapsed += delta
+	match _journey_phase:
+		PHASE_FLIGHT:
+			if _journey_phase_elapsed >= 0.75:
+				_enter_lacewood()
+		PHASE_PATH_CHOICE:
+			if _journey_phase_elapsed >= 1.25:
+				_choose_lacewood_route()
+		PHASE_ROUTE:
+			_advance_lacewood_route()
+		PHASE_STAR_APPROACH:
+			_advance_birthday_star_sequence()
+	_render_presentation()
+
+
+func _enter_lacewood() -> void:
+	_journey_phase = PHASE_PATH_CHOICE
+	_journey_phase_elapsed = 0.0
+	_journey_checkpoint = 0
+	_report_sound_event(EVENT_PLACE_ENTRY, {"place": LACEWOOD_PLACE})
+	_report_sound_event(
+		EVENT_PATH_CHOICE_AVAILABLE,
+		{"pathChoice": LACEWOOD_PATH_CHOICE},
+	)
+	var unseen_route := ""
+	if _journey_history.has(LACEWOOD_CANOPY_ROUTE) and not _journey_history.has(LACEWOOD_FLOOR_ROUTE):
+		unseen_route = LACEWOOD_FLOOR_ROUTE
+	elif _journey_history.has(LACEWOOD_FLOOR_ROUTE) and not _journey_history.has(LACEWOOD_CANOPY_ROUTE):
+		unseen_route = LACEWOOD_CANOPY_ROUTE
+	if not unseen_route.is_empty():
+		_report_sound_event(
+			EVENT_JOURNEY_HISTORY_SHIMMER,
+			{"pathChoice": LACEWOOD_PATH_CHOICE, "route": unseen_route},
+		)
+
+
+func _choose_lacewood_route() -> void:
+	_chosen_route = LACEWOOD_CANOPY_ROUTE if _action_held else LACEWOOD_FLOOR_ROUTE
+	_path_choices[LACEWOOD_PATH_CHOICE] = _chosen_route
+	_journey_phase = PHASE_ROUTE
+	_journey_phase_elapsed = 0.0
+	_journey_checkpoint = 0
+	_report_sound_event(
+		EVENT_PATH_CHOICE_SELECTED,
+		{"pathChoice": LACEWOOD_PATH_CHOICE, "route": _chosen_route},
+	)
+	_report_sound_event(
+		EVENT_VIGNETTE_INTERACTION,
+		{
+			"place": LACEWOOD_PLACE,
+			"interaction": (
+				"silver-ribbon-canopy"
+				if _chosen_route == LACEWOOD_CANOPY_ROUTE
+				else "rose-lit-floor"
+			),
+		},
+	)
+
+
+func _advance_lacewood_route() -> void:
+	var thresholds := [0.45, 0.9, 1.35, 1.8]
+	while _journey_phase == PHASE_ROUTE and _journey_checkpoint < thresholds.size():
+		if _journey_phase_elapsed < thresholds[_journey_checkpoint]:
+			return
+		match _journey_checkpoint:
+			0:
+				_report_sound_event(
+					EVENT_NEAR_MISS,
+					{"place": LACEWOOD_PLACE, "kind": "silver-ribbon"},
+				)
+			1, 2, 3:
+				_report_playful_bump()
+		_journey_checkpoint += 1
+
+
+func _report_playful_bump() -> void:
+	_playful_bump_count += 1
+	_report_sound_event(
+		EVENT_PLAYFUL_BUMP,
+		{"place": LACEWOOD_PLACE, "kind": "silver-ribbon"},
+	)
+	if _playful_bump_count == 3:
+		_cloud_rest_count += 1
+		_action_held = false
+		_journey_phase = PHASE_CLOUD_REST
+		_journey_phase_elapsed = 0.0
+		_journey_checkpoint = 0
+		_report_sound_event(EVENT_CLOUD_REST_ENTERED, {"place": LACEWOOD_PLACE})
+
+
+func _resume_from_cloud_rest() -> void:
+	_report_sound_event(EVENT_CLOUD_REST_EXITED, {"place": LACEWOOD_PLACE})
+	_movement_state = "flight"
+	_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
+	_journey_phase = PHASE_STAR_APPROACH
+	_journey_phase_elapsed = 0.0
+	_journey_checkpoint = 0
+
+
+func _advance_birthday_star_sequence() -> void:
+	var thresholds := [0.45, 1.0, 2.4, 4.9]
+	while _journey_phase == PHASE_STAR_APPROACH and _journey_checkpoint < thresholds.size():
+		if _journey_phase_elapsed < thresholds[_journey_checkpoint]:
+			return
+		match _journey_checkpoint:
+			0:
+				_report_sound_event(
+					EVENT_BIRTHDAY_STAR_PROXIMITY,
+					{"birthdayStar": LACEWOOD_BIRTHDAY_STAR},
+				)
+			1:
+				if not _birthday_stars.has(LACEWOOD_BIRTHDAY_STAR):
+					_birthday_stars.append(LACEWOOD_BIRTHDAY_STAR)
+				_report_sound_event(
+					EVENT_BIRTHDAY_STAR_GATHERED,
+					{"birthdayStar": LACEWOOD_BIRTHDAY_STAR},
+				)
+			2:
+				if not _rainbow_paths.has(LACEWOOD_RAINBOW_PATH):
+					_rainbow_paths.append(LACEWOOD_RAINBOW_PATH)
+				_report_sound_event(
+					EVENT_RAINBOW_PATH_OPENED,
+					{"rainbowPath": LACEWOOD_RAINBOW_PATH, "familyGuest": "Gram"},
+				)
+			3:
+				_report_sound_event(
+					EVENT_BIRTHDAY_STAR_MOMENT,
+					{"place": LACEWOOD_PLACE, "familyGuest": "Gram"},
+				)
+				_journey_phase = PHASE_BIRTHDAY_STAR_MOMENT
+				_state = PresentationState.BIRTHDAY_STAR_MOMENT
+		_journey_checkpoint += 1
+
+
+func _reset_current_journey() -> void:
+	_journey_phase = ""
+	_journey_phase_elapsed = 0.0
+	_journey_checkpoint = 0
+	_action_held = false
+	_chosen_route = ""
+	_playful_bump_count = 0
+	_cloud_rest_count = 0
+	_birthday_stars = []
+	_rainbow_paths = []
+	_path_choices = {}
+
+
 func storybook_stage_rect(viewport_size: Vector2) -> Rect2:
 	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
 		return Rect2()
@@ -480,6 +732,7 @@ func _physics_process(delta: float) -> void:
 func _process(delta: float) -> void:
 	if not is_node_ready() or not is_finite(delta) or delta <= 0.0:
 		return
+	advance_journey(delta)
 	_authored_motion_seconds += delta
 	var page_breath := sin(_authored_motion_seconds * 0.55)
 	_opening_art.scale = Vector2.ONE * (1.035 + page_breath * 0.006)
@@ -532,9 +785,14 @@ func _render_presentation() -> void:
 	var content_title := str(_content.get("title", "Princess Rosie and the Seven Birthday Stars"))
 	var opening: Dictionary = _current_opening_moment()
 	_title_label.text = content_title
-	_opening_eyebrow.text = str(opening.get("eyebrow", "A brave big sister"))
-	_opening_title.text = str(opening.get("title", "Rosie and Stella can help"))
-	_opening_copy.text = str(opening.get("copy", ""))
+	if _state == PresentationState.BIRTHDAY_STAR_MOMENT:
+		_opening_eyebrow.text = "A Birthday Star!"
+		_opening_title.text = "Gram's Rainbow Path"
+		_opening_copy.text = _birthday_star_moment_copy()
+	else:
+		_opening_eyebrow.text = str(opening.get("eyebrow", "A brave big sister"))
+		_opening_title.text = str(opening.get("title", "Rosie and Stella can help"))
+		_opening_copy.text = str(opening.get("copy", ""))
 	var illustration_id: String = opening.get("illustration", "")
 	if _opening_textures.has(illustration_id):
 		_opening_art.texture = _opening_textures[illustration_id]
@@ -543,10 +801,17 @@ func _render_presentation() -> void:
 	if _flight_character_texture != null:
 		_flight_character.texture = _flight_character_texture
 	_continue_button.text = (
-		"Begin flying"
-		if _opening_moment_index == _opening_moments.size() - 1
-		else "Turn the page"
+		"Keep flying"
+		if _state == PresentationState.BIRTHDAY_STAR_MOMENT
+		else (
+			"Begin flying"
+			if _opening_moment_index == _opening_moments.size() - 1
+			else "Turn the page"
+		)
 	)
+	var flight_copy := _flight_presentation_copy()
+	_flight_title.text = flight_copy.title
+	_flight_instruction.text = flight_copy.instruction
 	_pack_badge.text = "EDITION PACK  •  %s" % _pack_digest.trim_prefix("sha256:").left(10).to_upper()
 	_error_label.text = _launch_error
 	_sound_button.text = "Sound: On" if _sound_enabled else "Sound: Off"
@@ -558,17 +823,23 @@ func _render_presentation() -> void:
 		or (_state == PresentationState.PAUSED and _paused_from == PresentationState.COVER)
 	)
 	_opening_presentation.visible = (
-		_state == PresentationState.OPENING_STORYBOOK_MOMENT
+		_state in [
+			PresentationState.OPENING_STORYBOOK_MOMENT,
+			PresentationState.BIRTHDAY_STAR_MOMENT,
+		]
 		or (
 			_state == PresentationState.PAUSED
-			and _paused_from == PresentationState.OPENING_STORYBOOK_MOMENT
+			and _paused_from in [
+				PresentationState.OPENING_STORYBOOK_MOMENT,
+				PresentationState.BIRTHDAY_STAR_MOMENT,
+			]
 		)
 	)
 	_active_play_presentation.visible = (
-		_state == PresentationState.ACTIVE_PLAY
+		_state in [PresentationState.ACTIVE_PLAY, PresentationState.CELEBRATION]
 		or (
 			_state == PresentationState.PAUSED
-			and _paused_from == PresentationState.ACTIVE_PLAY
+			and _paused_from in [PresentationState.ACTIVE_PLAY, PresentationState.CELEBRATION]
 		)
 	)
 
@@ -683,7 +954,6 @@ func _current_opening_moment() -> Dictionary:
 	var opening: Variant = _opening_moments[_opening_moment_index]
 	return opening if opening is Dictionary else {}
 
-
 func _active_action_source_ids() -> Array[String]:
 	return _sorted_source_ids(_active_action_sources)
 
@@ -708,6 +978,56 @@ func _player_action_source(event: InputEvent) -> StringName:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		return SOURCE_POINTER_PRIMARY
 	return &""
+
+
+func _birthday_star_moment_copy() -> String:
+	var place: Dictionary = _content.get("place", {})
+	var path_choice: Dictionary = place.get("pathChoice", {})
+	for route_value: Variant in path_choice.get("routes", []):
+		if route_value is Dictionary and route_value.get("id") == _chosen_route:
+			return route_value.get(
+				"birthdayStarMoment",
+				"Gram followed the gentle lights through Zélie's Lacewood!",
+			)
+	return "Gram followed the gentle lights through Zélie's Lacewood!"
+
+
+func _flight_presentation_copy() -> Dictionary:
+	match _journey_phase:
+		PHASE_PATH_CHOICE:
+			return {
+				"title": "Zélie's Lacewood",
+				"instruction": "Hold for silver ribbons • release for rose lights",
+			}
+		PHASE_ROUTE:
+			return {
+				"title": (
+					"Silver-ribbon canopy"
+					if _chosen_route == LACEWOOD_CANOPY_ROUTE
+					else "Rose-lit woodland floor"
+				),
+				"instruction": "Both gentle ways lead safely to Gram",
+			}
+		PHASE_CLOUD_REST:
+			return {
+				"title": "Cloud Rest",
+				"instruction": "Stella is safe • press to fly on",
+			}
+		PHASE_STAR_APPROACH:
+			return {
+				"title": "A Birthday Star is near!",
+				"instruction": "It will joyfully fly to Stella",
+			}
+		PHASE_CELEBRATION:
+			return {
+				"title": "Birthday Castle Celebration!",
+				"instruction": "Press to dance again • both paths helped Gram arrive",
+			}
+		_:
+			return {
+				"title": "Stella is flying!",
+				"instruction": "Hold to rise • release to glide",
+			}
 
 
 func _load_opening_media(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
