@@ -49,7 +49,7 @@ const result = await runSoundscapeBuildCli({
   stderr: (message) => process.stderr.write(`${message}\n`),
   protectedProductionOutputRoot: productionOutputRoot,
   approveCandidates: async (candidates) => {
-    const previewDirectory = await mkdtemp(join(tmpdir(), "rosi-soundscape-candidates-"));
+    const previewDirectory = await mkdtemp(join(tmpdir(), "rosie-soundscape-candidates-"));
     try {
       process.stdout.write("Generated temporary candidate previews:\n");
       for (const { id, previewWav } of candidates) {

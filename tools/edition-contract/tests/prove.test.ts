@@ -25,8 +25,18 @@ async function readTracerSoundEvents(): Promise<TestSoundEvent[]> {
 const tracerFacts = {
   birthdayStars: ["birthday-star.lacewood"],
   rainbowPaths: ["rainbow-path.lacewood"],
-  chosenPathRecorded: true,
+  singleRoute: "single-route.lacewood",
+  flightControlBindings: ["keyboard.space", "pointer.primary"],
+  flightControlImmediate: true,
+  flightControlCycles: 3,
+  singleRouteDurationSeconds: 18.0,
+  safeLimitsPreserveForwardMotion: true,
+  observedInteractions: ["silver-ribbons", "rose-lights"],
+  canonicalCelebrationEcho: "silver-ribbons-and-rose-lights",
+  birthdayStarGuaranteed: true,
   cloudRestPreservesProgress: true,
+  cloudRestAutomaticResume: true,
+  journeyProgressPersisted: false,
   networkRequests: 0,
 };
 
@@ -63,6 +73,16 @@ describe("Edition Contract proof", () => {
       soundEvents,
       facts: {
         openingImageryReadOnly: true,
+        openingMomentCount: 3,
+        birthdayStarCount: 7,
+        celebrationPreparationHost: "Gigi",
+        promiseKeepers: ["Princess Rosie", "Stella"],
+        waitsForPlayerIntent: true,
+        playerActionBindings: ["keyboard.space", "pointer.primary"],
+        overlapDeduplicated: true,
+        automaticForwardMotion: true,
+        frameRateIndependent: true,
+        transparentCharacterLayer: true,
         continuousMovementLayers: 1,
         genericConfirmationOverlap: false,
         networkRequests: 0,
@@ -103,19 +123,22 @@ describe("Edition Contract proof", () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
     const tracerSoundEvents = await readTracerSoundEvents();
     const outOfOrderEvents = [...tracerSoundEvents];
-    const shimmerIndex = outOfOrderEvents.findIndex(
+    const silverRibbonIndex = outOfOrderEvents.findIndex(
       ({ event, context }) =>
-        event === "sound-event.journey-history-shimmer" && context.route === "lacewood.floor",
+        event === "sound-event.vignette-interaction"
+        && context.interaction === "silver-ribbons",
     );
-    const selectionIndex = outOfOrderEvents.findIndex(
+    const roseLightIndex = outOfOrderEvents.findIndex(
       ({ event, context }) =>
-        event === "sound-event.path-choice-selected" && context.route === "lacewood.floor",
+        event === "sound-event.vignette-interaction" && context.interaction === "rose-lights",
     );
-    const shimmerEvent = outOfOrderEvents[shimmerIndex];
-    const selectionEvent = outOfOrderEvents[selectionIndex];
-    if (!shimmerEvent || !selectionEvent) throw new Error("Tracer route events are missing");
-    outOfOrderEvents[shimmerIndex] = selectionEvent;
-    outOfOrderEvents[selectionIndex] = shimmerEvent;
+    const silverRibbonEvent = outOfOrderEvents[silverRibbonIndex];
+    const roseLightEvent = outOfOrderEvents[roseLightIndex];
+    if (!silverRibbonEvent || !roseLightEvent) {
+      throw new Error("Tracer interaction events are missing");
+    }
+    outOfOrderEvents[silverRibbonIndex] = roseLightEvent;
+    outOfOrderEvents[roseLightIndex] = silverRibbonEvent;
 
     const proof = await proveEditionPack(tracerPackRoot, prepared, {
       edition: "godot",

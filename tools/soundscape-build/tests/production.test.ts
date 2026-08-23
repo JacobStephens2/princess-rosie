@@ -105,7 +105,7 @@ async function validateFixture(fixture: ValidationFixture): Promise<{
   stdout: string[];
   stderr: string[];
 }> {
-  const root = await mkdtemp(join(tmpdir(), "rosi-soundscape-validation-"));
+  const root = await mkdtemp(join(tmpdir(), "rosie-soundscape-validation-"));
   const catalogPath = join(root, "catalog.json");
   const sourceMediaPath = join(root, "source-media.json");
   const runtimeMappingsPath = join(root, "runtime-mappings.json");
@@ -301,7 +301,7 @@ describe("Soundscape Build production CLI", () => {
   });
 
   test("bounds serial candidate batches and resumes validated paid work", async () => {
-    const revisionRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-revisions-"));
+    const revisionRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-revisions-"));
     const auditionedBatches: string[][] = [];
     const revisionRun = await buildFixture({
       fixtureRoot: revisionRoot,
@@ -319,7 +319,7 @@ describe("Soundscape Build production CLI", () => {
       },
     });
 
-    const resumeRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-resume-"));
+    const resumeRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-resume-"));
     const outputRoot = join(resumeRoot, "artifacts");
     let approvalCalls = 0;
     const interrupted = await buildFixture({
@@ -345,7 +345,7 @@ describe("Soundscape Build production CLI", () => {
       },
     });
 
-    const transmittedRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-transmitted-"));
+    const transmittedRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-transmitted-"));
     const transmittedOutput = join(transmittedRoot, "artifacts");
     await buildFixture({
       fixtureRoot: transmittedRoot,
@@ -392,7 +392,7 @@ describe("Soundscape Build production CLI", () => {
       }),
     });
 
-    const boundedRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-bounded-"));
+    const boundedRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-bounded-"));
     const approveFirst = async (candidates: ReadonlyArray<{ id: string }>) => ({
       approvedCandidate: candidates[0]!.id,
       selectionReason: "Automated planning fixture selected the first valid candidate.",
@@ -402,7 +402,7 @@ describe("Soundscape Build production CLI", () => {
       outputRoot: join(boundedRoot, "artifacts"),
       approveCandidates: approveFirst,
     });
-    const overrideRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-override-"));
+    const overrideRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-override-"));
     const overridden = await buildFixture({
       fixtureRoot: overrideRoot,
       outputRoot: join(overrideRoot, "artifacts"),
@@ -542,7 +542,7 @@ describe("Soundscape Build production CLI", () => {
       }
     };
 
-    const retryRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-retry-"));
+    const retryRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-retry-"));
     const retried = await runAgainstServer({
       root: retryRoot,
       responseStatus: (requestNumber, response) => {
@@ -568,7 +568,7 @@ describe("Soundscape Build production CLI", () => {
       },
     });
 
-    const exhaustedRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-exhausted-"));
+    const exhaustedRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-exhausted-"));
     const exhausted = await runAgainstServer({
       root: exhaustedRoot,
       responseStatus: (_requestNumber, response) => {
@@ -579,7 +579,7 @@ describe("Soundscape Build production CLI", () => {
       },
     });
 
-    const authRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-auth-"));
+    const authRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-auth-"));
     const authentication = await runAgainstServer({
       root: authRoot,
       responseStatus: (_requestNumber, response) => {
@@ -590,7 +590,7 @@ describe("Soundscape Build production CLI", () => {
       },
     });
 
-    const unknownRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-unknown-"));
+    const unknownRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-unknown-"));
     const unknown = await runAgainstServer({
       root: unknownRoot,
       responseStatus: (_requestNumber, response) => {
@@ -661,7 +661,7 @@ describe("Soundscape Build production CLI", () => {
   });
 
   test("invalidates only changed jobs and never replaces approved or corrupt work implicitly", async () => {
-    const root = await mkdtemp(join(tmpdir(), "rosi-soundscape-hashing-"));
+    const root = await mkdtemp(join(tmpdir(), "rosie-soundscape-hashing-"));
     const outputRoot = join(root, "artifacts");
     const fixture = multiCueFixture(2);
     const paths = await writeFixture(root, fixture);
@@ -721,7 +721,7 @@ describe("Soundscape Build production CLI", () => {
       JSON.parse(await readFile(statePath, "utf8")) as { jobHash: string }
     ).jobHash;
 
-    const corruptRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-corrupt-candidate-"));
+    const corruptRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-corrupt-candidate-"));
     const corruptOutput = join(corruptRoot, "artifacts");
     const corruptPaths = await writeFixture(corruptRoot, multiCueFixture(1));
     const runCorrupt = async (limit?: number) => {
@@ -821,7 +821,7 @@ describe("Soundscape Build production CLI", () => {
         | "anti-phase"
         | "duration-drift";
     }) => {
-      const root = await mkdtemp(join(tmpdir(), "rosi-soundscape-audio-"));
+      const root = await mkdtemp(join(tmpdir(), "rosie-soundscape-audio-"));
       const outputRoot = join(root, "artifacts");
       const paths = await writeFixture(root, input.fixture);
       const stderr: string[] = [];
@@ -1082,7 +1082,7 @@ describe("Soundscape Build production CLI", () => {
   });
 
   test("generates and validates non-secret ElevenLabs project media documentation", async () => {
-    const root = await mkdtemp(join(tmpdir(), "rosi-soundscape-media-docs-"));
+    const root = await mkdtemp(join(tmpdir(), "rosie-soundscape-media-docs-"));
     const built = await buildFixture({
       fixtureRoot: root,
       outputRoot: join(root, "artifacts"),
@@ -1277,7 +1277,7 @@ describe("Soundscape Build production CLI", () => {
       catalogValidation: { exitCode: 0 },
       docsValidation: { exitCode: 0 },
       stdout: [
-        "Validated 29 soundscape catalog cues.",
+        "Validated 25 soundscape catalog cues.",
         "Validated Fairytale Soundscape media documentation.",
       ],
       stderr: [],

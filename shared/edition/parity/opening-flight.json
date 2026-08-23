@@ -3,7 +3,7 @@
   "steps": [
     "show-celebration-preparations",
     "show-scattered-birthday-stars",
-    "show-rosi-and-stella-ready",
+    "show-rosie-and-stella-ready",
     "begin-flight",
     "hold-to-rise",
     "release-to-glide",
@@ -43,6 +43,16 @@
   ],
   "requiredFacts": {
     "openingImageryReadOnly": true,
+    "openingMomentCount": 3,
+    "birthdayStarCount": 7,
+    "celebrationPreparationHost": "Gigi",
+    "promiseKeepers": ["Princess Rosie", "Stella"],
+    "waitsForPlayerIntent": true,
+    "playerActionBindings": ["keyboard.space", "pointer.primary"],
+    "overlapDeduplicated": true,
+    "automaticForwardMotion": true,
+    "frameRateIndependent": true,
+    "transparentCharacterLayer": true,
     "continuousMovementLayers": 1,
     "genericConfirmationOverlap": false,
     "networkRequests": 0
