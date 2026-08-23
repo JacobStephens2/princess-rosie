@@ -6,15 +6,15 @@ const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
 const APPROVED_MEDIA := {
 	"opening.celebration-preparations": {
 		"path": "source-media/opening-storybook/celebration-preparations.png",
-		"sha256": "1fc33ef846de26acc92074281b6136da08529ec40572acd42f5533ba585f4dac",
+		"sha256": "d301c682d75db0c96d0a0750543ef9876bc1c252dde74ef70492c7bd5ce1220f",
 	},
 	"opening.scattered-stars": {
 		"path": "source-media/opening-storybook/scattered-stars.png",
-		"sha256": "90f3f020fa58e993224f94932c6a8eb254ad8d030cc0b5ee59e93896c4417c7e",
+		"sha256": "d32b9ec5f56342bf7a8aed2b4c8816ade67fc6a771d7379fd4005db153b7fda7",
 	},
 	"opening.rosi-stella-departure": {
 		"path": "source-media/opening-storybook/rosi-stella-departure.png",
-		"sha256": "ca7d2a1544eabb64cd9b926410eb50d4ed96c51dda32358c340d7e7d10bb67a6",
+		"sha256": "50d6d95b8d330cb1663d8f7327700569c35f7fc25fbf386d94b73e5cb25abcb3",
 	},
 }
 
