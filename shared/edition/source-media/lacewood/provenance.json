@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "rosie-source-media-provenance/1",
+  "asset": "lacewood-background.png",
+  "sha256": "1fdebf2de5a74187ed446a6cdfc957a44c618936d2a46c9caa3b540c2d2984b6",
+  "createdAt": "2026-08-23",
+  "generation": {
+    "tool": "OpenAI built-in image generation",
+    "mode": "generation-with-style-references",
+    "useCase": "illustration-story",
+    "references": [
+      "source-media/opening-storybook/rosie-stella-departure.png",
+      "source-media/flight/rose-garden-background.png"
+    ],
+    "prompt": "Use case: illustration-story. Asset type: production 16:9 game environment background plate for a gentle Godot active-play scene. Create Zélie’s Lacewood, an enchanted rose-and-lace forest where two equally inviting flight routes split and rejoin. Show one upper silver-ribbon canopy route and one lower rose-lit woodland-floor route, both open, broad, safe, equally bright, equally beautiful, and similar in visual weight. Match the approved premium children’s picture-book style and jewel palette. Scenery only; no characters, Birthday Star, text, UI, correctness cues, danger, watermark, photorealism, 3D, or anime.",
+    "output": {
+      "width": 1672,
+      "height": 941,
+      "color": "RGB"
+    }
+  },
+  "selection": {
+    "status": "agent-selected-production-candidate",
+    "ownerManualReview": "pending",
+    "reason": "Both routes have matched visual weight, readable split-and-rejoin composition, and coherent continuity with the approved Rose Garden picture-book art bible."
+  }
+}

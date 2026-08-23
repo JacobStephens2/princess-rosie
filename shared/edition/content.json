@@ -1,6 +1,6 @@
 {
-  "editionId": "princess-rosi-production",
-  "title": "Princess Rosi and the Seven Birthday Stars",
+  "editionId": "princess-rosie-production",
+  "title": "Princess Rosie and the Seven Birthday Stars",
   "locale": "en",
   "storybookStage": {
     "width": 1280,
@@ -9,8 +9,9 @@
   },
   "playerAction": {
     "pressed": "rise",
-    "released": "glide",
-    "bindings": ["keyboard.space", "pointer.primary"]
+    "released": "settle",
+    "bindings": ["keyboard.space", "pointer.primary"],
+    "overlapPolicy": "shared-held-action"
   },
   "openingMoments": [
     {
@@ -18,43 +19,58 @@
       "eyebrow": "Once upon a birthday…",
       "title": "A celebration across the sea",
       "copy": "Far across the sparkling Sapphire Sea, Princess Zélie’s very first birthday celebration was almost ready. Gigi hung roses and ribbons from every golden arch.",
-      "illustration": "opening.celebration-preparations"
+      "illustration": "opening.celebration-preparations",
+      "semanticCheckpoint": {
+        "celebrationPreparationHost": "Gigi"
+      }
     },
     {
       "id": "opening.scattered-stars",
       "eyebrow": "Then—WHOOSH!",
       "title": "Seven Stars flew away",
       "copy": "A playful wind scattered seven Birthday Stars across Fairytale Sicily. The Rainbow Paths to the Birthday Castle vanished!",
-      "illustration": "opening.scattered-stars"
+      "illustration": "opening.scattered-stars",
+      "semanticCheckpoint": {
+        "birthdayStarCount": 7
+      }
     },
     {
       "id": "opening.departure",
       "eyebrow": "A brave big sister",
-      "title": "Rosi and Stella can help",
-      "copy": "Princess Rosi climbed onto Stella, her flying unicorn. “We’ll find every Star and bring everyone to the celebration!”",
-      "illustration": "opening.rosi-stella-departure"
+      "title": "Rosie and Stella can help",
+      "copy": "Princess Rosie climbed onto Stella, her flying unicorn. “We’ll find every Star and bring everyone to the celebration!”",
+      "illustration": "opening.rosie-stella-departure",
+      "semanticCheckpoint": {
+        "promiseKeepers": ["Princess Rosie", "Stella"]
+      }
     }
   ],
+  "initialFlight": {
+    "background": "flight.rose-garden-background",
+    "character": "flight.rosie-stella"
+  },
   "place": {
     "id": "lacewood",
     "name": "Zélie’s Lacewood",
     "familyGuest": "Gram",
-    "pathChoice": {
-      "id": "path-choice.lacewood",
-      "routes": [
+    "singleRoute": {
+      "id": "single-route.lacewood",
+      "interactions": [
         {
-          "id": "lacewood.canopy",
-          "name": "Silver-ribbon canopy",
-          "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
-          "celebrationEcho": "silver-ribbons"
+          "id": "silver-ribbons",
+          "name": "Silver ribbons",
+          "altitudeBand": "high",
+          "visualResponse": "silver-ribbons-unfurl"
         },
         {
-          "id": "lacewood.floor",
-          "name": "Rose-lit woodland floor",
-          "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
-          "celebrationEcho": "rose-lights"
+          "id": "rose-lights",
+          "name": "Rose lights",
+          "altitudeBand": "low",
+          "visualResponse": "rose-lights-bloom"
         }
-      ]
+      ],
+      "birthdayStarMoment": "Gram followed the silver ribbons and glowing roses through Zélie’s Lacewood!",
+      "celebrationEcho": "silver-ribbons-and-rose-lights"
     },
     "birthdayStar": "birthday-star.lacewood",
     "rainbowPath": "rainbow-path.lacewood"

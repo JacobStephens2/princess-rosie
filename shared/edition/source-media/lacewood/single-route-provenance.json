@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rosie-source-media-provenance/1",
+  "asset": "lacewood-single-route-background.png",
+  "sha256": "c9a256f46cdfdf652e95daff8768736e4468dfb5a1df69c2b4ac0fd755ca206c",
+  "createdAt": "2026-08-23",
+  "generation": {
+    "tool": "OpenAI built-in image generation",
+    "mode": "precise-object-edit",
+    "useCase": "precise-object-edit",
+    "references": [
+      "source-media/lacewood/lacewood-background.png"
+    ],
+    "prompt": "Preserve the enchanted rose woodland, silver ribbons, lanterns, pavilion, sky, trees, palette, lighting, and polished hand-painted storybook style while replacing the central island, upper bridge, lower loop, split, and rejoin with exactly one broad, uninterrupted, gently winding garden corridor from the left edge through the open center to the right edge. No fork, branch, loop, parallel lane, median, characters, UI, text, or watermark.",
+    "output": {
+      "width": 1672,
+      "height": 941,
+      "color": "RGB"
+    }
+  },
+  "selection": {
+    "status": "agent-selected-production-candidate",
+    "ownerManualReview": "pending",
+    "reason": "The active plate preserves Lacewood's established art direction while reading as one uninterrupted corridor with no split, rejoin, upper bridge, or lower loop."
+  }
+}

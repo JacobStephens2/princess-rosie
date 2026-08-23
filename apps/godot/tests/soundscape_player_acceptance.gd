@@ -259,33 +259,6 @@ func _init() -> void:
 	var audio := FakeEngineAudioAdapter.new()
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	var soundscape := SOUNDSCAPE_PLAYER.new(pack_root, audio)
-	var journey_audio := FakeEngineAudioAdapter.new()
-	var journey_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, journey_audio)
-	test.expect(
-		journey_soundscape.report_event(
-			&"sound-event.journey-history-shimmer",
-			{
-				"pathChoice": "path-choice.lacewood",
-				"route": "lacewood.floor",
-			},
-		),
-		"an unexplored Lacewood route receives one restrained Journey History shimmer",
-	)
-	var plays_after_journey_history_shimmer := journey_audio.played_streams.size()
-	test.expect(
-		not journey_soundscape.report_event(
-			&"sound-event.journey-history-shimmer",
-			{
-				"pathChoice": "path-choice.lacewood",
-				"route": "lacewood.floor",
-			},
-		),
-		"the same unexplored route does not accumulate score-like shimmer repeats",
-	)
-	test.expect(
-		journey_audio.played_streams.size() == plays_after_journey_history_shimmer,
-		"suppressed Journey History shimmer requests never reach engine playback",
-	)
 	var edge_audio := FakeEngineAudioAdapter.new()
 	var edge_clock := FakeClock.new()
 	var edge_soundscape := SOUNDSCAPE_PLAYER.new(

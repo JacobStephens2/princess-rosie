@@ -1,8 +1,8 @@
 {
   "schemaVersion": 3,
-  "cueId": "cue.vignette.lacewood.floor",
-  "sourceMasterId": "source-master.vignette.lacewood.floor",
-  "runtimeMapping": "runtime-cue.vignette.lacewood.floor",
+  "cueId": "cue.vignette.lacewood.rose-lights",
+  "sourceMasterId": "source-master.vignette.lacewood.rose-lights",
+  "runtimeMapping": "runtime-cue.vignette.lacewood.rose-lights",
   "jobHash": "sha256:88f0724e6fe43fcfb8ac2b6c1f990c7dc9273aa7530ccbfdcce0dff280c8e69f",
   "provider": "ElevenLabs",
   "adapter": "real",

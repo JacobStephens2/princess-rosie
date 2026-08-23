@@ -8,11 +8,11 @@ Execution: built-in OpenAI image-generation tool.
 
 > Use case: illustration-story
 > Asset type: 16:9 opening and finale illustration for a gentle browser game for a four-year-old
-> Primary request: a joyful princess named Rosi riding a friendly flying unicorn named Stella toward a glowing birthday castle across bright fairytale Sicily
+> Primary request: a joyful princess named Rosie riding a friendly flying unicorn named Stella toward a glowing birthday castle across bright fairytale Sicily
 > Scene/backdrop: sparkling sapphire sea below, rose-covered coastal hills, soft clouds forming a cloister of arches, warm golden mosaic castle in the distance, delicate silver lace ribbons carried on a playful breeze
-> Subject: Princess Rosi is a fictional storybook child with pale skin and blonde hair, a rose-pink medieval-fantasy dress and small gold crown; Stella is a kind white flying unicorn with rounded proportions, lavender wings, and a luminous rainbow-striped horn
+> Subject: Princess Rosie is a fictional storybook child with pale skin and blonde hair, a rose-pink medieval-fantasy dress and small gold crown; Stella is a kind white flying unicorn with rounded proportions, lavender wings, and a luminous rainbow-striped horn
 > Style/medium: premium flat modern children's picture-book illustration, solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, expressive friendly faces
-> Composition/framing: wide cinematic 16:9 landscape; Rosi and Stella large enough to read at laptop size; castle visible as destination; generous calm sky around the subjects for HTML title text overlay
+> Composition/framing: wide cinematic 16:9 landscape; Rosie and Stella large enough to read at laptop size; castle visible as destination; generous calm sky around the subjects for HTML title text overlay
 > Lighting/mood: sunny, safe, buoyant, celebratory, full of wonder
 > Color palette: blush pink, lavender, sapphire, warm cream, jewel tones, rainbow accents, luminous mosaic gold
 > Constraints: no written text, no watermark, no logos, no photorealism, no scary imagery, no weapons, no peril, no religious figures; respectful small cross only as an architectural detail on one distant abbey; simple coherent silhouettes suitable for a polished children's web game key visual
@@ -60,31 +60,82 @@ Source: `art-source/opening-storybook/scattered-stars.png`
 
 Deployed output: `public/assets/storybook-scattered-stars.webp`
 
-## Opening Storybook Moment: Rosi and Stella depart
+## Opening Storybook Moment: Rosie and Stella depart
 
-Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the identity reference for Princess Rosi and Stella as well as the visual style, palette, roses, lace, sky, and Fairytale Sicily. Targeted edits compacted Rosi, Stella, both wings, and the single Star into the upper-center crop-safe area.
+Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the identity reference for Princess Rosie and Stella as well as the visual style, palette, roses, lace, sky, and Fairytale Sicily. Targeted edits compacted Princess Rosie, Stella, both wings, and the single Star into the upper-center crop-safe area.
 
 > Use case: illustration-story
 > Asset type: 16:9 full-screen Opening Storybook Moment background for a gentle browser game for a four-year-old
-> Primary request: Princess Rosi has just climbed onto Stella in Rosalia's Rose Garden and they are ready to find the Birthday Stars
+> Primary request: Princess Rosie has just climbed onto Stella in Rosalia's Rose Garden and they are ready to find the Birthday Stars
 > Scene/backdrop: a rose-crowned garden terrace with warm cream arches, pink roses, fresh green leaves, silver lace ribbons, flowered hills, and sunny sapphire sky
-> Subject: preserve the cover's fictional Princess Rosi and Stella designs; Stella stands safely on the garden path with two lavender wings beginning to open while Rosi sits securely with a brave, joyful expression; exactly one distant golden mosaic Birthday Star glows ahead
+> Subject: preserve the cover's fictional Princess Rosie and Stella designs; Stella stands safely on the garden path with two lavender wings beginning to open while Rosie sits securely with a brave, joyful expression; exactly one distant golden mosaic Birthday Star glows ahead
 > Style/medium: match the cover's premium flat modern children's picture-book illustration, solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, and expressive friendly faces
-> Composition/framing: wide cinematic 16:9 medium-wide three-quarter view; keep both faces, Rosi's torso, Stella's rainbow horn and two wings, and the single Star in the central crop-safe area above the lower 35 percent reserved for the HTML story card
+> Composition/framing: wide cinematic 16:9 medium-wide three-quarter view; keep both faces, Rosie's torso, Stella's rainbow horn and two wings, and the single Star in the central crop-safe area above the lower 35 percent reserved for the HTML story card
 > Lighting/mood: one continuous sunny day, hopeful rose-tinted morning, safe, brave, affectionate, and anticipatory
 > Color palette: blush and rose pink, fresh garden green, lavender, sapphire, warm cream, restrained rainbow accents, and luminous mosaic gold
-> Constraints: exactly Princess Rosi and Stella with no other characters; exactly one Birthday Star and no other star shapes; Stella has exactly one rainbow horn and two wings; no falling or peril; no written text, watermark, logos, photorealism, scary imagery, weapons, religious figures, or symbols; coherent anatomy and rider contact
+> Constraints: exactly Princess Rosie and Stella with no other characters; exactly one Birthday Star and no other star shapes; Stella has exactly one rainbow horn and two wings; no falling or peril; no written text, watermark, logos, photorealism, scary imagery, weapons, religious figures, or symbols; coherent anatomy and rider contact
 > Avoid: high flight, castle arrival, extra crowns, horns, wings, limbs, characters, or Family Guests; danger, realistic child portrait, named-studio imitation, 3D render, anime
 
-Source: `art-source/opening-storybook/rosi-stella-departure.png`
+Source: `art-source/opening-storybook/rosie-stella-departure.png`
 
-Deployed output: `public/assets/storybook-rosi-stella-departure.webp`
+Deployed output: `public/assets/storybook-rosie-stella-departure.webp`
+
+## Opening flight: Rosalia's Rose Garden background plate
+
+Execution: built-in OpenAI image-generation tool. `shared/edition/source-media/opening-storybook/rosie-stella-departure.png` provided the approved Rosalia's Rose Garden palette, architecture, lighting, and picture-book style.
+
+> Use case: production game background layer
+> Asset type: 16:9 character-free flight background plate for native Godot parallax
+> Primary request: preserve the approved sunny rose-covered garden terrace, cream arches, sapphire sky and sea, distant flowered hills, silver lace ribbons, and warm picture-book lighting while removing Princess Rosie, Stella, the Birthday Star, and every character-shaped foreground subject
+> Composition/framing: continuous spacious Rosalia's Rose Garden vista with clear sky and garden depth behind the flight path; fill the complete 16:9 frame without text or interface elements
+> Constraints: no people, unicorns, animals, Birthday Stars, written text, watermark, logos, checkerboard, empty cutout holes, photorealism, named-studio imitation, 3D render, or anime
+
+Output: `shared/edition/source-media/flight/rose-garden-background.png`
+
+## Opening flight: Rosie and Stella character layer
+
+Execution: OpenAI Image API CLI fallback, `gpt-image-1.5`, high quality and input fidelity, transparent 1536×1024 PNG. `shared/edition/source-media/opening-storybook/rosie-stella-departure.png` provided the approved fictional character identities and illustration style.
+
+> Use case: production game character-layer extraction. Preserve exactly the approved characters and picture-book illustration style from the reference: young Princess Rosie with long golden-blonde hair, small gold crown, joyful expression, ornate bright pink rose-patterned dress and pink shoes, seated astride Stella; Stella is a friendly white winged unicorn with a pastel pink-purple-blue mane and tail, rainbow horn, two large lavender feathered wings, gold-and-heart bridle, complete body with all four legs and hooves. Isolate only Rosie riding Stella as one complete cohesive character cutout. Remove the garden, archways, sky, sea, flowers, ribbons, star, floor, scenery, shadows, and every other object. Keep the entire silhouette fully inside the canvas with generous transparent padding and no cropping. Output a genuine RGBA PNG with fully transparent pixels everywhere outside the clean character silhouette. No checkerboard, no painted transparency pattern, no white matte, no rectangular background, no halo, no text, no added objects, no anatomy changes, no duplicate limbs or wings.
+
+## Zélie's Lacewood: deferred fork source artwork
+
+Execution: built-in OpenAI image-generation tool with the approved departure illustration and Rose Garden flight background as style, palette, lighting, and world references only. This source artwork is retained for possible post-MVP reconsideration and is not used by the active Single Route.
+
+> Use case: illustration-story
+> Asset type: production 16:9 Godot active-play environment background
+> Primary request: create Zélie’s Lacewood, an enchanted rose-and-lace forest where two equally inviting flight routes split and rejoin
+> Subject: one upper silver-ribbon canopy route and one lower rose-lit woodland-floor route, both open, broad, safe, equally bright, equally beautiful, and similar in visual weight
+> Composition: wide side-view flight composition with readable open corridors, a clear split near the left-middle, and a visible rejoin near the right edge
+> Style: premium children’s picture-book illustration matching the approved references, jewel teal and emerald foliage, blush roses, silver-white lace, warm cream stone, mosaic-gold accents, subtle paper texture
+> Constraints: scenery only; no characters, Birthday Star, text, UI, signs, scoring, correctness cues, danger, closed route, watermark, photorealism, 3D, or anime
+
+Selected output: `shared/edition/source-media/lacewood/lacewood-background.png`
+
+Provenance: `shared/edition/source-media/lacewood/provenance.json`
+
+## Zélie's Lacewood: active single-route background
+
+Execution: built-in OpenAI image-generation edit of the deferred fork artwork. The original remains unchanged as reusable source artwork.
+
+> Use case: precise-object-edit
+> Asset type: wide side-scrolling children's storybook game background
+> Primary request: replace the central island, upper bridge, lower loop, split, and rejoin with exactly one broad, uninterrupted, gently winding garden corridor from the left edge through the open center to the right edge
+> Scene: enchanted rose woodland with silver ribbons, warm lanterns, airy blue sky, distant fairytale pavilion, and cypress trees
+> Style: preserve the polished hand-painted children's storybook detail, palette, lighting, and botanical framing of the source artwork
+> Constraints: no fork, branch, loop, parallel lane, central median, characters, UI, text, or watermark
+
+Selected output: `shared/edition/source-media/lacewood/lacewood-single-route-background.png`
+
+Provenance: `shared/edition/source-media/lacewood/single-route-provenance.json`
+
+Output: `shared/edition/source-media/flight/rosie-stella.png`
 
 ## Birthday Castle celebration illustration
 
 Execution: Inkvoke 1.0.1, GPT Image 2, high quality, 1680×944 PNG.
 
-> Use case: illustration-story. Asset type: 16:9 finale illustration for a gentle browser game for a four-year-old. Inside a magnificent warm golden mosaic birthday castle in bright fairytale Sicily, Princess Rosi and her friendly white flying unicorn Stella have arrived at Princess Zelies joyful birthday celebration. Princess Rosi is a fictional pale-skinned blonde storybook child in a rose-pink medieval-fantasy dress and small gold crown. Stella has lavender wings, a pink-lavender mane, and a luminous rainbow-striped horn. Gigi, a tall friendly giraffe party keeper with a flower garland, dances beside them. A happy small family group claps around a birthday table: Mom with long straight dirty-blonde hair and jeans; Dad with brown hair, T-shirt under an open short-sleeve shirt; Gram with short brown permed curls; Pop with short light strawberry-blonde hair; Aunt with dirty-blonde hair in a bun and bangs; taller Uncle with brown almost-pompadour hair and brown shoes; and Beasley, an orange-and-white cat, pouncing at confetti. Premium flat modern childrens picture-book illustration, solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, expressive friendly faces. Wide cinematic 16:9 composition, all figures clearly visible, dancing and clapping, rose garlands, rainbow ribbons, seven golden mosaic stars shining overhead, confetti and soft fireworks through the open arches. Blush pink, lavender, sapphire, warm cream, jewel tones, luminous mosaic gold. Sunny, safe, buoyant, celebratory. No written text, no watermark, no logos, no photorealism, no scary imagery, no religious figures, no extra people, no weapons, no peril. Original style, not Disney or any named studio, no 3D render, no anime, no realistic child portrait.
+> Use case: illustration-story. Asset type: 16:9 finale illustration for a gentle browser game for a four-year-old. Inside a magnificent warm golden mosaic birthday castle in bright fairytale Sicily, Princess Rosie and her friendly white flying unicorn Stella have arrived at Princess Zelies joyful birthday celebration. Princess Rosie is a fictional pale-skinned blonde storybook child in a rose-pink medieval-fantasy dress and small gold crown. Stella has lavender wings, a pink-lavender mane, and a luminous rainbow-striped horn. Gigi, a tall friendly giraffe party keeper with a flower garland, dances beside them. A happy small family group claps around a birthday table: Mom with long straight dirty-blonde hair and jeans; Dad with brown hair, T-shirt under an open short-sleeve shirt; Gram with short brown permed curls; Pop with short light strawberry-blonde hair; Aunt with dirty-blonde hair in a bun and bangs; taller Uncle with brown almost-pompadour hair and brown shoes; and Beasley, an orange-and-white cat, pouncing at confetti. Premium flat modern childrens picture-book illustration, solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, expressive friendly faces. Wide cinematic 16:9 composition, all figures clearly visible, dancing and clapping, rose garlands, rainbow ribbons, seven golden mosaic stars shining overhead, confetti and soft fireworks through the open arches. Blush pink, lavender, sapphire, warm cream, jewel tones, luminous mosaic gold. Sunny, safe, buoyant, celebratory. No written text, no watermark, no logos, no photorealism, no scary imagery, no religious figures, no extra people, no weapons, no peril. Original style, not Disney or any named studio, no 3D render, no anime, no realistic child portrait.
 
 Output: `public/assets/celebration-art.png`
 
@@ -365,19 +416,7 @@ Selection: Best-balanced gentle bell-like cue: clearly audible on small speakers
 
 Source master: `source-master.story.confirmation`
 
-### cue.vignette.lacewood.canopy
-
-> A soft ribbon response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
-
-Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
-
-Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
-
-Selection: Clearest soft ribbon response for MacBook speakers: strongest usable body, lowest crest factor, moderate crossing activity, and generous peak headroom without a harsh transient.
-
-Source master: `source-master.vignette.lacewood.canopy`
-
-### cue.vignette.lacewood.floor
+### cue.vignette.lacewood.rose-lights
 
 > A soft rose light response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
 
@@ -387,6 +426,18 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-dura
 
 Selection: Best warm rose-light response: strongest clear body with the lowest crest factor of the audible candidates, controlled mastered peak, and enough brightness to remain distinct from the airy canopy cue.
 
-Source master: `source-master.vignette.lacewood.floor`
+Source master: `source-master.vignette.lacewood.rose-lights`
+
+### cue.vignette.lacewood.silver-ribbons
+
+> A soft ribbon response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Clearest soft ribbon response for MacBook speakers: strongest usable body, lowest crest factor, moderate crossing activity, and generous peak headroom without a harsh transient.
+
+Source master: `source-master.vignette.lacewood.silver-ribbons`
 
 <!-- soundscape-build:end -->

@@ -44,7 +44,7 @@ function respondWithActiveSubscription(response: ServerResponse): void {
 
 describe("Soundscape Build confirmation command", () => {
   test("offers all streamed candidates for approval before retaining only the selection", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const offered: Array<{ id: string; riff: string; sampleRate: number }> = [];
 
     const result = await runSoundscapeBuildCli({
@@ -93,7 +93,7 @@ describe("Soundscape Build confirmation command", () => {
   });
 
   test("runs the complete fake authoring flow from one local command", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
 
     const { stdout, stderr } = await execFileAsync(
       process.execPath,
@@ -131,7 +131,7 @@ describe("Soundscape Build confirmation command", () => {
   });
 
   test("builds and approves a confirmation master without exposing its environment credential", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const stdout: string[] = [];
     const stderr: string[] = [];
     const secret = "test-elevenlabs-secret";
@@ -240,7 +240,7 @@ describe("Soundscape Build confirmation command", () => {
     ["bare key", "file-elevenlabs-secret\n"],
     ["assignment", "ELEVENLABS_API_KEY=file-elevenlabs-secret\n"],
   ])("loads a credential from a %s file", async (_label, keyFileContents) => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const keyFile = join(outputRoot, "elevenlabs.key");
     await writeFile(keyFile, keyFileContents, { mode: 0o600 });
     const stderr: string[] = [];
@@ -268,7 +268,7 @@ describe("Soundscape Build confirmation command", () => {
   });
 
   test("prefers the direct environment credential without reading the configured key file", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
 
     const result = await runSoundscapeBuildCli({
       argv: [
@@ -296,7 +296,7 @@ describe("Soundscape Build confirmation command", () => {
   });
 
   test("rejects command-line credential values without repeating them", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const stderr: string[] = [];
     const forbiddenSecret = "forbidden-command-line-secret";
 
@@ -333,7 +333,7 @@ describe("Soundscape Build confirmation command", () => {
   });
 
   test("keeps an approved master immutable unless its exact cue is forced", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const baseArgs = [
       "confirmation",
       "--catalog",
@@ -390,7 +390,7 @@ describe("Soundscape Build confirmation command", () => {
   });
 
   test("refuses to publish fake media into the protected production output root", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const stderr: string[] = [];
 
     const result = await runSoundscapeBuildCli({
@@ -420,7 +420,7 @@ describe("Soundscape Build confirmation command", () => {
   });
 
   test("refuses a fake output-root symlink targeting the protected production root", async () => {
-    const testRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const testRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const productionOutputRoot = join(testRoot, "production");
     const linkedOutputRoot = join(testRoot, "linked-production");
     await mkdir(productionOutputRoot);
@@ -454,7 +454,7 @@ describe("Soundscape Build confirmation command", () => {
   });
 
   test("does not leave a partial approval when durable publication fails", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const stderr: string[] = [];
 
     const result = await runSoundscapeBuildCli({
@@ -492,7 +492,7 @@ describe("Soundscape Build confirmation command", () => {
   });
 
   test("rejects an unsafe confirmation candidate count before generation", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const unsafeCatalogPath = join(outputRoot, "catalog.json");
     const catalog = JSON.parse(await readFile(catalogPath, "utf8")) as {
       entries: Array<{ id: string; authoring?: { candidateCount: number } }>;
@@ -536,7 +536,7 @@ describe("Soundscape Build confirmation command", () => {
       "ELEVENLABS_API_KEY=malformed-secret\nunexpected=value\n",
     ],
   ])("fails safely when credentials are %s", async (_label, envTemplate, keyFileContents) => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const keyFile = join(outputRoot, "elevenlabs.key");
     if (keyFileContents) await writeFile(keyFile, keyFileContents, { mode: 0o600 });
     const env = Object.fromEntries(
@@ -575,7 +575,7 @@ describe("Soundscape Build confirmation command", () => {
   });
 
   test("documents a rejected 48 kHz probe and intentionally falls back to three serial 24 kHz candidates", async () => {
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
 
     const result = await runSoundscapeBuildCli({
       argv: [
@@ -710,7 +710,7 @@ describe("Soundscape Build confirmation command", () => {
     await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
     const address = server.address();
     if (!address || typeof address === "string") throw new Error("Test server did not bind");
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const stderr: string[] = [];
 
     try {
@@ -808,7 +808,7 @@ describe("Soundscape Build confirmation command", () => {
     await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
     const address = server.address();
     if (!address || typeof address === "string") throw new Error("Test server did not bind");
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
     const stderr: string[] = [];
 
     try {
@@ -878,7 +878,7 @@ describe("Soundscape Build confirmation command", () => {
     await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
     const address = server.address();
     if (!address || typeof address === "string") throw new Error("Test server did not bind");
-    const outputRoot = await mkdtemp(join(tmpdir(), "rosi-soundscape-build-"));
+    const outputRoot = await mkdtemp(join(tmpdir(), "rosie-soundscape-build-"));
 
     try {
       const result = await runSoundscapeBuildCli({
