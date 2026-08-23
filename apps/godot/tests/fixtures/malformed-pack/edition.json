@@ -1,5 +1,5 @@
 {
-  "contractVersion": "rosi-edition-contract/1",
+  "contractVersion": "rosie-edition-contract/1",
   "revision": "malformed-test",
   "files": [42, 43]
 }

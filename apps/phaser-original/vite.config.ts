@@ -10,8 +10,8 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       manifest: {
-        name: "Princess Rosi and the Seven Birthday Stars",
-        short_name: "Princess Rosi",
+        name: "Princess Rosie and the Seven Birthday Stars",
+        short_name: "Princess Rosie",
         description: "A tiny flying birthday adventure through Fairytale Sicily.",
         theme_color: "#e94f9b",
         background_color: "#fff3f8",

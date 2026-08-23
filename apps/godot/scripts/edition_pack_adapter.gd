@@ -1,7 +1,7 @@
 class_name EditionPackAdapter
 extends RefCounted
 
-const CONTRACT_VERSION := "rosi-edition-contract/1"
+const CONTRACT_VERSION := "rosie-edition-contract/1"
 
 
 func prepare(pack_source: String, expected_digest: String = "") -> Dictionary:

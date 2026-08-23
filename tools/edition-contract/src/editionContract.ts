@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { isAbsolute, relative, resolve } from "node:path";
 import { isDeepStrictEqual } from "node:util";
 
-const CONTRACT_VERSION = "rosi-edition-contract/1";
+const CONTRACT_VERSION = "rosie-edition-contract/1";
 
 interface EditionFile {
   role: string;

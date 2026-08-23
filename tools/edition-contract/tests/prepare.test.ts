@@ -11,7 +11,7 @@ describe("Edition Contract", () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
 
     expect(prepared).toEqual({
-      contractVersion: "rosi-edition-contract/1",
+      contractVersion: "rosie-edition-contract/1",
       revision: "tracer-lacewood-1",
       packDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
       scenarioIds: ["tracer-bullet"],

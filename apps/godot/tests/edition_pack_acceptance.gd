@@ -12,7 +12,7 @@ func _init() -> void:
 	var prepared: Dictionary = adapter.prepare(pack_root, ACCEPTANCE_TEST.EXPECTED_PACK_DIGEST)
 
 	test.expect(prepared.get("ok") == true, "the valid Edition Pack prepares")
-	test.expect(prepared.get("contract_version") == "rosi-edition-contract/1", "the contract version is retained")
+	test.expect(prepared.get("contract_version") == "rosie-edition-contract/1", "the contract version is retained")
 	test.expect(prepared.get("revision") == "tracer-lacewood-1", "the revision is retained")
 	test.expect(prepared.get("pack_digest") == ACCEPTANCE_TEST.EXPECTED_PACK_DIGEST, "the exact digest is retained")
 	test.expect(prepared.get("scenario_ids") == ["tracer-bullet"], "the scenario identity is retained")

@@ -282,7 +282,7 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 .ending { align-items: center; }
 .ending__art { background: url("/assets/celebration-art.png") center 42% / cover no-repeat; }
 .ending-character { position: absolute; inset: -3%; z-index: -1; background: url("/assets/celebration-art.png") center 42% / cover no-repeat; pointer-events: none; }
-.ending-character--rosi { clip-path: polygon(10% 42%, 40% 42%, 40% 100%, 8% 100%); transform-origin: 25% 76%; }
+.ending-character--rosie { clip-path: polygon(10% 42%, 40% 42%, 40% 100%, 8% 100%); transform-origin: 25% 76%; }
 .ending-character--stella { clip-path: polygon(18% 12%, 48% 12%, 48% 66%, 18% 66%); transform-origin: 33% 40%; }
 .ending-character--gigi { clip-path: polygon(0 8%, 27% 8%, 27% 100%, 0 100%); transform-origin: 12% 72%; }
 .ending-character--guests { clip-path: polygon(40% 15%, 100% 15%, 100% 100%, 40% 100%); transform-origin: 72% 68%; }
@@ -296,11 +296,11 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 .party-dancers__guests { font-size: 24px !important; }
 .ending.is-dancing .ending__art { animation: party-dance .72s ease-in-out 4; }
 .ending.is-dancing .ending__card { animation: card-dance .72s ease-in-out 4; }
-.ending.is-dancing .party-dancers__rosi { animation: rosi-twirl .7s ease-in-out 4; }
+.ending.is-dancing .party-dancers__rosie { animation: rosie-twirl .7s ease-in-out 4; }
 .ending.is-dancing .party-dancers__stella { animation: stella-prance .35s ease-in-out 8 alternate; }
 .ending.is-dancing .party-dancers__gigi { animation: gigi-dance .46s ease-in-out 6 alternate; }
 .ending.is-dancing .party-dancers__guests { animation: guests-clap .25s ease-in-out 12 alternate; }
-.ending.is-dancing .ending-character--rosi { animation: illustrated-rosi-twirl .7s ease-in-out 4; }
+.ending.is-dancing .ending-character--rosie { animation: illustrated-rosie-twirl .7s ease-in-out 4; }
 .ending.is-dancing .ending-character--stella { animation: illustrated-stella-prance .35s ease-in-out 8 alternate; }
 .ending.is-dancing .ending-character--gigi { animation: illustrated-gigi-dance .46s ease-in-out 6 alternate; }
 .ending.is-dancing .ending-character--guests { animation: illustrated-guests-clap .25s ease-in-out 12 alternate; }
@@ -314,11 +314,11 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 @keyframes hint-fade { 0%,70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
 @keyframes party-dance { 0%,100% { transform: scale(1.04) rotate(0); } 30% { transform: scale(1.06) rotate(-.7deg); } 70% { transform: scale(1.06) rotate(.7deg); } }
 @keyframes card-dance { 0%,100% { transform: translateY(0) rotate(0); } 30% { transform: translateY(-8px) rotate(-.4deg); } 70% { transform: translateY(-8px) rotate(.4deg); } }
-@keyframes rosi-twirl { to { transform: rotate(360deg) scale(1.12); } }
+@keyframes rosie-twirl { to { transform: rotate(360deg) scale(1.12); } }
 @keyframes stella-prance { to { transform: translateY(-10px) rotate(8deg); } }
 @keyframes gigi-dance { to { transform: rotate(-12deg) translateY(-5px); } }
 @keyframes guests-clap { to { transform: scale(.86); } }
-@keyframes illustrated-rosi-twirl { 50% { transform: rotate(3deg) translateY(-7px) scale(1.015); } }
+@keyframes illustrated-rosie-twirl { 50% { transform: rotate(3deg) translateY(-7px) scale(1.015); } }
 @keyframes illustrated-stella-prance { to { transform: translateY(-9px) rotate(-1.5deg); } }
 @keyframes illustrated-gigi-dance { to { transform: rotate(-1.8deg) translateY(-5px); } }
 @keyframes illustrated-guests-clap { to { transform: scale(1.012) translateY(-3px); } }
