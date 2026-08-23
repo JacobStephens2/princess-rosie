@@ -10,10 +10,13 @@ capture_path="$build_dir/storybook-stage.png"
 evidence_path="$build_dir/export-smoke-evidence.json"
 opening_capture_path="$build_dir/opening-storybook-stage.png"
 opening_evidence_path="$build_dir/opening-export-smoke-evidence.json"
+flight_capture_path="$build_dir/opening-flight-stage.png"
+flight_evidence_path="$build_dir/opening-flight-export-smoke-evidence.json"
 expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
 
 mkdir -p "$build_dir"
-rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path"
+rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path" \
+  "$flight_capture_path" "$flight_evidence_path"
 
 "$godot_bin" --headless --path "$project_dir" --export-debug "macOS Development" "$app_path"
 
@@ -68,4 +71,41 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   ]
 ' "$opening_evidence_path" >/dev/null
 
-echo "PASS: exported arm64 application launch, cover, and opening Storybook Stage captures"
+sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
+  "--smoke-state=flight" \
+  "--smoke-capture=$flight_capture_path" \
+  "--smoke-evidence=$flight_evidence_path"
+
+test -s "$flight_capture_path"
+test -s "$flight_evidence_path"
+test "$(stat -f '%z' "$flight_capture_path")" -gt 100000
+jq -e --arg expected_pack_digest "$expected_pack_digest" '
+  .state == "active_play"
+  and .movement_state == "glide"
+  and .pack_digest == $expected_pack_digest
+  and .network_requests == 0
+  and .capture_sample_colors >= 8
+  and .storybook_stage.aspect == "16:9"
+  and .storybook_stage.essential_content_cropped == false
+  and .storybook_stage.active_play_visible == true
+  and .sound_events == [
+    {
+      "event": "sound-event.opening-storybook-moment",
+      "context": {"moment": "opening.celebration-preparations"}
+    },
+    {
+      "event": "sound-event.opening-storybook-moment",
+      "context": {"moment": "opening.scattered-stars"}
+    },
+    {
+      "event": "sound-event.opening-storybook-moment",
+      "context": {"moment": "opening.departure"}
+    },
+    {"event": "sound-event.flight-launch", "context": {}},
+    {"event": "sound-event.movement-state", "context": {"state": "flight"}},
+    {"event": "sound-event.movement-state", "context": {"state": "rise"}},
+    {"event": "sound-event.movement-state", "context": {"state": "glide"}}
+  ]
+' "$flight_evidence_path" >/dev/null
+
+echo "PASS: exported arm64 application launch, cover, opening, and active-flight captures"

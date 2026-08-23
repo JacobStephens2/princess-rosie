@@ -18,13 +18,26 @@ func run_if_requested(shell: StorybookShell) -> void:
 		get_tree().quit(2)
 		return
 	var requested_state := _argument_value(arguments, STATE_ARGUMENT)
-	if requested_state == "opening":
+	if requested_state in ["opening", "flight"]:
 		var begin_button := shell.get_node_or_null("%BeginButton") as Button
 		if begin_button == null:
 			push_error("Export smoke could not find the Begin control")
 			get_tree().quit(5)
 			return
 		begin_button.pressed.emit()
+		await get_tree().process_frame
+	if requested_state == "flight":
+		var continue_button := shell.get_node_or_null("%ContinueButton") as Button
+		if continue_button == null:
+			push_error("Export smoke could not find the Continue control")
+			get_tree().quit(6)
+			return
+		for _page: int in 3:
+			continue_button.pressed.emit()
+			await get_tree().process_frame
+		_emit_flight_input(true)
+		await get_tree().process_frame
+		_emit_flight_input(false)
 
 	for _frame: int in 4:
 		await get_tree().process_frame
@@ -61,6 +74,13 @@ func _sample_color_count(image: Image) -> int:
 			var y := mini(image.get_height() - 1, int((y_index + 0.5) * image.get_height() / 8.0))
 			sampled_colors[image.get_pixel(x, y).to_rgba32()] = true
 	return sampled_colors.size()
+
+
+func _emit_flight_input(pressed: bool) -> void:
+	var event := InputEventKey.new()
+	event.physical_keycode = KEY_SPACE
+	event.pressed = pressed
+	Input.parse_input_event(event)
 
 
 func _argument_value(arguments: PackedStringArray, prefix: String) -> String:

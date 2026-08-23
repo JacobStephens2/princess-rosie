@@ -85,29 +85,16 @@ func prepare(pack_source: String, expected_digest: String = "") -> Dictionary:
 
 
 func load_content(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
-	if prepared_pack.get("ok") != true:
-		return _failure("Edition Pack must prepare successfully before content is loaded")
-
-	var manifest_result: Dictionary = _reader.read_json_object(pack_source, "edition.json")
-	if not manifest_result.ok:
-		return manifest_result
-	var manifest: Dictionary = manifest_result.value
-	var manifest_files: Variant = manifest.get("files")
-	if not manifest_files is Array:
-		return _failure("Edition Pack files must be an array")
-
-	for file_value: Variant in manifest_files:
-		if file_value is Dictionary and file_value.get("role") == "content":
-			var relative_path: Variant = file_value.get("path")
-			if not relative_path is String or not _reader.is_safe_relative_path(relative_path):
-				return _failure("Edition Pack content path is invalid")
-			return _reader.read_json_object(pack_source, relative_path)
-	return _failure("Edition Pack has no content file")
+	return _load_json_role(pack_source, prepared_pack, "content")
 
 
 func load_media(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
+	return _load_json_role(pack_source, prepared_pack, "media")
+
+
+func _load_json_role(pack_source: String, prepared_pack: Dictionary, role: String) -> Dictionary:
 	if prepared_pack.get("ok") != true:
-		return _failure("Edition Pack must prepare successfully before media is loaded")
+		return _failure("Edition Pack must prepare successfully before %s is loaded" % role)
 
 	var manifest_result: Dictionary = _reader.read_json_object(pack_source, "edition.json")
 	if not manifest_result.ok:
@@ -116,12 +103,12 @@ func load_media(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
 	if not manifest_files is Array:
 		return _failure("Edition Pack files must be an array")
 	for file_value: Variant in manifest_files:
-		if file_value is Dictionary and file_value.get("role") == "media":
+		if file_value is Dictionary and file_value.get("role") == role:
 			var relative_path: Variant = file_value.get("path")
 			if not relative_path is String or not _reader.is_safe_relative_path(relative_path):
-				return _failure("Edition Pack media path is invalid")
+				return _failure("Edition Pack %s path is invalid" % role)
 			return _reader.read_json_object(pack_source, relative_path)
-	return _failure("Edition Pack has no media file")
+	return _failure("Edition Pack has no %s file" % role)
 
 
 func load_png_texture(pack_source: String, relative_path: String) -> Dictionary:
