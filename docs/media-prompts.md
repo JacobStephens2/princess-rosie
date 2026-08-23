@@ -121,7 +121,7 @@ natural field recording that names the forbidden vocal, choir, pad, and drone
 material explicitly. The second batch passed. Selection reasons per cue are
 recorded in the managed section below.
 
-### Open question for the listening pass: Garden ambience level
+### Resolved by the listening pass: Garden ambience level
 
 The approved Garden ambience sits far below its sibling place beds. Measured on
 the runtime derivatives: `place-rose-garden` peaks at -21.9 dBFS with -45.1 dBFS
@@ -138,14 +138,16 @@ blind four-way evaluation including the standing approval found all of them
 second of four. Replacing an immutable approval for that margin was not
 worthwhile, and no candidate closes the gap.
 
-If the listening pass confirms the Garden bed is too quiet in the mix, the fix
-belongs in the mix rather than the generator — a per-cue level trim in the
+The project owner listened on 2026-08-23 and kept the level as it is: the
+restraint reads correctly under the instrumental. The measured gap is therefore a
+property of the bed, not a defect. Had it needed raising, the fix would have
+belonged in the mix rather than the generator — a per-cue level trim in the
 Edition Contract, which does not enter the cue job hash and so would not
 invalidate any approved master.
 
-Human listening pass on MacBook built-in speakers and headphones: **not yet
-complete.** It remains outstanding for all five Rose Garden cues and retains final
-authority over translation and feel.
+Human listening pass on MacBook built-in speakers and headphones: **complete,
+2026-08-23**, by the project owner. All five Rose Garden cues pass for warmth,
+clarity, fatigue, and non-startling responses.
 
 <!-- soundscape-build:start -->
 ## Fairytale Soundscape
