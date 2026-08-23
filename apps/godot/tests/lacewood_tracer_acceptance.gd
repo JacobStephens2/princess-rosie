@@ -2,6 +2,7 @@ extends SceneTree
 
 const STORYBOOK_SHELL := preload("res://scripts/storybook_shell.gd")
 const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
+const POINTER_PRIMARY: StringName = &"pointer.primary"
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -18,10 +19,11 @@ func _init() -> void:
 		shell.presentation_evidence().get("journey_phase") == "lacewood-path-choice",
 		"the opening flight reaches Zélie's Lacewood and offers its Path Choice",
 	)
-	test.expect(shell.handle_player_intent("action-pressed"), "holding chooses the airy route")
-	shell.advance_journey(1.25)
-	test.expect(shell.handle_player_intent("action-released"), "the one action may be released after choosing")
-	shell.advance_journey(1.8)
+	test.expect(
+		shell.handle_route_choice_intent("lacewood.canopy", POINTER_PRIMARY),
+		"the upper corridor directly chooses the airy route",
+	)
+	shell.advance_journey(6.0)
 	var canopy_rest: Dictionary = shell.presentation_evidence()
 	test.expect(
 		canopy_rest.get("journey_phase") == "cloud-rest"
@@ -103,8 +105,11 @@ func _init() -> void:
 	_start_journey(shell)
 	var second_lacewood_event_start := shell.sound_event_evidence().size()
 	shell.advance_journey(0.75)
-	shell.advance_journey(1.25)
-	shell.advance_journey(1.8)
+	test.expect(
+		shell.handle_route_choice_intent("lacewood.floor", POINTER_PRIMARY),
+		"the lower corridor directly chooses the rose-lit floor",
+	)
+	shell.advance_journey(6.0)
 	var floor_rest: Dictionary = shell.presentation_evidence()
 	test.expect(
 		floor_rest.get("chosen_route") == "lacewood.floor"

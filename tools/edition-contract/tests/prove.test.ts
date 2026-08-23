@@ -38,7 +38,7 @@ const tracerFacts = {
     },
   },
   routesEquallySafe: true,
-  routeDurationSeconds: 1.8,
+  routeDurationSeconds: 6.0,
   unexploredRouteShimmerOnly: true,
   cloudRestPreservesProgress: true,
   networkRequests: 0,

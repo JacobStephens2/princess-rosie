@@ -8,6 +8,7 @@ const FLOOR_ROUTE := "lacewood.floor"
 
 var _phase := ""
 var _chosen_route := ""
+var _preview_route := ""
 var _shimmer_route := ""
 var _route_presentations := {}
 var _elapsed := 0.0
@@ -42,11 +43,18 @@ func configure_routes(route_values: Array) -> void:
 func set_story_state(state: Dictionary) -> void:
 	var phase := str(state.get("phase", ""))
 	var chosen_route := str(state.get("chosen_route", ""))
+	var preview_route := str(state.get("preview_route", ""))
 	var shimmer_route := str(state.get("shimmer_route", ""))
-	if phase == _phase and chosen_route == _chosen_route and shimmer_route == _shimmer_route:
+	if (
+		phase == _phase
+		and chosen_route == _chosen_route
+		and preview_route == _preview_route
+		and shimmer_route == _shimmer_route
+	):
 		return
 	_phase = phase
 	_chosen_route = chosen_route
+	_preview_route = preview_route
 	_shimmer_route = shimmer_route
 	queue_redraw()
 
@@ -58,9 +66,20 @@ func visual_evidence() -> Dictionary:
 		"atmospheric_motion": visible,
 		"selected_visual_response": _selected_visual_response(),
 		"rendered_visual_response": _rendered_visual_response(),
+		"preview_route": _preview_route,
 		"shimmer_route": _shimmer_route,
 		"celebration_echo": _selected_celebration_echo(),
 	}
+
+
+func route_position(route_id: String, progress: float) -> Vector2:
+	var points := _route_traversal_points(route_id)
+	if points.is_empty():
+		return Vector2(300.0, 365.0)
+	var scaled_progress := clampf(progress, 0.0, 1.0) * float(points.size() - 1)
+	var point_index := mini(int(floor(scaled_progress)), points.size() - 1)
+	var next_index := mini(point_index + 1, points.size() - 1)
+	return points[point_index].lerp(points[next_index], scaled_progress - point_index)
 
 
 func _draw() -> void:
@@ -206,9 +225,15 @@ func _selected_celebration_echo() -> String:
 
 func _route_emphasis(route_id: String) -> Dictionary:
 	var selected := _chosen_route == route_id
+	var previewed := _chosen_route.is_empty() and _preview_route == route_id
+	var base_alpha := 0.56
+	if not _chosen_route.is_empty():
+		base_alpha = 0.78 if selected else 0.24
+	elif not _preview_route.is_empty():
+		base_alpha = 0.72 if previewed else 0.42
 	return {
 		"selected": selected,
-		"base_alpha": 0.56 if _chosen_route.is_empty() else (0.78 if selected else 0.24),
+		"base_alpha": base_alpha,
 	}
 
 
@@ -240,3 +265,23 @@ func _floor_route_points() -> PackedVector2Array:
 		Vector2(970.0, 455.0),
 		Vector2(1168.0, 374.0),
 	])
+
+
+func _route_traversal_points(route_id: String) -> PackedVector2Array:
+	if route_id == CANOPY_ROUTE:
+		return PackedVector2Array([
+			Vector2(300.0, 365.0),
+			Vector2(480.0, 270.0),
+			Vector2(720.0, 235.0),
+			Vector2(900.0, 300.0),
+			Vector2(1040.0, 365.0),
+		])
+	if route_id == FLOOR_ROUTE:
+		return PackedVector2Array([
+			Vector2(300.0, 365.0),
+			Vector2(480.0, 475.0),
+			Vector2(720.0, 520.0),
+			Vector2(900.0, 455.0),
+			Vector2(1040.0, 365.0),
+		])
+	return PackedVector2Array()

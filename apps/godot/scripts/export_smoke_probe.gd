@@ -18,7 +18,7 @@ func run_if_requested(shell: StorybookShell) -> void:
 		get_tree().quit(2)
 		return
 	var requested_state := _argument_value(arguments, STATE_ARGUMENT)
-	if requested_state in ["opening", "flight", "lacewood-choice", "lacewood"]:
+	if requested_state in ["opening", "flight", "lacewood-choice", "lacewood-traversal", "lacewood"]:
 		var begin_button := shell.get_node_or_null("%BeginButton") as Button
 		if begin_button == null:
 			push_error("Export smoke could not find the Begin control")
@@ -26,7 +26,7 @@ func run_if_requested(shell: StorybookShell) -> void:
 			return
 		begin_button.pressed.emit()
 		await get_tree().process_frame
-	if requested_state in ["flight", "lacewood-choice", "lacewood"]:
+	if requested_state in ["flight", "lacewood-choice", "lacewood-traversal", "lacewood"]:
 		_emit_keyboard_action(true)
 		await get_tree().process_frame
 		_emit_keyboard_action(false)
@@ -43,15 +43,23 @@ func run_if_requested(shell: StorybookShell) -> void:
 		await get_tree().process_frame
 		_emit_pointer_action(false)
 		await get_tree().process_frame
-	if requested_state == "lacewood-choice":
+	if requested_state in ["lacewood-choice", "lacewood-traversal", "lacewood"]:
 		_emit_keyboard_action(true)
 		await get_tree().create_timer(0.8).timeout
+	if requested_state in ["lacewood-traversal", "lacewood"]:
+		_emit_keyboard_action(false)
+		await get_tree().process_frame
+		var canopy_target := shell.get_node_or_null("%CanopyRouteTarget") as Button
+		if canopy_target == null or not canopy_target.is_visible_in_tree():
+			push_error("Export smoke could not find the visible canopy route target")
+			get_tree().quit(8)
+			return
+		canopy_target.pressed.emit()
+		await get_tree().process_frame
+	if requested_state == "lacewood-traversal":
+		await get_tree().create_timer(3.0).timeout
 	if requested_state == "lacewood":
-		_emit_keyboard_action(true)
-		await get_tree().create_timer(0.8).timeout
-		await get_tree().create_timer(1.3).timeout
-		_emit_keyboard_action(false)
-		await get_tree().create_timer(1.85).timeout
+		await get_tree().create_timer(6.1).timeout
 		_emit_keyboard_action(true)
 		await get_tree().process_frame
 		_emit_keyboard_action(false)
