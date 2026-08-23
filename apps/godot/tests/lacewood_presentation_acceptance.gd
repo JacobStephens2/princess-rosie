@@ -61,7 +61,9 @@ func _run() -> void:
 			"routes_equal_emphasis": true,
 			"atmospheric_motion": true,
 			"selected_visual_response": "",
+			"rendered_visual_response": "",
 			"shimmer_route": "",
+			"celebration_echo": "",
 		},
 		"the unchosen canopy and woodland floor read as equally inviting routes",
 	)
@@ -80,21 +82,30 @@ func _run() -> void:
 	shell.advance_journey(1.25)
 	shell.handle_player_action(&"keyboard.space", false)
 	await process_frame
+	var selected_composition: Dictionary = shell.storybook_stage_evidence().get(
+		"lacewood_route_composition",
+		{},
+	)
 	test.expect(
-		shell.storybook_stage_evidence().get("lacewood_route_composition", {}).get(
-			"selected_visual_response",
-		) == "silver-ribbons-unfurl",
+		selected_composition.get("selected_visual_response") == "silver-ribbons-unfurl"
+		and selected_composition.get("rendered_visual_response") == "silver-ribbons-unfurl",
 		"the canopy selection visibly unfurls silver ribbons before the routes rejoin",
 	)
 	shell.advance_journey(1.8)
 	test.expect(shell.handle_player_action(&"keyboard.space", true), "the first route resumes")
 	shell.handle_player_action(&"keyboard.space", false)
 	shell.advance_journey(4.9)
-	test.expect(
-		shell.handle_player_action(&"keyboard.space", true),
-		"the first-route Birthday Star Moment continues",
+	await _send_space_input(true)
+	await _send_space_input(false)
+	var celebration_composition: Dictionary = shell.storybook_stage_evidence().get(
+		"lacewood_route_composition",
+		{},
 	)
-	shell.handle_player_action(&"keyboard.space", false)
+	test.expect(
+		celebration_composition.get("both_routes_visible") == false
+		and celebration_composition.get("celebration_echo") == "silver-ribbons",
+		"the celebration carries only the chosen route's authored echo beyond the rejoin",
+	)
 	test.expect(shell.handle_player_intent("escape"), "the first journey opens the Grown-up Corner")
 	test.expect(shell.handle_player_intent("replay"), "the first journey replays with private history")
 	test.expect(shell.handle_player_intent("begin"), "the replay begins")
@@ -117,3 +128,11 @@ func _run() -> void:
 	shell.queue_free()
 	await process_frame
 	test.finish(self, "Lacewood presentation acceptance")
+
+
+func _send_space_input(pressed: bool) -> void:
+	var event := InputEventKey.new()
+	event.physical_keycode = KEY_SPACE
+	event.pressed = pressed
+	Input.parse_input_event(event)
+	await process_frame
