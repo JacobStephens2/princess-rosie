@@ -4,6 +4,8 @@ import { registerSW } from "virtual:pwa-register";
 import "./style.css";
 import { OPENING_STORYBOOK_MOMENTS_AFTER_COVER, STOP_STORIES, type StopStory } from "./game/content";
 import { GAME_SIZE, RosiGameScene } from "./game/RosiGameScene";
+// PROTOTYPE (ADR-0009) — throwaway
+import { mountPrototypeBar, readPrototypeOptions } from "./game/PROTOTYPE-flight-presentation";
 import { GameAudio } from "./game/sound";
 
 const getElement = <T extends HTMLElement>(id: string): T => {
@@ -31,6 +33,7 @@ const touchControl = getElement<HTMLButtonElement>("touch-control");
 const soundButtons = [getElement<HTMLButtonElement>("sound-toggle"), getElement<HTMLButtonElement>("game-sound-toggle")];
 const storyArtworks = Array.from(storybook.querySelectorAll<HTMLImageElement>(".storybook__art"));
 const sound = new GameAudio();
+const prototypeOptions = readPrototypeOptions(); // PROTOTYPE (ADR-0009)
 
 let openingMomentIndex = 0;
 let visibleStoryArtworkIndex = 0;
@@ -128,11 +131,13 @@ function startGame(): void {
     width: GAME_SIZE.width,
     height: GAME_SIZE.height,
     backgroundColor: "#8bd8f1",
-    physics: { default: "arcade", arcade: { gravity: { x: 0, y: 0 }, debug: false } },
+    physics: { default: "arcade", arcade: { gravity: { x: 0, y: 0 }, debug: prototypeOptions.debugBodies } },
     scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, width: GAME_SIZE.width, height: GAME_SIZE.height },
     render: { antialias: true, roundPixels: false },
     scene: [scene],
   });
+  // PROTOTYPE (ADR-0009) — evidence hook, throwaway.
+  (window as unknown as { PROTOTYPE_SCENE?: RosiGameScene }).PROTOTYPE_SCENE = scene;
 }
 
 function showBirthdayStar(stop: StopStory, count: number, isFinal: boolean): void {
@@ -301,6 +306,7 @@ document.addEventListener("keydown", (event) => {
   else if (!ending.hidden) { event.preventDefault(); danceAgain(); }
 });
 
+mountPrototypeBar(prototypeOptions); // PROTOTYPE (ADR-0009)
 renderDots();
 OPENING_STORYBOOK_MOMENTS_AFTER_COVER.forEach((momentContent) => void preloadStoryArtwork(momentContent.image));
 registerSW({ immediate: true });

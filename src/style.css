@@ -333,3 +333,40 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
 }
+
+/* PROTOTYPE (ADR-0009) — throwaway prototype bar. Remove with the prototype. */
+#prototype-bar {
+  position: fixed;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: calc(100vw - 24px);
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: #201a2ee8;
+  color: #fff;
+  font: 12px/1.4 system-ui, sans-serif;
+  box-shadow: 0 6px 24px #0006;
+}
+#prototype-bar strong { letter-spacing: .12em; color: #ffd45a; }
+#prototype-bar .group { display: inline-flex; gap: 4px; }
+#prototype-bar label { display: inline-flex; align-items: center; gap: 6px; }
+#prototype-bar b { min-width: 44px; color: #ffd45a; font-weight: 600; }
+#prototype-bar input[type="range"] { width: 96px; }
+#prototype-bar button {
+  padding: 4px 10px;
+  border: 1px solid #ffffff44;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+#prototype-bar button.on { background: #ffd45a; border-color: #ffd45a; color: #201a2e; font-weight: 700; }
+#prototype-bar .state { width: 100%; text-align: center; color: #ffffff88; font-size: 10px; }

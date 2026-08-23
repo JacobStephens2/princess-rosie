@@ -9,6 +9,14 @@ import {
   type StarStop,
 } from "../domain/journey";
 import { STOP_STORIES, type FamilyGuest, type StopStory } from "./content";
+// PROTOTYPE (ADR-0009) — throwaway; remove with PROTOTYPE-flight-presentation.ts
+import {
+  addCharacterCutout,
+  addPlaceIllustration,
+  preloadPrototypeMedia,
+  readPrototypeOptions,
+  type PrototypeOptions,
+} from "./PROTOTYPE-flight-presentation";
 
 const VIEW_WIDTH = 1280;
 const VIEW_HEIGHT = 720;
@@ -52,10 +60,18 @@ export class RosiGameScene extends Phaser.Scene {
   private readonly guests = new Map<StarStop, Phaser.GameObjects.Container>();
   private wing!: Phaser.GameObjects.Ellipse;
   private sparkleTrail!: Phaser.GameObjects.Particles.ParticleEmitter;
+  /** PROTOTYPE (ADR-0009) */
+  private readonly prototype: PrototypeOptions = readPrototypeOptions();
+  private placeIllustration: Phaser.GameObjects.Image | undefined;
 
   constructor(callbacks: GameCallbacks) {
     super("rosi-adventure");
     this.callbacks = callbacks;
+  }
+
+  preload(): void {
+    // PROTOTYPE (ADR-0009)
+    if (this.prototype.variant === "after") preloadPrototypeMedia(this);
   }
 
   create(): void {
@@ -66,6 +82,10 @@ export class RosiGameScene extends Phaser.Scene {
     this.guests.clear();
     this.createTextures();
     this.createWorld();
+    // PROTOTYPE (ADR-0009) — full-Stage Place Illustration for Rosalia's Rose Garden.
+    if (this.prototype.variant === "after") {
+      this.placeIllustration = addPlaceIllustration(this, this.prototype, { width: VIEW_WIDTH, height: VIEW_HEIGHT });
+    }
     this.player = this.createPlayer(330, 350);
     this.physics.add.existing(this.player);
     this.playerBody = this.player.body as Phaser.Physics.Arcade.Body;
@@ -168,6 +188,11 @@ export class RosiGameScene extends Phaser.Scene {
       this.tweens.add({ targets: star, scale: 2.4, alpha: 0, angle: 180, duration: 520, ease: "Back.easeIn" });
     }
     this.cameras.main.flash(250, 255, 232, 150, false);
+    // PROTOTYPE (ADR-0009) — Place Illustrations change beneath Birthday Star
+    // Moments. Only the Rose Garden is illustrated, so this one retires here.
+    if (this.placeIllustration && stop.id === "garden") {
+      this.tweens.add({ targets: this.placeIllustration, alpha: 0, duration: 620, delay: 700 });
+    }
     this.nextStop += 1;
     this.pauseMotion();
     this.time.delayedCall(720, () => {
@@ -230,16 +255,21 @@ export class RosiGameScene extends Phaser.Scene {
 
     STOP_STORIES.forEach((stop, index) => {
       const start = index * SEGMENT_WIDTH;
-      backgrounds.fillStyle(stop.sky, 1).fillRect(start, 0, SEGMENT_WIDTH + 4, VIEW_HEIGHT);
-      this.drawClouds(distant, start, index);
-      this.drawLandscape(backgrounds, start, stop);
-      this.add.text(start + 430, 118, stop.place, {
-        fontFamily: "Georgia, serif",
-        fontSize: "34px",
-        color: "#ffffff",
-        stroke: "#7d4670",
-        strokeThickness: 7,
-      }).setDepth(-5).setAlpha(.92);
+      // PROTOTYPE (ADR-0009) — the Place Illustration replaces primitive scenery
+      // for the Rose Garden only. Gameplay-significant elements below stay.
+      const illustrated = this.prototype.variant === "after" && stop.id === "garden";
+      if (!illustrated) {
+        backgrounds.fillStyle(stop.sky, 1).fillRect(start, 0, SEGMENT_WIDTH + 4, VIEW_HEIGHT);
+        this.drawClouds(distant, start, index);
+        this.drawLandscape(backgrounds, start, stop);
+        this.add.text(start + 430, 118, stop.place, {
+          fontFamily: "Georgia, serif",
+          fontSize: "34px",
+          color: "#ffffff",
+          stroke: "#7d4670",
+          strokeThickness: 7,
+        }).setDepth(-5).setAlpha(.92);
+      }
 
       const starY = 245 + (index % 3) * 80;
       const star = this.add.star(this.stopX(index), starY, 7, 23, 49, 0xffd65e, 1)
@@ -358,6 +388,14 @@ export class RosiGameScene extends Phaser.Scene {
 
   private createPlayer(x: number, y: number): Phaser.GameObjects.Container {
     const player = this.add.container(x, y).setDepth(20);
+    // PROTOTYPE (ADR-0009) — approved cutout replaces the primitive drawing.
+    // It is added INSIDE this container; the Arcade body set by create() on the
+    // container is independently authored and is never derived from the cutout.
+    if (this.prototype.variant === "after") {
+      this.wing = this.add.ellipse(0, 0, 1, 1, 0xffffff, 0).setVisible(false);
+      addCharacterCutout(this, player, this.prototype, { x: 0, y: 16 });
+      return player;
+    }
     const tailColors = [0xe95ca6, 0xf4a25f, 0xf5d75f, 0x63c984, 0x64bce2, 0x9171d0];
     const tails = tailColors.map((color, index) => this.add.ellipse(-93 - index * 7, 22 + index * 4, 86, 15, color).setRotation(-.2 + index * .06));
     const backWing = this.add.ellipse(-34, -30, 118, 43, 0xa88be1, .72).setRotation(-.6);
@@ -423,6 +461,11 @@ export class RosiGameScene extends Phaser.Scene {
   }
 
   private stopX(index: number): number { return index * SEGMENT_WIDTH + 1450; }
+
+  /** PROTOTYPE (ADR-0009) — jump the flight so evidence can be captured. */
+  PROTOTYPE_skipToStar(): void {
+    this.player.x = this.stopX(this.nextStop) - 40;
+  }
 }
 
 export const GAME_SIZE = { width: VIEW_WIDTH, height: VIEW_HEIGHT } as const;
