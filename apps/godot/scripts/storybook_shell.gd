@@ -62,15 +62,20 @@ const PHASE_BIRTHDAY_STAR_MOMENT := "birthday-star-moment"
 const PHASE_CELEBRATION := "celebration"
 const PATH_CHOICE_PHASE_SUFFIX := "-path-choice"
 const ROUTE_PHASE_SUFFIX := "-route"
+const PHASE_KIND_PATH_CHOICE := "path-choice"
+const PHASE_KIND_ROUTE := "route"
 const CONTACT_INTERACTION: StringName = &"interaction"
 const CONTACT_NEAR_MISS: StringName = &"near-miss"
 const CONTACT_PLAYFUL_BUMP: StringName = &"playful-bump"
 const CONTACT_COOLDOWN_SECONDS := 0.4
-const CLOUD_REST_PLAYFUL_BUMPS := 3
+const DEFAULT_CLOUD_REST_PLAYFUL_BUMPS := 3
 const FLIGHT_SECONDS_BEFORE_FIRST_PLACE := 0.75
 const PATH_CHOICE_SECONDS := 1.25
 const ROUTE_SECONDS := 2.25
 const BIRTHDAY_STAR_THRESHOLDS := [0.45, 1.0, 2.4, 4.9]
+## Tracer pacing for each place's route, until the play presentation reports real contacts
+## through note_place_contact. The Cloister keeps sounding soft clouds along its route, where
+## the Lacewood answers once at the Path Choice and then meets its silver ribbons.
 const ROUTE_BEATS := {
 	"lacewood": [
 		{"at": 0.45, "contact": CONTACT_NEAR_MISS},
@@ -117,8 +122,10 @@ var _opening_moment_index := 0
 var _movement_state := ""
 var _sound_events: Array[Dictionary] = []
 var _places: Array = []
+var _cloud_rest_playful_bumps := DEFAULT_CLOUD_REST_PLAYFUL_BUMPS
 var _place_index := 0
 var _journey_phase := ""
+var _journey_phase_kind := ""
 var _journey_phase_elapsed := 0.0
 var _journey_seconds := 0.0
 var _journey_checkpoint := 0
@@ -223,6 +230,13 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	_places = _content.get("places", [])
 	if _places.is_empty():
 		return _fail_launch("Edition Pack has no places to fly through")
+	var tuning_intent_result: Dictionary = _adapter.load_tuning_intent(pack_source, prepared)
+	if not tuning_intent_result.ok:
+		return _fail_launch(tuning_intent_result.error)
+	var cloud_rest_intent: Dictionary = tuning_intent_result.value.get("cloudRest", {})
+	_cloud_rest_playful_bumps = int(
+		cloud_rest_intent.get("afterNearbyPlayfulBumps", DEFAULT_CLOUD_REST_PLAYFUL_BUMPS),
+	)
 	_opening_moments = _content.get("openingMoments", [])
 	if _opening_moments.is_empty():
 		return _fail_launch("Edition Pack has no Opening Storybook Moments")
@@ -329,7 +343,7 @@ func handle_player_intent(intent: StringName) -> bool:
 			_state = PresentationState.ACTIVE_PLAY
 			_movement_state = "flight"
 			_reset_current_journey()
-			_journey_phase = PHASE_FLIGHT
+			_set_journey_phase(PHASE_FLIGHT, PHASE_FLIGHT)
 			_report_sound_event(EVENT_FLIGHT_LAUNCH, {})
 			_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
 			return true
@@ -346,10 +360,10 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false
 			_action_held = true
-			if _journey_phase == PHASE_CLOUD_REST:
+			if _journey_phase_kind == PHASE_CLOUD_REST:
 				_resume_from_cloud_rest()
 				return true
-			if _journey_phase != PHASE_FLIGHT:
+			if _journey_phase_kind != PHASE_FLIGHT:
 				return true
 			if _movement_state == "rise":
 				return false
@@ -365,7 +379,7 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false
 			_action_held = false
-			if _journey_phase != PHASE_FLIGHT:
+			if _journey_phase_kind != PHASE_FLIGHT:
 				return true
 			if _movement_state == "glide":
 				return false
@@ -437,16 +451,17 @@ func advance_journey(delta: float) -> void:
 		return
 	_journey_phase_elapsed += delta
 	_journey_seconds += delta
-	if _journey_phase == PHASE_FLIGHT:
-		if _journey_phase_elapsed >= FLIGHT_SECONDS_BEFORE_FIRST_PLACE:
-			_enter_place(0)
-	elif _journey_phase.ends_with(PATH_CHOICE_PHASE_SUFFIX):
-		if _journey_phase_elapsed >= PATH_CHOICE_SECONDS:
-			_choose_route()
-	elif _is_route_phase():
-		_advance_route()
-	elif _journey_phase == PHASE_STAR_APPROACH:
-		_advance_birthday_star_sequence()
+	match _journey_phase_kind:
+		PHASE_FLIGHT:
+			if _journey_phase_elapsed >= FLIGHT_SECONDS_BEFORE_FIRST_PLACE:
+				_enter_place(0)
+		PHASE_KIND_PATH_CHOICE:
+			if _journey_phase_elapsed >= PATH_CHOICE_SECONDS:
+				_choose_route()
+		PHASE_KIND_ROUTE:
+			_advance_route()
+		PHASE_STAR_APPROACH:
+			_advance_birthday_star_sequence()
 	_render_presentation()
 
 
@@ -457,7 +472,10 @@ func _enter_place(index: int) -> void:
 	_playful_bump_count = 0
 	_contact_held.clear()
 	_contact_times.clear()
-	_journey_phase = "%s%s" % [place.get("id", ""), PATH_CHOICE_PHASE_SUFFIX]
+	_set_journey_phase(
+		"%s%s" % [place.get("id", ""), PATH_CHOICE_PHASE_SUFFIX],
+		PHASE_KIND_PATH_CHOICE,
+	)
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
 	_report_sound_event(EVENT_PLACE_ENTRY, {"place": place.get("id", "")})
@@ -496,14 +514,17 @@ func _choose_route() -> void:
 	_chosen_route = chosen.get("id", "")
 	var path_choice: Dictionary = place.get("pathChoice", {})
 	_path_choices[path_choice.get("id", "")] = _chosen_route
-	_journey_phase = "%s%s" % [place.get("id", ""), ROUTE_PHASE_SUFFIX]
+	_set_journey_phase(
+		"%s%s" % [place.get("id", ""), ROUTE_PHASE_SUFFIX],
+		PHASE_KIND_ROUTE,
+	)
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
 	_report_sound_event(
 		EVENT_PATH_CHOICE_SELECTED,
 		{"pathChoice": path_choice.get("id", ""), "route": _chosen_route},
 	)
-	_trigger_contact(CONTACT_INTERACTION, _journey_seconds)
+	_emit_route_beat(CONTACT_INTERACTION, _journey_seconds)
 
 
 func _advance_route() -> void:
@@ -515,7 +536,7 @@ func _advance_route() -> void:
 		if _journey_phase_elapsed < beat_seconds:
 			return
 		_journey_checkpoint += 1
-		_trigger_contact(
+		_emit_route_beat(
 			beat.get("contact", CONTACT_INTERACTION),
 			route_started_seconds + beat_seconds,
 		)
@@ -523,6 +544,8 @@ func _advance_route() -> void:
 		_begin_birthday_star_approach()
 
 
+## Reported by the play presentation on every visual update while Stella touches a cloud,
+## a soft bound, or an obstacle. Only rising edges outside the cooldown reach the soundscape.
 func note_place_contact(contact: StringName, touching: bool) -> bool:
 	if not touching:
 		_contact_held[contact] = false
@@ -544,7 +567,9 @@ func _note_contact(contact: StringName, at_seconds: float) -> bool:
 	return true
 
 
-func _trigger_contact(contact: StringName, at_seconds: float) -> void:
+## A scheduled route beat is its own complete contact edge: it opens and closes in one step,
+## and still passes through the cooldown every reported contact obeys.
+func _emit_route_beat(contact: StringName, at_seconds: float) -> void:
 	_contact_held[contact] = false
 	_note_contact(contact, at_seconds)
 	_contact_held[contact] = false
@@ -575,11 +600,11 @@ func _report_playful_bump() -> void:
 		EVENT_PLAYFUL_BUMP,
 		{"place": place.get("id", ""), "kind": place.get("playfulBumpKind", "")},
 	)
-	if _playful_bump_count != CLOUD_REST_PLAYFUL_BUMPS:
+	if _playful_bump_count != _cloud_rest_playful_bumps:
 		return
 	_cloud_rest_count += 1
 	_action_held = false
-	_journey_phase = PHASE_CLOUD_REST
+	_set_journey_phase(PHASE_CLOUD_REST, PHASE_CLOUD_REST)
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
 	_report_sound_event(EVENT_CLOUD_REST_ENTERED, {"place": place.get("id", "")})
@@ -596,7 +621,7 @@ func _resume_from_cloud_rest() -> void:
 
 
 func _begin_birthday_star_approach() -> void:
-	_journey_phase = PHASE_STAR_APPROACH
+	_set_journey_phase(PHASE_STAR_APPROACH, PHASE_STAR_APPROACH)
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
 
@@ -607,7 +632,7 @@ func _advance_birthday_star_sequence() -> void:
 	var rainbow_path: String = place.get("rainbowPath", "")
 	var family_guest: String = place.get("familyGuest", "")
 	while (
-		_journey_phase == PHASE_STAR_APPROACH
+		_journey_phase_kind == PHASE_STAR_APPROACH
 		and _journey_checkpoint < BIRTHDAY_STAR_THRESHOLDS.size()
 	):
 		if _journey_phase_elapsed < BIRTHDAY_STAR_THRESHOLDS[_journey_checkpoint]:
@@ -637,7 +662,7 @@ func _advance_birthday_star_sequence() -> void:
 					EVENT_BIRTHDAY_STAR_MOMENT,
 					{"place": place.get("id", ""), "familyGuest": family_guest},
 				)
-				_journey_phase = PHASE_BIRTHDAY_STAR_MOMENT
+				_set_journey_phase(PHASE_BIRTHDAY_STAR_MOMENT, PHASE_BIRTHDAY_STAR_MOMENT)
 				_state = PresentationState.BIRTHDAY_STAR_MOMENT
 		_journey_checkpoint += 1
 
@@ -649,7 +674,7 @@ func _continue_from_birthday_star_moment() -> void:
 		_state = PresentationState.ACTIVE_PLAY
 		_enter_place(_place_index + 1)
 		return
-	_journey_phase = PHASE_CELEBRATION
+	_set_journey_phase(PHASE_CELEBRATION, PHASE_CELEBRATION)
 	_state = PresentationState.CELEBRATION
 	_report_sound_event(EVENT_BIRTHDAY_CASTLE_ARRIVAL, {})
 
@@ -682,12 +707,18 @@ func _chosen_route_interaction() -> String:
 
 
 func _is_route_phase() -> bool:
-	return _journey_phase.ends_with(ROUTE_PHASE_SUFFIX)
+	return _journey_phase_kind == PHASE_KIND_ROUTE
+
+
+func _set_journey_phase(phase: String, kind: String) -> void:
+	_journey_phase = phase
+	_journey_phase_kind = kind
 
 
 func _reset_current_journey() -> void:
 	_place_index = 0
 	_journey_phase = ""
+	_journey_phase_kind = ""
 	_journey_phase_elapsed = 0.0
 	_journey_seconds = 0.0
 	_journey_checkpoint = 0
@@ -910,7 +941,7 @@ func _birthday_star_moment_copy() -> String:
 
 func _flight_presentation_copy() -> Dictionary:
 	var place := _current_place()
-	if _journey_phase.ends_with(PATH_CHOICE_PHASE_SUFFIX):
+	if _journey_phase_kind == PHASE_KIND_PATH_CHOICE:
 		var routes := _place_routes(place)
 		var held_name: String = routes[0].get("name", "") if routes.size() > 0 else ""
 		var released_name: String = (
@@ -931,7 +962,7 @@ func _flight_presentation_copy() -> Dictionary:
 				"the celebration",
 			),
 		}
-	match _journey_phase:
+	match _journey_phase_kind:
 		PHASE_CLOUD_REST:
 			return {
 				"title": "Cloud Rest",

@@ -26,6 +26,7 @@ func _init(
 	should_loop: bool,
 	maximum_duration_ms: int,
 	duck_db: float = 0.0,
+	fade_ms: int = 0,
 ) -> void:
 	bus = bus_name
 	category = category_name
@@ -35,4 +36,4 @@ func _init(
 	looping = should_loop
 	max_duration_ms = maximum_duration_ms
 	music_duck_db = duck_db
-	crossfade_ms = 0
+	crossfade_ms = fade_ms

@@ -20,6 +20,7 @@ var _priorities: Dictionary = {}
 var _ducking: Dictionary = {}
 var _duration_timers: Dictionary = {}
 var _gain_targets: Dictionary = {}
+var _gain_fades: Dictionary = {}
 var _music_base_gain_db := 0.0
 var _mute_timer := Timer.new()
 var _reader: RefCounted = EDITION_PACK_READER.new()
@@ -203,9 +204,23 @@ func _is_below_target(player: AudioStreamPlayer) -> bool:
 
 
 func _fade_player_out(player: AudioStreamPlayer, fade_ms: int) -> void:
-	var fade := create_tween()
+	var fade := _start_gain_fade(player)
 	fade.tween_property(player, "volume_db", SILENT_GAIN_DB, fade_ms / 1000.0)
 	fade.tween_callback(_stop_player.bind(player))
+
+
+func _start_gain_fade(player: AudioStreamPlayer) -> Tween:
+	_cancel_gain_fade(player)
+	var fade := create_tween()
+	_gain_fades[player.get_instance_id()] = fade
+	return fade
+
+
+func _cancel_gain_fade(player: AudioStreamPlayer) -> void:
+	var fade: Tween = _gain_fades.get(player.get_instance_id())
+	_gain_fades.erase(player.get_instance_id())
+	if fade != null and fade.is_valid():
+		fade.kill()
 
 
 func _crossfade_ambience(playback: SoundscapePlayback) -> AudioStreamPlayer:
@@ -304,6 +319,7 @@ func _play_on(
 		stream.loop = playback.looping
 
 	var player_id := player.get_instance_id()
+	_cancel_gain_fade(player)
 	_priorities[player_id] = playback.priority
 	_ducking[player_id] = playback.music_duck_db
 	_gain_targets[player_id] = playback.gain_db
@@ -314,7 +330,7 @@ func _play_on(
 	player.play()
 	if playback.crossfade_ms > 0 and is_inside_tree():
 		player.volume_db = SILENT_GAIN_DB
-		var rise := create_tween()
+		var rise := _start_gain_fade(player)
 		rise.tween_property(player, "volume_db", playback.gain_db, playback.crossfade_ms / 1000.0)
 	_apply_music_duck()
 
@@ -336,6 +352,7 @@ func _register_player(player: AudioStreamPlayer) -> void:
 
 
 func _stop_player(player: AudioStreamPlayer) -> void:
+	_cancel_gain_fade(player)
 	var player_id := player.get_instance_id()
 	var duration_timer: Timer = _duration_timers.get(player_id)
 	if duration_timer != null:

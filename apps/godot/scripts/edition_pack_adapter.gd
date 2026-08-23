@@ -92,6 +92,10 @@ func load_media(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
 	return _load_json_role(pack_source, prepared_pack, "media")
 
 
+func load_tuning_intent(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
+	return _load_json_role(pack_source, prepared_pack, "tuning-intent")
+
+
 func _load_json_role(pack_source: String, prepared_pack: Dictionary, role: String) -> Dictionary:
 	if prepared_pack.get("ok") != true:
 		return _failure("Edition Pack must prepare successfully before %s is loaded" % role)

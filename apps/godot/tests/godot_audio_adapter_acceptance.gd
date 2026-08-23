@@ -202,6 +202,19 @@ func _run() -> void:
 			},
 			"place entry crossfades the outgoing place under the arriving one",
 		)
+		test.expect(
+			audio.play(lacewood_ambience, ambience_playback),
+			"a second place change inside the crossfade enters the same ambience slot",
+		)
+		await process_frame
+		test.expect(
+			audio.ambience_evidence() == {
+				"entering": true,
+				"leaving": true,
+				"entering_below_target": true,
+			},
+			"a crossfade interrupted by the next place keeps both voices under their targets",
+		)
 		test.expect(audio.has_method("fade_out_slot"), "the adapter can fade a place out")
 		audio.fade_out_slot("ambience", 600)
 		await process_frame
