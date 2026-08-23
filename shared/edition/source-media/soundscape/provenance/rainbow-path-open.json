@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.rainbow-path.open",
+  "sourceMasterId": "source-master.rainbow-path.open",
+  "runtimeMapping": "runtime-cue.rainbow-path.open",
+  "jobHash": "sha256:d5df6a9d6d689431172ae7e42eb5170414637a238b02225cf8cc0fb31002cc39",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A magical travel stage. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 2.5,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T02:04:12.051Z",
+  "traceId": "87e44cad74ad29e726815440f0f2a0f9",
+  "providerReportedUsage": {
+    "characterCost": "25"
+  },
+  "sourceHash": "sha256:5e346393782923b3d60f94f391fefed29fa94a473424bacc013e2c112b936fd2",
+  "selectedOutputHash": "sha256:4be308dbe38bdca563af1c49740affde51133cf25d68d35f72fdbbf9c3c71d56",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 2,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "preserve-stereo",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:4be308dbe38bdca563af1c49740affde51133cf25d68d35f72fdbbf9c3c71d56",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "magical-travel-stage-for-macbook",
+  "channelPolicy": "warm-stereo",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Best Rainbow Path and Family Guest travel stage: strong stereo body, low crossing activity, moderate crest, and a controlled -6 dBFS peak for a magical journey that stays gentle under the music duck."
+}

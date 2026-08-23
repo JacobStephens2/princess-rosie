@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.journey-history.shimmer",
+  "sourceMaster": "source-master.journey-history.shimmer",
+  "runtimeMapping": "runtime-cue.journey-history.shimmer",
+  "status": "approved",
+  "jobHash": "sha256:002d54eebf737add069bf78848f03970b8c4048fd7fee76b623b40c25b5b063e",
+  "masterPath": "masters/journey-history-shimmer.wav",
+  "masterHash": "sha256:659c6b5aa56b67f0f78412bc742546980b656ff0f0a43f318e7b7765b94a030b",
+  "runtimePath": "runtime/journey-history-shimmer.wav",
+  "runtimeHash": "sha256:659c6b5aa56b67f0f78412bc742546980b656ff0f0a43f318e7b7765b94a030b"
+}

@@ -3,37 +3,39 @@
   "requestLimit": 30,
   "requests": [
     {
-      "text": "A very subtle responsive storybook release accent: a small soft exhale of air with one delicate downward harp harmonic, immediate and gently settling. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
+      "text": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
       "model": "eleven_text_to_sound_v2",
-      "durationSeconds": 0.6,
+      "durationSeconds": 12,
       "promptInfluence": 0.3,
-      "loop": false,
+      "loop": true,
       "format": "pcm_48000",
-      "cueId": "cue.movement.glide",
+      "cueId": "cue.place.lacewood",
       "candidate": "candidate-1",
-      "outcome": "succeeded"
+      "outcome": "failed",
+      "qaFailure": "PCM loop seam exceeds the allowed threshold"
     },
     {
-      "text": "A very subtle responsive storybook release accent: a small soft exhale of air with one delicate downward harp harmonic, immediate and gently settling. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
+      "text": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
       "model": "eleven_text_to_sound_v2",
-      "durationSeconds": 0.6,
+      "durationSeconds": 12,
       "promptInfluence": 0.3,
-      "loop": false,
+      "loop": true,
       "format": "pcm_48000",
-      "cueId": "cue.movement.glide",
+      "cueId": "cue.place.lacewood",
       "candidate": "candidate-2",
       "outcome": "succeeded"
     },
     {
-      "text": "A very subtle responsive storybook release accent: a small soft exhale of air with one delicate downward harp harmonic, immediate and gently settling. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
+      "text": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
       "model": "eleven_text_to_sound_v2",
-      "durationSeconds": 0.6,
+      "durationSeconds": 12,
       "promptInfluence": 0.3,
-      "loop": false,
+      "loop": true,
       "format": "pcm_48000",
-      "cueId": "cue.movement.glide",
+      "cueId": "cue.place.lacewood",
       "candidate": "candidate-3",
-      "outcome": "succeeded"
+      "outcome": "failed",
+      "qaFailure": "PCM loop seam exceeds the allowed threshold"
     }
   ]
 }

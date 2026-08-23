@@ -235,7 +235,7 @@
       "looping": true,
       "channelPolicy": "warm-stereo-loop",
       "masteringIntent": "shaded-leaves-and-silver-ribbons-under-music-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -264,7 +264,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "soft-ribbon-response-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A soft ribbon response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -293,7 +293,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "soft-rose-light-response-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A soft rose light response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -321,7 +321,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "quiet-invitation-without-reward-language-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A quiet invitation without reward language. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -350,7 +350,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "airy-ribbon-choice-response-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A airy ribbon choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -379,7 +379,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "warm-rose-choice-response-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A warm rose choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -407,7 +407,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "restrained-unseen-route-shimmer-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A restrained unseen route shimmer. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -435,7 +435,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "soft-nonthreatening-ribbon-bump-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A soft nonthreatening ribbon bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -463,7 +463,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "restrained-cooldown-accent-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A restrained cooldown accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -491,7 +491,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "capped-magical-shimmer-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A capped magical shimmer. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -519,7 +519,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "immediate-recognizable-gather-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A immediate recognizable gather. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -548,7 +548,7 @@
       "looping": false,
       "channelPolicy": "warm-stereo",
       "masteringIntent": "magical-travel-stage-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A magical travel stage. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -577,7 +577,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "lacewood-resolution-accent-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A lacewood resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -605,7 +605,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "reassuring-gentle-landing-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A reassuring gentle landing. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -633,7 +633,7 @@
       "looping": true,
       "channelPolicy": "warm-stereo-loop",
       "masteringIntent": "soft-indefinite-rest-under-music-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A soft indefinite rest under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",
@@ -661,7 +661,7 @@
       "looping": false,
       "channelPolicy": "focused-mono",
       "masteringIntent": "safe-immediate-takeoff-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A safe immediate takeoff. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",

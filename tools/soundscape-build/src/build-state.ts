@@ -69,6 +69,7 @@ export interface BuildRequestRecord extends GenerateRequest {
   candidate: string;
   outcome: "succeeded" | "rejected" | "failed" | "unknown";
   statusCode?: number;
+  qaFailure?: string;
 }
 
 export interface InvocationReport {

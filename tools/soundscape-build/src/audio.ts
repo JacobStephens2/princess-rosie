@@ -41,12 +41,14 @@ interface DecodedPcmWav {
 export const MASTERING_CONTRACT = Object.freeze({
   sampleEncoding: "pcm16le",
   durationToleranceRatio: 0.02,
+  sourceDurationToleranceRatioNonLoop: 0.18,
   silencePeakFloor: 0.001,
   trimBoundarySilence: true,
   nonLoopFadeInMs: 10,
   nonLoopFadeOutMs: 20,
   peakCeilingDbfs: -6,
   loopSeamMaxDelta: 0.05,
+  monoCancellationRatio: 0.1,
 });
 
 const PEAK_CEILING = 10 ** (MASTERING_CONTRACT.peakCeilingDbfs / 20);
@@ -54,23 +56,28 @@ const PEAK_CEILING = 10 ** (MASTERING_CONTRACT.peakCeilingDbfs / 20);
 export function inspectPcm(pcm: Buffer, request: GenerateRequest): PcmInspection {
   if (pcm.length === 0 || pcm.length % 2 !== 0) throw new Error("Invalid PCM payload");
   const sampleRate = request.format === "pcm_48000" ? 48_000 : 24_000;
-  const expectedFrames = sampleRate * request.durationSeconds;
   const samples = pcm.length / 2;
-  const channelEstimate = samples / expectedFrames;
-  const channels = channelEstimate >= 0.5 && channelEstimate < 1.5
-    ? 1
-    : channelEstimate >= 1.5 && channelEstimate <= 2.5
-      ? 2
-      : undefined;
-  if (!channels) throw new Error("PCM channel layout could not be established");
-  const sampleCount = samples / channels;
-  const durationSeconds = sampleCount / sampleRate;
-  if (
-    Math.abs(durationSeconds - request.durationSeconds) / request.durationSeconds >
-      MASTERING_CONTRACT.durationToleranceRatio
-  ) {
-    throw new Error("PCM duration is outside the allowed tolerance");
-  }
+  const sourceDurationTolerance = request.loop
+    ? MASTERING_CONTRACT.durationToleranceRatio
+    : MASTERING_CONTRACT.sourceDurationToleranceRatioNonLoop;
+  const layoutCandidates = ([1, 2] as const)
+    .map((channels) => {
+      const sampleCount = samples / channels;
+      const durationSeconds = sampleCount / sampleRate;
+      return {
+        channels,
+        sampleCount,
+        durationSeconds,
+        durationDrift: Math.abs(durationSeconds - request.durationSeconds) / request.durationSeconds,
+      };
+    })
+    .filter(({ sampleCount, durationDrift }) =>
+      Number.isInteger(sampleCount) && durationDrift <= sourceDurationTolerance
+    )
+    .sort((left, right) => left.durationDrift - right.durationDrift);
+  const layout = layoutCandidates[0];
+  if (!layout) throw new Error("PCM channel layout or source duration could not be established");
+  const { channels, sampleCount, durationSeconds } = layout;
   let peak = 0;
   for (let offset = 0; offset < pcm.length; offset += 2) {
     peak = Math.max(peak, Math.abs(pcm.readInt16LE(offset)) / 32_768);
@@ -203,15 +210,45 @@ export function masterCatalogAudio(
   }
 
   const outputChannels: 1 | 2 = cue.channelPolicy === "focused-mono" ? 1 : 2;
-  const frameCount = finalFrame - firstFrame;
+  const contentFrameCount = finalFrame - firstFrame;
+  const catalogFrameCount = Math.round(inspection.sampleRate * cue.durationSeconds);
+  const frameCount = cue.looping ? contentFrameCount : catalogFrameCount;
+  const copiedFrameCount = Math.min(contentFrameCount, frameCount);
   const masteredPcm = Buffer.alloc(frameCount * outputChannels * 2);
-  for (let outputFrame = 0; outputFrame < frameCount; outputFrame += 1) {
+  let monoSourceChannel: "average" | "left" | "right" = "average";
+  if (outputChannels === 1 && inspection.channels === 2) {
+    let leftEnergy = 0;
+    let rightEnergy = 0;
+    let channelPeak = 0;
+    let monoPeak = 0;
+    for (let outputFrame = 0; outputFrame < copiedFrameCount; outputFrame += 1) {
+      const inputOffset = (firstFrame + outputFrame) * inspection.channels * 2;
+      const left = pcm.readInt16LE(inputOffset);
+      const right = pcm.readInt16LE(inputOffset + 2);
+      leftEnergy += left * left;
+      rightEnergy += right * right;
+      channelPeak = Math.max(channelPeak, Math.abs(left), Math.abs(right));
+      monoPeak = Math.max(monoPeak, Math.abs(Math.round((left + right) / 2)));
+    }
+    if (
+      channelPeak > 0 &&
+      monoPeak / channelPeak < MASTERING_CONTRACT.monoCancellationRatio
+    ) {
+      monoSourceChannel = leftEnergy >= rightEnergy ? "left" : "right";
+    }
+  }
+  for (let outputFrame = 0; outputFrame < copiedFrameCount; outputFrame += 1) {
     const inputFrame = firstFrame + outputFrame;
     const inputOffset = inputFrame * inspection.channels * 2;
     const left = pcm.readInt16LE(inputOffset);
     const right = inspection.channels === 2 ? pcm.readInt16LE(inputOffset + 2) : left;
     if (outputChannels === 1) {
-      masteredPcm.writeInt16LE(Math.round((left + right) / 2), outputFrame * 2);
+      const mono = monoSourceChannel === "left"
+        ? left
+        : monoSourceChannel === "right"
+          ? right
+          : Math.round((left + right) / 2);
+      masteredPcm.writeInt16LE(mono, outputFrame * 2);
     } else {
       masteredPcm.writeInt16LE(left, outputFrame * 4);
       masteredPcm.writeInt16LE(right, outputFrame * 4 + 2);
@@ -227,17 +264,17 @@ export function masterCatalogAudio(
     ? 0
     : Math.min(
       Math.round(inspection.sampleRate * MASTERING_CONTRACT.nonLoopFadeInMs / 1_000),
-      frameCount,
+      copiedFrameCount,
     );
   const fadeOutFrames = cue.looping
     ? 0
     : Math.min(
       Math.round(inspection.sampleRate * MASTERING_CONTRACT.nonLoopFadeOutMs / 1_000),
-      frameCount,
+      copiedFrameCount,
     );
-  for (let frame = 0; frame < frameCount; frame += 1) {
+  for (let frame = 0; frame < copiedFrameCount; frame += 1) {
     const fadeIn = fadeInFrames === 0 ? 1 : Math.min(1, frame / fadeInFrames);
-    const remaining = frameCount - 1 - frame;
+    const remaining = copiedFrameCount - 1 - frame;
     const fadeOut = fadeOutFrames === 0 ? 1 : Math.min(1, remaining / fadeOutFrames);
     for (let channel = 0; channel < outputChannels; channel += 1) {
       const offset = (frame * outputChannels + channel) * 2;
@@ -253,8 +290,15 @@ export function masterCatalogAudio(
     processing: [
       "inspect-pcm-s16le",
       ...(!cue.looping && trimBoundarySilence ? ["trim-boundary-silence"] : []),
+      ...(!cue.looping && inspection.sampleCount !== catalogFrameCount
+        ? ["fit-catalog-duration"]
+        : []),
       ...(outputChannels === 1 && inspection.channels === 2
-        ? ["downmix-stereo-to-mono"]
+        ? [
+          monoSourceChannel === "average"
+            ? "downmix-stereo-to-mono"
+            : "downmix-stereo-to-mono-phase-safe",
+        ]
         : outputChannels === 2 && inspection.channels === 1
           ? ["duplicate-mono-to-stereo"]
           : outputChannels === 2

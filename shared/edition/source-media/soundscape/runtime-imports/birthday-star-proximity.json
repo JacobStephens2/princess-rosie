@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.birthday-star.proximity",
+  "runtimeMapping": "runtime-cue.birthday-star.proximity",
+  "sourceMaster": "source-master.birthday-star.proximity",
+  "sourcePath": "masters/birthday-star-proximity.wav",
+  "runtimePath": "runtime/birthday-star-proximity.wav",
+  "sourceHash": "sha256:32e7bae2241350198c403f74bd4dd8f53577e7853cc303bbe35dba73fee698ef",
+  "derivativeHash": "sha256:32e7bae2241350198c403f74bd4dd8f53577e7853cc303bbe35dba73fee698ef",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

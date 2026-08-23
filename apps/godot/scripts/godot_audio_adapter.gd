@@ -83,6 +83,51 @@ func synthesize_confirmation() -> AudioStreamWAV:
 	return stream
 
 
+func synthesize_birthday_star() -> AudioStreamWAV:
+	return _synthesize_gentle_response(0.42, 880.0, 1.5, 8.0, 0.08)
+
+
+func synthesize_playful_bump() -> AudioStreamWAV:
+	return _synthesize_gentle_response(0.22, 392.0, 1.33, 18.0, 0.07)
+
+
+func synthesize_cloud_rest() -> AudioStreamWAV:
+	return _synthesize_gentle_response(0.75, 523.25, 1.25, 4.0, 0.045)
+
+
+func synthesize_celebration() -> AudioStreamWAV:
+	return _synthesize_gentle_response(0.9, 659.25, 1.5, 3.5, 0.05)
+
+
+func _synthesize_gentle_response(
+	duration_seconds: float,
+	frequency_hz: float,
+	overtone_ratio: float,
+	decay_rate: float,
+	amplitude: float,
+) -> AudioStreamWAV:
+	var sample_count := int(FALLBACK_MIX_RATE * duration_seconds)
+	var pcm := PackedByteArray()
+	pcm.resize(sample_count * 2)
+	for sample_index: int in sample_count:
+		var time := float(sample_index) / FALLBACK_MIX_RATE
+		var attack := minf(time / 0.018, 1.0)
+		var envelope := attack * exp(-time * decay_rate)
+		var tone := (
+			sin(TAU * frequency_hz * time)
+			+ 0.32 * sin(TAU * frequency_hz * overtone_ratio * time)
+		)
+		var sample := clampf(tone * envelope * amplitude, -1.0, 1.0)
+		pcm.encode_s16(sample_index * 2, roundi(sample * 32767.0))
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = FALLBACK_MIX_RATE
+	stream.stereo = false
+	stream.data = pcm
+	return stream
+
+
 func synthesize_music() -> AudioStreamWAV:
 	var sample_count := int(FALLBACK_MIX_RATE * MUSIC_FALLBACK_DURATION_SECONDS)
 	var pcm := PackedByteArray()

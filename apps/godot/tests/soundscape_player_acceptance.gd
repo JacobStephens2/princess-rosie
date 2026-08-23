@@ -35,6 +35,18 @@ class FakeEngineAudioAdapter extends RefCounted:
 	func synthesize_confirmation() -> Variant:
 		return "synthesized-confirmation"
 
+	func synthesize_birthday_star() -> Variant:
+		return "synthesized-birthday-star"
+
+	func synthesize_playful_bump() -> Variant:
+		return "synthesized-playful-bump"
+
+	func synthesize_cloud_rest() -> Variant:
+		return "synthesized-cloud-rest"
+
+	func synthesize_celebration() -> Variant:
+		return "synthesized-celebration"
+
 	func play(stream: Variant, playback: Variant) -> bool:
 		played_streams.append(stream)
 		if playback is SOUNDSCAPE_PLAYBACK:
@@ -60,6 +72,16 @@ class FakeEngineAudioAdapter extends RefCounted:
 
 	func set_sound_enabled(enabled: bool, delay_ms: int) -> void:
 		sound_preference_changes.append({"enabled": enabled, "delay_ms": delay_ms})
+
+
+class FakeClock extends RefCounted:
+	var milliseconds := 1_000
+
+	func now_ms() -> int:
+		return milliseconds
+
+	func advance(elapsed_ms: int) -> void:
+		milliseconds += elapsed_ms
 
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
@@ -237,6 +259,255 @@ func _init() -> void:
 	var audio := FakeEngineAudioAdapter.new()
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	var soundscape := SOUNDSCAPE_PLAYER.new(pack_root, audio)
+	var journey_audio := FakeEngineAudioAdapter.new()
+	var journey_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, journey_audio)
+	test.expect(
+		journey_soundscape.report_event(
+			&"sound-event.journey-history-shimmer",
+			{
+				"pathChoice": "path-choice.lacewood",
+				"route": "lacewood.floor",
+			},
+		),
+		"an unexplored Lacewood route receives one restrained Journey History shimmer",
+	)
+	var plays_after_journey_history_shimmer := journey_audio.played_streams.size()
+	test.expect(
+		not journey_soundscape.report_event(
+			&"sound-event.journey-history-shimmer",
+			{
+				"pathChoice": "path-choice.lacewood",
+				"route": "lacewood.floor",
+			},
+		),
+		"the same unexplored route does not accumulate score-like shimmer repeats",
+	)
+	test.expect(
+		journey_audio.played_streams.size() == plays_after_journey_history_shimmer,
+		"suppressed Journey History shimmer requests never reach engine playback",
+	)
+	var edge_audio := FakeEngineAudioAdapter.new()
+	var edge_clock := FakeClock.new()
+	var edge_soundscape := SOUNDSCAPE_PLAYER.new(
+		pack_root,
+		edge_audio,
+		edge_clock.now_ms,
+	)
+	test.expect(
+		edge_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		),
+		"a Lacewood near miss sounds on its state edge",
+	)
+	test.expect(
+		not edge_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		),
+		"a per-frame near-miss repeat is suppressed during cooldown",
+	)
+	edge_clock.advance(750)
+	test.expect(
+		edge_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		),
+		"a later Lacewood near-miss edge may sound after cooldown",
+	)
+	test.expect(
+		edge_soundscape.report_event(
+			&"sound-event.birthday-star-proximity",
+			{"birthdayStar": "birthday-star.lacewood"},
+		),
+		"Birthday Star proximity starts one capped shimmer",
+	)
+	edge_clock.advance(750)
+	test.expect(
+		not edge_soundscape.report_event(
+			&"sound-event.birthday-star-proximity",
+			{"birthdayStar": "birthday-star.lacewood"},
+		),
+		"Birthday Star visual pulses cannot retrigger the capped shimmer",
+	)
+	var rest_audio := FakeEngineAudioAdapter.new()
+	var rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, rest_audio)
+	var lacewood_rest_events := [
+		[&"sound-event.movement-state", {"state": "flight"}],
+		[&"sound-event.place-entry", {"place": "lacewood"}],
+		[&"sound-event.playful-bump", {"place": "lacewood", "kind": "silver-ribbon"}],
+		[&"sound-event.playful-bump", {"place": "lacewood", "kind": "silver-ribbon"}],
+		[&"sound-event.playful-bump", {"place": "lacewood", "kind": "silver-ribbon"}],
+	]
+	for semantic_event: Array in lacewood_rest_events:
+		test.expect(
+			rest_soundscape.report_event(semantic_event[0], semantic_event[1]),
+			"the Lacewood pre-rest sequence plays: %s" % semantic_event[0],
+		)
+	test.expect(
+		rest_soundscape.report_event(
+			&"sound-event.cloud-rest-entered",
+			{"place": "lacewood"},
+		),
+		"Cloud Rest accepts the landing transition",
+	)
+	test.expect(
+		rest_audio.stopped_slots == ["foreground", "movement", "ambience"],
+		"Cloud Rest cancels the third Playful Bump tail and replaces movement and ambience",
+	)
+	test.expect(
+		rest_audio.loaded_paths.slice(-2) == [
+			"source-media/soundscape/runtime/cloud-rest-enter.wav",
+			"source-media/soundscape/runtime/cloud-rest-ambience.wav",
+		],
+		"Cloud Rest schedules its reassuring landing and gentle loop together",
+	)
+	var rest_playbacks := rest_audio.playback_settings.slice(-2)
+	test.expect(
+		rest_playbacks[0].get("category") == "critical-foreground"
+		and rest_playbacks[1].get("slot") == "ambience"
+		and rest_playbacks[1].get("looping") == true,
+		"the landing preempts optional detail while the rest loop owns the one ambience slot",
+	)
+	test.expect(
+		rest_soundscape.report_event(
+			&"sound-event.cloud-rest-exited",
+			{"place": "lacewood"},
+		),
+		"Cloud Rest accepts immediate resume",
+	)
+	test.expect(
+		rest_audio.loaded_paths.slice(-3) == [
+			"source-media/soundscape/runtime/cloud-rest-exit.wav",
+			"source-media/soundscape/runtime/place-lacewood.wav",
+			"source-media/soundscape/runtime/movement-flight.wav",
+		],
+		"resume restores the correct Lacewood ambience and flight layer after its takeoff cue",
+	)
+	var muted_rest_audio := FakeEngineAudioAdapter.new()
+	var muted_rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, muted_rest_audio)
+	test.expect(
+		muted_rest_soundscape.report_event(
+			&"sound-event.movement-state",
+			{"state": "flight"},
+		),
+		"the pre-mute flight layer starts",
+	)
+	test.expect(
+		muted_rest_soundscape.report_event(
+			&"sound-event.place-entry",
+			{"place": "lacewood"},
+		),
+		"the pre-mute Lacewood layer starts",
+	)
+	test.expect(
+		muted_rest_soundscape.report_event(
+			&"sound-event.sound-preference-changed",
+			{"enabled": false},
+		),
+		"Sound can be disabled before a semantic state change",
+	)
+	var loaded_before_muted_rest := muted_rest_audio.loaded_paths.size()
+	test.expect(
+		not muted_rest_soundscape.report_event(
+			&"sound-event.cloud-rest-entered",
+			{"place": "lacewood"},
+		),
+		"muted Cloud Rest state does not start audible media",
+	)
+	test.expect(
+		muted_rest_audio.stopped_slots.slice(-3) == ["foreground", "movement", "ambience"],
+		"muted Cloud Rest still clears stale foreground, flight, and Lacewood slots",
+	)
+	test.expect(
+		muted_rest_audio.loaded_paths.size() == loaded_before_muted_rest,
+		"muted Cloud Rest performs no hidden media playback",
+	)
+	test.expect(
+		muted_rest_soundscape.report_event(
+			&"sound-event.sound-preference-changed",
+			{"enabled": true},
+		),
+		"enabling Sound reconciles the current semantic state",
+	)
+	var enabled_rest_paths := muted_rest_audio.loaded_paths.slice(loaded_before_muted_rest)
+	test.expect(
+		enabled_rest_paths.has("source-media/soundscape/runtime/cloud-rest-ambience.wav")
+		and not enabled_rest_paths.has("source-media/soundscape/runtime/place-lacewood.wav")
+		and not enabled_rest_paths.has("source-media/soundscape/runtime/movement-flight.wav"),
+		"Sound enabled during Cloud Rest restores only the rest loop, never stale flight",
+	)
+	var fallback_audio := FakeEngineAudioAdapter.new()
+	fallback_audio.asset_available = false
+	var core_fallback_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, fallback_audio)
+	test.expect(
+		core_fallback_soundscape.report_event(
+			&"sound-event.birthday-star-gathered",
+			{"birthdayStar": "birthday-star.lacewood"},
+		),
+		"Birthday Star progression continues when its approved cue cannot load",
+	)
+	test.expect(
+		(
+			fallback_audio.played_streams.back()
+			if not fallback_audio.played_streams.is_empty()
+			else ""
+		) == "synthesized-birthday-star",
+		"Birthday Star failure selects its recognizable local synthesized fallback",
+	)
+	test.expect(
+		core_fallback_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		),
+		"a Playful Bump remains gentle feedback when its approved cue cannot load",
+	)
+	test.expect(
+		(
+			fallback_audio.played_streams.back()
+			if not fallback_audio.played_streams.is_empty()
+			else ""
+		) == "synthesized-playful-bump",
+		"Playful Bump failure selects its soft local synthesized fallback",
+	)
+	test.expect(
+		core_fallback_soundscape.report_event(
+			&"sound-event.cloud-rest-entered",
+			{"place": "lacewood"},
+		),
+		"Cloud Rest progression continues when its approved landing and loop cannot load",
+	)
+	test.expect(
+		fallback_audio.played_streams.slice(-2) == [
+			"synthesized-cloud-rest",
+			"synthesized-cloud-rest",
+		],
+		"Cloud Rest failure selects local fallbacks for the landing and owned ambience",
+	)
+	for celebration_event: Array in [
+		[&"sound-event.birthday-castle-arrival", {}],
+		[&"sound-event.celebration-interaction", {"action": "dance-again"}],
+	]:
+		test.expect(
+			core_fallback_soundscape.report_event(celebration_event[0], celebration_event[1]),
+			"the celebration remains audible before its authored cue is approved",
+		)
+		test.expect(
+			fallback_audio.played_streams.back() == "synthesized-celebration",
+			"celebration failure selects its warm local synthesized fallback",
+		)
+	var plays_before_missing_optional := fallback_audio.played_streams.size()
+	test.expect(
+		not core_fallback_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		),
+		"an unavailable optional near-miss cue may remain silent",
+	)
+	test.expect(
+		fallback_audio.played_streams.size() == plays_before_missing_optional,
+		"optional silence does not synthesize unrelated core feedback",
+	)
 
 	var played: bool = soundscape.report_event(
 		&"sound-event.story-confirmation",

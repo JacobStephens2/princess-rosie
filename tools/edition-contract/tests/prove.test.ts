@@ -76,7 +76,7 @@ describe("Edition Contract proof", () => {
     });
   });
 
-  test("accepts conforming Godot Lacewood tracer evidence", async () => {
+  test("accepts the contract-declared Lacewood tracer evidence", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
     const tracerSoundEvents = await readTracerSoundEvents();
 
