@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.opening.departure",
+  "runtimeMapping": "runtime-cue.opening.departure",
+  "sourceMaster": "source-master.opening.departure",
+  "sourcePath": "masters/opening-departure.wav",
+  "runtimePath": "runtime/opening-departure.wav",
+  "sourceHash": "sha256:1f78bd7f74fd29c04a79c983381bec2d8c7796d762cda071366f78b1cb834e32",
+  "derivativeHash": "sha256:1f78bd7f74fd29c04a79c983381bec2d8c7796d762cda071366f78b1cb834e32",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

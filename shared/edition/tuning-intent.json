@@ -1,0 +1,25 @@
+{
+  "flight": {
+    "automaticForwardMotion": true,
+    "directContactResponse": "richest",
+    "nearbyBirthdayStarResponse": "flies-to-stella",
+    "failure": "forbidden",
+    "backtracking": "forbidden"
+  },
+  "pathChoice": {
+    "routeCount": 2,
+    "routesEquallySafe": true,
+    "rejoinBeforeBirthdayStar": true
+  },
+  "cloudRest": {
+    "afterNearbyPlayfulBumps": 3,
+    "birthdayStarsPreserved": true,
+    "pathChoicesPreserved": true,
+    "maximumHelpLevel": 2
+  },
+  "performance": {
+    "minimumFramesPerSecond": 60,
+    "preferredFramesPerSecond": 120,
+    "warmLaunchSecondsMaximum": 3
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.story.confirmation",
+  "runtimeMapping": "runtime-cue.story.confirmation",
+  "sourceMaster": "source-master.story.confirmation",
+  "sourcePath": "masters/story-confirmation.wav",
+  "runtimePath": "runtime/story-confirmation.wav",
+  "sourceHash": "sha256:5a93b99080993e78c877170af5400b9178b7a06a4f735a34d8c808cfcb909192",
+  "derivativeHash": "sha256:5a93b99080993e78c877170af5400b9178b7a06a4f735a34d8c808cfcb909192",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

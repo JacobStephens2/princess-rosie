@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.movement.glide",
+  "runtimeMapping": "runtime-cue.movement.glide",
+  "sourceMaster": "source-master.movement.glide",
+  "sourcePath": "masters/movement-glide.wav",
+  "runtimePath": "runtime/movement-glide.wav",
+  "sourceHash": "sha256:7b14a9f77ab962a496fe6b8a106de234db92bcf28e94968f3d7c452e04d0f081",
+  "derivativeHash": "sha256:7b14a9f77ab962a496fe6b8a106de234db92bcf28e94968f3d7c452e04d0f081",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "cueId": "cue.movement.glide",
+  "sourceMasterId": "source-master.movement.glide",
+  "runtimeMapping": "runtime-cue.movement.glide",
+  "jobHash": "sha256:842e873aec6e13c0936f1fba4f57b0320dd48f90bfe1199ccb17ae8aca3ab068",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A very subtle responsive storybook release accent: a small soft exhale of air with one delicate downward harp harmonic, immediate and gently settling. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 0.6,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T01:10:44.535Z",
+  "traceId": "21c602700f8e0ac684c54071c774cd4c",
+  "providerReportedUsage": {
+    "characterCost": "6"
+  },
+  "sourceHash": "sha256:ec68c0d6f35c653e01faacfb9f2237e75614495f00ea8b01389882da12ff7184",
+  "selectedOutputHash": "sha256:7b14a9f77ab962a496fe6b8a106de234db92bcf28e94968f3d7c452e04d0f081",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -7.195,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:7b14a9f77ab962a496fe6b8a106de234db92bcf28e94968f3d7c452e04d0f081",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "subtle-responsive-settle-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 40,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Clearest gentle release at the quiet movement gain: strongest low-crest body with far less high-frequency crossing activity than the second candidate and safe peak headroom."
+}

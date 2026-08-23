@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.story.confirmation",
+  "sourceMaster": "source-master.story.confirmation",
+  "runtimeMapping": "runtime-cue.story.confirmation",
+  "status": "approved",
+  "jobHash": "sha256:9a2a9ed1226f449b995906ba48708a6224d08bef5b55b1a579357b329a2a1a6a",
+  "masterPath": "masters/story-confirmation.wav",
+  "masterHash": "sha256:5a93b99080993e78c877170af5400b9178b7a06a4f735a34d8c808cfcb909192",
+  "runtimePath": "runtime/story-confirmation.wav",
+  "runtimeHash": "sha256:5a93b99080993e78c877170af5400b9178b7a06a4f735a34d8c808cfcb909192"
+}

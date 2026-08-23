@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.playful-bump.lacewood",
+  "sourceMaster": "source-master.playful-bump.lacewood",
+  "runtimeMapping": "runtime-cue.playful-bump.lacewood",
+  "status": "approved",
+  "jobHash": "sha256:46c65867a38b25ca774a92448d87ecdaa035f27186285951f8a2ef138da5a3f3",
+  "masterPath": "masters/playful-bump-lacewood.wav",
+  "masterHash": "sha256:a22544480f3c8882e2d200c8d171c0f5e25513f90f53bf98f39473b12845ccfc",
+  "runtimePath": "runtime/playful-bump-lacewood.wav",
+  "runtimeHash": "sha256:a22544480f3c8882e2d200c8d171c0f5e25513f90f53bf98f39473b12845ccfc"
+}

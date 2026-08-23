@@ -1,0 +1,21 @@
+{
+  "soundtrack": {
+    "id": "music.birthday-flight",
+    "path": "audio/birthday-flight.mp3",
+    "looping": true,
+    "gainDb": -6.7,
+    "fallbackRole": "fallback.music"
+  },
+  "categoryGainDb": {
+    "music": 0,
+    "ambience": -10,
+    "movement": -10,
+    "ordinaryForeground": 3,
+    "criticalForeground": 3,
+    "optionalDetail": -10
+  },
+  "foregroundVoiceMaximum": 2,
+  "musicDuckDb": -4,
+  "truePeakCeilingDbfs": -3,
+  "confirmationDelayMaximumMs": 200
+}

@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.journey-history.shimmer",
+  "sourceMasterId": "source-master.journey-history.shimmer",
+  "runtimeMapping": "runtime-cue.journey-history.shimmer",
+  "jobHash": "sha256:002d54eebf737add069bf78848f03970b8c4048fd7fee76b623b40c25b5b063e",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A restrained unseen route shimmer. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.2,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T02:00:21.577Z",
+  "traceId": "502107389bc5eeeaacc5b68c63e3a0d8",
+  "providerReportedUsage": {
+    "characterCost": "12"
+  },
+  "sourceHash": "sha256:e4a63c39d7d354702813d50a9d8e5ec6eff268777032da83f9b5dc4c5ba25755",
+  "selectedOutputHash": "sha256:659c6b5aa56b67f0f78412bc742546980b656ff0f0a43f318e7b7765b94a030b",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -13.644,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:659c6b5aa56b67f0f78412bc742546980b656ff0f0a43f318e7b7765b94a030b",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "restrained-unseen-route-shimmer-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 20,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Most restrained Journey History shimmer: low crossing activity, moderate body, controlled crest, and generous headroom so the unseen route feels inviting without score or completion pressure."
+}

@@ -1,0 +1,41 @@
+{
+  "status": "completed",
+  "requestLimit": 30,
+  "requests": [
+    {
+      "text": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+      "model": "eleven_text_to_sound_v2",
+      "durationSeconds": 12,
+      "promptInfluence": 0.3,
+      "loop": true,
+      "format": "pcm_48000",
+      "cueId": "cue.place.lacewood",
+      "candidate": "candidate-1",
+      "outcome": "failed",
+      "qaFailure": "PCM loop seam exceeds the allowed threshold"
+    },
+    {
+      "text": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+      "model": "eleven_text_to_sound_v2",
+      "durationSeconds": 12,
+      "promptInfluence": 0.3,
+      "loop": true,
+      "format": "pcm_48000",
+      "cueId": "cue.place.lacewood",
+      "candidate": "candidate-2",
+      "outcome": "succeeded"
+    },
+    {
+      "text": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+      "model": "eleven_text_to_sound_v2",
+      "durationSeconds": 12,
+      "promptInfluence": 0.3,
+      "loop": true,
+      "format": "pcm_48000",
+      "cueId": "cue.place.lacewood",
+      "candidate": "candidate-3",
+      "outcome": "failed",
+      "qaFailure": "PCM loop seam exceeds the allowed threshold"
+    }
+  ]
+}

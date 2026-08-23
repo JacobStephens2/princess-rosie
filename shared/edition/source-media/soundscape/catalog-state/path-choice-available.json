@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.path-choice.available",
+  "sourceMaster": "source-master.path-choice.available",
+  "runtimeMapping": "runtime-cue.path-choice.available",
+  "status": "approved",
+  "jobHash": "sha256:fac7610ee5728c687b4b393ebbb2d292b673a797f89e56ec9dfa4ce0a3ca5b78",
+  "masterPath": "masters/path-choice-available.wav",
+  "masterHash": "sha256:57688cb3ec64402295b3a37507305522279d527e254ea50af1a9f6e4cea34d22",
+  "runtimePath": "runtime/path-choice-available.wav",
+  "runtimeHash": "sha256:57688cb3ec64402295b3a37507305522279d527e254ea50af1a9f6e4cea34d22"
+}

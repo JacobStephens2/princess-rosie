@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.path-choice.lacewood.canopy",
+  "sourceMaster": "source-master.path-choice.lacewood.canopy",
+  "runtimeMapping": "runtime-cue.path-choice.lacewood.canopy",
+  "status": "approved",
+  "jobHash": "sha256:b07b3c7503bab776bd0b0f32d79dcd822484005eba032334f13fb689fa331373",
+  "masterPath": "masters/path-choice-lacewood-canopy.wav",
+  "masterHash": "sha256:40d6a841a78d07ef03c21a95dee785f6ce2b0dfc7d487c0e20736622d17dead1",
+  "runtimePath": "runtime/path-choice-lacewood-canopy.wav",
+  "runtimeHash": "sha256:40d6a841a78d07ef03c21a95dee785f6ce2b0dfc7d487c0e20736622d17dead1"
+}

@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.birthday-star.gather",
+  "runtimeMapping": "runtime-cue.birthday-star.gather",
+  "sourceMaster": "source-master.birthday-star.gather",
+  "sourcePath": "masters/birthday-star-gather.wav",
+  "runtimePath": "runtime/birthday-star-gather.wav",
+  "sourceHash": "sha256:b57945729513451cd8139d93d7d3082a3f775bfcf029ee0eb083b4a11695c945",
+  "derivativeHash": "sha256:b57945729513451cd8139d93d7d3082a3f775bfcf029ee0eb083b4a11695c945",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

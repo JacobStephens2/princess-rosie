@@ -2,5 +2,17 @@ node_modules/
 dist/
 playwright-report/
 test-results/
+.soundscape-build/
 .DS_Store
 tmp/
+.godot/
+.import/
+Library/
+Logs/
+MemoryCaptures/
+Obj/
+Temp/
+UserSettings/
+Builds/
+*.csproj
+*.sln
