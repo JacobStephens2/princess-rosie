@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.opening.celebration-reveal",
+  "runtimeMapping": "runtime-cue.opening.celebration-reveal",
+  "sourceMaster": "source-master.opening.celebration-reveal",
+  "sourcePath": "masters/opening-celebration-reveal.wav",
+  "runtimePath": "runtime/opening-celebration-reveal.wav",
+  "sourceHash": "sha256:a736e974751f688e0fbcf6c40bb51850281697c6b32454ba1dd67aed07c4c421",
+  "derivativeHash": "sha256:a736e974751f688e0fbcf6c40bb51850281697c6b32454ba1dd67aed07c4c421",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

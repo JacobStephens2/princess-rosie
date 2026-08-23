@@ -4,17 +4,45 @@ extends Node
 const FALLBACK_MIX_RATE := 48000
 const FALLBACK_DURATION_SECONDS := 0.18
 const FALLBACK_FREQUENCY_HZ := 783.99
+const MUSIC_FALLBACK_DURATION_SECONDS := 2.0
+const FOREGROUND_VOICE_MAXIMUM := 2
+const SOUND_BUS := &"Sound"
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 
-var _player := AudioStreamPlayer.new()
-var _playback_revision := 0
-var _active_priority := -1
+var _music_player := AudioStreamPlayer.new()
+var _ambience_player := AudioStreamPlayer.new()
+var _movement_player := AudioStreamPlayer.new()
+var _foreground_players: Array[AudioStreamPlayer] = []
+var _priorities: Dictionary = {}
+var _ducking: Dictionary = {}
+var _duration_timers: Dictionary = {}
+var _music_base_gain_db := 0.0
+var _mute_timer := Timer.new()
 var _reader: RefCounted = EDITION_PACK_READER.new()
 
 
 func _init() -> void:
-	add_child(_player)
-	_player.finished.connect(_on_playback_finished)
+	for persistent_player: AudioStreamPlayer in [
+		_music_player,
+		_ambience_player,
+		_movement_player,
+	]:
+		_register_player(persistent_player)
+	for _voice_index: int in FOREGROUND_VOICE_MAXIMUM:
+		var foreground_player := AudioStreamPlayer.new()
+		_foreground_players.append(foreground_player)
+		_register_player(foreground_player)
+	_mute_timer.one_shot = true
+	add_child(_mute_timer)
+	_mute_timer.timeout.connect(_on_mute_timer_timeout)
+
+
+func _exit_tree() -> void:
+	_mute_timer.stop()
+	stop_slot("foreground")
+	stop_slot("movement")
+	stop_slot("ambience")
+	stop_slot("music")
 
 
 func load_wav(pack_source: String, relative_path: String) -> Variant:
@@ -22,6 +50,13 @@ func load_wav(pack_source: String, relative_path: String) -> Variant:
 	if not bytes_result.get("ok"):
 		return null
 	return AudioStreamWAV.load_from_buffer(bytes_result.value)
+
+
+func load_mp3(pack_source: String, relative_path: String) -> Variant:
+	var bytes_result: Dictionary = _reader.read_bytes(pack_source, relative_path)
+	if not bytes_result.get("ok"):
+		return null
+	return AudioStreamMP3.load_from_buffer(bytes_result.value)
 
 
 func synthesize_confirmation() -> AudioStreamWAV:
@@ -47,37 +82,158 @@ func synthesize_confirmation() -> AudioStreamWAV:
 	return stream
 
 
+func synthesize_music() -> AudioStreamWAV:
+	var sample_count := int(FALLBACK_MIX_RATE * MUSIC_FALLBACK_DURATION_SECONDS)
+	var pcm := PackedByteArray()
+	pcm.resize(sample_count * 2)
+	for sample_index: int in sample_count:
+		var time := float(sample_index) / FALLBACK_MIX_RATE
+		var tone := (
+			sin(TAU * 220.0 * time)
+			+ 0.45 * sin(TAU * 330.0 * time)
+			+ 0.2 * sin(TAU * 440.0 * time)
+		)
+		var sample := clampf(tone * 0.018, -1.0, 1.0)
+		pcm.encode_s16(sample_index * 2, roundi(sample * 32767.0))
+
+	var stream := AudioStreamWAV.new()
+	stream.format = AudioStreamWAV.FORMAT_16_BITS
+	stream.mix_rate = FALLBACK_MIX_RATE
+	stream.stereo = false
+	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
+	stream.loop_begin = 0
+	stream.loop_end = sample_count
+	stream.data = pcm
+	return stream
+
+
 func play(stream: Variant, playback: Dictionary) -> bool:
 	if not stream is AudioStream:
-		return false
-	var priority: int = playback.get("priority", 0)
-	if _player.playing and priority < _active_priority:
 		return false
 	var bus: StringName = playback.get("bus", &"Master")
 	if AudioServer.get_bus_index(bus) < 0:
 		return false
+	var slot: String = playback.get("slot", "foreground")
+	var target: AudioStreamPlayer
+	match slot:
+		"music":
+			target = _music_player
+			_music_base_gain_db = float(playback.get("gain_db", 0.0))
+		"ambience":
+			target = _ambience_player
+		"movement":
+			target = _movement_player
+		"foreground":
+			target = _select_foreground_player(int(playback.get("priority", 0)))
+			if target == null:
+				return false
+		_:
+			return false
+	return _play_on(target, stream, playback)
 
-	_playback_revision += 1
-	_active_priority = priority
-	_player.stop()
-	_player.stream = stream
-	_player.bus = bus
-	_player.volume_db = playback.get("gain_db", 0.0)
-	_player.play()
+
+func set_sound_enabled(enabled: bool, delay_ms: int = 0) -> void:
+	_mute_timer.stop()
+	if enabled or delay_ms <= 0:
+		_set_sound_bus_muted(not enabled)
+		return
+	_mute_timer.start(delay_ms / 1000.0)
+
+
+func stop_slot(slot: String) -> void:
+	match slot:
+		"music":
+			_stop_player(_music_player)
+		"ambience":
+			_stop_player(_ambience_player)
+		"movement":
+			_stop_player(_movement_player)
+		"foreground":
+			for player: AudioStreamPlayer in _foreground_players:
+				_stop_player(player)
+
+
+func _on_mute_timer_timeout() -> void:
+	_set_sound_bus_muted(true)
+
+
+func _set_sound_bus_muted(muted: bool) -> void:
+	var sound_bus_index := AudioServer.get_bus_index(SOUND_BUS)
+	if sound_bus_index >= 0:
+		AudioServer.set_bus_mute(sound_bus_index, muted)
+
+
+func _select_foreground_player(priority: int) -> AudioStreamPlayer:
+	for player: AudioStreamPlayer in _foreground_players:
+		if not player.playing:
+			return player
+	var candidate: AudioStreamPlayer
+	var candidate_priority := priority
+	for player: AudioStreamPlayer in _foreground_players:
+		var active_priority: int = _priorities.get(player.get_instance_id(), -1)
+		if active_priority < candidate_priority:
+			candidate = player
+			candidate_priority = active_priority
+	if candidate == null and priority >= 100:
+		return _foreground_players[0]
+	return candidate
+
+
+func _play_on(player: AudioStreamPlayer, source_stream: AudioStream, playback: Dictionary) -> bool:
+	var stream: AudioStream = source_stream.duplicate()
+	var looping: bool = playback.get("looping", false)
+	if stream is AudioStreamWAV:
+		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD if looping else AudioStreamWAV.LOOP_DISABLED
+	elif stream is AudioStreamMP3:
+		stream.loop = looping
+
+	var player_id := player.get_instance_id()
+	_priorities[player_id] = int(playback.get("priority", 0))
+	_ducking[player_id] = float(playback.get("music_duck_db", 0.0))
+	player.stop()
+	player.stream = stream
+	player.bus = playback.get("bus", &"Master")
+	player.volume_db = float(playback.get("gain_db", 0.0))
+	player.play()
+	_apply_music_duck()
 
 	var maximum_duration_ms: int = playback.get("max_duration_ms", 0)
+	var duration_timer: Timer = _duration_timers[player_id]
+	duration_timer.stop()
 	if maximum_duration_ms > 0:
-		_stop_after(maximum_duration_ms, _playback_revision)
+		duration_timer.start(maximum_duration_ms / 1000.0)
 	return true
 
 
-func _stop_after(maximum_duration_ms: int, playback_revision: int) -> void:
-	await get_tree().create_timer(maximum_duration_ms / 1000.0).timeout
-	if playback_revision == _playback_revision:
-		_player.stop()
-		_player.stream = null
-		_active_priority = -1
+func _register_player(player: AudioStreamPlayer) -> void:
+	add_child(player)
+	player.finished.connect(_on_playback_finished.bind(player))
+	var duration_timer := Timer.new()
+	duration_timer.one_shot = true
+	player.add_child(duration_timer)
+	duration_timer.timeout.connect(_stop_player.bind(player))
+	_duration_timers[player.get_instance_id()] = duration_timer
 
 
-func _on_playback_finished() -> void:
-	_active_priority = -1
+func _stop_player(player: AudioStreamPlayer) -> void:
+	var player_id := player.get_instance_id()
+	var duration_timer: Timer = _duration_timers.get(player_id)
+	if duration_timer != null:
+		duration_timer.stop()
+	player.stop()
+	player.stream = null
+	_priorities.erase(player_id)
+	_ducking.erase(player_id)
+	_apply_music_duck()
+
+
+func _on_playback_finished(player: AudioStreamPlayer) -> void:
+	_stop_player(player)
+
+
+func _apply_music_duck() -> void:
+	var duck_db := 0.0
+	for player: AudioStreamPlayer in _foreground_players:
+		if player.playing:
+			duck_db = minf(duck_db, float(_ducking.get(player.get_instance_id(), 0.0)))
+	_music_player.volume_db = _music_base_gain_db + duck_db

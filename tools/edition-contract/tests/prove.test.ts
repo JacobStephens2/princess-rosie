@@ -31,6 +31,51 @@ const tracerFacts = {
 };
 
 describe("Edition Contract proof", () => {
+  test("accepts the complete opening-to-flight semantic sequence", async () => {
+    const prepared = await prepareEditionPack(tracerPackRoot);
+    const soundEvents: TestSoundEvent[] = [
+      {
+        event: "sound-event.opening-storybook-moment",
+        context: { moment: "opening.celebration-preparations" },
+      },
+      {
+        event: "sound-event.opening-storybook-moment",
+        context: { moment: "opening.scattered-stars" },
+      },
+      {
+        event: "sound-event.opening-storybook-moment",
+        context: { moment: "opening.departure" },
+      },
+      { event: "sound-event.flight-launch", context: {} },
+      { event: "sound-event.movement-state", context: { state: "flight" } },
+      { event: "sound-event.movement-state", context: { state: "rise" } },
+      { event: "sound-event.movement-state", context: { state: "glide" } },
+      { event: "sound-event.replay", context: { destination: "opening-storybook" } },
+      { event: "sound-event.sound-preference-changed", context: { enabled: false } },
+      { event: "sound-event.sound-preference-changed", context: { enabled: true } },
+    ];
+
+    const proof = await proveEditionPack(tracerPackRoot, prepared, {
+      edition: "godot",
+      engineVersion: "4.7.2",
+      packDigest: prepared.packDigest,
+      scenarioId: "opening-flight",
+      soundEvents,
+      facts: {
+        openingImageryReadOnly: true,
+        continuousMovementLayers: 1,
+        genericConfirmationOverlap: false,
+        networkRequests: 0,
+      },
+    });
+
+    expect(proof).toMatchObject({
+      scenarioId: "opening-flight",
+      status: "passed",
+      failures: [],
+    });
+  });
+
   test("accepts conforming Godot Lacewood tracer evidence", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
     const tracerSoundEvents = await readTracerSoundEvents();

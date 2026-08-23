@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.opening.departure",
+  "sourceMaster": "source-master.opening.departure",
+  "runtimeMapping": "runtime-cue.opening.departure",
+  "status": "approved",
+  "jobHash": "sha256:2a7c7b9e82719f3c8f80e30c9653e2d4df2a48ea316b57866e6d5ef4e6ffc125",
+  "masterPath": "masters/opening-departure.wav",
+  "masterHash": "sha256:1f78bd7f74fd29c04a79c983381bec2d8c7796d762cda071366f78b1cb834e32",
+  "runtimePath": "runtime/opening-departure.wav",
+  "runtimeHash": "sha256:1f78bd7f74fd29c04a79c983381bec2d8c7796d762cda071366f78b1cb834e32"
+}

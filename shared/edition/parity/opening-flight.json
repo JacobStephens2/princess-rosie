@@ -1,0 +1,50 @@
+{
+  "id": "opening-flight",
+  "steps": [
+    "show-celebration-preparations",
+    "show-scattered-birthday-stars",
+    "show-rosi-and-stella-ready",
+    "begin-flight",
+    "hold-to-rise",
+    "release-to-glide",
+    "replay-opening-story",
+    "turn-sound-off",
+    "turn-sound-on"
+  ],
+  "requiredSoundEvents": [
+    {
+      "event": "sound-event.opening-storybook-moment",
+      "context": { "moment": "opening.celebration-preparations" }
+    },
+    {
+      "event": "sound-event.opening-storybook-moment",
+      "context": { "moment": "opening.scattered-stars" }
+    },
+    {
+      "event": "sound-event.opening-storybook-moment",
+      "context": { "moment": "opening.departure" }
+    },
+    { "event": "sound-event.flight-launch", "context": {} },
+    { "event": "sound-event.movement-state", "context": { "state": "flight" } },
+    { "event": "sound-event.movement-state", "context": { "state": "rise" } },
+    { "event": "sound-event.movement-state", "context": { "state": "glide" } },
+    {
+      "event": "sound-event.replay",
+      "context": { "destination": "opening-storybook" }
+    },
+    {
+      "event": "sound-event.sound-preference-changed",
+      "context": { "enabled": false }
+    },
+    {
+      "event": "sound-event.sound-preference-changed",
+      "context": { "enabled": true }
+    }
+  ],
+  "requiredFacts": {
+    "openingImageryReadOnly": true,
+    "continuousMovementLayers": 1,
+    "genericConfirmationOverlap": false,
+    "networkRequests": 0
+  }
+}

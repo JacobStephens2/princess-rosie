@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.flight.launch",
+  "runtimeMapping": "runtime-cue.flight.launch",
+  "sourceMaster": "source-master.flight.launch",
+  "sourcePath": "masters/flight-launch.wav",
+  "runtimePath": "runtime/flight-launch.wav",
+  "sourceHash": "sha256:4591ea27f54a6c1f47aecbca53f90a3419720139d1d8b873af52f58b970d43a1",
+  "derivativeHash": "sha256:4591ea27f54a6c1f47aecbca53f90a3419720139d1d8b873af52f58b970d43a1",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

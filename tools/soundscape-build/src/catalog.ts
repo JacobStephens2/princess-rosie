@@ -132,6 +132,9 @@ export async function validateCatalog(args: CatalogInputPaths): Promise<number> 
     if (typeof authoring.prompt !== "string" || !authoring.prompt.trim()) {
       throw new Error(`Catalog cue ${cueLabel} is missing required field: authoring.prompt`);
     }
+    if (authoring.prompt.length > 450) {
+      throw new Error(`Catalog cue ${cueLabel} exceeds the 450-character prompt limit`);
+    }
     if (authoring.model !== "eleven_text_to_sound_v2") {
       throw new Error(`Catalog cue ${cueLabel} has invalid authoring model`);
     }

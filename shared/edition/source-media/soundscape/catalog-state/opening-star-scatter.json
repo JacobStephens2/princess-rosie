@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.opening.star-scatter",
+  "sourceMaster": "source-master.opening.star-scatter",
+  "runtimeMapping": "runtime-cue.opening.star-scatter",
+  "status": "approved",
+  "jobHash": "sha256:022644693e18dc4785cbb4ecb38cc12b9d43cf94826beccce70b9d71623a8799",
+  "masterPath": "masters/opening-star-scatter.wav",
+  "masterHash": "sha256:3845001cab245dbb5752e0bac0fefabda56a5f8985896a091f1db67255f0288c",
+  "runtimePath": "runtime/opening-star-scatter.wav",
+  "runtimeHash": "sha256:3845001cab245dbb5752e0bac0fefabda56a5f8985896a091f1db67255f0288c"
+}

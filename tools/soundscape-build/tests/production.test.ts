@@ -250,6 +250,12 @@ describe("Soundscape Build production CLI", () => {
         },
       },
       {
+        diagnostic: "Catalog cue cue.test.garden-air exceeds the 450-character prompt limit",
+        mutate: (fixture) => {
+          (fixture.catalog.entries[0]!.authoring as Record<string, unknown>).prompt = "a".repeat(451);
+        },
+      },
+      {
         diagnostic: "Catalog cue cue.test.garden-air has a contradictory loop policy",
         mutate: (fixture) => { fixture.catalog.entries[0]!.looping = false; },
       },

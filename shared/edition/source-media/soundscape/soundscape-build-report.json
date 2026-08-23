@@ -1,38 +1,37 @@
 {
-  "schemaVersion": 2,
-  "cueId": "cue.story.confirmation",
-  "status": "approved",
-  "jobHash": "sha256:9a2a9ed1226f449b995906ba48708a6224d08bef5b55b1a579357b329a2a1a6a",
+  "status": "completed",
   "requestLimit": 30,
-  "paidRequestCount": 3,
   "requests": [
     {
-      "text": "A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.",
+      "text": "A very subtle responsive storybook release accent: a small soft exhale of air with one delicate downward harp harmonic, immediate and gently settling. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
       "model": "eleven_text_to_sound_v2",
       "durationSeconds": 0.6,
       "promptInfluence": 0.3,
       "loop": false,
       "format": "pcm_48000",
+      "cueId": "cue.movement.glide",
       "candidate": "candidate-1",
       "outcome": "succeeded"
     },
     {
-      "text": "A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.",
+      "text": "A very subtle responsive storybook release accent: a small soft exhale of air with one delicate downward harp harmonic, immediate and gently settling. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
       "model": "eleven_text_to_sound_v2",
       "durationSeconds": 0.6,
       "promptInfluence": 0.3,
       "loop": false,
       "format": "pcm_48000",
+      "cueId": "cue.movement.glide",
       "candidate": "candidate-2",
       "outcome": "succeeded"
     },
     {
-      "text": "A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.",
+      "text": "A very subtle responsive storybook release accent: a small soft exhale of air with one delicate downward harp harmonic, immediate and gently settling. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
       "model": "eleven_text_to_sound_v2",
       "durationSeconds": 0.6,
       "promptInfluence": 0.3,
       "loop": false,
       "format": "pcm_48000",
+      "cueId": "cue.movement.glide",
       "candidate": "candidate-3",
       "outcome": "succeeded"
     }
