@@ -7,11 +7,8 @@ const FALLBACK_FREQUENCY_HZ := 783.99
 const MUSIC_FALLBACK_DURATION_SECONDS := 2.0
 const FOREGROUND_VOICE_MAXIMUM := 2
 const SOUND_BUS := &"Sound"
-const SLOT_MUSIC := &"music"
-const SLOT_AMBIENCE := &"ambience"
-const SLOT_MOVEMENT := &"movement"
-const SLOT_FOREGROUND := &"foreground"
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
+const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 
 var _music_player := AudioStreamPlayer.new()
 var _ambience_player := AudioStreamPlayer.new()
@@ -111,32 +108,30 @@ func synthesize_music() -> AudioStreamWAV:
 	return stream
 
 
-func play(stream: Variant, playback: Dictionary) -> bool:
+func play(stream: Variant, playback: SoundscapePlayback) -> bool:
 	if not stream is AudioStream:
 		return false
-	var bus: StringName = playback.get("bus", &"Master")
-	if AudioServer.get_bus_index(bus) < 0:
+	if AudioServer.get_bus_index(playback.bus) < 0:
 		return false
-	var slot := StringName(playback.get("slot", SLOT_FOREGROUND))
 	var target: AudioStreamPlayer
-	if slot == SLOT_FOREGROUND:
-		target = _select_foreground_player(int(playback.get("priority", 0)))
+	if playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND:
+		target = _select_foreground_player(playback.priority)
 	else:
-		target = _persistent_player_for(slot)
+		target = _persistent_player_for(playback.slot)
 	if target == null:
 		return false
-	if slot == SLOT_MUSIC:
-		_music_base_gain_db = float(playback.get("gain_db", 0.0))
+	if playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_MUSIC:
+		_music_base_gain_db = playback.gain_db
 	return _play_on(target, stream, playback)
 
 
 func _persistent_player_for(slot: StringName) -> AudioStreamPlayer:
 	match slot:
-		SLOT_MUSIC:
+		SOUNDSCAPE_PLAYBACK.SLOT_MUSIC:
 			return _music_player
-		SLOT_AMBIENCE:
+		SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
 			return _ambience_player
-		SLOT_MOVEMENT:
+		SOUNDSCAPE_PLAYBACK.SLOT_MOVEMENT:
 			return _movement_player
 		_:
 			return null
@@ -151,7 +146,7 @@ func set_sound_enabled(enabled: bool, delay_ms: int = 0) -> void:
 
 
 func stop_slot(slot: StringName) -> void:
-	if slot == SLOT_FOREGROUND:
+	if slot == SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND:
 		for player: AudioStreamPlayer in _foreground_players:
 			_stop_player(player)
 		return
@@ -186,29 +181,35 @@ func _select_foreground_player(priority: int) -> AudioStreamPlayer:
 	return candidate
 
 
-func _play_on(player: AudioStreamPlayer, source_stream: AudioStream, playback: Dictionary) -> bool:
+func _play_on(
+	player: AudioStreamPlayer,
+	source_stream: AudioStream,
+	playback: SoundscapePlayback,
+) -> bool:
 	var stream: AudioStream = source_stream.duplicate()
-	var looping: bool = playback.get("looping", false)
 	if stream is AudioStreamWAV:
-		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD if looping else AudioStreamWAV.LOOP_DISABLED
+		stream.loop_mode = (
+			AudioStreamWAV.LOOP_FORWARD
+			if playback.looping
+			else AudioStreamWAV.LOOP_DISABLED
+		)
 	elif stream is AudioStreamMP3:
-		stream.loop = looping
+		stream.loop = playback.looping
 
 	var player_id := player.get_instance_id()
-	_priorities[player_id] = int(playback.get("priority", 0))
-	_ducking[player_id] = float(playback.get("music_duck_db", 0.0))
+	_priorities[player_id] = playback.priority
+	_ducking[player_id] = playback.music_duck_db
 	player.stop()
 	player.stream = stream
-	player.bus = playback.get("bus", &"Master")
-	player.volume_db = float(playback.get("gain_db", 0.0))
+	player.bus = playback.bus
+	player.volume_db = playback.gain_db
 	player.play()
 	_apply_music_duck()
 
-	var maximum_duration_ms: int = playback.get("max_duration_ms", 0)
 	var duration_timer: Timer = _duration_timers[player_id]
 	duration_timer.stop()
-	if maximum_duration_ms > 0:
-		duration_timer.start(maximum_duration_ms / 1000.0)
+	if playback.max_duration_ms > 0:
+		duration_timer.start(playback.max_duration_ms / 1000.0)
 	return true
 
 

@@ -1,6 +1,7 @@
 extends SceneTree
 
 const GODOT_AUDIO_ADAPTER := preload("res://scripts/godot_audio_adapter.gd")
+const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
 const CONFIRMATION_PATH := "source-media/soundscape/masters/story-confirmation.wav"
 const OPENING_FLIGHT_CUE_PATHS := [
@@ -86,41 +87,27 @@ func _run() -> void:
 		)
 
 	if soundtrack is AudioStreamMP3 and fallback_stream is AudioStreamWAV:
-		test.expect(audio.play(soundtrack, {
-			"slot": "music",
-			"bus": &"Music",
-			"gain_db": -6.7,
-			"priority": 0,
-			"looping": true,
-		}), "the soundtrack occupies its one music slot")
-		test.expect(audio.play(fallback_stream, {
-			"slot": "movement",
-			"bus": &"Movement",
-			"gain_db": -10.0,
-			"priority": 40,
-			"looping": true,
-		}), "one continuous movement layer can play with music")
-		var detail_playback := {
-			"slot": "foreground",
-			"bus": &"Detail",
-			"gain_db": -10.0,
-			"priority": 20,
-			"looping": false,
-		}
+		test.expect(audio.play(soundtrack, SOUNDSCAPE_PLAYBACK.new(
+			&"Music", &"music", SOUNDSCAPE_PLAYBACK.SLOT_MUSIC, -6.7, 0, true, 0,
+		)), "the soundtrack occupies its one music slot")
+		test.expect(audio.play(fallback_stream, SOUNDSCAPE_PLAYBACK.new(
+			&"Movement", &"movement", SOUNDSCAPE_PLAYBACK.SLOT_MOVEMENT,
+			-10.0, 40, true, 0,
+		)), "one continuous movement layer can play with music")
+		var detail_playback := SOUNDSCAPE_PLAYBACK.new(
+			&"Detail", &"optional-detail", SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND,
+			-10.0, 20, false, 0,
+		)
 		test.expect(audio.play(fallback_stream, detail_playback), "the first foreground voice plays")
 		test.expect(audio.play(fallback_stream, detail_playback), "the second foreground voice plays")
 		test.expect(
 			not audio.play(fallback_stream, detail_playback),
 			"a third ordinary foreground voice cannot exceed the global ceiling",
 		)
-		var critical_playback := {
-			"slot": "foreground",
-			"bus": &"Critical",
-			"gain_db": 3.0,
-			"priority": 100,
-			"looping": false,
-			"music_duck_db": -4,
-		}
+		var critical_playback := SOUNDSCAPE_PLAYBACK.new(
+			&"Critical", &"critical-foreground", SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND,
+			3.0, 100, false, 0, -4.0,
+		)
 		test.expect(
 			audio.play(fallback_stream, critical_playback),
 			"a critical foreground cue preempts optional detail at the ceiling",
