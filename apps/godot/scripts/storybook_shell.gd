@@ -68,6 +68,7 @@ var _opening_textures: Dictionary = {}
 var _opening_media_paths: Dictionary = {}
 var _flight_background_texture: Texture2D
 var _flight_character_texture: Texture2D
+var _flight_character_has_transparency := false
 var _flight_media_paths: Dictionary = {}
 var _opening_moment_index := 0
 var _movement_state := ""
@@ -79,6 +80,8 @@ var _authored_motion_seconds := 0.0
 var _sound_events: Array[Dictionary] = []
 var _active_action_sources: Dictionary = {}
 var _observed_action_sources: Dictionary = {}
+var _observed_opening_moments: Array[String] = []
+var _observed_opening_checkpoints: Array[Dictionary] = []
 var _soundscape: RefCounted
 var _engine_audio: Node
 
@@ -114,7 +117,8 @@ func _ready() -> void:
 	%ResumeButton.pressed.connect(_on_resume_pressed)
 	%WindowModeButton.pressed.connect(_on_window_mode_pressed)
 	_sound_button.pressed.connect(_on_sound_pressed)
-	_continue_button.pressed.connect(_on_continue_pressed)
+	_continue_button.button_down.connect(_on_continue_button_down)
+	_continue_button.button_up.connect(_on_continue_button_up)
 	%ReplayButton.pressed.connect(_on_replay_pressed)
 
 	var launched := prepare_launch()
@@ -139,6 +143,7 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	_opening_media_paths = {}
 	_flight_background_texture = null
 	_flight_character_texture = null
+	_flight_character_has_transparency = false
 	_flight_media_paths = {}
 	_opening_moment_index = 0
 	_movement_state = ""
@@ -150,6 +155,8 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	_sound_events = []
 	_active_action_sources = {}
 	_observed_action_sources = {}
+	_observed_opening_moments = []
+	_observed_opening_checkpoints = []
 	_sound_enabled = true
 	_grown_up_corner_visible = false
 	_paused_from = PresentationState.COVER
@@ -196,8 +203,6 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 
 
 func presentation_evidence() -> Dictionary:
-	var opening_storybook: Variant = _content.get("openingStorybookEvidence", {})
-	var player_action: Variant = _content.get("playerAction", {})
 	return {
 		"state": STATE_IDS[_state],
 		"window_mode": WINDOW_MODE_IDS[_window_mode],
@@ -208,10 +213,8 @@ func presentation_evidence() -> Dictionary:
 		"grown_up_corner_visible": _grown_up_corner_visible,
 		"sound_enabled": _sound_enabled,
 		"opening_moment": _current_opening_moment().get("id", ""),
-		"opening_storybook": (
-			opening_storybook.duplicate(true) if opening_storybook is Dictionary else {}
-		),
-		"player_action": player_action.duplicate(true) if player_action is Dictionary else {},
+		"observed_opening_moments": _observed_opening_moments.duplicate(),
+		"observed_opening_checkpoints": _observed_opening_checkpoints.duplicate(true),
 		"opening_media_paths": _opening_media_paths.duplicate(true),
 		"flight_media_paths": _flight_media_paths.duplicate(true),
 		"movement_state": _movement_state,
@@ -229,8 +232,7 @@ func sound_event_evidence() -> Array[Dictionary]:
 func flight_evidence() -> Dictionary:
 	return {
 		"automatic_forward_motion": _flight_tuning.get("automaticForwardMotion", false),
-		"frame_rate_independent": true,
-		"transparent_character_layer_required": true,
+		"character_layer_has_transparency": _flight_character_has_transparency,
 		"distance_stage_widths": _flight_distance_stage_widths,
 		"altitude_stage_heights": _flight_altitude_stage_heights,
 		"vertical_speed_stage_heights_per_second": (
@@ -482,10 +484,11 @@ func _process(delta: float) -> void:
 	var page_breath := sin(_authored_motion_seconds * 0.55)
 	_opening_art.scale = Vector2.ONE * (1.035 + page_breath * 0.006)
 	_opening_story_card.position.y = 420.0 + sin(_authored_motion_seconds * 0.72) * 4.0
-	_flight_background.scale = Vector2.ONE * 1.035
+	var forward_parallax := 1.0 - exp(-_flight_distance_stage_widths * 0.85)
+	_flight_background.scale = Vector2.ONE * (1.035 + forward_parallax * 0.025)
 	_flight_background.position.x = (
 		sin(_authored_motion_seconds * 0.28) * -5.0
-		- fmod(_flight_distance_stage_widths * 96.0, 24.0)
+		- forward_parallax * 18.0
 	)
 	var character_breath := sin(_authored_motion_seconds * 2.1)
 	_flight_character.position = Vector2(
@@ -613,10 +616,13 @@ func _on_sound_pressed() -> void:
 		_render_presentation()
 
 
-func _on_continue_pressed() -> void:
-	var accepted := handle_player_action(SOURCE_POINTER_PRIMARY, true)
-	handle_player_action(SOURCE_POINTER_PRIMARY, false)
-	if accepted:
+func _on_continue_button_down() -> void:
+	if handle_player_action(SOURCE_POINTER_PRIMARY, true):
+		_render_presentation()
+
+
+func _on_continue_button_up() -> void:
+	if handle_player_action(SOURCE_POINTER_PRIMARY, false):
 		_render_presentation()
 
 
@@ -646,6 +652,14 @@ func _show_opening_moment(index: int) -> void:
 	_opening_moment_index = clampi(index, 0, _opening_moments.size() - 1)
 	_state = PresentationState.OPENING_STORYBOOK_MOMENT
 	var opening := _current_opening_moment()
+	var opening_id: String = opening.get("id", "")
+	_observed_opening_moments.append(opening_id)
+	var semantic_checkpoint: Variant = opening.get("semanticCheckpoint")
+	if semantic_checkpoint is Dictionary:
+		_observed_opening_checkpoints.append({
+			"moment": opening_id,
+			"facts": semantic_checkpoint.duplicate(true),
+		})
 	_report_sound_event(EVENT_OPENING_MOMENT, {"moment": opening.get("id", "")})
 
 
@@ -744,6 +758,7 @@ func _load_opening_media(pack_source: String, prepared_pack: Dictionary) -> Dict
 	if character_result.get("has_transparency") != true:
 		return {"ok": false, "error": "Initial flight character layer needs genuine transparency"}
 	_flight_character_texture = character_result.texture
+	_flight_character_has_transparency = character_result.has_transparency
 	_flight_media_paths[character_id] = character_path
 	return {"ok": true}
 

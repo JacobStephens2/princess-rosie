@@ -43,14 +43,26 @@ func _run() -> void:
 	)
 
 	var continue_button := shell.get_node("%ContinueButton") as Button
-	for _moment: int in 3:
-		continue_button.pressed.emit()
+	for _moment: int in 2:
+		continue_button.button_down.emit()
+		continue_button.button_up.emit()
 		await process_frame
+	continue_button.button_down.emit()
+	test.expect(
+		shell.presentation_evidence().get("movement_state") == "rise",
+		"holding the visible pointer CTA launches into the same rise state as Space",
+	)
+	continue_button.button_up.emit()
+	test.expect(
+		shell.presentation_evidence().get("movement_state") == "glide",
+		"releasing the visible pointer CTA enters the shared glide state",
+	)
+	await process_frame
 	var flight_before: Dictionary = shell.storybook_stage_evidence()
 	await create_timer(0.12).timeout
 	var flight_after: Dictionary = shell.storybook_stage_evidence()
 	test.expect(flight_after.get("active_play_visible") == true, "the opening transitions into the flight scene")
-	test.expect(flight_after.get("flight_background_visible") == true, "the Rose Garden flight plate is visible")
+	test.expect(flight_after.get("flight_background_visible") == true, "Rosalia's Rose Garden flight plate is visible")
 	test.expect(flight_after.get("flight_character_visible") == true, "Rosie and Stella are visible in flight")
 	test.expect(
 		shell.presentation_evidence().get("flight_media_paths") == {
@@ -63,6 +75,20 @@ func _run() -> void:
 		flight_after.get("flight_motion", {}).get("background_offset_x", 0.0)
 		!= flight_before.get("flight_motion", {}).get("background_offset_x", 0.0),
 		"automatic forward flight produces gentle background parallax",
+	)
+	shell.advance_simulation(1.3)
+	await process_frame
+	var before_old_wrap_point: float = (
+		shell.storybook_stage_evidence().get("flight_motion", {}).get("background_offset_x", 0.0)
+	)
+	shell.advance_simulation(0.2)
+	await process_frame
+	var after_old_wrap_point: float = (
+		shell.storybook_stage_evidence().get("flight_motion", {}).get("background_offset_x", 0.0)
+	)
+	test.expect(
+		after_old_wrap_point <= before_old_wrap_point,
+		"forward parallax remains smooth instead of wrapping backward",
 	)
 	test.expect(
 		flight_after.get("flight_motion", {}).get("character_position", {})
