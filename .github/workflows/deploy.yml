@@ -1,0 +1,80 @@
+name: Deploy production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rosi-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Verify and deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://rosi.stephens.page/
+
+    steps:
+      - name: Check out the revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install the browser test runtime
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify the production build
+        run: |
+          npm run check
+          npm run test:e2e
+
+      - name: Configure the restricted deployment key
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          install -m 600 /dev/null ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/id_ed25519
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      - name: Preview the production upload
+        run: |
+          rsync --archive --compress --delete --dry-run --itemize-changes \
+            dist/ jacob@stephens.page:/
+
+      - name: Publish the production build
+        run: |
+          rsync --archive --compress --delete --itemize-changes \
+            dist/ jacob@stephens.page:/
+
+      - name: Verify the live release
+        run: |
+          rosi_local_index_sha=$(sha256sum dist/index.html | cut -d ' ' -f 1)
+          rosi_live_index_sha=$(curl --fail --silent --show-error --retry 5 \
+            https://rosi.stephens.page/ | sha256sum | cut -d ' ' -f 1)
+          test "$rosi_local_index_sha" = "$rosi_live_index_sha"
+          test "$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
+            http://rosi.stephens.page/)" = 301
+          for rosi_path in manifest.webmanifest sw.js \
+            assets/storybook-celebration-preparations.webp \
+            assets/storybook-scattered-stars.webp \
+            assets/storybook-rosi-stella-departure.webp
+          do
+            test "$(curl --fail --silent --show-error --output /dev/null --write-out '%{http_code}' \
+              "https://rosi.stephens.page/$rosi_path")" = 200
+          done

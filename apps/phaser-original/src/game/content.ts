@@ -22,7 +22,7 @@ export const STOP_STORIES: readonly StopStory[] = [
   { id: "castle", place: "Birthday Castle gates", guest: "Dad", moment: "Dad held the final Birthday Star at the castle gates!", icon: "🏰", sky: 0xf6b6cf, ground: 0xe6ae55 },
 ] as const;
 
-export const STORY_PAGES = [
+export const OPENING_STORYBOOK_MOMENTS_AFTER_COVER = [
   {
     eyebrow: "Once upon a birthday…",
     title: "A celebration across the sea",
@@ -35,13 +35,13 @@ export const STORY_PAGES = [
     title: "Seven Stars flew away",
     copy: "A playful wind scattered seven Birthday Stars across Fairytale Sicily. The Rainbow Paths to the castle vanished!",
     image: "/assets/storybook-scattered-stars.webp",
-    imagePosition: "54% 42%",
+    imagePosition: "50% 42%",
   },
   {
     eyebrow: "A brave big sister",
     title: "Rosi and Stella can help",
     copy: "Princess Rosi climbed onto Stella, her flying unicorn. “We’ll find every Star and bring everyone to the celebration!”",
     image: "/assets/storybook-rosi-stella-departure.webp",
-    imagePosition: "52% 40%",
+    imagePosition: "50% 42%",
   },
 ] as const;

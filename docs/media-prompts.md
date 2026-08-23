@@ -22,7 +22,7 @@ Output: `public/assets/storybook-key-art.png`
 
 ## Opening Storybook Moment: celebration preparations
 
-Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the visual style and Fairytale Sicily reference; `public/assets/celebration-art.png` provided Gigi's established appearance. Two targeted edits raised the cake and crown into the crop-safe area and replaced the generated candle flame with a short dark wick.
+Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the visual style and Fairytale Sicily reference; `public/assets/celebration-art.png` provided Gigi's established appearance. Targeted edits compacted Gigi, the cake, crown, and empty place setting into the upper-center crop-safe area and replaced the generated candle flame with a short dark wick.
 
 > Use case: illustration-story
 > Asset type: 16:9 full-screen Opening Storybook Moment background for a gentle browser game for a four-year-old
@@ -42,7 +42,7 @@ Deployed output: `public/assets/storybook-celebration-preparations.webp`
 
 ## Opening Storybook Moment: scattered Stars
 
-Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the visual style, palette, architecture, landscape, rose, lace, cloud, sea, castle, and luminous-gold reference.
+Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the visual style, palette, architecture, landscape, rose, lace, cloud, sea, castle, and luminous-gold reference. Targeted edits arranged all seven Stars in a compact upper-center safe area where they remain countable above the story card in landscape and portrait crops.
 
 > Use case: illustration-story
 > Asset type: 16:9 full-screen Opening Storybook Moment background for a gentle browser game for a four-year-old
@@ -62,7 +62,7 @@ Deployed output: `public/assets/storybook-scattered-stars.webp`
 
 ## Opening Storybook Moment: Rosi and Stella depart
 
-Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the identity reference for Princess Rosi and Stella as well as the visual style, palette, roses, lace, sky, and Fairytale Sicily.
+Execution: built-in OpenAI image-generation tool. `public/assets/storybook-key-art.png` provided the identity reference for Princess Rosi and Stella as well as the visual style, palette, roses, lace, sky, and Fairytale Sicily. Targeted edits compacted Rosi, Stella, both wings, and the single Star into the upper-center crop-safe area.
 
 > Use case: illustration-story
 > Asset type: 16:9 full-screen Opening Storybook Moment background for a gentle browser game for a four-year-old
