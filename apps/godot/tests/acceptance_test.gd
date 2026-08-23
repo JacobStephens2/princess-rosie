@@ -1,6 +1,6 @@
 extends RefCounted
 
-const EXPECTED_PACK_DIGEST := "sha256:83dc2d43626258f696c5dc4de6fd4d5a2aee04d3bf8b6721a40abcf9556874ba"
+const EXPECTED_PACK_DIGEST := "sha256:541a6b5939abf506aeccbb97fa587843d67a640003ddbf56a1001b8396213f1e"
 
 var _failures: Array[String] = []
 

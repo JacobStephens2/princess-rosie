@@ -18,6 +18,10 @@ tests=(
   opening_media_acceptance.gd
   shell_launch_acceptance.gd
   presentation_transition_acceptance.gd
+  one_action_input_acceptance.gd
+  flight_motion_acceptance.gd
+  flight_media_acceptance.gd
+  presentation_motion_acceptance.gd
   soundscape_player_acceptance.gd
   godot_audio_adapter_acceptance.gd
 )

@@ -14,6 +14,16 @@
       "id": "opening.rosie-stella-departure",
       "role": "illustration",
       "path": "source-media/opening-storybook/rosie-stella-departure.png"
+    },
+    {
+      "id": "flight.rose-garden-background",
+      "role": "illustration-layer",
+      "path": "source-media/flight/rose-garden-background.png"
+    },
+    {
+      "id": "flight.rosie-stella",
+      "role": "character-layer",
+      "path": "source-media/flight/rosie-stella.png"
     }
   ]
 }
