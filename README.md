@@ -2,7 +2,7 @@
 
 A short, joyful flying game made for Rosie to play with a grown-up at Princess Zélie’s very first birthday celebration.
 
-Play at [rosie.stephens.page](https://rosie.stephens.page/).
+Play at [rosi.stephens.page](https://rosi.stephens.page/).
 
 ## Play
 
