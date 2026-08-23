@@ -65,12 +65,12 @@ async function editPackJson<T>(
 }
 
 describe("Edition Contract", () => {
-  test("prepares the frozen Lacewood tracer Edition Pack", async () => {
+  test("prepares the frozen Golden Bell Abbey tracer Edition Pack", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
 
     expect(prepared).toMatchObject({
       contractVersion: "rosi-edition-contract/1",
-      revision: "lacewood-birthday-star-soundscape-1",
+      revision: "golden-bell-abbey-soundscape-1",
       packDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
       scenarioIds: ["opening-flight", "tracer-bullet"],
     });
@@ -113,18 +113,26 @@ describe("Edition Contract", () => {
         "cue.movement.rise",
         "cue.movement.glide",
         "cue.place.lacewood",
+        "cue.place.abbey",
         "cue.vignette.lacewood.canopy",
         "cue.vignette.lacewood.floor",
+        "cue.vignette.abbey.bell-low",
+        "cue.vignette.abbey.bell-middle",
+        "cue.vignette.abbey.bell-high",
+        "cue.vignette.abbey.bell-settle",
         "cue.path-choice.available",
         "cue.path-choice.lacewood.canopy",
         "cue.path-choice.lacewood.floor",
         "cue.journey-history.shimmer",
         "cue.playful-bump.lacewood",
+        "cue.playful-bump.abbey",
         "cue.near-miss",
+        "cue.near-miss.abbey",
         "cue.birthday-star.proximity",
         "cue.birthday-star.gather",
         "cue.rainbow-path.open",
         "cue.birthday-star-moment.lacewood",
+        "cue.birthday-star-moment.abbey",
         "cue.cloud-rest.enter",
         "cue.cloud-rest.ambience",
         "cue.cloud-rest.exit",

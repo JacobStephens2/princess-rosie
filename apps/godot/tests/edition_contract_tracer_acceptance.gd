@@ -82,6 +82,14 @@ func _complete_route_from_vignette(shell: StorybookShell) -> void:
 	)
 	test.expect(shell.handle_player_intent("action-pressed"), "the shared journey resumes")
 	shell.advance_journey(4.9)
-	test.expect(shell.handle_player_intent("continue"), "the Birthday Star Moment reaches celebration")
+	test.expect(shell.handle_player_intent("continue"), "the Birthday Star Moment leads onward")
+	test.expect(shell.handle_player_intent("action-pressed"), "the Abbey plays a golden bell note")
+	test.expect(shell.handle_player_intent("action-released"), "the golden bell note settles")
+	shell.advance_journey(2.4)
+	shell.advance_journey(4.9)
+	test.expect(
+		shell.handle_player_intent("continue"),
+		"Pop's Birthday Star Moment reaches the celebration",
+	)
 	test.expect(shell.handle_player_intent("action-pressed"), "the celebration dances again")
 	test.expect(shell.handle_player_intent("action-released"), "the celebration action releases")

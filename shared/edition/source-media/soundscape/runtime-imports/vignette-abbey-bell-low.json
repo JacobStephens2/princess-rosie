@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.vignette.abbey.bell-low",
+  "runtimeMapping": "runtime-cue.vignette.abbey.bell-low",
+  "sourceMaster": "source-master.vignette.abbey.bell-low",
+  "sourcePath": "masters/vignette-abbey-bell-low.wav",
+  "runtimePath": "runtime/vignette-abbey-bell-low.wav",
+  "sourceHash": "sha256:a04c78df5361f57a7f9e0a21fe9b0a00428f7b8ae3e8e4fa9818b3b813617aa7",
+  "derivativeHash": "sha256:a04c78df5361f57a7f9e0a21fe9b0a00428f7b8ae3e8e4fa9818b3b813617aa7",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

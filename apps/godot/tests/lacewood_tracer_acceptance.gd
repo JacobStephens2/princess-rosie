@@ -80,10 +80,16 @@ func _init() -> void:
 	)
 	test.expect(shell.handle_player_intent("continue"), "Gram's Birthday Star Moment can continue")
 	test.expect(
-		shell.presentation_evidence().get("state") == "celebration"
-		and shell.presentation_evidence().get("journey_phase") == "celebration"
+		shell.presentation_evidence().get("state") == "active_play"
+		and shell.presentation_evidence().get("place") == "abbey"
 		and shell.presentation_evidence().get("journey_history") == {"lacewood.canopy": true},
-		"the completed canopy route enters Journey History and reaches the celebration",
+		"the completed canopy route enters Journey History and travels on to Golden Bell Abbey",
+	)
+	_complete_golden_bell_abbey(shell)
+	test.expect(
+		shell.presentation_evidence().get("state") == "celebration"
+		and shell.presentation_evidence().get("journey_phase") == "celebration",
+		"the journey beyond the Abbey reaches the celebration",
 	)
 	test.expect(shell.handle_player_intent("action-pressed"), "the one action starts Dance Again")
 	test.expect(shell.handle_player_intent("action-released"), "the celebration action can release")
@@ -124,6 +130,7 @@ func _init() -> void:
 		"replay gives the unexplored route one restrained shimmer and its distinct response",
 	)
 	test.expect(shell.handle_player_intent("continue"), "the floor-route Birthday Star Moment continues")
+	_complete_golden_bell_abbey(shell)
 	test.expect(shell.handle_player_intent("action-pressed"), "the replay reaches Dance Again")
 	test.expect(shell.handle_player_intent("action-released"), "the replay dance action can release")
 	test.expect(
@@ -136,6 +143,18 @@ func _init() -> void:
 
 	shell.free()
 	test.finish(self, "Lacewood tracer acceptance")
+
+
+func _complete_golden_bell_abbey(shell: StorybookShell) -> void:
+	test.expect(shell.handle_player_intent("action-pressed"), "the Abbey plays a golden bell note")
+	test.expect(shell.handle_player_intent("action-released"), "the golden bell note settles")
+	shell.advance_journey(2.4)
+	shell.advance_journey(4.9)
+	test.expect(
+		shell.presentation_evidence().get("state") == "birthday_star_moment",
+		"the Abbey reaches Pop's Birthday Star Moment",
+	)
+	test.expect(shell.handle_player_intent("continue"), "Pop's Birthday Star Moment continues")
 
 
 func _start_journey(shell: StorybookShell) -> void:

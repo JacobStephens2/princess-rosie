@@ -251,6 +251,34 @@
       "fallbackRole": "fallback.optional-silence"
     },
     {
+      "id": "cue.place.abbey",
+      "event": "sound-event.place-entry",
+      "match": {
+        "place": "abbey"
+      },
+      "category": "place",
+      "priority": 40,
+      "requirement": "required",
+      "durationSeconds": 12,
+      "looping": true,
+      "channelPolicy": "warm-stereo-loop",
+      "masteringIntent": "calm-courtyard-air-and-sparse-distant-bells-under-music-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "Calm sunlit abbey courtyard air beneath the music: still warm stone, soft garden leaves, and sparse distant bells far away. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.place.abbey",
+      "runtimeMapping": "runtime-cue.place.abbey",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
       "id": "cue.vignette.lacewood.canopy",
       "event": "sound-event.vignette-interaction",
       "match": {
@@ -307,6 +335,125 @@
       "sourceMaster": "source-master.vignette.lacewood.floor",
       "runtimeMapping": "runtime-cue.vignette.lacewood.floor",
       "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.vignette.abbey.bell-low",
+      "event": "sound-event.vignette-interaction",
+      "match": {
+        "place": "abbey",
+        "interaction": "golden-bell-note"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.6,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "warm-low-golden-bell-note-for-macbook",
+      "mixTrimDb": -4.8,
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A single warm golden bell note in a low, round register, struck softly and decaying cleanly into calm courtyard air. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.vignette.abbey.bell-low",
+      "runtimeMapping": "runtime-cue.vignette.abbey.bell-low",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.vignette.abbey.bell-middle",
+      "event": "sound-event.vignette-interaction",
+      "match": {
+        "place": "abbey",
+        "interaction": "golden-bell-note"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.6,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "warm-middle-golden-bell-note-for-macbook",
+      "mixTrimDb": 5.0,
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A single warm golden bell note in a middle register, struck softly and decaying cleanly, clearly related to the low note. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.vignette.abbey.bell-middle",
+      "runtimeMapping": "runtime-cue.vignette.abbey.bell-middle",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.vignette.abbey.bell-high",
+      "event": "sound-event.vignette-interaction",
+      "match": {
+        "place": "abbey",
+        "interaction": "golden-bell-note"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.6,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "warm-high-golden-bell-note-for-macbook",
+      "mixTrimDb": 3.0,
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A single warm golden bell note in a bright upper register, struck softly and decaying cleanly, clearly related to the lower notes. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.vignette.abbey.bell-high",
+      "runtimeMapping": "runtime-cue.vignette.abbey.bell-high",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.vignette.abbey.bell-settle",
+      "event": "sound-event.vignette-interaction",
+      "match": {
+        "place": "abbey",
+        "interaction": "golden-bell-settle"
+      },
+      "category": "interaction",
+      "priority": 20,
+      "requirement": "optional",
+      "durationSeconds": 1.2,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "soft-settling-bell-resonance-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A soft settling golden bell resonance letting a just-played note rest, quiet and unhurried, with no new strike. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.vignette.abbey.bell-settle",
+      "runtimeMapping": "runtime-cue.vignette.abbey.bell-settle",
+      "fallbackRole": "fallback.optional-silence"
     },
     {
       "id": "cue.path-choice.available",
@@ -451,6 +598,34 @@
       "fallbackRole": "fallback.playful-bump"
     },
     {
+      "id": "cue.playful-bump.abbey",
+      "event": "sound-event.playful-bump",
+      "match": {
+        "place": "abbey"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.8,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "soft-nonthreatening-bell-rope-bump-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A soft nonthreatening nudge against a swinging bell rope: one muffled warm knock with a tiny friendly bell shiver and no impact. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.playful-bump.abbey",
+      "runtimeMapping": "runtime-cue.playful-bump.abbey",
+      "fallbackRole": "fallback.playful-bump"
+    },
+    {
       "id": "cue.near-miss",
       "event": "sound-event.near-miss",
       "match": {
@@ -479,11 +654,37 @@
       "fallbackRole": "fallback.optional-silence"
     },
     {
+      "id": "cue.near-miss.abbey",
+      "event": "sound-event.near-miss",
+      "match": {
+        "place": "abbey"
+      },
+      "category": "interaction",
+      "priority": 20,
+      "requirement": "optional",
+      "durationSeconds": 0.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "restrained-bell-rope-cooldown-accent-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A restrained accent as a swinging bell rope passes close: one faint airy brush with a small distant bell glint. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.near-miss.abbey",
+      "runtimeMapping": "runtime-cue.near-miss.abbey",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
       "id": "cue.birthday-star.proximity",
       "event": "sound-event.birthday-star-proximity",
-      "match": {
-        "birthdayStar": "birthday-star.lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 20,
       "requirement": "optional",
@@ -509,9 +710,7 @@
     {
       "id": "cue.birthday-star.gather",
       "event": "sound-event.birthday-star-gathered",
-      "match": {
-        "birthdayStar": "birthday-star.lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 100,
       "requirement": "required",
@@ -537,10 +736,7 @@
     {
       "id": "cue.rainbow-path.open",
       "event": "sound-event.rainbow-path-opened",
-      "match": {
-        "rainbowPath": "rainbow-path.lacewood",
-        "familyGuest": "Gram"
-      },
+      "match": {},
       "category": "journey",
       "priority": 100,
       "requirement": "required",
@@ -593,11 +789,38 @@
       "fallbackRole": "fallback.birthday-star"
     },
     {
+      "id": "cue.birthday-star-moment.abbey",
+      "event": "sound-event.birthday-star-moment",
+      "match": {
+        "place": "abbey",
+        "familyGuest": "Pop"
+      },
+      "category": "storybook",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 2,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "restrained-golden-bell-phrase-resolution-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A restrained resolving golden bell phrase: three soft related bell notes settling warmly together over calm courtyard air. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.birthday-star-moment.abbey",
+      "runtimeMapping": "runtime-cue.birthday-star-moment.abbey",
+      "fallbackRole": "fallback.birthday-star"
+    },
+    {
       "id": "cue.cloud-rest.enter",
       "event": "sound-event.cloud-rest-entered",
-      "match": {
-        "place": "lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 100,
       "requirement": "required",
@@ -623,9 +846,7 @@
     {
       "id": "cue.cloud-rest.ambience",
       "event": "sound-event.cloud-rest-entered",
-      "match": {
-        "place": "lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 40,
       "requirement": "required",
@@ -651,9 +872,7 @@
     {
       "id": "cue.cloud-rest.exit",
       "event": "sound-event.cloud-rest-exited",
-      "match": {
-        "place": "lacewood"
-      },
+      "match": {},
       "category": "movement",
       "priority": 100,
       "requirement": "required",

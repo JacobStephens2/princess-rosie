@@ -122,18 +122,19 @@ test "$(stat -f '%z' "$lacewood_capture_path")" -gt 100000
 jq -e --arg expected_pack_digest "$expected_pack_digest" '
   .state == "celebration"
   and .journey_phase == "celebration"
-  and .chosen_route == "lacewood.canopy"
-  and .playful_bumps == 3
+  and .playful_bumps == 2
   and .cloud_rests == 1
-  and .birthday_stars == ["birthday-star.lacewood"]
-  and .rainbow_paths == ["rainbow-path.lacewood"]
+  and .birthday_stars == ["birthday-star.lacewood", "birthday-star.abbey"]
+  and .rainbow_paths == ["rainbow-path.lacewood", "rainbow-path.abbey"]
   and .path_choices == {"path-choice.lacewood": "lacewood.canopy"}
+  and .journey_history == {"lacewood.canopy": true}
   and .pack_digest == $expected_pack_digest
   and .network_requests == 0
   and .capture_sample_colors >= 8
   and .storybook_stage.aspect == "16:9"
   and .storybook_stage.essential_content_cropped == false
   and .storybook_stage.celebration_visible == true
+  and ([.sound_events[] | select(.context.place == "abbey")] | length > 0)
   and ([.sound_events[].event] | contains([
     "sound-event.place-entry",
     "sound-event.path-choice-available",
@@ -152,4 +153,4 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   ]))
 ' "$lacewood_evidence_path" >/dev/null
 
-echo "PASS: exported arm64 application launch, cover, opening, active-flight, and audible Lacewood-to-celebration tracer captures"
+echo "PASS: exported arm64 application launch, cover, opening, active-flight, and audible Lacewood-through-Abbey-to-celebration tracer captures"

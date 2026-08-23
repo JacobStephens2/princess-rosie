@@ -35,30 +35,44 @@
       "illustration": "opening.rosi-stella-departure"
     }
   ],
-  "place": {
-    "id": "lacewood",
-    "name": "Zélie’s Lacewood",
-    "familyGuest": "Gram",
-    "pathChoice": {
-      "id": "path-choice.lacewood",
-      "routes": [
-        {
-          "id": "lacewood.canopy",
-          "name": "Silver-ribbon canopy",
-          "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
-          "celebrationEcho": "silver-ribbons"
-        },
-        {
-          "id": "lacewood.floor",
-          "name": "Rose-lit woodland floor",
-          "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
-          "celebrationEcho": "rose-lights"
-        }
-      ]
+  "places": [
+    {
+      "id": "lacewood",
+      "name": "Zélie’s Lacewood",
+      "familyGuest": "Gram",
+      "pathChoice": {
+        "id": "path-choice.lacewood",
+        "routes": [
+          {
+            "id": "lacewood.canopy",
+            "name": "Silver-ribbon canopy",
+            "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
+            "celebrationEcho": "silver-ribbons"
+          },
+          {
+            "id": "lacewood.floor",
+            "name": "Rose-lit woodland floor",
+            "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
+            "celebrationEcho": "rose-lights"
+          }
+        ]
+      },
+      "birthdayStar": "birthday-star.lacewood",
+      "rainbowPath": "rainbow-path.lacewood"
     },
-    "birthdayStar": "birthday-star.lacewood",
-    "rainbowPath": "rainbow-path.lacewood"
-  },
+    {
+      "id": "abbey",
+      "name": "Golden Bell Abbey",
+      "familyGuest": "Pop",
+      "vignette": {
+        "id": "vignette.abbey.golden-bells",
+        "name": "Golden bell notes",
+        "birthdayStarMoment": "Pop followed Princess Rosi’s golden bell notes through the abbey garden!"
+      },
+      "birthdayStar": "birthday-star.abbey",
+      "rainbowPath": "rainbow-path.abbey"
+    }
+  ],
   "celebration": {
     "id": "celebration.tracer",
     "actions": ["dance-again", "fly-again"]

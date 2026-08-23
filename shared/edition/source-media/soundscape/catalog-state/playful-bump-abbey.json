@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.playful-bump.abbey",
+  "sourceMaster": "source-master.playful-bump.abbey",
+  "runtimeMapping": "runtime-cue.playful-bump.abbey",
+  "status": "approved",
+  "jobHash": "sha256:5c5a91a8a7ea2759aeeb2659ad0ac242778fd220285ee38c02dc6861b61a4354",
+  "masterPath": "masters/playful-bump-abbey.wav",
+  "masterHash": "sha256:0984e4637e6694dbe79b40cdf85a78e45a0a84c8357e09af7feabfd9affc5a03",
+  "runtimePath": "runtime/playful-bump-abbey.wav",
+  "runtimeHash": "sha256:0984e4637e6694dbe79b40cdf85a78e45a0a84c8357e09af7feabfd9affc5a03"
+}

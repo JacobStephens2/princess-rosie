@@ -57,6 +57,18 @@ func run_if_requested(shell: StorybookShell) -> void:
 		_emit_flight_input(true)
 		await get_tree().process_frame
 		_emit_flight_input(false)
+		await get_tree().create_timer(2.5).timeout
+		await get_tree().create_timer(5.0).timeout
+		var abbey_continue := shell.get_node_or_null("%ContinueButton") as Button
+		if abbey_continue == null:
+			push_error("Export smoke could not find the Abbey Birthday Star Continue control")
+			get_tree().quit(7)
+			return
+		abbey_continue.pressed.emit()
+		await get_tree().process_frame
+		_emit_flight_input(true)
+		await get_tree().process_frame
+		_emit_flight_input(false)
 		await get_tree().create_timer(0.35).timeout
 
 	for _frame: int in 4:

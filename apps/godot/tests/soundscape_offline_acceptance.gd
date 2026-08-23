@@ -6,6 +6,16 @@ const CONFIRMATION_EVENT := &"sound-event.story-confirmation"
 const CONFIRMATION_PARAMETERS := {"action": "continue"}
 const OPENING_EVENT := &"sound-event.opening-storybook-moment"
 const OPENING_PARAMETERS := {"moment": "opening.celebration-preparations"}
+const ABBEY_SEQUENCE := [
+	[&"sound-event.place-entry", {"place": "abbey"}],
+	[&"sound-event.vignette-interaction", {"place": "abbey", "interaction": "golden-bell-note"}],
+	[&"sound-event.vignette-interaction", {"place": "abbey", "interaction": "golden-bell-settle"}],
+	[&"sound-event.vignette-interaction", {"place": "abbey", "interaction": "golden-bell-note"}],
+	[&"sound-event.vignette-interaction", {"place": "abbey", "interaction": "golden-bell-note"}],
+	[&"sound-event.near-miss", {"place": "abbey", "kind": "bell-rope"}],
+	[&"sound-event.playful-bump", {"place": "abbey", "kind": "bell-rope"}],
+	[&"sound-event.birthday-star-moment", {"place": "abbey", "familyGuest": "Pop"}],
+]
 
 
 func _init() -> void:
@@ -33,6 +43,16 @@ func _run() -> void:
 		quit(1)
 		return
 	await create_timer(0.85).timeout
+
+	print("PLAYING: Golden Bell Abbey ambience, bell play, bump, and Pop's resolution")
+	for abbey_event: Array in ABBEY_SEQUENCE:
+		if not approved.report_event(abbey_event[0], abbey_event[1]):
+			push_error("The approved Abbey cue could not play: %s" % abbey_event[0])
+			audio.free()
+			quit(1)
+			return
+		await create_timer(0.85).timeout
+	await create_timer(1.5).timeout
 
 	print("PLAYING: synthesized fallback for intentionally missing confirmation")
 	var missing_pack := ProjectSettings.globalize_path(

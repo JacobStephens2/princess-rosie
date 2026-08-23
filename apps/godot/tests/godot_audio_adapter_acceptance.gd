@@ -31,6 +31,16 @@ const LACEWOOD_CUE_PATHS := [
 	"source-media/soundscape/runtime/cloud-rest-ambience.wav",
 	"source-media/soundscape/runtime/cloud-rest-exit.wav",
 ]
+const ABBEY_CUE_PATHS := [
+	"source-media/soundscape/runtime/place-abbey.wav",
+	"source-media/soundscape/runtime/vignette-abbey-bell-low.wav",
+	"source-media/soundscape/runtime/vignette-abbey-bell-middle.wav",
+	"source-media/soundscape/runtime/vignette-abbey-bell-high.wav",
+	"source-media/soundscape/runtime/vignette-abbey-bell-settle.wav",
+	"source-media/soundscape/runtime/playful-bump-abbey.wav",
+	"source-media/soundscape/runtime/near-miss-abbey.wav",
+	"source-media/soundscape/runtime/birthday-star-moment-abbey.wav",
+]
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -48,7 +58,7 @@ func _run() -> void:
 	if approved_stream is AudioStreamWAV:
 		test.expect(approved_stream.mix_rate == 48000, "the approved 48 kHz master reaches Godot unchanged")
 		test.expect(not approved_stream.stereo, "the approved focused-mono master stays mono")
-	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS:
+	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS + ABBEY_CUE_PATHS:
 		var cue_stream: Variant = audio.load_wav("res://edition-pack.zip", cue_path)
 		test.expect(
 			cue_stream is AudioStreamWAV,
@@ -161,6 +171,57 @@ func _run() -> void:
 			"a newer critical opening cue replaces an older critical cue at the ceiling",
 		)
 
+	if fallback_stream is AudioStreamWAV:
+		var first_place := SOUNDSCAPE_PLAYBACK.new(
+			&"Ambience", &"ambience", SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE,
+			-16.7, 40, true, 0, 0.0, 800,
+		)
+		test.expect(
+			audio.play(fallback_stream, first_place),
+			"the first place ambience takes the one ambience slot",
+		)
+		var first_ambience: Dictionary = audio.ambience_evidence()
+		test.expect(
+			first_ambience.get("voices") == 1
+			and is_equal_approx(first_ambience.get("arriving_gain_db", 0.0), -16.7),
+			"an arriving ambience reaches its authored gain when nothing is departing",
+		)
+		await create_timer(0.3).timeout
+		test.expect(
+			audio.ambience_evidence().get("voices") == 1,
+			"a place ambience keeps looping past the length of its own asset",
+		)
+		test.expect(
+			audio.play(fallback_stream, first_place),
+			"an adjacent place ambience may arrive while the previous one is playing",
+		)
+		var crossfading: Dictionary = audio.ambience_evidence()
+		test.expect(
+			crossfading.get("voices") == 2
+			and crossfading.get("arriving_gain_db", 0.0) < -16.7,
+			"adjacent place ambiences crossfade rather than cutting or overlapping at full gain",
+		)
+		test.expect(
+			_music_and_movement_are_undisturbed(audio),
+			"a place crossfade preserves the music and movement layers",
+		)
+		test.expect(
+			audio.play(fallback_stream, first_place),
+			"a third place ambience may arrive while a crossfade is still running",
+		)
+		await create_timer(1.1).timeout
+		var crossfaded: Dictionary = audio.ambience_evidence()
+		test.expect(
+			crossfaded.get("voices") == 1
+			and is_equal_approx(crossfaded.get("arriving_gain_db", 0.0), -16.7),
+			"a completed crossfade leaves exactly one ambience at its authored gain",
+		)
+		audio.stop_slot("ambience")
+		test.expect(
+			audio.ambience_evidence().get("voices") == 0,
+			"the one ambience slot can be cleared for Cloud Rest and replay",
+		)
+
 	test.expect(
 		audio.has_method("set_sound_enabled"),
 		"the adapter supports the one Sound presentation preference",
@@ -190,10 +251,23 @@ func _run() -> void:
 	test.finish(self, "Godot audio adapter acceptance")
 
 
+func _music_and_movement_are_undisturbed(audio: GodotAudioAdapter) -> bool:
+	var music_playing := false
+	var movement_playing := false
+	for child: Node in audio.get_children():
+		if child is AudioStreamPlayer:
+			if child.bus == &"Music":
+				music_playing = music_playing or child.playing
+			elif child.bus == &"Movement":
+				movement_playing = movement_playing or child.playing
+	return music_playing and movement_playing
+
+
 func _expects_stereo(cue_path: String) -> bool:
 	return (
 		cue_path.ends_with("movement-flight.wav")
 		or cue_path.ends_with("place-lacewood.wav")
 		or cue_path.ends_with("rainbow-path-open.wav")
 		or cue_path.ends_with("cloud-rest-ambience.wav")
+		or cue_path.ends_with("place-abbey.wav")
 	)

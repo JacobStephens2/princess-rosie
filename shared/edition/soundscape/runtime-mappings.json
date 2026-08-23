@@ -144,6 +144,46 @@
       "id": "runtime-cue.sound.on",
       "sourceMaster": "source-master.sound.on",
       "path": "runtime/sound-on.wav"
+    },
+    {
+      "id": "runtime-cue.place.abbey",
+      "sourceMaster": "source-master.place.abbey",
+      "path": "runtime/place-abbey.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.abbey.bell-low",
+      "sourceMaster": "source-master.vignette.abbey.bell-low",
+      "path": "runtime/vignette-abbey-bell-low.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.abbey.bell-middle",
+      "sourceMaster": "source-master.vignette.abbey.bell-middle",
+      "path": "runtime/vignette-abbey-bell-middle.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.abbey.bell-high",
+      "sourceMaster": "source-master.vignette.abbey.bell-high",
+      "path": "runtime/vignette-abbey-bell-high.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.abbey.bell-settle",
+      "sourceMaster": "source-master.vignette.abbey.bell-settle",
+      "path": "runtime/vignette-abbey-bell-settle.wav"
+    },
+    {
+      "id": "runtime-cue.playful-bump.abbey",
+      "sourceMaster": "source-master.playful-bump.abbey",
+      "path": "runtime/playful-bump-abbey.wav"
+    },
+    {
+      "id": "runtime-cue.near-miss.abbey",
+      "sourceMaster": "source-master.near-miss.abbey",
+      "path": "runtime/near-miss-abbey.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.abbey",
+      "sourceMaster": "source-master.birthday-star-moment.abbey",
+      "path": "runtime/birthday-star-moment-abbey.wav"
     }
   ]
 }

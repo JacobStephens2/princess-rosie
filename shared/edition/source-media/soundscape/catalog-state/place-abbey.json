@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.place.abbey",
+  "sourceMaster": "source-master.place.abbey",
+  "runtimeMapping": "runtime-cue.place.abbey",
+  "status": "approved",
+  "jobHash": "sha256:021d7288593978a9d9b5cebe4c3de8cfb24d32ad0018197f4e2136069c0b94ab",
+  "masterPath": "masters/place-abbey.wav",
+  "masterHash": "sha256:b1ba5f7723fdf0b698e18ae81a43e7e42fc35c0819a38758f48f92bd5a40303a",
+  "runtimePath": "runtime/place-abbey.wav",
+  "runtimeHash": "sha256:b1ba5f7723fdf0b698e18ae81a43e7e42fc35c0819a38758f48f92bd5a40303a"
+}

@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.near-miss.abbey",
+  "sourceMaster": "source-master.near-miss.abbey",
+  "runtimeMapping": "runtime-cue.near-miss.abbey",
+  "status": "approved",
+  "jobHash": "sha256:7226211958d4a2073dfdc87f34d5303ab58e6ad37232d58667dd61601f668bd0",
+  "masterPath": "masters/near-miss-abbey.wav",
+  "masterHash": "sha256:5e71b244cecfb8f7abc4c531364460455594b0a713e92c3c4d02fb675520984e",
+  "runtimePath": "runtime/near-miss-abbey.wav",
+  "runtimeHash": "sha256:5e71b244cecfb8f7abc4c531364460455594b0a713e92c3c4d02fb675520984e"
+}

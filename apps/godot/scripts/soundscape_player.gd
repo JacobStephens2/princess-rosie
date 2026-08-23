@@ -19,6 +19,8 @@ const MOVEMENT_EVENT := &"sound-event.movement-state"
 const PLACE_ENTRY_EVENT := &"sound-event.place-entry"
 const JOURNEY_HISTORY_SHIMMER_EVENT := &"sound-event.journey-history-shimmer"
 const NEAR_MISS_EVENT := &"sound-event.near-miss"
+const PLAYFUL_BUMP_EVENT := &"sound-event.playful-bump"
+const VIGNETTE_INTERACTION_EVENT := &"sound-event.vignette-interaction"
 const BIRTHDAY_STAR_PROXIMITY_EVENT := &"sound-event.birthday-star-proximity"
 const CLOUD_REST_ENTERED_EVENT := &"sound-event.cloud-rest-entered"
 const CLOUD_REST_EXITED_EVENT := &"sound-event.cloud-rest-exited"
@@ -26,6 +28,9 @@ const REPLAY_EVENT := &"sound-event.replay"
 const SOUND_PREFERENCE_EVENT := &"sound-event.sound-preference-changed"
 const SOUND_OFF_LIMIT_MS := 200
 const NEAR_MISS_COOLDOWN_MS := 750
+const PLAYFUL_BUMP_COOLDOWN_MS := 350
+const VIGNETTE_REPEAT_GUARD_MS := 120
+const AMBIENCE_CROSSFADE_MS := 800
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 
@@ -54,6 +59,9 @@ var _current_place := ""
 var _in_cloud_rest := false
 var _journey_history_shimmers := {}
 var _near_miss_times_ms := {}
+var _playful_bump_times_ms := {}
+var _vignette_times_ms := {}
+var _vignette_phrase_positions := {}
 var _birthday_star_proximity_shimmers := {}
 var _now_ms: Callable
 var _reader: RefCounted = EDITION_PACK_READER.new()
@@ -116,6 +124,9 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 		_in_cloud_rest = false
 		_journey_history_shimmers.clear()
 		_near_miss_times_ms.clear()
+		_playful_bump_times_ms.clear()
+		_vignette_times_ms.clear()
+		_vignette_phrase_positions.clear()
 		_birthday_star_proximity_shimmers.clear()
 		if _audio.has_method("stop_slot"):
 			_audio.stop_slot("movement")
@@ -157,24 +168,21 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 			_journey_history_shimmers[shimmer_key] = true
 		return shimmer_played
 	if event_id == NEAR_MISS_EVENT:
-		var near_miss_key := "%s:%s" % [
-			parameters.get("place", ""),
-			parameters.get("kind", ""),
-		]
-		var current_time_ms := _current_time_ms()
-		if (
-			_near_miss_times_ms.has(near_miss_key)
-			and current_time_ms - int(_near_miss_times_ms[near_miss_key])
-			< NEAR_MISS_COOLDOWN_MS
-		):
-			return false
-		if not _sound_enabled:
-			_near_miss_times_ms[near_miss_key] = current_time_ms
-			return false
-		var near_miss_played := _play_resolved_cue(event_id, parameters)
-		if near_miss_played:
-			_near_miss_times_ms[near_miss_key] = current_time_ms
-		return near_miss_played
+		return _play_place_accent(
+			event_id,
+			parameters,
+			_near_miss_times_ms,
+			NEAR_MISS_COOLDOWN_MS,
+		)
+	if event_id == PLAYFUL_BUMP_EVENT:
+		return _play_place_accent(
+			event_id,
+			parameters,
+			_playful_bump_times_ms,
+			PLAYFUL_BUMP_COOLDOWN_MS,
+		)
+	if event_id == VIGNETTE_INTERACTION_EVENT:
+		return _play_vignette_phrase(parameters)
 	if event_id == BIRTHDAY_STAR_PROXIMITY_EVENT:
 		var birthday_star: String = parameters.get("birthdayStar", "")
 		if _birthday_star_proximity_shimmers.has(birthday_star):
@@ -222,6 +230,55 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 
 func _current_time_ms() -> int:
 	return int(_now_ms.call()) if _now_ms.is_valid() else Time.get_ticks_msec()
+
+
+func _is_repeat_within(edge_times_ms: Dictionary, edge_key: String, cooldown_ms: int) -> bool:
+	return (
+		edge_times_ms.has(edge_key)
+		and _current_time_ms() - int(edge_times_ms[edge_key]) < cooldown_ms
+	)
+
+
+func _play_place_accent(
+	event_id: StringName,
+	parameters: Dictionary,
+	accent_times_ms: Dictionary,
+	cooldown_ms: int,
+) -> bool:
+	var accent_key := "%s:%s" % [
+		parameters.get("place", ""),
+		parameters.get("kind", ""),
+	]
+	if _is_repeat_within(accent_times_ms, accent_key, cooldown_ms):
+		return false
+	if not _sound_enabled:
+		accent_times_ms[accent_key] = _current_time_ms()
+		return false
+	var accent_played := _play_resolved_cue(event_id, parameters)
+	if accent_played:
+		accent_times_ms[accent_key] = _current_time_ms()
+	return accent_played
+
+
+func _play_vignette_phrase(parameters: Dictionary) -> bool:
+	var phrase_key := "%s:%s" % [
+		parameters.get("place", ""),
+		parameters.get("interaction", ""),
+	]
+	if _is_repeat_within(_vignette_times_ms, phrase_key, VIGNETTE_REPEAT_GUARD_MS):
+		return false
+	if not _sound_enabled:
+		_vignette_times_ms[phrase_key] = _current_time_ms()
+		return false
+	var phrase := _resolve_cues(VIGNETTE_INTERACTION_EVENT, parameters)
+	if phrase.is_empty():
+		return false
+	var position: int = _vignette_phrase_positions.get(phrase_key, 0)
+	var note_played := _play_cue(phrase[position % phrase.size()], VIGNETTE_INTERACTION_EVENT)
+	if note_played:
+		_vignette_phrase_positions[phrase_key] = position + 1
+		_vignette_times_ms[phrase_key] = _current_time_ms()
+	return note_played
 
 
 func _ensure_music() -> bool:
@@ -361,7 +418,10 @@ func _runtime_path_for(cue: Dictionary) -> String:
 func _playback_for(cue: Dictionary, event_id: StringName, duration_ms: int) -> SoundscapePlayback:
 	var category_gains: Dictionary = _mix.get("categoryGainDb", {})
 	var soundtrack: Dictionary = _mix.get("soundtrack", {})
-	var music_reference_gain_db := float(soundtrack.get("gainDb", -6.7))
+	var music_reference_gain_db := (
+		float(soundtrack.get("gainDb", -6.7))
+		+ float(cue.get("mixTrimDb", 0.0))
+	)
 	var priority: int = cue.get("priority", 0)
 	var playback := SOUNDSCAPE_PLAYBACK.new(
 		FOREGROUND_BUS,
@@ -398,6 +458,7 @@ func _playback_for(cue: Dictionary, event_id: StringName, duration_ms: int) -> S
 		playback.slot = SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE
 		playback.gain_db = music_reference_gain_db + float(category_gains.get("ambience", -10.0))
 		playback.max_duration_ms = 0
+		playback.crossfade_ms = AMBIENCE_CROSSFADE_MS
 		return playback
 	if priority <= 20:
 		playback.bus = DETAIL_BUS

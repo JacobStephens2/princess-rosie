@@ -276,6 +276,86 @@
       "runtimeImportPath": "source-media/soundscape/runtime-imports/cloud-rest-exit.json",
       "catalogStatePath": "source-media/soundscape/catalog-state/cloud-rest-exit.json"
     },
+    {
+      "id": "source-master.place.abbey",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/place-abbey.wav",
+      "provenancePath": "source-media/soundscape/provenance/place-abbey.json",
+      "runtimePath": "source-media/soundscape/runtime/place-abbey.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/place-abbey.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/place-abbey.json"
+    },
+    {
+      "id": "source-master.vignette.abbey.bell-low",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/vignette-abbey-bell-low.wav",
+      "provenancePath": "source-media/soundscape/provenance/vignette-abbey-bell-low.json",
+      "runtimePath": "source-media/soundscape/runtime/vignette-abbey-bell-low.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-abbey-bell-low.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/vignette-abbey-bell-low.json"
+    },
+    {
+      "id": "source-master.vignette.abbey.bell-middle",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/vignette-abbey-bell-middle.wav",
+      "provenancePath": "source-media/soundscape/provenance/vignette-abbey-bell-middle.json",
+      "runtimePath": "source-media/soundscape/runtime/vignette-abbey-bell-middle.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-abbey-bell-middle.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/vignette-abbey-bell-middle.json"
+    },
+    {
+      "id": "source-master.vignette.abbey.bell-high",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/vignette-abbey-bell-high.wav",
+      "provenancePath": "source-media/soundscape/provenance/vignette-abbey-bell-high.json",
+      "runtimePath": "source-media/soundscape/runtime/vignette-abbey-bell-high.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-abbey-bell-high.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/vignette-abbey-bell-high.json"
+    },
+    {
+      "id": "source-master.vignette.abbey.bell-settle",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/vignette-abbey-bell-settle.wav",
+      "provenancePath": "source-media/soundscape/provenance/vignette-abbey-bell-settle.json",
+      "runtimePath": "source-media/soundscape/runtime/vignette-abbey-bell-settle.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-abbey-bell-settle.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/vignette-abbey-bell-settle.json"
+    },
+    {
+      "id": "source-master.playful-bump.abbey",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/playful-bump-abbey.wav",
+      "provenancePath": "source-media/soundscape/provenance/playful-bump-abbey.json",
+      "runtimePath": "source-media/soundscape/runtime/playful-bump-abbey.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/playful-bump-abbey.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/playful-bump-abbey.json"
+    },
+    {
+      "id": "source-master.near-miss.abbey",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/near-miss-abbey.wav",
+      "provenancePath": "source-media/soundscape/provenance/near-miss-abbey.json",
+      "runtimePath": "source-media/soundscape/runtime/near-miss-abbey.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/near-miss-abbey.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/near-miss-abbey.json"
+    },
+    {
+      "id": "source-master.birthday-star-moment.abbey",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/birthday-star-moment-abbey.wav",
+      "provenancePath": "source-media/soundscape/provenance/birthday-star-moment-abbey.json",
+      "runtimePath": "source-media/soundscape/runtime/birthday-star-moment-abbey.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/birthday-star-moment-abbey.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/birthday-star-moment-abbey.json"
+    },
     { "id": "source-master.birthday-castle.arrival", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
     { "id": "source-master.celebration.dance-again", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
     { "id": "source-master.replay", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },

@@ -59,6 +59,7 @@ class FakeEngineAudioAdapter extends RefCounted:
 				"looping": playback.looping,
 				"max_duration_ms": playback.max_duration_ms,
 				"music_duck_db": playback.music_duck_db,
+				"crossfade_ms": playback.crossfade_ms,
 			})
 		else:
 			playback_requests_are_typed = false
@@ -331,7 +332,8 @@ func _init() -> void:
 		"Birthday Star visual pulses cannot retrigger the capped shimmer",
 	)
 	var rest_audio := FakeEngineAudioAdapter.new()
-	var rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, rest_audio)
+	var rest_clock := FakeClock.new()
+	var rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, rest_audio, rest_clock.now_ms)
 	var lacewood_rest_events := [
 		[&"sound-event.movement-state", {"state": "flight"}],
 		[&"sound-event.place-entry", {"place": "lacewood"}],
@@ -344,6 +346,26 @@ func _init() -> void:
 			rest_soundscape.report_event(semantic_event[0], semantic_event[1]),
 			"the Lacewood pre-rest sequence plays: %s" % semantic_event[0],
 		)
+		rest_clock.advance(450)
+	test.expect(
+		rest_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		),
+		"a later Playful Bump edge sounds again after its cooldown",
+	)
+	var plays_before_repeated_bump := rest_audio.played_streams.size()
+	test.expect(
+		not rest_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		),
+		"a per-frame Playful Bump repeat is suppressed during its cooldown",
+	)
+	test.expect(
+		rest_audio.played_streams.size() == plays_before_repeated_bump,
+		"suppressed Playful Bump repeats never reach engine playback",
+	)
 	test.expect(
 		rest_soundscape.report_event(
 			&"sound-event.cloud-rest-entered",
@@ -628,6 +650,206 @@ func _init() -> void:
 			{"action": "continue"},
 		),
 		"enabling Sound restores confirmation playback",
+	)
+
+	var abbey_audio := FakeEngineAudioAdapter.new()
+	var abbey_clock := FakeClock.new()
+	var abbey_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, abbey_audio, abbey_clock.now_ms)
+	test.expect(
+		abbey_soundscape.report_event(&"sound-event.place-entry", {"place": "lacewood"}),
+		"the journey into the Abbey starts from the previous place ambience",
+	)
+	test.expect(
+		abbey_soundscape.report_event(&"sound-event.place-entry", {"place": "abbey"}),
+		"Golden Bell Abbey owns its own calm courtyard ambience",
+	)
+	var abbey_ambience: Dictionary = abbey_audio.playback_settings.back()
+	test.expect(
+		abbey_audio.loaded_paths.back() == "source-media/soundscape/runtime/place-abbey.wav"
+		and abbey_ambience.get("slot") == "ambience"
+		and abbey_ambience.get("looping") == true,
+		"place entry replaces the single ambience slot with the Abbey loop",
+	)
+	test.expect(
+		abbey_ambience.get("crossfade_ms") > 0
+		and abbey_ambience.get("gain_db") == -16.7
+		and abbey_ambience.get("music_duck_db") == 0.0,
+		"adjacent place ambiences crossfade without ducking music or claiming priority",
+	)
+	var abbey_bell := {"place": "abbey", "interaction": "golden-bell-note"}
+	var loaded_before_bells := abbey_audio.loaded_paths.size()
+	for bell_press: int in 4:
+		if bell_press > 0:
+			abbey_clock.advance(400)
+		test.expect(
+			abbey_soundscape.report_event(&"sound-event.vignette-interaction", abbey_bell),
+			"the one-button Abbey vignette answers with a warm bell note",
+		)
+	test.expect(
+		abbey_audio.loaded_paths.slice(loaded_before_bells) == [
+			"source-media/soundscape/runtime/vignette-abbey-bell-low.wav",
+			"source-media/soundscape/runtime/vignette-abbey-bell-middle.wav",
+			"source-media/soundscape/runtime/vignette-abbey-bell-high.wav",
+			"source-media/soundscape/runtime/vignette-abbey-bell-low.wav",
+		],
+		"repeated bell play walks one musically coherent phrase instead of one repeated note",
+	)
+	var bell_playback: Dictionary = abbey_audio.playback_settings.back()
+	test.expect(
+		bell_playback.get("slot") == "foreground"
+		and bell_playback.get("category") == "ordinary-foreground",
+		"bell notes stay inside the bounded foreground voices",
+	)
+	var phrase_trimmed := true
+	var expected_phrase_gains_db := [-8.5, 1.3, -0.7, -8.5]
+	var phrase_playbacks := abbey_audio.playback_settings.slice(-4)
+	for note_index: int in expected_phrase_gains_db.size():
+		phrase_trimmed = phrase_trimmed and is_equal_approx(
+			float(phrase_playbacks[note_index].get("gain_db", 0.0)),
+			expected_phrase_gains_db[note_index],
+		)
+	test.expect(
+		phrase_trimmed,
+		"each authored bell note is trimmed so the phrase plays at one even level",
+	)
+	var plays_before_repeated_bell := abbey_audio.played_streams.size()
+	test.expect(
+		not abbey_soundscape.report_event(&"sound-event.vignette-interaction", abbey_bell),
+		"a per-frame bell repeat cannot stack another note in the same instant",
+	)
+	test.expect(
+		abbey_audio.played_streams.size() == plays_before_repeated_bell,
+		"suppressed per-frame bell repeats never reach engine playback",
+	)
+	abbey_clock.advance(200)
+	test.expect(
+		abbey_soundscape.report_event(&"sound-event.vignette-interaction", abbey_bell),
+		"a fast child press still rings its note, so bell play needs no timing skill",
+	)
+	abbey_clock.advance(400)
+	test.expect(
+		abbey_soundscape.report_event(
+			&"sound-event.vignette-interaction",
+			{"place": "abbey", "interaction": "golden-bell-settle"},
+		),
+		"releasing the one action lets the played note settle",
+	)
+	test.expect(
+		abbey_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "abbey", "kind": "bell-rope"},
+		),
+		"an Abbey near miss sounds on its own state edge",
+	)
+	test.expect(
+		abbey_audio.loaded_paths.back() == "source-media/soundscape/runtime/near-miss-abbey.wav",
+		"the Abbey near miss is place-specific rather than borrowed from the Lacewood",
+	)
+	test.expect(
+		not abbey_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "abbey", "kind": "bell-rope"},
+		),
+		"a per-frame Abbey near-miss repeat is suppressed during cooldown",
+	)
+	test.expect(
+		abbey_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "abbey", "kind": "bell-rope"},
+		),
+		"an Abbey Playful Bump sounds on its own state edge",
+	)
+	test.expect(
+		abbey_audio.loaded_paths.back()
+		== "source-media/soundscape/runtime/playful-bump-abbey.wav",
+		"the Abbey Playful Bump is soft, local, and non-threatening",
+	)
+	test.expect(
+		not abbey_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "abbey", "kind": "bell-rope"},
+		),
+		"a per-frame Abbey Playful Bump repeat is suppressed during cooldown",
+	)
+	abbey_clock.advance(1_000)
+	for abbey_star_event: Array in [
+		[&"sound-event.birthday-star-proximity", {"birthdayStar": "birthday-star.abbey"}],
+		[&"sound-event.birthday-star-gathered", {"birthdayStar": "birthday-star.abbey"}],
+		[
+			&"sound-event.rainbow-path-opened",
+			{"rainbowPath": "rainbow-path.abbey", "familyGuest": "Pop"},
+		],
+		[
+			&"sound-event.birthday-star-moment",
+			{"place": "abbey", "familyGuest": "Pop"},
+		],
+	]:
+		test.expect(
+			abbey_soundscape.report_event(abbey_star_event[0], abbey_star_event[1]),
+			"the Abbey Birthday Star stage is scheduled: %s" % abbey_star_event[0],
+		)
+	test.expect(
+		abbey_audio.loaded_paths.slice(-4) == [
+			"source-media/soundscape/runtime/birthday-star-proximity.wav",
+			"source-media/soundscape/runtime/birthday-star-gather.wav",
+			"source-media/soundscape/runtime/rainbow-path-open.wav",
+			"source-media/soundscape/runtime/birthday-star-moment-abbey.wav",
+		],
+		"the Abbey shares the recognizable gather and travel identity before Pop's own resolution",
+	)
+	var abbey_moment_playback: Dictionary = abbey_audio.playback_settings.back()
+	test.expect(
+		abbey_moment_playback.get("category") == "critical-foreground"
+		and abbey_moment_playback.get("music_duck_db") == -4,
+		"Pop's Birthday Star Moment preempts optional detail and ducks the music",
+	)
+	var missing_abbey_audio := FakeEngineAudioAdapter.new()
+	missing_abbey_audio.missing_paths = [
+		"source-media/soundscape/runtime/vignette-abbey-bell-settle.wav",
+		"source-media/soundscape/runtime/near-miss-abbey.wav",
+		"source-media/soundscape/runtime/birthday-star-moment-abbey.wav",
+	]
+	var missing_abbey_clock := FakeClock.new()
+	var missing_abbey_soundscape := SOUNDSCAPE_PLAYER.new(
+		pack_root,
+		missing_abbey_audio,
+		missing_abbey_clock.now_ms,
+	)
+	test.expect(
+		not missing_abbey_soundscape.report_event(
+			&"sound-event.vignette-interaction",
+			{"place": "abbey", "interaction": "golden-bell-settle"},
+		),
+		"a missing optional Abbey settle cue may remain silent",
+	)
+	test.expect(
+		not missing_abbey_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "abbey", "kind": "bell-rope"},
+		),
+		"a missing optional Abbey near miss may remain silent",
+	)
+	test.expect(
+		missing_abbey_audio.played_streams.is_empty(),
+		"missing optional Abbey cues never synthesize unrelated core feedback",
+	)
+	test.expect(
+		missing_abbey_soundscape.report_event(
+			&"sound-event.birthday-star-moment",
+			{"place": "abbey", "familyGuest": "Pop"},
+		),
+		"Pop's Birthday Star Moment continues when its approved cue cannot load",
+	)
+	test.expect(
+		missing_abbey_audio.played_streams.back() == "synthesized-birthday-star",
+		"a core Abbey failure keeps the shared Birthday Star fallback identity",
+	)
+	test.expect(
+		missing_abbey_soundscape.report_event(
+			&"sound-event.vignette-interaction",
+			{"place": "abbey", "interaction": "golden-bell-note"},
+		),
+		"bell play continues while optional Abbey cues are unavailable",
 	)
 
 	test.finish(self, "Soundscape Player acceptance")

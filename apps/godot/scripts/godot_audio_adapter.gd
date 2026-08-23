@@ -6,13 +6,17 @@ const FALLBACK_DURATION_SECONDS := 0.18
 const FALLBACK_FREQUENCY_HZ := 783.99
 const MUSIC_FALLBACK_DURATION_SECONDS := 2.0
 const FOREGROUND_VOICE_MAXIMUM := 2
+const AMBIENCE_VOICE_MAXIMUM := 2
+const CROSSFADE_FLOOR_DB := -40.0
 const SOUND_BUS := &"Sound"
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 
 var _music_player := AudioStreamPlayer.new()
-var _ambience_player := AudioStreamPlayer.new()
 var _movement_player := AudioStreamPlayer.new()
+var _ambience_players: Array[AudioStreamPlayer] = []
+var _ambience_voice := 0
+var _ambience_tweens: Dictionary = {}
 var _foreground_players: Array[AudioStreamPlayer] = []
 var _priorities: Dictionary = {}
 var _ducking: Dictionary = {}
@@ -23,12 +27,12 @@ var _reader: RefCounted = EDITION_PACK_READER.new()
 
 
 func _init() -> void:
-	for persistent_player: AudioStreamPlayer in [
-		_music_player,
-		_ambience_player,
-		_movement_player,
-	]:
+	for persistent_player: AudioStreamPlayer in [_music_player, _movement_player]:
 		_register_player(persistent_player)
+	for _ambience_index: int in AMBIENCE_VOICE_MAXIMUM:
+		var ambience_player := AudioStreamPlayer.new()
+		_ambience_players.append(ambience_player)
+		_register_player(ambience_player)
 	for _voice_index: int in FOREGROUND_VOICE_MAXIMUM:
 		var foreground_player := AudioStreamPlayer.new()
 		_foreground_players.append(foreground_player)
@@ -158,6 +162,8 @@ func play(stream: Variant, playback: SoundscapePlayback) -> bool:
 		return false
 	if AudioServer.get_bus_index(playback.bus) < 0:
 		return false
+	if playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
+		return _play_ambience(stream, playback)
 	var target: AudioStreamPlayer
 	if playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND:
 		target = _select_foreground_player(playback.priority)
@@ -170,12 +176,68 @@ func play(stream: Variant, playback: SoundscapePlayback) -> bool:
 	return _play_on(target, stream, playback)
 
 
+func ambience_evidence() -> Dictionary:
+	var voices := 0
+	var gains: Array[float] = []
+	for player: AudioStreamPlayer in _ambience_players:
+		if player.playing:
+			voices += 1
+			gains.append(player.volume_db)
+	return {
+		"voices": voices,
+		"arriving_gain_db": _ambience_players[_ambience_voice].volume_db,
+		"gains_db": gains,
+	}
+
+
+func _play_ambience(stream: AudioStream, playback: SoundscapePlayback) -> bool:
+	var departing := _ambience_players[_ambience_voice]
+	var arriving := _ambience_players[(_ambience_voice + 1) % AMBIENCE_VOICE_MAXIMUM]
+	_cancel_ambience_fade(arriving)
+	_stop_player(arriving)
+	if playback.crossfade_ms <= 0 or not departing.playing:
+		_cancel_ambience_fade(departing)
+		return _play_on(departing, stream, playback)
+	if not _play_on(arriving, stream, playback):
+		return false
+	_ambience_voice = (_ambience_voice + 1) % AMBIENCE_VOICE_MAXIMUM
+	var crossfade_seconds := playback.crossfade_ms / 1000.0
+	arriving.volume_db = playback.gain_db + CROSSFADE_FLOOR_DB
+	_fade_ambience(arriving, playback.gain_db, crossfade_seconds, false)
+	_fade_ambience(
+		departing,
+		departing.volume_db + CROSSFADE_FLOOR_DB,
+		crossfade_seconds,
+		true,
+	)
+	return true
+
+
+func _fade_ambience(
+	player: AudioStreamPlayer,
+	target_gain_db: float,
+	seconds: float,
+	stop_when_faded: bool,
+) -> void:
+	_cancel_ambience_fade(player)
+	var fade := create_tween()
+	_ambience_tweens[player.get_instance_id()] = fade
+	fade.tween_property(player, "volume_db", target_gain_db, seconds)
+	if stop_when_faded:
+		fade.tween_callback(_stop_player.bind(player))
+
+
+func _cancel_ambience_fade(player: AudioStreamPlayer) -> void:
+	var fade: Variant = _ambience_tweens.get(player.get_instance_id())
+	if fade is Tween and fade.is_valid():
+		fade.kill()
+	_ambience_tweens.erase(player.get_instance_id())
+
+
 func _persistent_player_for(slot: StringName) -> AudioStreamPlayer:
 	match slot:
 		SOUNDSCAPE_PLAYBACK.SLOT_MUSIC:
 			return _music_player
-		SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
-			return _ambience_player
 		SOUNDSCAPE_PLAYBACK.SLOT_MOVEMENT:
 			return _movement_player
 		_:
@@ -193,6 +255,11 @@ func set_sound_enabled(enabled: bool, delay_ms: int = 0) -> void:
 func stop_slot(slot: StringName) -> void:
 	if slot == SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND:
 		for player: AudioStreamPlayer in _foreground_players:
+			_stop_player(player)
+		return
+	if slot == SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
+		for player: AudioStreamPlayer in _ambience_players:
+			_cancel_ambience_fade(player)
 			_stop_player(player)
 		return
 	var player := _persistent_player_for(slot)
@@ -238,6 +305,10 @@ func _play_on(
 			if playback.looping
 			else AudioStreamWAV.LOOP_DISABLED
 		)
+		var frame_count := _wav_frame_count(stream)
+		if playback.looping and frame_count > 0 and stream.loop_end <= stream.loop_begin:
+			stream.loop_begin = 0
+			stream.loop_end = frame_count
 	elif stream is AudioStreamMP3:
 		stream.loop = playback.looping
 
@@ -256,6 +327,14 @@ func _play_on(
 	if playback.max_duration_ms > 0:
 		duration_timer.start(playback.max_duration_ms / 1000.0)
 	return true
+
+
+func _wav_frame_count(stream: AudioStreamWAV) -> int:
+	if stream.format not in [AudioStreamWAV.FORMAT_8_BITS, AudioStreamWAV.FORMAT_16_BITS]:
+		return 0
+	var bytes_per_sample := 2 if stream.format == AudioStreamWAV.FORMAT_16_BITS else 1
+	var channels := 2 if stream.stereo else 1
+	return stream.data.size() / (bytes_per_sample * channels)
 
 
 func _register_player(player: AudioStreamPlayer) -> void:
