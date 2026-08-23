@@ -1,0 +1,116 @@
+{
+  "id": "pellegrino-peak",
+  "steps": [
+    "enter-pellegrino-peak",
+    "encounter-peak-near-miss",
+    "ride-flower-petal-updraft",
+    "encounter-peak-playful-bump",
+    "release-flower-petal-updraft",
+    "encounter-peak-playful-bump",
+    "approach-peak-birthday-star",
+    "gather-peak-birthday-star",
+    "open-aunts-rainbow-path",
+    "show-aunts-birthday-star-moment",
+    "continue",
+    "arrive-at-birthday-castle",
+    "show-celebration",
+    "dance-again"
+  ],
+  "requiredSoundEvents": [
+    {
+      "event": "sound-event.place-entry",
+      "context": {
+        "place": "pellegrino-peak"
+      }
+    },
+    {
+      "event": "sound-event.near-miss",
+      "context": {
+        "kind": "flower-petal",
+        "place": "pellegrino-peak"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "rise"
+      }
+    },
+    {
+      "event": "sound-event.vignette-interaction",
+      "context": {
+        "interaction": "flower-petal-updraft",
+        "place": "pellegrino-peak"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "kind": "flower-petal",
+        "place": "pellegrino-peak"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "glide"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "kind": "flower-petal",
+        "place": "pellegrino-peak"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-proximity",
+      "context": {
+        "birthdayStar": "birthday-star.pellegrino-peak"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-gathered",
+      "context": {
+        "birthdayStar": "birthday-star.pellegrino-peak"
+      }
+    },
+    {
+      "event": "sound-event.rainbow-path-opened",
+      "context": {
+        "familyGuest": "Aunt",
+        "rainbowPath": "rainbow-path.pellegrino-peak"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-moment",
+      "context": {
+        "familyGuest": "Aunt",
+        "place": "pellegrino-peak"
+      }
+    },
+    {
+      "event": "sound-event.birthday-castle-arrival",
+      "context": {}
+    },
+    {
+      "event": "sound-event.celebration-interaction",
+      "context": {
+        "action": "dance-again"
+      }
+    }
+  ],
+  "requiredFacts": {
+    "birthdayStars": [
+      "birthday-star.lacewood",
+      "birthday-star.pellegrino-peak"
+    ],
+    "rainbowPaths": [
+      "rainbow-path.lacewood",
+      "rainbow-path.pellegrino-peak"
+    ],
+    "ambienceLayers": 1,
+    "peakCuesArePlaceSpecific": true,
+    "networkRequests": 0
+  }
+}

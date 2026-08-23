@@ -65,14 +65,14 @@ async function editPackJson<T>(
 }
 
 describe("Edition Contract", () => {
-  test("prepares the frozen Lacewood tracer Edition Pack", async () => {
+  test("prepares the frozen Pellegrino Peak Edition Pack", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
 
     expect(prepared).toMatchObject({
       contractVersion: "rosi-edition-contract/1",
-      revision: "lacewood-birthday-star-soundscape-1",
+      revision: "pellegrino-peak-soundscape-1",
       packDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
-      scenarioIds: ["opening-flight", "tracer-bullet"],
+      scenarioIds: ["opening-flight", "pellegrino-peak", "tracer-bullet"],
     });
   });
 
@@ -113,18 +113,24 @@ describe("Edition Contract", () => {
         "cue.movement.rise",
         "cue.movement.glide",
         "cue.place.lacewood",
+        "cue.place.pellegrino-peak",
         "cue.vignette.lacewood.canopy",
         "cue.vignette.lacewood.floor",
+        "cue.vignette.pellegrino-peak.updraft",
         "cue.path-choice.available",
         "cue.path-choice.lacewood.canopy",
         "cue.path-choice.lacewood.floor",
         "cue.journey-history.shimmer",
         "cue.playful-bump.lacewood",
+        "cue.playful-bump.pellegrino-peak",
         "cue.near-miss",
+        "cue.near-miss.pellegrino-peak",
         "cue.birthday-star.proximity",
         "cue.birthday-star.gather",
         "cue.rainbow-path.open",
+        "cue.rainbow-path.pellegrino-peak",
         "cue.birthday-star-moment.lacewood",
+        "cue.birthday-star-moment.pellegrino-peak",
         "cue.cloud-rest.enter",
         "cue.cloud-rest.ambience",
         "cue.cloud-rest.exit",
@@ -157,6 +163,7 @@ describe("Edition Contract", () => {
         optionalDetail: -10,
       },
       foregroundVoiceMaximum: 2,
+      ambienceCrossfadeMs: 900,
       musicDuckDb: -4,
       truePeakCeilingDbfs: -3,
       confirmationDelayMaximumMs: 200,

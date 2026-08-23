@@ -82,6 +82,7 @@ interface SoundscapeMixFile {
     optionalDetail: number;
   };
   foregroundVoiceMaximum: number;
+  ambienceCrossfadeMs: number;
   musicDuckDb: number;
   truePeakCeilingDbfs: number;
   confirmationDelayMaximumMs: number;
@@ -401,6 +402,13 @@ function validateMix(
   }
   if (mix.foregroundVoiceMaximum !== 2) {
     throw new Error("Invalid soundscape foreground voice ceiling");
+  }
+  if (
+    !Number.isInteger(mix.ambienceCrossfadeMs) ||
+    mix.ambienceCrossfadeMs < 250 ||
+    mix.ambienceCrossfadeMs > 2000
+  ) {
+    throw new Error("Invalid soundscape ambience crossfade");
   }
   if (mix.musicDuckDb > -3 || mix.musicDuckDb < -5) {
     throw new Error("Invalid soundscape music ducking target");

@@ -96,6 +96,28 @@ Execution: Mureka API, model `mureka-9`, one non-streaming instrumental; locally
 
 Output: `public/assets/audio/birthday-flight.mp3`
 
+## Pellegrino Peak candidate evaluation
+
+Evaluator: paid Gemini API, model `gemini-3.7-flash`, native audio input. The Gemini API exposes no
+reasoning-effort parameter for this model, so every request used its default thinking budget.
+Each three-candidate batch was submitted with blinded labels (Alpha, Bravo, Charlie) together with the
+already-approved Lacewood sibling as an unranked reference, so place-specificity could be judged directly.
+Deterministic waveform checks ran first inside the bounded resumable generator: decodability, duration
+tolerance, channel layout, silence, trim and fade, the -6 dBFS mastered peak ceiling, and the loop seam.
+
+Every listed cue was approved from its first batch, and no evaluator run reported uncertainty.
+
+**The human MacBook-speaker and headphone listening pass for these six cues is still outstanding.**
+
+| Cue | Blinded ranking | Failure flags | Selected | Reason |
+| --- | --- | --- | --- | --- |
+| `cue.birthday-star-moment.pellegrino-peak` | Charlie > Alpha > Bravo | none | Charlie (`candidate-3`) | Candidate Charlie offers the most magical and balanced storybook resolution accent while remaining gentle, clear, and distinct from the reference. |
+| `cue.near-miss.pellegrino-peak` | Alpha > Charlie > Bravo | none | Alpha (`candidate-1`) | Candidate Alpha delivers the ideal warm, delicate fairytale shimmer and soft petal texture while remaining clearly defined and restrained. |
+| `cue.place.pellegrino-peak` | Charlie > Alpha > Bravo | Alpha: unwanted music | Charlie (`candidate-3`) | Candidate Charlie delivers a warm, gentle, and airy mountain breeze texture with subtle fairytale shimmer that will loop cleanly under music. |
+| `cue.playful-bump.pellegrino-peak` | Charlie > Alpha > Bravo | none | Charlie (`candidate-3`) | Candidate Charlie offers the most organic and gentle storybook texture with excellent clarity on small speakers. |
+| `cue.rainbow-path.pellegrino-peak` | Charlie > Alpha > Bravo | none | Charlie (`candidate-3`) | Candidate Charlie offers a beautiful, warm harp and shimmer texture that feels perfectly suited to an open-air mountain stage while maintaining complete gentleness. |
+| `cue.vignette.pellegrino-peak.updraft` | Bravo > Charlie > Alpha | none | Bravo (`candidate-2`) | Candidate Bravo best fulfills the gentle storybook soundscape with its warm acoustic harp flourish and buoyant, unforced rising gesture. |
+
 <!-- soundscape-build:start -->
 ## Fairytale Soundscape
 
@@ -112,6 +134,18 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-t
 Selection: Best Gram Birthday Star Moment resolution: clear sustained body, low crossing activity, controlled crest, and safe peak headroom for a warm place-specific close after the Rainbow Path travel stage.
 
 Source master: `source-master.birthday-star-moment.lacewood`
+
+### cue.birthday-star-moment.pellegrino-peak
+
+> A flowered open-air resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie offers the most magical and balanced storybook resolution accent while remaining gentle, clear, and distinct from the reference. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.birthday-star-moment.pellegrino-peak`
 
 ### cue.birthday-star.gather
 
@@ -245,6 +279,18 @@ Selection: Best restrained near-miss accent: lowest crossing activity with compa
 
 Source master: `source-master.near-miss`
 
+### cue.near-miss.pellegrino-peak
+
+> A restrained cooldown accent of petals brushing safely past. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Alpha > Candidate Charlie > Candidate Bravo and selected Candidate Alpha: Candidate Alpha delivers the ideal warm, delicate fairytale shimmer and soft petal texture while remaining clearly defined and restrained. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.near-miss.pellegrino-peak`
+
 ### cue.opening.celebration-reveal
 
 > A restrained magical storybook reveal across a warm sparkling sea: one soft harp opening, delicate celesta light, and a gentle airy shimmer resolving with quiet wonder. Nonverbal, acoustic, warm, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.
@@ -329,6 +375,18 @@ Selection: The validated replacement is the only candidate with a passing seamle
 
 Source master: `source-master.place.lacewood`
 
+### cue.place.pellegrino-peak
+
+> A wide cool mountain breeze high above the coast with restrained flower detail under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 12 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie delivers a warm, gentle, and airy mountain breeze texture with subtle fairytale shimmer that will loop cleanly under music. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.place.pellegrino-peak`
+
 ### cue.playful-bump.lacewood
 
 > A soft nonthreatening ribbon bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -341,6 +399,18 @@ Selection: Best soft Lacewood Playful Bump: audible body with the lowest crest f
 
 Source master: `source-master.playful-bump.lacewood`
 
+### cue.playful-bump.pellegrino-peak
+
+> A soft nonthreatening mountain-flower bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.8 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie offers the most organic and gentle storybook texture with excellent clarity on small speakers. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.playful-bump.pellegrino-peak`
+
 ### cue.rainbow-path.open
 
 > A magical travel stage. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -352,6 +422,18 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-dura
 Selection: Best Rainbow Path and Family Guest travel stage: strong stereo body, low crossing activity, moderate crest, and a controlled -6 dBFS peak for a magical journey that stays gentle under the music duck.
 
 Source master: `source-master.rainbow-path.open`
+
+### cue.rainbow-path.pellegrino-peak
+
+> An open-air magical travel stage above a flowered mountain peak. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, preserve-stereo, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie offers a beautiful, warm harp and shimmer texture that feels perfectly suited to an open-air mountain stage while maintaining complete gentleness. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.rainbow-path.pellegrino-peak`
 
 ### cue.story.confirmation
 
@@ -388,5 +470,17 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-dura
 Selection: Best warm rose-light response: strongest clear body with the lowest crest factor of the audible candidates, controlled mastered peak, and enough brightness to remain distinct from the airy canopy cue.
 
 Source master: `source-master.vignette.lacewood.floor`
+
+### cue.vignette.pellegrino-peak.updraft
+
+> A buoyant rising flower-petal updraft that lifts gently and never sounds forceful. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Bravo > Candidate Charlie > Candidate Alpha and selected Candidate Bravo: Candidate Bravo best fulfills the gentle storybook soundscape with its warm acoustic harp flourish and buoyant, unforced rising gesture. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.vignette.pellegrino-peak.updraft`
 
 <!-- soundscape-build:end -->

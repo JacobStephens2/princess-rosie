@@ -15,6 +15,7 @@
     "optionalDetail": -10
   },
   "foregroundVoiceMaximum": 2,
+  "ambienceCrossfadeMs": 900,
   "musicDuckDb": -4,
   "truePeakCeilingDbfs": -3,
   "confirmationDelayMaximumMs": 200

@@ -14,12 +14,14 @@ flight_capture_path="$build_dir/opening-flight-stage.png"
 flight_evidence_path="$build_dir/opening-flight-export-smoke-evidence.json"
 lacewood_capture_path="$build_dir/lacewood-tracer-stage.png"
 lacewood_evidence_path="$build_dir/lacewood-tracer-export-smoke-evidence.json"
+peak_capture_path="$build_dir/pellegrino-peak-tracer-stage.png"
+peak_evidence_path="$build_dir/pellegrino-peak-tracer-export-smoke-evidence.json"
 expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
 
 mkdir -p "$build_dir"
 rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path" \
   "$flight_capture_path" "$flight_evidence_path" "$lacewood_capture_path" \
-  "$lacewood_evidence_path"
+  "$lacewood_evidence_path" "$peak_capture_path" "$peak_evidence_path"
 
 "$godot_bin" --headless --path "$project_dir" --export-debug "macOS Development" "$app_path"
 
@@ -120,8 +122,9 @@ test -s "$lacewood_capture_path"
 test -s "$lacewood_evidence_path"
 test "$(stat -f '%z' "$lacewood_capture_path")" -gt 100000
 jq -e --arg expected_pack_digest "$expected_pack_digest" '
-  .state == "celebration"
-  and .journey_phase == "celebration"
+  .state == "active_play"
+  and .place == "pellegrino-peak"
+  and .journey_phase == "pellegrino-peak-updraft"
   and .chosen_route == "lacewood.canopy"
   and .playful_bumps == 3
   and .cloud_rests == 1
@@ -133,7 +136,7 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .capture_sample_colors >= 8
   and .storybook_stage.aspect == "16:9"
   and .storybook_stage.essential_content_cropped == false
-  and .storybook_stage.celebration_visible == true
+  and .storybook_stage.active_play_visible == true
   and ([.sound_events[].event] | contains([
     "sound-event.place-entry",
     "sound-event.path-choice-available",
@@ -146,10 +149,42 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
     "sound-event.birthday-star-proximity",
     "sound-event.birthday-star-gathered",
     "sound-event.rainbow-path-opened",
-    "sound-event.birthday-star-moment",
-    "sound-event.birthday-castle-arrival",
-    "sound-event.celebration-interaction"
+    "sound-event.birthday-star-moment"
   ]))
 ' "$lacewood_evidence_path" >/dev/null
 
-echo "PASS: exported arm64 application launch, cover, opening, active-flight, and audible Lacewood-to-celebration tracer captures"
+sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
+  "--smoke-state=pellegrino-peak" \
+  "--smoke-capture=$peak_capture_path" \
+  "--smoke-evidence=$peak_evidence_path"
+
+test -s "$peak_capture_path"
+test -s "$peak_evidence_path"
+test "$(stat -f '%z' "$peak_capture_path")" -gt 100000
+jq -e --arg expected_pack_digest "$expected_pack_digest" '
+  .state == "celebration"
+  and .journey_phase == "celebration"
+  and .playful_bumps == 5
+  and .cloud_rests == 1
+  and .birthday_stars == ["birthday-star.lacewood", "birthday-star.pellegrino-peak"]
+  and .rainbow_paths == ["rainbow-path.lacewood", "rainbow-path.pellegrino-peak"]
+  and .pack_digest == $expected_pack_digest
+  and .network_requests == 0
+  and .capture_sample_colors >= 8
+  and .storybook_stage.aspect == "16:9"
+  and .storybook_stage.essential_content_cropped == false
+  and .storybook_stage.celebration_visible == true
+  and ([.sound_events[] | select(.context.place == "pellegrino-peak") | .event] | contains([
+    "sound-event.place-entry",
+    "sound-event.vignette-interaction",
+    "sound-event.near-miss",
+    "sound-event.playful-bump",
+    "sound-event.birthday-star-moment"
+  ]))
+  and ([.sound_events[].event] | contains([
+    "sound-event.birthday-castle-arrival",
+    "sound-event.celebration-interaction"
+  ]))
+' "$peak_evidence_path" >/dev/null
+
+echo "PASS: exported arm64 application launch, cover, opening, active-flight, and audible Lacewood-to-Pellegrino-Peak-to-celebration tracer captures"

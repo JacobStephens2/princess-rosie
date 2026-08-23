@@ -79,6 +79,7 @@ func _init() -> void:
 		"the canopy route emits the complete staged Lacewood, Cloud Rest, and Birthday Star sequence",
 	)
 	test.expect(shell.handle_player_intent("continue"), "Gram's Birthday Star Moment can continue")
+	_fly_through_pellegrino_peak(shell)
 	test.expect(
 		shell.presentation_evidence().get("state") == "celebration"
 		and shell.presentation_evidence().get("journey_phase") == "celebration"
@@ -124,6 +125,7 @@ func _init() -> void:
 		"replay gives the unexplored route one restrained shimmer and its distinct response",
 	)
 	test.expect(shell.handle_player_intent("continue"), "the floor-route Birthday Star Moment continues")
+	_fly_through_pellegrino_peak(shell)
 	test.expect(shell.handle_player_intent("action-pressed"), "the replay reaches Dance Again")
 	test.expect(shell.handle_player_intent("action-released"), "the replay dance action can release")
 	test.expect(
@@ -136,6 +138,17 @@ func _init() -> void:
 
 	shell.free()
 	test.finish(self, "Lacewood tracer acceptance")
+
+
+# Zélie's Lacewood now hands the journey onward to Pellegrino Peak, so the
+# Lacewood tracer flies that place through before the celebration it asserts.
+func _fly_through_pellegrino_peak(shell: StorybookShell) -> void:
+	shell.advance_journey(2.8)
+	shell.advance_journey(4.9)
+	test.expect(
+		shell.handle_player_intent("continue"),
+		"Aunt's Birthday Star Moment continues to the celebration",
+	)
 
 
 func _start_journey(shell: StorybookShell) -> void:

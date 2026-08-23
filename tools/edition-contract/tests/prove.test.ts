@@ -9,22 +9,32 @@ const tracerPackRoot = fileURLToPath(new URL("../../../shared/edition", import.m
 const tracerScenarioPath = fileURLToPath(
   new URL("../../../shared/edition/parity/tracer-bullet.json", import.meta.url),
 );
+const pellegrinoPeakScenarioPath = fileURLToPath(
+  new URL("../../../shared/edition/parity/pellegrino-peak.json", import.meta.url),
+);
 
 type TestSoundEvent = {
   event: string;
   context: Record<string, string | boolean>;
 };
 
-async function readTracerSoundEvents(): Promise<TestSoundEvent[]> {
-  const scenario = JSON.parse(await readFile(tracerScenarioPath, "utf8")) as {
+async function readScenario(path: string): Promise<{
+  requiredSoundEvents: TestSoundEvent[];
+  requiredFacts: Record<string, unknown>;
+}> {
+  return JSON.parse(await readFile(path, "utf8")) as {
     requiredSoundEvents: TestSoundEvent[];
+    requiredFacts: Record<string, unknown>;
   };
-  return scenario.requiredSoundEvents;
+}
+
+async function readTracerSoundEvents(): Promise<TestSoundEvent[]> {
+  return (await readScenario(tracerScenarioPath)).requiredSoundEvents;
 }
 
 const tracerFacts = {
-  birthdayStars: ["birthday-star.lacewood"],
-  rainbowPaths: ["rainbow-path.lacewood"],
+  birthdayStars: ["birthday-star.lacewood", "birthday-star.pellegrino-peak"],
+  rainbowPaths: ["rainbow-path.lacewood", "rainbow-path.pellegrino-peak"],
   chosenPathRecorded: true,
   cloudRestPreservesProgress: true,
   networkRequests: 0,
@@ -76,7 +86,7 @@ describe("Edition Contract proof", () => {
     });
   });
 
-  test("accepts the contract-declared Lacewood tracer evidence", async () => {
+  test("accepts the contract-declared Lacewood-to-Peak tracer evidence", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
     const tracerSoundEvents = await readTracerSoundEvents();
 
@@ -94,6 +104,26 @@ describe("Edition Contract proof", () => {
       engineVersion: "4.7.2",
       packDigest: prepared.packDigest,
       scenarioId: "tracer-bullet",
+      status: "passed",
+      failures: [],
+    });
+  });
+
+  test("accepts the contract-declared Pellegrino Peak evidence", async () => {
+    const prepared = await prepareEditionPack(tracerPackRoot);
+    const scenario = await readScenario(pellegrinoPeakScenarioPath);
+
+    const proof = await proveEditionPack(tracerPackRoot, prepared, {
+      edition: "godot",
+      engineVersion: "4.7.2",
+      packDigest: prepared.packDigest,
+      scenarioId: "pellegrino-peak",
+      soundEvents: scenario.requiredSoundEvents,
+      facts: scenario.requiredFacts,
+    });
+
+    expect(proof).toMatchObject({
+      scenarioId: "pellegrino-peak",
       status: "passed",
       failures: [],
     });

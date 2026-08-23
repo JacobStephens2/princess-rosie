@@ -59,6 +59,7 @@ const PHASE_FLIGHT := "flight"
 const PHASE_PATH_CHOICE := "lacewood-path-choice"
 const PHASE_ROUTE := "lacewood-route"
 const PHASE_CLOUD_REST := "cloud-rest"
+const PHASE_PEAK_UPDRAFT := "pellegrino-peak-updraft"
 const PHASE_STAR_APPROACH := "birthday-star-approach"
 const PHASE_BIRTHDAY_STAR_MOMENT := "birthday-star-moment"
 const PHASE_CELEBRATION := "celebration"
@@ -68,6 +69,28 @@ const LACEWOOD_CANOPY_ROUTE := "lacewood.canopy"
 const LACEWOOD_FLOOR_ROUTE := "lacewood.floor"
 const LACEWOOD_BIRTHDAY_STAR := "birthday-star.lacewood"
 const LACEWOOD_RAINBOW_PATH := "rainbow-path.lacewood"
+const LACEWOOD_FAMILY_GUEST := "Gram"
+const PEAK_PLACE := "pellegrino-peak"
+const PEAK_UPDRAFT_VIGNETTE := "flower-petal-updraft"
+const PEAK_PLAYFUL_KIND := "flower-petal"
+const PEAK_BIRTHDAY_STAR := "birthday-star.pellegrino-peak"
+const PEAK_RAINBOW_PATH := "rainbow-path.pellegrino-peak"
+const PEAK_FAMILY_GUEST := "Aunt"
+const PEAK_UPDRAFT_SECONDS := 2.8
+const PLAYFUL_BUMPS_BEFORE_CLOUD_REST := 3
+
+const PLACE_IDENTITY_DEFAULTS := {
+	LACEWOOD_PLACE: {
+		"birthdayStar": LACEWOOD_BIRTHDAY_STAR,
+		"rainbowPath": LACEWOOD_RAINBOW_PATH,
+		"familyGuest": LACEWOOD_FAMILY_GUEST,
+	},
+	PEAK_PLACE: {
+		"birthdayStar": PEAK_BIRTHDAY_STAR,
+		"rainbowPath": PEAK_RAINBOW_PATH,
+		"familyGuest": PEAK_FAMILY_GUEST,
+	},
+}
 
 const STATE_IDS := {
 	PresentationState.UNPREPARED: "unprepared",
@@ -103,8 +126,10 @@ var _journey_phase := ""
 var _journey_phase_elapsed := 0.0
 var _journey_checkpoint := 0
 var _action_held := false
+var _place := ""
 var _chosen_route := ""
-var _playful_bump_count := 0
+var _journey_playful_bumps := 0
+var _bumps_since_cloud_rest := 0
 var _cloud_rest_count := 0
 var _birthday_stars: Array[String] = []
 var _rainbow_paths: Array[String] = []
@@ -224,8 +249,9 @@ func presentation_evidence() -> Dictionary:
 		"opening_media_paths": _opening_media_paths.duplicate(true),
 		"movement_state": _movement_state,
 		"journey_phase": _journey_phase,
+		"place": _place,
 		"chosen_route": _chosen_route,
-		"playful_bumps": _playful_bump_count,
+		"playful_bumps": _journey_playful_bumps,
 		"cloud_rests": _cloud_rest_count,
 		"birthday_stars": _birthday_stars.duplicate(),
 		"rainbow_paths": _rainbow_paths.duplicate(),
@@ -293,8 +319,13 @@ func handle_player_intent(intent: StringName) -> bool:
 			return true
 		INTENT_CONTINUE:
 			if _state == PresentationState.BIRTHDAY_STAR_MOMENT:
-				_journey_history[_chosen_route] = true
+				if not _chosen_route.is_empty():
+					_journey_history[_chosen_route] = true
 				_action_held = false
+				if _place == LACEWOOD_PLACE:
+					_state = PresentationState.ACTIVE_PLAY
+					_enter_pellegrino_peak()
+					return true
 				_journey_phase = PHASE_CELEBRATION
 				_state = PresentationState.CELEBRATION
 				_report_sound_event(EVENT_BIRTHDAY_CASTLE_ARRIVAL, {})
@@ -327,12 +358,17 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _journey_phase == PHASE_CLOUD_REST:
 				_resume_from_cloud_rest()
 				return true
-			if _journey_phase != PHASE_FLIGHT:
+			if not _journey_phase in [PHASE_FLIGHT, PHASE_PEAK_UPDRAFT]:
 				return true
 			if _movement_state == "rise":
 				return false
 			_movement_state = "rise"
 			_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
+			if _journey_phase == PHASE_PEAK_UPDRAFT:
+				_report_sound_event(
+					EVENT_VIGNETTE_INTERACTION,
+					{"place": PEAK_PLACE, "interaction": PEAK_UPDRAFT_VIGNETTE},
+				)
 			return true
 		INTENT_ACTION_RELEASED:
 			if _state == PresentationState.CELEBRATION:
@@ -343,7 +379,7 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false
 			_action_held = false
-			if _journey_phase != PHASE_FLIGHT:
+			if not _journey_phase in [PHASE_FLIGHT, PHASE_PEAK_UPDRAFT]:
 				return true
 			if _movement_state == "glide":
 				return false
@@ -423,12 +459,15 @@ func advance_journey(delta: float) -> void:
 				_choose_lacewood_route()
 		PHASE_ROUTE:
 			_advance_lacewood_route()
+		PHASE_PEAK_UPDRAFT:
+			_advance_pellegrino_peak_updraft()
 		PHASE_STAR_APPROACH:
 			_advance_birthday_star_sequence()
 	_render_presentation()
 
 
 func _enter_lacewood() -> void:
+	_place = LACEWOOD_PLACE
 	_journey_phase = PHASE_PATH_CHOICE
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
@@ -484,27 +523,58 @@ func _advance_lacewood_route() -> void:
 					{"place": LACEWOOD_PLACE, "kind": "silver-ribbon"},
 				)
 			1, 2, 3:
-				_report_playful_bump()
+				_report_playful_bump("silver-ribbon")
 		_journey_checkpoint += 1
 
 
-func _report_playful_bump() -> void:
-	_playful_bump_count += 1
-	_report_sound_event(
-		EVENT_PLAYFUL_BUMP,
-		{"place": LACEWOOD_PLACE, "kind": "silver-ribbon"},
-	)
-	if _playful_bump_count == 3:
-		_cloud_rest_count += 1
-		_action_held = false
-		_journey_phase = PHASE_CLOUD_REST
+# Pellegrino Peak has no Path Choice; its one-button vignette is the flower-petal
+# updraft. Its two gentle local bumps are spaced wider than the bump cue so they
+# never overlap, and they feed the same journey-wide Cloud Rest gate as every place.
+func _enter_pellegrino_peak() -> void:
+	_place = PEAK_PLACE
+	_journey_phase = PHASE_PEAK_UPDRAFT
+	_journey_phase_elapsed = 0.0
+	_journey_checkpoint = 0
+	_report_sound_event(EVENT_PLACE_ENTRY, {"place": PEAK_PLACE})
+
+
+func _advance_pellegrino_peak_updraft() -> void:
+	var thresholds := [0.5, 1.1, 2.1]
+	while _journey_phase == PHASE_PEAK_UPDRAFT and _journey_checkpoint < thresholds.size():
+		if _journey_phase_elapsed < thresholds[_journey_checkpoint]:
+			return
+		match _journey_checkpoint:
+			0:
+				_report_sound_event(
+					EVENT_NEAR_MISS,
+					{"place": PEAK_PLACE, "kind": PEAK_PLAYFUL_KIND},
+				)
+			1, 2:
+				_report_playful_bump(PEAK_PLAYFUL_KIND)
+		_journey_checkpoint += 1
+	if _journey_phase == PHASE_PEAK_UPDRAFT and _journey_phase_elapsed >= PEAK_UPDRAFT_SECONDS:
+		_journey_phase = PHASE_STAR_APPROACH
 		_journey_phase_elapsed = 0.0
 		_journey_checkpoint = 0
-		_report_sound_event(EVENT_CLOUD_REST_ENTERED, {"place": LACEWOOD_PLACE})
+
+
+func _report_playful_bump(kind: String) -> void:
+	_journey_playful_bumps += 1
+	_bumps_since_cloud_rest += 1
+	_report_sound_event(EVENT_PLAYFUL_BUMP, {"place": _place, "kind": kind})
+	if _bumps_since_cloud_rest < PLAYFUL_BUMPS_BEFORE_CLOUD_REST:
+		return
+	_bumps_since_cloud_rest = 0
+	_cloud_rest_count += 1
+	_action_held = false
+	_journey_phase = PHASE_CLOUD_REST
+	_journey_phase_elapsed = 0.0
+	_journey_checkpoint = 0
+	_report_sound_event(EVENT_CLOUD_REST_ENTERED, {"place": _place})
 
 
 func _resume_from_cloud_rest() -> void:
-	_report_sound_event(EVENT_CLOUD_REST_EXITED, {"place": LACEWOOD_PLACE})
+	_report_sound_event(EVENT_CLOUD_REST_EXITED, {"place": _place})
 	_movement_state = "flight"
 	_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
 	_journey_phase = PHASE_STAR_APPROACH
@@ -514,6 +584,9 @@ func _resume_from_cloud_rest() -> void:
 
 func _advance_birthday_star_sequence() -> void:
 	var thresholds := [0.45, 1.0, 2.4, 4.9]
+	var birthday_star := _place_identity("birthdayStar")
+	var rainbow_path := _place_identity("rainbowPath")
+	var family_guest := _place_identity("familyGuest")
 	while _journey_phase == PHASE_STAR_APPROACH and _journey_checkpoint < thresholds.size():
 		if _journey_phase_elapsed < thresholds[_journey_checkpoint]:
 			return
@@ -521,26 +594,26 @@ func _advance_birthday_star_sequence() -> void:
 			0:
 				_report_sound_event(
 					EVENT_BIRTHDAY_STAR_PROXIMITY,
-					{"birthdayStar": LACEWOOD_BIRTHDAY_STAR},
+					{"birthdayStar": birthday_star},
 				)
 			1:
-				if not _birthday_stars.has(LACEWOOD_BIRTHDAY_STAR):
-					_birthday_stars.append(LACEWOOD_BIRTHDAY_STAR)
+				if not _birthday_stars.has(birthday_star):
+					_birthday_stars.append(birthday_star)
 				_report_sound_event(
 					EVENT_BIRTHDAY_STAR_GATHERED,
-					{"birthdayStar": LACEWOOD_BIRTHDAY_STAR},
+					{"birthdayStar": birthday_star},
 				)
 			2:
-				if not _rainbow_paths.has(LACEWOOD_RAINBOW_PATH):
-					_rainbow_paths.append(LACEWOOD_RAINBOW_PATH)
+				if not _rainbow_paths.has(rainbow_path):
+					_rainbow_paths.append(rainbow_path)
 				_report_sound_event(
 					EVENT_RAINBOW_PATH_OPENED,
-					{"rainbowPath": LACEWOOD_RAINBOW_PATH, "familyGuest": "Gram"},
+					{"rainbowPath": rainbow_path, "familyGuest": family_guest},
 				)
 			3:
 				_report_sound_event(
 					EVENT_BIRTHDAY_STAR_MOMENT,
-					{"place": LACEWOOD_PLACE, "familyGuest": "Gram"},
+					{"place": _place, "familyGuest": family_guest},
 				)
 				_journey_phase = PHASE_BIRTHDAY_STAR_MOMENT
 				_state = PresentationState.BIRTHDAY_STAR_MOMENT
@@ -552,8 +625,10 @@ func _reset_current_journey() -> void:
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
 	_action_held = false
+	_place = ""
 	_chosen_route = ""
-	_playful_bump_count = 0
+	_journey_playful_bumps = 0
+	_bumps_since_cloud_rest = 0
 	_cloud_rest_count = 0
 	_birthday_stars = []
 	_rainbow_paths = []
@@ -615,7 +690,7 @@ func _render_presentation() -> void:
 	_title_label.text = content_title
 	if _state == PresentationState.BIRTHDAY_STAR_MOMENT:
 		_opening_eyebrow.text = "A Birthday Star!"
-		_opening_title.text = "Gram's Rainbow Path"
+		_opening_title.text = "%s's Rainbow Path" % _place_family_guest()
 		_opening_copy.text = _birthday_star_moment_copy()
 	else:
 		_opening_eyebrow.text = str(opening.get("eyebrow", "A brave big sister"))
@@ -752,16 +827,33 @@ func _current_opening_moment() -> Dictionary:
 	return opening if opening is Dictionary else {}
 
 
+# Every place resolves its own Birthday Star, Rainbow Path, Family Guest, and
+# Birthday Star Moment copy from the Edition Pack, preferring the current place's
+# chosen Path Choice route when that route has its own resolution copy.
+func _place_content() -> Dictionary:
+	for place_value: Variant in _content.get("places", []):
+		if place_value is Dictionary and place_value.get("id") == _place:
+			return place_value
+	return {}
+
+
+func _place_identity(field: String) -> String:
+	var defaults: Dictionary = PLACE_IDENTITY_DEFAULTS.get(_place, {})
+	return str(_place_content().get(field, defaults.get(field, "")))
+
+
+func _place_family_guest() -> String:
+	return _place_identity("familyGuest")
+
+
 func _birthday_star_moment_copy() -> String:
-	var place: Dictionary = _content.get("place", {})
+	var place := _place_content()
+	var default_copy := "Gram followed the gentle lights through Zélie’s Lacewood!"
 	var path_choice: Dictionary = place.get("pathChoice", {})
 	for route_value: Variant in path_choice.get("routes", []):
 		if route_value is Dictionary and route_value.get("id") == _chosen_route:
-			return route_value.get(
-				"birthdayStarMoment",
-				"Gram followed the gentle lights through Zélie's Lacewood!",
-			)
-	return "Gram followed the gentle lights through Zélie's Lacewood!"
+			return str(route_value.get("birthdayStarMoment", default_copy))
+	return str(place.get("birthdayStarMoment", default_copy))
 
 
 func _flight_presentation_copy() -> Dictionary:
@@ -785,6 +877,11 @@ func _flight_presentation_copy() -> Dictionary:
 				"title": "Cloud Rest",
 				"instruction": "Stella is safe • press to fly on",
 			}
+		PHASE_PEAK_UPDRAFT:
+			return {
+				"title": "Pellegrino Peak",
+				"instruction": "Press to ride a flower-petal updraft",
+			}
 		PHASE_STAR_APPROACH:
 			return {
 				"title": "A Birthday Star is near!",
@@ -793,7 +890,7 @@ func _flight_presentation_copy() -> Dictionary:
 		PHASE_CELEBRATION:
 			return {
 				"title": "Birthday Castle Celebration!",
-				"instruction": "Press to dance again • both paths helped Gram arrive",
+				"instruction": "Press to dance again • both paths helped Gram, and Aunt rode the updrafts",
 			}
 		_:
 			return {

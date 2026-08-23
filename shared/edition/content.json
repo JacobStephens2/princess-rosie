@@ -35,30 +35,46 @@
       "illustration": "opening.rosi-stella-departure"
     }
   ],
-  "place": {
-    "id": "lacewood",
-    "name": "Zélie’s Lacewood",
-    "familyGuest": "Gram",
-    "pathChoice": {
-      "id": "path-choice.lacewood",
-      "routes": [
-        {
-          "id": "lacewood.canopy",
-          "name": "Silver-ribbon canopy",
-          "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
-          "celebrationEcho": "silver-ribbons"
-        },
-        {
-          "id": "lacewood.floor",
-          "name": "Rose-lit woodland floor",
-          "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
-          "celebrationEcho": "rose-lights"
-        }
-      ]
+  "places": [
+    {
+      "id": "lacewood",
+      "name": "Zélie’s Lacewood",
+      "familyGuest": "Gram",
+      "pathChoice": {
+        "id": "path-choice.lacewood",
+        "routes": [
+          {
+            "id": "lacewood.canopy",
+            "name": "Silver-ribbon canopy",
+            "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
+            "celebrationEcho": "silver-ribbons"
+          },
+          {
+            "id": "lacewood.floor",
+            "name": "Rose-lit woodland floor",
+            "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
+            "celebrationEcho": "rose-lights"
+          }
+        ]
+      },
+      "birthdayStar": "birthday-star.lacewood",
+      "rainbowPath": "rainbow-path.lacewood",
+      "birthdayStarMoment": "Gram followed the gentle lights through Zélie’s Lacewood!"
     },
-    "birthdayStar": "birthday-star.lacewood",
-    "rainbowPath": "rainbow-path.lacewood"
-  },
+    {
+      "id": "pellegrino-peak",
+      "name": "Pellegrino Peak",
+      "familyGuest": "Aunt",
+      "vignette": {
+        "id": "flower-petal-updraft",
+        "name": "Flower-petal updrafts",
+        "instruction": "Press to ride a flower-petal updraft"
+      },
+      "birthdayStar": "birthday-star.pellegrino-peak",
+      "rainbowPath": "rainbow-path.pellegrino-peak",
+      "birthdayStarMoment": "Aunt rose on the flower-petal updrafts above Pellegrino Peak!"
+    }
+  ],
   "celebration": {
     "id": "celebration.tracer",
     "actions": ["dance-again", "fly-again"]

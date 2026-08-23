@@ -32,6 +32,15 @@ const LACEWOOD_CUE_PATHS := [
 	"source-media/soundscape/runtime/cloud-rest-exit.wav",
 ]
 
+const PELLEGRINO_PEAK_CUE_PATHS := [
+	"source-media/soundscape/runtime/place-pellegrino-peak.wav",
+	"source-media/soundscape/runtime/vignette-pellegrino-peak-updraft.wav",
+	"source-media/soundscape/runtime/playful-bump-pellegrino-peak.wav",
+	"source-media/soundscape/runtime/near-miss-pellegrino-peak.wav",
+	"source-media/soundscape/runtime/rainbow-path-pellegrino-peak.wav",
+	"source-media/soundscape/runtime/birthday-star-moment-pellegrino-peak.wav",
+]
+
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
 
@@ -48,7 +57,9 @@ func _run() -> void:
 	if approved_stream is AudioStreamWAV:
 		test.expect(approved_stream.mix_rate == 48000, "the approved 48 kHz master reaches Godot unchanged")
 		test.expect(not approved_stream.stereo, "the approved focused-mono master stays mono")
-	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS:
+	for cue_path: String in (
+		OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS + PELLEGRINO_PEAK_CUE_PATHS
+	):
 		var cue_stream: Variant = audio.load_wav("res://edition-pack.zip", cue_path)
 		test.expect(
 			cue_stream is AudioStreamWAV,
@@ -176,10 +187,47 @@ func _run() -> void:
 			not AudioServer.is_bus_mute(AudioServer.get_bus_index(&"Sound")),
 			"enabling Sound restores every internal category",
 		)
+	var lacewood_ambience: Variant = audio.load_wav(
+		"res://edition-pack.zip",
+		"source-media/soundscape/runtime/place-lacewood.wav",
+	)
+	var peak_ambience: Variant = audio.load_wav(
+		"res://edition-pack.zip",
+		"source-media/soundscape/runtime/place-pellegrino-peak.wav",
+	)
+	if lacewood_ambience is AudioStreamWAV and peak_ambience is AudioStreamWAV:
+		test.expect(audio.play(lacewood_ambience, SOUNDSCAPE_PLAYBACK.new(
+			&"Ambience", &"ambience", SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE,
+			-16.7, 40, true, 0,
+		)), "the first place takes the one ambience slot")
+		test.expect(
+			audio.ambience_evidence().get("playing_voices") == 1,
+			"one place sounds through exactly one ambience voice",
+		)
+		test.expect(audio.play(peak_ambience, SOUNDSCAPE_PLAYBACK.new(
+			&"Ambience", &"ambience", SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE,
+			-16.7, 40, true, 0, 0.0, 900,
+		)), "the next place crossfades into the one ambience slot")
+		var crossfading_ambience: Dictionary = audio.ambience_evidence()
+		test.expect(
+			crossfading_ambience.get("playing_voices") == 2,
+			"a place transition overlaps both ambience voices instead of leaving a gap",
+		)
+		test.expect(
+			crossfading_ambience.get("active_volume_db", 0.0) < -16.7,
+			"the arriving place fades up from silence rather than cutting in at full gain",
+		)
+		audio.fade_out_slot("ambience", 0)
+		test.expect(
+			audio.ambience_evidence().get("playing_voices") == 0,
+			"leaving the last place clears the one ambience slot",
+		)
 	audio.stop_slot("foreground")
 	audio.stop_slot("movement")
 	audio.stop_slot("ambience")
 	audio.stop_slot("music")
+	lacewood_ambience = null
+	peak_ambience = null
 	approved_stream = null
 	fallback_stream = null
 	soundtrack = null
@@ -194,6 +242,8 @@ func _expects_stereo(cue_path: String) -> bool:
 	return (
 		cue_path.ends_with("movement-flight.wav")
 		or cue_path.ends_with("place-lacewood.wav")
+		or cue_path.ends_with("place-pellegrino-peak.wav")
 		or cue_path.ends_with("rainbow-path-open.wav")
+		or cue_path.ends_with("rainbow-path-pellegrino-peak.wav")
 		or cue_path.ends_with("cloud-rest-ambience.wav")
 	)

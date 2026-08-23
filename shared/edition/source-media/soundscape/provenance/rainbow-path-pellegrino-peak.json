@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.rainbow-path.pellegrino-peak",
+  "sourceMasterId": "source-master.rainbow-path.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.rainbow-path.pellegrino-peak",
+  "jobHash": "sha256:afd96d40961078bb6d54a6c7c2b003712958f2dc416b1bad1d80621011a7aa8e",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "An open-air magical travel stage above a flowered mountain peak. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 2.5,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:44:19.170Z",
+  "traceId": "c51ee695b4fd424f14e46051638e05ed",
+  "providerReportedUsage": {
+    "characterCost": "25"
+  },
+  "sourceHash": "sha256:ebadda138ec6061ac29ffb3c23fcaa8cc2179ed1a76fc308045284eeedfb6248",
+  "selectedOutputHash": "sha256:82fbd14d9a2e310b80a3867247482e1bb5ad5878fda351e2a0e150556b432f58",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 2,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "preserve-stereo",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:82fbd14d9a2e310b80a3867247482e1bb5ad5878fda351e2a0e150556b432f58",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "open-air-magical-travel-stage-for-macbook",
+  "channelPolicy": "warm-stereo",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie offers a beautiful, warm harp and shimmer texture that feels perfectly suited to an open-air mountain stage while maintaining complete gentleness. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required."
+}

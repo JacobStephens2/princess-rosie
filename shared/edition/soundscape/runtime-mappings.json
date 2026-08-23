@@ -46,6 +46,11 @@
       "path": "runtime/place-lacewood.wav"
     },
     {
+      "id": "runtime-cue.place.pellegrino-peak",
+      "sourceMaster": "source-master.place.pellegrino-peak",
+      "path": "runtime/place-pellegrino-peak.wav"
+    },
+    {
       "id": "runtime-cue.vignette.lacewood.canopy",
       "sourceMaster": "source-master.vignette.lacewood.canopy",
       "path": "runtime/vignette-lacewood-canopy.wav"
@@ -54,6 +59,11 @@
       "id": "runtime-cue.vignette.lacewood.floor",
       "sourceMaster": "source-master.vignette.lacewood.floor",
       "path": "runtime/vignette-lacewood-floor.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.pellegrino-peak.updraft",
+      "sourceMaster": "source-master.vignette.pellegrino-peak.updraft",
+      "path": "runtime/vignette-pellegrino-peak-updraft.wav"
     },
     {
       "id": "runtime-cue.path-choice.available",
@@ -81,9 +91,19 @@
       "path": "runtime/playful-bump-lacewood.wav"
     },
     {
+      "id": "runtime-cue.playful-bump.pellegrino-peak",
+      "sourceMaster": "source-master.playful-bump.pellegrino-peak",
+      "path": "runtime/playful-bump-pellegrino-peak.wav"
+    },
+    {
       "id": "runtime-cue.near-miss",
       "sourceMaster": "source-master.near-miss",
       "path": "runtime/near-miss.wav"
+    },
+    {
+      "id": "runtime-cue.near-miss.pellegrino-peak",
+      "sourceMaster": "source-master.near-miss.pellegrino-peak",
+      "path": "runtime/near-miss-pellegrino-peak.wav"
     },
     {
       "id": "runtime-cue.birthday-star.proximity",
@@ -101,9 +121,19 @@
       "path": "runtime/rainbow-path-open.wav"
     },
     {
+      "id": "runtime-cue.rainbow-path.pellegrino-peak",
+      "sourceMaster": "source-master.rainbow-path.pellegrino-peak",
+      "path": "runtime/rainbow-path-pellegrino-peak.wav"
+    },
+    {
       "id": "runtime-cue.birthday-star-moment.lacewood",
       "sourceMaster": "source-master.birthday-star-moment.lacewood",
       "path": "runtime/birthday-star-moment-lacewood.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.pellegrino-peak",
+      "sourceMaster": "source-master.birthday-star-moment.pellegrino-peak",
+      "path": "runtime/birthday-star-moment-pellegrino-peak.wav"
     },
     {
       "id": "runtime-cue.cloud-rest.enter",

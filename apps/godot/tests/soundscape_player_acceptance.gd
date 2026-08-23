@@ -17,6 +17,7 @@ class FakeEngineAudioAdapter extends RefCounted:
 	var playback_requests_are_typed := true
 	var loaded_music_paths: Array[String] = []
 	var stopped_slots: Array[String] = []
+	var faded_slots: Array[Dictionary] = []
 	var sound_preference_changes: Array[Dictionary] = []
 
 	func load_wav(_pack_source: String, relative_path: String) -> Variant:
@@ -59,6 +60,7 @@ class FakeEngineAudioAdapter extends RefCounted:
 				"looping": playback.looping,
 				"max_duration_ms": playback.max_duration_ms,
 				"music_duck_db": playback.music_duck_db,
+				"crossfade_ms": playback.crossfade_ms,
 			})
 		else:
 			playback_requests_are_typed = false
@@ -69,6 +71,9 @@ class FakeEngineAudioAdapter extends RefCounted:
 
 	func stop_slot(slot: String) -> void:
 		stopped_slots.append(slot)
+
+	func fade_out_slot(slot: String, fade_ms: int) -> void:
+		faded_slots.append({"slot": slot, "fade_ms": fade_ms})
 
 	func set_sound_enabled(enabled: bool, delay_ms: int) -> void:
 		sound_preference_changes.append({"enabled": enabled, "delay_ms": delay_ms})
@@ -331,7 +336,8 @@ func _init() -> void:
 		"Birthday Star visual pulses cannot retrigger the capped shimmer",
 	)
 	var rest_audio := FakeEngineAudioAdapter.new()
-	var rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, rest_audio)
+	var rest_clock := FakeClock.new()
+	var rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, rest_audio, rest_clock.now_ms)
 	var lacewood_rest_events := [
 		[&"sound-event.movement-state", {"state": "flight"}],
 		[&"sound-event.place-entry", {"place": "lacewood"}],
@@ -344,6 +350,7 @@ func _init() -> void:
 			rest_soundscape.report_event(semantic_event[0], semantic_event[1]),
 			"the Lacewood pre-rest sequence plays: %s" % semantic_event[0],
 		)
+		rest_clock.advance(450)
 	test.expect(
 		rest_soundscape.report_event(
 			&"sound-event.cloud-rest-entered",
@@ -507,6 +514,137 @@ func _init() -> void:
 	test.expect(
 		fallback_audio.played_streams.size() == plays_before_missing_optional,
 		"optional silence does not synthesize unrelated core feedback",
+	)
+
+	var peak_audio := FakeEngineAudioAdapter.new()
+	var peak_clock := FakeClock.new()
+	var peak_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, peak_audio, peak_clock.now_ms)
+	test.expect(
+		peak_soundscape.report_event(&"sound-event.place-entry", {"place": "lacewood"}),
+		"the journey sounds Zélie's Lacewood before Pellegrino Peak",
+	)
+	test.expect(
+		peak_audio.playback_settings.back().get("crossfade_ms") == 0,
+		"the first place of a journey takes the ambience slot without a crossfade",
+	)
+	test.expect(
+		peak_soundscape.report_event(&"sound-event.place-entry", {"place": "pellegrino-peak"}),
+		"Pellegrino Peak has its own approved place ambience",
+	)
+	test.expect(
+		peak_audio.loaded_paths.back()
+		== "source-media/soundscape/runtime/place-pellegrino-peak.wav",
+		"the Peak resolves its own wider, cooler ambience loop",
+	)
+	var peak_ambience_playback: Dictionary = peak_audio.playback_settings.back()
+	test.expect(
+		peak_ambience_playback.get("slot") == "ambience"
+		and peak_ambience_playback.get("looping") == true
+		and peak_ambience_playback.get("crossfade_ms") == 900,
+		"entering the Peak crossfades the one ambience slot instead of cutting places",
+	)
+	test.expect(
+		peak_soundscape.report_event(
+			&"sound-event.vignette-interaction",
+			{"place": "pellegrino-peak", "interaction": "flower-petal-updraft"},
+		),
+		"the flower-petal updraft answers its one-button edge",
+	)
+	test.expect(
+		peak_audio.loaded_paths.back()
+		== "source-media/soundscape/runtime/vignette-pellegrino-peak-updraft.wav",
+		"the updraft uses its own buoyant rising texture",
+	)
+	var plays_before_updraft_repeat := peak_audio.played_streams.size()
+	test.expect(
+		not peak_soundscape.report_event(
+			&"sound-event.vignette-interaction",
+			{"place": "pellegrino-peak", "interaction": "flower-petal-updraft"},
+		),
+		"repeated updraft detail cannot fire per petal during its cooldown",
+	)
+	test.expect(
+		peak_audio.played_streams.size() == plays_before_updraft_repeat,
+		"suppressed updraft detail never reaches engine playback",
+	)
+	peak_clock.advance(600)
+	test.expect(
+		peak_soundscape.report_event(
+			&"sound-event.vignette-interaction",
+			{"place": "pellegrino-peak", "interaction": "flower-petal-updraft"},
+		),
+		"a later updraft edge may sound after its cooldown",
+	)
+	for peak_encounter: Array in [
+		[
+			&"sound-event.playful-bump",
+			{"place": "pellegrino-peak", "kind": "flower-petal"},
+			"source-media/soundscape/runtime/playful-bump-pellegrino-peak.wav",
+		],
+		[
+			&"sound-event.near-miss",
+			{"place": "pellegrino-peak", "kind": "flower-petal"},
+			"source-media/soundscape/runtime/near-miss-pellegrino-peak.wav",
+		],
+		[
+			&"sound-event.birthday-star-proximity",
+			{"birthdayStar": "birthday-star.pellegrino-peak"},
+			"source-media/soundscape/runtime/birthday-star-proximity.wav",
+		],
+		[
+			&"sound-event.birthday-star-gathered",
+			{"birthdayStar": "birthday-star.pellegrino-peak"},
+			"source-media/soundscape/runtime/birthday-star-gather.wav",
+		],
+		[
+			&"sound-event.rainbow-path-opened",
+			{"rainbowPath": "rainbow-path.pellegrino-peak", "familyGuest": "Aunt"},
+			"source-media/soundscape/runtime/rainbow-path-pellegrino-peak.wav",
+		],
+		[
+			&"sound-event.birthday-star-moment",
+			{"place": "pellegrino-peak", "familyGuest": "Aunt"},
+			"source-media/soundscape/runtime/birthday-star-moment-pellegrino-peak.wav",
+		],
+	]:
+		test.expect(
+			peak_soundscape.report_event(peak_encounter[0], peak_encounter[1]),
+			"the Peak stage plays: %s" % peak_encounter[0],
+		)
+		test.expect(
+			peak_audio.loaded_paths.back() == peak_encounter[2],
+			"%s resolves its scheduled cue" % peak_encounter[0],
+		)
+	test.expect(
+		peak_soundscape.report_event(&"sound-event.birthday-castle-arrival", {}),
+		"the last place transitions onward to the celebration",
+	)
+	test.expect(
+		peak_audio.faded_slots == [{"slot": "ambience", "fade_ms": 900}],
+		"leaving the last place crossfades its ambience out instead of cutting it",
+	)
+	var missing_peak_audio := FakeEngineAudioAdapter.new()
+	missing_peak_audio.missing_paths = [
+		"source-media/soundscape/runtime/near-miss-pellegrino-peak.wav",
+	]
+	var missing_peak_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, missing_peak_audio)
+	test.expect(
+		not missing_peak_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "pellegrino-peak", "kind": "flower-petal"},
+		),
+		"an unavailable optional Peak near miss may remain silent",
+	)
+	test.expect(
+		missing_peak_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "pellegrino-peak", "kind": "flower-petal"},
+		)
+		and missing_peak_soundscape.report_event(
+			&"sound-event.cloud-rest-entered",
+			{"place": "pellegrino-peak"},
+		),
+		"shared core Playful Bump and Cloud Rest behavior stays intact at the Peak",
 	)
 
 	var played: bool = soundscape.report_event(

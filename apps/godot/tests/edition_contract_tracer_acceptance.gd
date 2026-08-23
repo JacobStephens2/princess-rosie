@@ -28,7 +28,7 @@ func _init() -> void:
 	test.expect(shell.handle_player_intent("toggle-sound"), "the shared journey turns Sound off")
 	test.expect(shell.handle_player_intent("toggle-sound"), "the shared journey turns Sound on")
 	test.expect(shell.handle_player_intent("resume"), "the floor vignette resumes")
-	_complete_route_from_vignette(shell)
+	_complete_route_from_vignette(shell, false)
 
 	var evidence: Dictionary = shell.presentation_evidence()
 	var actual_facts := {
@@ -68,10 +68,10 @@ func _complete_route(shell: StorybookShell, choose_canopy: bool) -> void:
 	shell.advance_journey(1.25)
 	if choose_canopy:
 		test.expect(shell.handle_player_intent("action-released"), "the canopy hold releases")
-	_complete_route_from_vignette(shell)
+	_complete_route_from_vignette(shell, true)
 
 
-func _complete_route_from_vignette(shell: StorybookShell) -> void:
+func _complete_route_from_vignette(shell: StorybookShell, ride_updraft: bool) -> void:
 	var progress_before_rest: Dictionary = shell.presentation_evidence()
 	shell.advance_journey(1.8)
 	var progress_during_rest: Dictionary = shell.presentation_evidence()
@@ -82,6 +82,27 @@ func _complete_route_from_vignette(shell: StorybookShell) -> void:
 	)
 	test.expect(shell.handle_player_intent("action-pressed"), "the shared journey resumes")
 	shell.advance_journey(4.9)
+	test.expect(
+		shell.handle_player_intent("continue"),
+		"Gram's Birthday Star Moment carries the shared journey onward to Pellegrino Peak",
+	)
+	_complete_pellegrino_peak(shell, ride_updraft)
 	test.expect(shell.handle_player_intent("continue"), "the Birthday Star Moment reaches celebration")
 	test.expect(shell.handle_player_intent("action-pressed"), "the celebration dances again")
 	test.expect(shell.handle_player_intent("action-released"), "the celebration action releases")
+
+
+func _complete_pellegrino_peak(shell: StorybookShell, ride_updraft: bool) -> void:
+	test.expect(
+		shell.presentation_evidence().get("place") == "pellegrino-peak",
+		"the shared journey enters Pellegrino Peak",
+	)
+	shell.advance_journey(0.5)
+	if ride_updraft:
+		test.expect(shell.handle_player_intent("action-pressed"), "the one button rides an updraft")
+		shell.advance_journey(0.6)
+		test.expect(shell.handle_player_intent("action-released"), "the updraft ride releases")
+		shell.advance_journey(1.7)
+	else:
+		shell.advance_journey(2.3)
+	shell.advance_journey(4.9)
