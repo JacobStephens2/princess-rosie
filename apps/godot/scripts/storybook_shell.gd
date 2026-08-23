@@ -671,7 +671,13 @@ func _choose_lacewood_route() -> void:
 
 
 func _advance_lacewood_route() -> void:
-	var thresholds := [0.45, 0.9, 1.35, 1.8]
+	var route_duration := float(_path_choice_tuning.get("routeDurationSeconds", 0.0))
+	var thresholds := [
+		route_duration * 0.25,
+		route_duration * 0.5,
+		route_duration * 0.75,
+		route_duration,
+	]
 	while _journey_phase == PHASE_ROUTE and _journey_checkpoint < thresholds.size():
 		if _journey_phase_elapsed < thresholds[_journey_checkpoint]:
 			return
@@ -856,14 +862,23 @@ func _render_presentation() -> void:
 		_lacewood_background.texture = _lacewood_background_texture
 	if _flight_character_texture != null:
 		_flight_character.texture = _flight_character_texture
-	var lacewood_visible := (
-		not _journey_phase.is_empty()
-		and _journey_phase != PHASE_FLIGHT
-	)
+	var lacewood_visible := _journey_phase in [
+		PHASE_PATH_CHOICE,
+		PHASE_ROUTE,
+		PHASE_CLOUD_REST,
+		PHASE_STAR_APPROACH,
+		PHASE_BIRTHDAY_STAR_MOMENT,
+	]
+	var celebration_visible := _journey_phase == PHASE_CELEBRATION
 	_flight_background.visible = not lacewood_visible
 	_lacewood_background.visible = lacewood_visible
-	_lacewood_visuals.visible = lacewood_visible
-	_lacewood_visuals.set_story_state(_journey_phase, _chosen_route, _shimmer_route)
+	_lacewood_visuals.visible = lacewood_visible or celebration_visible
+	_lacewood_visuals.configure_routes(_lacewood_path_choice_content().get("routes", []))
+	_lacewood_visuals.set_story_state({
+		"phase": _journey_phase,
+		"chosen_route": _chosen_route,
+		"shimmer_route": _shimmer_route,
+	})
 	_continue_button.text = (
 		"Keep flying"
 		if _state == PresentationState.BIRTHDAY_STAR_MOMENT

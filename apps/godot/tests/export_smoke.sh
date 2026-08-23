@@ -172,7 +172,9 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
     "routes_equal_emphasis": true,
     "atmospheric_motion": true,
     "selected_visual_response": "",
-    "shimmer_route": ""
+    "rendered_visual_response": "",
+    "shimmer_route": "",
+    "celebration_echo": ""
   }
   and ([.sound_events[].event] | contains([
     "sound-event.place-entry",
@@ -203,6 +205,9 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .storybook_stage.aspect == "16:9"
   and .storybook_stage.essential_content_cropped == false
   and .storybook_stage.celebration_visible == true
+  and .storybook_stage.lacewood_background_visible == false
+  and .storybook_stage.lacewood_route_composition.both_routes_visible == false
+  and .storybook_stage.lacewood_route_composition.celebration_echo == "silver-ribbons"
   and ([.sound_events[].event] | contains([
     "sound-event.place-entry",
     "sound-event.path-choice-available",

@@ -11,6 +11,7 @@ var test: RefCounted = ACCEPTANCE_TEST.new()
 func _init() -> void:
 	var canopy := _choose_route(KEYBOARD_SPACE, true)
 	var floor := _choose_route(POINTER_PRIMARY, false)
+	_route_duration_follows_tuning()
 
 	test.expect(
 		canopy == {
@@ -41,6 +42,33 @@ func _init() -> void:
 		"releasing the same flight action chooses an equally rich rose-lit woodland floor",
 	)
 	test.finish(self, "Lacewood Path Choice acceptance")
+
+
+func _route_duration_follows_tuning() -> void:
+	var shell := STORYBOOK_SHELL.new()
+	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
+	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the tuned route prepares")
+	shell._path_choice_tuning["routeDurationSeconds"] = 2.4
+	test.expect(shell.handle_player_intent("begin"), "the tuned journey begins")
+	for _moment: int in 3:
+		shell.handle_player_action(KEYBOARD_SPACE, true)
+		shell.handle_player_action(KEYBOARD_SPACE, false)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	shell.advance_journey(0.75)
+	shell.advance_journey(1.25)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	shell.advance_journey(1.8)
+	test.expect(
+		shell.presentation_evidence().get("journey_phase") == "lacewood-route",
+		"runtime route progress does not outrun the Edition Pack duration",
+	)
+	shell.advance_journey(0.6)
+	test.expect(
+		shell.presentation_evidence().get("journey_phase") == "cloud-rest"
+		and shell.path_choice_evidence().get("route_duration_seconds") == 2.4,
+		"runtime completion and semantic evidence share the Edition Pack duration",
+	)
+	shell.free()
 
 
 func _choose_route(source: StringName, choose_canopy: bool) -> Dictionary:
