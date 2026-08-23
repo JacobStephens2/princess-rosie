@@ -92,7 +92,14 @@ export function createFakeProvider(
   _credential: string,
   options: {
     reject48Khz: boolean;
-    audio?: "valid" | "silent" | "short" | "bad-loop";
+    audio?:
+      | "valid"
+      | "silent"
+      | "short"
+      | "bad-loop"
+      | "padded"
+      | "anti-phase"
+      | "duration-drift";
   },
 ): Provider {
   let requestNumber = 0;
@@ -111,19 +118,33 @@ export function createFakeProvider(
       }
       const sampleRate = request.format === "pcm_48000" ? 48_000 : 24_000;
       const frameCount = Math.round(
-        sampleRate * request.durationSeconds * (options.audio === "short" ? 0.8 : 1),
+        sampleRate * request.durationSeconds * (
+          options.audio === "short"
+            ? 0.8
+            : options.audio === "duration-drift"
+              ? 0.85
+              : 1
+        ),
       );
       const pcm = Buffer.alloc(frameCount * 2 * 2);
       const frequency = 520 + requestNumber * 70;
+      const boundarySilenceFrames = options.audio === "padded"
+        ? Math.floor(frameCount * 0.05)
+        : 0;
       for (let frame = 0; frame < frameCount; frame += 1) {
         const envelope = Math.sin((Math.PI * frame) / frameCount) ** 2;
-        const sample = options.audio === "silent"
+        const sample = options.audio === "silent" ||
+            frame < boundarySilenceFrames ||
+            frame >= frameCount - boundarySilenceFrames
           ? 0
           : Math.round(
             Math.sin((2 * Math.PI * frequency * frame) / sampleRate) * envelope * 7_500,
           );
         pcm.writeInt16LE(sample, frame * 4);
-        pcm.writeInt16LE(Math.round(sample * 0.92), frame * 4 + 2);
+        pcm.writeInt16LE(
+          options.audio === "anti-phase" ? -sample : Math.round(sample * 0.92),
+          frame * 4 + 2,
+        );
       }
       if (options.audio === "bad-loop" && frameCount > 1) {
         pcm.writeInt16LE(12_000, 0);

@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.birthday-star.proximity",
+  "sourceMaster": "source-master.birthday-star.proximity",
+  "runtimeMapping": "runtime-cue.birthday-star.proximity",
+  "status": "approved",
+  "jobHash": "sha256:51fb937d131cec21f1cd83ba275543f9ea151826373e4ab8e16344bc71184b7c",
+  "masterPath": "masters/birthday-star-proximity.wav",
+  "masterHash": "sha256:32e7bae2241350198c403f74bd4dd8f53577e7853cc303bbe35dba73fee698ef",
+  "runtimePath": "runtime/birthday-star-proximity.wav",
+  "runtimeHash": "sha256:32e7bae2241350198c403f74bd4dd8f53577e7853cc303bbe35dba73fee698ef"
+}

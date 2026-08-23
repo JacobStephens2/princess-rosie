@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.path-choice.lacewood.floor",
+  "sourceMasterId": "source-master.path-choice.lacewood.floor",
+  "runtimeMapping": "runtime-cue.path-choice.lacewood.floor",
+  "jobHash": "sha256:8d6ab866b3f4d67cd82026aa43f148a29e0905a01239ae7c53af52100a196456",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A warm rose choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.4,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T01:59:39.224Z",
+  "traceId": "271cc1d20c5575b5ba3c6e27906e858c",
+  "providerReportedUsage": {
+    "characterCost": "14"
+  },
+  "sourceHash": "sha256:095fb091197dae1f233e2e0746f3b3cf820ec8ca45616d87fd7055f62e5003c2",
+  "selectedOutputHash": "sha256:9cf6cc5e6ea88769010e7f604f38fcd1a4cdb60cf50c19215b8151cfa431d223",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:9cf6cc5e6ea88769010e7f604f38fcd1a4cdb60cf50c19215b8151cfa431d223",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "warm-rose-choice-response-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Best warm rose-lit choice response: lowest crossing activity, strongest low-crest body, and the same safe peak ceiling, making it clearly related to but warmer than the canopy response without implying greater reward."
+}

@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.cloud-rest.ambience",
+  "sourceMaster": "source-master.cloud-rest.ambience",
+  "runtimeMapping": "runtime-cue.cloud-rest.ambience",
+  "status": "approved",
+  "jobHash": "sha256:435a3d46453ef66302af578f30fa9fa95bb7483c473e68ee111ec5c958ecded7",
+  "masterPath": "masters/cloud-rest-ambience.wav",
+  "masterHash": "sha256:172a401585111b6a3f71ef5a331be9c72becb5985d4a87ba7673c158e4b3a7b1",
+  "runtimePath": "runtime/cloud-rest-ambience.wav",
+  "runtimeHash": "sha256:172a401585111b6a3f71ef5a331be9c72becb5985d4a87ba7673c158e4b3a7b1"
+}

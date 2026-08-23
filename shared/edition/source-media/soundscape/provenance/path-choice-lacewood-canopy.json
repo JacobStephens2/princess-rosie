@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.path-choice.lacewood.canopy",
+  "sourceMasterId": "source-master.path-choice.lacewood.canopy",
+  "runtimeMapping": "runtime-cue.path-choice.lacewood.canopy",
+  "jobHash": "sha256:b07b3c7503bab776bd0b0f32d79dcd822484005eba032334f13fb689fa331373",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A airy ribbon choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.4,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T01:58:57.580Z",
+  "traceId": "4c09a6d1afef7f59a2fe714d713c4963",
+  "providerReportedUsage": {
+    "characterCost": "14"
+  },
+  "sourceHash": "sha256:2d621fa89ada757722d54131c8941bfe94aa95ec296721e8ac18ba7f694046ea",
+  "selectedOutputHash": "sha256:40d6a841a78d07ef03c21a95dee785f6ce2b0dfc7d487c0e20736622d17dead1",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:40d6a841a78d07ef03c21a95dee785f6ce2b0dfc7d487c0e20736622d17dead1",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "airy-ribbon-choice-response-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Best airy canopy choice response: clear sustained body, low crossing activity, controlled crest factor, and a safe mastered peak that reads as authored difference without extra value or difficulty."
+}

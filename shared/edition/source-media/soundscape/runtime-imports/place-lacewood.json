@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.place.lacewood",
+  "runtimeMapping": "runtime-cue.place.lacewood",
+  "sourceMaster": "source-master.place.lacewood",
+  "sourcePath": "masters/place-lacewood.wav",
+  "runtimePath": "runtime/place-lacewood.wav",
+  "sourceHash": "sha256:aa67ec4aa71976bb4ef6ad71fe1c4d8462baa40d5178353c7648ac38b8769196",
+  "derivativeHash": "sha256:aa67ec4aa71976bb4ef6ad71fe1c4d8462baa40d5178353c7648ac38b8769196",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "looping": true
+  }
+}

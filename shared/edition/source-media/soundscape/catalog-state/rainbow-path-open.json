@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.rainbow-path.open",
+  "sourceMaster": "source-master.rainbow-path.open",
+  "runtimeMapping": "runtime-cue.rainbow-path.open",
+  "status": "approved",
+  "jobHash": "sha256:d5df6a9d6d689431172ae7e42eb5170414637a238b02225cf8cc0fb31002cc39",
+  "masterPath": "masters/rainbow-path-open.wav",
+  "masterHash": "sha256:4be308dbe38bdca563af1c49740affde51133cf25d68d35f72fdbbf9c3c71d56",
+  "runtimePath": "runtime/rainbow-path-open.wav",
+  "runtimeHash": "sha256:4be308dbe38bdca563af1c49740affde51133cf25d68d35f72fdbbf9c3c71d56"
+}

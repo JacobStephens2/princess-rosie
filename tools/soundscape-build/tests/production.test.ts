@@ -1,6 +1,6 @@
 import { mkdtemp, readdir, readFile, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { createServer, type ServerResponse } from "node:http";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
@@ -812,7 +812,14 @@ describe("Soundscape Build production CLI", () => {
   test("applies synthetic audio QA and writes deterministic runtime imports", async () => {
     const runAudioBuild = async (input: {
       fixture: ValidationFixture;
-      fakeAudio?: "valid" | "silent" | "short" | "bad-loop";
+      fakeAudio?:
+        | "valid"
+        | "silent"
+        | "short"
+        | "bad-loop"
+        | "padded"
+        | "anti-phase"
+        | "duration-drift";
     }) => {
       const root = await mkdtemp(join(tmpdir(), "rosie-soundscape-audio-"));
       const outputRoot = join(root, "artifacts");
@@ -881,6 +888,18 @@ describe("Soundscape Build production CLI", () => {
     const firstRemaster = await remaster("all");
     const secondRemaster = await remaster();
     const secondRuntime = await readFile(runtimePath);
+    const padded = await runAudioBuild({
+      fixture: multiCueFixture(1),
+      fakeAudio: "padded",
+    });
+    const antiPhase = await runAudioBuild({
+      fixture: multiCueFixture(1),
+      fakeAudio: "anti-phase",
+    });
+    const durationDrift = await runAudioBuild({
+      fixture: multiCueFixture(1),
+      fakeAudio: "duration-drift",
+    });
 
     const loopFixture = multiCueFixture(1);
     loopFixture.catalog.entries[0]!.looping = true;
@@ -923,6 +942,21 @@ describe("Soundscape Build production CLI", () => {
         observedRuntimeHash: hash(firstRuntime),
         remasterResults: [firstRemaster, secondRemaster],
         deterministicRemaster: hash(firstRuntime) === hash(secondRuntime),
+      },
+      padded: {
+        exitCode: padded.result.exitCode,
+        stderr: padded.stderr,
+        requestCount: padded.requestCount,
+      },
+      antiPhase: {
+        exitCode: antiPhase.result.exitCode,
+        stderr: antiPhase.stderr,
+        requestCount: antiPhase.requestCount,
+      },
+      durationDrift: {
+        exitCode: durationDrift.result.exitCode,
+        stderr: durationDrift.stderr,
+        requestCount: durationDrift.requestCount,
       },
       loop: {
         exitCode: loop.result.exitCode,
@@ -989,6 +1023,21 @@ describe("Soundscape Build production CLI", () => {
         observedRuntimeHash: hash(firstRuntime),
         remasterResults: [{ exitCode: 0 }, { exitCode: 0 }],
         deterministicRemaster: true,
+      },
+      padded: {
+        exitCode: 0,
+        stderr: [],
+        requestCount: 3,
+      },
+      antiPhase: {
+        exitCode: 0,
+        stderr: [],
+        requestCount: 3,
+      },
+      durationDrift: {
+        exitCode: 0,
+        stderr: [],
+        requestCount: 3,
       },
       loop: {
         exitCode: 0,
@@ -1124,7 +1173,7 @@ describe("Soundscape Build production CLI", () => {
     });
   });
 
-  test("accepts the checked-in opening-to-flight provenance and generated media documentation", async () => {
+  test("accepts every checked-in approved cue and its generated media documentation", async () => {
     const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
     const soundscapeRoot = join(repoRoot, "shared", "edition", "soundscape");
     const outputRoot = join(repoRoot, "shared", "edition", "source-media", "soundscape");
@@ -1158,16 +1207,36 @@ describe("Soundscape Build production CLI", () => {
       stdout: (message) => stdout.push(message),
       stderr: (message) => stderr.push(message),
     });
-    const productionCues = [
-      ["story-confirmation", "cue.story.confirmation"],
-      ["opening-celebration-reveal", "cue.opening.celebration-reveal"],
-      ["opening-star-scatter", "cue.opening.star-scatter"],
-      ["opening-departure", "cue.opening.departure"],
-      ["flight-launch", "cue.flight.launch"],
-      ["movement-flight", "cue.movement.flight"],
-      ["movement-rise", "cue.movement.rise"],
-      ["movement-glide", "cue.movement.glide"],
-    ] as const;
+    const catalog = JSON.parse(
+      await readFile(join(soundscapeRoot, "catalog.json"), "utf8"),
+    ) as {
+      entries: Array<{
+        id: string;
+        selectionStatus: string;
+        sourceMaster: string;
+      }>;
+    };
+    const sourceMedia = JSON.parse(
+      await readFile(join(soundscapeRoot, "source-media.json"), "utf8"),
+    ) as {
+      sourceMasters: Array<{
+        id: string;
+        provenancePath?: string;
+      }>;
+    };
+    const sourceMasters = new Map(sourceMedia.sourceMasters.map((sourceMaster) => [
+      sourceMaster.id,
+      sourceMaster,
+    ]));
+    const productionCues = catalog.entries
+      .filter((cue) => cue.selectionStatus === "approved")
+      .map((cue) => {
+        const sourceMaster = sourceMasters.get(cue.sourceMaster);
+        if (!sourceMaster?.provenancePath) {
+          throw new Error(`Approved cue ${cue.id} has no generated provenance path`);
+        }
+        return [basename(sourceMaster.provenancePath, ".json"), cue.id] as const;
+      });
     const provenanceEvidence = await Promise.all(productionCues.map(async ([slug, cueId]) => {
       const provenance = JSON.parse(
         await readFile(join(outputRoot, "provenance", `${slug}.json`), "utf8"),

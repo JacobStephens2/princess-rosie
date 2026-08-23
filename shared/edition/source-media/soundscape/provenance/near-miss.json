@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.near-miss",
+  "sourceMasterId": "source-master.near-miss",
+  "runtimeMapping": "runtime-cue.near-miss",
+  "jobHash": "sha256:0dbd16a74834369e046c117dc81a8a488432c3c6183c708eaac7e29a6bfdf577",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A restrained cooldown accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 0.5,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T02:01:46.480Z",
+  "traceId": "8efae8c85981f53cdaca9513f9ea182a",
+  "providerReportedUsage": {
+    "characterCost": "5"
+  },
+  "sourceHash": "sha256:891fcae6bfdaac7a164582b688e3d694be1a863356e02ce36a8bc8bcea6b583e",
+  "selectedOutputHash": "sha256:d384160591508e92535ba53903d9e631740636af71a07441c10867bfa3b610a3",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:d384160591508e92535ba53903d9e631740636af71a07441c10867bfa3b610a3",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "restrained-cooldown-accent-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 20,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Best restrained near-miss accent: lowest crossing activity with compact low-crest energy, producing a clear but non-alarming detail that remains subtle at the optional-detail gain."
+}
