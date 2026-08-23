@@ -1,6 +1,7 @@
 extends SceneTree
 
 const EDITION_PACK_ADAPTER := preload("res://scripts/edition_pack_adapter.gd")
+const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
 
 const CHARACTER_ID := "flight.rosie-stella"
@@ -9,6 +10,7 @@ const CHARACTER_SHA256 := "5b711626b4e43be16084d6c1a879b61ac958a7dd08b5b326fd80f
 const BACKGROUND_ID := "flight.rose-garden-background"
 const BACKGROUND_PATH := "source-media/flight/rose-garden-background.png"
 const BACKGROUND_SHA256 := "da9eabdb23b01639e01b9d6f3b304ba10ae4876a44ce6a00ccd4a371d1ba6c81"
+const PROVENANCE_PATH := "source-media/flight/provenance.json"
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -49,4 +51,20 @@ func _init() -> void:
 	var background_result: Dictionary = adapter.load_png_texture(pack_root, BACKGROUND_PATH)
 	test.expect(background_result.get("ok") == true, "the selected Rosalia's Rose Garden flight plate decodes")
 	test.expect(background_result.get("sha256") == BACKGROUND_SHA256, "the exact selected background bytes are retained")
+
+	var reader := EDITION_PACK_READER.new()
+	var provenance_result: Dictionary = reader.read_json_object(pack_root, PROVENANCE_PATH)
+	test.expect(provenance_result.get("ok") == true, "the flight-media owner approval record loads")
+	var selections_by_id: Dictionary = {}
+	if provenance_result.get("ok") == true:
+		for asset_value: Variant in provenance_result.value.get("assets", []):
+			if asset_value is Dictionary:
+				selections_by_id[asset_value.get("id")] = asset_value.get("selection", {})
+	for approved_id: String in [BACKGROUND_ID, CHARACTER_ID]:
+		var selection: Dictionary = selections_by_id.get(approved_id, {})
+		test.expect(selection.get("status") == "approved", "%s is approved production media" % approved_id)
+		test.expect(
+			selection.get("ownerManualReview") == "approved",
+			"%s retains the owner's manual approval" % approved_id,
+		)
 	test.finish(self, "flight media acceptance")
