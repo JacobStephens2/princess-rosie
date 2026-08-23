@@ -39,7 +39,7 @@ func _init() -> void:
 	)
 	test.expect(image_result.get("ok") == true, "the approved Rosie and Stella PNG decodes in Godot")
 	test.expect(image_result.get("texture") is Texture2D, "the character layer becomes an engine-native texture")
-	test.expect(image_result.get("sha256") == CHARACTER_SHA256, "the exact approved character bytes are retained")
+	test.expect(image_result.get("sha256") == CHARACTER_SHA256, "the exact selected character bytes are retained")
 	test.expect(image_result.get("has_transparency") == true, "the character layer contains genuine alpha transparency")
 	test.expect(
 		image_result.get("transparent_pixel_count", 0) > 1000,
@@ -47,6 +47,6 @@ func _init() -> void:
 	)
 	test.expect(background_media.get("path") == BACKGROUND_PATH, "the flight background has one canonical source path")
 	var background_result: Dictionary = adapter.load_png_texture(pack_root, BACKGROUND_PATH)
-	test.expect(background_result.get("ok") == true, "the approved Rose Garden flight plate decodes")
-	test.expect(background_result.get("sha256") == BACKGROUND_SHA256, "the exact approved background bytes are retained")
+	test.expect(background_result.get("ok") == true, "the selected Rosalia's Rose Garden flight plate decodes")
+	test.expect(background_result.get("sha256") == BACKGROUND_SHA256, "the exact selected background bytes are retained")
 	test.finish(self, "flight media acceptance")

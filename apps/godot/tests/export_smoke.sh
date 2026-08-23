@@ -92,18 +92,27 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .storybook_stage.active_play_visible == true
   and .storybook_stage.flight_background_visible == true
   and .storybook_stage.flight_character_visible == true
-  and .opening_storybook == {
-    "momentCount": 3,
-    "birthdayStarCount": 7,
-    "celebrationPreparationHost": "Gigi",
-    "promiseKeepers": ["Princess Rosie", "Stella"],
-    "waitsForPlayerIntent": true
-  }
-  and .player_action.bindings == ["keyboard.space", "pointer.primary"]
-  and .player_action.overlapPolicy == "shared-held-action"
+  and .observed_opening_moments == [
+    "opening.celebration-preparations",
+    "opening.scattered-stars",
+    "opening.departure"
+  ]
+  and .observed_opening_checkpoints == [
+    {
+      "moment": "opening.celebration-preparations",
+      "facts": {"celebrationPreparationHost": "Gigi"}
+    },
+    {
+      "moment": "opening.scattered-stars",
+      "facts": {"birthdayStarCount": 7}
+    },
+    {
+      "moment": "opening.departure",
+      "facts": {"promiseKeepers": ["Princess Rosie", "Stella"]}
+    }
+  ]
   and .flight.automatic_forward_motion == true
-  and .flight.frame_rate_independent == true
-  and .flight.transparent_character_layer_required == true
+  and .flight.character_layer_has_transparency == true
   and .flight.distance_stage_widths > 0
   and .flight_media_paths == {
     "flight.rose-garden-background": "source-media/flight/rose-garden-background.png",

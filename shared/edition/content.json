@@ -13,34 +13,36 @@
     "bindings": ["keyboard.space", "pointer.primary"],
     "overlapPolicy": "shared-held-action"
   },
-  "openingStorybookEvidence": {
-    "momentCount": 3,
-    "birthdayStarCount": 7,
-    "celebrationPreparationHost": "Gigi",
-    "promiseKeepers": ["Princess Rosie", "Stella"],
-    "waitsForPlayerIntent": true
-  },
   "openingMoments": [
     {
       "id": "opening.celebration-preparations",
       "eyebrow": "Once upon a birthday…",
       "title": "A celebration across the sea",
       "copy": "Far across the sparkling Sapphire Sea, Princess Zélie’s very first birthday celebration was almost ready. Gigi hung roses and ribbons from every golden arch.",
-      "illustration": "opening.celebration-preparations"
+      "illustration": "opening.celebration-preparations",
+      "semanticCheckpoint": {
+        "celebrationPreparationHost": "Gigi"
+      }
     },
     {
       "id": "opening.scattered-stars",
       "eyebrow": "Then—WHOOSH!",
       "title": "Seven Stars flew away",
       "copy": "A playful wind scattered seven Birthday Stars across Fairytale Sicily. The Rainbow Paths to the Birthday Castle vanished!",
-      "illustration": "opening.scattered-stars"
+      "illustration": "opening.scattered-stars",
+      "semanticCheckpoint": {
+        "birthdayStarCount": 7
+      }
     },
     {
       "id": "opening.departure",
       "eyebrow": "A brave big sister",
       "title": "Rosie and Stella can help",
       "copy": "Princess Rosie climbed onto Stella, her flying unicorn. “We’ll find every Star and bring everyone to the celebration!”",
-      "illustration": "opening.rosie-stella-departure"
+      "illustration": "opening.rosie-stella-departure",
+      "semanticCheckpoint": {
+        "promiseKeepers": ["Princess Rosie", "Stella"]
+      }
     }
   ],
   "initialFlight": {

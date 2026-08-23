@@ -95,6 +95,14 @@ func _init() -> void:
 		== ["keyboard.space", "pointer.primary"],
 		"semantic evidence records both equivalent physical bindings",
 	)
+	test.expect(
+		shell.presentation_evidence().get("observed_opening_moments") == [
+			"opening.celebration-preparations",
+			"opening.scattered-stars",
+			"opening.departure",
+		],
+		"semantic evidence records the moments actually reached through the shared action path",
+	)
 
 	shell.free()
 	test.finish(self, "one-action input acceptance")

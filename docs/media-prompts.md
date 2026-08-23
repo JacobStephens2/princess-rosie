@@ -80,14 +80,14 @@ Source: `art-source/opening-storybook/rosie-stella-departure.png`
 
 Deployed output: `public/assets/storybook-rosie-stella-departure.webp`
 
-## Opening flight: Rose Garden background plate
+## Opening flight: Rosalia's Rose Garden background plate
 
-Execution: built-in OpenAI image-generation tool. `shared/edition/source-media/opening-storybook/rosie-stella-departure.png` provided the approved Rose Garden palette, architecture, lighting, and picture-book style.
+Execution: built-in OpenAI image-generation tool. `shared/edition/source-media/opening-storybook/rosie-stella-departure.png` provided the approved Rosalia's Rose Garden palette, architecture, lighting, and picture-book style.
 
 > Use case: production game background layer
 > Asset type: 16:9 character-free flight background plate for native Godot parallax
 > Primary request: preserve the approved sunny rose-covered garden terrace, cream arches, sapphire sky and sea, distant flowered hills, silver lace ribbons, and warm picture-book lighting while removing Princess Rosie, Stella, the Birthday Star, and every character-shaped foreground subject
-> Composition/framing: continuous spacious Rose Garden vista with clear sky and garden depth behind the flight path; fill the complete 16:9 frame without text or interface elements
+> Composition/framing: continuous spacious Rosalia's Rose Garden vista with clear sky and garden depth behind the flight path; fill the complete 16:9 frame without text or interface elements
 > Constraints: no people, unicorns, animals, Birthday Stars, written text, watermark, logos, checkerboard, empty cutout holes, photorealism, named-studio imitation, 3D render, or anime
 
 Output: `shared/edition/source-media/flight/rose-garden-background.png`
