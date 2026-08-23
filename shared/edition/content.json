@@ -35,30 +35,52 @@
       "illustration": "opening.rosi-stella-departure"
     }
   ],
-  "place": {
-    "id": "lacewood",
-    "name": "Zélie’s Lacewood",
-    "familyGuest": "Gram",
-    "pathChoice": {
-      "id": "path-choice.lacewood",
-      "routes": [
-        {
-          "id": "lacewood.canopy",
-          "name": "Silver-ribbon canopy",
-          "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
-          "celebrationEcho": "silver-ribbons"
-        },
-        {
-          "id": "lacewood.floor",
-          "name": "Rose-lit woodland floor",
-          "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
-          "celebrationEcho": "rose-lights"
-        }
-      ]
+  "places": [
+    {
+      "id": "rose-garden",
+      "name": "Rosalia’s Rose Garden",
+      "familyGuest": "Mom",
+      "vignette": {
+        "id": "vignette.rose-garden.awakening-roses",
+        "name": "Awakening roses",
+        "interaction": "awakening-roses",
+        "instruction": "Press to wake the roses • they wake as you pass either way",
+        "birthdayStarMoment": "Mom followed the waking roses out of Rosalia’s Rose Garden!",
+        "routeInstruction": "The roses are awake • soft garlands may wobble Stella"
+      },
+      "playfulBumpKind": "rose-garland",
+      "birthdayStar": "birthday-star.rose-garden",
+      "rainbowPath": "rainbow-path.rose-garden"
     },
-    "birthdayStar": "birthday-star.lacewood",
-    "rainbowPath": "rainbow-path.lacewood"
-  },
+    {
+      "id": "lacewood",
+      "name": "Zélie’s Lacewood",
+      "familyGuest": "Gram",
+      "pathChoice": {
+        "id": "path-choice.lacewood",
+        "instruction": "Hold for silver ribbons • release for rose lights",
+        "routes": [
+          {
+            "id": "lacewood.canopy",
+            "name": "Silver-ribbon canopy",
+            "interaction": "silver-ribbon-canopy",
+            "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
+            "celebrationEcho": "silver-ribbons"
+          },
+          {
+            "id": "lacewood.floor",
+            "name": "Rose-lit woodland floor",
+            "interaction": "rose-lit-floor",
+            "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
+            "celebrationEcho": "rose-lights"
+          }
+        ]
+      },
+      "birthdayStar": "birthday-star.lacewood",
+      "rainbowPath": "rainbow-path.lacewood",
+      "playfulBumpKind": "silver-ribbon"
+    }
+  ],
   "celebration": {
     "id": "celebration.tracer",
     "actions": ["dance-again", "fly-again"]

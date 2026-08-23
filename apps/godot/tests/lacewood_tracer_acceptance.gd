@@ -11,7 +11,7 @@ func _init() -> void:
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the Lacewood tracer prepares offline")
 	_start_journey(shell)
-	shell._birthday_stars = ["birthday-star.rose-garden"]
+	var lacewood_event_start := _fly_through_rose_garden(shell)
 
 	shell.advance_journey(0.75)
 	test.expect(
@@ -71,7 +71,7 @@ func _init() -> void:
 		"the nearby Star response progresses through gathering to Gram's Birthday Star Moment",
 	)
 	test.expect(
-		shell.sound_event_evidence().slice(5) == _lacewood_events(
+		shell.sound_event_evidence().slice(lacewood_event_start) == _lacewood_events(
 			"lacewood.canopy",
 			"silver-ribbon-canopy",
 			false,
@@ -88,7 +88,8 @@ func _init() -> void:
 	test.expect(shell.handle_player_intent("action-pressed"), "the one action starts Dance Again")
 	test.expect(shell.handle_player_intent("action-released"), "the celebration action can release")
 	test.expect(
-		shell.sound_event_evidence().slice(-2) == [
+		shell.sound_event_evidence().slice(-3) == [
+			{"event": "sound-event.place-exit", "context": {"place": "lacewood"}},
 			{"event": "sound-event.birthday-castle-arrival", "context": {}},
 			{
 				"event": "sound-event.celebration-interaction",
@@ -101,7 +102,7 @@ func _init() -> void:
 	test.expect(shell.handle_player_intent("escape"), "the completed tracer can open the Grown-up Corner")
 	test.expect(shell.handle_player_intent("replay"), "the tracer can replay from the cover")
 	_start_journey(shell)
-	var second_lacewood_event_start := shell.sound_event_evidence().size()
+	var second_lacewood_event_start := _fly_through_rose_garden(shell)
 	shell.advance_journey(0.75)
 	shell.advance_journey(1.25)
 	shell.advance_journey(1.8)
@@ -142,6 +143,24 @@ func _start_journey(shell: StorybookShell) -> void:
 	test.expect(shell.handle_player_intent("begin"), "the journey begins from the cover")
 	for _opening_moment: int in 3:
 		test.expect(shell.handle_player_intent("continue"), "the Opening Storybook Moment continues")
+
+
+## Rosalia's Rose Garden comes first; this suite starts where it hands over, and
+## returns the index at which the Lacewood's own evidence begins.
+func _fly_through_rose_garden(shell: StorybookShell) -> int:
+	shell.advance_journey(0.75)
+	shell.advance_journey(1.25)
+	shell.advance_journey(1.35)
+	shell.advance_journey(4.9)
+	test.expect(
+		shell.handle_player_intent("continue"),
+		"Mom's Birthday Star Moment carries the journey on to Zélie's Lacewood",
+	)
+	test.expect(
+		shell.presentation_evidence().get("birthday_stars") == ["birthday-star.rose-garden"],
+		"the Garden's Birthday Star is already gathered when the Lacewood begins",
+	)
+	return shell.sound_event_evidence().size()
 
 
 func _lacewood_events(route: String, interaction: String, includes_shimmer: bool) -> Array:

@@ -96,6 +96,35 @@ Execution: Mureka API, model `mureka-9`, one non-streaming instrumental; locally
 
 Output: `public/assets/audio/birthday-flight.mp3`
 
+## Rosalia's Rose Garden audio evaluation
+
+Evaluator: paid Gemini API, model `gemini-3.7-flash`, temperature 0, native audio
+input (the mastered candidate WAVs themselves, not a transcript or measurement
+summary). Reasoning effort is not a parameter of this model. Waveform acceptance
+came first, from the Soundscape Build pipeline: decoding, duration tolerance,
+sample rate, channel policy, silence, trimming and fades, peak ceiling, and the
+loop-seam threshold for the looping cue. Candidates were presented under blinded
+identifiers with no filenames or generator order.
+
+| Cue | Blind ranking | Selected | Material failure flags | Evaluator uncertainty |
+| --- | --- | --- | --- | --- |
+| `cue.place.rose-garden` (batch 1) | bravo, alpha, charlie | none — batch rejected | every candidate carried sung or choral vocal content; one added an intrusive mid-clip noise burst; all three reported an audible loop seam | none |
+| `cue.place.rose-garden` (batch 2, re-authored prompt) | alpha, bravo, charlie | alpha | bravo's distinctive bird calls would repeat noticeably over twelve seconds; charlie read as static wind rather than a garden | none |
+| `cue.vignette.rose-garden.awakening-roses` | alpha, charlie, bravo | alpha | none | none |
+| `cue.playful-bump.rose-garden` | alpha, charlie, bravo | alpha | bravo read as an abrasive scratchy rip | none |
+| `cue.near-miss.rose-garden` | bravo, charlie, alpha | bravo | charlie read as a musical chime rather than a brushed petal | none |
+| `cue.birthday-star-moment.rose-garden` | charlie, alpha, bravo | charlie | none | none |
+
+The first ambience batch failed the project's nonverbalness requirement outright,
+so its prompt was re-authored from an abstract musical description into a concrete
+natural field recording that names the forbidden vocal, choir, pad, and drone
+material explicitly. The second batch passed. Selection reasons per cue are
+recorded in the managed section below.
+
+Human listening pass on MacBook built-in speakers and headphones: **not yet
+complete.** It remains outstanding for all five Rose Garden cues and retains final
+authority over translation and feel.
+
 <!-- soundscape-build:start -->
 ## Fairytale Soundscape
 
@@ -112,6 +141,18 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-t
 Selection: Best Gram Birthday Star Moment resolution: clear sustained body, low crossing activity, controlled crest, and safe peak headroom for a warm place-specific close after the Rainbow Path travel stage.
 
 Source master: `source-master.birthday-star-moment.lacewood`
+
+### cue.birthday-star-moment.rose-garden
+
+> A rose garden resolution accent settling warmly open. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blind Gemini 3.7 Flash evaluation ranked it first of three: a warm resonant acoustic bell that blooms and decays into a settled generous closure, with no startle or fatigue risk, where the rivals rose rather than resolved.
+
+Source master: `source-master.birthday-star-moment.rose-garden`
 
 ### cue.birthday-star.gather
 
@@ -245,6 +286,18 @@ Selection: Best restrained near-miss accent: lowest crossing activity with compa
 
 Source master: `source-master.near-miss`
 
+### cue.near-miss.rose-garden
+
+> A restrained garden cooldown accent of one brushed petal. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blind Gemini 3.7 Flash evaluation ranked it first of three: a soft airy brush of air over a petal, gentle with no startle or fatigue risk, more restrained than the clicky snap and clearly distinct from the tiny musical chime it was compared against.
+
+Source master: `source-master.near-miss.rose-garden`
+
 ### cue.opening.celebration-reveal
 
 > A restrained magical storybook reveal across a warm sparkling sea: one soft harp opening, delicate celesta light, and a gentle airy shimmer resolving with quiet wonder. Nonverbal, acoustic, warm, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.
@@ -329,6 +382,18 @@ Selection: The validated replacement is the only candidate with a passing seamle
 
 Source master: `source-master.place.lacewood`
 
+### cue.place.rose-garden
+
+> Calm outdoor field recording of a sunlit rose garden: warm steady breeze moving through rose leaves and petals, soft continuous foliage rustle, and one or two very distant soft birds far in the background. Natural ambience only, even and unobtrusive, seamless loop, clear on MacBook speakers. No voice, singing, choir, vocal pad, synth pad, drone, music, melody, harsh transient, alarm, impact, or arcade sound.
+
+Parameters: 12 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Second batch after a re-authored prompt; blind Gemini 3.7 Flash evaluation ranked it first of three as a warm filtered breeze and subtle leaf rustle with no unwanted voice, no audible loop seam, no startle risk, and no fatigue risk, where a rival's distinctive bird calls would repeat noticeably over twelve seconds and the other read as static wind noise. Every candidate of the first batch was rejected for sung and choral vocal content.
+
+Source master: `source-master.place.rose-garden`
+
 ### cue.playful-bump.lacewood
 
 > A soft nonthreatening ribbon bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -340,6 +405,18 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-t
 Selection: Best soft Lacewood Playful Bump: audible body with the lowest crest factor, substantial peak headroom, and no ceiling-hitting transient, keeping the ribbon contact gentle and nonthreatening.
 
 Source master: `source-master.playful-bump.lacewood`
+
+### cue.playful-bump.rose-garden
+
+> A soft nonthreatening rose garland bump with drifting petals. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.8 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blind Gemini 3.7 Flash evaluation ranked it first of three: an airy delicate bump with drifting petals and a cushioned wobble, gentle with no startle or fatigue risk, where one rival was an abrasive scratchy rip and the other a dry papery rustle.
+
+Source master: `source-master.playful-bump.rose-garden`
 
 ### cue.rainbow-path.open
 
@@ -388,5 +465,17 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-dura
 Selection: Best warm rose-light response: strongest clear body with the lowest crest factor of the audible candidates, controlled mastered peak, and enough brightness to remain distinct from the airy canopy cue.
 
 Source master: `source-master.vignette.lacewood.floor`
+
+### cue.vignette.rose-garden.awakening-roses
+
+> A soft petal opening with one gentle plucked magical note as roses wake together. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blind Gemini 3.7 Flash evaluation ranked it first of three: it alone reads as a blooming blossom, a soft airy unfurling into one warm bell note, with no startle risk, no fatigue risk, no unwanted voice or music, and no artifacts, while the other two read as generic chime shimmer.
+
+Source master: `source-master.vignette.rose-garden.awakening-roses`
 
 <!-- soundscape-build:end -->

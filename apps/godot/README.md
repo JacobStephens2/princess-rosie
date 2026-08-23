@@ -21,7 +21,7 @@ npm run test:godot
 apps/godot/tests/export_smoke.sh
 ```
 
-The export smoke test uses the official universal 4.7.2 debug template, thins the packaged executable to arm64, signs it ad hoc, launches it with network access denied, and verifies both opening and complete Lacewood-to-Birthday-Star semantic evidence and Storybook Stage captures under `build/`.
+The export smoke test uses the official universal 4.7.2 debug template, thins the packaged executable to arm64, signs it ad hoc, launches it with network access denied, and verifies opening, Rosalia's Rose Garden, and complete Lacewood-to-Birthday-Star semantic evidence and Storybook Stage captures under `build/`.
 
 ## Hear the offline Soundscape tracer
 
@@ -31,4 +31,4 @@ On the target MacBook, run the audible acceptance harness without `--headless`:
 /Applications/Godot.app/Contents/MacOS/Godot --path apps/godot --script res://tests/soundscape_offline_acceptance.gd
 ```
 
-It starts the bundled instrumental through the shared mixer, reports and plays approved cues from the immutable Edition Pack, then reports the same semantic confirmation against an intentionally missing asset and plays the locally synthesized fallback. The harness makes no network request. The automated acceptance suite separately drives both Lacewood routes, Journey History shimmer, the capped proximity cue, three-bump Cloud Rest and resume, Birthday Star gathering, Rainbow Path travel, and Gram's Birthday Star Moment.
+It starts the bundled instrumental through the shared mixer, plays Rosalia's Rose Garden from arrival through the waking roses, a near miss, a Playful Bump, the Birthday Star stages, Mom's Birthday Star Moment, and the crossfaded exit, then reports the same semantic confirmation against an intentionally missing asset and plays the locally synthesized fallback. The harness makes no network request. The automated acceptance suite separately drives Rosalia's Rose Garden — its crossfaded ambience, awakening roses, place-specific Playful Bumps and near misses, Mom's Birthday Star Moment, and the transition onward — and then both Lacewood routes, Journey History shimmer, the capped proximity cue, three-bump Cloud Rest and resume, Birthday Star gathering, Rainbow Path travel, and Gram's Birthday Star Moment.

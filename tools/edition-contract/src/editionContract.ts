@@ -26,8 +26,15 @@ interface EditionManifest {
 }
 
 interface SoundscapeEventFile {
-  events: Array<{ id: string; parameters: string[] }>;
+  events: Array<{ id: string; parameters: string[]; delivery?: SoundscapeEventDelivery }>;
 }
+
+/**
+ * A `cue` event is answered by an approved catalog cue. A `mixer-transition`
+ * event only moves the runtime mix — leaving a place fades its ambience slot out
+ * — so it carries no cue of its own and must not gain one.
+ */
+type SoundscapeEventDelivery = "cue" | "mixer-transition";
 
 interface SoundscapeCatalogFile {
   entries: Array<{
@@ -119,7 +126,15 @@ function validateEventDefinitions(events: SoundscapeEventFile): void {
       }
       parameters.add(parameter);
     }
+    if (event.delivery !== undefined && !isCueEvent(event) && event.delivery !== "mixer-transition") {
+      throw new Error(`Invalid soundscape event delivery: ${event.id}`);
+    }
   }
+}
+
+
+function isCueEvent(event: SoundscapeEventFile["events"][number]): boolean {
+  return (event.delivery ?? "cue") === "cue";
 }
 
 function validateSourceMedia(
@@ -158,6 +173,9 @@ function validateCatalog(
   for (const entry of catalog.entries) {
     const event = eventsById.get(entry.event);
     if (!event) throw new Error(`Unknown soundscape event: ${entry.event}`);
+    if (!isCueEvent(event)) {
+      throw new Error(`Soundscape cue ${entry.id} answers a mixer-transition event: ${entry.event}`);
+    }
     for (const parameter of Object.keys(entry.match)) {
       if (!event.parameters.includes(parameter)) {
         throw new Error(
@@ -242,6 +260,7 @@ function validateScenarioSoundEvents(
           `Invalid soundscape event context in scenario ${scenarioFile.id}: ${soundEvent.event}`,
         );
       }
+      if (!isCueEvent(event)) continue;
       const hasCatalogMapping = catalog.entries.some(
         (entry) =>
           entry.event === soundEvent.event &&

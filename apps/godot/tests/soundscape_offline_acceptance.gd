@@ -6,6 +6,17 @@ const CONFIRMATION_EVENT := &"sound-event.story-confirmation"
 const CONFIRMATION_PARAMETERS := {"action": "continue"}
 const OPENING_EVENT := &"sound-event.opening-storybook-moment"
 const OPENING_PARAMETERS := {"moment": "opening.celebration-preparations"}
+const ROSE_GARDEN_SEQUENCE := [
+	["sound-event.place-entry", {"place": "rose-garden"}, 3.0],
+	["sound-event.vignette-interaction", {"place": "rose-garden", "interaction": "awakening-roses"}, 1.8],
+	["sound-event.near-miss", {"place": "rose-garden", "kind": "rose-garland"}, 1.0],
+	["sound-event.playful-bump", {"place": "rose-garden", "kind": "rose-garland"}, 1.2],
+	["sound-event.birthday-star-proximity", {"birthdayStar": "birthday-star.rose-garden"}, 1.2],
+	["sound-event.birthday-star-gathered", {"birthdayStar": "birthday-star.rose-garden"}, 1.6],
+	["sound-event.rainbow-path-opened", {"rainbowPath": "rainbow-path.rose-garden", "familyGuest": "Mom"}, 2.8],
+	["sound-event.birthday-star-moment", {"place": "rose-garden", "familyGuest": "Mom"}, 2.4],
+	["sound-event.place-exit", {"place": "rose-garden"}, 1.2],
+]
 
 
 func _init() -> void:
@@ -25,6 +36,12 @@ func _run() -> void:
 		quit(1)
 		return
 	await create_timer(0.85).timeout
+
+	print("PLAYING: Rosalia's Rose Garden, from arrival to Mom's Birthday Star Moment")
+	for garden_stage: Array in ROSE_GARDEN_SEQUENCE:
+		print("  ", garden_stage[0], " ", garden_stage[1])
+		approved.report_event(garden_stage[0], garden_stage[1])
+		await create_timer(garden_stage[2]).timeout
 
 	print("PLAYING: approved Edition Pack confirmation")
 	if not approved.report_event(CONFIRMATION_EVENT, CONFIRMATION_PARAMETERS):

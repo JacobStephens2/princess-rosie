@@ -17,12 +17,12 @@ func _init() -> void:
 	)
 	test.expect(prepared.get("contract_version") == "rosi-edition-contract/1", "the contract version is retained")
 	test.expect(
-		prepared.get("revision") == "lacewood-birthday-star-soundscape-1",
+		prepared.get("revision") == "rose-garden-place-soundscape-1",
 		"the revision is retained",
 	)
 	test.expect(prepared.get("pack_digest") == ACCEPTANCE_TEST.EXPECTED_PACK_DIGEST, "the exact digest is retained")
 	test.expect(
-		prepared.get("scenario_ids") == ["opening-flight", "tracer-bullet"],
+		prepared.get("scenario_ids") == ["opening-flight", "rose-garden", "tracer-bullet"],
 		"the scenario identities are retained",
 	)
 

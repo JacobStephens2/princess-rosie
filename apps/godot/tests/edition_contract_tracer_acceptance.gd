@@ -18,17 +18,19 @@ func _init() -> void:
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the Godot tracer prepares")
 	_start_journey(shell)
-	_complete_route(shell, true)
+	_complete_rose_garden(shell, true)
+	_complete_lacewood(shell, true)
 	test.expect(shell.handle_player_intent("escape"), "the first celebration can pause")
 	test.expect(shell.handle_player_intent("replay"), "Journey History can replay the tracer")
 	_start_journey(shell)
+	_complete_rose_garden(shell, false)
 	shell.advance_journey(0.75)
 	shell.advance_journey(1.25)
 	test.expect(shell.handle_player_intent("escape"), "the floor vignette can pause")
 	test.expect(shell.handle_player_intent("toggle-sound"), "the shared journey turns Sound off")
 	test.expect(shell.handle_player_intent("toggle-sound"), "the shared journey turns Sound on")
 	test.expect(shell.handle_player_intent("resume"), "the floor vignette resumes")
-	_complete_route_from_vignette(shell)
+	_complete_lacewood_from_vignette(shell)
 
 	var evidence: Dictionary = shell.presentation_evidence()
 	var actual_facts := {
@@ -61,17 +63,37 @@ func _start_journey(shell: StorybookShell) -> void:
 		test.expect(shell.handle_player_intent("continue"), "the shared opening continues")
 
 
-func _complete_route(shell: StorybookShell, choose_canopy: bool) -> void:
+## Rosalia's Rose Garden always sounds its waking roses once, whether the child
+## presses for them or simply flies past.
+func _complete_rose_garden(shell: StorybookShell, wakes_roses: bool) -> void:
+	shell.advance_journey(0.75)
+	if wakes_roses:
+		test.expect(shell.handle_player_intent("action-pressed"), "the roses answer the one action")
+		test.expect(shell.handle_player_intent("action-released"), "the waking action releases")
+	shell.advance_journey(1.25)
+	shell.advance_journey(1.35)
+	shell.advance_journey(4.9)
+	test.expect(
+		shell.presentation_evidence().get("state") == "birthday_star_moment",
+		"the Rose Garden reaches Mom's Birthday Star Moment",
+	)
+	test.expect(
+		shell.handle_player_intent("continue"),
+		"Mom's Birthday Star Moment carries the journey onward",
+	)
+
+
+func _complete_lacewood(shell: StorybookShell, choose_canopy: bool) -> void:
 	shell.advance_journey(0.75)
 	if choose_canopy:
 		test.expect(shell.handle_player_intent("action-pressed"), "the canopy route is held")
 	shell.advance_journey(1.25)
 	if choose_canopy:
 		test.expect(shell.handle_player_intent("action-released"), "the canopy hold releases")
-	_complete_route_from_vignette(shell)
+	_complete_lacewood_from_vignette(shell)
 
 
-func _complete_route_from_vignette(shell: StorybookShell) -> void:
+func _complete_lacewood_from_vignette(shell: StorybookShell) -> void:
 	var progress_before_rest: Dictionary = shell.presentation_evidence()
 	shell.advance_journey(1.8)
 	var progress_during_rest: Dictionary = shell.presentation_evidence()

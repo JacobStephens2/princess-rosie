@@ -6,14 +6,18 @@ const FALLBACK_DURATION_SECONDS := 0.18
 const FALLBACK_FREQUENCY_HZ := 783.99
 const MUSIC_FALLBACK_DURATION_SECONDS := 2.0
 const FOREGROUND_VOICE_MAXIMUM := 2
+const AMBIENCE_VOICE_MAXIMUM := 2
+const FADE_SILENCE_DB := -60.0
 const SOUND_BUS := &"Sound"
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 
 var _music_player := AudioStreamPlayer.new()
-var _ambience_player := AudioStreamPlayer.new()
 var _movement_player := AudioStreamPlayer.new()
+var _ambience_players: Array[AudioStreamPlayer] = []
 var _foreground_players: Array[AudioStreamPlayer] = []
+var _active_ambience_voice := 0
+var _fades: Dictionary = {}
 var _priorities: Dictionary = {}
 var _ducking: Dictionary = {}
 var _duration_timers: Dictionary = {}
@@ -23,12 +27,12 @@ var _reader: RefCounted = EDITION_PACK_READER.new()
 
 
 func _init() -> void:
-	for persistent_player: AudioStreamPlayer in [
-		_music_player,
-		_ambience_player,
-		_movement_player,
-	]:
+	for persistent_player: AudioStreamPlayer in [_music_player, _movement_player]:
 		_register_player(persistent_player)
+	for _ambience_voice_index: int in AMBIENCE_VOICE_MAXIMUM:
+		var ambience_player := AudioStreamPlayer.new()
+		_ambience_players.append(ambience_player)
+		_register_player(ambience_player)
 	for _voice_index: int in FOREGROUND_VOICE_MAXIMUM:
 		var foreground_player := AudioStreamPlayer.new()
 		_foreground_players.append(foreground_player)
@@ -36,6 +40,10 @@ func _init() -> void:
 	_mute_timer.one_shot = true
 	add_child(_mute_timer)
 	_mute_timer.timeout.connect(_on_mute_timer_timeout)
+
+
+func _process(delta: float) -> void:
+	advance_fades(delta)
 
 
 func _exit_tree() -> void:
@@ -158,6 +166,8 @@ func play(stream: Variant, playback: SoundscapePlayback) -> bool:
 		return false
 	if AudioServer.get_bus_index(playback.bus) < 0:
 		return false
+	if playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
+		return _play_ambience(stream, playback)
 	var target: AudioStreamPlayer
 	if playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND:
 		target = _select_foreground_player(playback.priority)
@@ -175,7 +185,7 @@ func _persistent_player_for(slot: StringName) -> AudioStreamPlayer:
 		SOUNDSCAPE_PLAYBACK.SLOT_MUSIC:
 			return _music_player
 		SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
-			return _ambience_player
+			return _ambience_players[_active_ambience_voice]
 		SOUNDSCAPE_PLAYBACK.SLOT_MOVEMENT:
 			return _movement_player
 		_:
@@ -195,9 +205,87 @@ func stop_slot(slot: StringName) -> void:
 		for player: AudioStreamPlayer in _foreground_players:
 			_stop_player(player)
 		return
+	if slot == SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
+		for player: AudioStreamPlayer in _ambience_players:
+			_stop_player(player)
+		return
 	var player := _persistent_player_for(slot)
 	if player != null:
 		_stop_player(player)
+
+
+## Leaves a place without an orphaned loop: every ambience voice fades to
+## silence and is then stopped, even when no frame is processed meanwhile.
+func fade_out_slot(slot: StringName, fade_ms: int) -> void:
+	if slot != SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE or fade_ms <= 0:
+		stop_slot(slot)
+		return
+	var faded := false
+	for player: AudioStreamPlayer in _ambience_players:
+		if player.playing:
+			_start_fade(player, player.volume_db, FADE_SILENCE_DB, fade_ms, true)
+			faded = true
+	if not faded:
+		stop_slot(slot)
+
+
+func advance_fades(delta: float) -> void:
+	for player_id: int in _fades.keys():
+		var faded_object: Object = instance_from_id(player_id)
+		if not faded_object is AudioStreamPlayer:
+			_fades.erase(player_id)
+			continue
+		var player: AudioStreamPlayer = faded_object
+		var fade: Dictionary = _fades[player_id]
+		fade.elapsed_seconds += delta
+		var progress := clampf(fade.elapsed_seconds / fade.duration_seconds, 0.0, 1.0)
+		player.volume_db = lerpf(fade.from_db, fade.to_db, progress)
+		if progress < 1.0:
+			continue
+		_fades.erase(player_id)
+		if fade.stops_at_end:
+			_stop_player(player)
+
+
+func _play_ambience(stream: Variant, playback: SoundscapePlayback) -> bool:
+	var previous := _ambience_players[_active_ambience_voice]
+	if playback.crossfade_ms <= 0:
+		for player: AudioStreamPlayer in _ambience_players:
+			if player != previous:
+				_stop_player(player)
+		return _play_on(previous, stream, playback)
+	var next_voice := (_active_ambience_voice + 1) % _ambience_players.size()
+	var next_player := _ambience_players[next_voice]
+	_stop_player(next_player)
+	if not _play_on(next_player, stream, playback):
+		return false
+	_active_ambience_voice = next_voice
+	_start_fade(next_player, FADE_SILENCE_DB, playback.gain_db, playback.crossfade_ms, false)
+	if previous.playing:
+		_start_fade(previous, previous.volume_db, FADE_SILENCE_DB, playback.crossfade_ms, true)
+	return true
+
+
+func _start_fade(
+	player: AudioStreamPlayer,
+	from_db: float,
+	to_db: float,
+	duration_ms: int,
+	stops_at_end: bool,
+) -> void:
+	player.volume_db = from_db
+	_fades[player.get_instance_id()] = {
+		"from_db": from_db,
+		"to_db": to_db,
+		"elapsed_seconds": 0.0,
+		"duration_seconds": maxf(duration_ms / 1000.0, 0.001),
+		"stops_at_end": stops_at_end,
+	}
+	if not stops_at_end:
+		return
+	var duration_timer: Timer = _duration_timers.get(player.get_instance_id())
+	if duration_timer != null:
+		duration_timer.start(duration_ms / 1000.0)
 
 
 func _on_mute_timer_timeout() -> void:
@@ -275,6 +363,7 @@ func _stop_player(player: AudioStreamPlayer) -> void:
 		duration_timer.stop()
 	player.stop()
 	player.stream = null
+	_fades.erase(player_id)
 	_priorities.erase(player_id)
 	_ducking.erase(player_id)
 	_apply_music_duck()

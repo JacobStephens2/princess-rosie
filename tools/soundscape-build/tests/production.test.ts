@@ -1277,7 +1277,7 @@ describe("Soundscape Build production CLI", () => {
       catalogValidation: { exitCode: 0 },
       docsValidation: { exitCode: 0 },
       stdout: [
-        "Validated 29 soundscape catalog cues.",
+        "Validated 34 soundscape catalog cues.",
         "Validated Fairytale Soundscape media documentation.",
       ],
       stderr: [],

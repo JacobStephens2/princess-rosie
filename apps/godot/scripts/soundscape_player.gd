@@ -17,6 +17,7 @@ const STORY_CONFIRMATION_EVENT := &"sound-event.story-confirmation"
 const STORY_CONFIRMATION_PARAMETERS := {"action": "continue"}
 const MOVEMENT_EVENT := &"sound-event.movement-state"
 const PLACE_ENTRY_EVENT := &"sound-event.place-entry"
+const PLACE_EXIT_EVENT := &"sound-event.place-exit"
 const JOURNEY_HISTORY_SHIMMER_EVENT := &"sound-event.journey-history-shimmer"
 const NEAR_MISS_EVENT := &"sound-event.near-miss"
 const BIRTHDAY_STAR_PROXIMITY_EVENT := &"sound-event.birthday-star-proximity"
@@ -25,6 +26,7 @@ const CLOUD_REST_EXITED_EVENT := &"sound-event.cloud-rest-exited"
 const REPLAY_EVENT := &"sound-event.replay"
 const SOUND_PREFERENCE_EVENT := &"sound-event.sound-preference-changed"
 const SOUND_OFF_LIMIT_MS := 200
+const PLACE_CROSSFADE_MS := 600
 const NEAR_MISS_COOLDOWN_MS := 750
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
@@ -46,6 +48,7 @@ var _mix := {
 	},
 	"musicDuckDb": -4.0,
 	"confirmationDelayMaximumMs": SOUND_OFF_LIMIT_MS,
+	"placeCrossfadeMs": PLACE_CROSSFADE_MS,
 }
 var _sound_enabled := true
 var _music_started := false
@@ -133,6 +136,12 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 				_audio.stop_slot("ambience")
 			return false
 		return _play_resolved_cue(event_id, parameters)
+	if event_id == PLACE_EXIT_EVENT:
+		if _current_place.is_empty() or parameters.get("place") != _current_place:
+			return false
+		_current_place = ""
+		_fade_out_ambience()
+		return true
 	if event_id == MOVEMENT_EVENT:
 		var next_state: Variant = parameters.get("state")
 		if not next_state is String or next_state == _movement_state:
@@ -218,6 +227,20 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 	if event_id == OPENING_EVENT:
 		_ensure_music()
 	return _play_resolved_cue(event_id, parameters)
+
+
+## Leaving a place ends its loop through the one ambience slot, so no place
+## keeps sounding underneath the next one.
+func _fade_out_ambience() -> void:
+	if _audio.has_method("fade_out_slot"):
+		_audio.fade_out_slot("ambience", _place_crossfade_ms())
+		return
+	if _audio.has_method("stop_slot"):
+		_audio.stop_slot("ambience")
+
+
+func _place_crossfade_ms() -> int:
+	return maxi(0, int(_mix.get("placeCrossfadeMs", PLACE_CROSSFADE_MS)))
 
 
 func _current_time_ms() -> int:
@@ -398,6 +421,8 @@ func _playback_for(cue: Dictionary, event_id: StringName, duration_ms: int) -> S
 		playback.slot = SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE
 		playback.gain_db = music_reference_gain_db + float(category_gains.get("ambience", -10.0))
 		playback.max_duration_ms = 0
+		if cue.get("category") == "place":
+			playback.crossfade_ms = _place_crossfade_ms()
 		return playback
 	if priority <= 20:
 		playback.bus = DETAIL_BUS

@@ -41,6 +41,31 @@
       "path": "runtime/movement-glide.wav"
     },
     {
+      "id": "runtime-cue.place.rose-garden",
+      "sourceMaster": "source-master.place.rose-garden",
+      "path": "runtime/place-rose-garden.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.rose-garden.awakening-roses",
+      "sourceMaster": "source-master.vignette.rose-garden.awakening-roses",
+      "path": "runtime/vignette-rose-garden-awakening-roses.wav"
+    },
+    {
+      "id": "runtime-cue.playful-bump.rose-garden",
+      "sourceMaster": "source-master.playful-bump.rose-garden",
+      "path": "runtime/playful-bump-rose-garden.wav"
+    },
+    {
+      "id": "runtime-cue.near-miss.rose-garden",
+      "sourceMaster": "source-master.near-miss.rose-garden",
+      "path": "runtime/near-miss-rose-garden.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.rose-garden",
+      "sourceMaster": "source-master.birthday-star-moment.rose-garden",
+      "path": "runtime/birthday-star-moment-rose-garden.wav"
+    },
+    {
       "id": "runtime-cue.place.lacewood",
       "sourceMaster": "source-master.place.lacewood",
       "path": "runtime/place-lacewood.wav"

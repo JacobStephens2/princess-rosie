@@ -21,6 +21,11 @@
       "parameters": ["place"]
     },
     {
+      "id": "sound-event.place-exit",
+      "parameters": ["place"],
+      "delivery": "mixer-transition"
+    },
+    {
       "id": "sound-event.vignette-interaction",
       "parameters": ["place", "interaction"]
     },

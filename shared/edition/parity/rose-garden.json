@@ -1,0 +1,94 @@
+{
+  "id": "rose-garden",
+  "initialJourneyHistory": {
+    "completedJourneys": 0,
+    "exploredPathChoices": {}
+  },
+  "steps": [
+    "show-opening-celebration-preparations",
+    "continue",
+    "show-opening-scattered-stars",
+    "continue",
+    "show-opening-departure",
+    "continue",
+    "begin-flight",
+    "enter-rosalias-rose-garden",
+    "wake-the-roses",
+    "encounter-near-miss",
+    "encounter-playful-bump",
+    "encounter-playful-bump",
+    "approach-birthday-star",
+    "gather-birthday-star",
+    "open-rainbow-path",
+    "show-moms-birthday-star-moment",
+    "continue",
+    "leave-rosalias-rose-garden"
+  ],
+  "requiredSoundEvents": [
+    {
+      "event": "sound-event.opening-storybook-moment",
+      "context": { "moment": "opening.celebration-preparations" }
+    },
+    {
+      "event": "sound-event.opening-storybook-moment",
+      "context": { "moment": "opening.scattered-stars" }
+    },
+    {
+      "event": "sound-event.opening-storybook-moment",
+      "context": { "moment": "opening.departure" }
+    },
+    { "event": "sound-event.flight-launch", "context": {} },
+    {
+      "event": "sound-event.movement-state",
+      "context": { "state": "flight" }
+    },
+    {
+      "event": "sound-event.place-entry",
+      "context": { "place": "rose-garden" }
+    },
+    {
+      "event": "sound-event.vignette-interaction",
+      "context": { "place": "rose-garden", "interaction": "awakening-roses" }
+    },
+    {
+      "event": "sound-event.near-miss",
+      "context": { "place": "rose-garden", "kind": "rose-garland" }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": { "place": "rose-garden", "kind": "rose-garland" }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": { "place": "rose-garden", "kind": "rose-garland" }
+    },
+    {
+      "event": "sound-event.birthday-star-proximity",
+      "context": { "birthdayStar": "birthday-star.rose-garden" }
+    },
+    {
+      "event": "sound-event.birthday-star-gathered",
+      "context": { "birthdayStar": "birthday-star.rose-garden" }
+    },
+    {
+      "event": "sound-event.rainbow-path-opened",
+      "context": { "rainbowPath": "rainbow-path.rose-garden", "familyGuest": "Mom" }
+    },
+    {
+      "event": "sound-event.birthday-star-moment",
+      "context": { "place": "rose-garden", "familyGuest": "Mom" }
+    },
+    {
+      "event": "sound-event.place-exit",
+      "context": { "place": "rose-garden" }
+    }
+  ],
+  "requiredFacts": {
+    "birthdayStars": ["birthday-star.rose-garden"],
+    "rainbowPaths": ["rainbow-path.rose-garden"],
+    "placeVignetteRespondsOnce": true,
+    "cloudRestForced": false,
+    "ambienceLayers": 1,
+    "networkRequests": 0
+  }
+}

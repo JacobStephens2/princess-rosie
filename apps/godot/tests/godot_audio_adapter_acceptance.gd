@@ -13,6 +13,13 @@ const OPENING_FLIGHT_CUE_PATHS := [
 	"source-media/soundscape/runtime/movement-rise.wav",
 	"source-media/soundscape/runtime/movement-glide.wav",
 ]
+const ROSE_GARDEN_CUE_PATHS := [
+	"source-media/soundscape/runtime/place-rose-garden.wav",
+	"source-media/soundscape/runtime/vignette-rose-garden-awakening-roses.wav",
+	"source-media/soundscape/runtime/playful-bump-rose-garden.wav",
+	"source-media/soundscape/runtime/near-miss-rose-garden.wav",
+	"source-media/soundscape/runtime/birthday-star-moment-rose-garden.wav",
+]
 const LACEWOOD_CUE_PATHS := [
 	"source-media/soundscape/runtime/place-lacewood.wav",
 	"source-media/soundscape/runtime/vignette-lacewood-canopy.wav",
@@ -48,7 +55,7 @@ func _run() -> void:
 	if approved_stream is AudioStreamWAV:
 		test.expect(approved_stream.mix_rate == 48000, "the approved 48 kHz master reaches Godot unchanged")
 		test.expect(not approved_stream.stereo, "the approved focused-mono master stays mono")
-	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS:
+	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + ROSE_GARDEN_CUE_PATHS + LACEWOOD_CUE_PATHS:
 		var cue_stream: Variant = audio.load_wav("res://edition-pack.zip", cue_path)
 		test.expect(
 			cue_stream is AudioStreamWAV,
@@ -161,6 +168,43 @@ func _run() -> void:
 			"a newer critical opening cue replaces an older critical cue at the ceiling",
 		)
 
+	if approved_stream is AudioStreamWAV:
+		var garden_ambience := SOUNDSCAPE_PLAYBACK.new(
+			&"Ambience", &"ambience", SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE,
+			-16.7, 40, true, 0, 0.0, 600,
+		)
+		test.expect(
+			audio.play(approved_stream, garden_ambience),
+			"a place ambience takes the one ambience slot",
+		)
+		test.expect(
+			audio.play(approved_stream, garden_ambience),
+			"the next place crossfades into the same one ambience slot",
+		)
+		test.expect(
+			_playing_ambience_voices(audio) == 2,
+			"both ambience voices sound only while the places crossfade",
+		)
+		audio.advance_fades(1.0)
+		test.expect(
+			_playing_ambience_voices(audio) == 1,
+			"a completed place crossfade leaves exactly one ambience loop",
+		)
+		test.expect(
+			audio.has_method("fade_out_slot"),
+			"the adapter can fade a place out rather than cutting it",
+		)
+		audio.fade_out_slot("ambience", 600)
+		test.expect(
+			_playing_ambience_voices(audio) == 1,
+			"a place still sounds while it fades away",
+		)
+		audio.advance_fades(1.0)
+		test.expect(
+			_playing_ambience_voices(audio) == 0,
+			"leaving the last place leaves no orphaned ambience loop",
+		)
+
 	test.expect(
 		audio.has_method("set_sound_enabled"),
 		"the adapter supports the one Sound presentation preference",
@@ -190,10 +234,19 @@ func _run() -> void:
 	test.finish(self, "Godot audio adapter acceptance")
 
 
+func _playing_ambience_voices(audio: GodotAudioAdapter) -> int:
+	var playing := 0
+	for player: AudioStreamPlayer in audio.find_children("", "AudioStreamPlayer", false, false):
+		if player.playing and player.bus == &"Ambience":
+			playing += 1
+	return playing
+
+
 func _expects_stereo(cue_path: String) -> bool:
 	return (
 		cue_path.ends_with("movement-flight.wav")
 		or cue_path.ends_with("place-lacewood.wav")
+		or cue_path.ends_with("place-rose-garden.wav")
 		or cue_path.ends_with("rainbow-path-open.wav")
 		or cue_path.ends_with("cloud-rest-ambience.wav")
 	)

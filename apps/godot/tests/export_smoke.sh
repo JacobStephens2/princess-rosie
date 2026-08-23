@@ -12,6 +12,8 @@ opening_capture_path="$build_dir/opening-storybook-stage.png"
 opening_evidence_path="$build_dir/opening-export-smoke-evidence.json"
 flight_capture_path="$build_dir/opening-flight-stage.png"
 flight_evidence_path="$build_dir/opening-flight-export-smoke-evidence.json"
+rose_garden_capture_path="$build_dir/rose-garden-stage.png"
+rose_garden_evidence_path="$build_dir/rose-garden-export-smoke-evidence.json"
 lacewood_capture_path="$build_dir/lacewood-tracer-stage.png"
 lacewood_evidence_path="$build_dir/lacewood-tracer-export-smoke-evidence.json"
 expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
@@ -19,7 +21,7 @@ expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
 mkdir -p "$build_dir"
 rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path" \
   "$flight_capture_path" "$flight_evidence_path" "$lacewood_capture_path" \
-  "$lacewood_evidence_path"
+  "$lacewood_evidence_path" "$rose_garden_capture_path" "$rose_garden_evidence_path"
 
 "$godot_bin" --headless --path "$project_dir" --export-debug "macOS Development" "$app_path"
 
@@ -112,6 +114,41 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
 ' "$flight_evidence_path" >/dev/null
 
 sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
+  "--smoke-state=rose-garden" \
+  "--smoke-capture=$rose_garden_capture_path" \
+  "--smoke-evidence=$rose_garden_evidence_path"
+
+test -s "$rose_garden_capture_path"
+test -s "$rose_garden_evidence_path"
+test "$(stat -f '%z' "$rose_garden_capture_path")" -gt 100000
+jq -e --arg expected_pack_digest "$expected_pack_digest" '
+  .state == "birthday_star_moment"
+  and .place == "rose-garden"
+  and .journey_phase == "birthday-star-moment"
+  and .playful_bumps == 2
+  and .cloud_rests == 0
+  and .birthday_stars == ["birthday-star.rose-garden"]
+  and .rainbow_paths == ["rainbow-path.rose-garden"]
+  and .pack_digest == $expected_pack_digest
+  and .network_requests == 0
+  and .capture_sample_colors >= 8
+  and .storybook_stage.aspect == "16:9"
+  and .storybook_stage.essential_content_cropped == false
+  and .storybook_stage.birthday_star_moment_visible == true
+  and ([.sound_events[].event] | contains([
+    "sound-event.place-entry",
+    "sound-event.vignette-interaction",
+    "sound-event.near-miss",
+    "sound-event.playful-bump",
+    "sound-event.birthday-star-proximity",
+    "sound-event.birthday-star-gathered",
+    "sound-event.rainbow-path-opened",
+    "sound-event.birthday-star-moment"
+  ]))
+  and ([.sound_events[] | select(.event == "sound-event.vignette-interaction")] | length) == 1
+' "$rose_garden_evidence_path" >/dev/null
+
+sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
   "--smoke-state=lacewood" \
   "--smoke-capture=$lacewood_capture_path" \
   "--smoke-evidence=$lacewood_evidence_path"
@@ -125,8 +162,8 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .chosen_route == "lacewood.canopy"
   and .playful_bumps == 3
   and .cloud_rests == 1
-  and .birthday_stars == ["birthday-star.lacewood"]
-  and .rainbow_paths == ["rainbow-path.lacewood"]
+  and .birthday_stars == ["birthday-star.rose-garden", "birthday-star.lacewood"]
+  and .rainbow_paths == ["rainbow-path.rose-garden", "rainbow-path.lacewood"]
   and .path_choices == {"path-choice.lacewood": "lacewood.canopy"}
   and .pack_digest == $expected_pack_digest
   and .network_requests == 0
@@ -143,6 +180,7 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
     "sound-event.playful-bump",
     "sound-event.cloud-rest-entered",
     "sound-event.cloud-rest-exited",
+    "sound-event.place-exit",
     "sound-event.birthday-star-proximity",
     "sound-event.birthday-star-gathered",
     "sound-event.rainbow-path-opened",
@@ -152,4 +190,4 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   ]))
 ' "$lacewood_evidence_path" >/dev/null
 
-echo "PASS: exported arm64 application launch, cover, opening, active-flight, and audible Lacewood-to-celebration tracer captures"
+echo "PASS: exported arm64 application launch, cover, opening, active-flight, Rosalia's Rose Garden, and audible Lacewood-to-celebration tracer captures"

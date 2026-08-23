@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.birthday-star-moment.rose-garden",
+  "sourceMasterId": "source-master.birthday-star-moment.rose-garden",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.rose-garden",
+  "jobHash": "sha256:75a4efe19ba963b3cc81512794ea6e7396864b6ac5dad7b32a85b2ccf939cc6e",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A rose garden resolution accent settling warmly open. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 2,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:47:27.384Z",
+  "traceId": "9c37aa838a6fe5aaeefb189589f617d7",
+  "providerReportedUsage": {
+    "characterCost": "20"
+  },
+  "sourceHash": "sha256:f20a58e8c2d015c444f3913e7f96c9bf8ec183ad3aced3ebf6cad58ddf5da407",
+  "selectedOutputHash": "sha256:652dfb13205f3c7ec0081112e324ed910841abab74c6889de5e332d9b9ef63ff",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6.089,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:652dfb13205f3c7ec0081112e324ed910841abab74c6889de5e332d9b9ef63ff",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "rose-garden-resolution-accent-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Blind Gemini 3.7 Flash evaluation ranked it first of three: a warm resonant acoustic bell that blooms and decays into a settled generous closure, with no startle or fatigue risk, where the rivals rose rather than resolved."
+}

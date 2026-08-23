@@ -65,14 +65,14 @@ async function editPackJson<T>(
 }
 
 describe("Edition Contract", () => {
-  test("prepares the frozen Lacewood tracer Edition Pack", async () => {
+  test("prepares the frozen Rose Garden and Lacewood tracer Edition Pack", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
 
     expect(prepared).toMatchObject({
       contractVersion: "rosi-edition-contract/1",
-      revision: "lacewood-birthday-star-soundscape-1",
+      revision: "rose-garden-place-soundscape-1",
       packDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
-      scenarioIds: ["opening-flight", "tracer-bullet"],
+      scenarioIds: ["opening-flight", "rose-garden", "tracer-bullet"],
     });
   });
 
@@ -86,6 +86,7 @@ describe("Edition Contract", () => {
         "sound-event.flight-launch",
         "sound-event.movement-state",
         "sound-event.place-entry",
+        "sound-event.place-exit",
         "sound-event.vignette-interaction",
         "sound-event.path-choice-available",
         "sound-event.path-choice-selected",
@@ -112,6 +113,11 @@ describe("Edition Contract", () => {
         "cue.movement.flight",
         "cue.movement.rise",
         "cue.movement.glide",
+        "cue.place.rose-garden",
+        "cue.vignette.rose-garden.awakening-roses",
+        "cue.playful-bump.rose-garden",
+        "cue.near-miss.rose-garden",
+        "cue.birthday-star-moment.rose-garden",
         "cue.place.lacewood",
         "cue.vignette.lacewood.canopy",
         "cue.vignette.lacewood.floor",
@@ -160,6 +166,7 @@ describe("Edition Contract", () => {
       musicDuckDb: -4,
       truePeakCeilingDbfs: -3,
       confirmationDelayMaximumMs: 200,
+      placeCrossfadeMs: 600,
     });
   });
 
