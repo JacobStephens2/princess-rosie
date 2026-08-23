@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.flight.launch",
+  "sourceMaster": "source-master.flight.launch",
+  "runtimeMapping": "runtime-cue.flight.launch",
+  "status": "approved",
+  "jobHash": "sha256:7e19eacf2533785f9848e5bf9e8e5336ca4660d6ebf93c11e580e252cba85476",
+  "masterPath": "masters/flight-launch.wav",
+  "masterHash": "sha256:4591ea27f54a6c1f47aecbca53f90a3419720139d1d8b873af52f58b970d43a1",
+  "runtimePath": "runtime/flight-launch.wav",
+  "runtimeHash": "sha256:4591ea27f54a6c1f47aecbca53f90a3419720139d1d8b873af52f58b970d43a1"
+}

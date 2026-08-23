@@ -1,0 +1,818 @@
+{
+  "entries": [
+    {
+      "id": "cue.opening.celebration-reveal",
+      "event": "sound-event.opening-storybook-moment",
+      "match": {
+        "moment": "opening.celebration-preparations"
+      },
+      "category": "storybook",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 2.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "gentle-storybook-acoustic-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A restrained magical storybook reveal across a warm sparkling sea: one soft harp opening, delicate celesta light, and a gentle airy shimmer resolving with quiet wonder. Nonverbal, acoustic, warm, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.opening.celebration-reveal",
+      "runtimeMapping": "runtime-cue.opening.celebration-reveal",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.opening.star-scatter",
+      "event": "sound-event.opening-storybook-moment",
+      "match": {
+        "moment": "opening.scattered-stars"
+      },
+      "category": "storybook",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 2.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "airy-storybook-acoustic-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A playful airy storybook whoosh scatters seven tiny magical lights: a soft wind sweep followed by a brief spray of delicate celesta sparkles, surprising but gentle and non-startling. Nonverbal, acoustic, warm, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.opening.star-scatter",
+      "runtimeMapping": "runtime-cue.opening.star-scatter",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.opening.departure",
+      "event": "sound-event.opening-storybook-moment",
+      "match": {
+        "moment": "opening.departure"
+      },
+      "category": "storybook",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 2.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "brave-gentle-storybook-acoustic-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A brave but tender storybook readiness flourish for a young princess and her friendly flying unicorn: two soft rising harp gestures, a warm celesta glint, and a calm airy resolve. Nonverbal, acoustic, encouraging, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, fanfare blast, harsh transient, alarm, impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.opening.departure",
+      "runtimeMapping": "runtime-cue.opening.departure",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.story.confirmation",
+      "event": "sound-event.story-confirmation",
+      "match": {
+        "action": "continue"
+      },
+      "category": "storybook",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.6,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "gentle-short-confirmation-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.story.confirmation",
+      "runtimeMapping": "runtime-cue.story.confirmation",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.flight.launch",
+      "event": "sound-event.flight-launch",
+      "match": {},
+      "category": "movement",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 1.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "buoyant-gentle-transition-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A buoyant gentle storybook flight launch: a soft upward rush of warm air, one light harp sweep, and a tiny celesta lift that settles forward without a hard landing. Nonverbal, acoustic, joyful, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, fanfare blast, harsh transient, alarm, impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.flight.launch",
+      "runtimeMapping": "runtime-cue.flight.launch",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.movement.flight",
+      "event": "sound-event.movement-state",
+      "match": {
+        "state": "flight"
+      },
+      "category": "movement",
+      "priority": 40,
+      "requirement": "required",
+      "durationSeconds": 8,
+      "looping": true,
+      "channelPolicy": "warm-stereo-loop",
+      "masteringIntent": "quiet-airy-movement-under-music-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A very quiet seamless storybook flight texture beneath existing music: soft flowing air, silky wing motion, and sparse blended sparkle dust in one graceful continuous layer. Warm stereo, nonverbal, fatigue-free, and clear on MacBook speakers, with no individual wing beats. Smooth seamless loop. No voice, speech, singing, recognizable melody, rhythmic pulse, harsh transient, alarm, impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.movement.flight",
+      "runtimeMapping": "runtime-cue.movement.flight",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.movement.rise",
+      "event": "sound-event.movement-state",
+      "match": {
+        "state": "rise"
+      },
+      "category": "movement",
+      "priority": 40,
+      "requirement": "optional",
+      "durationSeconds": 0.6,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "subtle-responsive-lift-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A very subtle responsive storybook lift accent: a small breath of rising air with one delicate upward harp harmonic, immediate and gentle. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.movement.rise",
+      "runtimeMapping": "runtime-cue.movement.rise",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.movement.glide",
+      "event": "sound-event.movement-state",
+      "match": {
+        "state": "glide"
+      },
+      "category": "movement",
+      "priority": 40,
+      "requirement": "optional",
+      "durationSeconds": 0.6,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "subtle-responsive-settle-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A very subtle responsive storybook release accent: a small soft exhale of air with one delicate downward harp harmonic, immediate and gently settling. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.movement.glide",
+      "runtimeMapping": "runtime-cue.movement.glide",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.place.lacewood",
+      "event": "sound-event.place-entry",
+      "match": {
+        "place": "lacewood"
+      },
+      "category": "place",
+      "priority": 40,
+      "requirement": "required",
+      "durationSeconds": 12,
+      "looping": true,
+      "channelPolicy": "warm-stereo-loop",
+      "masteringIntent": "shaded-leaves-and-silver-ribbons-under-music-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.place.lacewood",
+      "runtimeMapping": "runtime-cue.place.lacewood",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.vignette.lacewood.canopy",
+      "event": "sound-event.vignette-interaction",
+      "match": {
+        "place": "lacewood",
+        "interaction": "silver-ribbon-canopy"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.4,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "soft-ribbon-response-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A soft ribbon response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.vignette.lacewood.canopy",
+      "runtimeMapping": "runtime-cue.vignette.lacewood.canopy",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.vignette.lacewood.floor",
+      "event": "sound-event.vignette-interaction",
+      "match": {
+        "place": "lacewood",
+        "interaction": "rose-lit-floor"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.4,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "soft-rose-light-response-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A soft rose light response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.vignette.lacewood.floor",
+      "runtimeMapping": "runtime-cue.vignette.lacewood.floor",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.path-choice.available",
+      "event": "sound-event.path-choice-available",
+      "match": {
+        "pathChoice": "path-choice.lacewood"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "optional",
+      "durationSeconds": 0.8,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "quiet-invitation-without-reward-language-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A quiet invitation without reward language. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.path-choice.available",
+      "runtimeMapping": "runtime-cue.path-choice.available",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.path-choice.lacewood.canopy",
+      "event": "sound-event.path-choice-selected",
+      "match": {
+        "pathChoice": "path-choice.lacewood",
+        "route": "lacewood.canopy"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.4,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "airy-ribbon-choice-response-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A airy ribbon choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.path-choice.lacewood.canopy",
+      "runtimeMapping": "runtime-cue.path-choice.lacewood.canopy",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.path-choice.lacewood.floor",
+      "event": "sound-event.path-choice-selected",
+      "match": {
+        "pathChoice": "path-choice.lacewood",
+        "route": "lacewood.floor"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.4,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "warm-rose-choice-response-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A warm rose choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.path-choice.lacewood.floor",
+      "runtimeMapping": "runtime-cue.path-choice.lacewood.floor",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.journey-history.shimmer",
+      "event": "sound-event.journey-history-shimmer",
+      "match": {
+        "pathChoice": "path-choice.lacewood"
+      },
+      "category": "journey",
+      "priority": 20,
+      "requirement": "optional",
+      "durationSeconds": 1.2,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "restrained-unseen-route-shimmer-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A restrained unseen route shimmer. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.journey-history.shimmer",
+      "runtimeMapping": "runtime-cue.journey-history.shimmer",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.playful-bump.lacewood",
+      "event": "sound-event.playful-bump",
+      "match": {
+        "place": "lacewood"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.8,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "soft-nonthreatening-ribbon-bump-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A soft nonthreatening ribbon bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.playful-bump.lacewood",
+      "runtimeMapping": "runtime-cue.playful-bump.lacewood",
+      "fallbackRole": "fallback.playful-bump"
+    },
+    {
+      "id": "cue.near-miss",
+      "event": "sound-event.near-miss",
+      "match": {
+        "place": "lacewood"
+      },
+      "category": "interaction",
+      "priority": 20,
+      "requirement": "optional",
+      "durationSeconds": 0.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "restrained-cooldown-accent-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A restrained cooldown accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.near-miss",
+      "runtimeMapping": "runtime-cue.near-miss",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.birthday-star.proximity",
+      "event": "sound-event.birthday-star-proximity",
+      "match": {
+        "birthdayStar": "birthday-star.lacewood"
+      },
+      "category": "journey",
+      "priority": 20,
+      "requirement": "optional",
+      "durationSeconds": 1,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "capped-magical-shimmer-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A capped magical shimmer. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.birthday-star.proximity",
+      "runtimeMapping": "runtime-cue.birthday-star.proximity",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.birthday-star.gather",
+      "event": "sound-event.birthday-star-gathered",
+      "match": {
+        "birthdayStar": "birthday-star.lacewood"
+      },
+      "category": "journey",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 1.4,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "immediate-recognizable-gather-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A immediate recognizable gather. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.birthday-star.gather",
+      "runtimeMapping": "runtime-cue.birthday-star.gather",
+      "fallbackRole": "fallback.birthday-star"
+    },
+    {
+      "id": "cue.rainbow-path.open",
+      "event": "sound-event.rainbow-path-opened",
+      "match": {
+        "rainbowPath": "rainbow-path.lacewood",
+        "familyGuest": "Gram"
+      },
+      "category": "journey",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 2.5,
+      "looping": false,
+      "channelPolicy": "warm-stereo",
+      "masteringIntent": "magical-travel-stage-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A magical travel stage. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.rainbow-path.open",
+      "runtimeMapping": "runtime-cue.rainbow-path.open",
+      "fallbackRole": "fallback.birthday-star"
+    },
+    {
+      "id": "cue.birthday-star-moment.lacewood",
+      "event": "sound-event.birthday-star-moment",
+      "match": {
+        "place": "lacewood",
+        "familyGuest": "Gram"
+      },
+      "category": "storybook",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 2,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "lacewood-resolution-accent-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A lacewood resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.birthday-star-moment.lacewood",
+      "runtimeMapping": "runtime-cue.birthday-star-moment.lacewood",
+      "fallbackRole": "fallback.birthday-star"
+    },
+    {
+      "id": "cue.cloud-rest.enter",
+      "event": "sound-event.cloud-rest-entered",
+      "match": {
+        "place": "lacewood"
+      },
+      "category": "journey",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 1.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "reassuring-gentle-landing-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A reassuring gentle landing. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.cloud-rest.enter",
+      "runtimeMapping": "runtime-cue.cloud-rest.enter",
+      "fallbackRole": "fallback.cloud-rest"
+    },
+    {
+      "id": "cue.cloud-rest.ambience",
+      "event": "sound-event.cloud-rest-entered",
+      "match": {
+        "place": "lacewood"
+      },
+      "category": "journey",
+      "priority": 40,
+      "requirement": "required",
+      "durationSeconds": 15,
+      "looping": true,
+      "channelPolicy": "warm-stereo-loop",
+      "masteringIntent": "soft-indefinite-rest-under-music-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A soft indefinite rest under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.cloud-rest.ambience",
+      "runtimeMapping": "runtime-cue.cloud-rest.ambience",
+      "fallbackRole": "fallback.cloud-rest"
+    },
+    {
+      "id": "cue.cloud-rest.exit",
+      "event": "sound-event.cloud-rest-exited",
+      "match": {
+        "place": "lacewood"
+      },
+      "category": "movement",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 1.2,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "safe-immediate-takeoff-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A safe immediate takeoff. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.cloud-rest.exit",
+      "runtimeMapping": "runtime-cue.cloud-rest.exit",
+      "fallbackRole": "fallback.cloud-rest"
+    },
+    {
+      "id": "cue.birthday-castle.arrival",
+      "event": "sound-event.birthday-castle-arrival",
+      "match": {},
+      "category": "celebration",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 3,
+      "looping": false,
+      "channelPolicy": "warm-stereo",
+      "masteringIntent": "gentle-authored-arrival-phrase-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A gentle authored arrival phrase. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.birthday-castle.arrival",
+      "runtimeMapping": "runtime-cue.birthday-castle.arrival",
+      "fallbackRole": "fallback.celebration"
+    },
+    {
+      "id": "cue.celebration.dance-again",
+      "event": "sound-event.celebration-interaction",
+      "match": {
+        "action": "dance-again"
+      },
+      "category": "celebration",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 3,
+      "looping": false,
+      "channelPolicy": "warm-stereo",
+      "masteringIntent": "aggregated-warm-dance-phrase-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A aggregated warm dance phrase. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.celebration.dance-again",
+      "runtimeMapping": "runtime-cue.celebration.dance-again",
+      "fallbackRole": "fallback.celebration"
+    },
+    {
+      "id": "cue.replay",
+      "event": "sound-event.replay",
+      "match": {
+        "destination": "opening-storybook"
+      },
+      "category": "presentation",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "very-short-gentle-transition-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A very short gentle transition. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.replay",
+      "runtimeMapping": "runtime-cue.replay",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.sound.off",
+      "event": "sound-event.sound-preference-changed",
+      "match": {
+        "enabled": false
+      },
+      "category": "presentation",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "very-short-confirmation-before-silence-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A very short confirmation before silence. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.sound.off",
+      "runtimeMapping": "runtime-cue.sound.off",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.sound.on",
+      "event": "sound-event.sound-preference-changed",
+      "match": {
+        "enabled": true
+      },
+      "category": "presentation",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "gentle-audible-enabled-confirmation-for-macbook",
+      "selectionStatus": "unapproved",
+      "authoring": {
+        "prompt": "A gentle audible enabled confirmation. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.sound.on",
+      "runtimeMapping": "runtime-cue.sound.on",
+      "fallbackRole": "fallback.story-confirmation"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.movement.flight",
+  "sourceMaster": "source-master.movement.flight",
+  "runtimeMapping": "runtime-cue.movement.flight",
+  "status": "approved",
+  "jobHash": "sha256:c79863b533f2a74def1018a04ed7fd0499fbc74d2dfeedcab1dd3c1c55620fda",
+  "masterPath": "masters/movement-flight.wav",
+  "masterHash": "sha256:861d0842216e8f75713b628a079cf0fd7f9699463d92fedc80bc22eb592cbc57",
+  "runtimePath": "runtime/movement-flight.wav",
+  "runtimeHash": "sha256:861d0842216e8f75713b628a079cf0fd7f9699463d92fedc80bc22eb592cbc57"
+}

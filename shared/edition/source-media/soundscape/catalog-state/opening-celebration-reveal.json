@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.opening.celebration-reveal",
+  "sourceMaster": "source-master.opening.celebration-reveal",
+  "runtimeMapping": "runtime-cue.opening.celebration-reveal",
+  "status": "approved",
+  "jobHash": "sha256:a397531b3c2695bc6cfe719d238732b7a01d29704d436379037cf64bbca408e0",
+  "masterPath": "masters/opening-celebration-reveal.wav",
+  "masterHash": "sha256:a736e974751f688e0fbcf6c40bb51850281697c6b32454ba1dd67aed07c4c421",
+  "runtimePath": "runtime/opening-celebration-reveal.wav",
+  "runtimeHash": "sha256:a736e974751f688e0fbcf6c40bb51850281697c6b32454ba1dd67aed07c4c421"
+}
