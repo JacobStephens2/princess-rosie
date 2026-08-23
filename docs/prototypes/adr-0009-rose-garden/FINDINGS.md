@@ -77,12 +77,22 @@ rectangle paints straight over it. Any production version must swap illustration
 world-space background able to overdraw the current plate. This is a real design
 constraint the ADR does not yet state.
 
-**4. Character scale is a genuine open choice, not a solved one.** 300px (shot 02)
-sits comfortably in the arch corridor; 390px (shot 06) has more presence but
-crowds the left edge and pushes Stella's tail off-Stage. The slider is in the
-prototype bar so the owner can settle it directly. My read is that the answer is
-between 300 and 340, but this is exactly the kind of call the ADR reserves for
-owner judgment.
+**4. Character scale and drift — settled by the owner.** 300px (shot 02) sits
+comfortably in the arch corridor; 390px (shot 06) has more presence but crowds
+the left edge and pushes Stella's tail off-Stage. On 2026-08-23 the owner played
+the branch and chose **270px character width and 0.15 drift**; these are now the
+prototype defaults. Carry both numbers into production as the starting values,
+not as re-litigable defaults.
+
+One consequence to carry with the 0.15 choice: the illustration's overscan is
+derived from the drift (`1 + parallax * 2.4`), so 0.15 scales the plate to 1.36×
+cover instead of 1.12×. It stays uniform, seamless and edge-free — the drift
+across the garden is roughly 70px against a 230px margin — but about a quarter of
+the painting's width is cropped outside the Stage. If production wants the drift
+without the crop, anchor the plate flush to the leading edge and add margin only
+on the trailing side; the image only ever drifts one way, so that roughly halves
+the overscan. Deliberately not changed here, because the owner judged the look as
+it currently stands.
 
 ## What this prototype could NOT answer
 

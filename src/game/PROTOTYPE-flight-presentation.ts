@@ -55,10 +55,11 @@ export interface PrototypeOptions {
   debugBodies: boolean;
 }
 
+// Owner-chosen on 2026-08-23 after playing the branch: 270px and 0.15 drift.
 const DEFAULTS: PrototypeOptions = {
   variant: "after",
-  characterWidth: 300,
-  parallax: 0.05,
+  characterWidth: 270,
+  parallax: 0.15,
   motion: true,
   debugBodies: false,
 };
