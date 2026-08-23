@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.vignette.sapphire-sea.shore",
+  "sourceMaster": "source-master.vignette.sapphire-sea.shore",
+  "runtimeMapping": "runtime-cue.vignette.sapphire-sea.shore",
+  "status": "approved",
+  "jobHash": "sha256:1f759c1460c2e11c81155bb1eddf70501fd60f8edc41b1d7156f24f7ca27e73e",
+  "masterPath": "masters/vignette-sapphire-sea-shore.wav",
+  "masterHash": "sha256:5782e5b2eeefcbe3256e04aa9573d0b94c61cb0bc930e4d4d3310dba284e1d03",
+  "runtimePath": "runtime/vignette-sapphire-sea-shore.wav",
+  "runtimeHash": "sha256:5782e5b2eeefcbe3256e04aa9573d0b94c61cb0bc930e4d4d3310dba284e1d03"
+}

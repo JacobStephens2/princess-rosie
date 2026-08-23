@@ -26,6 +26,7 @@ const REPLAY_EVENT := &"sound-event.replay"
 const SOUND_PREFERENCE_EVENT := &"sound-event.sound-preference-changed"
 const SOUND_OFF_LIMIT_MS := 200
 const NEAR_MISS_COOLDOWN_MS := 750
+const DEFAULT_AMBIENCE_CROSSFADE_MS := 600
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 
@@ -46,6 +47,7 @@ var _mix := {
 	},
 	"musicDuckDb": -4.0,
 	"confirmationDelayMaximumMs": SOUND_OFF_LIMIT_MS,
+	"ambienceCrossfadeMs": DEFAULT_AMBIENCE_CROSSFADE_MS,
 }
 var _sound_enabled := true
 var _music_started := false
@@ -398,6 +400,7 @@ func _playback_for(cue: Dictionary, event_id: StringName, duration_ms: int) -> S
 		playback.slot = SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE
 		playback.gain_db = music_reference_gain_db + float(category_gains.get("ambience", -10.0))
 		playback.max_duration_ms = 0
+		playback.crossfade_ms = int(_mix.get("ambienceCrossfadeMs", DEFAULT_AMBIENCE_CROSSFADE_MS))
 		return playback
 	if priority <= 20:
 		playback.bus = DETAIL_BUS

@@ -121,6 +121,46 @@
       "path": "runtime/cloud-rest-exit.wav"
     },
     {
+      "id": "runtime-cue.place.sapphire-sea",
+      "sourceMaster": "source-master.place.sapphire-sea",
+      "path": "runtime/place-sapphire-sea.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.sapphire-sea.shore",
+      "sourceMaster": "source-master.vignette.sapphire-sea.shore",
+      "path": "runtime/vignette-sapphire-sea-shore.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.sapphire-sea.open-water",
+      "sourceMaster": "source-master.vignette.sapphire-sea.open-water",
+      "path": "runtime/vignette-sapphire-sea-open-water.wav"
+    },
+    {
+      "id": "runtime-cue.path-choice.sapphire-sea.shore",
+      "sourceMaster": "source-master.path-choice.sapphire-sea.shore",
+      "path": "runtime/path-choice-sapphire-sea-shore.wav"
+    },
+    {
+      "id": "runtime-cue.path-choice.sapphire-sea.open-water",
+      "sourceMaster": "source-master.path-choice.sapphire-sea.open-water",
+      "path": "runtime/path-choice-sapphire-sea-open-water.wav"
+    },
+    {
+      "id": "runtime-cue.playful-bump.sapphire-sea",
+      "sourceMaster": "source-master.playful-bump.sapphire-sea",
+      "path": "runtime/playful-bump-sapphire-sea.wav"
+    },
+    {
+      "id": "runtime-cue.near-miss.sapphire-sea",
+      "sourceMaster": "source-master.near-miss.sapphire-sea",
+      "path": "runtime/near-miss-sapphire-sea.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.sapphire-sea",
+      "sourceMaster": "source-master.birthday-star-moment.sapphire-sea",
+      "path": "runtime/birthday-star-moment-sapphire-sea.wav"
+    },
+    {
       "id": "runtime-cue.birthday-castle.arrival",
       "sourceMaster": "source-master.birthday-castle.arrival",
       "path": "runtime/birthday-castle-arrival.wav"

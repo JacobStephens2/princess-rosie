@@ -23,8 +23,8 @@ async function readTracerSoundEvents(): Promise<TestSoundEvent[]> {
 }
 
 const tracerFacts = {
-  birthdayStars: ["birthday-star.lacewood"],
-  rainbowPaths: ["rainbow-path.lacewood"],
+  birthdayStars: ["birthday-star.lacewood", "birthday-star.sapphire-sea"],
+  rainbowPaths: ["rainbow-path.lacewood", "rainbow-path.sapphire-sea"],
   chosenPathRecorded: true,
   cloudRestPreservesProgress: true,
   networkRequests: 0,
@@ -76,7 +76,7 @@ describe("Edition Contract proof", () => {
     });
   });
 
-  test("accepts the contract-declared Lacewood tracer evidence", async () => {
+  test("accepts the contract-declared Lacewood-to-Sapphire-Sea tracer evidence", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
     const tracerSoundEvents = await readTracerSoundEvents();
 

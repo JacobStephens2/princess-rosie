@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.place.sapphire-sea",
+  "sourceMaster": "source-master.place.sapphire-sea",
+  "runtimeMapping": "runtime-cue.place.sapphire-sea",
+  "status": "approved",
+  "jobHash": "sha256:b4a0f639865d9c50d9d0bee22d7d5e18138357aaaf70241beb29b72ae820cada",
+  "masterPath": "masters/place-sapphire-sea.wav",
+  "masterHash": "sha256:c9b9a3326a9ec873d6b56a65b94d4f02dabd4782abc3e9bec6966ca3486a73d1",
+  "runtimePath": "runtime/place-sapphire-sea.wav",
+  "runtimeHash": "sha256:c9b9a3326a9ec873d6b56a65b94d4f02dabd4782abc3e9bec6966ca3486a73d1"
+}

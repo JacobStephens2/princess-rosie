@@ -79,26 +79,21 @@ func _init() -> void:
 		"the canopy route emits the complete staged Lacewood, Cloud Rest, and Birthday Star sequence",
 	)
 	test.expect(shell.handle_player_intent("continue"), "Gram's Birthday Star Moment can continue")
+	var after_lacewood: Dictionary = shell.presentation_evidence()
 	test.expect(
-		shell.presentation_evidence().get("state") == "celebration"
-		and shell.presentation_evidence().get("journey_phase") == "celebration"
-		and shell.presentation_evidence().get("journey_history") == {"lacewood.canopy": true},
-		"the completed canopy route enters Journey History and reaches the celebration",
+		after_lacewood.get("state") == "active_play"
+		and after_lacewood.get("journey_phase") == "flight"
+		and after_lacewood.get("place") == "sapphire-sea"
+		and after_lacewood.get("journey_history") == {"lacewood.canopy": true},
+		"the completed canopy route enters Journey History and flies on to the Sapphire Sea",
 	)
-	test.expect(shell.handle_player_intent("action-pressed"), "the one action starts Dance Again")
-	test.expect(shell.handle_player_intent("action-released"), "the celebration action can release")
 	test.expect(
-		shell.sound_event_evidence().slice(-2) == [
-			{"event": "sound-event.birthday-castle-arrival", "context": {}},
-			{
-				"event": "sound-event.celebration-interaction",
-				"context": {"action": "dance-again"},
-			},
-		],
-		"the native tracer completes at the Birthday Castle celebration",
+		shell.sound_event_evidence().back().get("event")
+		== "sound-event.birthday-star-moment",
+		"leaving Gram's Birthday Star Moment adds no reward or completion cue",
 	)
 
-	test.expect(shell.handle_player_intent("escape"), "the completed tracer can open the Grown-up Corner")
+	test.expect(shell.handle_player_intent("escape"), "the completed route can open the Grown-up Corner")
 	test.expect(shell.handle_player_intent("replay"), "the tracer can replay from the cover")
 	_start_journey(shell)
 	var second_lacewood_event_start := shell.sound_event_evidence().size()
@@ -124,8 +119,6 @@ func _init() -> void:
 		"replay gives the unexplored route one restrained shimmer and its distinct response",
 	)
 	test.expect(shell.handle_player_intent("continue"), "the floor-route Birthday Star Moment continues")
-	test.expect(shell.handle_player_intent("action-pressed"), "the replay reaches Dance Again")
-	test.expect(shell.handle_player_intent("action-released"), "the replay dance action can release")
 	test.expect(
 		shell.presentation_evidence().get("journey_history") == {
 			"lacewood.canopy": true,

@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.playful-bump.sapphire-sea",
+  "runtimeMapping": "runtime-cue.playful-bump.sapphire-sea",
+  "sourceMaster": "source-master.playful-bump.sapphire-sea",
+  "sourcePath": "masters/playful-bump-sapphire-sea.wav",
+  "runtimePath": "runtime/playful-bump-sapphire-sea.wav",
+  "sourceHash": "sha256:2dadbc9480c7ee130e8f98946fa7c5a5364239e449261c92a062d58d845995f3",
+  "derivativeHash": "sha256:2dadbc9480c7ee130e8f98946fa7c5a5364239e449261c92a062d58d845995f3",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

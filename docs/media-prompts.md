@@ -113,6 +113,18 @@ Selection: Best Gram Birthday Star Moment resolution: clear sustained body, low 
 
 Source master: `source-master.birthday-star-moment.lacewood`
 
+### cue.birthday-star-moment.sapphire-sea
+
+> A sparkling shore-wash resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for a warm acoustic harp and airy shore-wash shimmer that resolves the moment without fanfare or reward-chime character, distinct from the woodland resolution accent, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 2.0 s, -6 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.birthday-star-moment.sapphire-sea`
+
 ### cue.birthday-star.gather
 
 > A immediate recognizable gather. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -245,6 +257,18 @@ Selection: Best restrained near-miss accent: lowest crossing activity with compa
 
 Source master: `source-master.near-miss`
 
+### cue.near-miss.sapphire-sea
+
+> A restrained sea-spray cooldown accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for a subtle, organic flick of sea spray that stays unobtrusive and never reads as a warning or penalty, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 0.5 s, -12.26 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.near-miss.sapphire-sea`
+
 ### cue.opening.celebration-reveal
 
 > A restrained magical storybook reveal across a warm sparkling sea: one soft harp opening, delicate celesta light, and a gentle airy shimmer resolving with quiet wonder. Nonverbal, acoustic, warm, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.
@@ -317,6 +341,30 @@ Selection: Best warm rose-lit choice response: lowest crossing activity, stronge
 
 Source master: `source-master.path-choice.lacewood.floor`
 
+### cue.path-choice.sapphire-sea.open-water
+
+> A calm open sparkling water choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for calm liquid-droplet character that acknowledges the open-water route without any success or correctness connotation, staying distinct from the shore acknowledgement, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 1.4 s, -12.33 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.path-choice.sapphire-sea.open-water`
+
+### cue.path-choice.sapphire-sea.shore
+
+> A calm shell-lined shore choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: The blinded Gemini 3.7 Flash favourite failed the waveform gate at a -47.96 dBFS peak, roughly 30 dB under its sibling cues and inaudible under the soundtrack; this second-ranked candidate is a calm, non-judgmental bell acknowledgement with no reward or correctness connotation and no unwanted voice or melody, and it clears the waveform gate at 48 kHz mono, 1.4 s, -16.31 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.path-choice.sapphire-sea.shore`
+
 ### cue.place.lacewood
 
 > A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -329,6 +377,18 @@ Selection: The validated replacement is the only candidate with a passing seamle
 
 Source master: `source-master.place.lacewood`
 
+### cue.place.sapphire-sea
+
+> A gentle rhythmic coast with soft rolling waves and restrained sparkle under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 12 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for semantic fit, clarity, and low fatigue as a rhythmic coast bed under music, with no unwanted voice or melody; it also clears the waveform gate at 48 kHz stereo, 12.0 s, -6 dBFS peak, no clipping, and a passing loop seam.
+
+Source master: `source-master.place.sapphire-sea`
+
 ### cue.playful-bump.lacewood
 
 > A soft nonthreatening ribbon bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -340,6 +400,18 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-t
 Selection: Best soft Lacewood Playful Bump: audible body with the lowest crest factor, substantial peak headroom, and no ceiling-hitting transient, keeping the ribbon contact gentle and nonthreatening.
 
 Source master: `source-master.playful-bump.lacewood`
+
+### cue.playful-bump.sapphire-sea
+
+> A soft nonthreatening wave bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.8 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for a gentle wave surge that reads as a friendly nudge rather than a collision, with low startle risk and no unwanted voice or melody; one rejected candidate carried an audible human whoop. It clears the waveform gate at 48 kHz mono, 0.8 s, -8.44 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.playful-bump.sapphire-sea`
 
 ### cue.rainbow-path.open
 
@@ -389,4 +461,82 @@ Selection: Best warm rose-light response: strongest clear body with the lowest c
 
 Source master: `source-master.vignette.lacewood.floor`
 
+### cue.vignette.sapphire-sea.open-water
+
+> A bright open sparkling water response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for bright bubbling water texture blended with restrained fairytale shimmer, clearly distinct from the shore response and never reward-like, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 1.4 s, -15.5 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.vignette.sapphire-sea.open-water`
+
+### cue.vignette.sapphire-sea.shore
+
+> A soft shell-lined shore response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for shell-like tactile texture and warm shimmer that reads as a shore interaction rather than a reward chime, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 1.4 s, -15.5 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.vignette.sapphire-sea.shore`
+
 <!-- soundscape-build:end -->
+
+## Sapphire Sea audio evaluation record
+
+Every Sapphire Sea cue above was produced through the bounded resumable generator and graded under
+[the audio evaluation policy](agents/audio-evaluation.md). The managed section records each approved
+selection; this section records the surrounding evidence.
+
+Native-audio evaluator: paid Gemini API, model `gemini-3.7-flash`, default reasoning effort, one
+blinded three-candidate comparison per cue with the candidate order shuffled per cue. Waveform checks
+ran independently of the generator's own QA and covered decoding, format, duration, sample rate,
+channel layout, silence, DC offset, peak level, clipping, trimmed boundaries, loop-seam delta, and
+stereo correlation.
+
+| Cue | Blinded ranking (best first) | Material failure flags | Evaluator uncertainty | Selected |
+| --- | --- | --- | --- | --- |
+| `cue.place.sapphire-sea` | candidate-1, candidate-2, candidate-3 | candidate-3 carried overt bell melodies that would clash with the soundtrack | low | candidate-1 |
+| `cue.vignette.sapphire-sea.shore` | candidate-2, candidate-1, candidate-3 | none | low | candidate-2 |
+| `cue.vignette.sapphire-sea.open-water` | candidate-1, candidate-2, candidate-3 | none | low | candidate-1 |
+| `cue.path-choice.sapphire-sea.shore` | candidate-2, candidate-3, candidate-1 | candidate-2 peaked at -47.96 dBFS, about 30 dB under its sibling cues and inaudible under the soundtrack; candidate-1 read as a reward sweep | low | candidate-3 |
+| `cue.path-choice.sapphire-sea.open-water` | candidate-1, candidate-2, candidate-3 | none | low | candidate-1 |
+| `cue.playful-bump.sapphire-sea` | candidate-3, candidate-2, candidate-1 | candidate-1 contained an audible human whoop and failed the nonverbal requirement | low | candidate-3 |
+| `cue.near-miss.sapphire-sea` | candidate-3, candidate-1, candidate-2 | none | low | candidate-3 |
+| `cue.birthday-star-moment.sapphire-sea` | candidate-2, candidate-3, candidate-1 | candidate-1 read as a digital reward chime | low | candidate-2 |
+
+`cue.path-choice.sapphire-sea.shore` is the one cue where the evaluator's first choice was not taken:
+the waveform gate decides mechanical requirements, and a -47.96 dBFS peak cannot carry a foreground
+route acknowledgement under the soundtrack.
+
+### Measured levels the listening pass should settle
+
+Peak alone is a poor proxy for how loud a short cue reads, so both peak and the loudest 300 ms window
+are recorded here. Two questions the ear has to answer:
+
+| Master | Peak dBFS | Loudest 300 ms dBFS |
+| --- | --- | --- |
+| `path-choice-sapphire-sea-shore` | -16.31 | -23.80 |
+| `path-choice-sapphire-sea-open-water` | -12.33 | -28.64 |
+| `vignette-sapphire-sea-shore` | -15.48 | -28.52 |
+| `vignette-sapphire-sea-open-water` | -15.46 | -27.86 |
+| `path-choice-lacewood-canopy` (reference) | -6.00 | -17.47 |
+| `path-choice-lacewood-floor` (reference) | -6.00 | -15.00 |
+
+1. **Route parity.** The two sea route acknowledgements are level-matched neither on peak (open water
+   is 4.0 dB hotter) nor on the loudest window (shore is 4.8 dB hotter); the two sea interactions are
+   matched within 0.7 dB. The existing Lacewood pair differs by 2.5 dB on its loudest window, so this
+   sits in the established range, but no route may end up reading as the louder, more rewarded choice.
+2. **Masking.** Every sea cue except the ambience loop and Uncle's Moment sits 6-13 dB under the
+   Lacewood cues on the loudest window, and the coast ambience is a busier bed than the woodland one.
+   The cues have to stay audible under the soundtrack without the ambience masking them.
+
+**Human listening pass: not yet complete.** The required MacBook built-in speaker and headphone pass
+over the eight Sapphire Sea cues — checking rhythmic calm, route distinction, and the two questions
+above — is still outstanding and retains final authority over these selections. Run it with
+`apps/godot/tests/sapphire_sea_listening.gd`; see `apps/godot/README.md`.

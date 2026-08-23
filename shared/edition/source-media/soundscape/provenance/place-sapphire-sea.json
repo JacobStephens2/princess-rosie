@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.place.sapphire-sea",
+  "sourceMasterId": "source-master.place.sapphire-sea",
+  "runtimeMapping": "runtime-cue.place.sapphire-sea",
+  "jobHash": "sha256:b4a0f639865d9c50d9d0bee22d7d5e18138357aaaf70241beb29b72ae820cada",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A gentle rhythmic coast with soft rolling waves and restrained sparkle under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 12,
+    "promptInfluence": 0.3,
+    "loop": true,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:57:25.635Z",
+  "traceId": "e7e48623ea515c827e7c9a5f1f79d1ad",
+  "providerReportedUsage": {
+    "characterCost": "120"
+  },
+  "sourceHash": "sha256:f4460093286d06681110a9b01e16c7404d4bad730fb8b37058e5c48a1b713d9c",
+  "selectedOutputHash": "sha256:c9b9a3326a9ec873d6b56a65b94d4f02dabd4782abc3e9bec6966ca3486a73d1",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 2,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "preserve-stereo",
+    "peak-ceiling--6dbfs",
+    "loop-seam-qa",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": 0.007080078125
+  },
+  "runtimeDerivativeHash": "sha256:c9b9a3326a9ec873d6b56a65b94d4f02dabd4782abc3e9bec6966ca3486a73d1",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "gentle-rhythmic-coast-with-restrained-sparkle-under-music-for-macbook",
+  "channelPolicy": "warm-stereo-loop",
+  "priority": 40,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for semantic fit, clarity, and low fatigue as a rhythmic coast bed under music, with no unwanted voice or melody; it also clears the waveform gate at 48 kHz stereo, 12.0 s, -6 dBFS peak, no clipping, and a passing loop seam."
+}

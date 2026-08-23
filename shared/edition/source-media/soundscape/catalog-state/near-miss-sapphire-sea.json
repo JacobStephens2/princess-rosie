@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.near-miss.sapphire-sea",
+  "sourceMaster": "source-master.near-miss.sapphire-sea",
+  "runtimeMapping": "runtime-cue.near-miss.sapphire-sea",
+  "status": "approved",
+  "jobHash": "sha256:95cbfd80da8199414e0d013aa74e5d982ed390de326fbf2f2fa8f68b32ec4369",
+  "masterPath": "masters/near-miss-sapphire-sea.wav",
+  "masterHash": "sha256:6ade98e0e0a36c7185eaf522d7a96b05ce3da4aac92f38c455148dfbab1090b8",
+  "runtimePath": "runtime/near-miss-sapphire-sea.wav",
+  "runtimeHash": "sha256:6ade98e0e0a36c7185eaf522d7a96b05ce3da4aac92f38c455148dfbab1090b8"
+}

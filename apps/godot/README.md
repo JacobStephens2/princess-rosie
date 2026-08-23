@@ -21,7 +21,7 @@ npm run test:godot
 apps/godot/tests/export_smoke.sh
 ```
 
-The export smoke test uses the official universal 4.7.2 debug template, thins the packaged executable to arm64, signs it ad hoc, launches it with network access denied, and verifies both opening and complete Lacewood-to-Birthday-Star semantic evidence and Storybook Stage captures under `build/`.
+The export smoke test uses the official universal 4.7.2 debug template, thins the packaged executable to arm64, signs it ad hoc, launches it with network access denied, and verifies opening, Lacewood-to-Birthday-Star, and Sapphire-Sea-to-celebration semantic evidence and Storybook Stage captures under `build/`.
 
 ## Hear the offline Soundscape tracer
 
@@ -31,4 +31,12 @@ On the target MacBook, run the audible acceptance harness without `--headless`:
 /Applications/Godot.app/Contents/MacOS/Godot --path apps/godot --script res://tests/soundscape_offline_acceptance.gd
 ```
 
-It starts the bundled instrumental through the shared mixer, reports and plays approved cues from the immutable Edition Pack, then reports the same semantic confirmation against an intentionally missing asset and plays the locally synthesized fallback. The harness makes no network request. The automated acceptance suite separately drives both Lacewood routes, Journey History shimmer, the capped proximity cue, three-bump Cloud Rest and resume, Birthday Star gathering, Rainbow Path travel, and Gram's Birthday Star Moment.
+It starts the bundled instrumental through the shared mixer, reports and plays approved cues from the immutable Edition Pack, then reports the same semantic confirmation against an intentionally missing asset and plays the locally synthesized fallback. The harness makes no network request. Check the Sapphire Sea on the target MacBook's built-in speakers with its own audible pass:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path apps/godot --script res://tests/sapphire_sea_listening.gd
+```
+
+It crossfades the Lacewood ambience into the coast loop, then plays both route responses back to back, the local near miss and Playful Bump, the unexplored-route shimmer, and the shared Birthday Star sequence into Uncle's Birthday Star Moment, so rhythmic calm, route distinction, and masking can be judged by ear.
+
+The automated acceptance suite separately drives both Lacewood routes and both Sapphire Sea routes, Journey History shimmer, the capped proximity cue, three-bump Cloud Rest and resume, Birthday Star gathering, Rainbow Path travel, Gram's and Uncle's Birthday Star Moments, the crossfade of the one ambience slot between places, and the transition to the Birthday Castle celebration.

@@ -18,7 +18,7 @@ func run_if_requested(shell: StorybookShell) -> void:
 		get_tree().quit(2)
 		return
 	var requested_state := _argument_value(arguments, STATE_ARGUMENT)
-	if requested_state in ["opening", "flight", "lacewood"]:
+	if requested_state in ["opening", "flight", "lacewood", "sapphire-sea"]:
 		var begin_button := shell.get_node_or_null("%BeginButton") as Button
 		if begin_button == null:
 			push_error("Export smoke could not find the Begin control")
@@ -26,7 +26,7 @@ func run_if_requested(shell: StorybookShell) -> void:
 			return
 		begin_button.pressed.emit()
 		await get_tree().process_frame
-	if requested_state in ["flight", "lacewood"]:
+	if requested_state in ["flight", "lacewood", "sapphire-sea"]:
 		var continue_button := shell.get_node_or_null("%ContinueButton") as Button
 		if continue_button == null:
 			push_error("Export smoke could not find the Continue control")
@@ -38,22 +38,14 @@ func run_if_requested(shell: StorybookShell) -> void:
 		_emit_flight_input(true)
 		await get_tree().process_frame
 		_emit_flight_input(false)
-	if requested_state == "lacewood":
-		await get_tree().create_timer(0.8).timeout
-		shell.handle_player_intent("action-pressed")
-		await get_tree().create_timer(1.3).timeout
-		shell.handle_player_intent("action-released")
-		await get_tree().create_timer(1.85).timeout
-		shell.handle_player_intent("action-pressed")
-		await get_tree().create_timer(5.0).timeout
-		await get_tree().create_timer(2.05).timeout
-		var moment_continue := shell.get_node_or_null("%ContinueButton") as Button
-		if moment_continue == null:
-			push_error("Export smoke could not find the Birthday Star Continue control")
-			get_tree().quit(7)
+	if requested_state in ["lacewood", "sapphire-sea"]:
+		await _fly_place_to_birthday_star_moment(shell)
+	if requested_state == "sapphire-sea":
+		if not await _continue_birthday_star_moment(shell):
 			return
-		moment_continue.pressed.emit()
-		await get_tree().process_frame
+		await _fly_place_to_birthday_star_moment(shell)
+		if not await _continue_birthday_star_moment(shell):
+			return
 		_emit_flight_input(true)
 		await get_tree().process_frame
 		_emit_flight_input(false)
@@ -84,6 +76,28 @@ func run_if_requested(shell: StorybookShell) -> void:
 	var quit_timer := scene_tree.create_timer(0.1)
 	quit_timer.timeout.connect(scene_tree.quit.bind(0))
 	shell.queue_free()
+
+
+func _fly_place_to_birthday_star_moment(shell: StorybookShell) -> void:
+	await get_tree().create_timer(0.8).timeout
+	shell.handle_player_intent("action-pressed")
+	await get_tree().create_timer(1.3).timeout
+	shell.handle_player_intent("action-released")
+	await get_tree().create_timer(1.85).timeout
+	shell.handle_player_intent("action-pressed")
+	await get_tree().create_timer(5.0).timeout
+	await get_tree().create_timer(2.05).timeout
+
+
+func _continue_birthday_star_moment(shell: StorybookShell) -> bool:
+	var moment_continue := shell.get_node_or_null("%ContinueButton") as Button
+	if moment_continue == null:
+		push_error("Export smoke could not find the Birthday Star Continue control")
+		get_tree().quit(7)
+		return false
+	moment_continue.pressed.emit()
+	await get_tree().process_frame
+	return true
 
 
 func _sample_color_count(image: Image) -> int:

@@ -35,30 +35,66 @@
       "illustration": "opening.rosi-stella-departure"
     }
   ],
-  "place": {
-    "id": "lacewood",
-    "name": "Zélie’s Lacewood",
-    "familyGuest": "Gram",
-    "pathChoice": {
-      "id": "path-choice.lacewood",
-      "routes": [
-        {
-          "id": "lacewood.canopy",
-          "name": "Silver-ribbon canopy",
-          "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
-          "celebrationEcho": "silver-ribbons"
-        },
-        {
-          "id": "lacewood.floor",
-          "name": "Rose-lit woodland floor",
-          "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
-          "celebrationEcho": "rose-lights"
-        }
-      ]
+  "places": [
+    {
+      "id": "lacewood",
+      "name": "Zélie’s Lacewood",
+      "familyGuest": "Gram",
+      "pathChoice": {
+        "id": "path-choice.lacewood",
+        "instruction": "Hold for silver ribbons • release for rose lights",
+        "routes": [
+          {
+            "id": "lacewood.canopy",
+            "name": "Silver-ribbon canopy",
+            "interaction": "silver-ribbon-canopy",
+            "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
+            "celebrationEcho": "silver-ribbons"
+          },
+          {
+            "id": "lacewood.floor",
+            "name": "Rose-lit woodland floor",
+            "interaction": "rose-lit-floor",
+            "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
+            "celebrationEcho": "rose-lights"
+          }
+        ]
+      },
+      "birthdayStar": "birthday-star.lacewood",
+      "rainbowPath": "rainbow-path.lacewood",
+      "playfulBumpKind": "silver-ribbon",
+      "nearMissKind": "silver-ribbon"
     },
-    "birthdayStar": "birthday-star.lacewood",
-    "rainbowPath": "rainbow-path.lacewood"
-  },
+    {
+      "id": "sapphire-sea",
+      "name": "The Sapphire Sea",
+      "familyGuest": "Uncle",
+      "pathChoice": {
+        "id": "path-choice.sapphire-sea",
+        "instruction": "Hold for the shell-lined shore • release for open water",
+        "routes": [
+          {
+            "id": "sapphire-sea.shore",
+            "name": "Shell-lined shore",
+            "interaction": "shell-lined-shore",
+            "birthdayStarMoment": "Uncle followed the shining shells along the shore of the Sapphire Sea!",
+            "celebrationEcho": "shore-shells"
+          },
+          {
+            "id": "sapphire-sea.open-water",
+            "name": "Open sparkling water",
+            "interaction": "open-sparkling-water",
+            "birthdayStarMoment": "Uncle followed the sparkling waves across the Sapphire Sea!",
+            "celebrationEcho": "open-water-sparkle"
+          }
+        ]
+      },
+      "birthdayStar": "birthday-star.sapphire-sea",
+      "rainbowPath": "rainbow-path.sapphire-sea",
+      "playfulBumpKind": "sparkling-wave",
+      "nearMissKind": "sea-spray"
+    }
+  ],
   "celebration": {
     "id": "celebration.tracer",
     "actions": ["dance-again", "fly-again"]

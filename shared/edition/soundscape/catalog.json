@@ -311,9 +311,7 @@
     {
       "id": "cue.path-choice.available",
       "event": "sound-event.path-choice-available",
-      "match": {
-        "pathChoice": "path-choice.lacewood"
-      },
+      "match": {},
       "category": "interaction",
       "priority": 60,
       "requirement": "optional",
@@ -397,9 +395,7 @@
     {
       "id": "cue.journey-history.shimmer",
       "event": "sound-event.journey-history-shimmer",
-      "match": {
-        "pathChoice": "path-choice.lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 20,
       "requirement": "optional",
@@ -481,9 +477,7 @@
     {
       "id": "cue.birthday-star.proximity",
       "event": "sound-event.birthday-star-proximity",
-      "match": {
-        "birthdayStar": "birthday-star.lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 20,
       "requirement": "optional",
@@ -509,9 +503,7 @@
     {
       "id": "cue.birthday-star.gather",
       "event": "sound-event.birthday-star-gathered",
-      "match": {
-        "birthdayStar": "birthday-star.lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 100,
       "requirement": "required",
@@ -537,10 +529,7 @@
     {
       "id": "cue.rainbow-path.open",
       "event": "sound-event.rainbow-path-opened",
-      "match": {
-        "rainbowPath": "rainbow-path.lacewood",
-        "familyGuest": "Gram"
-      },
+      "match": {},
       "category": "journey",
       "priority": 100,
       "requirement": "required",
@@ -595,9 +584,7 @@
     {
       "id": "cue.cloud-rest.enter",
       "event": "sound-event.cloud-rest-entered",
-      "match": {
-        "place": "lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 100,
       "requirement": "required",
@@ -623,9 +610,7 @@
     {
       "id": "cue.cloud-rest.ambience",
       "event": "sound-event.cloud-rest-entered",
-      "match": {
-        "place": "lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 40,
       "requirement": "required",
@@ -651,9 +636,7 @@
     {
       "id": "cue.cloud-rest.exit",
       "event": "sound-event.cloud-rest-exited",
-      "match": {
-        "place": "lacewood"
-      },
+      "match": {},
       "category": "movement",
       "priority": 100,
       "requirement": "required",
@@ -675,6 +658,235 @@
       "sourceMaster": "source-master.cloud-rest.exit",
       "runtimeMapping": "runtime-cue.cloud-rest.exit",
       "fallbackRole": "fallback.cloud-rest"
+    },
+    {
+      "id": "cue.place.sapphire-sea",
+      "event": "sound-event.place-entry",
+      "match": {
+        "place": "sapphire-sea"
+      },
+      "category": "place",
+      "priority": 40,
+      "requirement": "required",
+      "durationSeconds": 12,
+      "looping": true,
+      "channelPolicy": "warm-stereo-loop",
+      "masteringIntent": "gentle-rhythmic-coast-with-restrained-sparkle-under-music-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A gentle rhythmic coast with soft rolling waves and restrained sparkle under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.place.sapphire-sea",
+      "runtimeMapping": "runtime-cue.place.sapphire-sea",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.vignette.sapphire-sea.shore",
+      "event": "sound-event.vignette-interaction",
+      "match": {
+        "place": "sapphire-sea",
+        "interaction": "shell-lined-shore"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.4,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "soft-shell-lined-shore-response-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A soft shell-lined shore response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.vignette.sapphire-sea.shore",
+      "runtimeMapping": "runtime-cue.vignette.sapphire-sea.shore",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.vignette.sapphire-sea.open-water",
+      "event": "sound-event.vignette-interaction",
+      "match": {
+        "place": "sapphire-sea",
+        "interaction": "open-sparkling-water"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.4,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "bright-open-sparkling-water-response-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A bright open sparkling water response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.vignette.sapphire-sea.open-water",
+      "runtimeMapping": "runtime-cue.vignette.sapphire-sea.open-water",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.path-choice.sapphire-sea.shore",
+      "event": "sound-event.path-choice-selected",
+      "match": {
+        "pathChoice": "path-choice.sapphire-sea",
+        "route": "sapphire-sea.shore"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.4,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "calm-shell-lined-shore-choice-response-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A calm shell-lined shore choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.path-choice.sapphire-sea.shore",
+      "runtimeMapping": "runtime-cue.path-choice.sapphire-sea.shore",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.path-choice.sapphire-sea.open-water",
+      "event": "sound-event.path-choice-selected",
+      "match": {
+        "pathChoice": "path-choice.sapphire-sea",
+        "route": "sapphire-sea.open-water"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 1.4,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "calm-open-sparkling-water-choice-response-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A calm open sparkling water choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.path-choice.sapphire-sea.open-water",
+      "runtimeMapping": "runtime-cue.path-choice.sapphire-sea.open-water",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.playful-bump.sapphire-sea",
+      "event": "sound-event.playful-bump",
+      "match": {
+        "place": "sapphire-sea"
+      },
+      "category": "interaction",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.8,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "soft-nonthreatening-wave-bump-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A soft nonthreatening wave bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.playful-bump.sapphire-sea",
+      "runtimeMapping": "runtime-cue.playful-bump.sapphire-sea",
+      "fallbackRole": "fallback.playful-bump"
+    },
+    {
+      "id": "cue.near-miss.sapphire-sea",
+      "event": "sound-event.near-miss",
+      "match": {
+        "place": "sapphire-sea"
+      },
+      "category": "interaction",
+      "priority": 20,
+      "requirement": "optional",
+      "durationSeconds": 0.5,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "restrained-sea-spray-cooldown-accent-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A restrained sea-spray cooldown accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.near-miss.sapphire-sea",
+      "runtimeMapping": "runtime-cue.near-miss.sapphire-sea",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.birthday-star-moment.sapphire-sea",
+      "event": "sound-event.birthday-star-moment",
+      "match": {
+        "place": "sapphire-sea",
+        "familyGuest": "Uncle"
+      },
+      "category": "storybook",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 2,
+      "looping": false,
+      "channelPolicy": "focused-mono",
+      "masteringIntent": "sparkling-shore-wash-resolution-accent-for-macbook",
+      "selectionStatus": "approved",
+      "authoring": {
+        "prompt": "A sparkling shore-wash resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+        "model": "eleven_text_to_sound_v2",
+        "promptInfluence": 0.3,
+        "sourceFormats": [
+          "pcm_48000",
+          "pcm_24000"
+        ],
+        "candidateCount": 3
+      },
+      "sourceMaster": "source-master.birthday-star-moment.sapphire-sea",
+      "runtimeMapping": "runtime-cue.birthday-star-moment.sapphire-sea",
+      "fallbackRole": "fallback.birthday-star"
     },
     {
       "id": "cue.birthday-castle.arrival",

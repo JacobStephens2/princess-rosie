@@ -31,6 +31,16 @@ const LACEWOOD_CUE_PATHS := [
 	"source-media/soundscape/runtime/cloud-rest-ambience.wav",
 	"source-media/soundscape/runtime/cloud-rest-exit.wav",
 ]
+const SAPPHIRE_SEA_CUE_PATHS := [
+	"source-media/soundscape/runtime/place-sapphire-sea.wav",
+	"source-media/soundscape/runtime/vignette-sapphire-sea-shore.wav",
+	"source-media/soundscape/runtime/vignette-sapphire-sea-open-water.wav",
+	"source-media/soundscape/runtime/path-choice-sapphire-sea-shore.wav",
+	"source-media/soundscape/runtime/path-choice-sapphire-sea-open-water.wav",
+	"source-media/soundscape/runtime/playful-bump-sapphire-sea.wav",
+	"source-media/soundscape/runtime/near-miss-sapphire-sea.wav",
+	"source-media/soundscape/runtime/birthday-star-moment-sapphire-sea.wav",
+]
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -48,7 +58,7 @@ func _run() -> void:
 	if approved_stream is AudioStreamWAV:
 		test.expect(approved_stream.mix_rate == 48000, "the approved 48 kHz master reaches Godot unchanged")
 		test.expect(not approved_stream.stereo, "the approved focused-mono master stays mono")
-	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS:
+	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS + SAPPHIRE_SEA_CUE_PATHS:
 		var cue_stream: Variant = audio.load_wav("res://edition-pack.zip", cue_path)
 		test.expect(
 			cue_stream is AudioStreamWAV,
@@ -161,6 +171,43 @@ func _run() -> void:
 			"a newer critical opening cue replaces an older critical cue at the ceiling",
 		)
 
+	if fallback_music is AudioStreamWAV:
+		var place_ambience := SOUNDSCAPE_PLAYBACK.new(
+			&"Ambience", &"ambience", SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE,
+			-16.7, 40, true, 0, 0.0, 300,
+		)
+		test.expect(
+			audio.play(fallback_music, place_ambience),
+			"the first place ambience takes the one ambience slot",
+		)
+		await create_timer(0.4).timeout
+		test.expect(
+			audio.ambience_evidence().get("playing") == 1,
+			"one place holds the ambience slot alone once its entry crossfade finishes",
+		)
+		test.expect(
+			audio.play(fallback_music, place_ambience),
+			"the next place ambience crosses into the same slot",
+		)
+		var during_crossfade: Dictionary = audio.ambience_evidence()
+		test.expect(
+			during_crossfade.get("playing") == 2
+			and during_crossfade.get("volumes").min() <= -60.0,
+			"place exit and entry overlap from silence rather than cutting the loop",
+		)
+		await create_timer(0.4).timeout
+		var after_crossfade: Dictionary = audio.ambience_evidence()
+		test.expect(
+			after_crossfade.get("playing") == 1
+			and is_equal_approx(after_crossfade.get("volumes")[0], -16.7),
+			"the arriving place ends alone in the ambience slot at its authored gain",
+		)
+		audio.stop_slot("ambience")
+		test.expect(
+			audio.ambience_evidence().get("playing") == 0,
+			"stopping the ambience slot clears both sides of a crossfade",
+		)
+
 	test.expect(
 		audio.has_method("set_sound_enabled"),
 		"the adapter supports the one Sound presentation preference",
@@ -196,4 +243,5 @@ func _expects_stereo(cue_path: String) -> bool:
 		or cue_path.ends_with("place-lacewood.wav")
 		or cue_path.ends_with("rainbow-path-open.wav")
 		or cue_path.ends_with("cloud-rest-ambience.wav")
+		or cue_path.ends_with("place-sapphire-sea.wav")
 	)

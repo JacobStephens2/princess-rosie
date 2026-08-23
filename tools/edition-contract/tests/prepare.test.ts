@@ -65,12 +65,12 @@ async function editPackJson<T>(
 }
 
 describe("Edition Contract", () => {
-  test("prepares the frozen Lacewood tracer Edition Pack", async () => {
+  test("prepares the frozen Lacewood-to-Sapphire-Sea Edition Pack", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
 
     expect(prepared).toMatchObject({
       contractVersion: "rosi-edition-contract/1",
-      revision: "lacewood-birthday-star-soundscape-1",
+      revision: "sapphire-sea-path-choice-soundscape-1",
       packDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
       scenarioIds: ["opening-flight", "tracer-bullet"],
     });
@@ -128,6 +128,14 @@ describe("Edition Contract", () => {
         "cue.cloud-rest.enter",
         "cue.cloud-rest.ambience",
         "cue.cloud-rest.exit",
+        "cue.place.sapphire-sea",
+        "cue.vignette.sapphire-sea.shore",
+        "cue.vignette.sapphire-sea.open-water",
+        "cue.path-choice.sapphire-sea.shore",
+        "cue.path-choice.sapphire-sea.open-water",
+        "cue.playful-bump.sapphire-sea",
+        "cue.near-miss.sapphire-sea",
+        "cue.birthday-star-moment.sapphire-sea",
         "cue.birthday-castle.arrival",
         "cue.celebration.dance-again",
         "cue.replay",
@@ -158,6 +166,7 @@ describe("Edition Contract", () => {
       },
       foregroundVoiceMaximum: 2,
       musicDuckDb: -4,
+      ambienceCrossfadeMs: 600,
       truePeakCeilingDbfs: -3,
       confirmationDelayMaximumMs: 200,
     });
@@ -173,6 +182,22 @@ describe("Edition Contract", () => {
 
       await expect(prepareEditionPack(packRoot)).rejects.toThrow(
         "Invalid soundscape runtime mapping: runtime-cue.opening.celebration-reveal",
+      );
+    });
+  });
+
+  test("rejects a place ambience crossfade outside the gentle transition range", async () => {
+    await withPackCopy(async (packRoot) => {
+      await editPackJson<{ ambienceCrossfadeMs: number }>(
+        packRoot,
+        "soundscape/mix.json",
+        (mix) => {
+          mix.ambienceCrossfadeMs = 0;
+        },
+      );
+
+      await expect(prepareEditionPack(packRoot)).rejects.toThrow(
+        "Invalid soundscape ambience crossfade",
       );
     });
   });

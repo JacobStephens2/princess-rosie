@@ -59,6 +59,7 @@ class FakeEngineAudioAdapter extends RefCounted:
 				"looping": playback.looping,
 				"max_duration_ms": playback.max_duration_ms,
 				"music_duck_db": playback.music_duck_db,
+				"crossfade_ms": playback.crossfade_ms,
 			})
 		else:
 			playback_requests_are_typed = false
@@ -436,6 +437,152 @@ func _init() -> void:
 		and not enabled_rest_paths.has("source-media/soundscape/runtime/place-lacewood.wav")
 		and not enabled_rest_paths.has("source-media/soundscape/runtime/movement-flight.wav"),
 		"Sound enabled during Cloud Rest restores only the rest loop, never stale flight",
+	)
+	var sea_audio := FakeEngineAudioAdapter.new()
+	var sea_clock := FakeClock.new()
+	var sea_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, sea_audio, sea_clock.now_ms)
+	test.expect(
+		sea_soundscape.report_event(&"sound-event.place-entry", {"place": "lacewood"}),
+		"the journey enters Zélie's Lacewood before the coast",
+	)
+	test.expect(
+		sea_soundscape.report_event(&"sound-event.place-entry", {"place": "sapphire-sea"}),
+		"the Sapphire Sea takes over the one ambience slot on place entry",
+	)
+	test.expect(
+		sea_audio.loaded_paths.slice(-2) == [
+			"source-media/soundscape/runtime/place-lacewood.wav",
+			"source-media/soundscape/runtime/place-sapphire-sea.wav",
+		],
+		"leaving the Lacewood for the Sapphire Sea exchanges one place ambience for the next",
+	)
+	var sea_ambience_playback: Dictionary = sea_audio.playback_settings.back()
+	test.expect(
+		sea_ambience_playback.get("slot") == "ambience"
+		and sea_ambience_playback.get("looping") == true
+		and sea_ambience_playback.get("max_duration_ms") == 0,
+		"the coast ambience loops indefinitely in the single ambience slot",
+	)
+	test.expect(
+		sea_ambience_playback.get("crossfade_ms") == 600
+		and sea_ambience_playback.get("gain_db") == -16.7,
+		"place entry crossfades the ambience slot at the authored ambience gain",
+	)
+	var sea_route_events := [
+		[
+			&"sound-event.path-choice-selected",
+			{"pathChoice": "path-choice.sapphire-sea", "route": "sapphire-sea.shore"},
+			"source-media/soundscape/runtime/path-choice-sapphire-sea-shore.wav",
+		],
+		[
+			&"sound-event.vignette-interaction",
+			{"place": "sapphire-sea", "interaction": "shell-lined-shore"},
+			"source-media/soundscape/runtime/vignette-sapphire-sea-shore.wav",
+		],
+		[
+			&"sound-event.path-choice-selected",
+			{"pathChoice": "path-choice.sapphire-sea", "route": "sapphire-sea.open-water"},
+			"source-media/soundscape/runtime/path-choice-sapphire-sea-open-water.wav",
+		],
+		[
+			&"sound-event.vignette-interaction",
+			{"place": "sapphire-sea", "interaction": "open-sparkling-water"},
+			"source-media/soundscape/runtime/vignette-sapphire-sea-open-water.wav",
+		],
+	]
+	var sea_route_playbacks: Array[Dictionary] = []
+	for route_event: Array in sea_route_events:
+		test.expect(
+			sea_soundscape.report_event(route_event[0], route_event[1]),
+			"the Sapphire Sea route response plays: %s" % route_event[2],
+		)
+		test.expect(
+			sea_audio.loaded_paths.back() == route_event[2],
+			"the route response resolves its own approved shore or sea cue: %s" % route_event[2],
+		)
+		sea_route_playbacks.append(sea_audio.playback_settings.back())
+	test.expect(
+		sea_route_playbacks[0].get("gain_db") == sea_route_playbacks[2].get("gain_db")
+		and sea_route_playbacks[0].get("priority") == sea_route_playbacks[2].get("priority")
+		and sea_route_playbacks[1].get("gain_db") == sea_route_playbacks[3].get("gain_db")
+		and sea_route_playbacks[1].get("priority") == sea_route_playbacks[3].get("priority"),
+		"neither safe route is louder, higher priority, or otherwise rewarded over the other",
+	)
+	test.expect(
+		sea_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "sapphire-sea", "kind": "sea-spray"},
+		),
+		"a Sapphire Sea near miss sounds on its own state edge",
+	)
+	test.expect(
+		sea_audio.loaded_paths.back() == "source-media/soundscape/runtime/near-miss-sapphire-sea.wav",
+		"the sea near miss resolves its own local accent",
+	)
+	test.expect(
+		not sea_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "sapphire-sea", "kind": "sea-spray"},
+		),
+		"continuous sea spray cannot retrigger the near miss during cooldown",
+	)
+	test.expect(
+		sea_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "sapphire-sea", "kind": "sparkling-wave"},
+		)
+		and sea_audio.loaded_paths.back()
+		== "source-media/soundscape/runtime/playful-bump-sapphire-sea.wav",
+		"a sea Playful Bump resolves its own local wave response",
+	)
+	test.expect(
+		sea_soundscape.report_event(
+			&"sound-event.journey-history-shimmer",
+			{"pathChoice": "path-choice.sapphire-sea", "route": "sapphire-sea.open-water"},
+		)
+		and not sea_soundscape.report_event(
+			&"sound-event.journey-history-shimmer",
+			{"pathChoice": "path-choice.sapphire-sea", "route": "sapphire-sea.open-water"},
+		),
+		"an unexplored sea route receives one restrained shimmer and no completion pressure",
+	)
+	var sea_star_events := [
+		[
+			&"sound-event.birthday-star-proximity",
+			{"birthdayStar": "birthday-star.sapphire-sea"},
+			"source-media/soundscape/runtime/birthday-star-proximity.wav",
+		],
+		[
+			&"sound-event.birthday-star-gathered",
+			{"birthdayStar": "birthday-star.sapphire-sea"},
+			"source-media/soundscape/runtime/birthday-star-gather.wav",
+		],
+		[
+			&"sound-event.rainbow-path-opened",
+			{"rainbowPath": "rainbow-path.sapphire-sea", "familyGuest": "Uncle"},
+			"source-media/soundscape/runtime/rainbow-path-open.wav",
+		],
+		[
+			&"sound-event.birthday-star-moment",
+			{"place": "sapphire-sea", "familyGuest": "Uncle"},
+			"source-media/soundscape/runtime/birthday-star-moment-sapphire-sea.wav",
+		],
+	]
+	for star_event: Array in sea_star_events:
+		test.expect(
+			sea_soundscape.report_event(star_event[0], star_event[1]),
+			"the Sapphire Sea Birthday Star stage plays: %s" % star_event[0],
+		)
+		test.expect(
+			sea_audio.loaded_paths.back() == star_event[2],
+			"the Birthday Star stage resolves its cue: %s" % star_event[2],
+		)
+	var uncles_moment: Dictionary = sea_audio.playback_settings.back()
+	test.expect(
+		uncles_moment.get("category") == "critical-foreground"
+		and uncles_moment.get("priority") == 100
+		and uncles_moment.get("music_duck_db") == -4.0,
+		"Uncle's Birthday Star Moment keeps the shared critical priority and music ducking",
 	)
 	var fallback_audio := FakeEngineAudioAdapter.new()
 	fallback_audio.asset_available = false

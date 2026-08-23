@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.vignette.sapphire-sea.shore",
+  "sourceMasterId": "source-master.vignette.sapphire-sea.shore",
+  "runtimeMapping": "runtime-cue.vignette.sapphire-sea.shore",
+  "jobHash": "sha256:1f759c1460c2e11c81155bb1eddf70501fd60f8edc41b1d7156f24f7ca27e73e",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A soft shell-lined shore response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.4,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:59:00.103Z",
+  "traceId": "a60c7afe6cab10024e8a065870d921f1",
+  "providerReportedUsage": {
+    "characterCost": "14"
+  },
+  "sourceHash": "sha256:67cabeba77423d631a439b8fc870115e4c78fb58831c8a282287c52659a014a1",
+  "selectedOutputHash": "sha256:5782e5b2eeefcbe3256e04aa9573d0b94c61cb0bc930e4d4d3310dba284e1d03",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -15.484,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:5782e5b2eeefcbe3256e04aa9573d0b94c61cb0bc930e4d4d3310dba284e1d03",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "soft-shell-lined-shore-response-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for shell-like tactile texture and warm shimmer that reads as a shore interaction rather than a reward chime, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 1.4 s, -15.5 dBFS peak, no clipping, and a clean trimmed tail."
+}
