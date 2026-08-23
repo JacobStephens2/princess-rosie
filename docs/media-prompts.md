@@ -101,6 +101,90 @@ Output: `public/assets/audio/birthday-flight.mp3`
 
 Credit: ElevenLabs Sound Effects API. This project documentation records the provider; No in-game provider credit is added.
 
+### cue.flight.launch
+
+> A buoyant gentle storybook flight launch: a soft upward rush of warm air, one light harp sweep, and a tiny celesta lift that settles forward without a hard landing. Nonverbal, acoustic, joyful, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, fanfare blast, harsh transient, alarm, impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Best launch compromise for MacBook playback: more audible than the first candidate, less crest-heavy than the third, with moderate high-frequency motion and ample peak headroom.
+
+Source master: `source-master.flight.launch`
+
+### cue.movement.flight
+
+> A very quiet seamless storybook flight texture beneath existing music: soft flowing air, silky wing motion, and sparse blended sparkle dust in one graceful continuous layer. Warm stereo, nonverbal, fatigue-free, and clear on MacBook speakers, with no individual wing beats. Smooth seamless loop. No voice, speech, singing, recognizable melody, rhythmic pulse, harsh transient, alarm, impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 8 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Most suitable continuous flight bed: strongest low-crest body at the deliberately quiet movement gain, balanced stereo energy, low high-frequency crossing activity, and a validated seamless loop.
+
+Source master: `source-master.movement.flight`
+
+### cue.movement.glide
+
+> A very subtle responsive storybook release accent: a small soft exhale of air with one delicate downward harp harmonic, immediate and gently settling. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.6 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Clearest gentle release at the quiet movement gain: strongest low-crest body with far less high-frequency crossing activity than the second candidate and safe peak headroom.
+
+Source master: `source-master.movement.glide`
+
+### cue.movement.rise
+
+> A very subtle responsive storybook lift accent: a small breath of rising air with one delicate upward harp harmonic, immediate and gentle. Nonverbal, acoustic, restrained, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.6 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Most intelligible subtle lift at the quiet movement gain: clear short body, moderate crest factor, and substantially less high-frequency crossing activity than the second candidate.
+
+Source master: `source-master.movement.rise`
+
+### cue.opening.celebration-reveal
+
+> A restrained magical storybook reveal across a warm sparkling sea: one soft harp opening, delicate celesta light, and a gentle airy shimmer resolving with quiet wonder. Nonverbal, acoustic, warm, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Clearest restrained reveal for small speakers: low-noise body, controlled crest factor, and a mastered peak at the gentle -6 dBFS ceiling.
+
+Source master: `source-master.opening.celebration-reveal`
+
+### cue.opening.departure
+
+> A brave but tender storybook readiness flourish for a young princess and her friendly flying unicorn: two soft rising harp gestures, a warm celesta glint, and a calm airy resolve. Nonverbal, acoustic, encouraging, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, fanfare blast, harsh transient, alarm, impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Strongest gentle readiness balance for small speakers: clear sustained body, the lowest crest factor, and low high-frequency crossing activity without approaching the asset ceiling.
+
+Source master: `source-master.opening.departure`
+
+### cue.opening.star-scatter
+
+> A playful airy storybook whoosh scatters seven tiny magical lights: a soft wind sweep followed by a brief spray of delicate celesta sparkles, surprising but gentle and non-startling. Nonverbal, acoustic, warm, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, impact, bass hit, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Best-balanced airy scatter: clear enough for small speakers, moderate RMS energy, and less transient-heavy than the first candidate while staying under the -6 dBFS asset ceiling.
+
+Source master: `source-master.opening.star-scatter`
+
 ### cue.story.confirmation
 
 > A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.

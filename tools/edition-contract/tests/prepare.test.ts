@@ -23,6 +23,7 @@ const soundscapeInputPaths = [
   "soundscape/events.json",
   "soundscape/catalog.json",
   "soundscape/source-media.json",
+  "soundscape/mix.json",
   "soundscape/provenance.json",
 ];
 const invalidIdentifierCases: Array<[string, string, string]> = [
@@ -33,6 +34,14 @@ const invalidIdentifierCases: Array<[string, string, string]> = [
   ["source master", "soundscape/source-media.json", "sourceMasters"],
   ["provenance role", "soundscape/provenance.json", "roles"],
 ];
+interface MutableMixFixture {
+  soundtrack: { gainDb: number };
+  categoryGainDb: {
+    ambience: number;
+    movement: number;
+    ordinaryForeground: number;
+  };
+}
 
 async function withPackCopy(assertion: (packRoot: string) => Promise<void>): Promise<void> {
   const packRoot = await mkdtemp(join(tmpdir(), "rosi-edition-pack-"));
@@ -61,16 +70,16 @@ describe("Edition Contract", () => {
 
     expect(prepared).toMatchObject({
       contractVersion: "rosi-edition-contract/1",
-      revision: "tracer-lacewood-soundscape-1",
+      revision: "opening-flight-soundscape-1",
       packDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
-      scenarioIds: ["tracer-bullet"],
+      scenarioIds: ["opening-flight", "tracer-bullet"],
     });
   });
 
   test("prepares the Fairytale Soundscape event and catalog identities", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
 
-    expect(prepared.soundscape).toEqual({
+    expect(prepared.soundscape).toMatchObject({
       eventIds: [
         "sound-event.opening-storybook-moment",
         "sound-event.story-confirmation",
@@ -125,6 +134,90 @@ describe("Edition Contract", () => {
         "cue.sound.off",
         "cue.sound.on",
       ],
+    });
+  });
+
+  test("prepares the bounded opening-to-flight runtime mix", async () => {
+    const prepared = await prepareEditionPack(tracerPackRoot);
+
+    expect(prepared.soundscape?.mix).toEqual({
+      soundtrack: {
+        id: "music.birthday-flight",
+        path: "source-media/soundscape/music/birthday-flight.mp3",
+        looping: true,
+        gainDb: -6.7,
+        fallbackRole: "fallback.music",
+      },
+      categoryGainDb: {
+        music: 0,
+        ambience: -10,
+        movement: -10,
+        ordinaryForeground: 3,
+        criticalForeground: 3,
+        optionalDetail: -10,
+      },
+      foregroundVoiceMaximum: 2,
+      musicDuckDb: -4,
+      truePeakCeilingDbfs: -3,
+      confirmationDelayMaximumMs: 200,
+    });
+  });
+
+  test("rejects a runtime mapping that does not belong to its catalog source master", async () => {
+    await withPackCopy(async (packRoot) => {
+      await editPackJson<{
+        mappings: Array<{ sourceMaster: string }>;
+      }>(packRoot, "soundscape/runtime-mappings.json", (runtimeMappings) => {
+        runtimeMappings.mappings[0]!.sourceMaster = "source-master.opening.star-scatter";
+      });
+
+      await expect(prepareEditionPack(packRoot)).rejects.toThrow(
+        "Invalid soundscape runtime mapping: runtime-cue.opening.celebration-reveal",
+      );
+    });
+  });
+
+  test("rejects a soundtrack path other than the bundled music asset", async () => {
+    await withPackCopy(async (packRoot) => {
+      await editPackJson<{
+        soundtrack: { path: string };
+      }>(packRoot, "soundscape/mix.json", (mix) => {
+        mix.soundtrack.path = "source-media/soundscape/music/missing.mp3";
+      });
+
+      await expect(prepareEditionPack(packRoot)).rejects.toThrow(
+        "Invalid soundscape soundtrack asset",
+      );
+    });
+  });
+
+  test.each<[string, (mix: MutableMixFixture) => void]>([
+    ["soundtrack reference", (mix) => { mix.soundtrack.gainDb = -3; }],
+    ["ambience", (mix) => { mix.categoryGainDb.ambience = -7; }],
+    ["movement", (mix) => { mix.categoryGainDb.movement = -13; }],
+    ["ordinary foreground", (mix) => { mix.categoryGainDb.ordinaryForeground = 1; }],
+  ])("rejects an out-of-bounds %s mix level", async (_label, mutate) => {
+    await withPackCopy(async (packRoot) => {
+      await editPackJson<MutableMixFixture>(packRoot, "soundscape/mix.json", mutate);
+
+      await expect(prepareEditionPack(packRoot)).rejects.toThrow(
+        "Invalid soundscape category balance",
+      );
+    });
+  });
+
+  test("rejects runtime mix categories that leak engine-specific names", async () => {
+    await withPackCopy(async (packRoot) => {
+      await editPackJson<{
+        categoryGainDb: Record<string, number>;
+      }>(packRoot, "soundscape/mix.json", (mix) => {
+        delete mix.categoryGainDb.movement;
+        mix.categoryGainDb.engineBus = -10;
+      });
+
+      await expect(prepareEditionPack(packRoot)).rejects.toThrow(
+        "Invalid soundscape category gains",
+      );
     });
   });
 

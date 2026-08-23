@@ -11,6 +11,10 @@
       "description": "A gentle synthesized confirmation for core story and presentation events."
     },
     {
+      "id": "fallback.music",
+      "description": "A quiet synthesized musical bed when the bundled instrumental cannot play."
+    },
+    {
       "id": "fallback.birthday-star",
       "description": "A recognizable synthesized magical response for Birthday Star stages."
     },
@@ -32,9 +36,36 @@
     }
   ],
   "sourceMasters": [
-    { "id": "source-master.opening.celebration-reveal", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
-    { "id": "source-master.opening.star-scatter", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
-    { "id": "source-master.opening.departure", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    {
+      "id": "source-master.opening.celebration-reveal",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/opening-celebration-reveal.wav",
+      "provenancePath": "source-media/soundscape/provenance/opening-celebration-reveal.json",
+      "runtimePath": "source-media/soundscape/runtime/opening-celebration-reveal.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/opening-celebration-reveal.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/opening-celebration-reveal.json"
+    },
+    {
+      "id": "source-master.opening.star-scatter",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/opening-star-scatter.wav",
+      "provenancePath": "source-media/soundscape/provenance/opening-star-scatter.json",
+      "runtimePath": "source-media/soundscape/runtime/opening-star-scatter.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/opening-star-scatter.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/opening-star-scatter.json"
+    },
+    {
+      "id": "source-master.opening.departure",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/opening-departure.wav",
+      "provenancePath": "source-media/soundscape/provenance/opening-departure.json",
+      "runtimePath": "source-media/soundscape/runtime/opening-departure.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/opening-departure.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/opening-departure.json"
+    },
     {
       "id": "source-master.story.confirmation",
       "role": "source-media.generated-master",
@@ -45,10 +76,46 @@
       "runtimeImportPath": "source-media/soundscape/runtime-imports/story-confirmation.json",
       "catalogStatePath": "source-media/soundscape/catalog-state/story-confirmation.json"
     },
-    { "id": "source-master.flight.launch", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
-    { "id": "source-master.movement.flight", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
-    { "id": "source-master.movement.rise", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
-    { "id": "source-master.movement.glide", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
+    {
+      "id": "source-master.flight.launch",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/flight-launch.wav",
+      "provenancePath": "source-media/soundscape/provenance/flight-launch.json",
+      "runtimePath": "source-media/soundscape/runtime/flight-launch.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/flight-launch.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/flight-launch.json"
+    },
+    {
+      "id": "source-master.movement.flight",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/movement-flight.wav",
+      "provenancePath": "source-media/soundscape/provenance/movement-flight.json",
+      "runtimePath": "source-media/soundscape/runtime/movement-flight.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/movement-flight.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/movement-flight.json"
+    },
+    {
+      "id": "source-master.movement.rise",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/movement-rise.wav",
+      "provenancePath": "source-media/soundscape/provenance/movement-rise.json",
+      "runtimePath": "source-media/soundscape/runtime/movement-rise.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/movement-rise.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/movement-rise.json"
+    },
+    {
+      "id": "source-master.movement.glide",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/movement-glide.wav",
+      "provenancePath": "source-media/soundscape/provenance/movement-glide.json",
+      "runtimePath": "source-media/soundscape/runtime/movement-glide.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/movement-glide.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/movement-glide.json"
+    },
     { "id": "source-master.place.lacewood", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
     { "id": "source-master.vignette.lacewood.canopy", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },
     { "id": "source-master.vignette.lacewood.floor", "role": "source-media.generated-master", "provenanceRole": "provenance.commercial-generated-effect" },

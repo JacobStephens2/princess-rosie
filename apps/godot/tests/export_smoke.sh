@@ -8,10 +8,12 @@ app_path="$build_dir/Princess Rosi.app"
 app_binary="$app_path/Contents/MacOS/Princess Rosi and the Seven Birthday Stars"
 capture_path="$build_dir/storybook-stage.png"
 evidence_path="$build_dir/export-smoke-evidence.json"
+opening_capture_path="$build_dir/opening-storybook-stage.png"
+opening_evidence_path="$build_dir/opening-export-smoke-evidence.json"
 expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
 
 mkdir -p "$build_dir"
-rm -f "$capture_path" "$evidence_path"
+rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path"
 
 "$godot_bin" --headless --path "$project_dir" --export-debug "macOS Development" "$app_path"
 
@@ -41,4 +43,29 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .storybook_stage.entry_points_visible == true
 ' "$evidence_path" >/dev/null
 
-echo "PASS: exported arm64 application launch and Storybook Stage capture"
+sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
+  "--smoke-state=opening" \
+  "--smoke-capture=$opening_capture_path" \
+  "--smoke-evidence=$opening_evidence_path"
+
+test -s "$opening_capture_path"
+test -s "$opening_evidence_path"
+test "$(stat -f '%z' "$opening_capture_path")" -gt 100000
+jq -e --arg expected_pack_digest "$expected_pack_digest" '
+  .state == "opening_storybook_moment"
+  and .opening_moment == "opening.celebration-preparations"
+  and .pack_digest == $expected_pack_digest
+  and .network_requests == 0
+  and .capture_sample_colors >= 8
+  and .storybook_stage.aspect == "16:9"
+  and .storybook_stage.essential_content_cropped == false
+  and .storybook_stage.opening_visible == true
+  and .sound_events == [
+    {
+      "event": "sound-event.opening-storybook-moment",
+      "context": {"moment": "opening.celebration-preparations"}
+    }
+  ]
+' "$opening_evidence_path" >/dev/null
+
+echo "PASS: exported arm64 application launch, cover, and opening Storybook Stage captures"

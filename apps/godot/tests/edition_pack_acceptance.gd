@@ -11,11 +11,17 @@ func _init() -> void:
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	var prepared: Dictionary = adapter.prepare(pack_root, ACCEPTANCE_TEST.EXPECTED_PACK_DIGEST)
 
-	test.expect(prepared.get("ok") == true, "the valid Edition Pack prepares")
+	test.expect(
+		prepared.get("ok") == true,
+		"the valid Edition Pack prepares: %s" % prepared.get("error", "unknown error"),
+	)
 	test.expect(prepared.get("contract_version") == "rosi-edition-contract/1", "the contract version is retained")
-	test.expect(prepared.get("revision") == "tracer-lacewood-soundscape-1", "the revision is retained")
+	test.expect(prepared.get("revision") == "opening-flight-soundscape-1", "the revision is retained")
 	test.expect(prepared.get("pack_digest") == ACCEPTANCE_TEST.EXPECTED_PACK_DIGEST, "the exact digest is retained")
-	test.expect(prepared.get("scenario_ids") == ["tracer-bullet"], "the scenario identity is retained")
+	test.expect(
+		prepared.get("scenario_ids") == ["opening-flight", "tracer-bullet"],
+		"the scenario identities are retained",
+	)
 
 	var mismatched: Dictionary = adapter.prepare(pack_root, "sha256:" + "0".repeat(64))
 	test.expect(mismatched.get("ok") == false, "a mismatched Edition Pack fails before play")

@@ -8,6 +8,8 @@ const SOUNDSCAPE_FILE_ROLES = [
   "soundscape-events",
   "soundscape-catalog",
   "soundscape-source-media",
+  "soundscape-mix",
+  "soundscape-runtime-mappings",
   "soundscape-provenance",
 ] as const;
 
@@ -53,6 +55,36 @@ interface SoundscapeSourceMediaFile {
 
 interface SoundscapeProvenanceFile {
   roles: Array<{ id: string }>;
+}
+
+interface SoundscapeRuntimeMappingsFile {
+  mappings: Array<{
+    id: string;
+    sourceMaster: string;
+    path: string;
+  }>;
+}
+
+interface SoundscapeMixFile {
+  soundtrack: {
+    id: string;
+    path: string;
+    looping: boolean;
+    gainDb: number;
+    fallbackRole: string;
+  };
+  categoryGainDb: {
+    music: number;
+    ambience: number;
+    movement: number;
+    ordinaryForeground: number;
+    criticalForeground: number;
+    optionalDetail: number;
+  };
+  foregroundVoiceMaximum: number;
+  musicDuckDb: number;
+  truePeakCeilingDbfs: number;
+  confirmationDelayMaximumMs: number;
 }
 
 interface ScenarioFile {
@@ -164,6 +196,29 @@ function validateCatalog(
   }
 }
 
+function validateRuntimeMappings(
+  runtimeMappings: SoundscapeRuntimeMappingsFile,
+  catalog: SoundscapeCatalogFile,
+  sourceMasterIds: Set<string>,
+): void {
+  assertUniqueIds(runtimeMappings.mappings, "runtime mapping");
+  const mappingsById = new Map(runtimeMappings.mappings.map((mapping) => [mapping.id, mapping]));
+  for (const mapping of runtimeMappings.mappings) {
+    if (
+      !sourceMasterIds.has(mapping.sourceMaster) ||
+      !/^runtime\/[a-z0-9][a-z0-9-]*\.wav$/.test(mapping.path)
+    ) {
+      throw new Error(`Invalid soundscape runtime mapping: ${mapping.id}`);
+    }
+  }
+  for (const cue of catalog.entries) {
+    const mapping = mappingsById.get(cue.runtimeMapping);
+    if (!mapping || mapping.sourceMaster !== cue.sourceMaster) {
+      throw new Error(`Invalid soundscape runtime mapping: ${cue.runtimeMapping}`);
+    }
+  }
+}
+
 function validateScenarioSoundEvents(
   scenarioFiles: ScenarioFile[],
   eventsById: Map<string, SoundscapeEventFile["events"][number]>,
@@ -211,6 +266,7 @@ export interface PreparedEditionPack {
   soundscape?: {
     eventIds: string[];
     catalogEntryIds: string[];
+    mix: SoundscapeMixFile;
   };
 }
 
@@ -244,6 +300,7 @@ export interface EditionProof {
 function prepareSoundscape(
   filesByRole: Map<string, Buffer>,
   scenarioFiles: ScenarioFile[],
+  bundledSoundtrackPath: string | undefined,
 ): PreparedEditionPack["soundscape"] {
   const hasSoundscape = SOUNDSCAPE_FILE_ROLES.some((role) => filesByRole.has(role));
   if (!hasSoundscape) return undefined;
@@ -253,26 +310,111 @@ function prepareSoundscape(
     if (!bytes) throw new Error(`Edition Pack is missing soundscape role: ${role}`);
     return bytes;
   });
-  const [eventBytes, catalogBytes, sourceMediaBytes, provenanceBytes] = soundscapeFiles;
-  if (!eventBytes || !catalogBytes || !sourceMediaBytes || !provenanceBytes) {
+  const [
+    eventBytes,
+    catalogBytes,
+    sourceMediaBytes,
+    mixBytes,
+    runtimeMappingsBytes,
+    provenanceBytes,
+  ] = soundscapeFiles;
+  if (
+    !eventBytes ||
+    !catalogBytes ||
+    !sourceMediaBytes ||
+    !mixBytes ||
+    !runtimeMappingsBytes ||
+    !provenanceBytes
+  ) {
     throw new Error("Edition Pack soundscape roles could not be loaded");
   }
 
   const events = JSON.parse(eventBytes.toString("utf8")) as SoundscapeEventFile;
   const catalog = JSON.parse(catalogBytes.toString("utf8")) as SoundscapeCatalogFile;
   const sourceMedia = JSON.parse(sourceMediaBytes.toString("utf8")) as SoundscapeSourceMediaFile;
+  const mix = JSON.parse(mixBytes.toString("utf8")) as SoundscapeMixFile;
+  const runtimeMappings = JSON.parse(
+    runtimeMappingsBytes.toString("utf8"),
+  ) as SoundscapeRuntimeMappingsFile;
   const provenance = JSON.parse(provenanceBytes.toString("utf8")) as SoundscapeProvenanceFile;
   validateEventDefinitions(events);
 
   const eventsById = new Map(events.events.map((event) => [event.id, event]));
   const { sourceMasterIds, fallbackRoleIds } = validateSourceMedia(sourceMedia, provenance);
   validateCatalog(catalog, eventsById, sourceMasterIds, fallbackRoleIds);
+  validateRuntimeMappings(runtimeMappings, catalog, sourceMasterIds);
   validateScenarioSoundEvents(scenarioFiles, eventsById, catalog);
+  validateMix(mix, fallbackRoleIds, bundledSoundtrackPath);
 
   return {
     eventIds: events.events.map((event) => event.id),
     catalogEntryIds: catalog.entries.map((entry) => entry.id),
+    mix,
   };
+}
+
+function validateMix(
+  mix: SoundscapeMixFile,
+  fallbackRoleIds: Set<string>,
+  bundledSoundtrackPath: string | undefined,
+): void {
+  if (
+    !isNonEmptyString(mix.soundtrack?.id) ||
+    !isNonEmptyString(mix.soundtrack.path) ||
+    mix.soundtrack.looping !== true ||
+    typeof mix.soundtrack.gainDb !== "number" ||
+    !fallbackRoleIds.has(mix.soundtrack.fallbackRole)
+  ) {
+    throw new Error("Invalid soundscape soundtrack mix");
+  }
+  if (mix.soundtrack.path !== bundledSoundtrackPath) {
+    throw new Error("Invalid soundscape soundtrack asset");
+  }
+  const categoryGainKeys = Object.keys(mix.categoryGainDb ?? {}).sort();
+  const expectedCategoryGainKeys = [
+    "ambience",
+    "criticalForeground",
+    "movement",
+    "music",
+    "optionalDetail",
+    "ordinaryForeground",
+  ];
+  const categoryGains = Object.values(mix.categoryGainDb ?? {});
+  if (
+    !isDeepStrictEqual(categoryGainKeys, expectedCategoryGainKeys) ||
+    categoryGains.some((gain) => typeof gain !== "number" || !Number.isFinite(gain))
+  ) {
+    throw new Error("Invalid soundscape category gains");
+  }
+  if (
+    mix.soundtrack.gainDb < -7.7 ||
+    mix.soundtrack.gainDb > -5.7 ||
+    mix.categoryGainDb.music !== 0 ||
+    mix.categoryGainDb.ambience < -12 ||
+    mix.categoryGainDb.ambience > -8 ||
+    mix.categoryGainDb.movement < -12 ||
+    mix.categoryGainDb.movement > -8 ||
+    mix.categoryGainDb.ordinaryForeground < 2 ||
+    mix.categoryGainDb.ordinaryForeground > 4
+  ) {
+    throw new Error("Invalid soundscape category balance");
+  }
+  if (mix.foregroundVoiceMaximum !== 2) {
+    throw new Error("Invalid soundscape foreground voice ceiling");
+  }
+  if (mix.musicDuckDb > -3 || mix.musicDuckDb < -5) {
+    throw new Error("Invalid soundscape music ducking target");
+  }
+  if (mix.truePeakCeilingDbfs > -3) {
+    throw new Error("Invalid soundscape true-peak ceiling");
+  }
+  if (
+    !Number.isInteger(mix.confirmationDelayMaximumMs) ||
+    mix.confirmationDelayMaximumMs < 0 ||
+    mix.confirmationDelayMaximumMs > 200
+  ) {
+    throw new Error("Invalid soundscape confirmation delay");
+  }
 }
 
 function parseManifest(bytes: Buffer): EditionManifest {
@@ -310,6 +452,7 @@ export async function prepareEditionPack(packRoot: string): Promise<PreparedEdit
   const scenarioIds: string[] = [];
   const scenarioFiles: Array<{ id: string; bytes: Buffer }> = [];
   const filesByRole = new Map<string, Buffer>();
+  const filePathsByRole = new Map<string, string>();
   const files = [...manifest.files].sort((left, right) => left.path.localeCompare(right.path));
   for (const file of files) {
     if (typeof file.path !== "string" || typeof file.role !== "string") {
@@ -327,6 +470,7 @@ export async function prepareEditionPack(packRoot: string): Promise<PreparedEdit
     digest.update("\0");
     digest.update(bytes);
     filesByRole.set(file.role, bytes);
+    filePathsByRole.set(file.role, file.path);
     if (file.role === "scenario") {
       if (typeof file.id !== "string" || file.id.length === 0) {
         throw new Error(`Scenario file needs an id: ${file.path}`);
@@ -336,7 +480,11 @@ export async function prepareEditionPack(packRoot: string): Promise<PreparedEdit
     }
   }
 
-  const soundscape = prepareSoundscape(filesByRole, scenarioFiles);
+  const soundscape = prepareSoundscape(
+    filesByRole,
+    scenarioFiles,
+    filePathsByRole.get("source-media-music"),
+  );
 
   return {
     contractVersion: CONTRACT_VERSION,

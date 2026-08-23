@@ -105,5 +105,47 @@ func load_content(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
 	return _failure("Edition Pack has no content file")
 
 
+func load_media(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
+	if prepared_pack.get("ok") != true:
+		return _failure("Edition Pack must prepare successfully before media is loaded")
+
+	var manifest_result: Dictionary = _reader.read_json_object(pack_source, "edition.json")
+	if not manifest_result.ok:
+		return manifest_result
+	var manifest_files: Variant = manifest_result.value.get("files")
+	if not manifest_files is Array:
+		return _failure("Edition Pack files must be an array")
+	for file_value: Variant in manifest_files:
+		if file_value is Dictionary and file_value.get("role") == "media":
+			var relative_path: Variant = file_value.get("path")
+			if not relative_path is String or not _reader.is_safe_relative_path(relative_path):
+				return _failure("Edition Pack media path is invalid")
+			return _reader.read_json_object(pack_source, relative_path)
+	return _failure("Edition Pack has no media file")
+
+
+func load_png_texture(pack_source: String, relative_path: String) -> Dictionary:
+	var bytes_result: Dictionary = _reader.read_bytes(pack_source, relative_path)
+	if not bytes_result.ok:
+		return bytes_result
+	var image := Image.new()
+	var image_error := image.load_png_from_buffer(bytes_result.value)
+	if image_error != OK:
+		return _failure(
+			"Edition Pack PNG could not be decoded at %s: %s"
+			% [relative_path, error_string(image_error)],
+		)
+	var hashing := HashingContext.new()
+	var hashing_error := hashing.start(HashingContext.HASH_SHA256)
+	if hashing_error != OK:
+		return _failure("Could not hash Edition Pack PNG: %s" % relative_path)
+	hashing.update(bytes_result.value)
+	return {
+		"ok": true,
+		"texture": ImageTexture.create_from_image(image),
+		"sha256": hashing.finish().hex_encode(),
+	}
+
+
 func _failure(message: String) -> Dictionary:
 	return {"ok": false, "error": message}

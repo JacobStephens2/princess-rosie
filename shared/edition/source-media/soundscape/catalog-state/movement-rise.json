@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.movement.rise",
+  "sourceMaster": "source-master.movement.rise",
+  "runtimeMapping": "runtime-cue.movement.rise",
+  "status": "approved",
+  "jobHash": "sha256:2eab6b5a3434438269016179bb43f9fdd9e9e0fb2f2d3e794da43c5817b8d905",
+  "masterPath": "masters/movement-rise.wav",
+  "masterHash": "sha256:6fee08ee39bb503954805f0c3cb771a4c1865105ec76ce0a7dc42fa3772b4b95",
+  "runtimePath": "runtime/movement-rise.wav",
+  "runtimeHash": "sha256:6fee08ee39bb503954805f0c3cb771a4c1865105ec76ce0a7dc42fa3772b4b95"
+}

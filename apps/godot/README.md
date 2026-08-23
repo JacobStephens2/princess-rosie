@@ -14,14 +14,10 @@ The application prepares `edition-pack.zip` against the binding in `edition-pack
 
 ## Verify
 
-Run each focused public-seam acceptance test:
+Run the focused public-seam acceptance suite:
 
 ```sh
-/Applications/Godot.app/Contents/MacOS/Godot --headless --path apps/godot --script res://tests/edition_pack_acceptance.gd
-/Applications/Godot.app/Contents/MacOS/Godot --headless --path apps/godot --script res://tests/shell_launch_acceptance.gd
-/Applications/Godot.app/Contents/MacOS/Godot --headless --path apps/godot --script res://tests/presentation_transition_acceptance.gd
-/Applications/Godot.app/Contents/MacOS/Godot --headless --path apps/godot --script res://tests/soundscape_player_acceptance.gd
-/Applications/Godot.app/Contents/MacOS/Godot --headless --path apps/godot --script res://tests/godot_audio_adapter_acceptance.gd
+npm run test:godot
 apps/godot/tests/export_smoke.sh
 ```
 
@@ -35,4 +31,4 @@ On the target MacBook, run the audible acceptance harness without `--headless`:
 /Applications/Godot.app/Contents/MacOS/Godot --path apps/godot --script res://tests/soundscape_offline_acceptance.gd
 ```
 
-It reports and plays the approved confirmation WAV from the immutable Edition Pack, then reports the same semantic confirmation against an intentionally missing asset and plays the locally synthesized fallback. The harness makes no network request.
+It starts the bundled instrumental through the shared mixer, reports and plays the approved confirmation WAV from the immutable Edition Pack, then reports the same semantic confirmation against an intentionally missing asset and plays the locally synthesized fallback. The harness makes no network request.

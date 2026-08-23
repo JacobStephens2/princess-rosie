@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 2,
+  "cueId": "cue.flight.launch",
+  "sourceMasterId": "source-master.flight.launch",
+  "runtimeMapping": "runtime-cue.flight.launch",
+  "jobHash": "sha256:7e19eacf2533785f9848e5bf9e8e5336ca4660d6ebf93c11e580e252cba85476",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A buoyant gentle storybook flight launch: a soft upward rush of warm air, one light harp sweep, and a tiny celesta lift that settles forward without a hard landing. Nonverbal, acoustic, joyful, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, fanfare blast, harsh transient, alarm, impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.5,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T01:07:49.796Z",
+  "traceId": "e34030516e5ce4910a812945e229f1a3",
+  "providerReportedUsage": {
+    "characterCost": "15"
+  },
+  "sourceHash": "sha256:f3e0988b48ce341f7b893b5ab9fc4d6735938eefe9c702ce67ee440f008556c2",
+  "selectedOutputHash": "sha256:4591ea27f54a6c1f47aecbca53f90a3419720139d1d8b873af52f58b970d43a1",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -9.871,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:4591ea27f54a6c1f47aecbca53f90a3419720139d1d8b873af52f58b970d43a1",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "buoyant-gentle-transition-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Best launch compromise for MacBook playback: more audible than the first candidate, less crest-heavy than the third, with moderate high-frequency motion and ample peak headroom."
+}

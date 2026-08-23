@@ -14,6 +14,7 @@
     "test": "npm run test --workspace princess-rosi-phaser-original",
     "test:contract": "npm run test --workspace rosi-edition-contract",
     "test:soundscape-build": "npm run test --workspace rosi-soundscape-build",
+    "test:godot": "apps/godot/tests/run_acceptance.sh",
     "soundscape:build": "npm run build --workspace rosi-soundscape-build --",
     "soundscape:build-confirmation": "npm run build:confirmation --workspace rosi-soundscape-build --",
     "soundscape:media-docs": "npm run media-docs --workspace rosi-soundscape-build --",
