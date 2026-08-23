@@ -20,6 +20,7 @@ const PLACE_ENTRY_EVENT := &"sound-event.place-entry"
 const PLACE_EXIT_EVENT := &"sound-event.place-exit"
 const JOURNEY_HISTORY_SHIMMER_EVENT := &"sound-event.journey-history-shimmer"
 const NEAR_MISS_EVENT := &"sound-event.near-miss"
+const PLAYFUL_BUMP_EVENT := &"sound-event.playful-bump"
 const BIRTHDAY_STAR_PROXIMITY_EVENT := &"sound-event.birthday-star-proximity"
 const CLOUD_REST_ENTERED_EVENT := &"sound-event.cloud-rest-entered"
 const CLOUD_REST_EXITED_EVENT := &"sound-event.cloud-rest-exited"
@@ -28,6 +29,13 @@ const SOUND_PREFERENCE_EVENT := &"sound-event.sound-preference-changed"
 const SOUND_OFF_LIMIT_MS := 200
 const PLACE_CROSSFADE_MS := 600
 const NEAR_MISS_COOLDOWN_MS := 750
+const PLAYFUL_BUMP_COOLDOWN_MS := 250
+## A place spaces its own encounters; these bound how closely the same encounter
+## may sound again, so a per-frame repeat is never mistaken for a new one.
+const COOLDOWN_MS_BY_EVENT := {
+	NEAR_MISS_EVENT: NEAR_MISS_COOLDOWN_MS,
+	PLAYFUL_BUMP_EVENT: PLAYFUL_BUMP_COOLDOWN_MS,
+}
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 
@@ -56,7 +64,7 @@ var _movement_state := ""
 var _current_place := ""
 var _in_cloud_rest := false
 var _journey_history_shimmers := {}
-var _near_miss_times_ms := {}
+var _cooled_cue_times_ms := {}
 var _birthday_star_proximity_shimmers := {}
 var _now_ms: Callable
 var _reader: RefCounted = EDITION_PACK_READER.new()
@@ -118,7 +126,7 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 		_current_place = ""
 		_in_cloud_rest = false
 		_journey_history_shimmers.clear()
-		_near_miss_times_ms.clear()
+		_cooled_cue_times_ms.clear()
 		_birthday_star_proximity_shimmers.clear()
 		if _audio.has_method("stop_slot"):
 			_audio.stop_slot("movement")
@@ -165,25 +173,8 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 		if shimmer_played:
 			_journey_history_shimmers[shimmer_key] = true
 		return shimmer_played
-	if event_id == NEAR_MISS_EVENT:
-		var near_miss_key := "%s:%s" % [
-			parameters.get("place", ""),
-			parameters.get("kind", ""),
-		]
-		var current_time_ms := _current_time_ms()
-		if (
-			_near_miss_times_ms.has(near_miss_key)
-			and current_time_ms - int(_near_miss_times_ms[near_miss_key])
-			< NEAR_MISS_COOLDOWN_MS
-		):
-			return false
-		if not _sound_enabled:
-			_near_miss_times_ms[near_miss_key] = current_time_ms
-			return false
-		var near_miss_played := _play_resolved_cue(event_id, parameters)
-		if near_miss_played:
-			_near_miss_times_ms[near_miss_key] = current_time_ms
-		return near_miss_played
+	if COOLDOWN_MS_BY_EVENT.has(event_id):
+		return _play_cooled_cue(event_id, parameters)
 	if event_id == BIRTHDAY_STAR_PROXIMITY_EVENT:
 		var birthday_star: String = parameters.get("birthdayStar", "")
 		if _birthday_star_proximity_shimmers.has(birthday_star):
@@ -227,6 +218,31 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 	if event_id == OPENING_EVENT:
 		_ensure_music()
 	return _play_resolved_cue(event_id, parameters)
+
+
+## A place's Playful Bumps and near misses sound on their own state edge. A
+## repeat inside the cue's cooldown is the same encounter reported again, not a
+## new one, so it stays silent without being counted as a fresh edge.
+func _play_cooled_cue(event_id: StringName, parameters: Dictionary) -> bool:
+	var cooldown_key := "%s:%s:%s" % [
+		event_id,
+		parameters.get("place", ""),
+		parameters.get("kind", ""),
+	]
+	var current_time_ms := _current_time_ms()
+	if (
+		_cooled_cue_times_ms.has(cooldown_key)
+		and current_time_ms - int(_cooled_cue_times_ms[cooldown_key])
+		< int(COOLDOWN_MS_BY_EVENT[event_id])
+	):
+		return false
+	if not _sound_enabled:
+		_cooled_cue_times_ms[cooldown_key] = current_time_ms
+		return false
+	var played := _play_resolved_cue(event_id, parameters)
+	if played:
+		_cooled_cue_times_ms[cooldown_key] = current_time_ms
+	return played
 
 
 ## Leaving a place ends its loop through the one ambience slot, so no place

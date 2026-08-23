@@ -21,6 +21,7 @@ var _fades: Dictionary = {}
 var _priorities: Dictionary = {}
 var _ducking: Dictionary = {}
 var _duration_timers: Dictionary = {}
+var _fade_timers: Dictionary = {}
 var _music_base_gain_db := 0.0
 var _mute_timer := Timer.new()
 var _reader: RefCounted = EDITION_PACK_READER.new()
@@ -239,12 +240,10 @@ func advance_fades(delta: float) -> void:
 		var fade: Dictionary = _fades[player_id]
 		fade.elapsed_seconds += delta
 		var progress := clampf(fade.elapsed_seconds / fade.duration_seconds, 0.0, 1.0)
-		player.volume_db = lerpf(fade.from_db, fade.to_db, progress)
-		if progress < 1.0:
+		if progress >= 1.0:
+			_complete_fade(player)
 			continue
-		_fades.erase(player_id)
-		if fade.stops_at_end:
-			_stop_player(player)
+		player.volume_db = lerpf(fade.from_db, fade.to_db, progress)
 
 
 func _play_ambience(stream: Variant, playback: SoundscapePlayback) -> bool:
@@ -266,6 +265,8 @@ func _play_ambience(stream: Variant, playback: SoundscapePlayback) -> bool:
 	return true
 
 
+## Frames shape a fade; its own timer guarantees the end of it, so a crossfade
+## can never strand a voice at silence or leave a faded-out loop sounding.
 func _start_fade(
 	player: AudioStreamPlayer,
 	from_db: float,
@@ -281,11 +282,19 @@ func _start_fade(
 		"duration_seconds": maxf(duration_ms / 1000.0, 0.001),
 		"stops_at_end": stops_at_end,
 	}
-	if not stops_at_end:
+	var fade_timer: Timer = _fade_timers.get(player.get_instance_id())
+	if fade_timer != null:
+		fade_timer.start(maxf(duration_ms / 1000.0, 0.001))
+
+
+func _complete_fade(player: AudioStreamPlayer) -> void:
+	var fade: Variant = _fades.get(player.get_instance_id())
+	if not fade is Dictionary:
 		return
-	var duration_timer: Timer = _duration_timers.get(player.get_instance_id())
-	if duration_timer != null:
-		duration_timer.start(duration_ms / 1000.0)
+	player.volume_db = fade.to_db
+	_fades.erase(player.get_instance_id())
+	if fade.stops_at_end:
+		_stop_player(player)
 
 
 func _on_mute_timer_timeout() -> void:
@@ -354,6 +363,11 @@ func _register_player(player: AudioStreamPlayer) -> void:
 	player.add_child(duration_timer)
 	duration_timer.timeout.connect(_stop_player.bind(player))
 	_duration_timers[player.get_instance_id()] = duration_timer
+	var fade_timer := Timer.new()
+	fade_timer.one_shot = true
+	player.add_child(fade_timer)
+	fade_timer.timeout.connect(_complete_fade.bind(player))
+	_fade_timers[player.get_instance_id()] = fade_timer
 
 
 func _stop_player(player: AudioStreamPlayer) -> void:
@@ -361,6 +375,9 @@ func _stop_player(player: AudioStreamPlayer) -> void:
 	var duration_timer: Timer = _duration_timers.get(player_id)
 	if duration_timer != null:
 		duration_timer.stop()
+	var fade_timer: Timer = _fade_timers.get(player_id)
+	if fade_timer != null:
+		fade_timer.stop()
 	player.stop()
 	player.stream = null
 	_fades.erase(player_id)

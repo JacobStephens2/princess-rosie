@@ -317,6 +317,33 @@ func _init() -> void:
 	)
 	test.expect(
 		edge_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		),
+		"a Lacewood Playful Bump sounds on its state edge",
+	)
+	var plays_after_first_bump := edge_audio.played_streams.size()
+	test.expect(
+		not edge_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		),
+		"a per-frame Playful Bump repeat is suppressed during cooldown",
+	)
+	test.expect(
+		edge_audio.played_streams.size() == plays_after_first_bump,
+		"the suppressed Playful Bump repeat never reaches engine playback",
+	)
+	edge_clock.advance(250)
+	test.expect(
+		edge_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		),
+		"a later Playful Bump edge may sound once the place has moved on",
+	)
+	test.expect(
+		edge_soundscape.report_event(
 			&"sound-event.birthday-star-proximity",
 			{"birthdayStar": "birthday-star.lacewood"},
 		),
@@ -331,7 +358,8 @@ func _init() -> void:
 		"Birthday Star visual pulses cannot retrigger the capped shimmer",
 	)
 	var rest_audio := FakeEngineAudioAdapter.new()
-	var rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, rest_audio)
+	var rest_clock := FakeClock.new()
+	var rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, rest_audio, rest_clock.now_ms)
 	var lacewood_rest_events := [
 		[&"sound-event.movement-state", {"state": "flight"}],
 		[&"sound-event.place-entry", {"place": "lacewood"}],
@@ -344,6 +372,7 @@ func _init() -> void:
 			rest_soundscape.report_event(semantic_event[0], semantic_event[1]),
 			"the Lacewood pre-rest sequence plays: %s" % semantic_event[0],
 		)
+		rest_clock.advance(450)
 	test.expect(
 		rest_soundscape.report_event(
 			&"sound-event.cloud-rest-entered",

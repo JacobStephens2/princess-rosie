@@ -34,7 +34,9 @@ interface SoundscapeEventFile {
  * event only moves the runtime mix — leaving a place fades its ambience slot out
  * — so it carries no cue of its own and must not gain one.
  */
-type SoundscapeEventDelivery = "cue" | "mixer-transition";
+const SOUNDSCAPE_EVENT_DELIVERIES = ["cue", "mixer-transition"] as const;
+
+type SoundscapeEventDelivery = (typeof SOUNDSCAPE_EVENT_DELIVERIES)[number];
 
 interface SoundscapeCatalogFile {
   entries: Array<{
@@ -126,12 +128,11 @@ function validateEventDefinitions(events: SoundscapeEventFile): void {
       }
       parameters.add(parameter);
     }
-    if (event.delivery !== undefined && !isCueEvent(event) && event.delivery !== "mixer-transition") {
+    if (event.delivery !== undefined && !SOUNDSCAPE_EVENT_DELIVERIES.includes(event.delivery)) {
       throw new Error(`Invalid soundscape event delivery: ${event.id}`);
     }
   }
 }
-
 
 function isCueEvent(event: SoundscapeEventFile["events"][number]): boolean {
   return (event.delivery ?? "cue") === "cue";

@@ -66,6 +66,16 @@ class FakeEngineAudioAdapter extends RefCounted:
 		return playback_settings[index] if index >= 0 else {}
 
 
+class FakeClock extends RefCounted:
+	var milliseconds := 1_000
+
+	func now_ms() -> int:
+		return milliseconds
+
+	func advance(elapsed_ms: int) -> void:
+		milliseconds += elapsed_ms
+
+
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
 
@@ -176,7 +186,8 @@ func _prove_place_journey() -> void:
 func _prove_place_soundscape() -> void:
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	var audio := FakeEngineAudioAdapter.new()
-	var soundscape := SOUNDSCAPE_PLAYER.new(pack_root, audio)
+	var clock := FakeClock.new()
+	var soundscape := SOUNDSCAPE_PLAYER.new(pack_root, audio, clock.now_ms)
 
 	test.expect(
 		soundscape.report_event(&"sound-event.place-entry", {"place": "rose-garden"}),
@@ -204,6 +215,26 @@ func _prove_place_soundscape() -> void:
 		)
 		and audio.loaded_paths.back() == GARDEN_BUMP,
 		"a Garden Playful Bump is place-specific rather than shared with the Lacewood",
+	)
+	var plays_after_bump := audio.played_streams.size()
+	test.expect(
+		not soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "rose-garden", "kind": "rose-garland"},
+		),
+		"a repeated Garden Playful Bump edge stays inside its cooldown",
+	)
+	test.expect(
+		audio.played_streams.size() == plays_after_bump,
+		"the suppressed Garden Playful Bump never reaches engine playback",
+	)
+	clock.advance(450)
+	test.expect(
+		soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "rose-garden", "kind": "rose-garland"},
+		),
+		"the Garden's next Playful Bump sounds once the place has moved on",
 	)
 	test.expect(
 		soundscape.report_event(

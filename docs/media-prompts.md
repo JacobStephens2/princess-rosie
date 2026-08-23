@@ -121,6 +121,28 @@ natural field recording that names the forbidden vocal, choir, pad, and drone
 material explicitly. The second batch passed. Selection reasons per cue are
 recorded in the managed section below.
 
+### Open question for the listening pass: Garden ambience level
+
+The approved Garden ambience sits far below its sibling place beds. Measured on
+the runtime derivatives: `place-rose-garden` peaks at -21.9 dBFS with -45.1 dBFS
+RMS, where `place-lacewood` and `cloud-rest-ambience` both peak at the -6 dBFS
+mastering ceiling with roughly -23 and -21 dBFS RMS. Under the shared -10 dB
+ambience trim and the instrumental at -6.7 dB, the Garden bed may be inaudible on
+MacBook built-in speakers.
+
+This is not a bad draw. The mastering contract limits down to -6 dBFS but never
+normalises up, and a genuine breeze field recording is intrinsically low level: a
+further three-candidate batch measured -47.1, -43.0, and -34.2 dBFS RMS, and a
+blind four-way evaluation including the standing approval found all of them
+"very similar gentle wind and foliage textures", ranking the standing approval
+second of four. Replacing an immutable approval for that margin was not
+worthwhile, and no candidate closes the gap.
+
+If the listening pass confirms the Garden bed is too quiet in the mix, the fix
+belongs in the mix rather than the generator — a per-cue level trim in the
+Edition Contract, which does not enter the cue job hash and so would not
+invalidate any approved master.
+
 Human listening pass on MacBook built-in speakers and headphones: **not yet
 complete.** It remains outstanding for all five Rose Garden cues and retains final
 authority over translation and feel.
