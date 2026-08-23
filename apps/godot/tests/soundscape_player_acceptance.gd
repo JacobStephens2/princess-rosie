@@ -7,7 +7,9 @@ const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
 class FakeEngineAudioAdapter extends RefCounted:
 	var asset_available := true
 	var fail_approved_playback := false
+	var fail_music_playback := false
 	var music_asset_available := true
+	var missing_paths: Array[String] = []
 	var loaded_paths: Array[String] = []
 	var played_streams: Array[Variant] = []
 	var playback_settings: Array[Dictionary] = []
@@ -17,7 +19,7 @@ class FakeEngineAudioAdapter extends RefCounted:
 
 	func load_wav(_pack_source: String, relative_path: String) -> Variant:
 		loaded_paths.append(relative_path)
-		if not asset_available:
+		if not asset_available or missing_paths.has(relative_path):
 			return null
 		return "approved-confirmation" if relative_path.ends_with("story-confirmation.wav") else relative_path
 
@@ -34,6 +36,8 @@ class FakeEngineAudioAdapter extends RefCounted:
 	func play(stream: Variant, playback: Dictionary) -> bool:
 		played_streams.append(stream)
 		playback_settings.append(playback)
+		if fail_music_playback and stream == "birthday-flight":
+			return false
 		return not fail_approved_playback or stream != "approved-confirmation"
 
 	func stop_slot(slot: String) -> void:
@@ -166,6 +170,18 @@ func _init() -> void:
 		),
 		"the next journey can restart the flight movement edge",
 	)
+	test.expect(
+		opening_soundscape.report_event(
+			&"sound-event.opening-storybook-moment",
+			{"moment": "opening.ordinary"},
+		),
+		"an ordinary Opening Storybook Moment selects the gentle confirmation",
+	)
+	test.expect(
+		opening_audio.loaded_paths.back()
+		== "source-media/soundscape/runtime/story-confirmation.wav",
+		"the ordinary opening confirmation uses its approved runtime mapping",
+	)
 
 	var missing_music_audio := FakeEngineAudioAdapter.new()
 	missing_music_audio.music_asset_available = false
@@ -180,6 +196,23 @@ func _init() -> void:
 	test.expect(
 		missing_music_audio.played_streams[0] == "synthesized-music",
 		"a failed core soundtrack chooses its local synthesized fallback",
+	)
+	var failed_music_audio := FakeEngineAudioAdapter.new()
+	failed_music_audio.fail_music_playback = true
+	var failed_music_soundscape := SOUNDSCAPE_PLAYER.new(opening_pack, failed_music_audio)
+	test.expect(
+		failed_music_soundscape.report_event(
+			&"sound-event.opening-storybook-moment",
+			{"moment": "opening.celebration-preparations"},
+		),
+		"failed soundtrack playback does not block the opening",
+	)
+	test.expect(
+		failed_music_audio.played_streams.slice(0, 2) == [
+			"birthday-flight",
+			"synthesized-music",
+		],
+		"failed soundtrack playback retries with the local synthesized music fallback",
 	)
 
 	var audio := FakeEngineAudioAdapter.new()
@@ -266,6 +299,17 @@ func _init() -> void:
 		"the single Sound preference mutes every category after its capped confirmation",
 	)
 	var plays_after_disabling := preference_audio.played_streams.size()
+	test.expect(
+		preference_soundscape.report_event(
+			&"sound-event.replay",
+			{"destination": "opening-storybook"},
+		),
+		"replay remains accepted while Sound is disabled",
+	)
+	test.expect(
+		preference_audio.stopped_slots == ["movement", "ambience", "foreground"],
+		"muted replay still clears persistent journey layers",
+	)
 	test.expect(
 		not preference_soundscape.report_event(
 			&"sound-event.story-confirmation",

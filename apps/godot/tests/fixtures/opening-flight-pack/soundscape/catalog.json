@@ -40,6 +40,19 @@
       "fallbackRole": "fallback.story-confirmation"
     },
     {
+      "id": "cue.story.confirmation",
+      "event": "sound-event.story-confirmation",
+      "match": { "action": "continue" },
+      "category": "storybook",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.6,
+      "looping": false,
+      "sourceMaster": "source-master.story.confirmation",
+      "runtimeMapping": "runtime-cue.story.confirmation",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
       "id": "cue.flight.launch",
       "event": "sound-event.flight-launch",
       "match": {},

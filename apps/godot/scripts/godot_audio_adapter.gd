@@ -7,6 +7,10 @@ const FALLBACK_FREQUENCY_HZ := 783.99
 const MUSIC_FALLBACK_DURATION_SECONDS := 2.0
 const FOREGROUND_VOICE_MAXIMUM := 2
 const SOUND_BUS := &"Sound"
+const SLOT_MUSIC := &"music"
+const SLOT_AMBIENCE := &"ambience"
+const SLOT_MOVEMENT := &"movement"
+const SLOT_FOREGROUND := &"foreground"
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 
 var _music_player := AudioStreamPlayer.new()
@@ -113,23 +117,29 @@ func play(stream: Variant, playback: Dictionary) -> bool:
 	var bus: StringName = playback.get("bus", &"Master")
 	if AudioServer.get_bus_index(bus) < 0:
 		return false
-	var slot: String = playback.get("slot", "foreground")
+	var slot := StringName(playback.get("slot", SLOT_FOREGROUND))
 	var target: AudioStreamPlayer
-	match slot:
-		"music":
-			target = _music_player
-			_music_base_gain_db = float(playback.get("gain_db", 0.0))
-		"ambience":
-			target = _ambience_player
-		"movement":
-			target = _movement_player
-		"foreground":
-			target = _select_foreground_player(int(playback.get("priority", 0)))
-			if target == null:
-				return false
-		_:
-			return false
+	if slot == SLOT_FOREGROUND:
+		target = _select_foreground_player(int(playback.get("priority", 0)))
+	else:
+		target = _persistent_player_for(slot)
+	if target == null:
+		return false
+	if slot == SLOT_MUSIC:
+		_music_base_gain_db = float(playback.get("gain_db", 0.0))
 	return _play_on(target, stream, playback)
+
+
+func _persistent_player_for(slot: StringName) -> AudioStreamPlayer:
+	match slot:
+		SLOT_MUSIC:
+			return _music_player
+		SLOT_AMBIENCE:
+			return _ambience_player
+		SLOT_MOVEMENT:
+			return _movement_player
+		_:
+			return null
 
 
 func set_sound_enabled(enabled: bool, delay_ms: int = 0) -> void:
@@ -140,17 +150,14 @@ func set_sound_enabled(enabled: bool, delay_ms: int = 0) -> void:
 	_mute_timer.start(delay_ms / 1000.0)
 
 
-func stop_slot(slot: String) -> void:
-	match slot:
-		"music":
-			_stop_player(_music_player)
-		"ambience":
-			_stop_player(_ambience_player)
-		"movement":
-			_stop_player(_movement_player)
-		"foreground":
-			for player: AudioStreamPlayer in _foreground_players:
-				_stop_player(player)
+func stop_slot(slot: StringName) -> void:
+	if slot == SLOT_FOREGROUND:
+		for player: AudioStreamPlayer in _foreground_players:
+			_stop_player(player)
+		return
+	var player := _persistent_player_for(slot)
+	if player != null:
+		_stop_player(player)
 
 
 func _on_mute_timer_timeout() -> void:

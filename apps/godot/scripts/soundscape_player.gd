@@ -13,6 +13,8 @@ const FOREGROUND_BUS := &"Foreground"
 const CRITICAL_BUS := &"Critical"
 const DETAIL_BUS := &"Detail"
 const OPENING_EVENT := &"sound-event.opening-storybook-moment"
+const STORY_CONFIRMATION_EVENT := &"sound-event.story-confirmation"
+const STORY_CONFIRMATION_PARAMETERS := {"action": "continue"}
 const MOVEMENT_EVENT := &"sound-event.movement-state"
 const REPLAY_EVENT := &"sound-event.replay"
 const SOUND_PREFERENCE_EVENT := &"sound-event.sound-preference-changed"
@@ -88,6 +90,14 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 		if _audio.has_method("set_sound_enabled"):
 			_audio.set_sound_enabled(false, delay_limit if played else 0)
 		return played
+	if event_id == REPLAY_EVENT:
+		_movement_state = ""
+		if _audio.has_method("stop_slot"):
+			_audio.stop_slot("movement")
+			_audio.stop_slot("ambience")
+			_audio.stop_slot("foreground")
+		if not _sound_enabled:
+			return true
 	if not _sound_enabled:
 		return false
 	if event_id == MOVEMENT_EVENT:
@@ -95,12 +105,6 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 		if not next_state is String or next_state == _movement_state:
 			return false
 		_movement_state = next_state
-	if event_id == REPLAY_EVENT:
-		_movement_state = ""
-		if _audio.has_method("stop_slot"):
-			_audio.stop_slot("movement")
-			_audio.stop_slot("ambience")
-			_audio.stop_slot("foreground")
 	if event_id == OPENING_EVENT:
 		_ensure_music()
 	return _play_resolved_cue(event_id, parameters)
@@ -114,12 +118,15 @@ func _ensure_music() -> bool:
 	if relative_path.is_empty():
 		return false
 	var stream: Variant = _audio.load_mp3(_pack_source, relative_path)
-	if stream == null:
-		if not _audio.has_method("synthesize_music"):
-			return false
-		stream = _audio.synthesize_music()
-	if stream == null:
+	if stream != null and _play_music_stream(stream, soundtrack):
+		return true
+	if not _audio.has_method("synthesize_music"):
 		return false
+	stream = _audio.synthesize_music()
+	return stream != null and _play_music_stream(stream, soundtrack)
+
+
+func _play_music_stream(stream: Variant, soundtrack: Dictionary) -> bool:
 	var category_gains: Dictionary = _mix.get("categoryGainDb", {})
 	_music_started = _audio.play(stream, {
 		"bus": MUSIC_BUS,
@@ -144,15 +151,7 @@ func _play_resolved_cue(
 	var cue := _resolve_cue(event_id, parameters)
 	if cue.is_empty():
 		return false
-	var source_master: Dictionary = _source_masters.get(cue.get("sourceMaster"), {})
-	var runtime_mapping: Dictionary = _runtime_mappings.get(cue.get("runtimeMapping"), {})
-	var relative_path := ""
-	if runtime_mapping.get("sourceMaster") == cue.get("sourceMaster"):
-		var runtime_path: String = runtime_mapping.get("path", "")
-		if not runtime_path.is_empty():
-			relative_path = RUNTIME_MEDIA_ROOT.path_join(runtime_path)
-	if relative_path.is_empty():
-		relative_path = source_master.get("runtimePath", source_master.get("path", ""))
+	var relative_path := _runtime_path_for(cue)
 	var cue_duration_ms := int(float(cue.get("durationSeconds", 0.0)) * 1000.0)
 	if maximum_duration_ms >= 0:
 		cue_duration_ms = mini(cue_duration_ms, maximum_duration_ms)
@@ -163,8 +162,28 @@ func _play_resolved_cue(
 			return true
 	if cue.get("fallbackRole") != "fallback.story-confirmation":
 		return false
+	var confirmation_cue := _resolve_cue(
+		STORY_CONFIRMATION_EVENT,
+		STORY_CONFIRMATION_PARAMETERS,
+	)
+	if confirmation_cue.get("id") != cue.get("id"):
+		var confirmation_path := _runtime_path_for(confirmation_cue)
+		if not confirmation_path.is_empty():
+			var confirmation_stream: Variant = _audio.load_wav(_pack_source, confirmation_path)
+			if confirmation_stream != null and _audio.play(confirmation_stream, playback):
+				return true
 	var fallback_stream: Variant = _audio.synthesize_confirmation()
 	return fallback_stream != null and _audio.play(fallback_stream, playback)
+
+
+func _runtime_path_for(cue: Dictionary) -> String:
+	var source_master: Dictionary = _source_masters.get(cue.get("sourceMaster"), {})
+	var runtime_mapping: Dictionary = _runtime_mappings.get(cue.get("runtimeMapping"), {})
+	if runtime_mapping.get("sourceMaster") == cue.get("sourceMaster"):
+		var runtime_path: String = runtime_mapping.get("path", "")
+		if not runtime_path.is_empty():
+			return RUNTIME_MEDIA_ROOT.path_join(runtime_path)
+	return source_master.get("runtimePath", source_master.get("path", ""))
 
 
 func _playback_for(cue: Dictionary, event_id: StringName, duration_ms: int) -> Dictionary:
@@ -233,4 +252,6 @@ func _resolve_cue(event_id: StringName, parameters: Dictionary) -> Dictionary:
 				break
 		if matches:
 			return cue
+	if event_id == OPENING_EVENT:
+		return _resolve_cue(STORY_CONFIRMATION_EVENT, STORY_CONFIRMATION_PARAMETERS)
 	return {}

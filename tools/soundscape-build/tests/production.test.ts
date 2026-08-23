@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { createServer, type ServerResponse } from "node:http";
 import { createHash } from "node:crypto";
+import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 import { runSoundscapeBuildCli } from "../src/cli";
 
@@ -1120,6 +1121,113 @@ describe("Soundscape Build production CLI", () => {
         stdout: [],
         stderr: ["Soundscape provenance contains prohibited secret material"],
       },
+    });
+  });
+
+  test("accepts the checked-in opening-to-flight provenance and generated media documentation", async () => {
+    const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
+    const soundscapeRoot = join(repoRoot, "shared", "edition", "soundscape");
+    const outputRoot = join(repoRoot, "shared", "edition", "source-media", "soundscape");
+    const stdout: string[] = [];
+    const stderr: string[] = [];
+    const catalogValidation = await runSoundscapeBuildCli({
+      argv: [
+        "validate",
+        "--catalog",
+        join(soundscapeRoot, "catalog.json"),
+        "--source-media",
+        join(soundscapeRoot, "source-media.json"),
+        "--runtime-mappings",
+        join(soundscapeRoot, "runtime-mappings.json"),
+      ],
+      env: {},
+      stdout: (message) => stdout.push(message),
+      stderr: (message) => stderr.push(message),
+    });
+    const docsValidation = await runSoundscapeBuildCli({
+      argv: [
+        "media-docs",
+        "--output-root",
+        outputRoot,
+        "--media-doc",
+        join(repoRoot, "docs", "media-prompts.md"),
+        "--mode",
+        "validate",
+      ],
+      env: {},
+      stdout: (message) => stdout.push(message),
+      stderr: (message) => stderr.push(message),
+    });
+    const productionCues = [
+      ["story-confirmation", "cue.story.confirmation"],
+      ["opening-celebration-reveal", "cue.opening.celebration-reveal"],
+      ["opening-star-scatter", "cue.opening.star-scatter"],
+      ["opening-departure", "cue.opening.departure"],
+      ["flight-launch", "cue.flight.launch"],
+      ["movement-flight", "cue.movement.flight"],
+      ["movement-rise", "cue.movement.rise"],
+      ["movement-glide", "cue.movement.glide"],
+    ] as const;
+    const provenanceEvidence = await Promise.all(productionCues.map(async ([slug, cueId]) => {
+      const provenance = JSON.parse(
+        await readFile(join(outputRoot, "provenance", `${slug}.json`), "utf8"),
+      ) as {
+        cueId: string;
+        selectedOutputHash: string;
+        runtimeDerivativeHash: string;
+        adapter: string;
+        model: string;
+        approvedCandidate: string;
+        selectionReason: string;
+        commercialPlanStatus: { activePaid: boolean };
+        audioQa: { decodable: boolean; nonSilent: boolean; sampleRate: number };
+      };
+      const master = await readFile(join(outputRoot, "masters", `${slug}.wav`));
+      const runtime = await readFile(join(outputRoot, "runtime", `${slug}.wav`));
+      return {
+        cueId: provenance.cueId,
+        expectedCueId: cueId,
+        adapter: provenance.adapter,
+        model: provenance.model,
+        activePaid: provenance.commercialPlanStatus.activePaid,
+        approvedCandidate: provenance.approvedCandidate,
+        selectionReason: provenance.selectionReason,
+        audioQa: provenance.audioQa,
+        masterHashMatches: provenance.selectedOutputHash === `sha256:${createHash("sha256").update(master).digest("hex")}`,
+        runtimeHashMatches: provenance.runtimeDerivativeHash === `sha256:${createHash("sha256").update(runtime).digest("hex")}`,
+      };
+    }));
+
+    expect({
+      catalogValidation,
+      docsValidation,
+      stdout,
+      stderr,
+      provenanceEvidence,
+    }).toEqual({
+      catalogValidation: { exitCode: 0 },
+      docsValidation: { exitCode: 0 },
+      stdout: [
+        "Validated 29 soundscape catalog cues.",
+        "Validated Fairytale Soundscape media documentation.",
+      ],
+      stderr: [],
+      provenanceEvidence: productionCues.map(([, cueId]) => ({
+        cueId,
+        expectedCueId: cueId,
+        adapter: "real",
+        model: "eleven_text_to_sound_v2",
+        activePaid: true,
+        approvedCandidate: expect.stringMatching(/candidate-/),
+        selectionReason: expect.stringMatching(/\S/),
+        audioQa: expect.objectContaining({
+          decodable: true,
+          nonSilent: true,
+          sampleRate: 48_000,
+        }),
+        masterHashMatches: true,
+        runtimeHashMatches: true,
+      })),
     });
   });
 });
