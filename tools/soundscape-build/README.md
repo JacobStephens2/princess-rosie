@@ -76,7 +76,7 @@ The test suite uses the fake adapter through the same CLI interface. Fake proven
 
 ```sh
 npm run test:soundscape-build
-npm run typecheck --workspace rosi-soundscape-build
+npm run typecheck --workspace rosie-soundscape-build
 ```
 
 The fake streams synthetic PCM through the same CLI seam and covers catalog validation, request planning, bounded retries, unknown recovery, resumption, hash invalidation, immutable approval, forced replacement, audio processing, deterministic remastering, media documentation, and secret redaction.

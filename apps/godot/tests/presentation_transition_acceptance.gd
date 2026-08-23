@@ -44,7 +44,7 @@ func _init() -> void:
 	test.expect(shell.handle_player_intent("continue"), "the Star-scatter moment can continue")
 	test.expect(
 		shell.presentation_evidence().get("opening_moment") == "opening.departure",
-		"Princess Rosi and Stella's readiness follows the Star scatter",
+		"Princess Rosie and Stella's readiness follows the Star scatter",
 	)
 	test.expect(shell.handle_player_intent("continue"), "the ready moment launches the journey")
 	test.expect(

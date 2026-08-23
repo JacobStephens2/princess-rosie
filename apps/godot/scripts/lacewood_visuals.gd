@@ -1,0 +1,185 @@
+class_name LacewoodVisuals
+extends Control
+
+const PHASE_CELEBRATION := "celebration"
+
+var _phase := ""
+var _single_route: Dictionary = {}
+var _progress := 0.0
+var _altitude := 0.5
+var _observed_interactions: Array[String] = []
+var _elapsed := 0.0
+
+
+func _ready() -> void:
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	queue_redraw()
+
+
+func _process(delta: float) -> void:
+	if not visible or not is_finite(delta) or delta <= 0.0:
+		return
+	_elapsed += delta
+	queue_redraw()
+
+
+func configure_single_route(single_route: Dictionary) -> void:
+	if _single_route == single_route:
+		return
+	_single_route = single_route.duplicate(true)
+	queue_redraw()
+
+
+func set_story_state(state: Dictionary) -> void:
+	var phase := str(state.get("phase", ""))
+	var progress := float(state.get("progress", 0.0))
+	var altitude := float(state.get("altitude", 0.5))
+	var observed_interactions: Array[String] = []
+	for interaction: Variant in state.get("observed_interactions", []):
+		observed_interactions.append(str(interaction))
+	if (
+		phase == _phase
+		and is_equal_approx(progress, _progress)
+		and is_equal_approx(altitude, _altitude)
+		and observed_interactions == _observed_interactions
+	):
+		return
+	_phase = phase
+	_progress = progress
+	_altitude = altitude
+	_observed_interactions = observed_interactions
+	queue_redraw()
+
+
+func visual_evidence() -> Dictionary:
+	return {
+		"single_corridor_visible": visible and _phase != PHASE_CELEBRATION,
+		"fork_visible": false,
+		"atmospheric_motion": visible,
+		"silver_ribbons_visible": visible and _phase != PHASE_CELEBRATION,
+		"rose_lights_visible": visible and _phase != PHASE_CELEBRATION,
+		"observed_visual_responses": _observed_visual_responses(),
+		"celebration_echo": (
+			str(_single_route.get("celebrationEcho", ""))
+			if visible and _phase == PHASE_CELEBRATION
+			else ""
+		),
+	}
+
+
+func _draw() -> void:
+	if not visible:
+		return
+	_draw_atmosphere()
+	if _phase == PHASE_CELEBRATION:
+		_draw_combined_celebration_echo()
+		return
+	_draw_single_corridor()
+	_draw_silver_ribbon_clusters()
+	_draw_rose_light_clusters()
+	_draw_progress_glimmer()
+	if _phase in ["birthday-star-approach", "birthday-star-moment"]:
+		_draw_birthday_star(Vector2(1112.0, 365.0), 24.0 + sin(_elapsed * 2.2) * 2.0)
+
+
+func _draw_atmosphere() -> void:
+	for index: int in 18:
+		var drift := fmod(_elapsed * (9.0 + index % 4) + index * 83.0, 1420.0) - 70.0
+		var y := 95.0 + fmod(index * 97.0 + sin(_elapsed * 0.45 + index) * 34.0, 535.0)
+		var color := (
+			Color(1.0, 0.86, 0.48, 0.25)
+			if index % 3 == 0
+			else Color(0.86, 0.96, 1.0, 0.18)
+		)
+		draw_circle(Vector2(drift, y), 2.0 + float(index % 3), color)
+
+
+func _draw_single_corridor() -> void:
+	var points := PackedVector2Array([
+		Vector2(70.0, 380.0),
+		Vector2(270.0, 342.0),
+		Vector2(490.0, 375.0),
+		Vector2(720.0, 340.0),
+		Vector2(950.0, 378.0),
+		Vector2(1200.0, 352.0),
+	])
+	draw_polyline(points, Color(0.96, 0.86, 0.94, 0.5), 18.0, true)
+	draw_polyline(points, Color(0.9, 0.97, 1.0, 0.68), 5.0, true)
+
+
+func _draw_silver_ribbon_clusters() -> void:
+	var centers := [Vector2(330.0, 230.0), Vector2(650.0, 205.0), Vector2(965.0, 250.0)]
+	var pulse := 0.5 + 0.5 * sin(_elapsed * 3.0)
+	var observed := _observed_interactions.has("silver-ribbons")
+	for center: Vector2 in centers:
+		var wave := PackedVector2Array()
+		for index: int in 7:
+			wave.append(center + Vector2(index * 24.0 - 72.0, sin(_elapsed * 1.8 + index) * 9.0))
+		draw_polyline(
+			wave,
+			Color(0.92, 0.98, 1.0, 0.42 + (pulse * 0.28 if observed else 0.0)),
+			7.0 if observed else 4.0,
+			true,
+		)
+
+
+func _draw_rose_light_clusters() -> void:
+	var centers := [Vector2(420.0, 505.0), Vector2(760.0, 530.0), Vector2(1060.0, 485.0)]
+	var observed := _observed_interactions.has("rose-lights")
+	for cluster_index: int in centers.size():
+		var center: Vector2 = centers[cluster_index]
+		var bloom := 10.0 + (sin(_elapsed * 2.4 + cluster_index) * 2.5 if observed else 0.0)
+		for petal: int in 5:
+			var angle := float(petal) * TAU / 5.0
+			draw_circle(
+				center + Vector2.from_angle(angle) * bloom * 0.55,
+				bloom * 0.46,
+				Color(1.0, 0.5, 0.72, 0.72 if observed else 0.42),
+			)
+		draw_circle(center, bloom * 0.34, Color(1.0, 0.9, 0.42, 0.92 if observed else 0.58))
+
+
+func _draw_progress_glimmer() -> void:
+	var x := lerpf(85.0, 1180.0, clampf(_progress, 0.0, 1.0))
+	var y := lerpf(520.0, 190.0, clampf(_altitude, 0.0, 1.0))
+	draw_circle(Vector2(x, y), 13.0 + sin(_elapsed * 3.5) * 2.0, Color(1.0, 0.92, 0.55, 0.28))
+
+
+func _draw_combined_celebration_echo() -> void:
+	for ribbon_index: int in 4:
+		var y := 96.0 + ribbon_index * 38.0
+		var wave := PackedVector2Array()
+		for point_index: int in 18:
+			var x := 710.0 + point_index * 38.0
+			wave.append(Vector2(x, y + sin(_elapsed * 1.6 + point_index * 0.5) * 9.0))
+		draw_polyline(wave, Color(0.9, 0.97, 1.0, 0.34), 5.0, true)
+	for rose_index: int in 12:
+		var center := Vector2(
+			720.0 + float(rose_index % 6) * 94.0,
+			500.0 + float(rose_index / 6) * 68.0 + sin(_elapsed * 1.8 + rose_index) * 5.0,
+		)
+		draw_circle(center, 9.0, Color(1.0, 0.51, 0.69, 0.44))
+		draw_circle(center, 3.0, Color(1.0, 0.91, 0.48, 0.72))
+
+
+func _draw_birthday_star(center: Vector2, radius: float) -> void:
+	var points := PackedVector2Array()
+	for index: int in 10:
+		var point_radius := radius if index % 2 == 0 else radius * 0.44
+		var angle := -PI / 2.0 + float(index) * PI / 5.0
+		points.append(center + Vector2.from_angle(angle) * point_radius)
+	draw_colored_polygon(points, Color(1.0, 0.78, 0.25, 0.94))
+	draw_polyline(points + PackedVector2Array([points[0]]), Color(1.0, 0.96, 0.72, 0.96), 3.0, true)
+
+
+func _observed_visual_responses() -> Array[String]:
+	var responses: Array[String] = []
+	for observed_interaction: String in _observed_interactions:
+		for interaction_value: Variant in _single_route.get("interactions", []):
+			if (
+				interaction_value is Dictionary
+				and interaction_value.get("id") == observed_interaction
+			):
+				responses.append(str(interaction_value.get("visualResponse", "")))
+				break
+	return responses

@@ -21,7 +21,9 @@ npm run test:godot
 apps/godot/tests/export_smoke.sh
 ```
 
-The export smoke test uses the official universal 4.7.2 debug template, thins the packaged executable to arm64, signs it ad hoc, launches it with network access denied, and verifies both opening and complete Lacewood-to-Cloister-to-celebration semantic evidence and Storybook Stage captures under `build/`.
+The export smoke test uses the official universal 4.7.2 debug template, thins the packaged executable to arm64, signs it ad hoc, and launches it with network access denied. It verifies the opening, active flight, continuous Lacewood Flight Control, and complete Lacewood-to-Birthday-Star semantic evidence and Storybook Stage captures under `build/`.
+
+Zélie's Lacewood is one uninterrupted, digest-bound picture-book corridor. Stella moves forward automatically for roughly eighteen seconds while holding Space or the pointer raises her and releasing settles her immediately. Silver ribbons and rose lights respond at different heights, three nearby Playful Bumps can trigger a brief automatic Cloud Rest, and every flight continues to the guaranteed Birthday Star without a fork or timing window.
 
 ## Hear the offline Soundscape tracer
 
@@ -31,14 +33,4 @@ On the target MacBook, run the audible acceptance harness without `--headless`:
 /Applications/Godot.app/Contents/MacOS/Godot --path apps/godot --script res://tests/soundscape_offline_acceptance.gd
 ```
 
-It starts the bundled instrumental through the shared mixer, reports and plays approved cues from the immutable Edition Pack, then reports the same semantic confirmation against an intentionally missing asset and plays the locally synthesized fallback. The harness makes no network request. The automated acceptance suite separately drives both Lacewood routes, Journey History shimmer, the capped proximity cue, three-bump Cloud Rest and resume, Birthday Star gathering, Rainbow Path travel, and Gram's Birthday Star Moment.
-
-## Hear the Cloister of Clouds
-
-The Cloister of Clouds has its own audible pass for the required MacBook built-in speaker check:
-
-```sh
-/Applications/Godot.app/Contents/MacOS/Godot --path apps/godot --script res://tests/cloister_listening_harness.gd
-```
-
-It plays the place in journey order: the Lacewood ambience the Cloister crossfades over, both equally safe routes, the restrained Journey History shimmer, soft cloud bounds and Playful Bumps, the shared Birthday Star and Rainbow Path, Beasley's Birthday Star Moment, and the ambience fading out into the celebration. Record the listening outcome in `docs/media-prompts.md`.
+It starts the bundled instrumental through the shared mixer, reports and plays approved cues from the immutable Edition Pack, then reports the same semantic confirmation against an intentionally missing asset and plays the locally synthesized fallback. The harness makes no network request. The automated acceptance suite separately drives Space and pointer Flight Control, high and low Lacewood responses, the capped proximity cue, automatic three-bump Cloud Rest and resume, Birthday Star gathering, Rainbow Path travel, and Gram's combined Birthday Star Moment.

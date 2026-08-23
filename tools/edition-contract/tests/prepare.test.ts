@@ -44,7 +44,7 @@ interface MutableMixFixture {
 }
 
 async function withPackCopy(assertion: (packRoot: string) => Promise<void>): Promise<void> {
-  const packRoot = await mkdtemp(join(tmpdir(), "rosi-edition-pack-"));
+  const packRoot = await mkdtemp(join(tmpdir(), "rosie-edition-pack-"));
   try {
     await cp(tracerPackRoot, packRoot, { recursive: true });
     await assertion(packRoot);
@@ -65,14 +65,14 @@ async function editPackJson<T>(
 }
 
 describe("Edition Contract", () => {
-  test("prepares the frozen Lacewood and Cloister tracer Edition Pack", async () => {
+  test("prepares the frozen Lacewood tracer Edition Pack", async () => {
     const prepared = await prepareEditionPack(tracerPackRoot);
 
     expect(prepared).toMatchObject({
-      contractVersion: "rosi-edition-contract/1",
-      revision: "cloister-of-clouds-soundscape-1",
+      contractVersion: "rosie-edition-contract/1",
+      revision: "lacewood-flight-control-1",
       packDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
-      scenarioIds: ["cloister-path-choice", "opening-flight", "tracer-bullet"],
+      scenarioIds: ["opening-flight", "tracer-bullet"],
     });
   });
 
@@ -87,9 +87,6 @@ describe("Edition Contract", () => {
         "sound-event.movement-state",
         "sound-event.place-entry",
         "sound-event.vignette-interaction",
-        "sound-event.path-choice-available",
-        "sound-event.path-choice-selected",
-        "sound-event.journey-history-shimmer",
         "sound-event.playful-bump",
         "sound-event.near-miss",
         "sound-event.birthday-star-proximity",
@@ -113,25 +110,14 @@ describe("Edition Contract", () => {
         "cue.movement.rise",
         "cue.movement.glide",
         "cue.place.lacewood",
-        "cue.place.cloister",
-        "cue.vignette.lacewood.canopy",
-        "cue.vignette.lacewood.floor",
-        "cue.vignette.cloister.arches",
-        "cue.vignette.cloister.clouds",
-        "cue.path-choice.available",
-        "cue.path-choice.lacewood.canopy",
-        "cue.path-choice.lacewood.floor",
-        "cue.path-choice.cloister.arches",
-        "cue.path-choice.cloister.clouds",
-        "cue.journey-history.shimmer",
+        "cue.vignette.lacewood.silver-ribbons",
+        "cue.vignette.lacewood.rose-lights",
         "cue.playful-bump.lacewood",
-        "cue.playful-bump.cloister",
         "cue.near-miss",
         "cue.birthday-star.proximity",
         "cue.birthday-star.gather",
         "cue.rainbow-path.open",
         "cue.birthday-star-moment.lacewood",
-        "cue.birthday-star-moment.cloister",
         "cue.cloud-rest.enter",
         "cue.cloud-rest.ambience",
         "cue.cloud-rest.exit",
@@ -165,7 +151,6 @@ describe("Edition Contract", () => {
       },
       foregroundVoiceMaximum: 2,
       musicDuckDb: -4,
-      ambienceCrossfadeMs: 600,
       truePeakCeilingDbfs: -3,
       confirmationDelayMaximumMs: 200,
     });

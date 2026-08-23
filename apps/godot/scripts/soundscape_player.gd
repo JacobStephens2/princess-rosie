@@ -17,19 +17,14 @@ const STORY_CONFIRMATION_EVENT := &"sound-event.story-confirmation"
 const STORY_CONFIRMATION_PARAMETERS := {"action": "continue"}
 const MOVEMENT_EVENT := &"sound-event.movement-state"
 const PLACE_ENTRY_EVENT := &"sound-event.place-entry"
-const JOURNEY_HISTORY_SHIMMER_EVENT := &"sound-event.journey-history-shimmer"
-const VIGNETTE_INTERACTION_EVENT := &"sound-event.vignette-interaction"
 const NEAR_MISS_EVENT := &"sound-event.near-miss"
 const BIRTHDAY_STAR_PROXIMITY_EVENT := &"sound-event.birthday-star-proximity"
 const CLOUD_REST_ENTERED_EVENT := &"sound-event.cloud-rest-entered"
 const CLOUD_REST_EXITED_EVENT := &"sound-event.cloud-rest-exited"
-const BIRTHDAY_CASTLE_ARRIVAL_EVENT := &"sound-event.birthday-castle-arrival"
 const REPLAY_EVENT := &"sound-event.replay"
 const SOUND_PREFERENCE_EVENT := &"sound-event.sound-preference-changed"
 const SOUND_OFF_LIMIT_MS := 200
 const NEAR_MISS_COOLDOWN_MS := 750
-const VIGNETTE_INTERACTION_COOLDOWN_MS := 250
-const AMBIENCE_CROSSFADE_MS := 600
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 
@@ -49,7 +44,6 @@ var _mix := {
 		"optionalDetail": -10.0,
 	},
 	"musicDuckDb": -4.0,
-	"ambienceCrossfadeMs": AMBIENCE_CROSSFADE_MS,
 	"confirmationDelayMaximumMs": SOUND_OFF_LIMIT_MS,
 }
 var _sound_enabled := true
@@ -57,9 +51,7 @@ var _music_started := false
 var _movement_state := ""
 var _current_place := ""
 var _in_cloud_rest := false
-var _journey_history_shimmers := {}
 var _near_miss_times_ms := {}
-var _vignette_interaction_times_ms := {}
 var _birthday_star_proximity_shimmers := {}
 var _now_ms: Callable
 var _reader: RefCounted = EDITION_PACK_READER.new()
@@ -120,9 +112,7 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 		_movement_state = ""
 		_current_place = ""
 		_in_cloud_rest = false
-		_journey_history_shimmers.clear()
 		_near_miss_times_ms.clear()
-		_vignette_interaction_times_ms.clear()
 		_birthday_star_proximity_shimmers.clear()
 		if _audio.has_method("stop_slot"):
 			_audio.stop_slot("movement")
@@ -149,36 +139,25 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 			if _audio.has_method("stop_slot"):
 				_audio.stop_slot("movement")
 			return false
-	if event_id == JOURNEY_HISTORY_SHIMMER_EVENT:
-		var shimmer_key := "%s:%s" % [
-			parameters.get("pathChoice", ""),
-			parameters.get("route", ""),
+	if event_id == NEAR_MISS_EVENT:
+		var near_miss_key := "%s:%s" % [
+			parameters.get("place", ""),
+			parameters.get("kind", ""),
 		]
-		if _journey_history_shimmers.has(shimmer_key):
+		var current_time_ms := _current_time_ms()
+		if (
+			_near_miss_times_ms.has(near_miss_key)
+			and current_time_ms - int(_near_miss_times_ms[near_miss_key])
+			< NEAR_MISS_COOLDOWN_MS
+		):
 			return false
 		if not _sound_enabled:
-			_journey_history_shimmers[shimmer_key] = true
+			_near_miss_times_ms[near_miss_key] = current_time_ms
 			return false
-		var shimmer_played := _play_resolved_cue(event_id, parameters)
-		if shimmer_played:
-			_journey_history_shimmers[shimmer_key] = true
-		return shimmer_played
-	if event_id == NEAR_MISS_EVENT:
-		return _play_edge_triggered_cue(
-			event_id,
-			parameters,
-			"%s:%s" % [parameters.get("place", ""), parameters.get("kind", "")],
-			NEAR_MISS_COOLDOWN_MS,
-			_near_miss_times_ms,
-		)
-	if event_id == VIGNETTE_INTERACTION_EVENT:
-		return _play_edge_triggered_cue(
-			event_id,
-			parameters,
-			"%s:%s" % [parameters.get("place", ""), parameters.get("interaction", "")],
-			VIGNETTE_INTERACTION_COOLDOWN_MS,
-			_vignette_interaction_times_ms,
-		)
+		var near_miss_played := _play_resolved_cue(event_id, parameters)
+		if near_miss_played:
+			_near_miss_times_ms[near_miss_key] = current_time_ms
+		return near_miss_played
 	if event_id == BIRTHDAY_STAR_PROXIMITY_EVENT:
 		var birthday_star: String = parameters.get("birthdayStar", "")
 		if _birthday_star_proximity_shimmers.has(birthday_star):
@@ -217,47 +196,11 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 				{"state": _movement_state},
 			) or resumed
 		return resumed
-	if event_id == BIRTHDAY_CASTLE_ARRIVAL_EVENT:
-		_current_place = ""
-		_fade_out_ambience()
 	if not _sound_enabled:
 		return false
 	if event_id == OPENING_EVENT:
 		_ensure_music()
 	return _play_resolved_cue(event_id, parameters)
-
-
-func _play_edge_triggered_cue(
-	event_id: StringName,
-	parameters: Dictionary,
-	cooldown_key: String,
-	cooldown_ms: int,
-	times_ms: Dictionary,
-) -> bool:
-	var current_time_ms := _current_time_ms()
-	if (
-		times_ms.has(cooldown_key)
-		and current_time_ms - int(times_ms[cooldown_key]) < cooldown_ms
-	):
-		return false
-	if not _sound_enabled:
-		times_ms[cooldown_key] = current_time_ms
-		return false
-	var played := _play_resolved_cue(event_id, parameters)
-	if played:
-		times_ms[cooldown_key] = current_time_ms
-	return played
-
-
-func _ambience_crossfade_ms() -> int:
-	return int(_mix.get("ambienceCrossfadeMs", AMBIENCE_CROSSFADE_MS))
-
-
-func _fade_out_ambience() -> void:
-	if _audio.has_method("fade_out_slot"):
-		_audio.fade_out_slot("ambience", _ambience_crossfade_ms())
-	elif _audio.has_method("stop_slot"):
-		_audio.stop_slot("ambience")
 
 
 func _current_time_ms() -> int:
@@ -438,7 +381,6 @@ func _playback_for(cue: Dictionary, event_id: StringName, duration_ms: int) -> S
 		playback.slot = SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE
 		playback.gain_db = music_reference_gain_db + float(category_gains.get("ambience", -10.0))
 		playback.max_duration_ms = 0
-		playback.crossfade_ms = _ambience_crossfade_ms()
 		return playback
 	if priority <= 20:
 		playback.bus = DETAIL_BUS
