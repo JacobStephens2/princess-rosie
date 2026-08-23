@@ -39,9 +39,9 @@ export const STORY_PAGES = [
   },
   {
     eyebrow: "A brave big sister",
-    title: "Rosi and Stella can help",
-    copy: "Princess Rosi climbed onto Stella, her flying unicorn. “We’ll find every Star and bring everyone to the celebration!”",
-    image: "/assets/storybook-rosi-stella-departure.webp",
+    title: "Rosie and Stella can help",
+    copy: "Princess Rosie climbed onto Stella, her flying unicorn. “We’ll find every Star and bring everyone to the celebration!”",
+    image: "/assets/storybook-rosie-stella-departure.webp",
     imagePosition: "52% 40%",
   },
 ] as const;

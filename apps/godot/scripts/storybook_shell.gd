@@ -95,7 +95,7 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 			"Godot %s is required; this application is running on %s" % [EXPECTED_ENGINE_VERSION, engine_version],
 		)
 	if not ResourceLoader.exists(COVER_ASSET):
-		return _fail_launch("Approved Princess Rosi cover is missing: %s" % COVER_ASSET)
+		return _fail_launch("Approved Princess Rosie cover is missing: %s" % COVER_ASSET)
 
 	var expected_digest_result := _read_expected_pack_digest()
 	if not expected_digest_result.ok:
@@ -238,11 +238,11 @@ func _layout_storybook_stage() -> void:
 func _render_presentation() -> void:
 	if not is_node_ready():
 		return
-	var content_title := str(_content.get("title", "Princess Rosi and the Seven Birthday Stars"))
+	var content_title := str(_content.get("title", "Princess Rosie and the Seven Birthday Stars"))
 	var opening: Dictionary = _content.get("openingMoment", {})
 	_title_label.text = content_title
 	_opening_eyebrow.text = str(opening.get("eyebrow", "A brave big sister"))
-	_opening_title.text = str(opening.get("title", "Rosi and Stella can help"))
+	_opening_title.text = str(opening.get("title", "Rosie and Stella can help"))
 	_opening_copy.text = str(opening.get("copy", ""))
 	_pack_badge.text = "EDITION PACK  •  %s" % _pack_digest.trim_prefix("sha256:").left(10).to_upper()
 	_error_label.text = _launch_error

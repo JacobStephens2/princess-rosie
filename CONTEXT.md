@@ -1,23 +1,23 @@
-# Princess Rosi and the Seven Birthday Stars
+# Princess Rosie and the Seven Birthday Stars
 
-A joyful, replayable birthday game centered on a fictional storybook hero inspired by Rosi.
+A joyful, replayable birthday game centered on a fictional storybook hero inspired by Rosie.
 
 ## Language
 
-**Princess Rosi**:
-The storybook hero and elder sister through whom the child experiences the adventure. She shares Rosi's name and may use an expressly approved likeness without unrelated identifying personal details.
-_Avoid_: Rosi's avatar, digital Rosi
+**Princess Rosie**:
+The storybook hero and elder sister through whom the child experiences the adventure. She shares Rosie's name and may use an expressly approved likeness without unrelated identifying personal details.
+_Avoid_: Rosie's avatar, digital Rosie
 
 **Princess Zélie**:
-Princess Rosi's storybook little sister and the child celebrated at the Birthday Castle. She shares Her full given name's saint-inspired nickname and may use an expressly approved likeness without unrelated identifying personal details.
+Princess Rosie's storybook little sister and the child celebrated at the Birthday Castle. She shares Her full given name's saint-inspired nickname and may use an expressly approved likeness without unrelated identifying personal details.
 _Avoid_: Princess Her full given name, the objective
 
 **Birthday Castle**:
-The joyful destination where Princess Zélie's birthday is celebrated and Princess Rosi's adventure concludes.
+The joyful destination where Princess Zélie's birthday is celebrated and Princess Rosie's adventure concludes.
 _Avoid_: Finish line, final level
 
 **Birthday Star**:
-One of seven golden, mosaic-like magical lights found beside a Family Guest and gathered by Princess Rosi to open that guest's Rainbow Path to the Birthday Castle.
+One of seven golden, mosaic-like magical lights found beside a Family Guest and gathered by Princess Rosie to open that guest's Rainbow Path to the Birthday Castle.
 _Avoid_: Coin, point, collectible
 
 **Rainbow Path**:
@@ -25,19 +25,19 @@ The magical route opened by a gathered Birthday Star that carries a Family Guest
 _Avoid_: Teleporter, guest collection
 
 **Path Choice**:
-One of three moments in Zélie's Lacewood, the Cloister of Clouds, or the Sapphire Sea where Princess Rosi guides Stella onto either of two equally safe routes that rejoin before the Birthday Star. Each route rewards her choice with a different interaction, Birthday Star Moment detail, and echo in the celebration.
+One of three moments in Zélie's Lacewood, the Cloister of Clouds, or the Sapphire Sea where Princess Rosie guides Stella onto either of two equally safe routes that rejoin before the Birthday Star. Each route rewards her choice with a different interaction, Birthday Star Moment detail, and echo in the celebration.
 _Avoid_: Branch, difficulty path, correct route
 
 **Stella**:
-Princess Rosi's friendly Flying Unicorn, distinguished by her rainbow horn and connection to the Birthday Stars.
+Princess Rosie's friendly Flying Unicorn, distinguished by her rainbow horn and connection to the Birthday Stars.
 _Avoid_: Pegasus, alicorn, vehicle
 
 **Gigi**:
-The tall, friendly Giraffe Party Keeper of the Birthday Castle who encourages Princess Rosi and welcomes her to Princess Zélie's celebration.
+The tall, friendly Giraffe Party Keeper of the Birthday Castle who encourages Princess Rosie and welcomes her to Princess Zélie's celebration.
 _Avoid_: Quest giver, announcer
 
 **Family Guest**:
-A partygoer inspired by Rosi and Zélie's family, identified only as Mom, Dad, Pop, Gram, Aunt, or Uncle and permitted to use an expressly approved likeness.
+A partygoer inspired by Rosie and Zélie's family, identified only as Mom, Dad, Pop, Gram, Aunt, or Uncle and permitted to use an expressly approved likeness.
 _Avoid_: Mama, Daddy, Grandma, family portrait
 
 **Beasley**:
@@ -49,11 +49,11 @@ The bright fantasy world surrounding the Birthday Castle, inspired by Sicily's w
 _Avoid_: Historical Sicily, generic medieval kingdom, Moorish fantasy
 
 **Fairytale Soundscape**:
-The warm, nonverbal storybook-acoustic world of soft bells, celesta, harp, airy shimmer, and gentle natural textures that gives Princess Rosi's journey a cohesive sonic identity.
+The warm, nonverbal storybook-acoustic world of soft bells, celesta, harp, airy shimmer, and gentle natural textures that gives Princess Rosie's journey a cohesive sonic identity.
 _Avoid_: Arcade soundtrack, cinematic battle audio, realistic simulation
 
 **Rosalia's Rose Garden**:
-The rose-crowned garden where Princess Rosi and Stella begin their journey through Fairytale Sicily.
+The rose-crowned garden where Princess Rosie and Stella begin their journey through Fairytale Sicily.
 _Avoid_: Rosalia Garden, starting area
 
 **Zélie's Lacewood**:
@@ -61,7 +61,7 @@ An enchanted forest where silver lace ribbons grow between rose-covered trees an
 _Avoid_: Zélie's Woods, Lace Woods, real lacewood timber
 
 **Golden Bell Abbey**:
-A bright, reverent fantasy abbey of warm stone, bells, stained glass, and garden cloisters that Princess Rosi passes on her journey.
+A bright, reverent fantasy abbey of warm stone, bells, stained glass, and garden cloisters that Princess Rosie passes on her journey.
 _Avoid_: Saint Mary Catholic School, St. Aloysius Church, church level
 
 **Cloister of Clouds**:
@@ -93,7 +93,7 @@ The cinematic 16:9 frame containing every essential story, play, and text elemen
 _Avoid_: Canvas, viewport, black bars
 
 **Opening Storybook Moment**:
-A Storybook Moment before the flight begins, comprising the title-cover moment and the three moments that establish the celebration, the scattered Birthday Stars, and Princess Rosi's promise to help.
+A Storybook Moment before the flight begins, comprising the title-cover moment and the three moments that establish the celebration, the scattered Birthday Stars, and Princess Rosie's promise to help.
 _Avoid_: Opening page, intro screen
 
 **Birthday Star Moment**:

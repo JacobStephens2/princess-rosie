@@ -3,7 +3,7 @@ import { registerSW } from "virtual:pwa-register";
 
 import "./style.css";
 import { STOP_STORIES, STORY_PAGES, type StopStory } from "./game/content";
-import { GAME_SIZE, RosiGameScene } from "./game/RosiGameScene";
+import { GAME_SIZE, RosieGameScene } from "./game/RosieGameScene";
 import { GameAudio } from "./game/sound";
 
 const getElement = <T extends HTMLElement>(id: string): T => {
@@ -34,7 +34,7 @@ const sound = new GameAudio();
 
 let storyPage = 0;
 let visibleStoryArtwork = 0;
-let scene: RosiGameScene | undefined;
+let scene: RosieGameScene | undefined;
 let finalStarWaiting = false;
 
 const storyArtworkLoads = new Map<string, Promise<boolean>>();
@@ -97,7 +97,7 @@ function renderStoryPage(): void {
   storyCopy.textContent = page.copy;
   void transitionStoryArtwork(page.image, page.imagePosition, storyPage);
   const buttonText = storyNext.querySelector("span");
-  if (buttonText) buttonText.textContent = storyPage === STORY_PAGES.length ? "Fly with Rosi" : "Turn the page";
+  if (buttonText) buttonText.textContent = storyPage === STORY_PAGES.length ? "Fly with Rosie" : "Turn the page";
 }
 
 async function advanceStory(): Promise<void> {
@@ -116,7 +116,7 @@ function startGame(): void {
   ending.hidden = true;
   gameShell.hidden = false;
   updateStars(0);
-  scene = new RosiGameScene({
+  scene = new RosieGameScene({
     onBirthdayStar: showBirthdayStar,
     onBump: () => sound.play("bump"),
     onCloudRest: showCloudRest,
