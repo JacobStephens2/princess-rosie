@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.movement.flight",
+  "runtimeMapping": "runtime-cue.movement.flight",
+  "sourceMaster": "source-master.movement.flight",
+  "sourcePath": "masters/movement-flight.wav",
+  "runtimePath": "runtime/movement-flight.wav",
+  "sourceHash": "sha256:861d0842216e8f75713b628a079cf0fd7f9699463d92fedc80bc22eb592cbc57",
+  "derivativeHash": "sha256:861d0842216e8f75713b628a079cf0fd7f9699463d92fedc80bc22eb592cbc57",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "looping": true
+  }
+}

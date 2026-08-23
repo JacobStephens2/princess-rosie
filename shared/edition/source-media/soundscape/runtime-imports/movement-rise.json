@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.movement.rise",
+  "runtimeMapping": "runtime-cue.movement.rise",
+  "sourceMaster": "source-master.movement.rise",
+  "sourcePath": "masters/movement-rise.wav",
+  "runtimePath": "runtime/movement-rise.wav",
+  "sourceHash": "sha256:6fee08ee39bb503954805f0c3cb771a4c1865105ec76ce0a7dc42fa3772b4b95",
+  "derivativeHash": "sha256:6fee08ee39bb503954805f0c3cb771a4c1865105ec76ce0a7dc42fa3772b4b95",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

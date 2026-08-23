@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.movement.glide",
+  "sourceMaster": "source-master.movement.glide",
+  "runtimeMapping": "runtime-cue.movement.glide",
+  "status": "approved",
+  "jobHash": "sha256:842e873aec6e13c0936f1fba4f57b0320dd48f90bfe1199ccb17ae8aca3ab068",
+  "masterPath": "masters/movement-glide.wav",
+  "masterHash": "sha256:7b14a9f77ab962a496fe6b8a106de234db92bcf28e94968f3d7c452e04d0f081",
+  "runtimePath": "runtime/movement-glide.wav",
+  "runtimeHash": "sha256:7b14a9f77ab962a496fe6b8a106de234db92bcf28e94968f3d7c452e04d0f081"
+}

@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.opening.star-scatter",
+  "runtimeMapping": "runtime-cue.opening.star-scatter",
+  "sourceMaster": "source-master.opening.star-scatter",
+  "sourcePath": "masters/opening-star-scatter.wav",
+  "runtimePath": "runtime/opening-star-scatter.wav",
+  "sourceHash": "sha256:3845001cab245dbb5752e0bac0fefabda56a5f8985896a091f1db67255f0288c",
+  "derivativeHash": "sha256:3845001cab245dbb5752e0bac0fefabda56a5f8985896a091f1db67255f0288c",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

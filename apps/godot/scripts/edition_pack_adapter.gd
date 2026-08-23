@@ -2,10 +2,13 @@ class_name EditionPackAdapter
 extends RefCounted
 
 const CONTRACT_VERSION := "rosie-edition-contract/1"
+const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
+
+var _reader: RefCounted = EDITION_PACK_READER.new()
 
 
 func prepare(pack_source: String, expected_digest: String = "") -> Dictionary:
-	var manifest_result := _read_pack_json(pack_source, "edition.json")
+	var manifest_result: Dictionary = _reader.read_json_object(pack_source, "edition.json")
 	if not manifest_result.ok:
 		return manifest_result
 
@@ -21,7 +24,7 @@ func prepare(pack_source: String, expected_digest: String = "") -> Dictionary:
 	if not manifest_files is Array:
 		return _failure("Edition Pack files must be an array")
 
-	var manifest_bytes_result := _read_pack_bytes(pack_source, "edition.json")
+	var manifest_bytes_result: Dictionary = _reader.read_bytes(pack_source, "edition.json")
 	if not manifest_bytes_result.ok:
 		return manifest_bytes_result
 
@@ -49,10 +52,10 @@ func prepare(pack_source: String, expected_digest: String = "") -> Dictionary:
 	for file: Dictionary in files:
 		var role: String = file.get("role")
 		var relative_path: String = file.get("path")
-		if not _is_safe_relative_path(relative_path):
+		if not _reader.is_safe_relative_path(relative_path):
 			return _failure("Edition Pack path must stay inside its root: %s" % relative_path)
 
-		var bytes_result := _read_pack_bytes(pack_source, relative_path)
+		var bytes_result: Dictionary = _reader.read_bytes(pack_source, relative_path)
 		if not bytes_result.ok:
 			return bytes_result
 		hashing.update(PackedByteArray([0]))
@@ -82,66 +85,53 @@ func prepare(pack_source: String, expected_digest: String = "") -> Dictionary:
 
 
 func load_content(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
-	if prepared_pack.get("ok") != true:
-		return _failure("Edition Pack must prepare successfully before content is loaded")
+	return _load_json_role(pack_source, prepared_pack, "content")
 
-	var manifest_result := _read_pack_json(pack_source, "edition.json")
+
+func load_media(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
+	return _load_json_role(pack_source, prepared_pack, "media")
+
+
+func _load_json_role(pack_source: String, prepared_pack: Dictionary, role: String) -> Dictionary:
+	if prepared_pack.get("ok") != true:
+		return _failure("Edition Pack must prepare successfully before %s is loaded" % role)
+
+	var manifest_result: Dictionary = _reader.read_json_object(pack_source, "edition.json")
 	if not manifest_result.ok:
 		return manifest_result
-	var manifest: Dictionary = manifest_result.value
-	var manifest_files: Variant = manifest.get("files")
+	var manifest_files: Variant = manifest_result.value.get("files")
 	if not manifest_files is Array:
 		return _failure("Edition Pack files must be an array")
-
 	for file_value: Variant in manifest_files:
-		if file_value is Dictionary and file_value.get("role") == "content":
+		if file_value is Dictionary and file_value.get("role") == role:
 			var relative_path: Variant = file_value.get("path")
-			if not relative_path is String or not _is_safe_relative_path(relative_path):
-				return _failure("Edition Pack content path is invalid")
-			return _read_pack_json(pack_source, relative_path)
-	return _failure("Edition Pack has no content file")
+			if not relative_path is String or not _reader.is_safe_relative_path(relative_path):
+				return _failure("Edition Pack %s path is invalid" % role)
+			return _reader.read_json_object(pack_source, relative_path)
+	return _failure("Edition Pack has no %s file" % role)
 
 
-func _read_pack_json(pack_source: String, relative_path: String) -> Dictionary:
-	var bytes_result := _read_pack_bytes(pack_source, relative_path)
+func load_png_texture(pack_source: String, relative_path: String) -> Dictionary:
+	var bytes_result: Dictionary = _reader.read_bytes(pack_source, relative_path)
 	if not bytes_result.ok:
 		return bytes_result
-
-	var json := JSON.new()
-	var parse_error := json.parse(bytes_result.value.get_string_from_utf8())
-	if parse_error != OK:
-		return _failure("Invalid Edition Pack JSON at %s: %s" % [relative_path, json.get_error_message()])
-	if not json.data is Dictionary:
-		return _failure("Edition Pack JSON must contain an object: %s" % relative_path)
-	return {"ok": true, "value": json.data}
-
-
-func _read_pack_bytes(pack_source: String, relative_path: String) -> Dictionary:
-	if not _is_safe_relative_path(relative_path):
-		return _failure("Edition Pack path must stay inside its root: %s" % relative_path)
-	if pack_source.get_extension().to_lower() == "zip":
-		var archive := ZIPReader.new()
-		var archive_error := archive.open(pack_source)
-		if archive_error != OK:
-			return _failure("Edition Pack archive could not be opened: %s" % error_string(archive_error))
-		if not archive.get_files().has(relative_path):
-			archive.close()
-			return _failure("Edition Pack file is missing: %s" % relative_path)
-		var bytes := archive.read_file(relative_path)
-		archive.close()
-		return {"ok": true, "value": bytes}
-
-	var path := pack_source.path_join(relative_path)
-	if not FileAccess.file_exists(path):
-		return _failure("Edition Pack file is missing: %s" % path)
-	return {"ok": true, "value": FileAccess.get_file_as_bytes(path)}
-
-
-func _is_safe_relative_path(path: String) -> bool:
-	if path.is_empty() or path.is_absolute_path():
-		return false
-	var simplified := path.simplify_path()
-	return simplified != ".." and not simplified.begins_with("../")
+	var image := Image.new()
+	var image_error := image.load_png_from_buffer(bytes_result.value)
+	if image_error != OK:
+		return _failure(
+			"Edition Pack PNG could not be decoded at %s: %s"
+			% [relative_path, error_string(image_error)],
+		)
+	var hashing := HashingContext.new()
+	var hashing_error := hashing.start(HashingContext.HASH_SHA256)
+	if hashing_error != OK:
+		return _failure("Could not hash Edition Pack PNG: %s" % relative_path)
+	hashing.update(bytes_result.value)
+	return {
+		"ok": true,
+		"texture": ImageTexture.create_from_image(image),
+		"sha256": hashing.finish().hex_encode(),
+	}
 
 
 func _failure(message: String) -> Dictionary:

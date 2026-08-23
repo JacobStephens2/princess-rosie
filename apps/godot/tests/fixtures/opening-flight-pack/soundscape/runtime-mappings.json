@@ -1,0 +1,13 @@
+{
+  "mappings": [
+    { "id": "runtime-cue.opening.celebration-reveal", "sourceMaster": "source-master.opening.celebration-reveal", "path": "runtime/opening-celebration-reveal.wav" },
+    { "id": "runtime-cue.opening.star-scatter", "sourceMaster": "source-master.opening.star-scatter", "path": "runtime/opening-star-scatter.wav" },
+    { "id": "runtime-cue.opening.departure", "sourceMaster": "source-master.opening.departure", "path": "runtime/opening-departure.wav" },
+    { "id": "runtime-cue.story.confirmation", "sourceMaster": "source-master.story.confirmation", "path": "runtime/story-confirmation.wav" },
+    { "id": "runtime-cue.flight.launch", "sourceMaster": "source-master.flight.launch", "path": "runtime/flight-launch.wav" },
+    { "id": "runtime-cue.movement.flight", "sourceMaster": "source-master.movement.flight", "path": "runtime/movement-flight.wav" },
+    { "id": "runtime-cue.movement.rise", "sourceMaster": "source-master.movement.rise", "path": "runtime/movement-rise.wav" },
+    { "id": "runtime-cue.movement.glide", "sourceMaster": "source-master.movement.glide", "path": "runtime/movement-glide.wav" },
+    { "id": "runtime-cue.replay", "sourceMaster": "source-master.replay", "path": "runtime/replay.wav" }
+  ]
+}

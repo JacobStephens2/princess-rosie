@@ -1,0 +1,121 @@
+{
+  "entries": [
+    {
+      "id": "cue.opening.celebration-reveal",
+      "event": "sound-event.opening-storybook-moment",
+      "match": { "moment": "opening.celebration-preparations" },
+      "category": "storybook",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 2.5,
+      "looping": false,
+      "sourceMaster": "source-master.opening.celebration-reveal",
+      "runtimeMapping": "runtime-cue.opening.celebration-reveal",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.opening.star-scatter",
+      "event": "sound-event.opening-storybook-moment",
+      "match": { "moment": "opening.scattered-stars" },
+      "category": "storybook",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 2.5,
+      "looping": false,
+      "sourceMaster": "source-master.opening.star-scatter",
+      "runtimeMapping": "runtime-cue.opening.star-scatter",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.opening.departure",
+      "event": "sound-event.opening-storybook-moment",
+      "match": { "moment": "opening.departure" },
+      "category": "storybook",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 2.5,
+      "looping": false,
+      "sourceMaster": "source-master.opening.departure",
+      "runtimeMapping": "runtime-cue.opening.departure",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.story.confirmation",
+      "event": "sound-event.story-confirmation",
+      "match": { "action": "continue" },
+      "category": "storybook",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.6,
+      "looping": false,
+      "sourceMaster": "source-master.story.confirmation",
+      "runtimeMapping": "runtime-cue.story.confirmation",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.flight.launch",
+      "event": "sound-event.flight-launch",
+      "match": {},
+      "category": "movement",
+      "priority": 100,
+      "requirement": "required",
+      "durationSeconds": 1.5,
+      "looping": false,
+      "sourceMaster": "source-master.flight.launch",
+      "runtimeMapping": "runtime-cue.flight.launch",
+      "fallbackRole": "fallback.story-confirmation"
+    },
+    {
+      "id": "cue.movement.flight",
+      "event": "sound-event.movement-state",
+      "match": { "state": "flight" },
+      "category": "movement",
+      "priority": 40,
+      "requirement": "required",
+      "durationSeconds": 8,
+      "looping": true,
+      "sourceMaster": "source-master.movement.flight",
+      "runtimeMapping": "runtime-cue.movement.flight",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.movement.rise",
+      "event": "sound-event.movement-state",
+      "match": { "state": "rise" },
+      "category": "movement",
+      "priority": 40,
+      "requirement": "optional",
+      "durationSeconds": 0.6,
+      "looping": false,
+      "sourceMaster": "source-master.movement.rise",
+      "runtimeMapping": "runtime-cue.movement.rise",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.movement.glide",
+      "event": "sound-event.movement-state",
+      "match": { "state": "glide" },
+      "category": "movement",
+      "priority": 40,
+      "requirement": "optional",
+      "durationSeconds": 0.6,
+      "looping": false,
+      "sourceMaster": "source-master.movement.glide",
+      "runtimeMapping": "runtime-cue.movement.glide",
+      "fallbackRole": "fallback.optional-silence"
+    },
+    {
+      "id": "cue.replay",
+      "event": "sound-event.replay",
+      "match": { "destination": "opening-storybook" },
+      "category": "presentation",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.5,
+      "looping": false,
+      "sourceMaster": "source-master.replay",
+      "runtimeMapping": "runtime-cue.replay",
+      "fallbackRole": "fallback.story-confirmation"
+    }
+  ]
+}

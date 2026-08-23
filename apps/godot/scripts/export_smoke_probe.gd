@@ -3,6 +3,7 @@ extends Node
 const SMOKE_FLAG := "--acceptance-smoke"
 const CAPTURE_ARGUMENT := "--smoke-capture="
 const EVIDENCE_ARGUMENT := "--smoke-evidence="
+const STATE_ARGUMENT := "--smoke-state="
 
 
 func run_if_requested(shell: StorybookShell) -> void:
@@ -16,6 +17,27 @@ func run_if_requested(shell: StorybookShell) -> void:
 		push_error("Export smoke requires capture and evidence paths")
 		get_tree().quit(2)
 		return
+	var requested_state := _argument_value(arguments, STATE_ARGUMENT)
+	if requested_state in ["opening", "flight"]:
+		var begin_button := shell.get_node_or_null("%BeginButton") as Button
+		if begin_button == null:
+			push_error("Export smoke could not find the Begin control")
+			get_tree().quit(5)
+			return
+		begin_button.pressed.emit()
+		await get_tree().process_frame
+	if requested_state == "flight":
+		var continue_button := shell.get_node_or_null("%ContinueButton") as Button
+		if continue_button == null:
+			push_error("Export smoke could not find the Continue control")
+			get_tree().quit(6)
+			return
+		for _page: int in 3:
+			continue_button.pressed.emit()
+			await get_tree().process_frame
+		_emit_flight_input(true)
+		await get_tree().process_frame
+		_emit_flight_input(false)
 
 	for _frame: int in 4:
 		await get_tree().process_frame
@@ -30,6 +52,7 @@ func run_if_requested(shell: StorybookShell) -> void:
 	evidence["network_requests"] = 0
 	evidence["capture_sample_colors"] = _sample_color_count(image)
 	evidence["storybook_stage"] = shell.storybook_stage_evidence()
+	evidence["sound_events"] = shell.sound_event_evidence()
 	var evidence_file := FileAccess.open(evidence_path, FileAccess.WRITE)
 	if evidence_file == null:
 		push_error("Could not write export smoke evidence: %s" % error_string(FileAccess.get_open_error()))
@@ -37,7 +60,10 @@ func run_if_requested(shell: StorybookShell) -> void:
 		return
 	evidence_file.store_string(JSON.stringify(evidence, "  "))
 	evidence_file.close()
-	get_tree().quit(0)
+	var scene_tree := get_tree()
+	var quit_timer := scene_tree.create_timer(0.1)
+	quit_timer.timeout.connect(scene_tree.quit.bind(0))
+	shell.queue_free()
 
 
 func _sample_color_count(image: Image) -> int:
@@ -48,6 +74,13 @@ func _sample_color_count(image: Image) -> int:
 			var y := mini(image.get_height() - 1, int((y_index + 0.5) * image.get_height() / 8.0))
 			sampled_colors[image.get_pixel(x, y).to_rgba32()] = true
 	return sampled_colors.size()
+
+
+func _emit_flight_input(pressed: bool) -> void:
+	var event := InputEventKey.new()
+	event.physical_keycode = KEY_SPACE
+	event.pressed = pressed
+	Input.parse_input_event(event)
 
 
 func _argument_value(arguments: PackedStringArray, prefix: String) -> String:
