@@ -6,17 +6,20 @@ const FALLBACK_DURATION_SECONDS := 0.18
 const FALLBACK_FREQUENCY_HZ := 783.99
 const MUSIC_FALLBACK_DURATION_SECONDS := 2.0
 const FOREGROUND_VOICE_MAXIMUM := 2
+const SILENT_GAIN_DB := -60.0
 const SOUND_BUS := &"Sound"
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 
 var _music_player := AudioStreamPlayer.new()
 var _ambience_player := AudioStreamPlayer.new()
+var _outgoing_ambience_player := AudioStreamPlayer.new()
 var _movement_player := AudioStreamPlayer.new()
 var _foreground_players: Array[AudioStreamPlayer] = []
 var _priorities: Dictionary = {}
 var _ducking: Dictionary = {}
 var _duration_timers: Dictionary = {}
+var _gain_targets: Dictionary = {}
 var _music_base_gain_db := 0.0
 var _mute_timer := Timer.new()
 var _reader: RefCounted = EDITION_PACK_READER.new()
@@ -26,6 +29,7 @@ func _init() -> void:
 	for persistent_player: AudioStreamPlayer in [
 		_music_player,
 		_ambience_player,
+		_outgoing_ambience_player,
 		_movement_player,
 	]:
 		_register_player(persistent_player)
@@ -40,6 +44,7 @@ func _init() -> void:
 
 func _exit_tree() -> void:
 	_mute_timer.stop()
+	_stop_player(_outgoing_ambience_player)
 	stop_slot("foreground")
 	stop_slot("movement")
 	stop_slot("ambience")
@@ -161,6 +166,8 @@ func play(stream: Variant, playback: SoundscapePlayback) -> bool:
 	var target: AudioStreamPlayer
 	if playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND:
 		target = _select_foreground_player(playback.priority)
+	elif playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
+		target = _crossfade_ambience(playback)
 	else:
 		target = _persistent_player_for(playback.slot)
 	if target == null:
@@ -168,6 +175,59 @@ func play(stream: Variant, playback: SoundscapePlayback) -> bool:
 	if playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_MUSIC:
 		_music_base_gain_db = playback.gain_db
 	return _play_on(target, stream, playback)
+
+
+func ambience_evidence() -> Dictionary:
+	return {
+		"entering": _ambience_player.playing,
+		"leaving": _outgoing_ambience_player.playing,
+		"entering_below_target": _is_below_target(_ambience_player),
+	}
+
+
+func fade_out_slot(slot: StringName, fade_ms: int) -> void:
+	var player := _persistent_player_for(slot)
+	if player == null or not player.playing:
+		return
+	if fade_ms <= 0 or not is_inside_tree():
+		_stop_player(player)
+		return
+	_fade_player_out(player, fade_ms)
+
+
+func _is_below_target(player: AudioStreamPlayer) -> bool:
+	return (
+		player.playing
+		and player.volume_db < _gain_targets.get(player.get_instance_id(), 0.0)
+	)
+
+
+func _fade_player_out(player: AudioStreamPlayer, fade_ms: int) -> void:
+	var fade := create_tween()
+	fade.tween_property(player, "volume_db", SILENT_GAIN_DB, fade_ms / 1000.0)
+	fade.tween_callback(_stop_player.bind(player))
+
+
+func _crossfade_ambience(playback: SoundscapePlayback) -> AudioStreamPlayer:
+	if (
+		playback.crossfade_ms <= 0
+		or not is_inside_tree()
+		or not _ambience_player.playing
+	):
+		return _ambience_player
+	_stop_player(_outgoing_ambience_player)
+	var outgoing := _outgoing_ambience_player
+	outgoing.stream = _ambience_player.stream
+	outgoing.bus = _ambience_player.bus
+	outgoing.volume_db = _ambience_player.volume_db
+	_gain_targets[outgoing.get_instance_id()] = _gain_targets.get(
+		_ambience_player.get_instance_id(),
+		playback.gain_db,
+	)
+	outgoing.play(_ambience_player.get_playback_position())
+	_ambience_player.stop()
+	_fade_player_out(outgoing, playback.crossfade_ms)
+	return _ambience_player
 
 
 func _persistent_player_for(slot: StringName) -> AudioStreamPlayer:
@@ -195,6 +255,8 @@ func stop_slot(slot: StringName) -> void:
 		for player: AudioStreamPlayer in _foreground_players:
 			_stop_player(player)
 		return
+	if slot == SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
+		_stop_player(_outgoing_ambience_player)
 	var player := _persistent_player_for(slot)
 	if player != null:
 		_stop_player(player)
@@ -244,11 +306,16 @@ func _play_on(
 	var player_id := player.get_instance_id()
 	_priorities[player_id] = playback.priority
 	_ducking[player_id] = playback.music_duck_db
+	_gain_targets[player_id] = playback.gain_db
 	player.stop()
 	player.stream = stream
 	player.bus = playback.bus
 	player.volume_db = playback.gain_db
 	player.play()
+	if playback.crossfade_ms > 0 and is_inside_tree():
+		player.volume_db = SILENT_GAIN_DB
+		var rise := create_tween()
+		rise.tween_property(player, "volume_db", playback.gain_db, playback.crossfade_ms / 1000.0)
 	_apply_music_duck()
 
 	var duration_timer: Timer = _duration_timers[player_id]
@@ -277,6 +344,7 @@ func _stop_player(player: AudioStreamPlayer) -> void:
 	player.stream = null
 	_priorities.erase(player_id)
 	_ducking.erase(player_id)
+	_gain_targets.erase(player_id)
 	_apply_music_duck()
 
 

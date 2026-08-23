@@ -12,14 +12,14 @@ opening_capture_path="$build_dir/opening-storybook-stage.png"
 opening_evidence_path="$build_dir/opening-export-smoke-evidence.json"
 flight_capture_path="$build_dir/opening-flight-stage.png"
 flight_evidence_path="$build_dir/opening-flight-export-smoke-evidence.json"
-lacewood_capture_path="$build_dir/lacewood-tracer-stage.png"
-lacewood_evidence_path="$build_dir/lacewood-tracer-export-smoke-evidence.json"
+journey_capture_path="$build_dir/journey-tracer-stage.png"
+journey_evidence_path="$build_dir/journey-tracer-export-smoke-evidence.json"
 expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
 
 mkdir -p "$build_dir"
 rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path" \
-  "$flight_capture_path" "$flight_evidence_path" "$lacewood_capture_path" \
-  "$lacewood_evidence_path"
+  "$flight_capture_path" "$flight_evidence_path" "$journey_capture_path" \
+  "$journey_evidence_path"
 
 "$godot_bin" --headless --path "$project_dir" --export-debug "macOS Development" "$app_path"
 
@@ -112,22 +112,24 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
 ' "$flight_evidence_path" >/dev/null
 
 sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
-  "--smoke-state=lacewood" \
-  "--smoke-capture=$lacewood_capture_path" \
-  "--smoke-evidence=$lacewood_evidence_path"
+  "--smoke-state=journey" \
+  "--smoke-capture=$journey_capture_path" \
+  "--smoke-evidence=$journey_evidence_path"
 
-test -s "$lacewood_capture_path"
-test -s "$lacewood_evidence_path"
-test "$(stat -f '%z' "$lacewood_capture_path")" -gt 100000
+test -s "$journey_capture_path"
+test -s "$journey_evidence_path"
+test "$(stat -f '%z' "$journey_capture_path")" -gt 100000
 jq -e --arg expected_pack_digest "$expected_pack_digest" '
   .state == "celebration"
   and .journey_phase == "celebration"
-  and .chosen_route == "lacewood.canopy"
-  and .playful_bumps == 3
+  and .chosen_route == "cloister.arches"
   and .cloud_rests == 1
-  and .birthday_stars == ["birthday-star.lacewood"]
-  and .rainbow_paths == ["rainbow-path.lacewood"]
-  and .path_choices == {"path-choice.lacewood": "lacewood.canopy"}
+  and .birthday_stars == ["birthday-star.lacewood", "birthday-star.cloister"]
+  and .rainbow_paths == ["rainbow-path.lacewood", "rainbow-path.cloister"]
+  and .path_choices == {
+    "path-choice.lacewood": "lacewood.canopy",
+    "path-choice.cloister": "cloister.arches"
+  }
   and .pack_digest == $expected_pack_digest
   and .network_requests == 0
   and .capture_sample_colors >= 8
@@ -150,6 +152,6 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
     "sound-event.birthday-castle-arrival",
     "sound-event.celebration-interaction"
   ]))
-' "$lacewood_evidence_path" >/dev/null
+' "$journey_evidence_path" >/dev/null
 
-echo "PASS: exported arm64 application launch, cover, opening, active-flight, and audible Lacewood-to-celebration tracer captures"
+echo "PASS: exported arm64 application launch, cover, opening, active-flight, and audible Lacewood-to-Cloister-to-celebration tracer captures"

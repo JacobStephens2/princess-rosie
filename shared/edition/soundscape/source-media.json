@@ -127,6 +127,16 @@
       "catalogStatePath": "source-media/soundscape/catalog-state/place-lacewood.json"
     },
     {
+      "id": "source-master.place.cloister",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/place-cloister.wav",
+      "provenancePath": "source-media/soundscape/provenance/place-cloister.json",
+      "runtimePath": "source-media/soundscape/runtime/place-cloister.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/place-cloister.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/place-cloister.json"
+    },
+    {
       "id": "source-master.vignette.lacewood.canopy",
       "role": "source-media.generated-master",
       "provenanceRole": "provenance.commercial-generated-effect",
@@ -145,6 +155,26 @@
       "runtimePath": "source-media/soundscape/runtime/vignette-lacewood-floor.wav",
       "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-lacewood-floor.json",
       "catalogStatePath": "source-media/soundscape/catalog-state/vignette-lacewood-floor.json"
+    },
+    {
+      "id": "source-master.vignette.cloister.arches",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/vignette-cloister-arches.wav",
+      "provenancePath": "source-media/soundscape/provenance/vignette-cloister-arches.json",
+      "runtimePath": "source-media/soundscape/runtime/vignette-cloister-arches.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-cloister-arches.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/vignette-cloister-arches.json"
+    },
+    {
+      "id": "source-master.vignette.cloister.clouds",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/vignette-cloister-clouds.wav",
+      "provenancePath": "source-media/soundscape/provenance/vignette-cloister-clouds.json",
+      "runtimePath": "source-media/soundscape/runtime/vignette-cloister-clouds.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-cloister-clouds.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/vignette-cloister-clouds.json"
     },
     {
       "id": "source-master.path-choice.available",
@@ -177,6 +207,26 @@
       "catalogStatePath": "source-media/soundscape/catalog-state/path-choice-lacewood-floor.json"
     },
     {
+      "id": "source-master.path-choice.cloister.arches",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/path-choice-cloister-arches.wav",
+      "provenancePath": "source-media/soundscape/provenance/path-choice-cloister-arches.json",
+      "runtimePath": "source-media/soundscape/runtime/path-choice-cloister-arches.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/path-choice-cloister-arches.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/path-choice-cloister-arches.json"
+    },
+    {
+      "id": "source-master.path-choice.cloister.clouds",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/path-choice-cloister-clouds.wav",
+      "provenancePath": "source-media/soundscape/provenance/path-choice-cloister-clouds.json",
+      "runtimePath": "source-media/soundscape/runtime/path-choice-cloister-clouds.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/path-choice-cloister-clouds.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/path-choice-cloister-clouds.json"
+    },
+    {
       "id": "source-master.journey-history.shimmer",
       "role": "source-media.generated-master",
       "provenanceRole": "provenance.commercial-generated-effect",
@@ -195,6 +245,16 @@
       "runtimePath": "source-media/soundscape/runtime/playful-bump-lacewood.wav",
       "runtimeImportPath": "source-media/soundscape/runtime-imports/playful-bump-lacewood.json",
       "catalogStatePath": "source-media/soundscape/catalog-state/playful-bump-lacewood.json"
+    },
+    {
+      "id": "source-master.playful-bump.cloister",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/playful-bump-cloister.wav",
+      "provenancePath": "source-media/soundscape/provenance/playful-bump-cloister.json",
+      "runtimePath": "source-media/soundscape/runtime/playful-bump-cloister.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/playful-bump-cloister.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/playful-bump-cloister.json"
     },
     {
       "id": "source-master.near-miss",
@@ -245,6 +305,16 @@
       "runtimePath": "source-media/soundscape/runtime/birthday-star-moment-lacewood.wav",
       "runtimeImportPath": "source-media/soundscape/runtime-imports/birthday-star-moment-lacewood.json",
       "catalogStatePath": "source-media/soundscape/catalog-state/birthday-star-moment-lacewood.json"
+    },
+    {
+      "id": "source-master.birthday-star-moment.cloister",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/birthday-star-moment-cloister.wav",
+      "provenancePath": "source-media/soundscape/provenance/birthday-star-moment-cloister.json",
+      "runtimePath": "source-media/soundscape/runtime/birthday-star-moment-cloister.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/birthday-star-moment-cloister.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/birthday-star-moment-cloister.json"
     },
     {
       "id": "source-master.cloud-rest.enter",

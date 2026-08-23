@@ -35,30 +35,64 @@
       "illustration": "opening.rosi-stella-departure"
     }
   ],
-  "place": {
-    "id": "lacewood",
-    "name": "Zélie’s Lacewood",
-    "familyGuest": "Gram",
-    "pathChoice": {
-      "id": "path-choice.lacewood",
-      "routes": [
-        {
-          "id": "lacewood.canopy",
-          "name": "Silver-ribbon canopy",
-          "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
-          "celebrationEcho": "silver-ribbons"
-        },
-        {
-          "id": "lacewood.floor",
-          "name": "Rose-lit woodland floor",
-          "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
-          "celebrationEcho": "rose-lights"
-        }
-      ]
+  "places": [
+    {
+      "id": "lacewood",
+      "name": "Zélie’s Lacewood",
+      "familyGuest": "Gram",
+      "playfulBumpKind": "silver-ribbon",
+      "nearMissKind": "silver-ribbon",
+      "pathChoice": {
+        "id": "path-choice.lacewood",
+        "routes": [
+          {
+            "id": "lacewood.canopy",
+            "name": "Silver-ribbon canopy",
+            "interaction": "silver-ribbon-canopy",
+            "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
+            "celebrationEcho": "silver-ribbons"
+          },
+          {
+            "id": "lacewood.floor",
+            "name": "Rose-lit woodland floor",
+            "interaction": "rose-lit-floor",
+            "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
+            "celebrationEcho": "rose-lights"
+          }
+        ]
+      },
+      "birthdayStar": "birthday-star.lacewood",
+      "rainbowPath": "rainbow-path.lacewood"
     },
-    "birthdayStar": "birthday-star.lacewood",
-    "rainbowPath": "rainbow-path.lacewood"
-  },
+    {
+      "id": "cloister",
+      "name": "Cloister of Clouds",
+      "familyGuest": "Beasley",
+      "playfulBumpKind": "soft-cloud",
+      "nearMissKind": "cloud-bound",
+      "pathChoice": {
+        "id": "path-choice.cloister",
+        "routes": [
+          {
+            "id": "cloister.arches",
+            "name": "Sunlit arch colonnade",
+            "interaction": "sunlit-arch-glide",
+            "birthdayStarMoment": "Beasley padded along the sunlit arches of the Cloister of Clouds!",
+            "celebrationEcho": "sunlit-arches"
+          },
+          {
+            "id": "cloister.clouds",
+            "name": "Soft cloud drift",
+            "interaction": "soft-cloud-drift",
+            "birthdayStarMoment": "Beasley pounced through the soft clouds of the Cloister of Clouds!",
+            "celebrationEcho": "soft-clouds"
+          }
+        ]
+      },
+      "birthdayStar": "birthday-star.cloister",
+      "rainbowPath": "rainbow-path.cloister"
+    }
+  ],
   "celebration": {
     "id": "celebration.tracer",
     "actions": ["dance-again", "fly-again"]

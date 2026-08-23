@@ -28,7 +28,7 @@ func _init() -> void:
 	test.expect(shell.handle_player_intent("toggle-sound"), "the shared journey turns Sound off")
 	test.expect(shell.handle_player_intent("toggle-sound"), "the shared journey turns Sound on")
 	test.expect(shell.handle_player_intent("resume"), "the floor vignette resumes")
-	_complete_route_from_vignette(shell)
+	_complete_route_from_vignette(shell, false)
 
 	var evidence: Dictionary = shell.presentation_evidence()
 	var actual_facts := {
@@ -36,7 +36,9 @@ func _init() -> void:
 		"rainbowPaths": evidence.get("rainbow_paths", []),
 		"chosenPathRecorded": evidence.get("journey_history", {}) == {
 			"lacewood.canopy": true,
+			"cloister.arches": true,
 			"lacewood.floor": true,
+			"cloister.clouds": true,
 		},
 		"cloudRestPreservesProgress": true,
 		"networkRequests": 0,
@@ -68,10 +70,10 @@ func _complete_route(shell: StorybookShell, choose_canopy: bool) -> void:
 	shell.advance_journey(1.25)
 	if choose_canopy:
 		test.expect(shell.handle_player_intent("action-released"), "the canopy hold releases")
-	_complete_route_from_vignette(shell)
+	_complete_route_from_vignette(shell, choose_canopy)
 
 
-func _complete_route_from_vignette(shell: StorybookShell) -> void:
+func _complete_route_from_vignette(shell: StorybookShell, hold_in_cloister: bool) -> void:
 	var progress_before_rest: Dictionary = shell.presentation_evidence()
 	shell.advance_journey(1.8)
 	var progress_during_rest: Dictionary = shell.presentation_evidence()
@@ -81,6 +83,20 @@ func _complete_route_from_vignette(shell: StorybookShell) -> void:
 		"the actual shared journey preserves progress at Cloud Rest",
 	)
 	test.expect(shell.handle_player_intent("action-pressed"), "the shared journey resumes")
+	shell.advance_journey(4.9)
+	test.expect(
+		shell.handle_player_intent("continue"),
+		"the Birthday Star Moment carries the shared journey onward",
+	)
+	if hold_in_cloister:
+		test.expect(
+			shell.handle_player_intent("action-pressed"),
+			"the sunlit arch route is held",
+		)
+	shell.advance_journey(1.25)
+	if hold_in_cloister:
+		test.expect(shell.handle_player_intent("action-released"), "the arch hold releases")
+	shell.advance_journey(2.25)
 	shell.advance_journey(4.9)
 	test.expect(shell.handle_player_intent("continue"), "the Birthday Star Moment reaches celebration")
 	test.expect(shell.handle_player_intent("action-pressed"), "the celebration dances again")

@@ -23,8 +23,8 @@ async function readTracerSoundEvents(): Promise<TestSoundEvent[]> {
 }
 
 const tracerFacts = {
-  birthdayStars: ["birthday-star.lacewood"],
-  rainbowPaths: ["rainbow-path.lacewood"],
+  birthdayStars: ["birthday-star.lacewood", "birthday-star.cloister"],
+  rainbowPaths: ["rainbow-path.lacewood", "rainbow-path.cloister"],
   chosenPathRecorded: true,
   cloudRestPreservesProgress: true,
   networkRequests: 0,

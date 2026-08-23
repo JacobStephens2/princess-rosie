@@ -19,6 +19,7 @@ tests=(
   shell_launch_acceptance.gd
   presentation_transition_acceptance.gd
   lacewood_tracer_acceptance.gd
+  cloister_tracer_acceptance.gd
   edition_contract_tracer_acceptance.gd
   soundscape_player_acceptance.gd
   godot_audio_adapter_acceptance.gd

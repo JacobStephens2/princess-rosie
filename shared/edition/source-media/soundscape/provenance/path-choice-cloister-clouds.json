@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.path-choice.cloister.clouds",
+  "sourceMasterId": "source-master.path-choice.cloister.clouds",
+  "runtimeMapping": "runtime-cue.path-choice.cloister.clouds",
+  "jobHash": "sha256:c101fe455376fd7c53c9c33c34fec8d95c3006d80c0d2f88ed18c779472c122e",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A soft cloud choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.4,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:49:12.160Z",
+  "traceId": "bafc8332ecf1874688a739265d40b7c9",
+  "providerReportedUsage": {
+    "characterCost": "14"
+  },
+  "sourceHash": "sha256:bc34702b8962715a253f408befc5b5a04ed0c24c335bdff6618557f87f24a30f",
+  "selectedOutputHash": "sha256:89e630ceb7dc526204ca316ccad28d20c2936084d75a5c16b1d1490e070db5f1",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -24.994,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:89e630ceb7dc526204ca316ccad28d20c2936084d75a5c16b1d1490e070db5f1",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "soft-cloud-choice-response-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Candidate A provides the warmest and most cloud-like tactile quality with its soft, gentle harp and celesta arpeggio. It presents zero startle risk, clean laptop playback, and establishes a balanced, non-hierarchical path choice alternative to the reference cue."
+}

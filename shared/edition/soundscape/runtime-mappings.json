@@ -46,6 +46,11 @@
       "path": "runtime/place-lacewood.wav"
     },
     {
+      "id": "runtime-cue.place.cloister",
+      "sourceMaster": "source-master.place.cloister",
+      "path": "runtime/place-cloister.wav"
+    },
+    {
       "id": "runtime-cue.vignette.lacewood.canopy",
       "sourceMaster": "source-master.vignette.lacewood.canopy",
       "path": "runtime/vignette-lacewood-canopy.wav"
@@ -54,6 +59,16 @@
       "id": "runtime-cue.vignette.lacewood.floor",
       "sourceMaster": "source-master.vignette.lacewood.floor",
       "path": "runtime/vignette-lacewood-floor.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.cloister.arches",
+      "sourceMaster": "source-master.vignette.cloister.arches",
+      "path": "runtime/vignette-cloister-arches.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.cloister.clouds",
+      "sourceMaster": "source-master.vignette.cloister.clouds",
+      "path": "runtime/vignette-cloister-clouds.wav"
     },
     {
       "id": "runtime-cue.path-choice.available",
@@ -71,6 +86,16 @@
       "path": "runtime/path-choice-lacewood-floor.wav"
     },
     {
+      "id": "runtime-cue.path-choice.cloister.arches",
+      "sourceMaster": "source-master.path-choice.cloister.arches",
+      "path": "runtime/path-choice-cloister-arches.wav"
+    },
+    {
+      "id": "runtime-cue.path-choice.cloister.clouds",
+      "sourceMaster": "source-master.path-choice.cloister.clouds",
+      "path": "runtime/path-choice-cloister-clouds.wav"
+    },
+    {
       "id": "runtime-cue.journey-history.shimmer",
       "sourceMaster": "source-master.journey-history.shimmer",
       "path": "runtime/journey-history-shimmer.wav"
@@ -79,6 +104,11 @@
       "id": "runtime-cue.playful-bump.lacewood",
       "sourceMaster": "source-master.playful-bump.lacewood",
       "path": "runtime/playful-bump-lacewood.wav"
+    },
+    {
+      "id": "runtime-cue.playful-bump.cloister",
+      "sourceMaster": "source-master.playful-bump.cloister",
+      "path": "runtime/playful-bump-cloister.wav"
     },
     {
       "id": "runtime-cue.near-miss",
@@ -104,6 +134,11 @@
       "id": "runtime-cue.birthday-star-moment.lacewood",
       "sourceMaster": "source-master.birthday-star-moment.lacewood",
       "path": "runtime/birthday-star-moment-lacewood.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.cloister",
+      "sourceMaster": "source-master.birthday-star-moment.cloister",
+      "path": "runtime/birthday-star-moment-cloister.wav"
     },
     {
       "id": "runtime-cue.cloud-rest.enter",

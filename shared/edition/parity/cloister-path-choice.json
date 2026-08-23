@@ -1,0 +1,222 @@
+{
+  "id": "cloister-path-choice",
+  "initialJourneyHistory": {
+    "completedJourneys": 0,
+    "exploredPathChoices": {}
+  },
+  "steps": [
+    "enter-cloister-of-clouds",
+    "offer-cloister-path-choice",
+    "choose-sunlit-arch-route",
+    "glide-through-a-sunlit-arch",
+    "aggregate-cloud-bound-near-miss",
+    "encounter-playful-bump",
+    "encounter-playful-bump",
+    "approach-birthday-star",
+    "gather-birthday-star",
+    "open-rainbow-path",
+    "show-beasleys-birthday-star-moment",
+    "continue",
+    "arrive-at-birthday-castle",
+    "commit-journey-history",
+    "replay-opening-story",
+    "enter-cloister-of-clouds",
+    "offer-cloister-path-choice",
+    "shimmer-unexplored-soft-cloud-route",
+    "choose-soft-cloud-route",
+    "drift-through-the-soft-clouds",
+    "aggregate-cloud-bound-near-miss",
+    "encounter-playful-bump",
+    "encounter-playful-bump",
+    "approach-birthday-star",
+    "gather-birthday-star",
+    "open-rainbow-path",
+    "show-beasleys-birthday-star-moment",
+    "continue",
+    "arrive-at-birthday-castle",
+    "commit-journey-history"
+  ],
+  "requiredSoundEvents": [
+    {
+      "event": "sound-event.place-entry",
+      "context": {
+        "place": "cloister"
+      }
+    },
+    {
+      "event": "sound-event.path-choice-available",
+      "context": {
+        "pathChoice": "path-choice.cloister"
+      }
+    },
+    {
+      "event": "sound-event.path-choice-selected",
+      "context": {
+        "pathChoice": "path-choice.cloister",
+        "route": "cloister.arches"
+      }
+    },
+    {
+      "event": "sound-event.vignette-interaction",
+      "context": {
+        "place": "cloister",
+        "interaction": "sunlit-arch-glide"
+      }
+    },
+    {
+      "event": "sound-event.vignette-interaction",
+      "context": {
+        "place": "cloister",
+        "interaction": "sunlit-arch-glide"
+      }
+    },
+    {
+      "event": "sound-event.near-miss",
+      "context": {
+        "place": "cloister",
+        "kind": "cloud-bound"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "place": "cloister",
+        "kind": "soft-cloud"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "place": "cloister",
+        "kind": "soft-cloud"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-proximity",
+      "context": {
+        "birthdayStar": "birthday-star.cloister"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-gathered",
+      "context": {
+        "birthdayStar": "birthday-star.cloister"
+      }
+    },
+    {
+      "event": "sound-event.rainbow-path-opened",
+      "context": {
+        "rainbowPath": "rainbow-path.cloister",
+        "familyGuest": "Beasley"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-moment",
+      "context": {
+        "place": "cloister",
+        "familyGuest": "Beasley"
+      }
+    },
+    {
+      "event": "sound-event.birthday-castle-arrival",
+      "context": {}
+    },
+    {
+      "event": "sound-event.replay",
+      "context": {
+        "destination": "opening-storybook"
+      }
+    },
+    {
+      "event": "sound-event.place-entry",
+      "context": {
+        "place": "cloister"
+      }
+    },
+    {
+      "event": "sound-event.path-choice-available",
+      "context": {
+        "pathChoice": "path-choice.cloister"
+      }
+    },
+    {
+      "event": "sound-event.journey-history-shimmer",
+      "context": {
+        "pathChoice": "path-choice.cloister",
+        "route": "cloister.clouds"
+      }
+    },
+    {
+      "event": "sound-event.path-choice-selected",
+      "context": {
+        "pathChoice": "path-choice.cloister",
+        "route": "cloister.clouds"
+      }
+    },
+    {
+      "event": "sound-event.vignette-interaction",
+      "context": {
+        "place": "cloister",
+        "interaction": "soft-cloud-drift"
+      }
+    },
+    {
+      "event": "sound-event.vignette-interaction",
+      "context": {
+        "place": "cloister",
+        "interaction": "soft-cloud-drift"
+      }
+    },
+    {
+      "event": "sound-event.near-miss",
+      "context": {
+        "place": "cloister",
+        "kind": "cloud-bound"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "place": "cloister",
+        "kind": "soft-cloud"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "place": "cloister",
+        "kind": "soft-cloud"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-proximity",
+      "context": {
+        "birthdayStar": "birthday-star.cloister"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-gathered",
+      "context": {
+        "birthdayStar": "birthday-star.cloister"
+      }
+    },
+    {
+      "event": "sound-event.rainbow-path-opened",
+      "context": {
+        "rainbowPath": "rainbow-path.cloister",
+        "familyGuest": "Beasley"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-moment",
+      "context": {
+        "place": "cloister",
+        "familyGuest": "Beasley"
+      }
+    },
+    {
+      "event": "sound-event.birthday-castle-arrival",
+      "context": {}
+    }
+  ]
+}

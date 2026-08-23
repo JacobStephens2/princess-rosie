@@ -79,11 +79,24 @@ func _init() -> void:
 		"the canopy route emits the complete staged Lacewood, Cloud Rest, and Birthday Star sequence",
 	)
 	test.expect(shell.handle_player_intent("continue"), "Gram's Birthday Star Moment can continue")
+	var onward: Dictionary = shell.presentation_evidence()
+	test.expect(
+		onward.get("state") == "active_play"
+		and onward.get("place") == "cloister"
+		and onward.get("journey_phase") == "cloister-path-choice"
+		and onward.get("journey_history") == {"lacewood.canopy": true},
+		"the completed canopy route enters Journey History and the flight carries on to the Cloister of Clouds",
+	)
+	_fly_cloister(shell, true)
+	test.expect(shell.handle_player_intent("continue"), "Beasley's Birthday Star Moment can continue")
 	test.expect(
 		shell.presentation_evidence().get("state") == "celebration"
 		and shell.presentation_evidence().get("journey_phase") == "celebration"
-		and shell.presentation_evidence().get("journey_history") == {"lacewood.canopy": true},
-		"the completed canopy route enters Journey History and reaches the celebration",
+		and shell.presentation_evidence().get("journey_history") == {
+			"lacewood.canopy": true,
+			"cloister.arches": true,
+		},
+		"both completed routes enter Journey History and the journey reaches the celebration",
 	)
 	test.expect(shell.handle_player_intent("action-pressed"), "the one action starts Dance Again")
 	test.expect(shell.handle_player_intent("action-released"), "the celebration action can release")
@@ -124,18 +137,37 @@ func _init() -> void:
 		"replay gives the unexplored route one restrained shimmer and its distinct response",
 	)
 	test.expect(shell.handle_player_intent("continue"), "the floor-route Birthday Star Moment continues")
+	_fly_cloister(shell, false)
+	test.expect(shell.handle_player_intent("continue"), "the replayed Cloister Moment continues")
 	test.expect(shell.handle_player_intent("action-pressed"), "the replay reaches Dance Again")
 	test.expect(shell.handle_player_intent("action-released"), "the replay dance action can release")
 	test.expect(
 		shell.presentation_evidence().get("journey_history") == {
 			"lacewood.canopy": true,
 			"lacewood.floor": true,
+			"cloister.arches": true,
+			"cloister.clouds": true,
 		},
-		"both equally safe Path Choices complete without score, loss, or failure progression",
+		"both equally safe Path Choices in each place complete without score, loss, or failure progression",
 	)
 
 	shell.free()
 	test.finish(self, "Lacewood tracer acceptance")
+
+
+func _fly_cloister(shell: StorybookShell, hold_for_arches: bool) -> void:
+	if hold_for_arches:
+		test.expect(
+			shell.handle_player_intent("action-pressed"),
+			"holding chooses the sunlit arch route onward",
+		)
+	shell.advance_journey(1.25)
+	test.expect(
+		shell.handle_player_intent("action-released"),
+		"the one action may be released along the Cloister route",
+	)
+	shell.advance_journey(2.25)
+	shell.advance_journey(4.9)
 
 
 func _start_journey(shell: StorybookShell) -> void:

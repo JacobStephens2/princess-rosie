@@ -17,6 +17,7 @@ class FakeEngineAudioAdapter extends RefCounted:
 	var playback_requests_are_typed := true
 	var loaded_music_paths: Array[String] = []
 	var stopped_slots: Array[String] = []
+	var faded_slots: Array[Dictionary] = []
 	var sound_preference_changes: Array[Dictionary] = []
 
 	func load_wav(_pack_source: String, relative_path: String) -> Variant:
@@ -59,6 +60,7 @@ class FakeEngineAudioAdapter extends RefCounted:
 				"looping": playback.looping,
 				"max_duration_ms": playback.max_duration_ms,
 				"music_duck_db": playback.music_duck_db,
+				"crossfade_ms": playback.crossfade_ms,
 			})
 		else:
 			playback_requests_are_typed = false
@@ -69,6 +71,9 @@ class FakeEngineAudioAdapter extends RefCounted:
 
 	func stop_slot(slot: String) -> void:
 		stopped_slots.append(slot)
+
+	func fade_out_slot(slot: String, fade_ms: int) -> void:
+		faded_slots.append({"slot": slot, "fade_ms": fade_ms})
 
 	func set_sound_enabled(enabled: bool, delay_ms: int) -> void:
 		sound_preference_changes.append({"enabled": enabled, "delay_ms": delay_ms})
@@ -628,6 +633,125 @@ func _init() -> void:
 			{"action": "continue"},
 		),
 		"enabling Sound restores confirmation playback",
+	)
+
+	var cloister_audio := FakeEngineAudioAdapter.new()
+	var cloister_clock := FakeClock.new()
+	var cloister_soundscape := SOUNDSCAPE_PLAYER.new(
+		pack_root,
+		cloister_audio,
+		cloister_clock.now_ms,
+	)
+	for cloister_event: Array in [
+		[&"sound-event.movement-state", {"state": "flight"}],
+		[&"sound-event.place-entry", {"place": "lacewood"}],
+		[&"sound-event.place-entry", {"place": "cloister"}],
+		[
+			&"sound-event.path-choice-selected",
+			{"pathChoice": "path-choice.cloister", "route": "cloister.arches"},
+		],
+		[
+			&"sound-event.vignette-interaction",
+			{"place": "cloister", "interaction": "sunlit-arch-glide"},
+		],
+	]:
+		test.expect(
+			cloister_soundscape.report_event(cloister_event[0], cloister_event[1]),
+			"the Cloister of Clouds semantic event plays: %s" % cloister_event[0],
+		)
+	test.expect(
+		cloister_audio.loaded_paths == [
+			"source-media/soundscape/runtime/movement-flight.wav",
+			"source-media/soundscape/runtime/place-lacewood.wav",
+			"source-media/soundscape/runtime/place-cloister.wav",
+			"source-media/soundscape/runtime/path-choice-cloister-arches.wav",
+			"source-media/soundscape/runtime/vignette-cloister-arches.wav",
+		],
+		"place entry and the sunlit arch route resolve their own approved Cloister cues",
+	)
+	var cloister_ambience: Dictionary = cloister_audio.playback_settings[2]
+	test.expect(
+		cloister_ambience.get("slot") == "ambience"
+		and cloister_ambience.get("looping") == true
+		and cloister_ambience.get("crossfade_ms") == 600
+		and not cloister_audio.stopped_slots.has("ambience"),
+		"the next place crossfades the single ambience slot instead of cutting it",
+	)
+	var plays_before_repeated_cloud := cloister_audio.played_streams.size()
+	test.expect(
+		not cloister_soundscape.report_event(
+			&"sound-event.vignette-interaction",
+			{"place": "cloister", "interaction": "sunlit-arch-glide"},
+		),
+		"a per-frame cloud interaction repeat is suppressed during cooldown",
+	)
+	test.expect(
+		cloister_audio.played_streams.size() == plays_before_repeated_cloud,
+		"suppressed cloud interactions never reach engine playback",
+	)
+	cloister_clock.advance(250)
+	test.expect(
+		cloister_soundscape.report_event(
+			&"sound-event.vignette-interaction",
+			{"place": "cloister", "interaction": "sunlit-arch-glide"},
+		),
+		"a later cloud interaction edge may sound after its cooldown",
+	)
+	test.expect(
+		cloister_soundscape.report_event(
+			&"sound-event.birthday-star-moment",
+			{"place": "cloister", "familyGuest": "Beasley"},
+		),
+		"Beasley's Birthday Star Moment resolves its own place-specific cue",
+	)
+	test.expect(
+		cloister_audio.loaded_paths.back()
+		== "source-media/soundscape/runtime/birthday-star-moment-cloister.wav"
+		and cloister_audio.playback_settings.back().get("category") == "critical-foreground"
+		and cloister_audio.playback_settings.back().get("music_duck_db") == -4,
+		"the Birthday Star Moment keeps the shared critical priority and ducking rules",
+	)
+	test.expect(
+		cloister_soundscape.report_event(&"sound-event.birthday-castle-arrival", {}),
+		"the last place exits into the Birthday Castle arrival",
+	)
+	test.expect(
+		cloister_audio.faded_slots == [{"slot": "ambience", "fade_ms": 600}],
+		"leaving the last place crossfades its ambience out rather than cutting it",
+	)
+	var loaded_before_celebration_restore := cloister_audio.loaded_paths.size()
+	cloister_soundscape.report_event(
+		&"sound-event.sound-preference-changed",
+		{"enabled": true},
+	)
+	test.expect(
+		not cloister_audio.loaded_paths.slice(loaded_before_celebration_restore).has(
+			"source-media/soundscape/runtime/place-cloister.wav",
+		),
+		"the celebration keeps no stale place ambience to restore",
+	)
+
+	var shared_star_audio := FakeEngineAudioAdapter.new()
+	var shared_star_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, shared_star_audio)
+	for shared_event: Array in [
+		[&"sound-event.birthday-star-proximity", {"birthdayStar": "birthday-star.cloister"}],
+		[&"sound-event.birthday-star-gathered", {"birthdayStar": "birthday-star.cloister"}],
+		[
+			&"sound-event.rainbow-path-opened",
+			{"rainbowPath": "rainbow-path.cloister", "familyGuest": "Beasley"},
+		],
+	]:
+		test.expect(
+			shared_star_soundscape.report_event(shared_event[0], shared_event[1]),
+			"the shared Birthday Star stage plays in the Cloister: %s" % shared_event[0],
+		)
+	test.expect(
+		shared_star_audio.loaded_paths == [
+			"source-media/soundscape/runtime/birthday-star-proximity.wav",
+			"source-media/soundscape/runtime/birthday-star-gather.wav",
+			"source-media/soundscape/runtime/rainbow-path-open.wav",
+		],
+		"every place shares one Birthday Star and Rainbow Path identity",
 	)
 
 	test.finish(self, "Soundscape Player acceptance")

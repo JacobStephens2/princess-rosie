@@ -101,6 +101,18 @@ Output: `public/assets/audio/birthday-flight.mp3`
 
 Credit: ElevenLabs Sound Effects API. This project documentation records the provider; No in-game provider credit is added.
 
+### cue.birthday-star-moment.cloister
+
+> A cloister pounce resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate C provides the best balance of a cute, gentle physical 'pounce' transient followed by a warm, sparkling fairytale resolution chime that translates crisply and pleasantly on MacBook speakers without any harshness or fatigue.
+
+Source master: `source-master.birthday-star-moment.cloister`
+
 ### cue.birthday-star-moment.lacewood
 
 > A lacewood resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -293,6 +305,30 @@ Selection: Best quiet Path Choice invitation: clearly audible body, moderate cro
 
 Source master: `source-master.path-choice.available`
 
+### cue.path-choice.cloister.arches
+
+> A sunlit arch choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate B best captures the 'sunlit' warm fairytale cue intent with a rich, rounded celesta/bell sparkle that balances warmth and clarity on MacBook speakers without being overly piercing over repeated plays.
+
+Source master: `source-master.path-choice.cloister.arches`
+
+### cue.path-choice.cloister.clouds
+
+> A soft cloud choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate A provides the warmest and most cloud-like tactile quality with its soft, gentle harp and celesta arpeggio. It presents zero startle risk, clean laptop playback, and establishes a balanced, non-hierarchical path choice alternative to the reference cue.
+
+Source master: `source-master.path-choice.cloister.clouds`
+
 ### cue.path-choice.lacewood.canopy
 
 > A airy ribbon choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -317,6 +353,18 @@ Selection: Best warm rose-lit choice response: lowest crossing activity, stronge
 
 Source master: `source-master.path-choice.lacewood.floor`
 
+### cue.place.cloister
+
+> An open-air hush and soft high breeze under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 12 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate B provides the warmest and most enchanting fairytale atmosphere while maintaining a calm, seamless texture that easily layers under foreground music. Candidate A is also an excellent, non-intrusive airy hush, while Candidate C has a slightly peaky resonant swell midway through.
+
+Source master: `source-master.place.cloister`
+
 ### cue.place.lacewood
 
 > A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -328,6 +376,18 @@ Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, l
 Selection: The validated replacement is the only candidate with a passing seamless loop; it also provides strong low-crest ambience body, a safe -6 dBFS peak, and sufficient soft natural detail beneath the soundtrack.
 
 Source master: `source-master.place.lacewood`
+
+### cue.playful-bump.cloister
+
+> A soft nonthreatening cloud bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.8 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate B delivers the warmest, most pillowy 'cloud bump' feel with perfectly soft transients and balanced resonance for MacBook speakers. It avoids all startle or fatigue risks while maintaining clear distinctness from the reference cue.
+
+Source master: `source-master.playful-bump.cloister`
 
 ### cue.playful-bump.lacewood
 
@@ -365,6 +425,30 @@ Selection: Best-balanced gentle bell-like cue: clearly audible on small speakers
 
 Source master: `source-master.story.confirmation`
 
+### cue.vignette.cloister.arches
+
+> An airy sunlit arch response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate A best encapsulates the 'airy sunlit arch' concept with an open, luminous upward chime sparkle. It maintains zero startle risk, has pristine timbral definition on MacBook speakers, and complements the reference canopy interaction seamlessly without feeling repetitive.
+
+Source master: `source-master.vignette.cloister.arches`
+
+### cue.vignette.cloister.clouds
+
+> A soft cloud drift response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate A perfectly captures the 'cloud drift' sensation with its warm, descending celesta/harp texture and gentle airy envelope. It provides a distinct contrast to the sunlit-arch reference cue while avoiding any harsh frequencies on MacBook speakers.
+
+Source master: `source-master.vignette.cloister.clouds`
+
 ### cue.vignette.lacewood.canopy
 
 > A soft ribbon response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -390,3 +474,75 @@ Selection: Best warm rose-light response: strongest clear body with the lowest c
 Source master: `source-master.vignette.lacewood.floor`
 
 <!-- soundscape-build:end -->
+
+## Cloister of Clouds evaluation records
+
+Every Cloister cue below was generated through the bounded resumable generator and selected
+under [the audio evaluation policy](agents/audio-evaluation.md). Waveform checks were enforced
+by the generator itself (decode, duration tolerance, sample rate, channel policy, non-silence,
+trim and fade, peak ceiling, and — for the ambience loop — the loop seam). Perceptual evidence
+came from the native-audio evaluator, which received the actual candidate WAV audio, plus a
+related approved master as blinded reference audio where distinctness mattered.
+
+Service and model: paid Gemini API, `models/gemini-3.7-flash`, native audio input, temperature 0.
+Candidates were presented as blinded labels A/B/C in generation order.
+
+Human listening pass on MacBook built-in speakers and headphones: **pending project owner**.
+Run `/Applications/Godot.app/Contents/MacOS/Godot --path apps/godot --script res://tests/cloister_listening_harness.gd` (without `--headless`) to hear the whole
+place in order, then record the outcome here.
+
+### cue.place.cloister
+
+- Batches requested: 1 of the permitted 3
+- Blinded ranking, best first: B (candidate-2), A (candidate-1), C (candidate-3)
+- Material failure flags: none reported
+- Evaluator uncertainty: Low; both Candidates B and A fit the prompt well, with B offering slightly richer fairytale warmth.
+- Selected: candidate-2 (blinded B) — Candidate B provides the warmest and most enchanting fairytale atmosphere while maintaining a calm, seamless texture that easily layers under foreground music. Candidate A is also an excellent, non-intrusive airy hush, while Candidate C has a slightly peaky resonant swell midway through.
+
+### cue.vignette.cloister.arches
+
+- Batches requested: 1 of the permitted 3
+- Blinded ranking, best first: A (candidate-1), C (candidate-3), B (candidate-2)
+- Material failure flags: none reported
+- Evaluator uncertainty: Low; all three candidates are high quality, safe for a 4-year-old listener, and fully meet the negative constraints.
+- Selected: candidate-1 (blinded A) — Candidate A best encapsulates the 'airy sunlit arch' concept with an open, luminous upward chime sparkle. It maintains zero startle risk, has pristine timbral definition on MacBook speakers, and complements the reference canopy interaction seamlessly without feeling repetitive.
+
+### cue.vignette.cloister.clouds
+
+- Batches requested: 1 of the permitted 3
+- Blinded ranking, best first: A (candidate-1), C (candidate-3), B (candidate-2)
+- Material failure flags: none reported
+- Evaluator uncertainty: Low; Candidate A cleanly satisfies all nonverbal, gentleness, safety, and timbre requirements.
+- Selected: candidate-1 (blinded A) — Candidate A perfectly captures the 'cloud drift' sensation with its warm, descending celesta/harp texture and gentle airy envelope. It provides a distinct contrast to the sunlit-arch reference cue while avoiding any harsh frequencies on MacBook speakers.
+
+### cue.path-choice.cloister.arches
+
+- Batches requested: 1 of the permitted 3
+- Blinded ranking, best first: B (candidate-2), A (candidate-1), C (candidate-3)
+- Material failure flags: none reported
+- Evaluator uncertainty: Very low; all three candidates meet the safety and aesthetic constraints cleanly.
+- Selected: candidate-2 (blinded B) — Candidate B best captures the 'sunlit' warm fairytale cue intent with a rich, rounded celesta/bell sparkle that balances warmth and clarity on MacBook speakers without being overly piercing over repeated plays.
+
+### cue.path-choice.cloister.clouds
+
+- Batches requested: 1 of the permitted 3
+- Blinded ranking, best first: A (candidate-1), B (candidate-2), C (candidate-3)
+- Material failure flags: none reported
+- Evaluator uncertainty: Low; all candidates meet the core constraints, but Candidate A best captures the soft cloud theme.
+- Selected: candidate-1 (blinded A) — Candidate A provides the warmest and most cloud-like tactile quality with its soft, gentle harp and celesta arpeggio. It presents zero startle risk, clean laptop playback, and establishes a balanced, non-hierarchical path choice alternative to the reference cue.
+
+### cue.playful-bump.cloister
+
+- Batches requested: 1 of the permitted 3
+- Blinded ranking, best first: B (candidate-2), A (candidate-1), C (candidate-3)
+- Material failure flags: none reported
+- Evaluator uncertainty: Low; all candidates are safe and well-crafted, with Candidate B providing the best rounded tactile feel for a cloud bump.
+- Selected: candidate-2 (blinded B) — Candidate B delivers the warmest, most pillowy 'cloud bump' feel with perfectly soft transients and balanced resonance for MacBook speakers. It avoids all startle or fatigue risks while maintaining clear distinctness from the reference cue.
+
+### cue.birthday-star-moment.cloister
+
+- Batches requested: 1 of the permitted 3
+- Blinded ranking, best first: C (candidate-3), A (candidate-1), B (candidate-2)
+- Material failure flags: vocal_or_breath_like_texture on rejected candidate-2 (blinded B); none on the selected candidate
+- Evaluator uncertainty: low
+- Selected: candidate-3 (blinded C) — Candidate C provides the best balance of a cute, gentle physical 'pounce' transient followed by a warm, sparkling fairytale resolution chime that translates crisply and pleasantly on MacBook speakers without any harshness or fatigue.

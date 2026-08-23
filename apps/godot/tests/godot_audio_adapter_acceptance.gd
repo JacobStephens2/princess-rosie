@@ -31,6 +31,15 @@ const LACEWOOD_CUE_PATHS := [
 	"source-media/soundscape/runtime/cloud-rest-ambience.wav",
 	"source-media/soundscape/runtime/cloud-rest-exit.wav",
 ]
+const CLOISTER_CUE_PATHS := [
+	"source-media/soundscape/runtime/place-cloister.wav",
+	"source-media/soundscape/runtime/vignette-cloister-arches.wav",
+	"source-media/soundscape/runtime/vignette-cloister-clouds.wav",
+	"source-media/soundscape/runtime/path-choice-cloister-arches.wav",
+	"source-media/soundscape/runtime/path-choice-cloister-clouds.wav",
+	"source-media/soundscape/runtime/playful-bump-cloister.wav",
+	"source-media/soundscape/runtime/birthday-star-moment-cloister.wav",
+]
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -48,7 +57,7 @@ func _run() -> void:
 	if approved_stream is AudioStreamWAV:
 		test.expect(approved_stream.mix_rate == 48000, "the approved 48 kHz master reaches Godot unchanged")
 		test.expect(not approved_stream.stereo, "the approved focused-mono master stays mono")
-	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS:
+	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS + CLOISTER_CUE_PATHS:
 		var cue_stream: Variant = audio.load_wav("res://edition-pack.zip", cue_path)
 		test.expect(
 			cue_stream is AudioStreamWAV,
@@ -161,6 +170,55 @@ func _run() -> void:
 			"a newer critical opening cue replaces an older critical cue at the ceiling",
 		)
 
+	var lacewood_ambience: Variant = audio.load_wav(
+		"res://edition-pack.zip",
+		"source-media/soundscape/runtime/place-lacewood.wav",
+	)
+	var cloister_ambience: Variant = audio.load_wav(
+		"res://edition-pack.zip",
+		"source-media/soundscape/runtime/place-cloister.wav",
+	)
+	if lacewood_ambience is AudioStreamWAV and cloister_ambience is AudioStreamWAV:
+		var ambience_playback := SOUNDSCAPE_PLAYBACK.new(
+			&"Ambience", &"ambience", SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE,
+			-16.7, 40, true, 0,
+		)
+		ambience_playback.crossfade_ms = 600
+		test.expect(
+			audio.play(lacewood_ambience, ambience_playback),
+			"the first place owns the single ambience slot",
+		)
+		await process_frame
+		test.expect(
+			audio.play(cloister_ambience, ambience_playback),
+			"the next place enters the same single ambience slot",
+		)
+		await process_frame
+		test.expect(
+			audio.ambience_evidence() == {
+				"entering": true,
+				"leaving": true,
+				"entering_below_target": true,
+			},
+			"place entry crossfades the outgoing place under the arriving one",
+		)
+		test.expect(audio.has_method("fade_out_slot"), "the adapter can fade a place out")
+		audio.fade_out_slot("ambience", 600)
+		await process_frame
+		test.expect(
+			audio.ambience_evidence().get("entering_below_target") == true,
+			"place exit fades the single ambience slot instead of cutting it",
+		)
+		audio.stop_slot("ambience")
+		test.expect(
+			audio.ambience_evidence() == {
+				"entering": false,
+				"leaving": false,
+				"entering_below_target": false,
+			},
+			"stopping the ambience slot clears both crossfade voices",
+		)
+
 	test.expect(
 		audio.has_method("set_sound_enabled"),
 		"the adapter supports the one Sound presentation preference",
@@ -196,4 +254,5 @@ func _expects_stereo(cue_path: String) -> bool:
 		or cue_path.ends_with("place-lacewood.wav")
 		or cue_path.ends_with("rainbow-path-open.wav")
 		or cue_path.ends_with("cloud-rest-ambience.wav")
+		or cue_path.ends_with("place-cloister.wav")
 	)
