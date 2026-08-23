@@ -24,6 +24,11 @@
       "id": "flight.rosie-stella",
       "role": "character-layer",
       "path": "source-media/flight/rosie-stella.png"
+    },
+    {
+      "id": "lacewood.background",
+      "role": "illustration-layer",
+      "path": "source-media/lacewood/lacewood-background.png"
     }
   ]
 }

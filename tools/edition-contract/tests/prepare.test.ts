@@ -70,7 +70,7 @@ describe("Edition Contract", () => {
 
     expect(prepared).toMatchObject({
       contractVersion: "rosie-edition-contract/1",
-      revision: "opening-lacewood-soundscape-1",
+      revision: "lacewood-playable-1",
       packDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
       scenarioIds: ["opening-flight", "tracer-bullet"],
     });

@@ -98,6 +98,22 @@ Execution: OpenAI Image API CLI fallback, `gpt-image-1.5`, high quality and inpu
 
 > Use case: production game character-layer extraction. Preserve exactly the approved characters and picture-book illustration style from the reference: young Princess Rosie with long golden-blonde hair, small gold crown, joyful expression, ornate bright pink rose-patterned dress and pink shoes, seated astride Stella; Stella is a friendly white winged unicorn with a pastel pink-purple-blue mane and tail, rainbow horn, two large lavender feathered wings, gold-and-heart bridle, complete body with all four legs and hooves. Isolate only Rosie riding Stella as one complete cohesive character cutout. Remove the garden, archways, sky, sea, flowers, ribbons, star, floor, scenery, shadows, and every other object. Keep the entire silhouette fully inside the canvas with generous transparent padding and no cropping. Output a genuine RGBA PNG with fully transparent pixels everywhere outside the clean character silhouette. No checkerboard, no painted transparency pattern, no white matte, no rectangular background, no halo, no text, no added objects, no anatomy changes, no duplicate limbs or wings.
 
+## Zélie's Lacewood: balanced route background
+
+Execution: built-in OpenAI image-generation tool with the approved departure illustration and Rose Garden flight background as style, palette, lighting, and world references only.
+
+> Use case: illustration-story
+> Asset type: production 16:9 Godot active-play environment background
+> Primary request: create Zélie’s Lacewood, an enchanted rose-and-lace forest where two equally inviting flight routes split and rejoin
+> Subject: one upper silver-ribbon canopy route and one lower rose-lit woodland-floor route, both open, broad, safe, equally bright, equally beautiful, and similar in visual weight
+> Composition: wide side-view flight composition with readable open corridors, a clear split near the left-middle, and a visible rejoin near the right edge
+> Style: premium children’s picture-book illustration matching the approved references, jewel teal and emerald foliage, blush roses, silver-white lace, warm cream stone, mosaic-gold accents, subtle paper texture
+> Constraints: scenery only; no characters, Birthday Star, text, UI, signs, scoring, correctness cues, danger, closed route, watermark, photorealism, 3D, or anime
+
+Selected output: `shared/edition/source-media/lacewood/lacewood-background.png`
+
+Provenance: `shared/edition/source-media/lacewood/provenance.json`
+
 Output: `shared/edition/source-media/flight/rosie-stella.png`
 
 ## Birthday Castle celebration illustration

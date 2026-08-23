@@ -26,6 +26,20 @@ const tracerFacts = {
   birthdayStars: ["birthday-star.lacewood"],
   rainbowPaths: ["rainbow-path.lacewood"],
   chosenPathRecorded: true,
+  completedRoutes: ["lacewood.canopy", "lacewood.floor"],
+  observedRouteResponses: {
+    "lacewood.canopy": {
+      interaction: "silver-ribbon-canopy",
+      visual: "silver-ribbons-unfurl",
+    },
+    "lacewood.floor": {
+      interaction: "rose-lit-floor",
+      visual: "rose-lights-bloom",
+    },
+  },
+  routesEquallySafe: true,
+  routeDurationSeconds: 1.8,
+  unexploredRouteShimmerOnly: true,
   cloudRestPreservesProgress: true,
   networkRequests: 0,
 };
