@@ -34,3 +34,16 @@ On the target MacBook, run the audible acceptance harness without `--headless`:
 ```
 
 It starts the bundled instrumental through the shared mixer, reports and plays approved cues from the immutable Edition Pack, then reports the same semantic confirmation against an intentionally missing asset and plays the locally synthesized fallback. The harness makes no network request. The automated acceptance suite separately drives Space and pointer Flight Control, high and low Lacewood responses, the capped proximity cue, automatic three-bump Cloud Rest and resume, Birthday Star gathering, Rainbow Path travel, and Gram's combined Birthday Star Moment.
+
+## Hear the Cloister of Clouds
+
+The Cloister of Clouds has its own audible pass for the required MacBook built-in speaker check:
+
+```sh
+/Applications/Godot.app/Contents/MacOS/Godot --path apps/godot --script res://tests/cloister_listening_harness.gd
+```
+
+It plays the place in journey order: the Lacewood ambience the Cloister crossfades over, both
+altitude interactions, soft cloud bounds and Playful Bumps, Cloud Rest and its automatic resume,
+the shared Birthday Star and Rainbow Path, Beasley's Birthday Star Moment, and the ambience
+fading out into the celebration. Record the listening outcome in `docs/media-prompts.md`.

@@ -70,9 +70,9 @@ describe("Edition Contract", () => {
 
     expect(prepared).toMatchObject({
       contractVersion: "rosie-edition-contract/1",
-      revision: "lacewood-flight-control-1",
+      revision: "cloister-of-clouds-soundscape-1",
       packDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
-      scenarioIds: ["opening-flight", "tracer-bullet"],
+      scenarioIds: ["cloister-single-route", "opening-flight", "tracer-bullet"],
     });
   });
 
@@ -110,14 +110,19 @@ describe("Edition Contract", () => {
         "cue.movement.rise",
         "cue.movement.glide",
         "cue.place.lacewood",
+        "cue.place.cloister",
         "cue.vignette.lacewood.silver-ribbons",
         "cue.vignette.lacewood.rose-lights",
+        "cue.vignette.cloister.arches",
+        "cue.vignette.cloister.clouds",
         "cue.playful-bump.lacewood",
+        "cue.playful-bump.cloister",
         "cue.near-miss",
         "cue.birthday-star.proximity",
         "cue.birthday-star.gather",
         "cue.rainbow-path.open",
         "cue.birthday-star-moment.lacewood",
+        "cue.birthday-star-moment.cloister",
         "cue.cloud-rest.enter",
         "cue.cloud-rest.ambience",
         "cue.cloud-rest.exit",
@@ -151,6 +156,7 @@ describe("Edition Contract", () => {
       },
       foregroundVoiceMaximum: 2,
       musicDuckDb: -4,
+      ambienceCrossfadeMs: 600,
       truePeakCeilingDbfs: -3,
       confirmationDelayMaximumMs: 200,
     });

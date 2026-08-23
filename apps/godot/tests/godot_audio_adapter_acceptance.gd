@@ -31,8 +31,6 @@ const CLOISTER_CUE_PATHS := [
 	"source-media/soundscape/runtime/place-cloister.wav",
 	"source-media/soundscape/runtime/vignette-cloister-arches.wav",
 	"source-media/soundscape/runtime/vignette-cloister-clouds.wav",
-	"source-media/soundscape/runtime/path-choice-cloister-arches.wav",
-	"source-media/soundscape/runtime/path-choice-cloister-clouds.wav",
 	"source-media/soundscape/runtime/playful-bump-cloister.wav",
 	"source-media/soundscape/runtime/birthday-star-moment-cloister.wav",
 ]

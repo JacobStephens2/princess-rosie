@@ -75,6 +75,12 @@ func _init() -> void:
 			"progress": 0.0,
 			"safe_limits_preserve_forward_motion": true,
 			"observed_interactions": [],
+			"journey_single_routes": ["single-route.lacewood", "single-route.cloister"],
+			"journey_celebration_echoes": [
+				"silver-ribbons-and-rose-lights",
+				"sunlit-arches-and-soft-clouds",
+			],
+			"journey_interactions": [],
 			"canonical_birthday_star_moment": "Gram followed the silver ribbons and glowing roses through Zélie’s Lacewood!",
 			"canonical_celebration_echo": "silver-ribbons-and-rose-lights",
 			"flight_control_cycles": 1,

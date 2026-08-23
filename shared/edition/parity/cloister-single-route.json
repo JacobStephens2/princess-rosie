@@ -1,0 +1,146 @@
+{
+  "id": "cloister-single-route",
+  "steps": [
+    "enter-cloister-of-clouds",
+    "settle-after-the-birthday-star-moment",
+    "hold-to-rise",
+    "interact-with-sunlit-arches",
+    "release-to-settle",
+    "interact-with-soft-clouds",
+    "encounter-cloud-bound-near-miss",
+    "encounter-playful-bump",
+    "encounter-playful-bump",
+    "encounter-playful-bump",
+    "show-cloud-rest",
+    "resume-flight-automatically",
+    "approach-birthday-star",
+    "gather-birthday-star",
+    "open-rainbow-path",
+    "show-beasleys-birthday-star-moment"
+  ],
+  "requiredSoundEvents": [
+    {
+      "event": "sound-event.place-entry",
+      "context": {
+        "place": "cloister"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "glide"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "rise"
+      }
+    },
+    {
+      "event": "sound-event.vignette-interaction",
+      "context": {
+        "place": "cloister",
+        "interaction": "sunlit-arches"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "glide"
+      }
+    },
+    {
+      "event": "sound-event.vignette-interaction",
+      "context": {
+        "place": "cloister",
+        "interaction": "soft-clouds"
+      }
+    },
+    {
+      "event": "sound-event.near-miss",
+      "context": {
+        "place": "cloister",
+        "kind": "cloud-bound"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "place": "cloister",
+        "kind": "soft-cloud"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "place": "cloister",
+        "kind": "soft-cloud"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "place": "cloister",
+        "kind": "soft-cloud"
+      }
+    },
+    {
+      "event": "sound-event.cloud-rest-entered",
+      "context": {
+        "place": "cloister"
+      }
+    },
+    {
+      "event": "sound-event.cloud-rest-exited",
+      "context": {
+        "place": "cloister"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "rise"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-proximity",
+      "context": {
+        "birthdayStar": "birthday-star.cloister"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-gathered",
+      "context": {
+        "birthdayStar": "birthday-star.cloister"
+      }
+    },
+    {
+      "event": "sound-event.rainbow-path-opened",
+      "context": {
+        "rainbowPath": "rainbow-path.cloister",
+        "familyGuest": "Beasley"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-moment",
+      "context": {
+        "place": "cloister",
+        "familyGuest": "Beasley"
+      }
+    }
+  ],
+  "requiredFacts": {
+    "place": "cloister",
+    "familyGuest": "Beasley",
+    "singleRoute": "single-route.cloister",
+    "observedInteractions": [
+      "sunlit-arches",
+      "soft-clouds"
+    ],
+    "canonicalCelebrationEcho": "sunlit-arches-and-soft-clouds",
+    "birthdayStarGuaranteed": true,
+    "cloudRestAutomaticResume": true,
+    "networkRequests": 0
+  }
+}

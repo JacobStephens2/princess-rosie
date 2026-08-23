@@ -620,12 +620,8 @@ func _init() -> void:
 		[&"sound-event.place-entry", {"place": "lacewood"}],
 		[&"sound-event.place-entry", {"place": "cloister"}],
 		[
-			&"sound-event.path-choice-selected",
-			{"pathChoice": "path-choice.cloister", "route": "cloister.arches"},
-		],
-		[
 			&"sound-event.vignette-interaction",
-			{"place": "cloister", "interaction": "sunlit-arch-glide"},
+			{"place": "cloister", "interaction": "sunlit-arches"},
 		],
 	]:
 		test.expect(
@@ -637,10 +633,9 @@ func _init() -> void:
 			"source-media/soundscape/runtime/movement-flight.wav",
 			"source-media/soundscape/runtime/place-lacewood.wav",
 			"source-media/soundscape/runtime/place-cloister.wav",
-			"source-media/soundscape/runtime/path-choice-cloister-arches.wav",
 			"source-media/soundscape/runtime/vignette-cloister-arches.wav",
 		],
-		"place entry and the sunlit arch route resolve their own approved Cloister cues",
+		"place entry and the sunlit arch interaction resolve their own approved Cloister cues",
 	)
 	var cloister_ambience: Dictionary = cloister_audio.playback_settings[2]
 	test.expect(
@@ -654,7 +649,7 @@ func _init() -> void:
 	test.expect(
 		not cloister_soundscape.report_event(
 			&"sound-event.vignette-interaction",
-			{"place": "cloister", "interaction": "sunlit-arch-glide"},
+			{"place": "cloister", "interaction": "sunlit-arches"},
 		),
 		"a per-frame cloud interaction repeat is suppressed during cooldown",
 	)
@@ -666,9 +661,23 @@ func _init() -> void:
 	test.expect(
 		cloister_soundscape.report_event(
 			&"sound-event.vignette-interaction",
-			{"place": "cloister", "interaction": "sunlit-arch-glide"},
+			{"place": "cloister", "interaction": "soft-clouds"},
 		),
-		"a later cloud interaction edge may sound after its cooldown",
+		"the low soft cloud interaction sounds its own distinct response",
+	)
+	test.expect(
+		cloister_audio.loaded_paths.back()
+		== "source-media/soundscape/runtime/vignette-cloister-clouds.wav",
+		"each Cloister altitude band resolves its own approved response",
+	)
+	test.expect(
+		cloister_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "cloister", "kind": "soft-cloud"},
+		)
+		and cloister_audio.loaded_paths.back()
+		== "source-media/soundscape/runtime/playful-bump-cloister.wav",
+		"the Cloister keeps its own soft cloud Playful Bump",
 	)
 	test.expect(
 		cloister_soundscape.report_event(
@@ -713,18 +722,21 @@ func _init() -> void:
 			&"sound-event.rainbow-path-opened",
 			{"rainbowPath": "rainbow-path.cloister", "familyGuest": "Beasley"},
 		],
+		[&"sound-event.cloud-rest-entered", {"place": "cloister"}],
 	]:
 		test.expect(
 			shared_star_soundscape.report_event(shared_event[0], shared_event[1]),
-			"the shared Birthday Star stage plays in the Cloister: %s" % shared_event[0],
+			"the shared journey stage plays in the Cloister: %s" % shared_event[0],
 		)
 	test.expect(
 		shared_star_audio.loaded_paths == [
 			"source-media/soundscape/runtime/birthday-star-proximity.wav",
 			"source-media/soundscape/runtime/birthday-star-gather.wav",
 			"source-media/soundscape/runtime/rainbow-path-open.wav",
+			"source-media/soundscape/runtime/cloud-rest-enter.wav",
+			"source-media/soundscape/runtime/cloud-rest-ambience.wav",
 		],
-		"every place shares one Birthday Star and Rainbow Path identity",
+		"every place shares one Birthday Star, Rainbow Path, and Cloud Rest identity",
 	)
 
 	test.finish(self, "Soundscape Player acceptance")

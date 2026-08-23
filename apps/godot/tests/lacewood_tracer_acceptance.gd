@@ -55,26 +55,43 @@ func _init() -> void:
 		and shell.presentation_evidence().get("state") == "birthday_star_moment",
 		"the held flight action cannot skip the Birthday Star Moment",
 	)
+	var single_route: Dictionary = shell.single_route_evidence()
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	test.expect(
 		shell.handle_player_action(KEYBOARD_SPACE, true),
-		"a release and deliberate new press reaches the celebration",
+		"a release and deliberate new press carries the journey onward",
+	)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	test.expect(
+		shell.presentation_evidence().get("place") == "cloister",
+		"the completed Lacewood flies on to the next place",
+	)
+	_fly_cloister(shell)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	test.expect(
+		shell.handle_player_action(KEYBOARD_SPACE, true),
+		"the last Birthday Star Moment reaches the celebration",
 	)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	test.expect(shell.handle_player_action(KEYBOARD_SPACE, true), "the celebration dances again")
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 
 	var evidence: Dictionary = shell.presentation_evidence()
-	var single_route: Dictionary = shell.single_route_evidence()
 	test.expect(
 		evidence.get("state") == "celebration"
 		and evidence.get("journey_phase") == "celebration"
-		and evidence.get("birthday_stars") == ["birthday-star.lacewood"]
-		and evidence.get("rainbow_paths") == ["rainbow-path.lacewood"]
+		and evidence.get("birthday_stars") == [
+			"birthday-star.lacewood",
+			"birthday-star.cloister",
+		]
+		and evidence.get("rainbow_paths") == [
+			"rainbow-path.lacewood",
+			"rainbow-path.cloister",
+		]
 		and evidence.get("playful_bumps") == 3
-		and evidence.get("cloud_rests") == 1
-		and evidence.get("flight_control_cycles") == 3,
-		"one controllable route completes the no-failure Lacewood story: %s"
+		and evidence.get("cloud_rests") == 2
+		and evidence.get("flight_control_cycles") == 5,
+		"one controllable route per place completes the no-failure story: %s"
 		% JSON.stringify(evidence),
 	)
 	test.expect(
@@ -103,6 +120,17 @@ func _init() -> void:
 
 	shell.free()
 	test.finish(self, "Lacewood tracer acceptance")
+
+
+func _fly_cloister(shell: StorybookShell) -> void:
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	_advance_controlled(shell, 3.1)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	_advance_controlled(shell, 3.1)
+	_advance_controlled(shell, 7.7)
+	_advance_controlled(shell, 1.25)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	_advance_controlled(shell, 9.0)
 
 
 func _advance_controlled(shell: StorybookShell, seconds: float) -> void:

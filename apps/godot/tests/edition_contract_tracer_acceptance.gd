@@ -60,7 +60,21 @@ func _init() -> void:
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	test.expect(
 		shell.handle_player_action(KEYBOARD_SPACE, true),
-		"a deliberate new press reaches the celebration",
+		"a deliberate new press carries the journey onward",
+	)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	_advance_controlled(shell, 3.1)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	_advance_controlled(shell, 3.1)
+	_advance_controlled(shell, 7.7)
+	_advance_controlled(shell, 1.25)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	_advance_controlled(shell, 9.0)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	test.expect(
+		shell.handle_player_action(KEYBOARD_SPACE, true),
+		"the last Birthday Star Moment reaches the celebration",
 	)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	shell.handle_player_action(KEYBOARD_SPACE, true)
@@ -71,7 +85,7 @@ func _init() -> void:
 	var actual_facts := {
 		"birthdayStars": evidence.get("birthday_stars", []),
 		"rainbowPaths": evidence.get("rainbow_paths", []),
-		"singleRoute": single_route.get("single_route", ""),
+		"singleRoute": single_route.get("journey_single_routes", []),
 		"flightControlBindings": evidence.get("observed_action_sources", []),
 		"flightControlImmediate": true,
 		"flightControlCycles": evidence.get("flight_control_cycles", 0),
@@ -80,8 +94,8 @@ func _init() -> void:
 			"safe_limits_preserve_forward_motion",
 			false,
 		),
-		"observedInteractions": single_route.get("observed_interactions", []),
-		"canonicalCelebrationEcho": single_route.get("canonical_celebration_echo", ""),
+		"observedInteractions": single_route.get("journey_interactions", []),
+		"canonicalCelebrationEcho": single_route.get("journey_celebration_echoes", []),
 		"birthdayStarGuaranteed": birthday_star_guaranteed,
 		"cloudRestPreservesProgress": cloud_rest_preserved_progress,
 		"cloudRestAutomaticResume": single_route.get("cloud_rest_automatic_resume", false),

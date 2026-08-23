@@ -27,6 +27,7 @@ tests=(
   lacewood_interaction_acceptance.gd
   cloud_rest_auto_resume_acceptance.gd
   lacewood_presentation_acceptance.gd
+  cloister_tracer_acceptance.gd
   edition_contract_tracer_acceptance.gd
   soundscape_player_acceptance.gd
   godot_audio_adapter_acceptance.gd

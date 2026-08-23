@@ -23,16 +23,19 @@ async function readTracerSoundEvents(): Promise<TestSoundEvent[]> {
 }
 
 const tracerFacts = {
-  birthdayStars: ["birthday-star.lacewood"],
-  rainbowPaths: ["rainbow-path.lacewood"],
-  singleRoute: "single-route.lacewood",
+  birthdayStars: ["birthday-star.lacewood", "birthday-star.cloister"],
+  rainbowPaths: ["rainbow-path.lacewood", "rainbow-path.cloister"],
+  singleRoute: ["single-route.lacewood", "single-route.cloister"],
   flightControlBindings: ["keyboard.space", "pointer.primary"],
   flightControlImmediate: true,
-  flightControlCycles: 3,
+  flightControlCycles: 5,
   singleRouteDurationSeconds: 18.0,
   safeLimitsPreserveForwardMotion: true,
-  observedInteractions: ["silver-ribbons", "rose-lights"],
-  canonicalCelebrationEcho: "silver-ribbons-and-rose-lights",
+  observedInteractions: ["silver-ribbons", "rose-lights", "sunlit-arches", "soft-clouds"],
+  canonicalCelebrationEcho: [
+    "silver-ribbons-and-rose-lights",
+    "sunlit-arches-and-soft-clouds",
+  ],
   birthdayStarGuaranteed: true,
   cloudRestPreservesProgress: true,
   cloudRestAutomaticResume: true,

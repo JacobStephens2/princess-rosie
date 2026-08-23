@@ -24,6 +24,23 @@
     "open-rainbow-path",
     "show-grams-birthday-star-moment",
     "release-then-continue",
+    "fly-onward-to-the-cloister-of-clouds",
+    "settle-after-the-birthday-star-moment",
+    "hold-to-rise",
+    "interact-with-sunlit-arches",
+    "release-to-settle",
+    "interact-with-soft-clouds",
+    "encounter-cloud-bound-near-miss",
+    "encounter-playful-bump",
+    "encounter-playful-bump",
+    "encounter-playful-bump",
+    "show-cloud-rest",
+    "resume-flight-automatically",
+    "approach-birthday-star",
+    "gather-birthday-star",
+    "open-rainbow-path",
+    "show-beasleys-birthday-star-moment",
+    "release-then-continue",
     "arrive-at-birthday-castle",
     "show-celebration",
     "dance-again"
@@ -31,122 +48,318 @@
   "requiredSoundEvents": [
     {
       "event": "sound-event.opening-storybook-moment",
-      "context": { "moment": "opening.celebration-preparations" }
+      "context": {
+        "moment": "opening.celebration-preparations"
+      }
     },
     {
       "event": "sound-event.opening-storybook-moment",
-      "context": { "moment": "opening.scattered-stars" }
+      "context": {
+        "moment": "opening.scattered-stars"
+      }
     },
     {
       "event": "sound-event.opening-storybook-moment",
-      "context": { "moment": "opening.departure" }
-    },
-    { "event": "sound-event.flight-launch", "context": {} },
-    {
-      "event": "sound-event.movement-state",
-      "context": { "state": "flight" }
+      "context": {
+        "moment": "opening.departure"
+      }
     },
     {
+      "event": "sound-event.flight-launch",
+      "context": {}
+    },
+    {
       "event": "sound-event.movement-state",
-      "context": { "state": "rise" }
+      "context": {
+        "state": "flight"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "rise"
+      }
     },
     {
       "event": "sound-event.place-entry",
-      "context": { "place": "lacewood" }
+      "context": {
+        "place": "lacewood"
+      }
     },
     {
       "event": "sound-event.vignette-interaction",
-      "context": { "place": "lacewood", "interaction": "silver-ribbons" }
+      "context": {
+        "place": "lacewood",
+        "interaction": "silver-ribbons"
+      }
     },
     {
       "event": "sound-event.movement-state",
-      "context": { "state": "glide" }
+      "context": {
+        "state": "glide"
+      }
     },
     {
       "event": "sound-event.vignette-interaction",
-      "context": { "place": "lacewood", "interaction": "rose-lights" }
+      "context": {
+        "place": "lacewood",
+        "interaction": "rose-lights"
+      }
     },
     {
       "event": "sound-event.movement-state",
-      "context": { "state": "rise" }
+      "context": {
+        "state": "rise"
+      }
     },
     {
       "event": "sound-event.movement-state",
-      "context": { "state": "glide" }
+      "context": {
+        "state": "glide"
+      }
     },
     {
       "event": "sound-event.movement-state",
-      "context": { "state": "rise" }
+      "context": {
+        "state": "rise"
+      }
     },
     {
       "event": "sound-event.movement-state",
-      "context": { "state": "glide" }
+      "context": {
+        "state": "glide"
+      }
     },
     {
       "event": "sound-event.near-miss",
-      "context": { "place": "lacewood", "kind": "silver-ribbon" }
+      "context": {
+        "place": "lacewood",
+        "kind": "silver-ribbon"
+      }
     },
     {
       "event": "sound-event.playful-bump",
-      "context": { "place": "lacewood", "kind": "silver-ribbon" }
+      "context": {
+        "place": "lacewood",
+        "kind": "silver-ribbon"
+      }
     },
     {
       "event": "sound-event.playful-bump",
-      "context": { "place": "lacewood", "kind": "silver-ribbon" }
+      "context": {
+        "place": "lacewood",
+        "kind": "silver-ribbon"
+      }
     },
     {
       "event": "sound-event.playful-bump",
-      "context": { "place": "lacewood", "kind": "silver-ribbon" }
+      "context": {
+        "place": "lacewood",
+        "kind": "silver-ribbon"
+      }
     },
     {
       "event": "sound-event.cloud-rest-entered",
-      "context": { "place": "lacewood" }
+      "context": {
+        "place": "lacewood"
+      }
     },
     {
       "event": "sound-event.cloud-rest-exited",
-      "context": { "place": "lacewood" }
+      "context": {
+        "place": "lacewood"
+      }
     },
     {
       "event": "sound-event.movement-state",
-      "context": { "state": "flight" }
+      "context": {
+        "state": "flight"
+      }
     },
     {
       "event": "sound-event.movement-state",
-      "context": { "state": "rise" }
+      "context": {
+        "state": "rise"
+      }
     },
     {
       "event": "sound-event.birthday-star-proximity",
-      "context": { "birthdayStar": "birthday-star.lacewood" }
+      "context": {
+        "birthdayStar": "birthday-star.lacewood"
+      }
     },
     {
       "event": "sound-event.birthday-star-gathered",
-      "context": { "birthdayStar": "birthday-star.lacewood" }
+      "context": {
+        "birthdayStar": "birthday-star.lacewood"
+      }
     },
     {
       "event": "sound-event.rainbow-path-opened",
-      "context": { "rainbowPath": "rainbow-path.lacewood", "familyGuest": "Gram" }
+      "context": {
+        "rainbowPath": "rainbow-path.lacewood",
+        "familyGuest": "Gram"
+      }
     },
     {
       "event": "sound-event.birthday-star-moment",
-      "context": { "place": "lacewood", "familyGuest": "Gram" }
+      "context": {
+        "place": "lacewood",
+        "familyGuest": "Gram"
+      }
     },
-    { "event": "sound-event.birthday-castle-arrival", "context": {} },
+    {
+      "event": "sound-event.place-entry",
+      "context": {
+        "place": "cloister"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "glide"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "rise"
+      }
+    },
+    {
+      "event": "sound-event.vignette-interaction",
+      "context": {
+        "place": "cloister",
+        "interaction": "sunlit-arches"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "glide"
+      }
+    },
+    {
+      "event": "sound-event.vignette-interaction",
+      "context": {
+        "place": "cloister",
+        "interaction": "soft-clouds"
+      }
+    },
+    {
+      "event": "sound-event.near-miss",
+      "context": {
+        "place": "cloister",
+        "kind": "cloud-bound"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "place": "cloister",
+        "kind": "soft-cloud"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "place": "cloister",
+        "kind": "soft-cloud"
+      }
+    },
+    {
+      "event": "sound-event.playful-bump",
+      "context": {
+        "place": "cloister",
+        "kind": "soft-cloud"
+      }
+    },
+    {
+      "event": "sound-event.cloud-rest-entered",
+      "context": {
+        "place": "cloister"
+      }
+    },
+    {
+      "event": "sound-event.cloud-rest-exited",
+      "context": {
+        "place": "cloister"
+      }
+    },
+    {
+      "event": "sound-event.movement-state",
+      "context": {
+        "state": "rise"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-proximity",
+      "context": {
+        "birthdayStar": "birthday-star.cloister"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-gathered",
+      "context": {
+        "birthdayStar": "birthday-star.cloister"
+      }
+    },
+    {
+      "event": "sound-event.rainbow-path-opened",
+      "context": {
+        "rainbowPath": "rainbow-path.cloister",
+        "familyGuest": "Beasley"
+      }
+    },
+    {
+      "event": "sound-event.birthday-star-moment",
+      "context": {
+        "place": "cloister",
+        "familyGuest": "Beasley"
+      }
+    },
+    {
+      "event": "sound-event.birthday-castle-arrival",
+      "context": {}
+    },
     {
       "event": "sound-event.celebration-interaction",
-      "context": { "action": "dance-again" }
+      "context": {
+        "action": "dance-again"
+      }
     }
   ],
   "requiredFacts": {
-    "birthdayStars": ["birthday-star.lacewood"],
-    "rainbowPaths": ["rainbow-path.lacewood"],
-    "singleRoute": "single-route.lacewood",
-    "flightControlBindings": ["keyboard.space", "pointer.primary"],
+    "birthdayStars": [
+      "birthday-star.lacewood",
+      "birthday-star.cloister"
+    ],
+    "rainbowPaths": [
+      "rainbow-path.lacewood",
+      "rainbow-path.cloister"
+    ],
+    "singleRoute": [
+      "single-route.lacewood",
+      "single-route.cloister"
+    ],
+    "flightControlBindings": [
+      "keyboard.space",
+      "pointer.primary"
+    ],
     "flightControlImmediate": true,
-    "flightControlCycles": 3,
+    "flightControlCycles": 5,
     "singleRouteDurationSeconds": 18.0,
     "safeLimitsPreserveForwardMotion": true,
-    "observedInteractions": ["silver-ribbons", "rose-lights"],
-    "canonicalCelebrationEcho": "silver-ribbons-and-rose-lights",
+    "observedInteractions": [
+      "silver-ribbons",
+      "rose-lights",
+      "sunlit-arches",
+      "soft-clouds"
+    ],
+    "canonicalCelebrationEcho": [
+      "silver-ribbons-and-rose-lights",
+      "sunlit-arches-and-soft-clouds"
+    ],
     "birthdayStarGuaranteed": true,
     "cloudRestPreservesProgress": true,
     "cloudRestAutomaticResume": true,

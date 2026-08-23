@@ -14,14 +14,14 @@ flight_capture_path="$build_dir/opening-flight-stage.png"
 flight_evidence_path="$build_dir/opening-flight-export-smoke-evidence.json"
 lacewood_flight_capture_path="$build_dir/lacewood-flight-stage.png"
 lacewood_flight_evidence_path="$build_dir/lacewood-flight-export-smoke-evidence.json"
-lacewood_capture_path="$build_dir/lacewood-tracer-stage.png"
-lacewood_evidence_path="$build_dir/lacewood-tracer-export-smoke-evidence.json"
+journey_capture_path="$build_dir/journey-tracer-stage.png"
+journey_evidence_path="$build_dir/journey-tracer-export-smoke-evidence.json"
 expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
 
 mkdir -p "$build_dir"
 rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path" \
   "$flight_capture_path" "$flight_evidence_path" "$lacewood_flight_capture_path" \
-  "$lacewood_flight_evidence_path" "$lacewood_capture_path" "$lacewood_evidence_path" \
+  "$lacewood_flight_evidence_path" "$journey_capture_path" "$journey_evidence_path" \
   "$build_dir/lacewood-path-choice-stage.png" \
   "$build_dir/lacewood-path-choice-export-smoke-evidence.json" \
   "$build_dir/lacewood-traversal-stage.png" \
@@ -165,24 +165,25 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
 ' "$lacewood_flight_evidence_path" >/dev/null
 
 sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
-  "--smoke-state=lacewood" \
-  "--smoke-capture=$lacewood_capture_path" \
-  "--smoke-evidence=$lacewood_evidence_path"
+  "--smoke-state=journey" \
+  "--smoke-capture=$journey_capture_path" \
+  "--smoke-evidence=$journey_evidence_path"
 
-test -s "$lacewood_capture_path"
-test -s "$lacewood_evidence_path"
-test "$(stat -f '%z' "$lacewood_capture_path")" -gt 100000
+test -s "$journey_capture_path"
+test -s "$journey_evidence_path"
+test "$(stat -f '%z' "$journey_capture_path")" -gt 100000
 jq -e --arg expected_pack_digest "$expected_pack_digest" '
   .state == "celebration"
   and .journey_phase == "celebration"
   and .playful_bumps == 3
-  and .cloud_rests == 1
+  and .cloud_rests == 2
   and .flight_control_cycles >= 3
-  and .birthday_stars == ["birthday-star.lacewood"]
-  and .rainbow_paths == ["rainbow-path.lacewood"]
-  and .observed_interactions == ["silver-ribbons", "rose-lights"]
-  and .single_route.canonical_birthday_star_moment == "Gram followed the silver ribbons and glowing roses through Zélie’s Lacewood!"
-  and .single_route.canonical_celebration_echo == "silver-ribbons-and-rose-lights"
+  and .birthday_stars == ["birthday-star.lacewood", "birthday-star.cloister"]
+  and .rainbow_paths == ["rainbow-path.lacewood", "rainbow-path.cloister"]
+  and .observed_interactions == ["sunlit-arches", "soft-clouds"]
+  and .single_route.journey_interactions == ["silver-ribbons", "rose-lights", "sunlit-arches", "soft-clouds"]
+  and .single_route.canonical_birthday_star_moment == "Beasley padded along the sunlit arches and pounced through the soft clouds of the Cloister of Clouds!"
+  and .single_route.canonical_celebration_echo == "sunlit-arches-and-soft-clouds"
   and .single_route.cloud_rest_automatic_resume == true
   and .single_route.journey_progress_persisted == false
   and .pack_digest == $expected_pack_digest
@@ -192,7 +193,7 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .storybook_stage.essential_content_cropped == false
   and .storybook_stage.celebration_visible == true
   and .storybook_stage.lacewood_background_visible == false
-  and .storybook_stage.lacewood_single_route_composition.celebration_echo == "silver-ribbons-and-rose-lights"
+  and .storybook_stage.lacewood_single_route_composition.celebration_echo == "sunlit-arches-and-soft-clouds"
   and (has("chosen_route") | not)
   and (has("path_choices") | not)
   and (has("journey_history") | not)
@@ -210,6 +211,6 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
     "sound-event.birthday-castle-arrival",
     "sound-event.celebration-interaction"
   ]))
-' "$lacewood_evidence_path" >/dev/null
+' "$journey_evidence_path" >/dev/null
 
-echo "PASS: exported arm64 launch, opening, responsive flight, single-route Lacewood, and celebration captures"
+echo "PASS: exported arm64 launch, opening, responsive flight, the single-route Lacewood and Cloister of Clouds, and celebration captures"
