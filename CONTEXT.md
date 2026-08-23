@@ -4,6 +4,14 @@ A joyful, replayable birthday game centered on a fictional storybook hero inspir
 
 ## Language
 
+**Phaser Edition**:
+The existing browser-playable edition of Princess Rosie and the Seven Birthday Stars, revised with production-quality shared presentation while retaining an engine-native Phaser implementation.
+_Avoid_: Original Edition, Phaser prototype, Phaser Web Edition
+
+**Godot Edition**:
+The separately developed edition of Princess Rosie and the Seven Birthday Stars that uses Godot to pursue the same canonical storybook experience.
+_Avoid_: Godot Production Edition, canonical edition
+
 **Princess Rosie**:
 The storybook hero and elder sister through whom the child experiences the adventure. She shares Rosie's name and may use an expressly approved likeness without unrelated identifying personal details.
 _Avoid_: Rosie's avatar, digital Rosie
@@ -99,6 +107,14 @@ _Avoid_: Cutscene, exposition screen
 **Storybook Stage**:
 The cinematic 16:9 frame containing every essential story, play, and text element; taller displays extend its illustrated surroundings without cropping the frame.
 _Avoid_: Canvas, viewport, black bars
+
+**Flight Presentation**:
+The illustrated, lightly animated view of Princess Rosie and Stella traveling through each place during active play, distinct from the journey rules it makes visible.
+_Avoid_: Fly-through, gameplay skin, background swap
+
+**Place Illustration**:
+The full-Stage scenery painting that establishes one place during the Flight Presentation while leaving gameplay-significant characters, Birthday Stars, and encounters to distinct interactive elements.
+_Avoid_: Background plate, scrolling panorama, wallpaper
 
 **Opening Storybook Moment**:
 A Storybook Moment before the flight begins, comprising the title-cover moment and the three moments that establish the celebration, the scattered Birthday Stars, and Princess Rosie's promise to help.
