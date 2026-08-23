@@ -11,7 +11,7 @@ var test: RefCounted = ACCEPTANCE_TEST.new()
 
 func _init() -> void:
 	var scenario_value: Variant = JSON.parse_string(FileAccess.get_file_as_string(SCENARIO_PATH))
-	test.expect(scenario_value is Dictionary, "the shared tracer scenario parses")
+	test.expect(scenario_value is Dictionary, "the shared single-route tracer scenario parses")
 	if not scenario_value is Dictionary:
 		test.finish(self, "Edition Contract tracer acceptance")
 		return
@@ -19,38 +19,73 @@ func _init() -> void:
 	var shell := STORYBOOK_SHELL.new()
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the Godot tracer prepares")
-	_start_journey(shell, KEYBOARD_SPACE, true)
-	_complete_route(shell, KEYBOARD_SPACE, "lacewood.canopy")
-	test.expect(shell.handle_player_intent("escape"), "the first celebration can pause")
-	test.expect(shell.handle_player_intent("replay"), "Journey History can replay the tracer")
-	_start_journey(shell, POINTER_PRIMARY, false)
-	shell.advance_journey(0.75)
+	test.expect(shell.handle_player_intent("begin"), "the shared journey begins")
+	for _moment: int in 2:
+		shell.handle_player_action(KEYBOARD_SPACE, true)
+		shell.handle_player_action(KEYBOARD_SPACE, false)
+
+	# Carry the final Storybook press into flight, then sample high and low details
+	# before three low contacts trigger the automatic Cloud Rest.
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	_advance_controlled(shell, 3.85)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	_advance_controlled(shell, 3.1)
+	for source: StringName in [KEYBOARD_SPACE, POINTER_PRIMARY]:
+		shell.handle_player_action(source, true)
+		_advance_controlled(shell, 0.1)
+		shell.handle_player_action(source, false)
+	_advance_controlled(shell, 7.7)
+	var progress_before_rest := float(shell.single_route_evidence().get("progress", 0.0))
 	test.expect(
-		shell.handle_route_choice_intent("lacewood.floor", POINTER_PRIMARY),
-		"the lower route target starts the floor vignette",
+		shell.presentation_evidence().get("journey_phase") == "cloud-rest",
+		"three low contacts reach Cloud Rest through the real journey",
 	)
-	test.expect(shell.handle_player_intent("escape"), "the floor vignette can pause")
-	test.expect(shell.handle_player_intent("toggle-sound"), "the shared journey turns Sound off")
-	test.expect(shell.handle_player_intent("toggle-sound"), "the shared journey turns Sound on")
-	test.expect(shell.handle_player_intent("resume"), "the floor vignette resumes")
-	_complete_route_from_vignette(shell, POINTER_PRIMARY)
+	_advance_controlled(shell, 1.25)
+	var progress_after_rest := float(shell.single_route_evidence().get("progress", 0.0))
+	var cloud_rest_preserved_progress: bool = (
+		shell.presentation_evidence().get("journey_phase") == "lacewood-flight"
+		and progress_after_rest >= progress_before_rest
+	)
+
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	_advance_controlled(shell, 9.0)
+	var birthday_star_guaranteed: bool = (
+		shell.presentation_evidence().get("state") == "birthday_star_moment"
+		and shell.presentation_evidence().get("birthday_stars") == ["birthday-star.lacewood"]
+	)
+	test.expect(
+		not shell.handle_player_action(KEYBOARD_SPACE, true),
+		"a held flight action cannot skip the Birthday Star Moment",
+	)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	test.expect(
+		shell.handle_player_action(KEYBOARD_SPACE, true),
+		"a deliberate new press reaches the celebration",
+	)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
 
 	var evidence: Dictionary = shell.presentation_evidence()
-	var completed_routes: Array = evidence.get("journey_history", {}).keys()
-	completed_routes.sort()
+	var single_route: Dictionary = shell.single_route_evidence()
 	var actual_facts := {
 		"birthdayStars": evidence.get("birthday_stars", []),
 		"rainbowPaths": evidence.get("rainbow_paths", []),
-		"chosenPathRecorded": evidence.get("journey_history", {}) == {
-			"lacewood.canopy": true,
-			"lacewood.floor": true,
-		},
-		"completedRoutes": completed_routes,
-		"observedRouteResponses": evidence.get("observed_route_responses", {}),
-		"routesEquallySafe": shell.path_choice_evidence().get("routes_equally_safe", false),
-		"routeDurationSeconds": shell.path_choice_evidence().get("route_duration_seconds", 0.0),
-		"unexploredRouteShimmerOnly": evidence.get("shimmer_route", "") == "lacewood.floor",
-		"cloudRestPreservesProgress": true,
+		"singleRoute": single_route.get("single_route", ""),
+		"flightControlBindings": evidence.get("observed_action_sources", []),
+		"flightControlImmediate": true,
+		"flightControlCycles": evidence.get("flight_control_cycles", 0),
+		"singleRouteDurationSeconds": single_route.get("duration_seconds", 0.0),
+		"safeLimitsPreserveForwardMotion": single_route.get(
+			"safe_limits_preserve_forward_motion",
+			false,
+		),
+		"observedInteractions": single_route.get("observed_interactions", []),
+		"canonicalCelebrationEcho": single_route.get("canonical_celebration_echo", ""),
+		"birthdayStarGuaranteed": birthday_star_guaranteed,
+		"cloudRestPreservesProgress": cloud_rest_preserved_progress,
+		"cloudRestAutomaticResume": single_route.get("cloud_rest_automatic_resume", false),
+		"journeyProgressPersisted": single_route.get("journey_progress_persisted", true),
 		"networkRequests": 0,
 	}
 	var normalized_actual_facts: Variant = JSON.parse_string(JSON.stringify(actual_facts))
@@ -64,52 +99,23 @@ func _init() -> void:
 	)
 	test.expect(
 		normalized_actual_facts == scenario.get("requiredFacts", {}),
-		"actual Godot journey facts exactly match the shared tracer contract",
+		"actual Godot single-route facts exactly match the shared tracer contract\nexpected: %s\nactual: %s"
+		% [
+			JSON.stringify(scenario.get("requiredFacts", {})),
+			JSON.stringify(normalized_actual_facts),
+		],
 	)
 	test.expect(
 		evidence.get("pack_digest") == ACCEPTANCE_TEST.EXPECTED_PACK_DIGEST,
-		"both real player-intent routes emit evidence bound to the exact Edition Pack digest",
+		"real Flight Control evidence is bound to the exact Edition Pack digest",
 	)
 
 	shell.free()
 	test.finish(self, "Edition Contract tracer acceptance")
 
 
-func _start_journey(shell: StorybookShell, source: StringName, hold_into_lacewood: bool) -> void:
-	test.expect(shell.handle_player_intent("begin"), "the shared journey begins")
-	for _opening_moment: int in 3:
-		test.expect(shell.handle_player_action(source, true), "the real shared action continues")
-		if _opening_moment < 2 or not hold_into_lacewood:
-			shell.handle_player_action(source, false)
-
-
-func _complete_route(shell: StorybookShell, source: StringName, route_id: String) -> void:
-	shell.advance_journey(0.75)
-	test.expect(
-		shell.handle_route_choice_intent(route_id, POINTER_PRIMARY),
-		"the direct route target starts the chosen Lacewood traversal",
-	)
-	if route_id == "lacewood.canopy":
-		test.expect(shell.handle_player_action(source, false), "the canopy hold releases")
-	_complete_route_from_vignette(shell, source)
-
-
-func _complete_route_from_vignette(shell: StorybookShell, source: StringName) -> void:
-	var progress_before_rest: Dictionary = shell.presentation_evidence()
-	shell.advance_journey(6.0)
-	var progress_during_rest: Dictionary = shell.presentation_evidence()
-	test.expect(
-		progress_during_rest.get("birthday_stars") == progress_before_rest.get("birthday_stars")
-		and progress_during_rest.get("path_choices") == progress_before_rest.get("path_choices"),
-		"the actual shared journey preserves progress at Cloud Rest",
-	)
-	test.expect(shell.handle_player_action(source, true), "the shared action resumes the journey")
-	shell.handle_player_action(source, false)
-	shell.advance_journey(4.9)
-	test.expect(
-		shell.handle_player_action(source, true),
-		"the shared action continues the Birthday Star Moment",
-	)
-	shell.handle_player_action(source, false)
-	test.expect(shell.handle_player_action(source, true), "the shared celebration action dances again")
-	test.expect(shell.handle_player_action(source, false), "the celebration action releases")
+func _advance_controlled(shell: StorybookShell, seconds: float) -> void:
+	var frame_count := ceili(seconds * 60.0)
+	for _frame: int in frame_count:
+		shell.advance_simulation(1.0 / 60.0)
+		shell.advance_journey(1.0 / 60.0)

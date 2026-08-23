@@ -23,7 +23,9 @@ tests=(
   flight_media_acceptance.gd
   presentation_motion_acceptance.gd
   lacewood_tracer_acceptance.gd
-  lacewood_path_choice_acceptance.gd
+  lacewood_flight_control_acceptance.gd
+  lacewood_interaction_acceptance.gd
+  cloud_rest_auto_resume_acceptance.gd
   lacewood_presentation_acceptance.gd
   edition_contract_tracer_acceptance.gd
   soundscape_player_acceptance.gd

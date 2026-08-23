@@ -127,7 +127,7 @@
       "catalogStatePath": "source-media/soundscape/catalog-state/place-lacewood.json"
     },
     {
-      "id": "source-master.vignette.lacewood.canopy",
+      "id": "source-master.vignette.lacewood.silver-ribbons",
       "role": "source-media.generated-master",
       "provenanceRole": "provenance.commercial-generated-effect",
       "path": "source-media/soundscape/masters/vignette-lacewood-canopy.wav",
@@ -137,7 +137,7 @@
       "catalogStatePath": "source-media/soundscape/catalog-state/vignette-lacewood-canopy.json"
     },
     {
-      "id": "source-master.vignette.lacewood.floor",
+      "id": "source-master.vignette.lacewood.rose-lights",
       "role": "source-media.generated-master",
       "provenanceRole": "provenance.commercial-generated-effect",
       "path": "source-media/soundscape/masters/vignette-lacewood-floor.wav",
@@ -145,46 +145,6 @@
       "runtimePath": "source-media/soundscape/runtime/vignette-lacewood-floor.wav",
       "runtimeImportPath": "source-media/soundscape/runtime-imports/vignette-lacewood-floor.json",
       "catalogStatePath": "source-media/soundscape/catalog-state/vignette-lacewood-floor.json"
-    },
-    {
-      "id": "source-master.path-choice.available",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/path-choice-available.wav",
-      "provenancePath": "source-media/soundscape/provenance/path-choice-available.json",
-      "runtimePath": "source-media/soundscape/runtime/path-choice-available.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/path-choice-available.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/path-choice-available.json"
-    },
-    {
-      "id": "source-master.path-choice.lacewood.canopy",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/path-choice-lacewood-canopy.wav",
-      "provenancePath": "source-media/soundscape/provenance/path-choice-lacewood-canopy.json",
-      "runtimePath": "source-media/soundscape/runtime/path-choice-lacewood-canopy.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/path-choice-lacewood-canopy.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/path-choice-lacewood-canopy.json"
-    },
-    {
-      "id": "source-master.path-choice.lacewood.floor",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/path-choice-lacewood-floor.wav",
-      "provenancePath": "source-media/soundscape/provenance/path-choice-lacewood-floor.json",
-      "runtimePath": "source-media/soundscape/runtime/path-choice-lacewood-floor.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/path-choice-lacewood-floor.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/path-choice-lacewood-floor.json"
-    },
-    {
-      "id": "source-master.journey-history.shimmer",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/journey-history-shimmer.wav",
-      "provenancePath": "source-media/soundscape/provenance/journey-history-shimmer.json",
-      "runtimePath": "source-media/soundscape/runtime/journey-history-shimmer.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/journey-history-shimmer.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/journey-history-shimmer.json"
     },
     {
       "id": "source-master.playful-bump.lacewood",

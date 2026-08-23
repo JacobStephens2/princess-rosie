@@ -70,7 +70,7 @@ describe("Edition Contract", () => {
 
     expect(prepared).toMatchObject({
       contractVersion: "rosie-edition-contract/1",
-      revision: "lacewood-traversal-2",
+      revision: "lacewood-flight-control-1",
       packDigest: expect.stringMatching(/^sha256:[a-f0-9]{64}$/),
       scenarioIds: ["opening-flight", "tracer-bullet"],
     });
@@ -87,9 +87,6 @@ describe("Edition Contract", () => {
         "sound-event.movement-state",
         "sound-event.place-entry",
         "sound-event.vignette-interaction",
-        "sound-event.path-choice-available",
-        "sound-event.path-choice-selected",
-        "sound-event.journey-history-shimmer",
         "sound-event.playful-bump",
         "sound-event.near-miss",
         "sound-event.birthday-star-proximity",
@@ -113,12 +110,8 @@ describe("Edition Contract", () => {
         "cue.movement.rise",
         "cue.movement.glide",
         "cue.place.lacewood",
-        "cue.vignette.lacewood.canopy",
-        "cue.vignette.lacewood.floor",
-        "cue.path-choice.available",
-        "cue.path-choice.lacewood.canopy",
-        "cue.path-choice.lacewood.floor",
-        "cue.journey-history.shimmer",
+        "cue.vignette.lacewood.silver-ribbons",
+        "cue.vignette.lacewood.rose-lights",
         "cue.playful-bump.lacewood",
         "cue.near-miss",
         "cue.birthday-star.proximity",

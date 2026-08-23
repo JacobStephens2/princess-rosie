@@ -98,9 +98,9 @@ Execution: OpenAI Image API CLI fallback, `gpt-image-1.5`, high quality and inpu
 
 > Use case: production game character-layer extraction. Preserve exactly the approved characters and picture-book illustration style from the reference: young Princess Rosie with long golden-blonde hair, small gold crown, joyful expression, ornate bright pink rose-patterned dress and pink shoes, seated astride Stella; Stella is a friendly white winged unicorn with a pastel pink-purple-blue mane and tail, rainbow horn, two large lavender feathered wings, gold-and-heart bridle, complete body with all four legs and hooves. Isolate only Rosie riding Stella as one complete cohesive character cutout. Remove the garden, archways, sky, sea, flowers, ribbons, star, floor, scenery, shadows, and every other object. Keep the entire silhouette fully inside the canvas with generous transparent padding and no cropping. Output a genuine RGBA PNG with fully transparent pixels everywhere outside the clean character silhouette. No checkerboard, no painted transparency pattern, no white matte, no rectangular background, no halo, no text, no added objects, no anatomy changes, no duplicate limbs or wings.
 
-## Zélie's Lacewood: balanced route background
+## Zélie's Lacewood: deferred fork source artwork
 
-Execution: built-in OpenAI image-generation tool with the approved departure illustration and Rose Garden flight background as style, palette, lighting, and world references only.
+Execution: built-in OpenAI image-generation tool with the approved departure illustration and Rose Garden flight background as style, palette, lighting, and world references only. This source artwork is retained for possible post-MVP reconsideration and is not used by the active Single Route.
 
 > Use case: illustration-story
 > Asset type: production 16:9 Godot active-play environment background
@@ -113,6 +113,21 @@ Execution: built-in OpenAI image-generation tool with the approved departure ill
 Selected output: `shared/edition/source-media/lacewood/lacewood-background.png`
 
 Provenance: `shared/edition/source-media/lacewood/provenance.json`
+
+## Zélie's Lacewood: active single-route background
+
+Execution: built-in OpenAI image-generation edit of the deferred fork artwork. The original remains unchanged as reusable source artwork.
+
+> Use case: precise-object-edit
+> Asset type: wide side-scrolling children's storybook game background
+> Primary request: replace the central island, upper bridge, lower loop, split, and rejoin with exactly one broad, uninterrupted, gently winding garden corridor from the left edge through the open center to the right edge
+> Scene: enchanted rose woodland with silver ribbons, warm lanterns, airy blue sky, distant fairytale pavilion, and cypress trees
+> Style: preserve the polished hand-painted children's storybook detail, palette, lighting, and botanical framing of the source artwork
+> Constraints: no fork, branch, loop, parallel lane, central median, characters, UI, text, or watermark
+
+Selected output: `shared/edition/source-media/lacewood/lacewood-single-route-background.png`
+
+Provenance: `shared/edition/source-media/lacewood/single-route-provenance.json`
 
 Output: `shared/edition/source-media/flight/rosie-stella.png`
 
@@ -401,19 +416,7 @@ Selection: Best-balanced gentle bell-like cue: clearly audible on small speakers
 
 Source master: `source-master.story.confirmation`
 
-### cue.vignette.lacewood.canopy
-
-> A soft ribbon response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
-
-Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
-
-Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
-
-Selection: Clearest soft ribbon response for MacBook speakers: strongest usable body, lowest crest factor, moderate crossing activity, and generous peak headroom without a harsh transient.
-
-Source master: `source-master.vignette.lacewood.canopy`
-
-### cue.vignette.lacewood.floor
+### cue.vignette.lacewood.rose-lights
 
 > A soft rose light response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
 
@@ -423,6 +426,18 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-dura
 
 Selection: Best warm rose-light response: strongest clear body with the lowest crest factor of the audible candidates, controlled mastered peak, and enough brightness to remain distinct from the airy canopy cue.
 
-Source master: `source-master.vignette.lacewood.floor`
+Source master: `source-master.vignette.lacewood.rose-lights`
+
+### cue.vignette.lacewood.silver-ribbons
+
+> A soft ribbon response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Clearest soft ribbon response for MacBook speakers: strongest usable body, lowest crest factor, moderate crossing activity, and generous peak headroom without a harsh transient.
+
+Source master: `source-master.vignette.lacewood.silver-ribbons`
 
 <!-- soundscape-build:end -->

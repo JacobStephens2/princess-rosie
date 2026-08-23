@@ -17,7 +17,6 @@ const STORY_CONFIRMATION_EVENT := &"sound-event.story-confirmation"
 const STORY_CONFIRMATION_PARAMETERS := {"action": "continue"}
 const MOVEMENT_EVENT := &"sound-event.movement-state"
 const PLACE_ENTRY_EVENT := &"sound-event.place-entry"
-const JOURNEY_HISTORY_SHIMMER_EVENT := &"sound-event.journey-history-shimmer"
 const NEAR_MISS_EVENT := &"sound-event.near-miss"
 const BIRTHDAY_STAR_PROXIMITY_EVENT := &"sound-event.birthday-star-proximity"
 const CLOUD_REST_ENTERED_EVENT := &"sound-event.cloud-rest-entered"
@@ -52,7 +51,6 @@ var _music_started := false
 var _movement_state := ""
 var _current_place := ""
 var _in_cloud_rest := false
-var _journey_history_shimmers := {}
 var _near_miss_times_ms := {}
 var _birthday_star_proximity_shimmers := {}
 var _now_ms: Callable
@@ -114,7 +112,6 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 		_movement_state = ""
 		_current_place = ""
 		_in_cloud_rest = false
-		_journey_history_shimmers.clear()
 		_near_miss_times_ms.clear()
 		_birthday_star_proximity_shimmers.clear()
 		if _audio.has_method("stop_slot"):
@@ -142,20 +139,6 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 			if _audio.has_method("stop_slot"):
 				_audio.stop_slot("movement")
 			return false
-	if event_id == JOURNEY_HISTORY_SHIMMER_EVENT:
-		var shimmer_key := "%s:%s" % [
-			parameters.get("pathChoice", ""),
-			parameters.get("route", ""),
-		]
-		if _journey_history_shimmers.has(shimmer_key):
-			return false
-		if not _sound_enabled:
-			_journey_history_shimmers[shimmer_key] = true
-			return false
-		var shimmer_played := _play_resolved_cue(event_id, parameters)
-		if shimmer_played:
-			_journey_history_shimmers[shimmer_key] = true
-		return shimmer_played
 	if event_id == NEAR_MISS_EVENT:
 		var near_miss_key := "%s:%s" % [
 			parameters.get("place", ""),
