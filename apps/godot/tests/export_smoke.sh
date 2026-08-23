@@ -12,20 +12,20 @@ opening_capture_path="$build_dir/opening-storybook-stage.png"
 opening_evidence_path="$build_dir/opening-export-smoke-evidence.json"
 flight_capture_path="$build_dir/opening-flight-stage.png"
 flight_evidence_path="$build_dir/opening-flight-export-smoke-evidence.json"
-lacewood_choice_capture_path="$build_dir/lacewood-path-choice-stage.png"
-lacewood_choice_evidence_path="$build_dir/lacewood-path-choice-export-smoke-evidence.json"
-lacewood_traversal_capture_path="$build_dir/lacewood-traversal-stage.png"
-lacewood_traversal_evidence_path="$build_dir/lacewood-traversal-export-smoke-evidence.json"
+lacewood_flight_capture_path="$build_dir/lacewood-flight-stage.png"
+lacewood_flight_evidence_path="$build_dir/lacewood-flight-export-smoke-evidence.json"
 lacewood_capture_path="$build_dir/lacewood-tracer-stage.png"
 lacewood_evidence_path="$build_dir/lacewood-tracer-export-smoke-evidence.json"
 expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
 
 mkdir -p "$build_dir"
 rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path" \
-  "$flight_capture_path" "$flight_evidence_path" "$lacewood_capture_path" \
-  "$lacewood_evidence_path" "$lacewood_choice_capture_path" \
-  "$lacewood_choice_evidence_path" "$lacewood_traversal_capture_path" \
-  "$lacewood_traversal_evidence_path"
+  "$flight_capture_path" "$flight_evidence_path" "$lacewood_flight_capture_path" \
+  "$lacewood_flight_evidence_path" "$lacewood_capture_path" "$lacewood_evidence_path" \
+  "$build_dir/lacewood-path-choice-stage.png" \
+  "$build_dir/lacewood-path-choice-export-smoke-evidence.json" \
+  "$build_dir/lacewood-traversal-stage.png" \
+  "$build_dir/lacewood-traversal-export-smoke-evidence.json"
 
 "$godot_bin" --headless --path "$project_dir" --export-debug "macOS Development" "$app_path"
 
@@ -106,40 +106,13 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
     "opening.scattered-stars",
     "opening.departure"
   ]
-  and .observed_opening_checkpoints == [
-    {
-      "moment": "opening.celebration-preparations",
-      "facts": {"celebrationPreparationHost": "Gigi"}
-    },
-    {
-      "moment": "opening.scattered-stars",
-      "facts": {"birthdayStarCount": 7}
-    },
-    {
-      "moment": "opening.departure",
-      "facts": {"promiseKeepers": ["Princess Rosie", "Stella"]}
-    }
-  ]
   and .flight.automatic_forward_motion == true
   and .flight.character_layer_has_transparency == true
   and .flight.distance_stage_widths > 0
-  and .flight_media_paths == {
-    "flight.rose-garden-background": "source-media/flight/rose-garden-background.png",
-    "flight.rosie-stella": "source-media/flight/rosie-stella.png"
-  }
   and .sound_events == [
-    {
-      "event": "sound-event.opening-storybook-moment",
-      "context": {"moment": "opening.celebration-preparations"}
-    },
-    {
-      "event": "sound-event.opening-storybook-moment",
-      "context": {"moment": "opening.scattered-stars"}
-    },
-    {
-      "event": "sound-event.opening-storybook-moment",
-      "context": {"moment": "opening.departure"}
-    },
+    {"event": "sound-event.opening-storybook-moment", "context": {"moment": "opening.celebration-preparations"}},
+    {"event": "sound-event.opening-storybook-moment", "context": {"moment": "opening.scattered-stars"}},
+    {"event": "sound-event.opening-storybook-moment", "context": {"moment": "opening.departure"}},
     {"event": "sound-event.flight-launch", "context": {}},
     {"event": "sound-event.movement-state", "context": {"state": "flight"}},
     {"event": "sound-event.movement-state", "context": {"state": "rise"}},
@@ -148,79 +121,48 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
 ' "$flight_evidence_path" >/dev/null
 
 sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
-  "--smoke-state=lacewood-choice" \
-  "--smoke-capture=$lacewood_choice_capture_path" \
-  "--smoke-evidence=$lacewood_choice_evidence_path"
+  "--smoke-state=lacewood-flight" \
+  "--smoke-capture=$lacewood_flight_capture_path" \
+  "--smoke-evidence=$lacewood_flight_evidence_path"
 
-test -s "$lacewood_choice_capture_path"
-test -s "$lacewood_choice_evidence_path"
-test "$(stat -f '%z' "$lacewood_choice_capture_path")" -gt 100000
+test -s "$lacewood_flight_capture_path"
+test -s "$lacewood_flight_evidence_path"
+test "$(stat -f '%z' "$lacewood_flight_capture_path")" -gt 100000
 jq -e --arg expected_pack_digest "$expected_pack_digest" '
   .state == "active_play"
-  and .journey_phase == "lacewood-path-choice"
-  and .chosen_route == ""
-  and .active_action_sources == ["keyboard.space"]
+  and .journey_phase == "lacewood-flight"
+  and .lacewood_progress > 0.3
+  and .lacewood_progress < 0.5
+  and .observed_action_sources == ["keyboard.space", "pointer.primary"]
+  and .observed_interactions == ["silver-ribbons", "rose-lights"]
+  and .single_route.single_route == "single-route.lacewood"
+  and .single_route.duration_seconds == 18
+  and .single_route.safe_limits_preserve_forward_motion == true
+  and .smoke_flight_samples[0].label == "held-rise"
+  and .smoke_flight_samples[1].label == "released-settle"
+  and .smoke_flight_samples[2].label == "pointer-rise"
+  and .smoke_flight_samples[0].altitude > .smoke_flight_samples[1].altitude
+  and .smoke_flight_samples[2].altitude > .smoke_flight_samples[1].altitude
   and .pack_digest == $expected_pack_digest
   and .network_requests == 0
   and .capture_sample_colors >= 8
-  and .lacewood_media_paths == {
-    "lacewood.background": "source-media/lacewood/lacewood-background.png"
-  }
   and .storybook_stage.aspect == "16:9"
   and .storybook_stage.essential_content_cropped == false
   and .storybook_stage.lacewood_background_visible == true
   and .storybook_stage.flight_character_visible == true
-  and .storybook_stage.route_choice_targets_visible == true
-  and .storybook_stage.route_choice_targets_equal_size == true
-  and .storybook_stage.lacewood_route_composition == {
-    "both_routes_visible": true,
-    "routes_equal_emphasis": true,
+  and .storybook_stage.lacewood_single_route_composition == {
+    "single_corridor_visible": true,
+    "fork_visible": false,
     "atmospheric_motion": true,
-    "selected_visual_response": "",
-    "rendered_visual_response": "",
-    "preview_route": "",
-    "shimmer_route": "",
+    "silver_ribbons_visible": true,
+    "rose_lights_visible": true,
+    "observed_visual_responses": ["silver-ribbons-unfurl", "rose-lights-bloom"],
     "celebration_echo": ""
   }
-  and ([.sound_events[].event] | contains([
-    "sound-event.place-entry",
-    "sound-event.path-choice-available"
-  ]))
-' "$lacewood_choice_evidence_path" >/dev/null
-
-sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
-  "--smoke-state=lacewood-traversal" \
-  "--smoke-capture=$lacewood_traversal_capture_path" \
-  "--smoke-evidence=$lacewood_traversal_evidence_path"
-
-test -s "$lacewood_traversal_capture_path"
-test -s "$lacewood_traversal_evidence_path"
-test "$(stat -f '%z' "$lacewood_traversal_capture_path")" -gt 100000
-jq -e --arg expected_pack_digest "$expected_pack_digest" '
-  .state == "active_play"
-  and .journey_phase == "lacewood-route"
-  and .chosen_route == "lacewood.canopy"
-  and .lacewood_route_progress >= 0.45
-  and .lacewood_route_progress <= 0.55
-  and .active_action_sources == []
-  and .pack_digest == $expected_pack_digest
-  and .network_requests == 0
-  and .capture_sample_colors >= 8
-  and .storybook_stage.aspect == "16:9"
-  and .storybook_stage.essential_content_cropped == false
-  and .storybook_stage.lacewood_background_visible == true
-  and .storybook_stage.flight_character_visible == true
-  and .storybook_stage.route_choice_targets_visible == false
-  and .storybook_stage.flight_motion.character_position.x >= 390
-  and .storybook_stage.flight_motion.background_offset_x <= -35
-  and .storybook_stage.lacewood_route_composition.selected_visual_response == "silver-ribbons-unfurl"
-  and ([.sound_events[].event] | contains([
-    "sound-event.path-choice-selected",
-    "sound-event.vignette-interaction",
-    "sound-event.near-miss",
-    "sound-event.playful-bump"
-  ]))
-' "$lacewood_traversal_evidence_path" >/dev/null
+  and (has("chosen_route") | not)
+  and (has("path_choices") | not)
+  and (has("journey_history") | not)
+' "$lacewood_flight_evidence_path" >/dev/null
 
 sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- --acceptance-smoke \
   "--smoke-state=lacewood" \
@@ -233,12 +175,16 @@ test "$(stat -f '%z' "$lacewood_capture_path")" -gt 100000
 jq -e --arg expected_pack_digest "$expected_pack_digest" '
   .state == "celebration"
   and .journey_phase == "celebration"
-  and .chosen_route == "lacewood.canopy"
   and .playful_bumps == 3
   and .cloud_rests == 1
+  and .flight_control_cycles >= 3
   and .birthday_stars == ["birthday-star.lacewood"]
   and .rainbow_paths == ["rainbow-path.lacewood"]
-  and .path_choices == {"path-choice.lacewood": "lacewood.canopy"}
+  and .observed_interactions == ["silver-ribbons", "rose-lights"]
+  and .single_route.canonical_birthday_star_moment == "Gram followed the silver ribbons and glowing roses through Zélie’s Lacewood!"
+  and .single_route.canonical_celebration_echo == "silver-ribbons-and-rose-lights"
+  and .single_route.cloud_rest_automatic_resume == true
+  and .single_route.journey_progress_persisted == false
   and .pack_digest == $expected_pack_digest
   and .network_requests == 0
   and .capture_sample_colors >= 8
@@ -246,12 +192,12 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .storybook_stage.essential_content_cropped == false
   and .storybook_stage.celebration_visible == true
   and .storybook_stage.lacewood_background_visible == false
-  and .storybook_stage.lacewood_route_composition.both_routes_visible == false
-  and .storybook_stage.lacewood_route_composition.celebration_echo == "silver-ribbons"
+  and .storybook_stage.lacewood_single_route_composition.celebration_echo == "silver-ribbons-and-rose-lights"
+  and (has("chosen_route") | not)
+  and (has("path_choices") | not)
+  and (has("journey_history") | not)
   and ([.sound_events[].event] | contains([
     "sound-event.place-entry",
-    "sound-event.path-choice-available",
-    "sound-event.path-choice-selected",
     "sound-event.vignette-interaction",
     "sound-event.near-miss",
     "sound-event.playful-bump",
@@ -266,4 +212,4 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   ]))
 ' "$lacewood_evidence_path" >/dev/null
 
-echo "PASS: exported arm64 launch, opening, flight, direct Lacewood choice, traversal, and celebration captures"
+echo "PASS: exported arm64 launch, opening, responsive flight, single-route Lacewood, and celebration captures"

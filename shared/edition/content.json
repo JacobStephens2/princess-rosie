@@ -9,7 +9,7 @@
   },
   "playerAction": {
     "pressed": "rise",
-    "released": "glide",
+    "released": "settle",
     "bindings": ["keyboard.space", "pointer.primary"],
     "overlapPolicy": "shared-held-action"
   },
@@ -53,26 +53,24 @@
     "id": "lacewood",
     "name": "Zélie’s Lacewood",
     "familyGuest": "Gram",
-    "pathChoice": {
-      "id": "path-choice.lacewood",
-      "routes": [
+    "singleRoute": {
+      "id": "single-route.lacewood",
+      "interactions": [
         {
-          "id": "lacewood.canopy",
-          "name": "Silver-ribbon canopy",
-          "interaction": "silver-ribbon-canopy",
-          "visualResponse": "silver-ribbons-unfurl",
-          "birthdayStarMoment": "Gram followed the silver ribbons through Zélie’s Lacewood!",
-          "celebrationEcho": "silver-ribbons"
+          "id": "silver-ribbons",
+          "name": "Silver ribbons",
+          "altitudeBand": "high",
+          "visualResponse": "silver-ribbons-unfurl"
         },
         {
-          "id": "lacewood.floor",
-          "name": "Rose-lit woodland floor",
-          "interaction": "rose-lit-floor",
-          "visualResponse": "rose-lights-bloom",
-          "birthdayStarMoment": "Gram followed the glowing roses through Zélie’s Lacewood!",
-          "celebrationEcho": "rose-lights"
+          "id": "rose-lights",
+          "name": "Rose lights",
+          "altitudeBand": "low",
+          "visualResponse": "rose-lights-bloom"
         }
-      ]
+      ],
+      "birthdayStarMoment": "Gram followed the silver ribbons and glowing roses through Zélie’s Lacewood!",
+      "celebrationEcho": "silver-ribbons-and-rose-lights"
     },
     "birthdayStar": "birthday-star.lacewood",
     "rainbowPath": "rainbow-path.lacewood"

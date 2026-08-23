@@ -46,34 +46,14 @@
       "path": "runtime/place-lacewood.wav"
     },
     {
-      "id": "runtime-cue.vignette.lacewood.canopy",
-      "sourceMaster": "source-master.vignette.lacewood.canopy",
+      "id": "runtime-cue.vignette.lacewood.silver-ribbons",
+      "sourceMaster": "source-master.vignette.lacewood.silver-ribbons",
       "path": "runtime/vignette-lacewood-canopy.wav"
     },
     {
-      "id": "runtime-cue.vignette.lacewood.floor",
-      "sourceMaster": "source-master.vignette.lacewood.floor",
+      "id": "runtime-cue.vignette.lacewood.rose-lights",
+      "sourceMaster": "source-master.vignette.lacewood.rose-lights",
       "path": "runtime/vignette-lacewood-floor.wav"
-    },
-    {
-      "id": "runtime-cue.path-choice.available",
-      "sourceMaster": "source-master.path-choice.available",
-      "path": "runtime/path-choice-available.wav"
-    },
-    {
-      "id": "runtime-cue.path-choice.lacewood.canopy",
-      "sourceMaster": "source-master.path-choice.lacewood.canopy",
-      "path": "runtime/path-choice-lacewood-canopy.wav"
-    },
-    {
-      "id": "runtime-cue.path-choice.lacewood.floor",
-      "sourceMaster": "source-master.path-choice.lacewood.floor",
-      "path": "runtime/path-choice-lacewood-floor.wav"
-    },
-    {
-      "id": "runtime-cue.journey-history.shimmer",
-      "sourceMaster": "source-master.journey-history.shimmer",
-      "path": "runtime/journey-history-shimmer.wav"
     },
     {
       "id": "runtime-cue.playful-bump.lacewood",

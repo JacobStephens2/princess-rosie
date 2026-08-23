@@ -14,18 +14,17 @@
     "failure": "forbidden",
     "backtracking": "forbidden"
   },
-  "pathChoice": {
-    "routeCount": 2,
-    "routesEquallySafe": true,
-    "minimumChoiceGestureSeconds": 0.18,
-    "canopyHoldSeconds": 0.55,
-    "routeDurationSeconds": 6.0,
-    "rejoinBeforeBirthdayStar": true
+  "singleRoute": {
+    "durationSeconds": 18.0,
+    "minimumControlCycles": 3,
+    "safeLimitsPreserveForwardMotion": true,
+    "silverRibbonAltitudeMinimum": 0.56,
+    "roseLightAltitudeMaximum": 0.52
   },
   "cloudRest": {
     "afterNearbyPlayfulBumps": 3,
     "birthdayStarsPreserved": true,
-    "pathChoicesPreserved": true,
+    "automaticResumeSeconds": 1.2,
     "maximumHelpLevel": 2
   },
   "performance": {

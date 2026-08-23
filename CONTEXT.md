@@ -25,8 +25,16 @@ The magical route opened by a gathered Birthday Star that carries a Family Guest
 _Avoid_: Teleporter, guest collection
 
 **Path Choice**:
-One of three moments in Zélie's Lacewood, the Cloister of Clouds, or the Sapphire Sea where Princess Rosie guides Stella onto either of two equally safe routes that rejoin before the Birthday Star. Each route rewards her choice with a different interaction, Birthday Star Moment detail, and echo in the celebration.
+A deferred, post-MVP interaction concept in which Princess Rosie guides Stella onto one of two equally safe routes that later rejoin. Path Choices are absent from the single-route MVP.
 _Avoid_: Branch, difficulty path, correct route
+
+**Flight Control**:
+The moment-to-moment guidance of Stella along an automatically advancing route: she rises while the child sustains the shared action and settles when it is released. Her height affects gentle contacts and Playful Bumps without changing story progress or creating failure.
+_Avoid_: Path Choice, scene advance, free flight
+
+**Single Route**:
+The uninterrupted scenic passage through each MVP place. Flight Control changes Stella's height and encounters along it without changing the destination or story outcome.
+_Avoid_: Fixed animation, Path Choice, branching route
 
 **Stella**:
 Princess Rosie's friendly Flying Unicorn, distinguished by her rainbow horn and connection to the Birthday Stars.
@@ -77,7 +85,7 @@ The sparkling coastal passage before the Birthday Castle comes into view.
 _Avoid_: Water level, Mediterranean Sea
 
 **Cloud Rest**:
-A brief, gentle pause after several obstacle bumps in which Stella lands safely on a cloud and can immediately resume nearby with every Birthday Star preserved.
+A brief, gentle pause after several nearby Playful Bumps in which Stella lands safely on a cloud, then resumes automatically nearby with every Birthday Star preserved.
 _Avoid_: Game over, death, loss
 
 **Playful Bump**:
@@ -105,9 +113,9 @@ An adult who sits alongside the child and may offer help without taking over the
 _Avoid_: Second player, operator
 
 **Journey History**:
-The private, local record of completed journeys and explored Path Choices, used only to give an unseen route a gentle shimmer on a later journey.
+A deferred, post-MVP concept for privately remembering completed journeys and explored Path Choices. Journey History and unexplored-route shimmer are absent from the MVP.
 _Avoid_: Profile, score, progression, analytics
 
 **Grown-up Corner**:
-A quiet set of secondary controls for sound, window mode, replaying the story, and resetting Journey History, available from the cover and pause state.
+A quiet set of secondary controls for sound, window mode, and replaying the story, available from the cover and pause state.
 _Avoid_: Settings screen, child menu, parental controls

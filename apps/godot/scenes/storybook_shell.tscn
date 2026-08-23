@@ -448,36 +448,6 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("5_lacewood_visuals")
 
-[node name="CanopyRouteTarget" type="Button" parent="Stage/ActivePlayPresentation"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_left = 70.0
-offset_top = 220.0
-offset_right = 1210.0
-offset_bottom = 400.0
-mouse_default_cursor_shape = 2
-focus_mode = 0
-tooltip_text = "Choose the silver-ribbon canopy"
-theme_override_styles/normal = SubResource("StyleRouteTarget")
-theme_override_styles/hover = SubResource("StyleCanopyTargetHover")
-theme_override_styles/pressed = SubResource("StyleCanopyTargetHover")
-
-[node name="FloorRouteTarget" type="Button" parent="Stage/ActivePlayPresentation"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_left = 70.0
-offset_top = 400.0
-offset_right = 1210.0
-offset_bottom = 580.0
-mouse_default_cursor_shape = 2
-focus_mode = 0
-tooltip_text = "Choose the rose-lit woodland floor"
-theme_override_styles/normal = SubResource("StyleRouteTarget")
-theme_override_styles/hover = SubResource("StyleFloorTargetHover")
-theme_override_styles/pressed = SubResource("StyleFloorTargetHover")
-
 [node name="FlightCharacter" type="TextureRect" parent="Stage/ActivePlayPresentation"]
 unique_name_in_owner = true
 layout_mode = 0

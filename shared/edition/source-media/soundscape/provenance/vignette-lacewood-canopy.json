@@ -1,8 +1,8 @@
 {
   "schemaVersion": 3,
-  "cueId": "cue.vignette.lacewood.canopy",
-  "sourceMasterId": "source-master.vignette.lacewood.canopy",
-  "runtimeMapping": "runtime-cue.vignette.lacewood.canopy",
+  "cueId": "cue.vignette.lacewood.silver-ribbons",
+  "sourceMasterId": "source-master.vignette.lacewood.silver-ribbons",
+  "runtimeMapping": "runtime-cue.vignette.lacewood.silver-ribbons",
   "jobHash": "sha256:283441daf3429514f40b2c8ad49f1e612813bbc51de0575d5f66c36890cdb119",
   "provider": "ElevenLabs",
   "adapter": "real",
