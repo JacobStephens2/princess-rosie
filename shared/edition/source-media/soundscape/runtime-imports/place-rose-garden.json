@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.place.rose-garden",
+  "runtimeMapping": "runtime-cue.place.rose-garden",
+  "sourceMaster": "source-master.place.rose-garden",
+  "sourcePath": "masters/place-rose-garden.wav",
+  "runtimePath": "runtime/place-rose-garden.wav",
+  "sourceHash": "sha256:689706fc28a80ca54d8c10ba98abc545abc99ea2f7ad33530f29122e4b2863b3",
+  "derivativeHash": "sha256:689706fc28a80ca54d8c10ba98abc545abc99ea2f7ad33530f29122e4b2863b3",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "looping": true
+  }
+}

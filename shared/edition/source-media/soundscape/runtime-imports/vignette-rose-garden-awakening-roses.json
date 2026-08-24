@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.vignette.rose-garden.awakening-roses",
+  "runtimeMapping": "runtime-cue.vignette.rose-garden.awakening-roses",
+  "sourceMaster": "source-master.vignette.rose-garden.awakening-roses",
+  "sourcePath": "masters/vignette-rose-garden-awakening-roses.wav",
+  "runtimePath": "runtime/vignette-rose-garden-awakening-roses.wav",
+  "sourceHash": "sha256:50aedf2c9d35f71491b712a0ce18f3d0c2093f81820adfcbee97681d60c5afc0",
+  "derivativeHash": "sha256:50aedf2c9d35f71491b712a0ce18f3d0c2093f81820adfcbee97681d60c5afc0",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

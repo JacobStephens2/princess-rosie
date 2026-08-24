@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.birthday-star-moment.cloister",
+  "sourceMaster": "source-master.birthday-star-moment.cloister",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.cloister",
+  "status": "approved",
+  "jobHash": "sha256:cf9050df62257c8a52dc69bb9d63c8c83f4ded0a958d65d28499b735279b4ced",
+  "masterPath": "masters/birthday-star-moment-cloister.wav",
+  "masterHash": "sha256:68701f4239de14439445bcd87e3890d416b55ffcb9752d38231ff9b042ccd75d",
+  "runtimePath": "runtime/birthday-star-moment-cloister.wav",
+  "runtimeHash": "sha256:68701f4239de14439445bcd87e3890d416b55ffcb9752d38231ff9b042ccd75d"
+}

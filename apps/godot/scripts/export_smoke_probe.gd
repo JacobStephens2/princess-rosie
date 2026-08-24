@@ -131,7 +131,8 @@ func _complete_lacewood(shell: StorybookShell) -> void:
 		get_tree().quit(9)
 		return
 	_emit_keyboard_action(true)
-	await get_tree().create_timer(9.0).timeout
+	# Gentle help after the Cloud Rest lengthens the remaining Lacewood travel.
+	await get_tree().create_timer(10.0).timeout
 	if shell.presentation_evidence().get("state") != "birthday_star_moment":
 		push_error("Export smoke did not reach the guaranteed Birthday Star Moment")
 		get_tree().quit(7)

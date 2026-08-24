@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.vignette.abbey.bell-settle",
+  "runtimeMapping": "runtime-cue.vignette.abbey.bell-settle",
+  "sourceMaster": "source-master.vignette.abbey.bell-settle",
+  "sourcePath": "masters/vignette-abbey-bell-settle.wav",
+  "runtimePath": "runtime/vignette-abbey-bell-settle.wav",
+  "sourceHash": "sha256:b9e5fcd78012dfaec0e92c02fa96296b6bc674d3f766ebca4c5d7a767b7c79b7",
+  "derivativeHash": "sha256:b9e5fcd78012dfaec0e92c02fa96296b6bc674d3f766ebca4c5d7a767b7c79b7",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

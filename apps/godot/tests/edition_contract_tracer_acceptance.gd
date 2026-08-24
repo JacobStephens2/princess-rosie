@@ -48,7 +48,8 @@ func _init() -> void:
 	)
 
 	shell.handle_player_action(KEYBOARD_SPACE, true)
-	_advance_controlled(shell, 9.0)
+	# Gentle help after the Cloud Rest lengthens the remaining Lacewood travel.
+	_advance_controlled(shell, 10.0)
 	var birthday_star_guaranteed: bool = (
 		shell.presentation_evidence().get("state") == "birthday_star_moment"
 		and shell.presentation_evidence().get("birthday_stars") == ["birthday-star.lacewood"]
@@ -68,6 +69,7 @@ func _init() -> void:
 
 	var evidence: Dictionary = shell.presentation_evidence()
 	var single_route: Dictionary = shell.single_route_evidence()
+	var gentle_help: Dictionary = shell.gentle_help_evidence()
 	var actual_facts := {
 		"birthdayStars": evidence.get("birthday_stars", []),
 		"rainbowPaths": evidence.get("rainbow_paths", []),
@@ -85,6 +87,9 @@ func _init() -> void:
 		"birthdayStarGuaranteed": birthday_star_guaranteed,
 		"cloudRestPreservesProgress": cloud_rest_preserved_progress,
 		"cloudRestAutomaticResume": single_route.get("cloud_rest_automatic_resume", false),
+		"cloudRestGentleHelpLevel": gentle_help.get("help_level", 0),
+		"cloudRestMaximumGentleHelpLevel": gentle_help.get("maximum_help_level", 0),
+		"gentleHelpVisibleToChild": not str(gentle_help.get("visible_help_label", "")).is_empty(),
 		"journeyProgressPersisted": single_route.get("journey_progress_persisted", true),
 		"networkRequests": 0,
 	}

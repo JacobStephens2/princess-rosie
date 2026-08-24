@@ -152,6 +152,30 @@ Output: `public/assets/audio/birthday-flight.mp3`
 
 Credit: ElevenLabs Sound Effects API. This project documentation records the provider; No in-game provider credit is added.
 
+### cue.birthday-star-moment.abbey
+
+> A restrained resolving golden bell phrase: three soft related bell notes settling warmly together over calm courtyard air. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first with a perfect gentleness score: soft warm bell notes that settle reverently with no harsh transient, restrained rather than a fanfare.
+
+Source master: `source-master.birthday-star-moment.abbey`
+
+### cue.birthday-star-moment.cloister
+
+> A cloister pounce resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate C provides the best balance of a cute, gentle physical 'pounce' transient followed by a warm, sparkling fairytale resolution chime that translates crisply and pleasantly on MacBook speakers without any harshness or fatigue.
+
+Source master: `source-master.birthday-star-moment.cloister`
+
 ### cue.birthday-star-moment.lacewood
 
 > A lacewood resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -163,6 +187,42 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-t
 Selection: Best Gram Birthday Star Moment resolution: clear sustained body, low crossing activity, controlled crest, and safe peak headroom for a warm place-specific close after the Rainbow Path travel stage.
 
 Source master: `source-master.birthday-star-moment.lacewood`
+
+### cue.birthday-star-moment.pellegrino-peak
+
+> A flowered open-air resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie offers the most magical and balanced storybook resolution accent while remaining gentle, clear, and distinct from the reference. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.birthday-star-moment.pellegrino-peak`
+
+### cue.birthday-star-moment.rose-garden
+
+> A rose garden resolution accent settling warmly open. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blind Gemini 3.7 Flash evaluation ranked it first of three: a warm resonant acoustic bell that blooms and decays into a settled generous closure, with no startle or fatigue risk, where the rivals rose rather than resolved.
+
+Source master: `source-master.birthday-star-moment.rose-garden`
+
+### cue.birthday-star-moment.sapphire-sea
+
+> A sparkling shore-wash resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for a warm acoustic harp and airy shore-wash shimmer that resolves the moment without fanfare or reward-chime character, distinct from the woodland resolution accent, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 2.0 s, -6 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.birthday-star-moment.sapphire-sea`
 
 ### cue.birthday-star.gather
 
@@ -286,15 +346,63 @@ Source master: `source-master.movement.rise`
 
 ### cue.near-miss
 
-> A restrained cooldown accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+> Short abstract near-miss cooldown: a soft sideways ribbon-air flutter and muted wood chime settling down. Give the chime a clean rounded upper-mid attack and healthy level, audible beneath music at quiet MacBook playback, never sharp or loud. Entirely acoustic and nonverbal. No breath, gasp, human or animal vocalization, voice, speech, singing, melody, whisper-quiet output, harsh transient, alarm, aggressive impact, simulation, or arcade sound.
 
 Parameters: 0.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
 
 Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
 
-Selection: Best restrained near-miss accent: lowest crossing activity with compact low-crest energy, producing a clear but non-alarming detail that remains subtle at the optional-detail gain.
+Selection: Gemini native-audio review passed this candidate in isolation and at the exact -16.7 dB optional-detail gain beneath music and Lacewood ambience: entirely nonverbal, gentle and non-punitive, with an audible airy flutter and muted descending wood-chime contour; local Whisper screening found no credible speech.
 
 Source master: `source-master.near-miss`
+
+### cue.near-miss.abbey
+
+> A restrained accent as a swinging bell rope passes close: one faint airy brush with a small distant bell glint. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first: the most restrained airy brush with a faint bell glint, unobtrusive and tension-free at the optional-detail gain.
+
+Source master: `source-master.near-miss.abbey`
+
+### cue.near-miss.pellegrino-peak
+
+> A restrained cooldown accent of petals brushing safely past. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Alpha > Candidate Charlie > Candidate Bravo and selected Candidate Alpha: Candidate Alpha delivers the ideal warm, delicate fairytale shimmer and soft petal texture while remaining clearly defined and restrained. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.near-miss.pellegrino-peak`
+
+### cue.near-miss.rose-garden
+
+> A restrained garden cooldown accent of one brushed petal. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blind Gemini 3.7 Flash evaluation ranked it first of three: a soft airy brush of air over a petal, gentle with no startle or fatigue risk, more restrained than the clicky snap and clearly distinct from the tiny musical chime it was compared against.
+
+Source master: `source-master.near-miss.rose-garden`
+
+### cue.near-miss.sapphire-sea
+
+> A restrained sea-spray cooldown accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for a subtle, organic flick of sea spray that stays unobtrusive and never reads as a warning or penalty, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 0.5 s, -12.26 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.near-miss.sapphire-sea`
 
 ### cue.opening.celebration-reveal
 
@@ -344,6 +452,30 @@ Selection: Best quiet Path Choice invitation: clearly audible body, moderate cro
 
 Source master: `source-master.path-choice.available`
 
+### cue.path-choice.cloister.arches
+
+> A sunlit arch choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate B best captures the 'sunlit' warm fairytale cue intent with a rich, rounded celesta/bell sparkle that balances warmth and clarity on MacBook speakers without being overly piercing over repeated plays.
+
+Source master: `source-master.path-choice.cloister.arches`
+
+### cue.path-choice.cloister.clouds
+
+> A soft cloud choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate A provides the warmest and most cloud-like tactile quality with its soft, gentle harp and celesta arpeggio. It presents zero startle risk, clean laptop playback, and establishes a balanced, non-hierarchical path choice alternative to the reference cue.
+
+Source master: `source-master.path-choice.cloister.clouds`
+
 ### cue.path-choice.lacewood.canopy
 
 > A airy ribbon choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -368,6 +500,54 @@ Selection: Best warm rose-lit choice response: lowest crossing activity, stronge
 
 Source master: `source-master.path-choice.lacewood.floor`
 
+### cue.path-choice.sapphire-sea.open-water
+
+> A calm open sparkling water choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for calm liquid-droplet character that acknowledges the open-water route without any success or correctness connotation, staying distinct from the shore acknowledgement, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 1.4 s, -12.33 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.path-choice.sapphire-sea.open-water`
+
+### cue.path-choice.sapphire-sea.shore
+
+> A calm shell-lined shore choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: The blinded Gemini 3.7 Flash favourite failed the waveform gate at a -47.96 dBFS peak, roughly 30 dB under its sibling cues and inaudible under the soundtrack; this second-ranked candidate is a calm, non-judgmental bell acknowledgement with no reward or correctness connotation and no unwanted voice or melody, and it clears the waveform gate at 48 kHz mono, 1.4 s, -16.31 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.path-choice.sapphire-sea.shore`
+
+### cue.place.abbey
+
+> Calm sunlit abbey courtyard air beneath the music: still warm stone, soft garden leaves, and sparse distant bells far away. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 12 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for the Abbey courtyard: delicate airy air with genuinely sparse, distant bells, best gentleness and lowest fatigue risk, a validated seamless loop, and quiet -22.8 dBFS peaks that sit under the soundtrack.
+
+Source master: `source-master.place.abbey`
+
+### cue.place.cloister
+
+> An open-air hush and soft high breeze under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 12 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate B provides the warmest and most enchanting fairytale atmosphere while maintaining a calm, seamless texture that easily layers under foreground music. Candidate A is also an excellent, non-intrusive airy hush, while Candidate C has a slightly peaky resonant swell midway through.
+
+Source master: `source-master.place.cloister`
+
 ### cue.place.lacewood
 
 > A shaded leaves and silver ribbons under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -379,6 +559,66 @@ Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, l
 Selection: The validated replacement is the only candidate with a passing seamless loop; it also provides strong low-crest ambience body, a safe -6 dBFS peak, and sufficient soft natural detail beneath the soundtrack.
 
 Source master: `source-master.place.lacewood`
+
+### cue.place.pellegrino-peak
+
+> A wide cool mountain breeze high above the coast with restrained flower detail under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 12 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie delivers a warm, gentle, and airy mountain breeze texture with subtle fairytale shimmer that will loop cleanly under music. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.place.pellegrino-peak`
+
+### cue.place.rose-garden
+
+> Calm outdoor field recording of a sunlit rose garden: warm steady breeze moving through rose leaves and petals, soft continuous foliage rustle, and one or two very distant soft birds far in the background. Natural ambience only, even and unobtrusive, seamless loop, clear on MacBook speakers. No voice, singing, choir, vocal pad, synth pad, drone, music, melody, harsh transient, alarm, impact, or arcade sound.
+
+Parameters: 12 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Second batch after a re-authored prompt; blind Gemini 3.7 Flash evaluation ranked it first of three as a warm filtered breeze and subtle leaf rustle with no unwanted voice, no audible loop seam, no startle risk, and no fatigue risk, where a rival's distinctive bird calls would repeat noticeably over twelve seconds and the other read as static wind noise. Every candidate of the first batch was rejected for sung and choral vocal content.
+
+Source master: `source-master.place.rose-garden`
+
+### cue.place.sapphire-sea
+
+> A gentle rhythmic coast with soft rolling waves and restrained sparkle under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 12 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for semantic fit, clarity, and low fatigue as a rhythmic coast bed under music, with no unwanted voice or melody; it also clears the waveform gate at 48 kHz stereo, 12.0 s, -6 dBFS peak, no clipping, and a passing loop seam.
+
+Source master: `source-master.place.sapphire-sea`
+
+### cue.playful-bump.abbey
+
+> A soft nonthreatening nudge against a swinging bell rope: one muffled warm knock with a tiny friendly bell shiver and no impact. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.8 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first: a warm muffled bell-rope knock with a friendly bell shiver, gentle and non-threatening with no damage or peril convention.
+
+Source master: `source-master.playful-bump.abbey`
+
+### cue.playful-bump.cloister
+
+> A soft nonthreatening cloud bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.8 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate B delivers the warmest, most pillowy 'cloud bump' feel with perfectly soft transients and balanced resonance for MacBook speakers. It avoids all startle or fatigue risks while maintaining clear distinctness from the reference cue.
+
+Source master: `source-master.playful-bump.cloister`
 
 ### cue.playful-bump.lacewood
 
@@ -392,6 +632,42 @@ Selection: Best soft Lacewood Playful Bump: audible body with the lowest crest f
 
 Source master: `source-master.playful-bump.lacewood`
 
+### cue.playful-bump.pellegrino-peak
+
+> A soft nonthreatening mountain-flower bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.8 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie offers the most organic and gentle storybook texture with excellent clarity on small speakers. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.playful-bump.pellegrino-peak`
+
+### cue.playful-bump.rose-garden
+
+> A soft nonthreatening rose garland bump with drifting petals. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.8 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blind Gemini 3.7 Flash evaluation ranked it first of three: an airy delicate bump with drifting petals and a cushioned wobble, gentle with no startle or fatigue risk, where one rival was an abrasive scratchy rip and the other a dry papery rustle.
+
+Source master: `source-master.playful-bump.rose-garden`
+
+### cue.playful-bump.sapphire-sea
+
+> A soft nonthreatening wave bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 0.8 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for a gentle wave surge that reads as a friendly nudge rather than a collision, with low startle risk and no unwanted voice or melody; one rejected candidate carried an audible human whoop. It clears the waveform gate at 48 kHz mono, 0.8 s, -8.44 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.playful-bump.sapphire-sea`
+
 ### cue.rainbow-path.open
 
 > A magical travel stage. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
@@ -404,6 +680,18 @@ Selection: Best Rainbow Path and Family Guest travel stage: strong stereo body, 
 
 Source master: `source-master.rainbow-path.open`
 
+### cue.rainbow-path.pellegrino-peak
+
+> An open-air magical travel stage above a flowered mountain peak. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 2.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, preserve-stereo, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie offers a beautiful, warm harp and shimmer texture that feels perfectly suited to an open-air mountain stage while maintaining complete gentleness. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.rainbow-path.pellegrino-peak`
+
 ### cue.story.confirmation
 
 > A very short gentle nonverbal storybook confirmation: one soft celesta-like bell with a warm airy shimmer and clean natural decay, friendly and delicate on small speakers. No voice, speech, singing, recognizable melody, alarm, impact, harsh transient, bass hit, or arcade sound.
@@ -415,6 +703,78 @@ Production treatment: inspect-pcm-s16le, downmix-stereo-to-mono, fade-in-10ms, f
 Selection: Best-balanced gentle bell-like cue: clearly audible on small speakers, controlled decay, no large harsh transient, and comfortably below the -6 dBFS ceiling.
 
 Source master: `source-master.story.confirmation`
+
+### cue.vignette.abbey.bell-high
+
+> A single warm golden bell note in a bright upper register, struck softly and decaying cleanly, clearly related to the lower notes. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.6 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first: a luminous upper-register bell with a soft transient and clean decay that completes the rising phrase without shrillness or ear fatigue.
+
+Source master: `source-master.vignette.abbey.bell-high`
+
+### cue.vignette.abbey.bell-low
+
+> A single warm golden bell note in a low, round register, struck softly and decaying cleanly into calm courtyard air. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.6 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first: the warmest, most rounded low fundamental with a soft unmetallic attack and gentle storybook decay, and it opens the three-note phrase without harshness.
+
+Source master: `source-master.vignette.abbey.bell-low`
+
+### cue.vignette.abbey.bell-middle
+
+> A single warm golden bell note in a middle register, struck softly and decaying cleanly, clearly related to the low note. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.6 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first: a warm, round middle-register bell with an exceptionally gentle mallet transient that stays clearly related to, and distinguishable from, the low note.
+
+Source master: `source-master.vignette.abbey.bell-middle`
+
+### cue.vignette.abbey.bell-settle
+
+> A soft settling golden bell resonance letting a just-played note rest, quiet and unhurried, with no new strike. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first and rejected the alternatives for adding new strikes: this is an attackless warm shimmering tail that settles under a released note instead of competing with it.
+
+Source master: `source-master.vignette.abbey.bell-settle`
+
+### cue.vignette.cloister.arches
+
+> An airy sunlit arch response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate A best encapsulates the 'airy sunlit arch' concept with an open, luminous upward chime sparkle. It maintains zero startle risk, has pristine timbral definition on MacBook speakers, and complements the reference canopy interaction seamlessly without feeling repetitive.
+
+Source master: `source-master.vignette.cloister.arches`
+
+### cue.vignette.cloister.clouds
+
+> A soft cloud drift response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Candidate A perfectly captures the 'cloud drift' sensation with its warm, descending celesta/harp texture and gentle airy envelope. It provides a distinct contrast to the sunlit-arch reference cue while avoiding any harsh frequencies on MacBook speakers.
+
+Source master: `source-master.vignette.cloister.clouds`
 
 ### cue.vignette.lacewood.rose-lights
 
@@ -439,5 +799,53 @@ Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-dura
 Selection: Clearest soft ribbon response for MacBook speakers: strongest usable body, lowest crest factor, moderate crossing activity, and generous peak headroom without a harsh transient.
 
 Source master: `source-master.vignette.lacewood.silver-ribbons`
+
+### cue.vignette.pellegrino-peak.updraft
+
+> A buoyant rising flower-petal updraft that lifts gently and never sounds forceful. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Bravo > Candidate Charlie > Candidate Alpha and selected Candidate Bravo: Candidate Bravo best fulfills the gentle storybook soundscape with its warm acoustic harp flourish and buoyant, unforced rising gesture. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required.
+
+Source master: `source-master.vignette.pellegrino-peak.updraft`
+
+### cue.vignette.rose-garden.awakening-roses
+
+> A soft petal opening with one gentle plucked magical note as roses wake together. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blind Gemini 3.7 Flash evaluation ranked it first of three: it alone reads as a blooming blossom, a soft airy unfurling into one warm bell note, with no startle risk, no fatigue risk, no unwanted voice or music, and no artifacts, while the other two read as generic chime shimmer.
+
+Source master: `source-master.vignette.rose-garden.awakening-roses`
+
+### cue.vignette.sapphire-sea.open-water
+
+> A bright open sparkling water response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for bright bubbling water texture blended with restrained fairytale shimmer, clearly distinct from the shore response and never reward-like, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 1.4 s, -15.5 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.vignette.sapphire-sea.open-water`
+
+### cue.vignette.sapphire-sea.shore
+
+> A soft shell-lined shore response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 1.4 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for shell-like tactile texture and warm shimmer that reads as a shore interaction rather than a reward chime, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 1.4 s, -15.5 dBFS peak, no clipping, and a clean trimmed tail.
+
+Source master: `source-master.vignette.sapphire-sea.shore`
 
 <!-- soundscape-build:end -->

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.path-choice.sapphire-sea.open-water",
+  "sourceMasterId": "source-master.path-choice.sapphire-sea.open-water",
+  "runtimeMapping": "runtime-cue.path-choice.sapphire-sea.open-water",
+  "jobHash": "sha256:23b6fa5516eb5c799df2f7b0b09e5f4654abf2681dcf49b62678e956cbdbceb9",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A calm open sparkling water choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.4,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T13:02:04.764Z",
+  "traceId": "4adec8c6e47c00b5c1dbe249b3aad59b",
+  "providerReportedUsage": {
+    "characterCost": "14"
+  },
+  "sourceHash": "sha256:1934bd3cc45b1b7d966044f0978d71f0cfdfa9b71db46747aff605abfd37b73a",
+  "selectedOutputHash": "sha256:ec57b02a11abd71490fdee9f295813af8c6e1c0838965d7c4e51bf002231e5cd",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -12.333,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:ec57b02a11abd71490fdee9f295813af8c6e1c0838965d7c4e51bf002231e5cd",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "calm-open-sparkling-water-choice-response-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for calm liquid-droplet character that acknowledges the open-water route without any success or correctness connotation, staying distinct from the shore acknowledgement, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 1.4 s, -12.33 dBFS peak, no clipping, and a clean trimmed tail."
+}

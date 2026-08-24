@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.birthday-star-moment.rose-garden",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.rose-garden",
+  "sourceMaster": "source-master.birthday-star-moment.rose-garden",
+  "sourcePath": "masters/birthday-star-moment-rose-garden.wav",
+  "runtimePath": "runtime/birthday-star-moment-rose-garden.wav",
+  "sourceHash": "sha256:652dfb13205f3c7ec0081112e324ed910841abab74c6889de5e332d9b9ef63ff",
+  "derivativeHash": "sha256:652dfb13205f3c7ec0081112e324ed910841abab74c6889de5e332d9b9ef63ff",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

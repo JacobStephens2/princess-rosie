@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.vignette.sapphire-sea.open-water",
+  "sourceMaster": "source-master.vignette.sapphire-sea.open-water",
+  "runtimeMapping": "runtime-cue.vignette.sapphire-sea.open-water",
+  "status": "approved",
+  "jobHash": "sha256:be405427610a2ad2be9380e142d1515adf6c3257ddff3750dc227f3148be6862",
+  "masterPath": "masters/vignette-sapphire-sea-open-water.wav",
+  "masterHash": "sha256:9e993bbda64524b150cd80114bce9a347aa89b02c11d0027cdd1d2b5fcf85200",
+  "runtimePath": "runtime/vignette-sapphire-sea-open-water.wav",
+  "runtimeHash": "sha256:9e993bbda64524b150cd80114bce9a347aa89b02c11d0027cdd1d2b5fcf85200"
+}

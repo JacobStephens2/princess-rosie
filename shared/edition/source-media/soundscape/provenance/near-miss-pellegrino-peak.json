@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.near-miss.pellegrino-peak",
+  "sourceMasterId": "source-master.near-miss.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.near-miss.pellegrino-peak",
+  "jobHash": "sha256:3b513ad73d8edb0cff2a40580fe758efd5e50dd022e78b28de2159fbe1f6011c",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A restrained cooldown accent of petals brushing safely past. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 0.5,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:43:04.643Z",
+  "traceId": "be28fc016ade0f113836dab1ee2ad784",
+  "providerReportedUsage": {
+    "characterCost": "5"
+  },
+  "sourceHash": "sha256:7f90c346b7e11c326603619772384b1aaff7f78f7f18ad44eb2fb6cb51e21124",
+  "selectedOutputHash": "sha256:1b6ce0c547ae4b38447875e70f9358767d230d6d4642bd4e6a5dc85d625a1010",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6.609,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:1b6ce0c547ae4b38447875e70f9358767d230d6d4642bd4e6a5dc85d625a1010",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "restrained-petal-cooldown-accent-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 20,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Alpha > Candidate Charlie > Candidate Bravo and selected Candidate Alpha: Candidate Alpha delivers the ideal warm, delicate fairytale shimmer and soft petal texture while remaining clearly defined and restrained. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required."
+}

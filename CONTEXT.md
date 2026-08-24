@@ -5,12 +5,12 @@ A joyful, replayable birthday game centered on a fictional storybook hero inspir
 ## Language
 
 **Phaser Edition**:
-The existing browser-playable edition of Princess Rosie and the Seven Birthday Stars, revised with production-quality shared presentation while retaining an engine-native Phaser implementation.
+The browser-playable edition of Princess Rosie and the Seven Birthday Stars that was made for the birthday and remains deployed. It is frozen at its released state and is no longer revised.
 _Avoid_: Original Edition, Phaser prototype, Phaser Web Edition
 
 **Godot Edition**:
-The separately developed edition of Princess Rosie and the Seven Birthday Stars that uses Godot to pursue the same canonical storybook experience.
-_Avoid_: Godot Production Edition, canonical edition
+The native macOS edition of Princess Rosie and the Seven Birthday Stars built in Godot. It is the edition under active development and the one the canonical storybook experience is realized in.
+_Avoid_: Godot Production Edition, Unity Edition
 
 **Princess Rosie**:
 The storybook hero and elder sister through whom the child experiences the adventure. She shares Rosie's name and may use an expressly approved likeness without unrelated identifying personal details.
@@ -93,12 +93,16 @@ The sparkling coastal passage before the Birthday Castle comes into view.
 _Avoid_: Water level, Mediterranean Sea
 
 **Cloud Rest**:
-A brief, gentle pause after several nearby Playful Bumps in which Stella lands safely on a cloud, then resumes automatically nearby with every Birthday Star preserved.
+A brief, gentle pause after several nearby Playful Bumps in which Stella lands safely on a cloud, then resumes automatically nearby with every Birthday Star preserved and one more level of Gentle Help.
 _Avoid_: Game over, death, loss
 
 **Playful Bump**:
-A soft, place-specific encounter that makes Stella wobble without danger; three in short succession lead to a Cloud Rest.
+A soft, place-specific encounter that makes Stella wobble without danger; three in short succession lead to a Cloud Rest, while a lone bump is forgotten rather than saved up.
 _Avoid_: Damage, injury, failure, enemy collision
+
+**Gentle Help**:
+The unnamed easing each Cloud Rest adds, up to two levels, through slower travel, softer acceleration, a wider safe corridor, and a more forgiving shape for Stella. It is never shown, named, or numbered to the child, and never closes off part of a place.
+_Avoid_: Difficulty level, assist mode, easy mode, handicap
 
 **Storybook Moment**:
 A short, lightly animated illustrated scene with a few large sentences intended for the Grown-up Helper to read aloud with the child.
@@ -133,5 +137,5 @@ A deferred, post-MVP concept for privately remembering completed journeys and ex
 _Avoid_: Profile, score, progression, analytics
 
 **Grown-up Corner**:
-A quiet set of secondary controls for sound, window mode, and replaying the story, available from the cover and pause state.
+A quiet set of secondary controls for sound and replaying the story, available from the cover and pause state.
 _Avoid_: Settings screen, child menu, parental controls

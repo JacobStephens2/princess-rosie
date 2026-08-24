@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.birthday-star-moment.abbey",
+  "sourceMasterId": "source-master.birthday-star-moment.abbey",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.abbey",
+  "jobHash": "sha256:477a1fa82e3ea6c1b5c88dd44790d0ae794bccca8be9f14dc86c35c1d7c5d714",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A restrained resolving golden bell phrase: three soft related bell notes settling warmly together over calm courtyard air. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 2,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:54:29.308Z",
+  "traceId": "71ff9c2ca1915e096e7f7a14c774c259",
+  "providerReportedUsage": {
+    "characterCost": "20"
+  },
+  "sourceHash": "sha256:27ac6c1e958cc0881760453d585bb8c717935602ce5791bcb99ab0d644ee56e0",
+  "selectedOutputHash": "sha256:df04e7c84207fb065aee6329f7da978ac942ce8e9cc05ce00cc0ea2bec0cd0d8",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -11.979,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:df04e7c84207fb065aee6329f7da978ac942ce8e9cc05ce00cc0ea2bec0cd0d8",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "restrained-golden-bell-phrase-resolution-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first with a perfect gentleness score: soft warm bell notes that settle reverently with no harsh transient, restrained rather than a fanfare."
+}

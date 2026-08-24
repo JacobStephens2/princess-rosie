@@ -17,7 +17,7 @@ func _init() -> void:
 	)
 	test.expect(prepared.get("contract_version") == "rosie-edition-contract/1", "the contract version is retained")
 	test.expect(
-		prepared.get("revision") == "lacewood-flight-control-1",
+		prepared.get("revision") == "mvp-soundscape-1",
 		"the revision is retained",
 	)
 	test.expect(prepared.get("pack_digest") == ACCEPTANCE_TEST.EXPECTED_PACK_DIGEST, "the exact digest is retained")

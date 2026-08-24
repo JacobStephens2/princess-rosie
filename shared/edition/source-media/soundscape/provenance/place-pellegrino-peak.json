@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.place.pellegrino-peak",
+  "sourceMasterId": "source-master.place.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.place.pellegrino-peak",
+  "jobHash": "sha256:02cf1f7f8658e1fd69c186fc53391d193e7aafa0e354047ff02fe6d3c3746976",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A wide cool mountain breeze high above the coast with restrained flower detail under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 12,
+    "promptInfluence": 0.3,
+    "loop": true,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:44:41.468Z",
+  "traceId": "b138a4f6144ab19fa5e21d893511f9de",
+  "providerReportedUsage": {
+    "characterCost": "120"
+  },
+  "sourceHash": "sha256:c50206756f40a2496ef36aed80dba14ad10006231da6187924f8f6df71c2f37c",
+  "selectedOutputHash": "sha256:0badbf6bba973678cf45a58642d9844f82c7fc7f4a76bcfe22ab24b3d98d4f1f",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 2,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "preserve-stereo",
+    "peak-ceiling--6dbfs",
+    "loop-seam-qa",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": 0.021636962890625
+  },
+  "runtimeDerivativeHash": "sha256:0badbf6bba973678cf45a58642d9844f82c7fc7f4a76bcfe22ab24b3d98d4f1f",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "wide-cool-mountain-breeze-with-restrained-flowers-under-music-for-macbook",
+  "channelPolicy": "warm-stereo-loop",
+  "priority": 40,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie delivers a warm, gentle, and airy mountain breeze texture with subtle fairytale shimmer that will loop cleanly under music. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required."
+}

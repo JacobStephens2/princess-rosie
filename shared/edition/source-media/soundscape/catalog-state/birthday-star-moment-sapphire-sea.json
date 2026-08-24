@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.birthday-star-moment.sapphire-sea",
+  "sourceMaster": "source-master.birthday-star-moment.sapphire-sea",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.sapphire-sea",
+  "status": "approved",
+  "jobHash": "sha256:8d6b0f2ecb58597ff4b3ba7cf143e12ec534939bea37c1bb82d1f3997935440d",
+  "masterPath": "masters/birthday-star-moment-sapphire-sea.wav",
+  "masterHash": "sha256:b016aa7ba4ee871714f42472c550df4a36176ce563ce4eaf392e588e542fd1cd",
+  "runtimePath": "runtime/birthday-star-moment-sapphire-sea.wav",
+  "runtimeHash": "sha256:b016aa7ba4ee871714f42472c550df4a36176ce563ce4eaf392e588e542fd1cd"
+}

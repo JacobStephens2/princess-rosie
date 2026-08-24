@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.place.rose-garden",
+  "sourceMasterId": "source-master.place.rose-garden",
+  "runtimeMapping": "runtime-cue.place.rose-garden",
+  "jobHash": "sha256:bff1bc0667077b283f559b69c9377c8adb878af89be8cfb9971845f2f4bbe22a",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "Calm outdoor field recording of a sunlit rose garden: warm steady breeze moving through rose leaves and petals, soft continuous foliage rustle, and one or two very distant soft birds far in the background. Natural ambience only, even and unobtrusive, seamless loop, clear on MacBook speakers. No voice, singing, choir, vocal pad, synth pad, drone, music, melody, harsh transient, alarm, impact, or arcade sound.",
+    "durationSeconds": 12,
+    "promptInfluence": 0.3,
+    "loop": true,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:48:41.853Z",
+  "traceId": "bcdda8335c5d78e48b44e48118fa5628",
+  "providerReportedUsage": {
+    "characterCost": "120"
+  },
+  "sourceHash": "sha256:a7f1326410a70a73675a1f7e64c12239d4c8599609dbd5a3a4f0bee8de1521e4",
+  "selectedOutputHash": "sha256:689706fc28a80ca54d8c10ba98abc545abc99ea2f7ad33530f29122e4b2863b3",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 2,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "preserve-stereo",
+    "peak-ceiling--6dbfs",
+    "loop-seam-qa",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "peakDbfs": -21.91,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": 0.0052490234375
+  },
+  "runtimeDerivativeHash": "sha256:689706fc28a80ca54d8c10ba98abc545abc99ea2f7ad33530f29122e4b2863b3",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "warm-garden-air-leaves-and-roses-under-music-for-macbook",
+  "channelPolicy": "warm-stereo-loop",
+  "priority": 40,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Second batch after a re-authored prompt; blind Gemini 3.7 Flash evaluation ranked it first of three as a warm filtered breeze and subtle leaf rustle with no unwanted voice, no audible loop seam, no startle risk, and no fatigue risk, where a rival's distinctive bird calls would repeat noticeably over twelve seconds and the other read as static wind noise. Every candidate of the first batch was rejected for sung and choral vocal content."
+}

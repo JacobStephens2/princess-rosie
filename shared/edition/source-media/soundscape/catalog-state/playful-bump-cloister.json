@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.playful-bump.cloister",
+  "sourceMaster": "source-master.playful-bump.cloister",
+  "runtimeMapping": "runtime-cue.playful-bump.cloister",
+  "status": "approved",
+  "jobHash": "sha256:83c30f081479743ebd98e29308590c161ea65226f240ab521643c22a3be4eb73",
+  "masterPath": "masters/playful-bump-cloister.wav",
+  "masterHash": "sha256:00bf43d395e16a82a1ec5d50837175066f76fa2eef7d39f184078d0dba9b96bf",
+  "runtimePath": "runtime/playful-bump-cloister.wav",
+  "runtimeHash": "sha256:00bf43d395e16a82a1ec5d50837175066f76fa2eef7d39f184078d0dba9b96bf"
+}

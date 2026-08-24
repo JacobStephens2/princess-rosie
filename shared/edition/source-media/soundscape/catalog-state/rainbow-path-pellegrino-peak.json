@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.rainbow-path.pellegrino-peak",
+  "sourceMaster": "source-master.rainbow-path.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.rainbow-path.pellegrino-peak",
+  "status": "approved",
+  "jobHash": "sha256:afd96d40961078bb6d54a6c7c2b003712958f2dc416b1bad1d80621011a7aa8e",
+  "masterPath": "masters/rainbow-path-pellegrino-peak.wav",
+  "masterHash": "sha256:82fbd14d9a2e310b80a3867247482e1bb5ad5878fda351e2a0e150556b432f58",
+  "runtimePath": "runtime/rainbow-path-pellegrino-peak.wav",
+  "runtimeHash": "sha256:82fbd14d9a2e310b80a3867247482e1bb5ad5878fda351e2a0e150556b432f58"
+}
