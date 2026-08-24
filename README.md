@@ -19,16 +19,15 @@ Open the deployed game once while online. In Chrome or Edge, use the install ico
 
 ## Develop
 
-The repository contains the deployed Phaser Original Edition and the native Godot and Unity Production Editions:
+The repository contains the deployed Phaser Edition, frozen at its released state, and the native macOS Godot Edition under active development:
 
 ```text
 apps/phaser-original/
 apps/godot/
-apps/unity/
 shared/
 ```
 
-The root npm commands operate on the Original Edition and preserve the deployable static site in `dist/`. Requires Node.js and npm.
+The root npm commands operate on the Phaser Edition and preserve the deployable static site in `dist/`. Requires Node.js and npm.
 
 ```sh
 npm install
