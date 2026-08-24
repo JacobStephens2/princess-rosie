@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.place.sapphire-sea",
+  "runtimeMapping": "runtime-cue.place.sapphire-sea",
+  "sourceMaster": "source-master.place.sapphire-sea",
+  "sourcePath": "masters/place-sapphire-sea.wav",
+  "runtimePath": "runtime/place-sapphire-sea.wav",
+  "sourceHash": "sha256:c9b9a3326a9ec873d6b56a65b94d4f02dabd4782abc3e9bec6966ca3486a73d1",
+  "derivativeHash": "sha256:c9b9a3326a9ec873d6b56a65b94d4f02dabd4782abc3e9bec6966ca3486a73d1",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "looping": true
+  }
+}

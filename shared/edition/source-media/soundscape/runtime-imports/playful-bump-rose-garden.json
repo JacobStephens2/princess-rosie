@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.playful-bump.rose-garden",
+  "runtimeMapping": "runtime-cue.playful-bump.rose-garden",
+  "sourceMaster": "source-master.playful-bump.rose-garden",
+  "sourcePath": "masters/playful-bump-rose-garden.wav",
+  "runtimePath": "runtime/playful-bump-rose-garden.wav",
+  "sourceHash": "sha256:a1f2cf679ed8709f953d7eadf606b76adc904cebf35992fd2737c3ea0f3373c3",
+  "derivativeHash": "sha256:a1f2cf679ed8709f953d7eadf606b76adc904cebf35992fd2737c3ea0f3373c3",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

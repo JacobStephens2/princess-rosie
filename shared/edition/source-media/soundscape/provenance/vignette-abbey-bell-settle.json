@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.vignette.abbey.bell-settle",
+  "sourceMasterId": "source-master.vignette.abbey.bell-settle",
+  "runtimeMapping": "runtime-cue.vignette.abbey.bell-settle",
+  "jobHash": "sha256:620bc96c9108c79281546cc3e975d5ceae059cf37132a7613d7439d8996d2449",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A soft settling golden bell resonance letting a just-played note rest, quiet and unhurried, with no new strike. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.2,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:54:24.335Z",
+  "traceId": "20296914764464628c92f4698822e926",
+  "providerReportedUsage": {
+    "characterCost": "12"
+  },
+  "sourceHash": "sha256:57f8a4137be791d444bccc0f7263ee59ab9aeabf72623fb3b8496807da922271",
+  "selectedOutputHash": "sha256:b9e5fcd78012dfaec0e92c02fa96296b6bc674d3f766ebca4c5d7a767b7c79b7",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -11.262,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:b9e5fcd78012dfaec0e92c02fa96296b6bc674d3f766ebca4c5d7a767b7c79b7",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "soft-settling-bell-resonance-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 20,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first and rejected the alternatives for adding new strikes: this is an attackless warm shimmering tail that settles under a released note instead of competing with it."
+}

@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.place.cloister",
+  "sourceMasterId": "source-master.place.cloister",
+  "runtimeMapping": "runtime-cue.place.cloister",
+  "jobHash": "sha256:6b5d96382a3f04d71dc1c074cb8b704259217074be81a10478d6dda465011ac0",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "An open-air hush and soft high breeze under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 12,
+    "promptInfluence": 0.3,
+    "loop": true,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:48:19.552Z",
+  "traceId": "3ac7893fb8bde462b738f93e39dc47d8",
+  "providerReportedUsage": {
+    "characterCost": "120"
+  },
+  "sourceHash": "sha256:4c22fd1fb61c4b394c3fdef8a973cc255c31b22afb3c3d0b82f50ae2f5ba42dd",
+  "selectedOutputHash": "sha256:a68b6eeee0ddf6ace46e33dfb65781920758818648b286bcc383e0261f7a0cae",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 2,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "preserve-stereo",
+    "peak-ceiling--6dbfs",
+    "loop-seam-qa",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": 0.00128173828125
+  },
+  "runtimeDerivativeHash": "sha256:a68b6eeee0ddf6ace46e33dfb65781920758818648b286bcc383e0261f7a0cae",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "open-air-hush-and-soft-high-breeze-under-music-for-macbook",
+  "channelPolicy": "warm-stereo-loop",
+  "priority": 40,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Candidate B provides the warmest and most enchanting fairytale atmosphere while maintaining a calm, seamless texture that easily layers under foreground music. Candidate A is also an excellent, non-intrusive airy hush, while Candidate C has a slightly peaky resonant swell midway through."
+}

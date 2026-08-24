@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.vignette.pellegrino-peak.updraft",
+  "sourceMasterId": "source-master.vignette.pellegrino-peak.updraft",
+  "runtimeMapping": "runtime-cue.vignette.pellegrino-peak.updraft",
+  "jobHash": "sha256:46e730bf418a2cc9a15001d9c35b9d88b3c527c35e508eb7547c2697519f01b1",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A buoyant rising flower-petal updraft that lifts gently and never sounds forceful. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.4,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:43:45.929Z",
+  "traceId": "1b37d4eb4929b0639077230bde718b88",
+  "providerReportedUsage": {
+    "characterCost": "14"
+  },
+  "sourceHash": "sha256:22a316322e948512f397138bc52d083652455640aefa34cd7353616c0a6aaf7e",
+  "selectedOutputHash": "sha256:33e91db592e021935776f27357b079f9c65a124710ec1773c5a11f69bdfbbedf",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:33e91db592e021935776f27357b079f9c65a124710ec1773c5a11f69bdfbbedf",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "buoyant-rising-flower-petal-updraft-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Bravo > Candidate Charlie > Candidate Alpha and selected Candidate Bravo: Candidate Bravo best fulfills the gentle storybook soundscape with its warm acoustic harp flourish and buoyant, unforced rising gesture. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required."
+}

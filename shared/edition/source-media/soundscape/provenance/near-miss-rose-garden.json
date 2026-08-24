@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.near-miss.rose-garden",
+  "sourceMasterId": "source-master.near-miss.rose-garden",
+  "runtimeMapping": "runtime-cue.near-miss.rose-garden",
+  "jobHash": "sha256:9c115ed1a21d29e218223b991a35a68fccd3a513d6aefea2cb669b064a3a8be7",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A restrained garden cooldown accent of one brushed petal. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 0.5,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:47:25.592Z",
+  "traceId": "8f624aa0a6936dc272bb9a379c0f80c2",
+  "providerReportedUsage": {
+    "characterCost": "5"
+  },
+  "sourceHash": "sha256:4654fcf547b9366b5c6c0e59ad2a37c44e3328df02d3a11dcf90cc785d9b3c8b",
+  "selectedOutputHash": "sha256:b1fb11ff490e18ded9777c67fb08d40e93769bd8760480681a1531012dc951f9",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6.383,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:b1fb11ff490e18ded9777c67fb08d40e93769bd8760480681a1531012dc951f9",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "restrained-garden-cooldown-accent-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 20,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Blind Gemini 3.7 Flash evaluation ranked it first of three: a soft airy brush of air over a petal, gentle with no startle or fatigue risk, more restrained than the clicky snap and clearly distinct from the tiny musical chime it was compared against."
+}

@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.place.abbey",
+  "runtimeMapping": "runtime-cue.place.abbey",
+  "sourceMaster": "source-master.place.abbey",
+  "sourcePath": "masters/place-abbey.wav",
+  "runtimePath": "runtime/place-abbey.wav",
+  "sourceHash": "sha256:b1ba5f7723fdf0b698e18ae81a43e7e42fc35c0819a38758f48f92bd5a40303a",
+  "derivativeHash": "sha256:b1ba5f7723fdf0b698e18ae81a43e7e42fc35c0819a38758f48f92bd5a40303a",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "looping": true
+  }
+}

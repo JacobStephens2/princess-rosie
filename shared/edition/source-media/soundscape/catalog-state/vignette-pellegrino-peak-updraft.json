@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.vignette.pellegrino-peak.updraft",
+  "sourceMaster": "source-master.vignette.pellegrino-peak.updraft",
+  "runtimeMapping": "runtime-cue.vignette.pellegrino-peak.updraft",
+  "status": "approved",
+  "jobHash": "sha256:46e730bf418a2cc9a15001d9c35b9d88b3c527c35e508eb7547c2697519f01b1",
+  "masterPath": "masters/vignette-pellegrino-peak-updraft.wav",
+  "masterHash": "sha256:33e91db592e021935776f27357b079f9c65a124710ec1773c5a11f69bdfbbedf",
+  "runtimePath": "runtime/vignette-pellegrino-peak-updraft.wav",
+  "runtimeHash": "sha256:33e91db592e021935776f27357b079f9c65a124710ec1773c5a11f69bdfbbedf"
+}

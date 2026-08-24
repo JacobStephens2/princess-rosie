@@ -41,6 +41,31 @@
       "path": "runtime/movement-glide.wav"
     },
     {
+      "id": "runtime-cue.place.rose-garden",
+      "sourceMaster": "source-master.place.rose-garden",
+      "path": "runtime/place-rose-garden.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.rose-garden.awakening-roses",
+      "sourceMaster": "source-master.vignette.rose-garden.awakening-roses",
+      "path": "runtime/vignette-rose-garden-awakening-roses.wav"
+    },
+    {
+      "id": "runtime-cue.playful-bump.rose-garden",
+      "sourceMaster": "source-master.playful-bump.rose-garden",
+      "path": "runtime/playful-bump-rose-garden.wav"
+    },
+    {
+      "id": "runtime-cue.near-miss.rose-garden",
+      "sourceMaster": "source-master.near-miss.rose-garden",
+      "path": "runtime/near-miss-rose-garden.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.rose-garden",
+      "sourceMaster": "source-master.birthday-star-moment.rose-garden",
+      "path": "runtime/birthday-star-moment-rose-garden.wav"
+    },
+    {
       "id": "runtime-cue.place.lacewood",
       "sourceMaster": "source-master.place.lacewood",
       "path": "runtime/place-lacewood.wav"
@@ -66,6 +91,131 @@
       "path": "runtime/near-miss.wav"
     },
     {
+      "id": "runtime-cue.birthday-star-moment.lacewood",
+      "sourceMaster": "source-master.birthday-star-moment.lacewood",
+      "path": "runtime/birthday-star-moment-lacewood.wav"
+    },
+    {
+      "id": "runtime-cue.place.abbey",
+      "sourceMaster": "source-master.place.abbey",
+      "path": "runtime/place-abbey.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.abbey.bell-low",
+      "sourceMaster": "source-master.vignette.abbey.bell-low",
+      "path": "runtime/vignette-abbey-bell-low.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.abbey.bell-middle",
+      "sourceMaster": "source-master.vignette.abbey.bell-middle",
+      "path": "runtime/vignette-abbey-bell-middle.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.abbey.bell-high",
+      "sourceMaster": "source-master.vignette.abbey.bell-high",
+      "path": "runtime/vignette-abbey-bell-high.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.abbey.bell-settle",
+      "sourceMaster": "source-master.vignette.abbey.bell-settle",
+      "path": "runtime/vignette-abbey-bell-settle.wav"
+    },
+    {
+      "id": "runtime-cue.playful-bump.abbey",
+      "sourceMaster": "source-master.playful-bump.abbey",
+      "path": "runtime/playful-bump-abbey.wav"
+    },
+    {
+      "id": "runtime-cue.near-miss.abbey",
+      "sourceMaster": "source-master.near-miss.abbey",
+      "path": "runtime/near-miss-abbey.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.abbey",
+      "sourceMaster": "source-master.birthday-star-moment.abbey",
+      "path": "runtime/birthday-star-moment-abbey.wav"
+    },
+    {
+      "id": "runtime-cue.place.cloister",
+      "sourceMaster": "source-master.place.cloister",
+      "path": "runtime/place-cloister.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.cloister.arches",
+      "sourceMaster": "source-master.vignette.cloister.arches",
+      "path": "runtime/vignette-cloister-arches.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.cloister.clouds",
+      "sourceMaster": "source-master.vignette.cloister.clouds",
+      "path": "runtime/vignette-cloister-clouds.wav"
+    },
+    {
+      "id": "runtime-cue.playful-bump.cloister",
+      "sourceMaster": "source-master.playful-bump.cloister",
+      "path": "runtime/playful-bump-cloister.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.cloister",
+      "sourceMaster": "source-master.birthday-star-moment.cloister",
+      "path": "runtime/birthday-star-moment-cloister.wav"
+    },
+    {
+      "id": "runtime-cue.place.pellegrino-peak",
+      "sourceMaster": "source-master.place.pellegrino-peak",
+      "path": "runtime/place-pellegrino-peak.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.pellegrino-peak.updraft",
+      "sourceMaster": "source-master.vignette.pellegrino-peak.updraft",
+      "path": "runtime/vignette-pellegrino-peak-updraft.wav"
+    },
+    {
+      "id": "runtime-cue.playful-bump.pellegrino-peak",
+      "sourceMaster": "source-master.playful-bump.pellegrino-peak",
+      "path": "runtime/playful-bump-pellegrino-peak.wav"
+    },
+    {
+      "id": "runtime-cue.near-miss.pellegrino-peak",
+      "sourceMaster": "source-master.near-miss.pellegrino-peak",
+      "path": "runtime/near-miss-pellegrino-peak.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.pellegrino-peak",
+      "sourceMaster": "source-master.birthday-star-moment.pellegrino-peak",
+      "path": "runtime/birthday-star-moment-pellegrino-peak.wav"
+    },
+    {
+      "id": "runtime-cue.place.sapphire-sea",
+      "sourceMaster": "source-master.place.sapphire-sea",
+      "path": "runtime/place-sapphire-sea.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.sapphire-sea.shore",
+      "sourceMaster": "source-master.vignette.sapphire-sea.shore",
+      "path": "runtime/vignette-sapphire-sea-shore.wav"
+    },
+    {
+      "id": "runtime-cue.vignette.sapphire-sea.open-water",
+      "sourceMaster": "source-master.vignette.sapphire-sea.open-water",
+      "path": "runtime/vignette-sapphire-sea-open-water.wav"
+    },
+    {
+      "id": "runtime-cue.playful-bump.sapphire-sea",
+      "sourceMaster": "source-master.playful-bump.sapphire-sea",
+      "path": "runtime/playful-bump-sapphire-sea.wav"
+    },
+    {
+      "id": "runtime-cue.near-miss.sapphire-sea",
+      "sourceMaster": "source-master.near-miss.sapphire-sea",
+      "path": "runtime/near-miss-sapphire-sea.wav"
+    },
+    {
+      "id": "runtime-cue.birthday-star-moment.sapphire-sea",
+      "sourceMaster": "source-master.birthday-star-moment.sapphire-sea",
+      "path": "runtime/birthday-star-moment-sapphire-sea.wav"
+    },
+    {
       "id": "runtime-cue.birthday-star.proximity",
       "sourceMaster": "source-master.birthday-star.proximity",
       "path": "runtime/birthday-star-proximity.wav"
@@ -81,9 +231,9 @@
       "path": "runtime/rainbow-path-open.wav"
     },
     {
-      "id": "runtime-cue.birthday-star-moment.lacewood",
-      "sourceMaster": "source-master.birthday-star-moment.lacewood",
-      "path": "runtime/birthday-star-moment-lacewood.wav"
+      "id": "runtime-cue.rainbow-path.pellegrino-peak",
+      "sourceMaster": "source-master.rainbow-path.pellegrino-peak",
+      "path": "runtime/rainbow-path-pellegrino-peak.wav"
     },
     {
       "id": "runtime-cue.cloud-rest.enter",
@@ -104,26 +254,6 @@
       "id": "runtime-cue.birthday-castle.arrival",
       "sourceMaster": "source-master.birthday-castle.arrival",
       "path": "runtime/birthday-castle-arrival.wav"
-    },
-    {
-      "id": "runtime-cue.celebration.dance-again",
-      "sourceMaster": "source-master.celebration.dance-again",
-      "path": "runtime/celebration-dance-again.wav"
-    },
-    {
-      "id": "runtime-cue.replay",
-      "sourceMaster": "source-master.replay",
-      "path": "runtime/replay.wav"
-    },
-    {
-      "id": "runtime-cue.sound.off",
-      "sourceMaster": "source-master.sound.off",
-      "path": "runtime/sound-off.wav"
-    },
-    {
-      "id": "runtime-cue.sound.on",
-      "sourceMaster": "source-master.sound.on",
-      "path": "runtime/sound-on.wav"
     }
   ]
 }

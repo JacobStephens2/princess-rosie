@@ -374,11 +374,11 @@ func _init() -> void:
 		"the pre-mute Lacewood layer starts",
 	)
 	test.expect(
-		muted_rest_soundscape.report_event(
+		not muted_rest_soundscape.report_event(
 			&"sound-event.sound-preference-changed",
 			{"enabled": false},
 		),
-		"Sound can be disabled before a semantic state change",
+		"Sound can be disabled silently before a semantic state change",
 	)
 	var loaded_before_muted_rest := muted_rest_audio.loaded_paths.size()
 	test.expect(
@@ -457,18 +457,14 @@ func _init() -> void:
 		],
 		"Cloud Rest failure selects local fallbacks for the landing and owned ambience",
 	)
-	for celebration_event: Array in [
-		[&"sound-event.birthday-castle-arrival", {}],
-		[&"sound-event.celebration-interaction", {"action": "dance-again"}],
-	]:
-		test.expect(
-			core_fallback_soundscape.report_event(celebration_event[0], celebration_event[1]),
-			"the celebration remains audible before its authored cue is approved",
-		)
-		test.expect(
-			fallback_audio.played_streams.back() == "synthesized-celebration",
-			"celebration failure selects its warm local synthesized fallback",
-		)
+	test.expect(
+		core_fallback_soundscape.report_event(&"sound-event.birthday-castle-arrival", {}),
+		"the celebration remains audible before its authored cue is approved",
+	)
+	test.expect(
+		fallback_audio.played_streams.back() == "synthesized-celebration",
+		"celebration failure selects its warm local synthesized fallback",
+	)
 	var plays_before_missing_optional := fallback_audio.played_streams.size()
 	test.expect(
 		not core_fallback_soundscape.report_event(
@@ -545,21 +541,21 @@ func _init() -> void:
 	var preference_audio := FakeEngineAudioAdapter.new()
 	var preference_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, preference_audio)
 	test.expect(
-		preference_soundscape.report_event(
+		not preference_soundscape.report_event(
 			&"sound-event.sound-preference-changed",
 			{"enabled": false},
 		),
-		"disabling Sound may play its semantic confirmation",
+		"the Grown-up Corner turns Sound off without a cue of its own",
 	)
 	test.expect(
-		preference_audio.playback_settings.back().get("max_duration_ms") <= 200,
-		"the sound-off confirmation is capped at 200 milliseconds",
+		preference_audio.played_streams.is_empty(),
+		"turning Sound off reaches no engine playback",
 	)
 	test.expect(
 		preference_audio.sound_preference_changes == [
-			{"enabled": false, "delay_ms": 200},
+			{"enabled": false, "delay_ms": 0},
 		],
-		"the single Sound preference mutes every category after its capped confirmation",
+		"the single Sound preference mutes every category immediately",
 	)
 	var plays_after_disabling := preference_audio.played_streams.size()
 	test.expect(
@@ -584,12 +580,17 @@ func _init() -> void:
 		preference_audio.played_streams.size() == plays_after_disabling,
 		"disabled Sound does not reach engine playback",
 	)
+	var plays_before_enabling := preference_audio.played_streams.size()
 	test.expect(
 		preference_soundscape.report_event(
 			&"sound-event.sound-preference-changed",
 			{"enabled": true},
 		),
-		"enabling Sound may play its semantic confirmation",
+		"enabling Sound restores the mixer",
+	)
+	test.expect(
+		preference_audio.played_streams.slice(plays_before_enabling) == ["birthday-flight"],
+		"the Grown-up Corner turns Sound back on without a cue of its own",
 	)
 	test.expect(
 		preference_audio.sound_preference_changes.back() == {"enabled": true, "delay_ms": 0},

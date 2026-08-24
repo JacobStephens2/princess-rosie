@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.birthday-star-moment.pellegrino-peak",
+  "sourceMaster": "source-master.birthday-star-moment.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.pellegrino-peak",
+  "status": "approved",
+  "jobHash": "sha256:d3a9801faeb5026caa5a102b24ce8c940d0f1784c0bff9878c2f97448f711abf",
+  "masterPath": "masters/birthday-star-moment-pellegrino-peak.wav",
+  "masterHash": "sha256:b5ff00c70b10934bbcdd70499f94f8289743bb940d15b66f799f45ac29237e1a",
+  "runtimePath": "runtime/birthday-star-moment-pellegrino-peak.wav",
+  "runtimeHash": "sha256:b5ff00c70b10934bbcdd70499f94f8289743bb940d15b66f799f45ac29237e1a"
+}

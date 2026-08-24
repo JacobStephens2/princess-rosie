@@ -51,7 +51,6 @@ const EVENT_BIRTHDAY_STAR_MOMENT := &"sound-event.birthday-star-moment"
 const EVENT_CLOUD_REST_ENTERED := &"sound-event.cloud-rest-entered"
 const EVENT_CLOUD_REST_EXITED := &"sound-event.cloud-rest-exited"
 const EVENT_BIRTHDAY_CASTLE_ARRIVAL := &"sound-event.birthday-castle-arrival"
-const EVENT_CELEBRATION_INTERACTION := &"sound-event.celebration-interaction"
 const EVENT_REPLAY := &"sound-event.replay"
 const EVENT_SOUND_PREFERENCE_CHANGED := &"sound-event.sound-preference-changed"
 const PHASE_FLIGHT := "flight"
@@ -546,10 +545,6 @@ func handle_player_intent(intent: StringName) -> bool:
 				if _action_held:
 					return false
 				_action_held = true
-				_report_sound_event(
-					EVENT_CELEBRATION_INTERACTION,
-					{"action": "dance-again"},
-				)
 				return true
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false

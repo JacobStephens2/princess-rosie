@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.playful-bump.cloister",
+  "runtimeMapping": "runtime-cue.playful-bump.cloister",
+  "sourceMaster": "source-master.playful-bump.cloister",
+  "sourcePath": "masters/playful-bump-cloister.wav",
+  "runtimePath": "runtime/playful-bump-cloister.wav",
+  "sourceHash": "sha256:00bf43d395e16a82a1ec5d50837175066f76fa2eef7d39f184078d0dba9b96bf",
+  "derivativeHash": "sha256:00bf43d395e16a82a1ec5d50837175066f76fa2eef7d39f184078d0dba9b96bf",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

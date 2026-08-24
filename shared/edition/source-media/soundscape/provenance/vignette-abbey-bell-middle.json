@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.vignette.abbey.bell-middle",
+  "sourceMasterId": "source-master.vignette.abbey.bell-middle",
+  "runtimeMapping": "runtime-cue.vignette.abbey.bell-middle",
+  "jobHash": "sha256:7fa8802827fc48e314e629475515ec4d917d8b76486ab6c8d40d797d8b625c34",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A single warm golden bell note in a middle register, struck softly and decaying cleanly, clearly related to the low note. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.6,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:54:20.969Z",
+  "traceId": "ace53dc995e3a7e2ac761a6d196657f3",
+  "providerReportedUsage": {
+    "characterCost": "16"
+  },
+  "sourceHash": "sha256:de543a5d2e4c6489cbf4db295b684dea8fe5436d92aad3ad1611d50dafeb60fa",
+  "selectedOutputHash": "sha256:a891806ac30d96d7afc3ea3a4e25958972025b3376f2fcf4b6f1eaee55193049",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -19.651,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:a891806ac30d96d7afc3ea3a4e25958972025b3376f2fcf4b6f1eaee55193049",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "warm-middle-golden-bell-note-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first: a warm, round middle-register bell with an exceptionally gentle mallet transient that stays clearly related to, and distinguishable from, the low note."
+}

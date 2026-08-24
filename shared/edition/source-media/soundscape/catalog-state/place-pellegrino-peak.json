@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.place.pellegrino-peak",
+  "sourceMaster": "source-master.place.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.place.pellegrino-peak",
+  "status": "approved",
+  "jobHash": "sha256:02cf1f7f8658e1fd69c186fc53391d193e7aafa0e354047ff02fe6d3c3746976",
+  "masterPath": "masters/place-pellegrino-peak.wav",
+  "masterHash": "sha256:0badbf6bba973678cf45a58642d9844f82c7fc7f4a76bcfe22ab24b3d98d4f1f",
+  "runtimePath": "runtime/place-pellegrino-peak.wav",
+  "runtimeHash": "sha256:0badbf6bba973678cf45a58642d9844f82c7fc7f4a76bcfe22ab24b3d98d4f1f"
+}

@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.vignette.abbey.bell-high",
+  "sourceMaster": "source-master.vignette.abbey.bell-high",
+  "runtimeMapping": "runtime-cue.vignette.abbey.bell-high",
+  "status": "approved",
+  "jobHash": "sha256:8e96a92979a8907a8514a9d68e24b42cf639b02c75c1923ae797abf12c3f1018",
+  "masterPath": "masters/vignette-abbey-bell-high.wav",
+  "masterHash": "sha256:d72f1e914d5cd651a2af411c13a1102d0239b73fce17638949a7e6feea4930a7",
+  "runtimePath": "runtime/vignette-abbey-bell-high.wav",
+  "runtimeHash": "sha256:d72f1e914d5cd651a2af411c13a1102d0239b73fce17638949a7e6feea4930a7"
+}

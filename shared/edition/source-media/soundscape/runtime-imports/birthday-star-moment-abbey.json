@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.birthday-star-moment.abbey",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.abbey",
+  "sourceMaster": "source-master.birthday-star-moment.abbey",
+  "sourcePath": "masters/birthday-star-moment-abbey.wav",
+  "runtimePath": "runtime/birthday-star-moment-abbey.wav",
+  "sourceHash": "sha256:df04e7c84207fb065aee6329f7da978ac942ce8e9cc05ce00cc0ea2bec0cd0d8",
+  "derivativeHash": "sha256:df04e7c84207fb065aee6329f7da978ac942ce8e9cc05ce00cc0ea2bec0cd0d8",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}
