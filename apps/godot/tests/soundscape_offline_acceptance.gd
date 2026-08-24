@@ -18,7 +18,8 @@ func _run() -> void:
 	await process_frame
 
 	print("PLAYING: bundled instrumental through the shared mixer")
-	var approved := SOUNDSCAPE_PLAYER.new("res://edition-pack.zip", audio)
+	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
+	var approved := SOUNDSCAPE_PLAYER.new(pack_root, audio)
 	if not approved.report_event(OPENING_EVENT, OPENING_PARAMETERS):
 		push_error("The opening reveal fallback could not play while starting music")
 		audio.free()

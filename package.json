@@ -4,7 +4,6 @@
   "private": true,
   "workspaces": [
     "apps/phaser-original",
-    "tools/edition-contract",
     "tools/soundscape-build"
   ],
   "scripts": {
@@ -12,7 +11,6 @@
     "build": "npm run build --workspace princess-rosie-phaser-original",
     "preview": "npm run preview --workspace princess-rosie-phaser-original",
     "test": "npm run test --workspace princess-rosie-phaser-original",
-    "test:contract": "npm run test --workspace rosie-edition-contract",
     "test:soundscape-build": "npm run test --workspace rosie-soundscape-build",
     "test:godot": "apps/godot/tests/run_acceptance.sh",
     "soundscape:build": "npm run build --workspace rosie-soundscape-build --",
@@ -22,6 +20,6 @@
     "soundscape:validate": "npm run validate --workspace rosie-soundscape-build --",
     "test:e2e": "npm run test:e2e --workspace princess-rosie-phaser-original",
     "test:e2e:install": "npm run test:e2e:install --workspace princess-rosie-phaser-original",
-    "check": "npm run typecheck --workspace rosie-edition-contract && npm run typecheck --workspace rosie-soundscape-build && npm run test:contract && npm run test:soundscape-build && npm run check --workspace princess-rosie-phaser-original"
+    "check": "npm run typecheck --workspace rosie-soundscape-build && npm run test:soundscape-build && npm run check --workspace princess-rosie-phaser-original"
   }
 }

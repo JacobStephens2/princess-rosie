@@ -1,4 +1,4 @@
-; Princess Rosie and the Seven Birthday Stars — Godot Production Edition
+; Princess Rosie and the Seven Birthday Stars — Godot Edition
 ; This project intentionally targets the exact Godot 4.7.2 Forward+ baseline.
 
 config_version=5
@@ -20,6 +20,10 @@ window/size/viewport_height=800
 window/size/window_width_override=1280
 window/size/window_height_override=800
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/edition_pack_export/plugin.cfg")
 
 [input]
 

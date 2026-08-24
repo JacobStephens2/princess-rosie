@@ -7,7 +7,7 @@ const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 var _reader: RefCounted = EDITION_PACK_READER.new()
 
 
-func prepare(pack_source: String, expected_digest: String = "") -> Dictionary:
+func prepare(pack_source: String) -> Dictionary:
 	var manifest_result: Dictionary = _reader.read_json_object(pack_source, "edition.json")
 	if not manifest_result.ok:
 		return manifest_result
@@ -24,63 +24,22 @@ func prepare(pack_source: String, expected_digest: String = "") -> Dictionary:
 	if not manifest_files is Array:
 		return _failure("Edition Pack files must be an array")
 
-	var manifest_bytes_result: Dictionary = _reader.read_bytes(pack_source, "edition.json")
-	if not manifest_bytes_result.ok:
-		return manifest_bytes_result
-
-	var hashing := HashingContext.new()
-	var hashing_error := hashing.start(HashingContext.HASH_SHA256)
-	if hashing_error != OK:
-		return _failure("Could not start Edition Pack digest")
-	hashing.update("edition.json".to_utf8_buffer())
-	hashing.update(PackedByteArray([0]))
-	hashing.update(manifest_bytes_result.value)
-
-	var files: Array[Dictionary] = []
 	for file_value: Variant in manifest_files:
 		if not file_value is Dictionary:
 			return _failure("Every Edition Pack file needs a role and relative path")
 		var file: Dictionary = file_value
 		if not file.get("role") is String or not file.get("path") is String:
 			return _failure("Every Edition Pack file needs a role and relative path")
-		files.append(file)
-	files.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
-		return str(left.get("path")) < str(right.get("path"))
-	)
-	var scenario_ids: Array[String] = []
-
-	for file: Dictionary in files:
-		var role: String = file.get("role")
 		var relative_path: String = file.get("path")
 		if not _reader.is_safe_relative_path(relative_path):
 			return _failure("Edition Pack path must stay inside its root: %s" % relative_path)
-
-		var bytes_result: Dictionary = _reader.read_bytes(pack_source, relative_path)
-		if not bytes_result.ok:
-			return bytes_result
-		hashing.update(PackedByteArray([0]))
-		hashing.update(relative_path.to_utf8_buffer())
-		hashing.update(PackedByteArray([0]))
-		hashing.update(bytes_result.value)
-
-		if role == "scenario":
-			var scenario_id: Variant = file.get("id")
-			if not scenario_id is String or scenario_id.is_empty():
-				return _failure("Scenario file needs an id: %s" % relative_path)
-			scenario_ids.append(scenario_id)
-
-	var pack_digest := "sha256:" + hashing.finish().hex_encode()
-	if not expected_digest.is_empty() and pack_digest != expected_digest:
-		return _failure(
-			"Edition Pack digest mismatch: expected %s, received %s" % [expected_digest, pack_digest],
-		)
+		if not _reader.exists(pack_source, relative_path):
+			return _failure("Edition Pack file is missing: %s" % relative_path)
 
 	return {
 		"ok": true,
 		"contract_version": CONTRACT_VERSION,
 		"revision": revision,
-		"pack_digest": pack_digest,
-		"scenario_ids": scenario_ids,
 	}
 
 
