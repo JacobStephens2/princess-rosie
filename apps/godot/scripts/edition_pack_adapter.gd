@@ -90,19 +90,29 @@ func load_png_texture(pack_source: String, relative_path: String) -> Dictionary:
 	if hashing_error != OK:
 		return _failure("Could not hash Edition Pack PNG: %s" % relative_path)
 	hashing.update(bytes_result.value)
-	var used_rect := image.get_used_rect()
-	var transparent_pixel_count := (
-		image.get_width() * image.get_height() - used_rect.size.x * used_rect.size.y
-	)
 	return {
 		"ok": true,
 		"texture": ImageTexture.create_from_image(image),
 		"sha256": hashing.finish().hex_encode(),
 		"has_transparency": image.detect_alpha() != Image.ALPHA_NONE,
-		# The area outside the smallest nontransparent rectangle is a conservative
-		# lower bound; transparent pixels inside the silhouette are intentionally ignored.
-		"transparent_pixel_count": transparent_pixel_count,
+		"transparent_pixel_count": _count_fully_transparent_pixels(image),
 	}
+
+
+# A cutout's soft rim light can carry faint alpha all the way to the border, so the
+# area outside the smallest nontransparent rectangle would read as zero padding on
+# art that is in fact mostly empty. Count the genuinely empty pixels instead.
+func _count_fully_transparent_pixels(image: Image) -> int:
+	var scanned := image
+	if scanned.get_format() != Image.FORMAT_RGBA8:
+		scanned = image.duplicate()
+		scanned.convert(Image.FORMAT_RGBA8)
+	var pixels := scanned.get_data()
+	var transparent_pixel_count := 0
+	for offset in range(3, pixels.size(), 4):
+		if pixels[offset] == 0:
+			transparent_pixel_count += 1
+	return transparent_pixel_count
 
 
 func _failure(message: String) -> Dictionary:
