@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.vignette.cloister.clouds",
+  "runtimeMapping": "runtime-cue.vignette.cloister.clouds",
+  "sourceMaster": "source-master.vignette.cloister.clouds",
+  "sourcePath": "masters/vignette-cloister-clouds.wav",
+  "runtimePath": "runtime/vignette-cloister-clouds.wav",
+  "sourceHash": "sha256:0fc87033292d9e0825b1ede2b4c67dcf976a3ac8b90be1450adaaa3be89ea3fe",
+  "derivativeHash": "sha256:0fc87033292d9e0825b1ede2b4c67dcf976a3ac8b90be1450adaaa3be89ea3fe",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

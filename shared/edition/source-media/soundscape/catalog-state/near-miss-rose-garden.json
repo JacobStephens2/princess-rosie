@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.near-miss.rose-garden",
+  "sourceMaster": "source-master.near-miss.rose-garden",
+  "runtimeMapping": "runtime-cue.near-miss.rose-garden",
+  "status": "approved",
+  "jobHash": "sha256:9c115ed1a21d29e218223b991a35a68fccd3a513d6aefea2cb669b064a3a8be7",
+  "masterPath": "masters/near-miss-rose-garden.wav",
+  "masterHash": "sha256:b1fb11ff490e18ded9777c67fb08d40e93769bd8760480681a1531012dc951f9",
+  "runtimePath": "runtime/near-miss-rose-garden.wav",
+  "runtimeHash": "sha256:b1fb11ff490e18ded9777c67fb08d40e93769bd8760480681a1531012dc951f9"
+}

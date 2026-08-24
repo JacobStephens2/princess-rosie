@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.playful-bump.sapphire-sea",
+  "sourceMasterId": "source-master.playful-bump.sapphire-sea",
+  "runtimeMapping": "runtime-cue.playful-bump.sapphire-sea",
+  "jobHash": "sha256:4af3a87ec229191098f45f58edced4302a24df35c12119e6cd727adb4be39efb",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A soft nonthreatening wave bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 0.8,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T13:02:46.850Z",
+  "traceId": "3d7906d4e8aae6df3a36d26e9541f036",
+  "providerReportedUsage": {
+    "characterCost": "8"
+  },
+  "sourceHash": "sha256:135b9d1b6423086b4a036a821cf466291be7ac124bf9233295b3312933e451c2",
+  "selectedOutputHash": "sha256:2dadbc9480c7ee130e8f98946fa7c5a5364239e449261c92a062d58d845995f3",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -8.436,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:2dadbc9480c7ee130e8f98946fa7c5a5364239e449261c92a062d58d845995f3",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "soft-nonthreatening-wave-bump-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for a gentle wave surge that reads as a friendly nudge rather than a collision, with low startle risk and no unwanted voice or melody; one rejected candidate carried an audible human whoop. It clears the waveform gate at 48 kHz mono, 0.8 s, -8.44 dBFS peak, no clipping, and a clean trimmed tail."
+}

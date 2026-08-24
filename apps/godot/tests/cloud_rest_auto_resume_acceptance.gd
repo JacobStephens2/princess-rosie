@@ -40,10 +40,11 @@ func _init() -> void:
 		"automatic recovery preserves all story progress",
 	)
 
-	_advance_controlled(shell, 4.1)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	_advance_controlled(shell, 4.6)
 	test.expect(
 		shell.presentation_evidence().get("journey_phase") == "birthday-star-approach",
-		"the preserved route duration completes after automatic recovery",
+		"the preserved route completes after automatic recovery, at a gentler pace",
 	)
 
 	var held_shell := _start_low_lacewood_flight()

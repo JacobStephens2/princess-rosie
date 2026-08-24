@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.place.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.place.pellegrino-peak",
+  "sourceMaster": "source-master.place.pellegrino-peak",
+  "sourcePath": "masters/place-pellegrino-peak.wav",
+  "runtimePath": "runtime/place-pellegrino-peak.wav",
+  "sourceHash": "sha256:0badbf6bba973678cf45a58642d9844f82c7fc7f4a76bcfe22ab24b3d98d4f1f",
+  "derivativeHash": "sha256:0badbf6bba973678cf45a58642d9844f82c7fc7f4a76bcfe22ab24b3d98d4f1f",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "looping": true
+  }
+}

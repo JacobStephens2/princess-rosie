@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.rainbow-path.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.rainbow-path.pellegrino-peak",
+  "sourceMaster": "source-master.rainbow-path.pellegrino-peak",
+  "sourcePath": "masters/rainbow-path-pellegrino-peak.wav",
+  "runtimePath": "runtime/rainbow-path-pellegrino-peak.wav",
+  "sourceHash": "sha256:82fbd14d9a2e310b80a3867247482e1bb5ad5878fda351e2a0e150556b432f58",
+  "derivativeHash": "sha256:82fbd14d9a2e310b80a3867247482e1bb5ad5878fda351e2a0e150556b432f58",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "looping": false
+  }
+}

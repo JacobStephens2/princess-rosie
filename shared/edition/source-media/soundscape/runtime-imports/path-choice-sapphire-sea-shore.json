@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.path-choice.sapphire-sea.shore",
+  "runtimeMapping": "runtime-cue.path-choice.sapphire-sea.shore",
+  "sourceMaster": "source-master.path-choice.sapphire-sea.shore",
+  "sourcePath": "masters/path-choice-sapphire-sea-shore.wav",
+  "runtimePath": "runtime/path-choice-sapphire-sea-shore.wav",
+  "sourceHash": "sha256:a57638b08b23f8dd94ad1eee9b42efed7c529414b52a349dc7539759e330283e",
+  "derivativeHash": "sha256:a57638b08b23f8dd94ad1eee9b42efed7c529414b52a349dc7539759e330283e",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

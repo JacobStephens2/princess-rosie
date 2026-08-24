@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.place.cloister",
+  "runtimeMapping": "runtime-cue.place.cloister",
+  "sourceMaster": "source-master.place.cloister",
+  "sourcePath": "masters/place-cloister.wav",
+  "runtimePath": "runtime/place-cloister.wav",
+  "sourceHash": "sha256:a68b6eeee0ddf6ace46e33dfb65781920758818648b286bcc383e0261f7a0cae",
+  "derivativeHash": "sha256:a68b6eeee0ddf6ace46e33dfb65781920758818648b286bcc383e0261f7a0cae",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "looping": true
+  }
+}

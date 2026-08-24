@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.path-choice.sapphire-sea.shore",
+  "sourceMasterId": "source-master.path-choice.sapphire-sea.shore",
+  "runtimeMapping": "runtime-cue.path-choice.sapphire-sea.shore",
+  "jobHash": "sha256:67500b9c139ea3ee4c019af82530220a233d960d1dfdba2969cf75237fc2faa9",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A calm shell-lined shore choice response. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.4,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T13:00:20.185Z",
+  "traceId": "34154f4120d36c3418d562df7ecaba74",
+  "providerReportedUsage": {
+    "characterCost": "14"
+  },
+  "sourceHash": "sha256:7a22f3fdb56432502d9ffc2290951ac89456519e5fb6d61f32a6f6ab59cc7724",
+  "selectedOutputHash": "sha256:a57638b08b23f8dd94ad1eee9b42efed7c529414b52a349dc7539759e330283e",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -16.311,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:a57638b08b23f8dd94ad1eee9b42efed7c529414b52a349dc7539759e330283e",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "calm-shell-lined-shore-choice-response-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "The blinded Gemini 3.7 Flash favourite failed the waveform gate at a -47.96 dBFS peak, roughly 30 dB under its sibling cues and inaudible under the soundtrack; this second-ranked candidate is a calm, non-judgmental bell acknowledgement with no reward or correctness connotation and no unwanted voice or melody, and it clears the waveform gate at 48 kHz mono, 1.4 s, -16.31 dBFS peak, no clipping, and a clean trimmed tail."
+}

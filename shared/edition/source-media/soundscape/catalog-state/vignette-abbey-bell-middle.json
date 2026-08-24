@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.vignette.abbey.bell-middle",
+  "sourceMaster": "source-master.vignette.abbey.bell-middle",
+  "runtimeMapping": "runtime-cue.vignette.abbey.bell-middle",
+  "status": "approved",
+  "jobHash": "sha256:7fa8802827fc48e314e629475515ec4d917d8b76486ab6c8d40d797d8b625c34",
+  "masterPath": "masters/vignette-abbey-bell-middle.wav",
+  "masterHash": "sha256:a891806ac30d96d7afc3ea3a4e25958972025b3376f2fcf4b6f1eaee55193049",
+  "runtimePath": "runtime/vignette-abbey-bell-middle.wav",
+  "runtimeHash": "sha256:a891806ac30d96d7afc3ea3a4e25958972025b3376f2fcf4b6f1eaee55193049"
+}

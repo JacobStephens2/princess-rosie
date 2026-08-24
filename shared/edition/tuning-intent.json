@@ -23,9 +23,36 @@
   },
   "cloudRest": {
     "afterNearbyPlayfulBumps": 3,
+    "nearbyPlayfulBumpSeconds": 3.0,
+    "playfulBumpWobbleSeconds": 0.45,
     "birthdayStarsPreserved": true,
     "automaticResumeSeconds": 1.2,
-    "maximumHelpLevel": 2
+    "restingAltitudeStageHeights": 0.36,
+    "landingSpeedStageHeightsPerSecond": 0.9,
+    "maximumHelpLevel": 2,
+    "helpLevels": [
+      {
+        "travelDurationMultiplier": 1.0,
+        "forwardSpeedMultiplier": 1.0,
+        "accelerationMultiplier": 1.0,
+        "playfulBumpObstacleAltitudeStageHeights": 0.64,
+        "collisionHalfHeightStageHeights": 0.06
+      },
+      {
+        "travelDurationMultiplier": 1.05,
+        "forwardSpeedMultiplier": 0.88,
+        "accelerationMultiplier": 0.85,
+        "playfulBumpObstacleAltitudeStageHeights": 0.6,
+        "collisionHalfHeightStageHeights": 0.045
+      },
+      {
+        "travelDurationMultiplier": 1.1,
+        "forwardSpeedMultiplier": 0.78,
+        "accelerationMultiplier": 0.7,
+        "playfulBumpObstacleAltitudeStageHeights": 0.56,
+        "collisionHalfHeightStageHeights": 0.03
+      }
+    ]
   },
   "performance": {
     "minimumFramesPerSecond": 60,

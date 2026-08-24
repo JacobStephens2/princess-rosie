@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.near-miss.abbey",
+  "sourceMasterId": "source-master.near-miss.abbey",
+  "runtimeMapping": "runtime-cue.near-miss.abbey",
+  "jobHash": "sha256:7226211958d4a2073dfdc87f34d5303ab58e6ad37232d58667dd61601f668bd0",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A restrained accent as a swinging bell rope passes close: one faint airy brush with a small distant bell glint. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 0.5,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:54:27.663Z",
+  "traceId": "57905d53536aa5f851cc8504698f46e4",
+  "providerReportedUsage": {
+    "characterCost": "5"
+  },
+  "sourceHash": "sha256:7a2e6a5668b01d6f60b869fc097dff44700eca2d719476add4e5ab5a7f4c1548",
+  "selectedOutputHash": "sha256:5e71b244cecfb8f7abc4c531364460455594b0a713e92c3c4d02fb675520984e",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "fit-catalog-duration",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:5e71b244cecfb8f7abc4c531364460455594b0a713e92c3c4d02fb675520984e",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "restrained-bell-rope-cooldown-accent-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 20,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first: the most restrained airy brush with a faint bell glint, unobtrusive and tension-free at the optional-detail gain."
+}

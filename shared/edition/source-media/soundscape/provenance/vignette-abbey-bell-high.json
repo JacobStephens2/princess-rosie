@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.vignette.abbey.bell-high",
+  "sourceMasterId": "source-master.vignette.abbey.bell-high",
+  "runtimeMapping": "runtime-cue.vignette.abbey.bell-high",
+  "jobHash": "sha256:8e96a92979a8907a8514a9d68e24b42cf639b02c75c1923ae797abf12c3f1018",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A single warm golden bell note in a bright upper register, struck softly and decaying cleanly, clearly related to the lower notes. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 1.6,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:54:22.557Z",
+  "traceId": "85c651f0975b27acf59230f5f5666d64",
+  "providerReportedUsage": {
+    "characterCost": "16"
+  },
+  "sourceHash": "sha256:96df8854c554a51437f6754c362671d84e2d6059be63c4192d548339e5f07b78",
+  "selectedOutputHash": "sha256:d72f1e914d5cd651a2af411c13a1102d0239b73fce17638949a7e6feea4930a7",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -14.012,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:d72f1e914d5cd651a2af411c13a1102d0239b73fce17638949a7e6feea4930a7",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "warm-high-golden-bell-note-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first: a luminous upper-register bell with a soft transient and clean decay that completes the rising phrase without shrillness or ear fatigue."
+}

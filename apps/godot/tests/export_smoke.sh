@@ -157,6 +157,8 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
     "silver_ribbons_visible": true,
     "rose_lights_visible": true,
     "observed_visual_responses": ["silver-ribbons-unfurl", "rose-lights-bloom"],
+    "resting_cloud_visible": false,
+    "playful_bump_wobble_visible": false,
     "celebration_echo": ""
   }
   and (has("chosen_route") | not)
@@ -185,6 +187,10 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .single_route.canonical_celebration_echo == "silver-ribbons-and-rose-lights"
   and .single_route.cloud_rest_automatic_resume == true
   and .single_route.journey_progress_persisted == false
+  and .gentle_help.help_level == 1
+  and .gentle_help.maximum_help_level == 2
+  and .gentle_help.visible_help_label == ""
+  and .nearby_playful_bumps == 0
   and .pack_digest == $expected_pack_digest
   and .network_requests == 0
   and .capture_sample_colors >= 8
@@ -207,8 +213,7 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
     "sound-event.birthday-star-gathered",
     "sound-event.rainbow-path-opened",
     "sound-event.birthday-star-moment",
-    "sound-event.birthday-castle-arrival",
-    "sound-event.celebration-interaction"
+    "sound-event.birthday-castle-arrival"
   ]))
 ' "$lacewood_evidence_path" >/dev/null
 

@@ -45,7 +45,8 @@ func _init() -> void:
 	)
 
 	shell.handle_player_action(KEYBOARD_SPACE, true)
-	_advance_controlled(shell, 9.0)
+	# Gentle help after the Cloud Rest lengthens the remaining Lacewood travel.
+	_advance_controlled(shell, 10.0)
 	test.expect(
 		shell.presentation_evidence().get("state") == "birthday_star_moment",
 		"the guaranteed Birthday Star reaches its self-paced Storybook Moment",

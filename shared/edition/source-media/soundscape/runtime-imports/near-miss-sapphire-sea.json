@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.near-miss.sapphire-sea",
+  "runtimeMapping": "runtime-cue.near-miss.sapphire-sea",
+  "sourceMaster": "source-master.near-miss.sapphire-sea",
+  "sourcePath": "masters/near-miss-sapphire-sea.wav",
+  "runtimePath": "runtime/near-miss-sapphire-sea.wav",
+  "sourceHash": "sha256:6ade98e0e0a36c7185eaf522d7a96b05ce3da4aac92f38c455148dfbab1090b8",
+  "derivativeHash": "sha256:6ade98e0e0a36c7185eaf522d7a96b05ce3da4aac92f38c455148dfbab1090b8",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

@@ -36,6 +36,9 @@ const tracerFacts = {
   birthdayStarGuaranteed: true,
   cloudRestPreservesProgress: true,
   cloudRestAutomaticResume: true,
+  cloudRestGentleHelpLevel: 1,
+  cloudRestMaximumGentleHelpLevel: 2,
+  gentleHelpVisibleToChild: false,
   journeyProgressPersisted: false,
   networkRequests: 0,
 };
@@ -60,9 +63,6 @@ describe("Edition Contract proof", () => {
       { event: "sound-event.movement-state", context: { state: "flight" } },
       { event: "sound-event.movement-state", context: { state: "rise" } },
       { event: "sound-event.movement-state", context: { state: "glide" } },
-      { event: "sound-event.replay", context: { destination: "opening-storybook" } },
-      { event: "sound-event.sound-preference-changed", context: { enabled: false } },
-      { event: "sound-event.sound-preference-changed", context: { enabled: true } },
     ];
 
     const proof = await proveEditionPack(tracerPackRoot, prepared, {

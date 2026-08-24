@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.vignette.abbey.bell-high",
+  "runtimeMapping": "runtime-cue.vignette.abbey.bell-high",
+  "sourceMaster": "source-master.vignette.abbey.bell-high",
+  "sourcePath": "masters/vignette-abbey-bell-high.wav",
+  "runtimePath": "runtime/vignette-abbey-bell-high.wav",
+  "sourceHash": "sha256:d72f1e914d5cd651a2af411c13a1102d0239b73fce17638949a7e6feea4930a7",
+  "derivativeHash": "sha256:d72f1e914d5cd651a2af411c13a1102d0239b73fce17638949a7e6feea4930a7",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

@@ -25,6 +25,8 @@ The export smoke test uses the official universal 4.7.2 debug template, thins th
 
 Zélie's Lacewood is one uninterrupted, digest-bound picture-book corridor. Stella moves forward automatically for roughly eighteen seconds while holding Space or the pointer raises her and releasing settles her immediately. Silver ribbons and rose lights respond at different heights, three nearby Playful Bumps can trigger a brief automatic Cloud Rest, and every flight continues to the guaranteed Birthday Star without a fork or timing window.
 
+A Playful Bump only rocks Stella; a lone bump is forgotten after a few seconds instead of saving up. Each Cloud Rest lands her on a visible cloud, keeps her Birthday Stars, Rainbow Paths, delight responses, and place progress, resumes on its own where she was, and quietly adds one of two levels of Gentle Help — slower travel, softer acceleration, a wider safe corridor, and a more forgiving shape. Both Lacewood heights and the whole route stay reachable at every level, and nothing about the help is ever shown or named to the child.
+
 ## Hear the offline Soundscape tracer
 
 On the target MacBook, run the audible acceptance harness without `--headless`:

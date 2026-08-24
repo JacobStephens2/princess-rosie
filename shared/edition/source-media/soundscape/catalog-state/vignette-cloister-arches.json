@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.vignette.cloister.arches",
+  "sourceMaster": "source-master.vignette.cloister.arches",
+  "runtimeMapping": "runtime-cue.vignette.cloister.arches",
+  "status": "approved",
+  "jobHash": "sha256:51a50375b8629c36c1c84d856179efd91262594828109c64227a2be790055439",
+  "masterPath": "masters/vignette-cloister-arches.wav",
+  "masterHash": "sha256:74c17ba66a712750676732b25cbfd5abe6e172a9b4a0732aead857bd1c26f18d",
+  "runtimePath": "runtime/vignette-cloister-arches.wav",
+  "runtimeHash": "sha256:74c17ba66a712750676732b25cbfd5abe6e172a9b4a0732aead857bd1c26f18d"
+}

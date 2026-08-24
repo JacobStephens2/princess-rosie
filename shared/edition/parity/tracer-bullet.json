@@ -19,6 +19,7 @@
     "encounter-playful-bump",
     "show-cloud-rest",
     "resume-flight-automatically",
+    "resume-with-hidden-gentle-help",
     "approach-birthday-star",
     "gather-birthday-star",
     "open-rainbow-path",
@@ -130,11 +131,7 @@
       "event": "sound-event.birthday-star-moment",
       "context": { "place": "lacewood", "familyGuest": "Gram" }
     },
-    { "event": "sound-event.birthday-castle-arrival", "context": {} },
-    {
-      "event": "sound-event.celebration-interaction",
-      "context": { "action": "dance-again" }
-    }
+    { "event": "sound-event.birthday-castle-arrival", "context": {} }
   ],
   "requiredFacts": {
     "birthdayStars": ["birthday-star.lacewood"],
@@ -150,6 +147,9 @@
     "birthdayStarGuaranteed": true,
     "cloudRestPreservesProgress": true,
     "cloudRestAutomaticResume": true,
+    "cloudRestGentleHelpLevel": 1,
+    "cloudRestMaximumGentleHelpLevel": 2,
+    "gentleHelpVisibleToChild": false,
     "journeyProgressPersisted": false,
     "networkRequests": 0
   }

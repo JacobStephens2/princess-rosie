@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.near-miss.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.near-miss.pellegrino-peak",
+  "sourceMaster": "source-master.near-miss.pellegrino-peak",
+  "sourcePath": "masters/near-miss-pellegrino-peak.wav",
+  "runtimePath": "runtime/near-miss-pellegrino-peak.wav",
+  "sourceHash": "sha256:1b6ce0c547ae4b38447875e70f9358767d230d6d4642bd4e6a5dc85d625a1010",
+  "derivativeHash": "sha256:1b6ce0c547ae4b38447875e70f9358767d230d6d4642bd4e6a5dc85d625a1010",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

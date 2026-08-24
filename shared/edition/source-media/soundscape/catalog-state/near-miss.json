@@ -3,9 +3,9 @@
   "sourceMaster": "source-master.near-miss",
   "runtimeMapping": "runtime-cue.near-miss",
   "status": "approved",
-  "jobHash": "sha256:0dbd16a74834369e046c117dc81a8a488432c3c6183c708eaac7e29a6bfdf577",
+  "jobHash": "sha256:1720a244eb4a926ba052843fb814ce934491e81a2c5433a258bb21951760be56",
   "masterPath": "masters/near-miss.wav",
-  "masterHash": "sha256:d384160591508e92535ba53903d9e631740636af71a07441c10867bfa3b610a3",
+  "masterHash": "sha256:b719b4b43e41f54838aa3f8d506aa71c5f24741cf86c8909d049e2403e13382b",
   "runtimePath": "runtime/near-miss.wav",
-  "runtimeHash": "sha256:d384160591508e92535ba53903d9e631740636af71a07441c10867bfa3b610a3"
+  "runtimeHash": "sha256:b719b4b43e41f54838aa3f8d506aa71c5f24741cf86c8909d049e2403e13382b"
 }
