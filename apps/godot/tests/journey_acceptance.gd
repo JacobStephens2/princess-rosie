@@ -106,6 +106,10 @@ func _init() -> void:
 		"the Edition Pack declares the journey's places in order: %s"
 		% JSON.stringify(shell.presentation_evidence().get("places")),
 	)
+	test.expect(
+		shell.presentation_evidence().get("realized_places") == 2,
+		"two of the declared places carry an approved Place Illustration so far",
+	)
 
 	DRIVER.launch(shell)
 	DRIVER.advance(shell, 0.75)
@@ -143,8 +147,7 @@ func _init() -> void:
 		"the Rose Garden's own Birthday Star Moment sentence names its Family Guest",
 	)
 
-	shell.handle_player_action(KEYBOARD_SPACE, false)
-	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.turn_the_page(shell)
 	var lacewood_entry: Dictionary = shell.presentation_evidence()
 	test.expect(
 		lacewood_entry.get("place") == "lacewood"
@@ -237,4 +240,4 @@ func _init() -> void:
 	)
 
 	shell.free()
-	test.finish(self, "two-place journey acceptance")
+	test.finish(self, "journey acceptance")

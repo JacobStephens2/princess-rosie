@@ -356,7 +356,7 @@ func _init() -> void:
 	test.expect(
 		rest_soundscape.report_event(
 			&"sound-event.cloud-rest-entered",
-			{"place": "lacewood"},
+			{},
 		),
 		"Cloud Rest accepts the landing transition",
 	)
@@ -381,7 +381,7 @@ func _init() -> void:
 	test.expect(
 		rest_soundscape.report_event(
 			&"sound-event.cloud-rest-exited",
-			{"place": "lacewood"},
+			{},
 		),
 		"Cloud Rest accepts immediate resume",
 	)
@@ -420,7 +420,7 @@ func _init() -> void:
 	test.expect(
 		not muted_rest_soundscape.report_event(
 			&"sound-event.cloud-rest-entered",
-			{"place": "lacewood"},
+			{},
 		),
 		"muted Cloud Rest state does not start audible media",
 	)
@@ -482,7 +482,7 @@ func _init() -> void:
 	test.expect(
 		core_fallback_soundscape.report_event(
 			&"sound-event.cloud-rest-entered",
-			{"place": "lacewood"},
+			{},
 		),
 		"Cloud Rest progression continues when its approved landing and loop cannot load",
 	)

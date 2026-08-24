@@ -53,8 +53,11 @@ func _run() -> void:
 		"the realized places carry one Place Illustration each: %s"
 		% JSON.stringify(shell.presentation_evidence().get("place_media_paths")),
 	)
-	test.expect(shell.handle_player_intent("begin"), "the visual journey begins")
 	DRIVER.launch(shell)
+	test.expect(
+		shell.presentation_evidence().get("state") == "active_play",
+		"the visual journey begins and launches into flight",
+	)
 	DRIVER.advance(shell, 0.75)
 	await process_frame
 
@@ -74,6 +77,7 @@ func _run() -> void:
 			"low_interaction_visible": true,
 			"observed_visual_responses": [],
 			"resting_cloud_visible": false,
+			"place_tint_applied": true,
 			"playful_bump_wobble_visible": false,
 			"celebration_visible": false,
 		},
@@ -121,8 +125,7 @@ func _run() -> void:
 
 	# Crossing into the second place repaints the same composition in its own light.
 	DRIVER.advance(shell, 24.0)
-	shell.handle_player_action(KEYBOARD_SPACE, false)
-	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.turn_the_page(shell)
 	DRIVER.advance(shell, 0.2)
 	await process_frame
 	var crossing := shell.storybook_stage_evidence()

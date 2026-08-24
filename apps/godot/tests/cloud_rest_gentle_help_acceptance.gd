@@ -295,6 +295,15 @@ func _prove_cloud_rest_lands_stella_on_a_visible_cloud() -> void:
 		"Cloud Rest shows Stella safe on a cloud inside the Storybook Stage: %s"
 		% JSON.stringify(stage),
 	)
+	var resting_composition: Dictionary = stage.get("place_composition", {})
+	test.expect(
+		resting_composition.get("place_tint_applied") == false
+		and resting_composition.get("single_corridor_visible") == false
+		and resting_composition.get("high_interaction_visible") == false
+		and resting_composition.get("low_interaction_visible") == false,
+		"Cloud Rest sets the place's own light and delights aside, so it looks the same "
+		+ "wherever it happens: %s" % JSON.stringify(resting_composition),
+	)
 	for label_path: String in CHILD_FACING_LABELS:
 		var label := shell.get_node(label_path) as Label
 		var text := label.text.to_lower()
