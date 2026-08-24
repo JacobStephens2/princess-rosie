@@ -18,7 +18,10 @@ enum PresentationWindowMode {
 }
 
 const EXPECTED_ENGINE_VERSION := "4.7.2"
-const DEFAULT_PACK_SOURCE := "res://../../shared/edition"
+# The exported application carries the Edition Pack staged under res://edition by
+# addons/edition_pack_export; in the editor the workspace store is read directly.
+const BUNDLED_PACK_SOURCE := "res://edition"
+const WORKSPACE_PACK_SOURCE := "res://../../shared/edition"
 const COVER_ASSET := "res://assets/storybook-cover.png"
 const STAGE_ASPECT := 16.0 / 9.0
 const EDITION_PACK_ADAPTER := preload("res://scripts/edition_pack_adapter.gd")
@@ -101,6 +104,7 @@ const WINDOW_MODE_IDS := {
 
 var _adapter: RefCounted = EDITION_PACK_ADAPTER.new()
 var _content: Dictionary = {}
+var _pack_source := ""
 var _pack_revision := ""
 var _state: PresentationState = PresentationState.UNPREPARED
 var _window_mode: PresentationWindowMode = PresentationWindowMode.WINDOWED
@@ -197,7 +201,7 @@ func _ready() -> void:
 	if launched.ok:
 		_engine_audio = GODOT_AUDIO_ADAPTER.new()
 		add_child(_engine_audio)
-		_soundscape = SOUNDSCAPE_PLAYER.new(DEFAULT_PACK_SOURCE, _engine_audio)
+		_soundscape = SOUNDSCAPE_PLAYER.new(_pack_source, _engine_audio)
 	_layout_storybook_stage()
 	_render_presentation()
 	if launched.ok:
@@ -205,7 +209,8 @@ func _ready() -> void:
 	_export_smoke_probe.call_deferred("run_if_requested", self)
 
 
-func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
+func prepare_launch(pack_source: String = default_pack_source()) -> Dictionary:
+	_pack_source = pack_source
 	_state = PresentationState.UNPREPARED
 	_launch_error = ""
 	_pack_revision = ""
@@ -1410,6 +1415,12 @@ func _load_opening_media(pack_source: String, prepared_pack: Dictionary) -> Dict
 	_lacewood_background_texture = lacewood_result.texture
 	_lacewood_media_paths["lacewood.background"] = lacewood_path
 	return {"ok": true}
+
+
+static func default_pack_source() -> String:
+	if FileAccess.file_exists(BUNDLED_PACK_SOURCE.path_join("edition.json")):
+		return BUNDLED_PACK_SOURCE
+	return WORKSPACE_PACK_SOURCE
 
 
 func _fail_launch(message: String) -> Dictionary:

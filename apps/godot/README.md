@@ -10,7 +10,7 @@ Open `project.godot` with the exact 4.7.2 editor, or run:
 /Applications/Godot.app/Contents/MacOS/Godot --path apps/godot
 ```
 
-The application prepares the Edition Pack directly from `shared/edition/` before showing the cover and retains its revision. `shared/edition/` is the engine-neutral content and media store; presentation textures live separately under `assets/` so Godot can import them normally. Staging the Edition Pack into an exported application bundle is part of packaging the Godot Edition.
+The application prepares the Edition Pack directly from `shared/edition/` before showing the cover and retains its revision. `shared/edition/` is the engine-neutral content and media store; presentation textures live separately under `assets/` so Godot can import them normally. Exporting stages every file the manifest declares into the application unmodified, under `res://edition`, so the packaged game reads the same bytes the editor does. See `addons/edition_pack_export/`.
 
 ## Verify
 
@@ -18,12 +18,6 @@ Run the focused public-seam acceptance suite:
 
 ```sh
 npm run test:godot
-```
-
-The export smoke test is currently expected to fail: the exported bundle cannot reach
-`shared/edition/`, and staging the Edition Pack into it is part of packaging the Godot Edition.
-
-```sh
 apps/godot/tests/export_smoke.sh
 ```
 

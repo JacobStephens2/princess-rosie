@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# NOTE: the packaged application no longer carries a bundled Edition Pack. Staging
-# shared/edition/** into the exported bundle is part of packaging the Godot Edition
-# (issue #62); until then this script only passes against an editor-resolved pack.
-
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 godot_bin="${GODOT_BIN:-/Applications/Godot.app/Contents/MacOS/Godot}"
 build_dir="$project_dir/build"
