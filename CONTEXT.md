@@ -93,12 +93,16 @@ The sparkling coastal passage before the Birthday Castle comes into view.
 _Avoid_: Water level, Mediterranean Sea
 
 **Cloud Rest**:
-A brief, gentle pause after several nearby Playful Bumps in which Stella lands safely on a cloud, then resumes automatically nearby with every Birthday Star preserved.
+A brief, gentle pause after several nearby Playful Bumps in which Stella lands safely on a cloud, then resumes automatically nearby with every Birthday Star preserved and one more level of Gentle Help.
 _Avoid_: Game over, death, loss
 
 **Playful Bump**:
-A soft, place-specific encounter that makes Stella wobble without danger; three in short succession lead to a Cloud Rest.
+A soft, place-specific encounter that makes Stella wobble without danger; three in short succession lead to a Cloud Rest, while a lone bump is forgotten rather than saved up.
 _Avoid_: Damage, injury, failure, enemy collision
+
+**Gentle Help**:
+The unnamed easing each Cloud Rest adds, up to two levels, through slower travel, softer acceleration, a wider safe corridor, and a more forgiving shape for Stella. It is never shown, named, or numbered to the child, and never closes off part of a place.
+_Avoid_: Difficulty level, assist mode, easy mode, handicap
 
 **Storybook Moment**:
 A short, lightly animated illustrated scene with a few large sentences intended for the Grown-up Helper to read aloud with the child.

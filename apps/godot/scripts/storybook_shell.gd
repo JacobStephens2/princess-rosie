@@ -69,6 +69,10 @@ const MILESTONE_ROSE_LIGHTS: StringName = &"rose-lights"
 const MILESTONE_NEAR_MISS: StringName = &"near-miss"
 const MILESTONE_PLAYFUL_BUMP: StringName = &"playful-bump"
 const MILESTONE_ROUTE_COMPLETE: StringName = &"route-complete"
+const DEFAULT_CLOUD_REST_ALTITUDE := 0.36
+const DEFAULT_PLAYFUL_BUMP_WOBBLE_SECONDS := 0.45
+const DEFAULT_COLLISION_HALF_HEIGHT := 0.06
+const DEFAULT_PLAYFUL_BUMP_OBSTACLE_ALTITUDE := 0.64
 const LACEWOOD_MILESTONES := [
 	{"id": MILESTONE_SILVER_RIBBONS, "seconds": 3.0},
 	{"id": MILESTONE_ROSE_LIGHTS, "seconds": 6.0},
@@ -76,6 +80,9 @@ const LACEWOOD_MILESTONES := [
 	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 9.5},
 	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 11.75},
 	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 14.0},
+	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 15.5},
+	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 16.4},
+	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 17.3},
 	{"id": MILESTONE_ROUTE_COMPLETE},
 ]
 
@@ -132,9 +139,15 @@ var _journey_checkpoint := 0
 var _action_held := false
 var _flight_control_cycle_count := 0
 var _lacewood_progress := 0.0
-var _lacewood_elapsed_before_rest := 0.0
+var _journey_clock_seconds := 0.0
 var _playful_bump_count := 0
+var _nearby_playful_bump_count := 0
+var _last_playful_bump_seconds := 0.0
+var _playful_bump_wobble_seconds := 0.0
 var _cloud_rest_count := 0
+var _cloud_rest_progress_snapshot := -1.0
+var _cloud_rest_altitude_snapshot := 0.0
+var _gentle_help_level := 0
 var _birthday_stars: Array[String] = []
 var _rainbow_paths: Array[String] = []
 var _observed_interactions: Array[String] = []
@@ -300,7 +313,10 @@ func presentation_evidence() -> Dictionary:
 		"flight_control_cycles": _flight_control_cycle_count,
 		"journey_phase": _journey_phase,
 		"playful_bumps": _playful_bump_count,
+		"nearby_playful_bumps": _nearby_playful_bump_count,
+		"playful_bump_wobbling": _playful_bump_wobble_seconds > 0.0,
 		"cloud_rests": _cloud_rest_count,
+		"gentle_help": gentle_help_evidence(),
 		"birthday_stars": _birthday_stars.duplicate(),
 		"rainbow_paths": _rainbow_paths.duplicate(),
 		"observed_interactions": _observed_interactions.duplicate(),
@@ -325,6 +341,72 @@ func flight_evidence() -> Dictionary:
 		"minimum_altitude_stage_heights": _flight_tuning.get("minimumAltitudeStageHeights", 0.0),
 		"maximum_altitude_stage_heights": _flight_tuning.get("maximumAltitudeStageHeights", 1.0),
 	}
+
+
+func gentle_help_evidence() -> Dictionary:
+	var help: Dictionary = _gentle_help_tuning()
+	return {
+		"help_level": _gentle_help_level,
+		"maximum_help_level": _maximum_gentle_help_level(),
+		"route_duration_seconds": _gentle_help_route_duration_seconds(),
+		"forward_speed_stage_widths_per_second": _gentle_help_forward_speed(),
+		"rise_acceleration_stage_heights_per_second_squared": _gentle_help_acceleration("rise"),
+		"glide_acceleration_stage_heights_per_second_squared": _gentle_help_acceleration("glide"),
+		"playful_bump_contact_altitude_stage_heights": _playful_bump_contact_altitude(),
+		"collision_half_height_stage_heights": float(
+			help.get("collisionHalfHeightStageHeights", DEFAULT_COLLISION_HALF_HEIGHT),
+		),
+		"safe_corridor_altitude_stage_heights": (
+			float(_flight_tuning.get("maximumAltitudeStageHeights", 0.86))
+			- _playful_bump_contact_altitude()
+		),
+		"visible_help_label": _help_label_shown_to_the_child(),
+	}
+
+
+# Gentle Help must never surface in the words the child sees, so the evidence reads the
+# active play copy back rather than asserting an empty string.
+func _help_label_shown_to_the_child() -> String:
+	var copy: Dictionary = _flight_presentation_copy()
+	var shown := "%s %s" % [copy.get("title", ""), copy.get("instruction", "")]
+	var help_labels: Array[String] = [
+		"help level",
+		"gentle help",
+		"difficulty",
+		"assist",
+		"easy mode",
+		"level %d" % _gentle_help_level,
+	]
+	for help_label: String in help_labels:
+		if shown.to_lower().contains(help_label):
+			return shown
+	return ""
+
+
+func cloud_rest_evidence() -> Dictionary:
+	var resting_altitude := _cloud_rest_resting_altitude()
+	return {
+		"resting": _journey_phase == PHASE_CLOUD_REST,
+		"resting_altitude_stage_heights": resting_altitude,
+		"stella_landed_safely": (
+			_journey_phase == PHASE_CLOUD_REST
+			and absf(_flight_altitude_stage_heights - resting_altitude) <= 0.01
+			and is_zero_approx(_flight_vertical_speed_stage_heights_per_second)
+		),
+		"nearby_playful_bumps": _nearby_playful_bump_count,
+		"resume_seconds": float(_cloud_rest_tuning.get("automaticResumeSeconds", 1.2)),
+		"resume_altitude_stage_heights": _cloud_rest_altitude_snapshot,
+		"progress_lost": (
+			_cloud_rest_progress_snapshot >= 0.0
+			and _lacewood_progress < _cloud_rest_progress_snapshot
+		),
+	}
+
+
+func _cloud_rest_resting_altitude() -> float:
+	return float(
+		_cloud_rest_tuning.get("restingAltitudeStageHeights", DEFAULT_CLOUD_REST_ALTITUDE),
+	)
 
 
 func single_route_evidence() -> Dictionary:
@@ -591,17 +673,11 @@ func advance_simulation(delta: float) -> bool:
 	if _state != PresentationState.ACTIVE_PLAY or not is_finite(delta) or delta <= 0.0:
 		return false
 	if _journey_phase == PHASE_CLOUD_REST:
+		_settle_onto_cloud_rest(delta)
 		return true
 	if _flight_tuning.get("automaticForwardMotion", false):
-		_flight_distance_stage_widths += (
-			float(_flight_tuning.get("forwardSpeedStageWidthsPerSecond", 0.0)) * delta
-		)
-	var acceleration_key := (
-		"riseAccelerationStageHeightsPerSecondSquared"
-		if _movement_state == "rise"
-		else "glideAccelerationStageHeightsPerSecondSquared"
-	)
-	var acceleration := float(_flight_tuning.get(acceleration_key, 0.0))
+		_flight_distance_stage_widths += _gentle_help_forward_speed() * delta
+	var acceleration := _gentle_help_acceleration(_movement_state)
 	var previous_speed := _flight_vertical_speed_stage_heights_per_second
 	var next_speed := clampf(
 		previous_speed + acceleration * delta,
@@ -631,14 +707,16 @@ func advance_journey(delta: float) -> void:
 	if _state != PresentationState.ACTIVE_PLAY or delta <= 0.0:
 		return
 	_journey_phase_elapsed += delta
+	_journey_clock_seconds += delta
+	_playful_bump_wobble_seconds = maxf(0.0, _playful_bump_wobble_seconds - delta)
+	_forget_distant_playful_bumps()
 	match _journey_phase:
 		PHASE_FLIGHT:
 			if _journey_phase_elapsed >= 0.75:
 				_enter_lacewood()
 		PHASE_LACEWOOD_FLIGHT:
 			_lacewood_progress = clampf(
-				_journey_phase_elapsed
-				/ float(_single_route_tuning.get("durationSeconds", 18.0)),
+				_lacewood_progress + delta / _gentle_help_route_duration_seconds(),
 				0.0,
 				1.0,
 			)
@@ -662,19 +740,19 @@ func _enter_lacewood() -> void:
 
 
 func _advance_lacewood_flight() -> void:
-	var duration := float(_single_route_tuning.get("durationSeconds", 18.0))
+	var authored_duration := float(_single_route_tuning.get("durationSeconds", 18.0))
 	while (
 		_journey_phase == PHASE_LACEWOOD_FLIGHT
 		and _journey_checkpoint < LACEWOOD_MILESTONES.size()
 	):
 		var milestone: Dictionary = LACEWOOD_MILESTONES[_journey_checkpoint]
 		var milestone_id: StringName = milestone.get("id", &"")
-		var milestone_seconds := (
-			duration
+		var milestone_progress := (
+			1.0
 			if milestone_id == MILESTONE_ROUTE_COMPLETE
-			else float(milestone.get("seconds", 0.0))
+			else float(milestone.get("seconds", 0.0)) / authored_duration
 		)
-		if _journey_phase_elapsed < milestone_seconds:
+		if _lacewood_progress < milestone_progress:
 			return
 		match milestone_id:
 			MILESTONE_SILVER_RIBBONS:
@@ -693,7 +771,7 @@ func _advance_lacewood_flight() -> void:
 					{"place": LACEWOOD_PLACE, "kind": "silver-ribbon"},
 				)
 			MILESTONE_PLAYFUL_BUMP:
-				if _flight_altitude_stage_heights <= 0.7:
+				if _is_playful_bump_contact():
 					_report_playful_bump()
 			MILESTONE_ROUTE_COMPLETE:
 				_journey_phase = PHASE_STAR_APPROACH
@@ -715,16 +793,59 @@ func _report_lacewood_interaction(interaction: String) -> void:
 
 func _report_playful_bump() -> void:
 	_playful_bump_count += 1
+	_playful_bump_wobble_seconds = _playful_bump_wobble_duration()
+	_forget_distant_playful_bumps()
+	_nearby_playful_bump_count += 1
+	_last_playful_bump_seconds = _journey_clock_seconds
 	_report_sound_event(
 		EVENT_PLAYFUL_BUMP,
 		{"place": LACEWOOD_PLACE, "kind": "silver-ribbon"},
 	)
-	if _playful_bump_count == 3:
-		_cloud_rest_count += 1
-		_lacewood_elapsed_before_rest = _journey_phase_elapsed
-		_journey_phase = PHASE_CLOUD_REST
-		_journey_phase_elapsed = 0.0
-		_report_sound_event(EVENT_CLOUD_REST_ENTERED, {"place": LACEWOOD_PLACE})
+	if _nearby_playful_bump_count < int(
+		_cloud_rest_tuning.get("afterNearbyPlayfulBumps", 3),
+	):
+		return
+	_enter_cloud_rest()
+
+
+# Playful Bumps only add up while each follows the last inside the nearby window, which
+# is set just wider than the authored spacing of the low lacework. A wobble the child
+# climbs clear of is forgotten rather than saved up for a later, unrelated one.
+func _forget_distant_playful_bumps() -> void:
+	if _nearby_playful_bump_count == 0:
+		return
+	var nearby_seconds := float(_cloud_rest_tuning.get("nearbyPlayfulBumpSeconds", 3.0))
+	if _journey_clock_seconds - _last_playful_bump_seconds > nearby_seconds:
+		_nearby_playful_bump_count = 0
+
+
+func _playful_bump_wobble_duration() -> float:
+	return float(
+		_cloud_rest_tuning.get(
+			"playfulBumpWobbleSeconds",
+			DEFAULT_PLAYFUL_BUMP_WOBBLE_SECONDS,
+		),
+	)
+
+
+func _enter_cloud_rest() -> void:
+	_cloud_rest_count += 1
+	_cloud_rest_progress_snapshot = _lacewood_progress
+	_cloud_rest_altitude_snapshot = _flight_altitude_stage_heights
+	_gentle_help_level = mini(_gentle_help_level + 1, _maximum_gentle_help_level())
+	_nearby_playful_bump_count = 0
+	_journey_phase = PHASE_CLOUD_REST
+	_journey_phase_elapsed = 0.0
+	_report_sound_event(EVENT_CLOUD_REST_ENTERED, {"place": LACEWOOD_PLACE})
+
+
+func _settle_onto_cloud_rest(delta: float) -> void:
+	_flight_vertical_speed_stage_heights_per_second = 0.0
+	_flight_altitude_stage_heights = move_toward(
+		_flight_altitude_stage_heights,
+		_cloud_rest_resting_altitude(),
+		float(_cloud_rest_tuning.get("landingSpeedStageHeightsPerSecond", 0.9)) * delta,
+	)
 
 
 func _resume_from_cloud_rest() -> void:
@@ -732,7 +853,70 @@ func _resume_from_cloud_rest() -> void:
 	_movement_state = "rise" if _action_held else "flight"
 	_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
 	_journey_phase = PHASE_LACEWOOD_FLIGHT
-	_journey_phase_elapsed = _lacewood_elapsed_before_rest
+	_journey_phase_elapsed = 0.0
+	_nearby_playful_bump_count = 0
+	_playful_bump_wobble_seconds = 0.0
+	# The cloud lifts Stella back to the height she left, so nothing about the pause
+	# leaves her lower than she was when she reaches the route again.
+	_flight_altitude_stage_heights = _cloud_rest_altitude_snapshot
+	_flight_vertical_speed_stage_heights_per_second = 0.0
+
+
+func _is_playful_bump_contact() -> bool:
+	return _flight_altitude_stage_heights <= _playful_bump_contact_altitude()
+
+
+func _playful_bump_contact_altitude() -> float:
+	var help: Dictionary = _gentle_help_tuning()
+	return (
+		float(
+			help.get(
+				"playfulBumpObstacleAltitudeStageHeights",
+				DEFAULT_PLAYFUL_BUMP_OBSTACLE_ALTITUDE,
+			),
+		)
+		+ float(help.get("collisionHalfHeightStageHeights", DEFAULT_COLLISION_HALF_HEIGHT))
+	)
+
+
+func _maximum_gentle_help_level() -> int:
+	return maxi(0, int(_cloud_rest_tuning.get("maximumHelpLevel", 2)))
+
+
+# Each Cloud Rest quietly moves Stella one step down this list. The child never sees a
+# level; the journey simply travels more slowly and forgives contact more generously.
+func _gentle_help_tuning() -> Dictionary:
+	var help_levels: Variant = _cloud_rest_tuning.get("helpLevels")
+	if not help_levels is Array or help_levels.is_empty():
+		return {}
+	var level: Variant = help_levels[clampi(_gentle_help_level, 0, help_levels.size() - 1)]
+	return level if level is Dictionary else {}
+
+
+func _gentle_help_route_duration_seconds() -> float:
+	return (
+		float(_single_route_tuning.get("durationSeconds", 18.0))
+		* float(_gentle_help_tuning().get("travelDurationMultiplier", 1.0))
+	)
+
+
+func _gentle_help_forward_speed() -> float:
+	return (
+		float(_flight_tuning.get("forwardSpeedStageWidthsPerSecond", 0.0))
+		* float(_gentle_help_tuning().get("forwardSpeedMultiplier", 1.0))
+	)
+
+
+func _gentle_help_acceleration(movement_state: String) -> float:
+	var acceleration_key := (
+		"riseAccelerationStageHeightsPerSecondSquared"
+		if movement_state == "rise"
+		else "glideAccelerationStageHeightsPerSecondSquared"
+	)
+	return (
+		float(_flight_tuning.get(acceleration_key, 0.0))
+		* float(_gentle_help_tuning().get("accelerationMultiplier", 1.0))
+	)
 
 
 func _advance_birthday_star_sequence() -> void:
@@ -777,9 +961,15 @@ func _reset_current_journey() -> void:
 	_action_held = false
 	_flight_control_cycle_count = 0
 	_lacewood_progress = 0.0
-	_lacewood_elapsed_before_rest = 0.0
+	_journey_clock_seconds = 0.0
 	_playful_bump_count = 0
+	_nearby_playful_bump_count = 0
+	_last_playful_bump_seconds = 0.0
+	_playful_bump_wobble_seconds = 0.0
 	_cloud_rest_count = 0
+	_cloud_rest_progress_snapshot = -1.0
+	_cloud_rest_altitude_snapshot = 0.0
+	_gentle_help_level = 0
 	_birthday_stars = []
 	_rainbow_paths = []
 	_observed_interactions = []
@@ -905,6 +1095,8 @@ func _render_presentation() -> void:
 		"progress": _lacewood_progress,
 		"altitude": _flight_altitude_stage_heights,
 		"observed_interactions": _observed_interactions,
+		"playful_bump_wobble": _playful_bump_wobble_seconds > 0.0,
+		"cloud_rest_altitude": _cloud_rest_resting_altitude(),
 	})
 	_apply_lacewood_traversal_presentation()
 	_continue_button.text = (
@@ -1111,9 +1303,10 @@ func _apply_lacewood_traversal_presentation() -> void:
 		PHASE_STAR_APPROACH,
 	]:
 		return
+	var wobble := _playful_bump_wobble()
 	var character_center := Vector2(
 		lerpf(300.0, 1040.0, _lacewood_progress),
-		lerpf(520.0, 190.0, _flight_altitude_stage_heights),
+		lerpf(520.0, 190.0, _flight_altitude_stage_heights) + wobble * 9.0,
 	)
 	_flight_character.position = character_center - _flight_character.pivot_offset
 	_flight_character.scale = Vector2.ONE * 0.65
@@ -1121,11 +1314,22 @@ func _apply_lacewood_traversal_presentation() -> void:
 		-_flight_vertical_speed_stage_heights_per_second * 0.16,
 		-0.12,
 		0.12,
-	)
+	) + wobble * 0.11
 	_lacewood_background.scale = Vector2.ONE * 1.12
 	_lacewood_background.position.x = (
 		-_lacewood_progress * 180.0
 		+ sin(_authored_motion_seconds * 0.24) * -4.0
+	)
+
+
+# A Playful Bump reads as a soft rocking that fades out; nothing is lost or blocked.
+func _playful_bump_wobble() -> float:
+	if _playful_bump_wobble_seconds <= 0.0:
+		return 0.0
+	var wobble_seconds := maxf(0.01, _playful_bump_wobble_duration())
+	return (
+		sin(_playful_bump_wobble_seconds * TAU * 2.5)
+		* (_playful_bump_wobble_seconds / wobble_seconds)
 	)
 
 
