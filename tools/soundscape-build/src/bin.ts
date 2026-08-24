@@ -37,6 +37,14 @@ provideDefault(
   join(repositoryRoot, "shared", "edition", "soundscape", "runtime-mappings.json"),
 );
 provideDefault(
+  "--provenance",
+  join(repositoryRoot, "shared", "edition", "soundscape", "provenance.json"),
+);
+provideDefault(
+  "--edition-manifest",
+  join(repositoryRoot, "shared", "edition", "edition.json"),
+);
+provideDefault(
   "--media-doc",
   join(repositoryRoot, "docs", "media-prompts.md"),
 );

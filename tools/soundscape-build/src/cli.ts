@@ -31,8 +31,9 @@ import {
   loadCatalog,
   loadRuntimeMappings,
   validateCatalog,
+  validateEditionRoles,
 } from "./catalog";
-import type { CatalogInputPaths } from "./catalog";
+import type { CatalogInputPaths, EditionRoleInputPaths } from "./catalog";
 import { manageMediaDocs } from "./media-docs";
 import { createGenerateRequest } from "./model";
 import type { CatalogCue, GenerateRequest } from "./model";
@@ -100,7 +101,7 @@ interface BuildArgs extends CatalogInputPaths {
   recoverUnknownCue?: string;
 }
 
-interface ValidateArgs extends CatalogInputPaths {
+interface ValidateArgs extends CatalogInputPaths, EditionRoleInputPaths {
   command: "validate";
 }
 
@@ -176,6 +177,8 @@ function parseArgs(argv: readonly string[]): ParsedArgs {
     "--approve",
     "--selection-reason",
     "--force",
+    "--provenance",
+    "--edition-manifest",
   ]);
   for (let index = 1; index < argv.length; index += 2) {
     const option = argv[index];
@@ -200,10 +203,25 @@ function parseArgs(argv: readonly string[]): ParsedArgs {
   if (command === "validate") {
     const sourceMediaPath = values.get("--source-media");
     const runtimeMappingsPath = values.get("--runtime-mappings");
-    if (!catalogPath || !sourceMediaPath || !runtimeMappingsPath) {
+    const provenancePath = values.get("--provenance");
+    const manifestPath = values.get("--edition-manifest");
+    if (
+      !catalogPath ||
+      !sourceMediaPath ||
+      !runtimeMappingsPath ||
+      !provenancePath ||
+      !manifestPath
+    ) {
       throw new Error("Missing required Soundscape Build option");
     }
-    return { command, catalogPath, sourceMediaPath, runtimeMappingsPath };
+    return {
+      command,
+      catalogPath,
+      sourceMediaPath,
+      runtimeMappingsPath,
+      provenancePath,
+      manifestPath,
+    };
   }
   const outputRoot = values.get("--output-root");
   if (command === "remaster") {
@@ -1024,6 +1042,7 @@ async function buildCatalog(
     }
     if (args.command === "validate") {
       const cueCount = await validateCatalog(args);
+      await validateEditionRoles(args);
       input.stdout(
         `Validated ${cueCount} soundscape catalog ${cueCount === 1 ? "cue" : "cues"}.`,
       );
