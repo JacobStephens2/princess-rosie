@@ -8,8 +8,8 @@ var test: RefCounted = ACCEPTANCE_TEST.new()
 
 func _init() -> void:
 	var adapter := EDITION_PACK_ADAPTER.new()
-	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
-	var prepared: Dictionary = adapter.prepare(pack_root, ACCEPTANCE_TEST.EXPECTED_PACK_DIGEST)
+	var pack_root := ProjectSettings.globalize_path(ACCEPTANCE_TEST.PACK_ROOT)
+	var prepared: Dictionary = adapter.prepare(pack_root)
 
 	test.expect(
 		prepared.get("ok") == true,
@@ -17,20 +17,27 @@ func _init() -> void:
 	)
 	test.expect(prepared.get("contract_version") == "rosie-edition-contract/1", "the contract version is retained")
 	test.expect(
-		prepared.get("revision") == "mvp-soundscape-1",
+		prepared.get("revision") == ACCEPTANCE_TEST.EXPECTED_PACK_REVISION,
 		"the revision is retained",
 	)
-	test.expect(prepared.get("pack_digest") == ACCEPTANCE_TEST.EXPECTED_PACK_DIGEST, "the exact digest is retained")
+
+	var content: Dictionary = adapter.load_content(pack_root, prepared)
 	test.expect(
-		prepared.get("scenario_ids") == ["opening-flight", "tracer-bullet"],
-		"the scenario identities are retained",
+		content.get("ok") == true and content.get("value") is Dictionary,
+		"the content role loads through the adapter",
+	)
+	var media: Dictionary = adapter.load_media(pack_root, prepared)
+	test.expect(
+		media.get("ok") == true and media.get("value") is Dictionary,
+		"the media role loads through the adapter",
 	)
 
-	var mismatched: Dictionary = adapter.prepare(pack_root, "sha256:" + "0".repeat(64))
-	test.expect(mismatched.get("ok") == false, "a mismatched Edition Pack fails before play")
+	var escaping_root := ProjectSettings.globalize_path("res://tests/fixtures/escaping-pack")
+	var escaping: Dictionary = adapter.prepare(escaping_root)
+	test.expect(escaping.get("ok") == false, "an Edition Pack path leaving its root is rejected")
 	test.expect(
-		str(mismatched.get("error", "")).contains("digest mismatch"),
-		"a mismatch explains why the Edition Pack was rejected",
+		str(escaping.get("error", "")).contains("must stay inside its root"),
+		"an escaping path explains why the Edition Pack was rejected",
 	)
 
 	var malformed_root := ProjectSettings.globalize_path("res://tests/fixtures/malformed-pack")

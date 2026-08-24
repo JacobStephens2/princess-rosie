@@ -18,8 +18,7 @@ enum PresentationWindowMode {
 }
 
 const EXPECTED_ENGINE_VERSION := "4.7.2"
-const DEFAULT_PACK_SOURCE := "res://edition-pack.zip"
-const PACK_DIGEST_ASSET := "res://edition-pack.digest"
+const DEFAULT_PACK_SOURCE := "res://../../shared/edition"
 const COVER_ASSET := "res://assets/storybook-cover.png"
 const STAGE_ASPECT := 16.0 / 9.0
 const EDITION_PACK_ADAPTER := preload("res://scripts/edition_pack_adapter.gd")
@@ -102,7 +101,7 @@ const WINDOW_MODE_IDS := {
 
 var _adapter: RefCounted = EDITION_PACK_ADAPTER.new()
 var _content: Dictionary = {}
-var _pack_digest := ""
+var _pack_revision := ""
 var _state: PresentationState = PresentationState.UNPREPARED
 var _window_mode: PresentationWindowMode = PresentationWindowMode.WINDOWED
 var _launch_error := ""
@@ -209,7 +208,7 @@ func _ready() -> void:
 func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	_state = PresentationState.UNPREPARED
 	_launch_error = ""
-	_pack_digest = ""
+	_pack_revision = ""
 	_content = {}
 	_opening_moments = []
 	_opening_textures = {}
@@ -248,13 +247,7 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	if not ResourceLoader.exists(COVER_ASSET):
 		return _fail_launch("Approved Princess Rosie cover is missing: %s" % COVER_ASSET)
 
-	var expected_digest := ""
-	if pack_source == DEFAULT_PACK_SOURCE:
-		var expected_digest_result := _read_expected_pack_digest()
-		if not expected_digest_result.ok:
-			return _fail_launch(expected_digest_result.error)
-		expected_digest = expected_digest_result.value
-	var prepared: Dictionary = _adapter.prepare(pack_source, expected_digest)
+	var prepared: Dictionary = _adapter.prepare(pack_source)
 	if not prepared.ok:
 		return _fail_launch(prepared.error)
 	var content_result: Dictionary = _adapter.load_content(pack_source, prepared)
@@ -283,7 +276,7 @@ func prepare_launch(pack_source: String = DEFAULT_PACK_SOURCE) -> Dictionary:
 	var media_loaded := _load_opening_media(pack_source, prepared)
 	if not media_loaded.ok:
 		return _fail_launch(media_loaded.error)
-	_pack_digest = prepared.pack_digest
+	_pack_revision = prepared.revision
 	_state = PresentationState.COVER
 	_window_mode = PresentationWindowMode.WINDOWED
 	return {"ok": true}
@@ -295,7 +288,7 @@ func presentation_evidence() -> Dictionary:
 		"window_mode": WINDOW_MODE_IDS[_window_mode],
 		"cover_asset": COVER_ASSET,
 		"entry_points": [str(INTENT_BEGIN), str(INTENT_GROWN_UP_CORNER)],
-		"pack_digest": _pack_digest,
+		"pack_revision": _pack_revision,
 		"error": _launch_error,
 		"grown_up_corner_visible": _grown_up_corner_visible,
 		"sound_enabled": _sound_enabled,
@@ -1106,7 +1099,7 @@ func _render_presentation() -> void:
 	var flight_copy := _flight_presentation_copy()
 	_flight_title.text = flight_copy.title
 	_flight_instruction.text = flight_copy.instruction
-	_pack_badge.text = "EDITION PACK  •  %s" % _pack_digest.trim_prefix("sha256:").left(10).to_upper()
+	_pack_badge.text = "EDITION PACK  •  %s" % _pack_revision.to_upper()
 	_error_label.text = _launch_error
 	_sound_button.text = "Sound: On" if _sound_enabled else "Sound: Off"
 
@@ -1417,15 +1410,6 @@ func _load_opening_media(pack_source: String, prepared_pack: Dictionary) -> Dict
 	_lacewood_background_texture = lacewood_result.texture
 	_lacewood_media_paths["lacewood.background"] = lacewood_path
 	return {"ok": true}
-
-
-func _read_expected_pack_digest() -> Dictionary:
-	if not FileAccess.file_exists(PACK_DIGEST_ASSET):
-		return {"ok": false, "error": "Edition Pack digest binding is missing"}
-	var expected_digest := FileAccess.get_file_as_string(PACK_DIGEST_ASSET).strip_edges()
-	if expected_digest.length() != 71 or not expected_digest.begins_with("sha256:"):
-		return {"ok": false, "error": "Edition Pack digest binding is invalid"}
-	return {"ok": true, "value": expected_digest}
 
 
 func _fail_launch(message: String) -> Dictionary:

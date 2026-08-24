@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# NOTE: the packaged application no longer carries a bundled Edition Pack. Staging
+# shared/edition/** into the exported bundle is part of packaging the Godot Edition
+# (issue #62); until then this script only passes against an editor-resolved pack.
+
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 godot_bin="${GODOT_BIN:-/Applications/Godot.app/Contents/MacOS/Godot}"
 build_dir="$project_dir/build"
@@ -16,7 +20,7 @@ lacewood_flight_capture_path="$build_dir/lacewood-flight-stage.png"
 lacewood_flight_evidence_path="$build_dir/lacewood-flight-export-smoke-evidence.json"
 lacewood_capture_path="$build_dir/lacewood-tracer-stage.png"
 lacewood_evidence_path="$build_dir/lacewood-tracer-export-smoke-evidence.json"
-expected_pack_digest="$(tr -d '\n\r' < "$project_dir/edition-pack.digest")"
+expected_pack_revision="$(jq -r '.revision' "$project_dir/../../shared/edition/edition.json")"
 
 mkdir -p "$build_dir"
 rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidence_path" \
@@ -42,11 +46,11 @@ sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- -
 test -s "$capture_path"
 test -s "$evidence_path"
 test "$(stat -f '%z' "$capture_path")" -gt 100000
-jq -e --arg expected_pack_digest "$expected_pack_digest" '
+jq -e --arg expected_pack_revision "$expected_pack_revision" '
   .state == "cover"
   and .window_mode == "windowed"
   and .engine_version == "4.7.2"
-  and .pack_digest == $expected_pack_digest
+  and .pack_revision == $expected_pack_revision
   and .network_requests == 0
   and .capture_sample_colors >= 8
   and .storybook_stage.aspect == "16:9"
@@ -63,10 +67,10 @@ sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- -
 test -s "$opening_capture_path"
 test -s "$opening_evidence_path"
 test "$(stat -f '%z' "$opening_capture_path")" -gt 100000
-jq -e --arg expected_pack_digest "$expected_pack_digest" '
+jq -e --arg expected_pack_revision "$expected_pack_revision" '
   .state == "opening_storybook_moment"
   and .opening_moment == "opening.celebration-preparations"
-  and .pack_digest == $expected_pack_digest
+  and .pack_revision == $expected_pack_revision
   and .network_requests == 0
   and .capture_sample_colors >= 8
   and .storybook_stage.aspect == "16:9"
@@ -88,12 +92,12 @@ sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- -
 test -s "$flight_capture_path"
 test -s "$flight_evidence_path"
 test "$(stat -f '%z' "$flight_capture_path")" -gt 100000
-jq -e --arg expected_pack_digest "$expected_pack_digest" '
+jq -e --arg expected_pack_revision "$expected_pack_revision" '
   .state == "active_play"
   and .movement_state == "glide"
   and .active_action_sources == []
   and .observed_action_sources == ["keyboard.space", "pointer.primary"]
-  and .pack_digest == $expected_pack_digest
+  and .pack_revision == $expected_pack_revision
   and .network_requests == 0
   and .capture_sample_colors >= 8
   and .storybook_stage.aspect == "16:9"
@@ -128,7 +132,7 @@ sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- -
 test -s "$lacewood_flight_capture_path"
 test -s "$lacewood_flight_evidence_path"
 test "$(stat -f '%z' "$lacewood_flight_capture_path")" -gt 100000
-jq -e --arg expected_pack_digest "$expected_pack_digest" '
+jq -e --arg expected_pack_revision "$expected_pack_revision" '
   .state == "active_play"
   and .journey_phase == "lacewood-flight"
   and .lacewood_progress > 0.3
@@ -143,7 +147,7 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .smoke_flight_samples[2].label == "pointer-rise"
   and .smoke_flight_samples[0].altitude > .smoke_flight_samples[1].altitude
   and .smoke_flight_samples[2].altitude > .smoke_flight_samples[1].altitude
-  and .pack_digest == $expected_pack_digest
+  and .pack_revision == $expected_pack_revision
   and .network_requests == 0
   and .capture_sample_colors >= 8
   and .storybook_stage.aspect == "16:9"
@@ -174,7 +178,7 @@ sandbox-exec -p '(version 1) (allow default) (deny network*)' "$app_binary" -- -
 test -s "$lacewood_capture_path"
 test -s "$lacewood_evidence_path"
 test "$(stat -f '%z' "$lacewood_capture_path")" -gt 100000
-jq -e --arg expected_pack_digest "$expected_pack_digest" '
+jq -e --arg expected_pack_revision "$expected_pack_revision" '
   .state == "celebration"
   and .journey_phase == "celebration"
   and .playful_bumps == 3
@@ -191,7 +195,7 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
   and .gentle_help.maximum_help_level == 2
   and .gentle_help.visible_help_label == ""
   and .nearby_playful_bumps == 0
-  and .pack_digest == $expected_pack_digest
+  and .pack_revision == $expected_pack_revision
   and .network_requests == 0
   and .capture_sample_colors >= 8
   and .storybook_stage.aspect == "16:9"
