@@ -21,6 +21,7 @@ tests=(
   one_action_input_acceptance.gd
   flight_motion_acceptance.gd
   flight_media_acceptance.gd
+  journey_media_acceptance.gd
   presentation_motion_acceptance.gd
   lacewood_tracer_acceptance.gd
   lacewood_flight_control_acceptance.gd
