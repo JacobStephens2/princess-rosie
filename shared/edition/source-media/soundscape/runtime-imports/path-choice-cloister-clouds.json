@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.path-choice.cloister.clouds",
+  "runtimeMapping": "runtime-cue.path-choice.cloister.clouds",
+  "sourceMaster": "source-master.path-choice.cloister.clouds",
+  "sourcePath": "masters/path-choice-cloister-clouds.wav",
+  "runtimePath": "runtime/path-choice-cloister-clouds.wav",
+  "sourceHash": "sha256:89e630ceb7dc526204ca316ccad28d20c2936084d75a5c16b1d1490e070db5f1",
+  "derivativeHash": "sha256:89e630ceb7dc526204ca316ccad28d20c2936084d75a5c16b1d1490e070db5f1",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

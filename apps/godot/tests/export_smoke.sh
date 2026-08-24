@@ -213,8 +213,7 @@ jq -e --arg expected_pack_digest "$expected_pack_digest" '
     "sound-event.birthday-star-gathered",
     "sound-event.rainbow-path-opened",
     "sound-event.birthday-star-moment",
-    "sound-event.birthday-castle-arrival",
-    "sound-event.celebration-interaction"
+    "sound-event.birthday-castle-arrival"
   ]))
 ' "$lacewood_evidence_path" >/dev/null
 

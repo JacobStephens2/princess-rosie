@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.place.cloister",
+  "sourceMaster": "source-master.place.cloister",
+  "runtimeMapping": "runtime-cue.place.cloister",
+  "status": "approved",
+  "jobHash": "sha256:6b5d96382a3f04d71dc1c074cb8b704259217074be81a10478d6dda465011ac0",
+  "masterPath": "masters/place-cloister.wav",
+  "masterHash": "sha256:a68b6eeee0ddf6ace46e33dfb65781920758818648b286bcc383e0261f7a0cae",
+  "runtimePath": "runtime/place-cloister.wav",
+  "runtimeHash": "sha256:a68b6eeee0ddf6ace46e33dfb65781920758818648b286bcc383e0261f7a0cae"
+}

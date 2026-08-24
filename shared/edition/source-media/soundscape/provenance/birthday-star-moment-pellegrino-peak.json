@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.birthday-star-moment.pellegrino-peak",
+  "sourceMasterId": "source-master.birthday-star-moment.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.pellegrino-peak",
+  "jobHash": "sha256:d3a9801faeb5026caa5a102b24ce8c940d0f1784c0bff9878c2f97448f711abf",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A flowered open-air resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh wind transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 2,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:43:58.170Z",
+  "traceId": "65963c5dac92ac10f56bc247f7ce6a03",
+  "providerReportedUsage": {
+    "characterCost": "20"
+  },
+  "sourceHash": "sha256:55a822ea4893a9bf88f25bc2ac8f1c5edac200ae93fe529f46743df259637eae",
+  "selectedOutputHash": "sha256:b5ff00c70b10934bbcdd70499f94f8289743bb940d15b66f799f45ac29237e1a",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:b5ff00c70b10934bbcdd70499f94f8289743bb940d15b66f799f45ac29237e1a",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "flowered-open-air-resolution-accent-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-3",
+  "selectionReason": "Blinded native-audio evaluation with paid Gemini 3.7 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo and selected Candidate Charlie: Candidate Charlie offers the most magical and balanced storybook resolution accent while remaining gentle, clear, and distinct from the reference. Evaluator reported no uncertainty. Human MacBook-speaker and headphone listening pass still required."
+}

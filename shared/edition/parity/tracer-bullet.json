@@ -131,11 +131,7 @@
       "event": "sound-event.birthday-star-moment",
       "context": { "place": "lacewood", "familyGuest": "Gram" }
     },
-    { "event": "sound-event.birthday-castle-arrival", "context": {} },
-    {
-      "event": "sound-event.celebration-interaction",
-      "context": { "action": "dance-again" }
-    }
+    { "event": "sound-event.birthday-castle-arrival", "context": {} }
   ],
   "requiredFacts": {
     "birthdayStars": ["birthday-star.lacewood"],

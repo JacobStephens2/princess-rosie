@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.playful-bump.pellegrino-peak",
+  "sourceMaster": "source-master.playful-bump.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.playful-bump.pellegrino-peak",
+  "status": "approved",
+  "jobHash": "sha256:401f1f056cf516aded4e7438bc9e898f21728f8896480b3586ac677fb68668cd",
+  "masterPath": "masters/playful-bump-pellegrino-peak.wav",
+  "masterHash": "sha256:f4f182f6f3cff74cce5cee640b21d1cc9eff4278cfbde9656f5e41667cdca783",
+  "runtimePath": "runtime/playful-bump-pellegrino-peak.wav",
+  "runtimeHash": "sha256:f4f182f6f3cff74cce5cee640b21d1cc9eff4278cfbde9656f5e41667cdca783"
+}

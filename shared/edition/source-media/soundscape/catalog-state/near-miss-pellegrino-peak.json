@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.near-miss.pellegrino-peak",
+  "sourceMaster": "source-master.near-miss.pellegrino-peak",
+  "runtimeMapping": "runtime-cue.near-miss.pellegrino-peak",
+  "status": "approved",
+  "jobHash": "sha256:3b513ad73d8edb0cff2a40580fe758efd5e50dd022e78b28de2159fbe1f6011c",
+  "masterPath": "masters/near-miss-pellegrino-peak.wav",
+  "masterHash": "sha256:1b6ce0c547ae4b38447875e70f9358767d230d6d4642bd4e6a5dc85d625a1010",
+  "runtimePath": "runtime/near-miss-pellegrino-peak.wav",
+  "runtimeHash": "sha256:1b6ce0c547ae4b38447875e70f9358767d230d6d4642bd4e6a5dc85d625a1010"
+}

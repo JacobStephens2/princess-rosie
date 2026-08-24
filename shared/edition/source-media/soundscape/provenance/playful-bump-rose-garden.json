@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.playful-bump.rose-garden",
+  "sourceMasterId": "source-master.playful-bump.rose-garden",
+  "runtimeMapping": "runtime-cue.playful-bump.rose-garden",
+  "jobHash": "sha256:c6becbe01c62b4a489781223ebb35121d520c7a5927efca65a405ee784efbf51",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A soft nonthreatening rose garland bump with drifting petals. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 0.8,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:47:23.392Z",
+  "traceId": "85a73c91dc706c59f1e63649b32f2eeb",
+  "providerReportedUsage": {
+    "characterCost": "8"
+  },
+  "sourceHash": "sha256:71b9f76cde3494ff73d05de4081b17b778fb1104f3320da52cc1276cbc3dbcdd",
+  "selectedOutputHash": "sha256:a1f2cf679ed8709f953d7eadf606b76adc904cebf35992fd2737c3ea0f3373c3",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -14.198,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:a1f2cf679ed8709f953d7eadf606b76adc904cebf35992fd2737c3ea0f3373c3",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "soft-nonthreatening-rose-garland-bump-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-1",
+  "selectionReason": "Blind Gemini 3.7 Flash evaluation ranked it first of three: an airy delicate bump with drifting petals and a cushioned wobble, gentle with no startle or fatigue risk, where one rival was an abrasive scratchy rip and the other a dry papery rustle."
+}

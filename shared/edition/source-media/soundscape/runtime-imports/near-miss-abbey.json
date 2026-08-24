@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.near-miss.abbey",
+  "runtimeMapping": "runtime-cue.near-miss.abbey",
+  "sourceMaster": "source-master.near-miss.abbey",
+  "sourcePath": "masters/near-miss-abbey.wav",
+  "runtimePath": "runtime/near-miss-abbey.wav",
+  "sourceHash": "sha256:5e71b244cecfb8f7abc4c531364460455594b0a713e92c3c4d02fb675520984e",
+  "derivativeHash": "sha256:5e71b244cecfb8f7abc4c531364460455594b0a713e92c3c4d02fb675520984e",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

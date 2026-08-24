@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.place.abbey",
+  "sourceMasterId": "source-master.place.abbey",
+  "runtimeMapping": "runtime-cue.place.abbey",
+  "jobHash": "sha256:021d7288593978a9d9b5cebe4c3de8cfb24d32ad0018197f4e2136069c0b94ab",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "Calm sunlit abbey courtyard air beneath the music: still warm stone, soft garden leaves, and sparse distant bells far away. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 12,
+    "promptInfluence": 0.3,
+    "loop": true,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:50:53.163Z",
+  "traceId": "db09c94acf251a3a61c26aa42322f70b",
+  "providerReportedUsage": {
+    "characterCost": "120"
+  },
+  "sourceHash": "sha256:c2b573274ba9299d67e2d97427588f5a5e3021a4ab2ba8fe20562b36dadb83e4",
+  "selectedOutputHash": "sha256:b1ba5f7723fdf0b698e18ae81a43e7e42fc35c0819a38758f48f92bd5a40303a",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 2,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "preserve-stereo",
+    "peak-ceiling--6dbfs",
+    "loop-seam-qa",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "peakDbfs": -22.81,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": 0.000518798828125
+  },
+  "runtimeDerivativeHash": "sha256:b1ba5f7723fdf0b698e18ae81a43e7e42fc35c0819a38758f48f92bd5a40303a",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "calm-courtyard-air-and-sparse-distant-bells-under-music-for-macbook",
+  "channelPolicy": "warm-stereo-loop",
+  "priority": 40,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for the Abbey courtyard: delicate airy air with genuinely sparse, distant bells, best gentleness and lowest fatigue risk, a validated seamless loop, and quiet -22.8 dBFS peaks that sit under the soundtrack."
+}

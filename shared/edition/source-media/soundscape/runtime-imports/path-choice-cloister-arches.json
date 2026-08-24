@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.path-choice.cloister.arches",
+  "runtimeMapping": "runtime-cue.path-choice.cloister.arches",
+  "sourceMaster": "source-master.path-choice.cloister.arches",
+  "sourcePath": "masters/path-choice-cloister-arches.wav",
+  "runtimePath": "runtime/path-choice-cloister-arches.wav",
+  "sourceHash": "sha256:d78c8a2f2160dccf62e967cdee7a76f8c6ec76c4054aac7438c515f83c2df6ab",
+  "derivativeHash": "sha256:d78c8a2f2160dccf62e967cdee7a76f8c6ec76c4054aac7438c515f83c2df6ab",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 1,
+    "looping": false
+  }
+}

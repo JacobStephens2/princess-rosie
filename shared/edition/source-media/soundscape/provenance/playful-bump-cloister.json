@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.playful-bump.cloister",
+  "sourceMasterId": "source-master.playful-bump.cloister",
+  "runtimeMapping": "runtime-cue.playful-bump.cloister",
+  "jobHash": "sha256:83c30f081479743ebd98e29308590c161ea65226f240ab521643c22a3be4eb73",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A soft nonthreatening cloud bump. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 0.8,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T12:47:35.998Z",
+  "traceId": "6e1ae698d2b6d3ea14784d3b0e882485",
+  "providerReportedUsage": {
+    "characterCost": "8"
+  },
+  "sourceHash": "sha256:8a04ea0850567d84542ef0f303e6f401e09c0f5981040e794518c4276ad2b419",
+  "selectedOutputHash": "sha256:00bf43d395e16a82a1ec5d50837175066f76fa2eef7d39f184078d0dba9b96bf",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -22.409,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:00bf43d395e16a82a1ec5d50837175066f76fa2eef7d39f184078d0dba9b96bf",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "soft-nonthreatening-cloud-bump-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 60,
+  "priorityBand": "non-critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Candidate B delivers the warmest, most pillowy 'cloud bump' feel with perfectly soft transients and balanced resonance for MacBook speakers. It avoids all startle or fatigue risks while maintaining clear distinctness from the reference cue."
+}

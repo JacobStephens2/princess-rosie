@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.birthday-star-moment.sapphire-sea",
+  "sourceMasterId": "source-master.birthday-star-moment.sapphire-sea",
+  "runtimeMapping": "runtime-cue.birthday-star-moment.sapphire-sea",
+  "jobHash": "sha256:8d6b0f2ecb58597ff4b3ba7cf143e12ec534939bea37c1bb82d1f3997935440d",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A sparkling shore-wash resolution accent. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 2,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-23T13:03:58.895Z",
+  "traceId": "628fa3eacecfda3f80158b73a33f8770",
+  "providerReportedUsage": {
+    "characterCost": "20"
+  },
+  "sourceHash": "sha256:66865f73defffe12afacee134c684788a1f5cddc1773d2355783406b9e518910",
+  "selectedOutputHash": "sha256:b016aa7ba4ee871714f42472c550df4a36176ce563ce4eaf392e588e542fd1cd",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 1,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "downmix-stereo-to-mono",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 1,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:b016aa7ba4ee871714f42472c550df4a36176ce563ce4eaf392e588e542fd1cd",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "sparkling-shore-wash-resolution-accent-for-macbook",
+  "channelPolicy": "focused-mono",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Blinded Gemini 3.7 Flash native-audio evaluation ranked it first for a warm acoustic harp and airy shore-wash shimmer that resolves the moment without fanfare or reward-chime character, distinct from the woodland resolution accent, with no unwanted voice or melody; it clears the waveform gate at 48 kHz mono, 2.0 s, -6 dBFS peak, no clipping, and a clean trimmed tail."
+}

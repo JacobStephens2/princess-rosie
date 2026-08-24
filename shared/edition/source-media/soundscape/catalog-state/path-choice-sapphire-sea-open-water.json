@@ -1,0 +1,11 @@
+{
+  "cueId": "cue.path-choice.sapphire-sea.open-water",
+  "sourceMaster": "source-master.path-choice.sapphire-sea.open-water",
+  "runtimeMapping": "runtime-cue.path-choice.sapphire-sea.open-water",
+  "status": "approved",
+  "jobHash": "sha256:23b6fa5516eb5c799df2f7b0b09e5f4654abf2681dcf49b62678e956cbdbceb9",
+  "masterPath": "masters/path-choice-sapphire-sea-open-water.wav",
+  "masterHash": "sha256:ec57b02a11abd71490fdee9f295813af8c6e1c0838965d7c4e51bf002231e5cd",
+  "runtimePath": "runtime/path-choice-sapphire-sea-open-water.wav",
+  "runtimeHash": "sha256:ec57b02a11abd71490fdee9f295813af8c6e1c0838965d7c4e51bf002231e5cd"
+}
