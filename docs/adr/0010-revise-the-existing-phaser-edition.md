@@ -1,4 +1,10 @@
+---
+status: superseded by ADR-0011
+---
+
 # Revise the existing Phaser Edition with shared presentation
+
+> Superseded by [ADR-0011](./0011-narrow-to-a-single-godot-mvp.md), which freezes the Phaser Edition at its deployed state. No work in the Godot MVP modifies it.
 
 Revise the existing browser application and `rosi.stephens.page` deployment in place as the Phaser Edition, rather than preserving an unchanged Original Edition or creating a second Phaser application. This deliberately replaces GitHub issue #15's earlier Phaser boundary: owner-accepted source media remain canonical under `shared/edition/`, a build step prepares optimized browser derivatives, and Phaser presents each place through a full Storybook Stage illustration with restrained engine-native motion while preserving its journey rules and independently authored interaction geometry.
 

@@ -1,5 +1,5 @@
 ---
-status: superseded by ADR-0008
+status: superseded by ADR-0008, then in full by ADR-0011
 ---
 
 # Coordinate parallel editions through an Edition Contract
