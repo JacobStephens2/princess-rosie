@@ -173,6 +173,20 @@ func _run() -> void:
 			"enabling Sound restores every internal category",
 		)
 	audio.stop_slot("foreground")
+	if fallback_stream is AudioStreamWAV:
+		var looping_detail := SOUNDSCAPE_PLAYBACK.new(
+			&"Detail", &"looping-detail", SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND,
+			-10.0, 20, true, 0,
+		)
+		test.expect(audio.play(fallback_stream, looping_detail), "a looping cue takes a voice")
+		test.expect(audio.play(fallback_stream, looping_detail), "a second looping cue takes the last voice")
+		await create_timer(0.6).timeout
+		test.expect(
+			not audio.play(fallback_stream, looping_detail),
+			"a looping cue keeps sounding past the length of its own asset",
+		)
+
+	audio.stop_slot("foreground")
 	audio.stop_slot("movement")
 	audio.stop_slot("ambience")
 	audio.stop_slot("music")

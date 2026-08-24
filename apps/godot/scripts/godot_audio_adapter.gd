@@ -238,6 +238,10 @@ func _play_on(
 			if playback.looping
 			else AudioStreamWAV.LOOP_DISABLED
 		)
+		var frame_count := _wav_frame_count(stream)
+		if playback.looping and frame_count > 0 and stream.loop_end <= stream.loop_begin:
+			stream.loop_begin = 0
+			stream.loop_end = frame_count
 	elif stream is AudioStreamMP3:
 		stream.loop = playback.looping
 
@@ -257,6 +261,14 @@ func _play_on(
 		duration_timer.start(playback.max_duration_ms / 1000.0)
 	return true
 
+
+
+func _wav_frame_count(stream: AudioStreamWAV) -> int:
+	if stream.format not in [AudioStreamWAV.FORMAT_8_BITS, AudioStreamWAV.FORMAT_16_BITS]:
+		return 0
+	var bytes_per_sample := 2 if stream.format == AudioStreamWAV.FORMAT_16_BITS else 1
+	var channels := 2 if stream.stereo else 1
+	return stream.data.size() / (bytes_per_sample * channels)
 
 func _register_player(player: AudioStreamPlayer) -> void:
 	add_child(player)
