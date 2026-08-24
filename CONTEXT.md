@@ -5,12 +5,12 @@ A joyful, replayable birthday game centered on a fictional storybook hero inspir
 ## Language
 
 **Phaser Edition**:
-The existing browser-playable edition of Princess Rosie and the Seven Birthday Stars, revised with production-quality shared presentation while retaining an engine-native Phaser implementation.
+The browser-playable edition of Princess Rosie and the Seven Birthday Stars that was made for the birthday and remains deployed. It is frozen at its released state and is no longer revised.
 _Avoid_: Original Edition, Phaser prototype, Phaser Web Edition
 
 **Godot Edition**:
-The separately developed edition of Princess Rosie and the Seven Birthday Stars that uses Godot to pursue the same canonical storybook experience.
-_Avoid_: Godot Production Edition, canonical edition
+The native macOS edition of Princess Rosie and the Seven Birthday Stars built in Godot. It is the edition under active development and the one the canonical storybook experience is realized in.
+_Avoid_: Godot Production Edition, Unity Edition
 
 **Princess Rosie**:
 The storybook hero and elder sister through whom the child experiences the adventure. She shares Rosie's name and may use an expressly approved likeness without unrelated identifying personal details.
@@ -133,5 +133,5 @@ A deferred, post-MVP concept for privately remembering completed journeys and ex
 _Avoid_: Profile, score, progression, analytics
 
 **Grown-up Corner**:
-A quiet set of secondary controls for sound, window mode, and replaying the story, available from the cover and pause state.
+A quiet set of secondary controls for sound and replaying the story, available from the cover and pause state.
 _Avoid_: Settings screen, child menu, parental controls
