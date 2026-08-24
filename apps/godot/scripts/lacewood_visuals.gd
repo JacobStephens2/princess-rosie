@@ -2,12 +2,15 @@ class_name LacewoodVisuals
 extends Control
 
 const PHASE_CELEBRATION := "celebration"
+const PHASE_CLOUD_REST := "cloud-rest"
 
 var _phase := ""
 var _single_route: Dictionary = {}
 var _progress := 0.0
 var _altitude := 0.5
 var _observed_interactions: Array[String] = []
+var _playful_bump_wobble := false
+var _cloud_rest_altitude := 0.36
 var _elapsed := 0.0
 
 
@@ -34,6 +37,8 @@ func set_story_state(state: Dictionary) -> void:
 	var phase := str(state.get("phase", ""))
 	var progress := float(state.get("progress", 0.0))
 	var altitude := float(state.get("altitude", 0.5))
+	var playful_bump_wobble := bool(state.get("playful_bump_wobble", false))
+	var cloud_rest_altitude := float(state.get("cloud_rest_altitude", 0.36))
 	var observed_interactions: Array[String] = []
 	for interaction: Variant in state.get("observed_interactions", []):
 		observed_interactions.append(str(interaction))
@@ -41,12 +46,16 @@ func set_story_state(state: Dictionary) -> void:
 		phase == _phase
 		and is_equal_approx(progress, _progress)
 		and is_equal_approx(altitude, _altitude)
+		and playful_bump_wobble == _playful_bump_wobble
+		and is_equal_approx(cloud_rest_altitude, _cloud_rest_altitude)
 		and observed_interactions == _observed_interactions
 	):
 		return
 	_phase = phase
 	_progress = progress
 	_altitude = altitude
+	_playful_bump_wobble = playful_bump_wobble
+	_cloud_rest_altitude = cloud_rest_altitude
 	_observed_interactions = observed_interactions
 	queue_redraw()
 
@@ -59,6 +68,10 @@ func visual_evidence() -> Dictionary:
 		"silver_ribbons_visible": visible and _phase != PHASE_CELEBRATION,
 		"rose_lights_visible": visible and _phase != PHASE_CELEBRATION,
 		"observed_visual_responses": _observed_visual_responses(),
+		"resting_cloud_visible": visible and _phase == PHASE_CLOUD_REST,
+		"playful_bump_wobble_visible": (
+			visible and _playful_bump_wobble and _phase != PHASE_CELEBRATION
+		),
 		"celebration_echo": (
 			str(_single_route.get("celebrationEcho", ""))
 			if visible and _phase == PHASE_CELEBRATION
@@ -78,6 +91,10 @@ func _draw() -> void:
 	_draw_silver_ribbon_clusters()
 	_draw_rose_light_clusters()
 	_draw_progress_glimmer()
+	if _phase == PHASE_CLOUD_REST:
+		_draw_resting_cloud()
+	elif _playful_bump_wobble:
+		_draw_playful_bump_sparkle()
 	if _phase in ["birthday-star-approach", "birthday-star-moment"]:
 		_draw_birthday_star(Vector2(1112.0, 365.0), 24.0 + sin(_elapsed * 2.2) * 2.0)
 
@@ -145,6 +162,31 @@ func _draw_progress_glimmer() -> void:
 	draw_circle(Vector2(x, y), 13.0 + sin(_elapsed * 3.5) * 2.0, Color(1.0, 0.92, 0.55, 0.28))
 
 
+# Cloud Rest shows Stella settling onto something solid and soft, right where she was.
+func _draw_resting_cloud() -> void:
+	var center := _stage_position(_cloud_rest_altitude) + Vector2(0.0, 64.0)
+	var breath := sin(_elapsed * 1.1) * 3.0
+	for puff_index: int in 5:
+		var offset := Vector2(float(puff_index - 2) * 34.0, absf(float(puff_index - 2)) * 7.0)
+		draw_circle(
+			center + offset + Vector2(0.0, breath),
+			42.0 - absf(float(puff_index - 2)) * 7.0,
+			Color(1.0, 0.98, 1.0, 0.86),
+		)
+	draw_circle(center + Vector2(0.0, breath), 54.0, Color(0.98, 0.94, 1.0, 0.34))
+
+
+func _draw_playful_bump_sparkle() -> void:
+	var center := _stage_position(_altitude)
+	for spark_index: int in 6:
+		var angle := float(spark_index) * TAU / 6.0 + _elapsed * 1.4
+		draw_circle(
+			center + Vector2.from_angle(angle) * 34.0,
+			5.0,
+			Color(1.0, 0.93, 0.62, 0.6),
+		)
+
+
 func _draw_combined_celebration_echo() -> void:
 	for ribbon_index: int in 4:
 		var y := 96.0 + ribbon_index * 38.0
@@ -170,6 +212,15 @@ func _draw_birthday_star(center: Vector2, radius: float) -> void:
 		points.append(center + Vector2.from_angle(angle) * point_radius)
 	draw_colored_polygon(points, Color(1.0, 0.78, 0.25, 0.94))
 	draw_polyline(points + PackedVector2Array([points[0]]), Color(1.0, 0.96, 0.72, 0.96), 3.0, true)
+
+
+# Where Stella sits on the Storybook Stage for a given height, matching the traversal
+# placement the shell applies to her illustration.
+func _stage_position(altitude: float) -> Vector2:
+	return Vector2(
+		lerpf(300.0, 1040.0, clampf(_progress, 0.0, 1.0)),
+		lerpf(520.0, 190.0, clampf(altitude, 0.0, 1.0)),
+	)
 
 
 func _observed_visual_responses() -> Array[String]:

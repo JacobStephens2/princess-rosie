@@ -36,6 +36,9 @@ const tracerFacts = {
   birthdayStarGuaranteed: true,
   cloudRestPreservesProgress: true,
   cloudRestAutomaticResume: true,
+  cloudRestGentleHelpLevel: 1,
+  cloudRestMaximumGentleHelpLevel: 2,
+  gentleHelpVisibleToChild: false,
   journeyProgressPersisted: false,
   networkRequests: 0,
 };

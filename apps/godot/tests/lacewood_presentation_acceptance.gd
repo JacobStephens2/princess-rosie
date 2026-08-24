@@ -64,6 +64,8 @@ func _run() -> void:
 			"silver_ribbons_visible": true,
 			"rose_lights_visible": true,
 			"observed_visual_responses": [],
+			"resting_cloud_visible": false,
+			"playful_bump_wobble_visible": false,
 			"celebration_echo": "",
 		},
 		"one corridor combines the silver ribbons and rose lights without advertising a choice",
