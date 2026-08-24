@@ -1,6 +1,12 @@
+---
+status: superseded in full by ADR-0011
+---
+
 # Verify semantic parity and choose by feel
 
-> The private Journey History validation clause is superseded for the single-route MVP by [ADR-0009](./0009-prioritize-flight-control-over-mvp-path-choices.md). The remaining parity and play-feel validation decision stays active.
+> Superseded in full by [ADR-0011](./0011-narrow-to-a-single-godot-mvp.md). Unity is cut, so there is no second edition to match: the contract-digest gate, matched captures, parity scenarios, and the prepare/prove ceremony described below are all retired and no longer exist in the code. Manual play-feel review of the Godot Edition survives, as the manual verification step of the MVP acceptance bar.
+>
+> Earlier, the private Journey History validation clause was superseded for the single-route MVP by [ADR-0009](./0009-prioritize-flight-control-over-mvp-path-choices.md).
 
 Require semantic and experiential parity rather than pixel identity: both Production Editions use the same Edition Pack, source media, copy, interaction intent, Storybook Stage composition, event order, safe routes, assistance behavior, and broad timing envelopes, while their adapters may use different native curves, physics values, rigs, animation systems, shaders, particles, and audio graphs to achieve their best feel. Each production milestone must validate its contract digest, native domain rules, an automated journey through real interaction paths, semantic checkpoints, matched captures, packaged macOS launch and input, private Journey History, absence of runtime network requests, and manual visual, motion, audio, and play-feel quality.
 

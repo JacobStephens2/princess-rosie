@@ -186,3 +186,90 @@ export async function validateCatalog(args: CatalogInputPaths): Promise<number> 
 export function cueSlug(cueId: string): string {
   return cueId.replace(/^cue\./, "").replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "");
 }
+
+/**
+ * Roles reserved for exactly one Edition Pack file each. Content roles such as
+ * `source-media` intentionally repeat, one entry per asset.
+ */
+const RESERVED_SOUNDSCAPE_ROLES = [
+  "soundscape-events",
+  "soundscape-catalog",
+  "soundscape-source-media",
+  "soundscape-mix",
+  "soundscape-runtime-mappings",
+  "soundscape-provenance",
+] as const;
+
+export interface EditionRoleInputPaths {
+  sourceMediaPath: string;
+  provenancePath: string;
+  manifestPath: string;
+}
+
+function assertUniqueRoleIds(
+  roles: Array<{ id?: string }> | undefined,
+  label: string,
+): Set<string> {
+  const identifiers = new Set<string>();
+  for (const { id } of roles ?? []) {
+    if (typeof id !== "string" || !id.trim()) {
+      throw new Error(`Every ${label} needs an identifier`);
+    }
+    if (identifiers.has(id)) throw new Error(`Duplicate ${label}: ${id}`);
+    identifiers.add(id);
+  }
+  return identifiers;
+}
+
+/**
+ * Proves the Edition Pack declares every role its soundscape files reach for.
+ * The Godot adapter validates that manifest entries are well formed and their
+ * files exist; these are the cross-references it cannot see.
+ */
+export async function validateEditionRoles(args: EditionRoleInputPaths): Promise<void> {
+  const [sourceMediaText, provenanceText, manifestText] = await Promise.all([
+    readFile(args.sourceMediaPath, "utf8"),
+    readFile(args.provenancePath, "utf8"),
+    readFile(args.manifestPath, "utf8"),
+  ]);
+  const sourceMedia = JSON.parse(sourceMediaText) as {
+    roles?: Array<{ id?: string }>;
+    fallbackRoles?: Array<{ id?: string }>;
+    sourceMasters?: Array<{ id?: string; role?: string; provenanceRole?: string }>;
+  };
+  const provenance = JSON.parse(provenanceText) as { roles?: Array<{ id?: string }> };
+  const manifest = JSON.parse(manifestText) as {
+    files?: Array<{ role?: string; path?: string }>;
+  };
+
+  const sourceMediaRoleIds = assertUniqueRoleIds(sourceMedia.roles, "source-media role");
+  assertUniqueRoleIds(sourceMedia.fallbackRoles, "fallback role");
+  const provenanceRoleIds = assertUniqueRoleIds(provenance.roles, "provenance role");
+
+  for (const sourceMaster of sourceMedia.sourceMasters ?? []) {
+    const label = sourceMaster.id ?? "an unnamed source master";
+    if (!sourceMaster.role || !sourceMediaRoleIds.has(sourceMaster.role)) {
+      throw new Error(
+        `Source master ${label} has an undeclared source-media role: ${sourceMaster.role}`,
+      );
+    }
+    if (!sourceMaster.provenanceRole || !provenanceRoleIds.has(sourceMaster.provenanceRole)) {
+      throw new Error(
+        `Source master ${label} has an undeclared provenance role: ${sourceMaster.provenanceRole}`,
+      );
+    }
+  }
+
+  if (!Array.isArray(manifest.files)) {
+    throw new Error("Edition Pack files must be an array");
+  }
+  const claimedRoles = new Set<string>();
+  for (const file of manifest.files) {
+    if (typeof file.role !== "string") continue;
+    if (!RESERVED_SOUNDSCAPE_ROLES.some((role) => role === file.role)) continue;
+    if (claimedRoles.has(file.role)) {
+      throw new Error(`Duplicate Edition Pack role: ${file.role}`);
+    }
+    claimedRoles.add(file.role);
+  }
+}

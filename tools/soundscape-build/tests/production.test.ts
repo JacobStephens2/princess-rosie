@@ -9,8 +9,14 @@ import { runSoundscapeBuildCli } from "../src/cli";
 
 interface ValidationFixture {
   catalog: { entries: Array<Record<string, unknown>> };
-  sourceMedia: { sourceMasters: Array<Record<string, unknown>> };
+  sourceMedia: {
+    roles: Array<Record<string, unknown>>;
+    fallbackRoles: Array<Record<string, unknown>>;
+    sourceMasters: Array<Record<string, unknown>>;
+  };
   runtimeMappings: { mappings: Array<Record<string, unknown>> };
+  provenance: { roles: Array<Record<string, unknown>> };
+  manifest: { files: Array<Record<string, unknown>> };
 }
 
 function respondWithSubscription(response: ServerResponse): void {
@@ -80,6 +86,8 @@ function validFixture(): ValidationFixture {
       ],
     },
     sourceMedia: {
+      roles: [{ id: "source-media.generated-master" }],
+      fallbackRoles: [{ id: "fallback.optional-silence" }],
       sourceMasters: [
         {
           id: "source-master.test.garden-air",
@@ -97,6 +105,14 @@ function validFixture(): ValidationFixture {
         },
       ],
     },
+    provenance: { roles: [{ id: "provenance.commercial-generated-effect" }] },
+    manifest: {
+      files: [
+        { role: "soundscape-catalog", path: "soundscape/catalog.json" },
+        { role: "soundscape-source-media", path: "soundscape/source-media.json" },
+        { role: "soundscape-provenance", path: "soundscape/provenance.json" },
+      ],
+    },
   };
 }
 
@@ -109,10 +125,14 @@ async function validateFixture(fixture: ValidationFixture): Promise<{
   const catalogPath = join(root, "catalog.json");
   const sourceMediaPath = join(root, "source-media.json");
   const runtimeMappingsPath = join(root, "runtime-mappings.json");
+  const provenancePath = join(root, "provenance.json");
+  const manifestPath = join(root, "edition.json");
   await Promise.all([
     writeFile(catalogPath, JSON.stringify(fixture.catalog)),
     writeFile(sourceMediaPath, JSON.stringify(fixture.sourceMedia)),
     writeFile(runtimeMappingsPath, JSON.stringify(fixture.runtimeMappings)),
+    writeFile(provenancePath, JSON.stringify(fixture.provenance)),
+    writeFile(manifestPath, JSON.stringify(fixture.manifest)),
   ]);
   const stdout: string[] = [];
   const stderr: string[] = [];
@@ -125,6 +145,10 @@ async function validateFixture(fixture: ValidationFixture): Promise<{
       sourceMediaPath,
       "--runtime-mappings",
       runtimeMappingsPath,
+      "--provenance",
+      provenancePath,
+      "--edition-manifest",
+      manifestPath,
     ],
     env: {},
     stdout: (message) => stdout.push(message),
@@ -1188,6 +1212,10 @@ describe("Soundscape Build production CLI", () => {
         join(soundscapeRoot, "source-media.json"),
         "--runtime-mappings",
         join(soundscapeRoot, "runtime-mappings.json"),
+        "--provenance",
+        join(soundscapeRoot, "provenance.json"),
+        "--edition-manifest",
+        join(repoRoot, "shared", "edition", "edition.json"),
       ],
       env: {},
       stdout: (message) => stdout.push(message),
