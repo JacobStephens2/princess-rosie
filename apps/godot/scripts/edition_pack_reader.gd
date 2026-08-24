@@ -5,24 +5,16 @@ extends RefCounted
 func read_bytes(pack_source: String, relative_path: String) -> Dictionary:
 	if not is_safe_relative_path(relative_path):
 		return _failure("Edition Pack path must stay inside its root: %s" % relative_path)
-	if pack_source.get_extension().to_lower() == "zip":
-		var archive := ZIPReader.new()
-		var archive_error := archive.open(pack_source)
-		if archive_error != OK:
-			return _failure(
-				"Edition Pack archive could not be opened: %s" % error_string(archive_error),
-			)
-		if not archive.get_files().has(relative_path):
-			archive.close()
-			return _failure("Edition Pack file is missing: %s" % relative_path)
-		var bytes := archive.read_file(relative_path)
-		archive.close()
-		return {"ok": true, "value": bytes}
-
 	var path := pack_source.path_join(relative_path)
 	if not FileAccess.file_exists(path):
 		return _failure("Edition Pack file is missing: %s" % path)
 	return {"ok": true, "value": FileAccess.get_file_as_bytes(path)}
+
+
+func exists(pack_source: String, relative_path: String) -> bool:
+	if not is_safe_relative_path(relative_path):
+		return false
+	return FileAccess.file_exists(pack_source.path_join(relative_path))
 
 
 func read_json_object(pack_source: String, relative_path: String) -> Dictionary:

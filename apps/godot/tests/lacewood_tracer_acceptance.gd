@@ -2,7 +2,59 @@ extends SceneTree
 
 const STORYBOOK_SHELL := preload("res://scripts/storybook_shell.gd")
 const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
-const SCENARIO_PATH := "res://../../shared/edition/parity/tracer-bullet.json"
+const REQUIRED_SOUND_EVENTS := [
+	{
+		"event": "sound-event.opening-storybook-moment",
+		"context": {"moment": "opening.celebration-preparations"},
+	},
+	{
+		"event": "sound-event.opening-storybook-moment",
+		"context": {"moment": "opening.scattered-stars"},
+	},
+	{"event": "sound-event.opening-storybook-moment", "context": {"moment": "opening.departure"}},
+	{"event": "sound-event.flight-launch", "context": {}},
+	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{"event": "sound-event.place-entry", "context": {"place": "lacewood"}},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"place": "lacewood", "interaction": "silver-ribbons"},
+	},
+	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"place": "lacewood", "interaction": "rose-lights"},
+	},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
+	{"event": "sound-event.near-miss", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
+	{"event": "sound-event.playful-bump", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
+	{"event": "sound-event.playful-bump", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
+	{"event": "sound-event.playful-bump", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
+	{"event": "sound-event.cloud-rest-entered", "context": {"place": "lacewood"}},
+	{"event": "sound-event.cloud-rest-exited", "context": {"place": "lacewood"}},
+	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{
+		"event": "sound-event.birthday-star-proximity",
+		"context": {"birthdayStar": "birthday-star.lacewood"},
+	},
+	{
+		"event": "sound-event.birthday-star-gathered",
+		"context": {"birthdayStar": "birthday-star.lacewood"},
+	},
+	{
+		"event": "sound-event.rainbow-path-opened",
+		"context": {"rainbowPath": "rainbow-path.lacewood", "familyGuest": "Gram"},
+	},
+	{
+		"event": "sound-event.birthday-star-moment",
+		"context": {"place": "lacewood", "familyGuest": "Gram"},
+	},
+	{"event": "sound-event.birthday-castle-arrival", "context": {}},
+]
 const KEYBOARD_SPACE: StringName = &"keyboard.space"
 const POINTER_PRIMARY: StringName = &"pointer.primary"
 
@@ -10,14 +62,8 @@ var test: RefCounted = ACCEPTANCE_TEST.new()
 
 
 func _init() -> void:
-	var scenario_value: Variant = JSON.parse_string(FileAccess.get_file_as_string(SCENARIO_PATH))
-	test.expect(scenario_value is Dictionary, "the single-route tracer scenario parses")
-	if not scenario_value is Dictionary:
-		test.finish(self, "Lacewood tracer acceptance")
-		return
-	var scenario: Dictionary = scenario_value
 	var shell := STORYBOOK_SHELL.new()
-	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
+	var pack_root := ProjectSettings.globalize_path(ACCEPTANCE_TEST.PACK_ROOT)
 	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the Lacewood tracer prepares")
 	test.expect(shell.handle_player_intent("begin"), "the Lacewood tracer begins")
 	for _moment: int in 2:
@@ -94,12 +140,9 @@ func _init() -> void:
 		"the completed journey records no Path Choice or Journey History state",
 	)
 	test.expect(
-		shell.sound_event_evidence() == scenario.get("requiredSoundEvents", []),
-		"the real single-route journey emits the contract-declared sound sequence\nexpected: %s\nactual: %s"
-		% [
-			JSON.stringify(scenario.get("requiredSoundEvents", [])),
-			JSON.stringify(shell.sound_event_evidence()),
-		],
+		shell.sound_event_evidence() == REQUIRED_SOUND_EVENTS,
+		"the real single-route journey emits the expected sound sequence\nexpected: %s\nactual: %s"
+		% [JSON.stringify(REQUIRED_SOUND_EVENTS), JSON.stringify(shell.sound_event_evidence())],
 	)
 
 	shell.free()

@@ -1,6 +1,7 @@
 extends RefCounted
 
-const EXPECTED_PACK_DIGEST := "sha256:51f640649f7c7a2ca140e04993e0455283a87dd1b56e92463f172526b371a4f2"
+const PACK_ROOT := "res://../../shared/edition"
+const EXPECTED_PACK_REVISION := "mvp-soundscape-1"
 
 var _failures: Array[String] = []
 
