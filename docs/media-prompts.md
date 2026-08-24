@@ -150,11 +150,11 @@ Output: `public/assets/audio/birthday-flight.mp3`
 ## Shared journey media
 
 Nine assets that appear in more than one place, generated in one batch against a single
-shared style clause so the project owner can approve them in one pass. Beasley and Gram were
-settled first; the remaining seven were matched to them. Every record still carries
-`ownerManualReview: "pending"` — no asset here is approved yet. Per ADR-0001 every likeness comes from short written
-appearance cues alone — no photograph was sent to any image-generation service, and no
-surname, school, parish, town, or precise location appears in any prompt.
+shared style clause and approved by the project owner in one pass on 2026-08-24. Beasley and
+Gram were settled first; the remaining seven were matched to them. Per ADR-0001 every likeness
+comes from short written appearance cues alone — no photograph was sent to any
+image-generation service, and no surname, school, parish, town, or precise location appears
+in any prompt.
 
 Execution: OpenAI Images API, `gpt-image-1.5`, high quality, transparent background, PNG.
 
