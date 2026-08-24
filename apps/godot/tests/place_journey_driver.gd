@@ -24,10 +24,16 @@ static func advance(shell: StorybookShell, seconds: float) -> void:
 		shell.advance_journey(1.0 / 60.0)
 
 
+# Dismisses a Birthday Star Moment with the deliberate release and new press it asks
+# for, leaving that press held so it carries into the next place.
+static func turn_the_page(shell: StorybookShell) -> void:
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+
+
 # Flies whatever remains of the current place and its Birthday Star Moment, turns the
 # page into the next place, and leaves Stella gliding at its start.
 static func cross_into_next_place(shell: StorybookShell) -> void:
 	advance(shell, 24.0)
-	shell.handle_player_action(KEYBOARD_SPACE, false)
-	shell.handle_player_action(KEYBOARD_SPACE, true)
+	turn_the_page(shell)
 	shell.handle_player_action(KEYBOARD_SPACE, false)

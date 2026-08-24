@@ -3,8 +3,9 @@ extends Control
 
 const PHASE_CELEBRATION := "celebration"
 const PHASE_CLOUD_REST := "cloud-rest"
-const BAND_HIGH := "high"
-const BAND_LOW := "low"
+const PLACE_CONTENT := preload("res://scripts/place_content.gd")
+const BAND_HIGH := PLACE_CONTENT.BAND_HIGH
+const BAND_LOW := PLACE_CONTENT.BAND_LOW
 const DEFAULT_TINT := Color(0.96, 0.86, 0.94)
 
 var _phase := ""
@@ -64,7 +65,8 @@ func set_story_state(state: Dictionary) -> void:
 
 
 func visual_evidence() -> Dictionary:
-	var travelling := visible and _phase != PHASE_CELEBRATION
+	var resting := visible and _phase == PHASE_CLOUD_REST
+	var travelling := visible and _phase != PHASE_CELEBRATION and not resting
 	return {
 		"place": str(_place.get("id", "")),
 		"tint": str(_place.get("tint", "")),
@@ -74,7 +76,8 @@ func visual_evidence() -> Dictionary:
 		"high_interaction_visible": travelling and not _band_interaction(BAND_HIGH).is_empty(),
 		"low_interaction_visible": travelling and not _band_interaction(BAND_LOW).is_empty(),
 		"observed_visual_responses": _observed_visual_responses(),
-		"resting_cloud_visible": visible and _phase == PHASE_CLOUD_REST,
+		"resting_cloud_visible": resting,
+		"place_tint_applied": travelling,
 		"playful_bump_wobble_visible": visible and _playful_bump_wobble and travelling,
 		"celebration_visible": visible and _phase == PHASE_CELEBRATION,
 	}
@@ -82,6 +85,12 @@ func visual_evidence() -> Dictionary:
 
 func _draw() -> void:
 	if not visible:
+		return
+	# Cloud Rest is the gentlest moment in the game, so it is the most familiar: the
+	# place's own tint, corridor, and delights give way to one shared resting sky.
+	if _phase == PHASE_CLOUD_REST:
+		_draw_resting_sky()
+		_draw_resting_cloud()
 		return
 	_draw_atmosphere()
 	if _phase == PHASE_CELEBRATION:
@@ -91,12 +100,20 @@ func _draw() -> void:
 	_draw_high_band_clusters()
 	_draw_low_band_clusters()
 	_draw_progress_glimmer()
-	if _phase == PHASE_CLOUD_REST:
-		_draw_resting_cloud()
-	elif _playful_bump_wobble:
+	if _playful_bump_wobble:
 		_draw_playful_bump_sparkle()
 	if _phase in ["birthday-star-approach", "birthday-star-moment"]:
 		_draw_birthday_star(Vector2(1112.0, 365.0), 24.0 + sin(_elapsed * 2.2) * 2.0)
+
+
+# One soft veil settles the place behind the resting cloud, so a rest in any place
+# reads the same to the child.
+func _draw_resting_sky() -> void:
+	draw_rect(Rect2(Vector2.ZERO, size), Color(0.97, 0.96, 1.0, 0.72))
+	for index: int in 18:
+		var drift := fmod(_elapsed * (5.0 + index % 3) + index * 83.0, 1420.0) - 70.0
+		var y := 95.0 + fmod(index * 97.0 + sin(_elapsed * 0.45 + index) * 34.0, 535.0)
+		draw_circle(Vector2(drift, y), 2.0 + float(index % 3), Color(1.0, 1.0, 1.0, 0.42))
 
 
 # Each place paints the same composition in its own light; the tint is place data.
@@ -106,13 +123,7 @@ func _place_tint() -> Color:
 
 
 func _band_interaction(altitude_band: String) -> Dictionary:
-	for interaction_value: Variant in _place.get("interactions", []):
-		if (
-			interaction_value is Dictionary
-			and interaction_value.get("altitudeBand") == altitude_band
-		):
-			return interaction_value
-	return {}
+	return PLACE_CONTENT.interaction(_place, altitude_band)
 
 
 func _band_observed(altitude_band: String) -> bool:
@@ -258,11 +269,5 @@ func _stage_position(altitude: float) -> Vector2:
 func _observed_visual_responses() -> Array[String]:
 	var responses: Array[String] = []
 	for observed_interaction: String in _observed_interactions:
-		for interaction_value: Variant in _place.get("interactions", []):
-			if (
-				interaction_value is Dictionary
-				and interaction_value.get("id") == observed_interaction
-			):
-				responses.append(str(interaction_value.get("visualResponse", "")))
-				break
+		responses.append(PLACE_CONTENT.visual_response(_place, observed_interaction))
 	return responses

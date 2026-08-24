@@ -27,6 +27,7 @@ const STAGE_ASPECT := 16.0 / 9.0
 const EDITION_PACK_ADAPTER := preload("res://scripts/edition_pack_adapter.gd")
 const SOUNDSCAPE_PLAYER := preload("res://scripts/soundscape_player.gd")
 const GODOT_AUDIO_ADAPTER := preload("res://scripts/godot_audio_adapter.gd")
+const PLACE_CONTENT := preload("res://scripts/place_content.gd")
 
 const INTENT_BEGIN: StringName = &"begin"
 const INTENT_GROWN_UP_CORNER: StringName = &"grown-up-corner"
@@ -61,8 +62,6 @@ const PHASE_CLOUD_REST := "cloud-rest"
 const PHASE_STAR_APPROACH := "birthday-star-approach"
 const PHASE_BIRTHDAY_STAR_MOMENT := "birthday-star-moment"
 const PHASE_CELEBRATION := "celebration"
-const BAND_HIGH := "high"
-const BAND_LOW := "low"
 const MILESTONE_HIGH_BAND: StringName = &"high-band-interaction"
 const MILESTONE_LOW_BAND: StringName = &"low-band-interaction"
 const MILESTONE_NEAR_MISS: StringName = &"near-miss"
@@ -334,11 +333,12 @@ func presentation_evidence() -> Dictionary:
 		"rainbow_paths": _rainbow_paths.duplicate(),
 		"observed_interactions": _observed_interactions.duplicate(),
 		"places": _place_ids(),
+		"realized_places": _realized_place_count,
 		"place": str(_current_place().get("id", "")),
 		"place_name": str(_current_place().get("name", "")),
 		"family_guest": str(_current_place().get("familyGuest", "")),
 		"place_progress": _place_progress,
-		"playful_bumps_suppressed": _playful_bumps_suppressed(),
+		"playful_bumps_suppressed": PLACE_CONTENT.playful_bump_suppressed(_current_place()),
 		"birthday_star_moment": _birthday_star_moment_copy(),
 		"route_duration_seconds": _single_route_tuning.get("durationSeconds", 0.0),
 		"safe_limits_preserve_forward_motion": _single_route_tuning.get(
@@ -772,23 +772,23 @@ func _advance_place_flight() -> void:
 				if _flight_altitude_stage_heights >= float(
 					_single_route_tuning.get("highBandAltitudeMinimum", 0.56),
 				):
-					_report_place_interaction(BAND_HIGH)
+					_report_place_interaction(PLACE_CONTENT.BAND_HIGH)
 			MILESTONE_LOW_BAND:
 				if _flight_altitude_stage_heights <= float(
 					_single_route_tuning.get("lowBandAltitudeMaximum", 0.52),
 				):
-					_report_place_interaction(BAND_LOW)
+					_report_place_interaction(PLACE_CONTENT.BAND_LOW)
 			MILESTONE_NEAR_MISS:
-				if not _playful_bumps_suppressed():
+				if not PLACE_CONTENT.playful_bump_suppressed(_current_place()):
 					_report_sound_event(
 						EVENT_NEAR_MISS,
 						{
 							"place": _current_place().get("id", ""),
-							"kind": _playful_bump_kind(),
+							"kind": PLACE_CONTENT.playful_bump_kind(_current_place()),
 						},
 					)
 			MILESTONE_PLAYFUL_BUMP:
-				if not _playful_bumps_suppressed() and _is_playful_bump_contact():
+				if not PLACE_CONTENT.playful_bump_suppressed(_current_place()) and _is_playful_bump_contact():
 					_report_playful_bump()
 			MILESTONE_ROUTE_COMPLETE:
 				_journey_phase = PHASE_STAR_APPROACH
@@ -799,7 +799,7 @@ func _advance_place_flight() -> void:
 
 
 func _report_place_interaction(altitude_band: String) -> void:
-	var interaction: Dictionary = _place_interaction(_current_place(), altitude_band)
+	var interaction: Dictionary = PLACE_CONTENT.interaction(_current_place(), altitude_band)
 	var interaction_id: String = interaction.get("id", "")
 	if interaction_id.is_empty() or _observed_interactions.has(interaction_id):
 		return
@@ -818,7 +818,7 @@ func _report_playful_bump() -> void:
 	_last_playful_bump_seconds = _journey_clock_seconds
 	_report_sound_event(
 		EVENT_PLAYFUL_BUMP,
-		{"place": _current_place().get("id", ""), "kind": _playful_bump_kind()},
+		{"place": _current_place().get("id", ""), "kind": PLACE_CONTENT.playful_bump_kind(_current_place())},
 	)
 	if _nearby_playful_bump_count < int(
 		_cloud_rest_tuning.get("afterNearbyPlayfulBumps", 3),
@@ -1336,30 +1336,6 @@ func _current_place() -> Dictionary:
 	return _place_at(_place_index)
 
 
-func _place_interaction(place: Dictionary, altitude_band: String) -> Dictionary:
-	for interaction_value: Variant in place.get("interactions", []):
-		if (
-			interaction_value is Dictionary
-			and interaction_value.get("altitudeBand") == altitude_band
-		):
-			return interaction_value
-	return {}
-
-
-# Rosalia's Rose Garden suppresses its Playful Bump so the child's first minutes
-# produce only beauty. It is a place data flag, never a separate tutorial mode.
-func _playful_bumps_suppressed() -> bool:
-	var playful_bump: Variant = _current_place().get("playfulBump")
-	if not playful_bump is Dictionary:
-		return false
-	return playful_bump.get("suppressed") == true
-
-
-func _playful_bump_kind() -> String:
-	var playful_bump: Variant = _current_place().get("playfulBump")
-	return str(playful_bump.get("id", "")) if playful_bump is Dictionary else ""
-
-
 # Every place is declared in the ordered journey; a place is realized once the
 # Edition Pack carries its Place Illustration. The journey flies the realized
 # prefix, so approving the next illustration extends it without code changes.
@@ -1379,8 +1355,8 @@ func _validate_places() -> Dictionary:
 				}
 		if not place.get("playfulBump") is Dictionary:
 			return {"ok": false, "error": "Place %s has no Playful Bump" % place.get("id", "?")}
-		for altitude_band: String in [BAND_HIGH, BAND_LOW]:
-			if _place_interaction(place, altitude_band).is_empty():
+		for altitude_band: String in PLACE_CONTENT.ALTITUDE_BANDS:
+			if PLACE_CONTENT.interaction(place, altitude_band).is_empty():
 				return {
 					"ok": false,
 					"error": "Place %s has no %s interaction" % [place.get("id", "?"), altitude_band],

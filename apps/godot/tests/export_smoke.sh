@@ -165,6 +165,7 @@ jq -e --arg expected_pack_revision "$expected_pack_revision" '
     "low_interaction_visible": true,
     "observed_visual_responses": ["roses-open-wide", "petals-drift-upward"],
     "resting_cloud_visible": false,
+    "place_tint_applied": true,
     "playful_bump_wobble_visible": false,
     "celebration_visible": false
   }

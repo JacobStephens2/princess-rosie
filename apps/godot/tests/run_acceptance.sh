@@ -23,7 +23,7 @@ tests=(
   flight_media_acceptance.gd
   journey_media_acceptance.gd
   presentation_motion_acceptance.gd
-  two_place_journey_acceptance.gd
+  journey_acceptance.gd
   place_flight_control_acceptance.gd
   place_interaction_acceptance.gd
   cloud_rest_auto_resume_acceptance.gd

@@ -85,12 +85,10 @@ func _start_journey() -> StorybookShell:
 	return shell
 
 
-# Flies the whole first place and turns the page, so the second place is reached the
-# way a child reaches it rather than by seeding shell state.
+# Reaches the second place the way a child reaches it rather than by seeding shell state.
 func _cross_into_lacewood(shell: StorybookShell) -> void:
 	DRIVER.advance(shell, 24.0)
-	shell.handle_player_action(KEYBOARD_SPACE, false)
-	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.turn_the_page(shell)
 	test.expect(
 		shell.presentation_evidence().get("place") == "lacewood",
 		"the journey crosses from the Rose Garden into Lacewood",

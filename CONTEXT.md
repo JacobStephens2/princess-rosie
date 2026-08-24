@@ -69,7 +69,7 @@ The warm, nonverbal storybook-acoustic world of soft bells, celesta, harp, airy 
 _Avoid_: Arcade soundtrack, cinematic battle audio, realistic simulation
 
 **Place**:
-One of the six passages of Fairytale Sicily the journey travels in order before the Birthday Castle. Every place is declared by the same data — a name, a Family Guest, a Place Illustration, a tint, two altitude-band interactions, a Playful Bump, a Birthday Star, a Rainbow Path, and a Birthday Star Moment sentence — and presented through one code path, so places differ in art, sound, and data rather than in behaviour.
+One of the named passages of Fairytale Sicily the journey travels in order before the Birthday Castle: Rosalia's Rose Garden, Zélie's Lacewood, Golden Bell Abbey, the Cloister of Clouds, Pellegrino Peak, and the Sapphire Sea. Every place is declared by the same data — a name, a Family Guest, a Place Illustration, a tint, two altitude-band interactions, a Playful Bump, a Birthday Star, a Rainbow Path, and a Birthday Star Moment sentence — and presented through one code path, so places differ in art, sound, and data rather than in behaviour. A declared place becomes flyable once its Place Illustration is approved into the Edition Pack.
 _Avoid_: Level, stage, area, world
 
 **Rosalia's Rose Garden**:
