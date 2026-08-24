@@ -18,8 +18,8 @@
     "durationSeconds": 18.0,
     "minimumControlCycles": 3,
     "safeLimitsPreserveForwardMotion": true,
-    "silverRibbonAltitudeMinimum": 0.56,
-    "roseLightAltitudeMaximum": 0.52
+    "highBandAltitudeMinimum": 0.56,
+    "lowBandAltitudeMaximum": 0.52
   },
   "cloudRest": {
     "afterNearbyPlayfulBumps": 3,

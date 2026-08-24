@@ -10,8 +10,19 @@ const SOUND_BUS := &"Sound"
 const EDITION_PACK_READER := preload("res://scripts/edition_pack_reader.gd")
 const SOUNDSCAPE_PLAYBACK := preload("res://scripts/soundscape_playback.gd")
 
+const SILENT_GAIN_DB := -60.0
 var _music_player := AudioStreamPlayer.new()
-var _ambience_player := AudioStreamPlayer.new()
+# Two ambience voices so one place can hand over to the next without either loop
+# being cut off or left playing underneath.
+var _ambience_players: Array[AudioStreamPlayer] = [
+	AudioStreamPlayer.new(),
+	AudioStreamPlayer.new(),
+]
+var _ambience_index := 0
+var _ambience_fades: Dictionary = {}
+# Which ambience voices the adapter is holding. A looping place loop never reports
+# itself finished on a real device, so the slot's own assignment is the truth here.
+var _ambience_voices: Dictionary = {}
 var _movement_player := AudioStreamPlayer.new()
 var _foreground_players: Array[AudioStreamPlayer] = []
 var _priorities: Dictionary = {}
@@ -23,11 +34,9 @@ var _reader: RefCounted = EDITION_PACK_READER.new()
 
 
 func _init() -> void:
-	for persistent_player: AudioStreamPlayer in [
-		_music_player,
-		_ambience_player,
-		_movement_player,
-	]:
+	for persistent_player: AudioStreamPlayer in (
+		[_music_player, _movement_player] as Array[AudioStreamPlayer]
+	) + _ambience_players:
 		_register_player(persistent_player)
 	for _voice_index: int in FOREGROUND_VOICE_MAXIMUM:
 		var foreground_player := AudioStreamPlayer.new()
@@ -158,6 +167,8 @@ func play(stream: Variant, playback: SoundscapePlayback) -> bool:
 		return false
 	if AudioServer.get_bus_index(playback.bus) < 0:
 		return false
+	if playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
+		return _play_ambience(stream, playback)
 	var target: AudioStreamPlayer
 	if playback.slot == SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND:
 		target = _select_foreground_player(playback.priority)
@@ -175,11 +186,66 @@ func _persistent_player_for(slot: StringName) -> AudioStreamPlayer:
 		SOUNDSCAPE_PLAYBACK.SLOT_MUSIC:
 			return _music_player
 		SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
-			return _ambience_player
+			return _ambience_players[_ambience_index]
 		SOUNDSCAPE_PLAYBACK.SLOT_MOVEMENT:
 			return _movement_player
 		_:
 			return null
+
+
+# Exactly one place ambience is meant to be heard. Crossing to the next place fades the
+# new loop up as the old one fades down, and the old one is stopped at the end of the
+# crossfade so no orphaned loop survives it.
+func _play_ambience(stream: AudioStream, playback: SoundscapePlayback) -> bool:
+	var outgoing := _ambience_players[_ambience_index]
+	var incoming := _ambience_players[1 - _ambience_index]
+	var crossfade_seconds := maxf(0.0, playback.crossfade_ms / 1000.0)
+	var outgoing_is_held: bool = _ambience_voices.has(outgoing.get_instance_id())
+	if not outgoing_is_held or crossfade_seconds <= 0.0 or not is_inside_tree():
+		_release_ambience_voice(incoming)
+		_release_ambience_voice(outgoing)
+		if not _play_on(outgoing, stream, playback):
+			return false
+		_ambience_voices[outgoing.get_instance_id()] = true
+		return true
+	if not _play_on(incoming, stream, playback):
+		return false
+	_ambience_voices[incoming.get_instance_id()] = true
+	_ambience_index = 1 - _ambience_index
+	incoming.volume_db = SILENT_GAIN_DB
+	_fade_ambience(incoming, playback.gain_db, crossfade_seconds)
+	_fade_ambience(outgoing, SILENT_GAIN_DB, crossfade_seconds).tween_callback(
+		_release_ambience_voice.bind(outgoing),
+	)
+	return true
+
+
+func _release_ambience_voice(player: AudioStreamPlayer) -> void:
+	_cancel_ambience_fade(player)
+	_ambience_voices.erase(player.get_instance_id())
+	_stop_player(player)
+
+
+func _fade_ambience(player: AudioStreamPlayer, target_db: float, seconds: float) -> Tween:
+	_cancel_ambience_fade(player)
+	var fade := create_tween()
+	fade.tween_property(player, "volume_db", target_db, seconds)
+	_ambience_fades[player.get_instance_id()] = fade
+	return fade
+
+
+func _cancel_ambience_fade(player: AudioStreamPlayer) -> void:
+	var fade: Variant = _ambience_fades.get(player.get_instance_id())
+	if fade is Tween and fade.is_valid():
+		fade.kill()
+	_ambience_fades.erase(player.get_instance_id())
+
+
+func ambience_evidence() -> Dictionary:
+	return {
+		"audible_ambience_voices": _ambience_voices.size(),
+		"crossfading": _ambience_voices.size() > 1,
+	}
 
 
 func set_sound_enabled(enabled: bool, delay_ms: int = 0) -> void:
@@ -194,6 +260,10 @@ func stop_slot(slot: StringName) -> void:
 	if slot == SOUNDSCAPE_PLAYBACK.SLOT_FOREGROUND:
 		for player: AudioStreamPlayer in _foreground_players:
 			_stop_player(player)
+		return
+	if slot == SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE:
+		for player: AudioStreamPlayer in _ambience_players:
+			_release_ambience_voice(player)
 		return
 	var player := _persistent_player_for(slot)
 	if player != null:

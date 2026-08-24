@@ -68,6 +68,10 @@ _Avoid_: Historical Sicily, generic medieval kingdom, Moorish fantasy
 The warm, nonverbal storybook-acoustic world of soft bells, celesta, harp, airy shimmer, and gentle natural textures that gives Princess Rosie's journey a cohesive sonic identity.
 _Avoid_: Arcade soundtrack, cinematic battle audio, realistic simulation
 
+**Place**:
+One of the six passages of Fairytale Sicily the journey travels in order before the Birthday Castle. Every place is declared by the same data — a name, a Family Guest, a Place Illustration, a tint, two altitude-band interactions, a Playful Bump, a Birthday Star, a Rainbow Path, and a Birthday Star Moment sentence — and presented through one code path, so places differ in art, sound, and data rather than in behaviour.
+_Avoid_: Level, stage, area, world
+
 **Rosalia's Rose Garden**:
 The rose-crowned garden where Princess Rosie and Stella begin their journey through Fairytale Sicily.
 _Avoid_: Rosalia Garden, starting area

@@ -2,6 +2,7 @@ extends SceneTree
 
 const STORYBOOK_SHELL := preload("res://scripts/storybook_shell.gd")
 const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
+const DRIVER := preload("res://tests/place_journey_driver.gd")
 const KEYBOARD_SPACE: StringName = &"keyboard.space"
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
@@ -11,16 +12,12 @@ func _init() -> void:
 	var shell := STORYBOOK_SHELL.new()
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the Cloud Rest journey prepares")
-	shell.handle_player_intent("begin")
-	for _moment: int in 2:
-		shell.handle_player_action(KEYBOARD_SPACE, true)
-		shell.handle_player_action(KEYBOARD_SPACE, false)
-	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.launch(shell)
 	_advance_controlled(shell, 0.75)
-	shell.handle_player_action(KEYBOARD_SPACE, false)
+	DRIVER.cross_into_next_place(shell)
 	_advance_controlled(shell, 14.1)
 	var resting: Dictionary = shell.presentation_evidence()
-	var progress_before_resume := float(shell.single_route_evidence().get("progress", 0.0))
+	var progress_before_resume := float(resting.get("place_progress", 0.0))
 	test.expect(
 		resting.get("journey_phase") == "cloud-rest"
 		and resting.get("cloud_rests") == 1,
@@ -30,9 +27,9 @@ func _init() -> void:
 	_advance_controlled(shell, 1.25)
 	var resumed: Dictionary = shell.presentation_evidence()
 	test.expect(
-		resumed.get("journey_phase") == "lacewood-flight"
-		and float(shell.single_route_evidence().get("progress", 0.0)) >= progress_before_resume,
-		"Cloud Rest resumes automatically on the same Single Route without an input prompt",
+		resumed.get("journey_phase") == "place-flight"
+		and float(resumed.get("place_progress", 0.0)) >= progress_before_resume,
+		"Cloud Rest resumes automatically on the same place's route without an input prompt",
 	)
 	test.expect(
 		resumed.get("birthday_stars") == resting.get("birthday_stars")
@@ -47,7 +44,7 @@ func _init() -> void:
 		"the preserved route completes after automatic recovery, at a gentler pace",
 	)
 
-	var held_shell := _start_low_lacewood_flight()
+	var held_shell := _start_low_bumpable_flight()
 	_advance_controlled(held_shell, 13.85)
 	held_shell.handle_player_action(KEYBOARD_SPACE, true)
 	_advance_controlled(held_shell, 0.3)
@@ -57,7 +54,7 @@ func _init() -> void:
 	)
 	_advance_controlled(held_shell, 1.25)
 	test.expect(
-		held_shell.presentation_evidence().get("journey_phase") == "lacewood-flight"
+		held_shell.presentation_evidence().get("journey_phase") == "place-flight"
 		and held_shell.presentation_evidence().get("movement_state") == "rise",
 		"a control held through Cloud Rest is live immediately on automatic resume",
 	)
@@ -76,17 +73,15 @@ func _init() -> void:
 	test.finish(self, "Cloud Rest automatic resume acceptance")
 
 
-func _start_low_lacewood_flight() -> StorybookShell:
+# Cloud Rest happens in a place whose Playful Bump is switched on, so the journey flies
+# the bump-free first place and turns the page into the second one.
+func _start_low_bumpable_flight() -> StorybookShell:
 	var shell := STORYBOOK_SHELL.new()
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	shell.prepare_launch(pack_root)
-	shell.handle_player_intent("begin")
-	for _moment: int in 2:
-		shell.handle_player_action(KEYBOARD_SPACE, true)
-		shell.handle_player_action(KEYBOARD_SPACE, false)
-	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.launch(shell)
 	_advance_controlled(shell, 0.75)
-	shell.handle_player_action(KEYBOARD_SPACE, false)
+	DRIVER.cross_into_next_place(shell)
 	return shell
 
 

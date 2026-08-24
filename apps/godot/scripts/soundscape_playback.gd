@@ -14,6 +14,8 @@ var priority: int
 var looping: bool
 var max_duration_ms: int
 var music_duck_db: float
+# How long an ambience slot takes to hand over to the next one, from the mix.
+var crossfade_ms: int = 0
 
 
 func _init(
