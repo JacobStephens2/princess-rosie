@@ -1,0 +1,5 @@
+{
+  "contractVersion": "rosie-edition-contract/1",
+  "revision": "escaping-test",
+  "files": [{ "role": "content", "path": "../../../../shared/edition/content.json" }]
+}

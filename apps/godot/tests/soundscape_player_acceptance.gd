@@ -497,16 +497,6 @@ func _init() -> void:
 		"ordinary foreground sits three decibels above the music reference gain",
 	)
 
-	var archive_audio := FakeEngineAudioAdapter.new()
-	var archived_soundscape := SOUNDSCAPE_PLAYER.new("res://edition-pack.zip", archive_audio)
-	test.expect(
-		archived_soundscape.report_event(
-			&"sound-event.story-confirmation",
-			{"action": "continue"},
-		),
-		"the semantic confirmation resolves from the immutable runtime Edition Pack",
-	)
-
 	var missing_asset_audio := FakeEngineAudioAdapter.new()
 	missing_asset_audio.asset_available = false
 	var fallback_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, missing_asset_audio)

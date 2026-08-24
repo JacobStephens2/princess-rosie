@@ -39,13 +39,14 @@ func _run() -> void:
 	var audio := GODOT_AUDIO_ADAPTER.new()
 	root.add_child(audio)
 	await process_frame
-	var approved_stream: Variant = audio.load_wav("res://edition-pack.zip", CONFIRMATION_PATH)
+	var pack_root := ProjectSettings.globalize_path(ACCEPTANCE_TEST.PACK_ROOT)
+	var approved_stream: Variant = audio.load_wav(pack_root, CONFIRMATION_PATH)
 	test.expect(approved_stream is AudioStreamWAV, "Godot decodes the approved Edition Pack WAV")
 	if approved_stream is AudioStreamWAV:
 		test.expect(approved_stream.mix_rate == 48000, "the approved 48 kHz master reaches Godot unchanged")
 		test.expect(not approved_stream.stereo, "the approved focused-mono master stays mono")
 	for cue_path: String in OPENING_FLIGHT_CUE_PATHS + LACEWOOD_CUE_PATHS:
-		var cue_stream: Variant = audio.load_wav("res://edition-pack.zip", cue_path)
+		var cue_stream: Variant = audio.load_wav(pack_root, cue_path)
 		test.expect(
 			cue_stream is AudioStreamWAV,
 			"the immutable Edition Pack includes the approved runtime cue: %s" % cue_path,
@@ -86,7 +87,6 @@ func _run() -> void:
 				"%s remains a focused, non-empty 48 kHz fallback" % fallback_method,
 			)
 
-	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	var soundtrack: Variant = audio.load_mp3(
 		pack_root,
 		"source-media/soundscape/music/birthday-flight.mp3",

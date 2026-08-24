@@ -11,8 +11,6 @@
     { "role": "soundscape-mix", "path": "soundscape/mix.json" },
     { "role": "soundscape-runtime-mappings", "path": "soundscape/runtime-mappings.json" },
     { "role": "soundscape-provenance", "path": "soundscape/provenance.json" },
-    { "role": "scenario", "id": "tracer-bullet", "path": "parity/tracer-bullet.json" },
-    { "role": "scenario", "id": "opening-flight", "path": "parity/opening-flight.json" },
     { "role": "source-media", "path": "source-media/opening-storybook/celebration-preparations.png" },
     { "role": "source-media", "path": "source-media/opening-storybook/scattered-stars.png" },
     { "role": "source-media", "path": "source-media/opening-storybook/rosie-stella-departure.png" },
