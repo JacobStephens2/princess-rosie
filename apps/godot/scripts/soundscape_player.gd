@@ -381,6 +381,7 @@ func _playback_for(cue: Dictionary, event_id: StringName, duration_ms: int) -> S
 		playback.slot = SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE
 		playback.gain_db = music_reference_gain_db + float(category_gains.get("ambience", -10.0))
 		playback.max_duration_ms = 0
+		playback.crossfade_ms = int(_mix.get("placeCrossfadeMs", 0))
 		return playback
 	if priority <= 20:
 		playback.bus = DETAIL_BUS

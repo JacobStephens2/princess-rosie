@@ -23,12 +23,12 @@ tests=(
   flight_media_acceptance.gd
   journey_media_acceptance.gd
   presentation_motion_acceptance.gd
-  lacewood_tracer_acceptance.gd
-  lacewood_flight_control_acceptance.gd
-  lacewood_interaction_acceptance.gd
+  two_place_journey_acceptance.gd
+  place_flight_control_acceptance.gd
+  place_interaction_acceptance.gd
   cloud_rest_auto_resume_acceptance.gd
   cloud_rest_gentle_help_acceptance.gd
-  lacewood_presentation_acceptance.gd
+  place_presentation_acceptance.gd
   soundscape_player_acceptance.gd
   godot_audio_adapter_acceptance.gd
 )

@@ -10,7 +10,10 @@
   "playerAction": {
     "pressed": "rise",
     "released": "settle",
-    "bindings": ["keyboard.space", "pointer.primary"],
+    "bindings": [
+      "keyboard.space",
+      "pointer.primary"
+    ],
     "overlapPolicy": "shared-held-action"
   },
   "openingMoments": [
@@ -41,7 +44,10 @@
       "copy": "Princess Rosie climbed onto Stella, her flying unicorn. “We’ll find every Star and bring everyone to the celebration!”",
       "illustration": "opening.rosie-stella-departure",
       "semanticCheckpoint": {
-        "promiseKeepers": ["Princess Rosie", "Stella"]
+        "promiseKeepers": [
+          "Princess Rosie",
+          "Stella"
+        ]
       }
     }
   ],
@@ -49,12 +55,42 @@
     "background": "flight.rose-garden-background",
     "character": "flight.rosie-stella"
   },
-  "place": {
-    "id": "lacewood",
-    "name": "Zélie’s Lacewood",
-    "familyGuest": "Gram",
-    "singleRoute": {
-      "id": "single-route.lacewood",
+  "places": [
+    {
+      "id": "rose-garden",
+      "name": "Rosalia’s Rose Garden",
+      "familyGuest": "Mom",
+      "illustration": "flight.rose-garden-background",
+      "tint": "#ffd7e6",
+      "interactions": [
+        {
+          "id": "awakening-roses",
+          "name": "Awakening roses",
+          "altitudeBand": "high",
+          "visualResponse": "roses-open-wide"
+        },
+        {
+          "id": "petal-drift",
+          "name": "Petal drift",
+          "altitudeBand": "low",
+          "visualResponse": "petals-drift-upward"
+        }
+      ],
+      "playfulBump": {
+        "id": "rose-garland",
+        "name": "Rose garland",
+        "suppressed": true
+      },
+      "birthdayStar": "birthday-star.rose-garden",
+      "rainbowPath": "rainbow-path.rose-garden",
+      "birthdayStarMoment": "Mom followed the waking roses and drifting petals out of Rosalia’s Rose Garden!"
+    },
+    {
+      "id": "lacewood",
+      "name": "Zélie’s Lacewood",
+      "familyGuest": "Gram",
+      "illustration": "lacewood.background",
+      "tint": "#e8f2ff",
       "interactions": [
         {
           "id": "silver-ribbons",
@@ -69,14 +105,137 @@
           "visualResponse": "rose-lights-bloom"
         }
       ],
-      "birthdayStarMoment": "Gram followed the silver ribbons and glowing roses through Zélie’s Lacewood!",
-      "celebrationEcho": "silver-ribbons-and-rose-lights"
+      "playfulBump": {
+        "id": "silver-ribbon",
+        "name": "Silver ribbon",
+        "suppressed": false
+      },
+      "birthdayStar": "birthday-star.lacewood",
+      "rainbowPath": "rainbow-path.lacewood",
+      "birthdayStarMoment": "Gram followed the silver ribbons and glowing roses through Zélie’s Lacewood!"
     },
-    "birthdayStar": "birthday-star.lacewood",
-    "rainbowPath": "rainbow-path.lacewood"
-  },
+    {
+      "id": "abbey",
+      "name": "Golden Bell Abbey",
+      "familyGuest": "Pop",
+      "illustration": "abbey.background",
+      "tint": "#ffe6b8",
+      "interactions": [
+        {
+          "id": "golden-bell-note-high",
+          "name": "High golden bell",
+          "altitudeBand": "high",
+          "visualResponse": "high-bell-rings"
+        },
+        {
+          "id": "golden-bell-note-low",
+          "name": "Low golden bell",
+          "altitudeBand": "low",
+          "visualResponse": "low-bell-rings"
+        }
+      ],
+      "playfulBump": {
+        "id": "golden-bell-rope",
+        "name": "Golden bell rope",
+        "suppressed": false
+      },
+      "birthdayStar": "birthday-star.abbey",
+      "rainbowPath": "rainbow-path.abbey",
+      "birthdayStarMoment": "Pop followed the golden bells ringing out of Golden Bell Abbey!"
+    },
+    {
+      "id": "cloister",
+      "name": "Cloister of Clouds",
+      "familyGuest": "Beasley",
+      "illustration": "cloister.background",
+      "tint": "#dfeaff",
+      "interactions": [
+        {
+          "id": "soft-clouds",
+          "name": "Soft clouds",
+          "altitudeBand": "high",
+          "visualResponse": "clouds-part-softly"
+        },
+        {
+          "id": "sunlit-arches",
+          "name": "Sunlit arches",
+          "altitudeBand": "low",
+          "visualResponse": "arches-catch-the-sun"
+        }
+      ],
+      "playfulBump": {
+        "id": "soft-cloud",
+        "name": "Soft cloud",
+        "suppressed": false
+      },
+      "birthdayStar": "birthday-star.cloister",
+      "rainbowPath": "rainbow-path.cloister",
+      "birthdayStarMoment": "Beasley followed the sunlit arches through the Cloister of Clouds!"
+    },
+    {
+      "id": "pellegrino-peak",
+      "name": "Pellegrino Peak",
+      "familyGuest": "Uncle",
+      "illustration": "pellegrino-peak.background",
+      "tint": "#ffe0c2",
+      "interactions": [
+        {
+          "id": "flower-petal-updraft",
+          "name": "Flower-petal updraft",
+          "altitudeBand": "high",
+          "visualResponse": "petals-lift-stella"
+        },
+        {
+          "id": "mountain-flowers",
+          "name": "Mountain flowers",
+          "altitudeBand": "low",
+          "visualResponse": "flowers-open-below"
+        }
+      ],
+      "playfulBump": {
+        "id": "flower-bank",
+        "name": "Flower bank",
+        "suppressed": false
+      },
+      "birthdayStar": "birthday-star.pellegrino-peak",
+      "rainbowPath": "rainbow-path.pellegrino-peak",
+      "birthdayStarMoment": "Uncle followed the flower-petal updrafts down from Pellegrino Peak!"
+    },
+    {
+      "id": "sapphire-sea",
+      "name": "Sapphire Sea",
+      "familyGuest": "Aunt",
+      "illustration": "sapphire-sea.background",
+      "tint": "#c8ecff",
+      "interactions": [
+        {
+          "id": "open-sparkling-water",
+          "name": "Open sparkling water",
+          "altitudeBand": "high",
+          "visualResponse": "water-sparkles-wide"
+        },
+        {
+          "id": "shell-lined-shore",
+          "name": "Shell-lined shore",
+          "altitudeBand": "low",
+          "visualResponse": "shore-shells-glow"
+        }
+      ],
+      "playfulBump": {
+        "id": "wave-crest",
+        "name": "Wave crest",
+        "suppressed": false
+      },
+      "birthdayStar": "birthday-star.sapphire-sea",
+      "rainbowPath": "rainbow-path.sapphire-sea",
+      "birthdayStarMoment": "Aunt followed the sparkling water home across the Sapphire Sea!"
+    }
+  ],
   "celebration": {
     "id": "celebration.tracer",
-    "actions": ["dance-again", "fly-again"]
+    "actions": [
+      "dance-again",
+      "fly-again"
+    ]
   }
 }

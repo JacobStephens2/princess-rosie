@@ -28,6 +28,10 @@ const LACEWOOD_CUE_PATHS := [
 	"source-media/soundscape/runtime/cloud-rest-exit.wav",
 ]
 
+const ROSE_GARDEN_AMBIENCE_PATH := "source-media/soundscape/runtime/place-rose-garden.wav"
+const LACEWOOD_AMBIENCE_PATH := "source-media/soundscape/runtime/place-lacewood.wav"
+const CROSSFADE_SECONDS := 0.6
+
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
 
@@ -172,6 +176,8 @@ func _run() -> void:
 			not AudioServer.is_bus_mute(AudioServer.get_bus_index(&"Sound")),
 			"enabling Sound restores every internal category",
 		)
+	await _prove_one_place_ambience_crossfades_to_the_next(audio, pack_root)
+
 	audio.stop_slot("foreground")
 	audio.stop_slot("movement")
 	audio.stop_slot("ambience")
@@ -184,6 +190,51 @@ func _run() -> void:
 	audio.queue_free()
 	await create_timer(0.1).timeout
 	test.finish(self, "Godot audio adapter acceptance")
+
+
+# Crossing between places must hand one ambience loop to the next without leaving the
+# old one playing underneath it.
+func _prove_one_place_ambience_crossfades_to_the_next(
+	audio: Node,
+	pack_root: String,
+) -> void:
+	var rose_garden: Variant = audio.load_wav(pack_root, ROSE_GARDEN_AMBIENCE_PATH)
+	var lacewood: Variant = audio.load_wav(pack_root, LACEWOOD_AMBIENCE_PATH)
+	if not (rose_garden is AudioStreamWAV and lacewood is AudioStreamWAV):
+		test.expect(false, "both place ambiences decode for the crossfade")
+		return
+	test.expect(
+		audio.play(rose_garden, _place_ambience_playback()),
+		"the first place ambience starts",
+	)
+	await create_timer(0.05).timeout
+	test.expect(
+		audio.ambience_evidence() == {"audible_ambience_voices": 1, "crossfading": false},
+		"exactly one place ambience is audible: %s" % JSON.stringify(audio.ambience_evidence()),
+	)
+	test.expect(
+		audio.play(lacewood, _place_ambience_playback()),
+		"crossing into the next place starts its ambience",
+	)
+	await create_timer(CROSSFADE_SECONDS * 0.4).timeout
+	test.expect(
+		audio.ambience_evidence().get("crossfading") == true,
+		"the two place ambiences overlap while the crossfade runs",
+	)
+	await create_timer(CROSSFADE_SECONDS).timeout
+	test.expect(
+		audio.ambience_evidence() == {"audible_ambience_voices": 1, "crossfading": false},
+		"the crossfade leaves exactly one place loop and no orphan: %s"
+		% JSON.stringify(audio.ambience_evidence()),
+	)
+
+
+func _place_ambience_playback() -> SoundscapePlayback:
+	var playback := SOUNDSCAPE_PLAYBACK.new(
+		&"Ambience", &"ambience", SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE, -16.7, 40, true, 0,
+	)
+	playback.crossfade_ms = int(CROSSFADE_SECONDS * 1000.0)
+	return playback
 
 
 func _expects_stereo(cue_path: String) -> bool:
