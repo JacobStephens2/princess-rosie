@@ -127,18 +127,37 @@
       "familyGuestIllustration": "family-guest.pop",
       "illustration": "abbey.background",
       "tint": "#ffe6b8",
+      "awakensOnEveryCrossing": true,
       "interactions": [
         {
           "id": "golden-bell-note-high",
           "name": "High golden bell",
           "altitudeBand": "high",
+          "altitudeAtLeast": 0.68,
           "visualResponse": "high-bell-rings"
+        },
+        {
+          "id": "golden-bell-note-middle",
+          "name": "Middle golden bell",
+          "altitudeBand": "middle",
+          "altitudeAtLeast": 0.52,
+          "altitudeAtMost": 0.68,
+          "visualResponse": "middle-bell-rings"
         },
         {
           "id": "golden-bell-note-low",
           "name": "Low golden bell",
           "altitudeBand": "low",
+          "altitudeAtLeast": 0.34,
+          "altitudeAtMost": 0.52,
           "visualResponse": "low-bell-rings"
+        },
+        {
+          "id": "golden-bell-settle",
+          "name": "Settling golden bell",
+          "altitudeBand": "settle",
+          "altitudeAtMost": 0.34,
+          "visualResponse": "bell-rests-softly"
         }
       ],
       "playfulBump": {

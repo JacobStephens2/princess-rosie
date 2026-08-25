@@ -73,8 +73,12 @@ The warm, nonverbal storybook-acoustic world of soft bells, celesta, harp, airy 
 _Avoid_: Arcade soundtrack, cinematic battle audio, realistic simulation
 
 **Place**:
-One of the named passages of Fairytale Sicily the journey travels in order before the Birthday Castle: Rosalia's Rose Garden, Zélie's Lacewood, Golden Bell Abbey, the Cloister of Clouds, Pellegrino Peak, and the Sapphire Sea. Every place is declared by the same data — a name, a Family Guest and her cutout, a Place Illustration, a tint, two altitude-band interactions, a Playful Bump, a Birthday Star, a Rainbow Path, and a Birthday Star Moment sentence — and presented through one code path, so places differ in art, sound, and data rather than in behaviour. A declared place becomes flyable once its Place Illustration is approved into the Edition Pack.
+One of the named passages of Fairytale Sicily the journey travels in order before the Birthday Castle: Rosalia's Rose Garden, Zélie's Lacewood, Golden Bell Abbey, the Cloister of Clouds, Pellegrino Peak, and the Sapphire Sea. Every place is declared by the same data — a name, a Family Guest and her cutout, a Place Illustration, a tint, an Altitude Ladder of interactions, a Playful Bump, a Birthday Star, a Rainbow Path, and a Birthday Star Moment sentence — and presented through one code path, so places differ in art, sound, and data rather than in behaviour. A declared place becomes flyable once its Place Illustration is approved into the Edition Pack.
 _Avoid_: Level, stage, area, world
+
+**Altitude Ladder**:
+The ordered rungs of height a place answers to, declared in its own data. Each rung names the window of heights it covers and the delight that height awakens; heights between two rungs awaken nothing. Most places declare two rungs, one high and one low, and answer once. Golden Bell Abbey declares four and answers every crossing between them, so flying higher rings a higher bell and the bells keep following the child's hand.
+_Avoid_: Altitude band as a fixed high-or-low pair, note sequencer, instrument
 
 **Rosalia's Rose Garden**:
 The rose-crowned garden where Princess Rosie and Stella begin their journey through Fairytale Sicily.

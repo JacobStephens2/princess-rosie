@@ -84,6 +84,46 @@ const REQUIRED_SOUND_EVENTS := [
 		"event": "sound-event.birthday-star-moment",
 		"context": {"place": "lacewood", "familyGuest": "Gram"},
 	},
+	{"event": "sound-event.place-entry", "context": {"place": "abbey"}},
+	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"place": "abbey", "interaction": "golden-bell-note-high"},
+	},
+	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
+	# Settling through the Abbey rings its way down the bells, and climbing back rings
+	# the rung she crosses on the way up: the place answers the hand, not a script.
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"place": "abbey", "interaction": "golden-bell-note-middle"},
+	},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"place": "abbey", "interaction": "golden-bell-settle"},
+	},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"place": "abbey", "interaction": "golden-bell-note-low"},
+	},
+	{"event": "sound-event.near-miss", "context": {"place": "abbey", "kind": "golden-bell-rope"}},
+	{
+		"event": "sound-event.birthday-star-proximity",
+		"context": {"birthdayStar": "birthday-star.abbey"},
+	},
+	{
+		"event": "sound-event.birthday-star-gathered",
+		"context": {"birthdayStar": "birthday-star.abbey"},
+	},
+	{
+		"event": "sound-event.rainbow-path-opened",
+		"context": {"rainbowPath": "rainbow-path.abbey", "familyGuest": "Pop"},
+	},
+	{
+		"event": "sound-event.birthday-star-moment",
+		"context": {"place": "abbey", "familyGuest": "Pop"},
+	},
 	{"event": "sound-event.birthday-castle-arrival", "context": {}},
 ]
 
@@ -93,7 +133,10 @@ var test: RefCounted = ACCEPTANCE_TEST.new()
 func _init() -> void:
 	var shell := STORYBOOK_SHELL.new()
 	var pack_root := ProjectSettings.globalize_path(ACCEPTANCE_TEST.PACK_ROOT)
-	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the two-place journey prepares")
+	test.expect(
+		shell.prepare_launch(pack_root).get("ok") == true,
+		"the three-place journey prepares",
+	)
 	test.expect(
 		shell.presentation_evidence().get("places") == [
 			"rose-garden",
@@ -107,8 +150,8 @@ func _init() -> void:
 		% JSON.stringify(shell.presentation_evidence().get("places")),
 	)
 	test.expect(
-		shell.presentation_evidence().get("realized_places") == 2,
-		"two of the declared places carry an approved Place Illustration so far",
+		shell.presentation_evidence().get("realized_places") == 3,
+		"three of the declared places carry an approved Place Illustration so far",
 	)
 
 	DRIVER.launch(shell)
@@ -203,6 +246,36 @@ func _init() -> void:
 		and shell.presentation_evidence().get("state") == "birthday_star_moment",
 		"the held flight action cannot skip the Birthday Star Moment",
 	)
+	DRIVER.turn_the_page(shell)
+	var abbey_entry: Dictionary = shell.presentation_evidence()
+	test.expect(
+		abbey_entry.get("place") == "abbey"
+		and abbey_entry.get("place_name") == "Golden Bell Abbey"
+		and abbey_entry.get("family_guest") == "Pop"
+		and abbey_entry.get("birthday_stars")
+		== ["birthday-star.rose-garden", "birthday-star.lacewood"],
+		"the journey carries both gathered Stars on into Golden Bell Abbey: %s"
+		% JSON.stringify(abbey_entry),
+	)
+
+	# Golden Bell Abbey: the same rhythm over four rungs instead of two, so the tower
+	# bell answers the climb and the settling bell answers the descent.
+	DRIVER.advance(shell, 2.4)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	DRIVER.advance(shell, 2.4)
+	test.expect(
+		shell.presentation_evidence().get("observed_interactions")
+		== ["golden-bell-note-high", "golden-bell-note-middle", "golden-bell-settle"],
+		"one settling descent rings its way down the Abbey's bells: %s"
+		% JSON.stringify(shell.presentation_evidence().get("observed_interactions")),
+	)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.advance(shell, 14.5)
+	test.expect(
+		shell.presentation_evidence().get("state") == "birthday_star_moment",
+		"the third place reaches its own self-paced Birthday Star Moment",
+	)
+
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	test.expect(
 		shell.handle_player_action(KEYBOARD_SPACE, true),
@@ -215,13 +288,13 @@ func _init() -> void:
 		evidence.get("state") == "celebration"
 		and evidence.get("journey_phase") == "celebration"
 		and evidence.get("birthday_stars")
-		== ["birthday-star.rose-garden", "birthday-star.lacewood"]
+		== ["birthday-star.rose-garden", "birthday-star.lacewood", "birthday-star.abbey"]
 		and evidence.get("rainbow_paths")
-		== ["rainbow-path.rose-garden", "rainbow-path.lacewood"]
+		== ["rainbow-path.rose-garden", "rainbow-path.lacewood", "rainbow-path.abbey"]
 		and evidence.get("playful_bumps") == 3
 		and evidence.get("cloud_rests") == 1
 		and evidence.get("flight_control_cycles") >= 3,
-		"two data-driven places complete one no-failure journey: %s" % JSON.stringify(evidence),
+		"three data-driven places complete one no-failure journey: %s" % JSON.stringify(evidence),
 	)
 	test.expect(
 		not evidence.has("chosen_route")
@@ -236,7 +309,7 @@ func _init() -> void:
 	)
 	test.expect(
 		shell.sound_event_evidence() == REQUIRED_SOUND_EVENTS,
-		"the two-place journey emits the expected sound sequence\nexpected: %s\nactual: %s"
+		"the three-place journey emits the expected sound sequence\nexpected: %s\nactual: %s"
 		% [JSON.stringify(REQUIRED_SOUND_EVENTS), JSON.stringify(shell.sound_event_evidence())],
 	)
 
