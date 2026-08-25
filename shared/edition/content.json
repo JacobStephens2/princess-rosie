@@ -211,7 +211,7 @@
           "id": "flower-petal-updraft",
           "name": "Flower-petal updraft",
           "altitudeBand": "high",
-          "visualResponse": "petals-lift-stella"
+          "visualResponse": "petals-lift-and-blossom-a-trail"
         },
         {
           "id": "mountain-flowers",
@@ -227,7 +227,7 @@
       },
       "birthdayStar": "birthday-star.pellegrino-peak",
       "rainbowPath": "rainbow-path.pellegrino-peak",
-      "birthdayStarMoment": "Uncle followed the flower-petal updrafts down from Pellegrino Peak!"
+      "birthdayStarMoment": "Uncle followed the flower-petal updrafts and the mountain flowers down from Pellegrino Peak!"
     },
     {
       "id": "sapphire-sea",

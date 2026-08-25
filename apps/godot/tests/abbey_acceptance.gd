@@ -115,7 +115,7 @@ func _bells_follow_the_child(shell: StorybookShell) -> void:
 # bring the same Cloud Rest every other place brings.
 func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 	shell.handle_player_action(KEYBOARD_SPACE, false)
-	var wobbling: Dictionary = _fly_low_until_bumped(shell, 1)
+	var wobbling: Dictionary = DRIVER.fly_low_until_playful_bumps(test, shell, "Abbey", 1)
 	test.expect(
 		wobbling.get("playful_bump_wobbling") == true
 		and wobbling.get("state") == "active_play"
@@ -123,7 +123,7 @@ func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 		"a brushed bell rope wobbles Stella without ending the journey: %s"
 		% JSON.stringify(wobbling),
 	)
-	var resting: Dictionary = _fly_low_until_bumped(shell, 3)
+	var resting: Dictionary = DRIVER.fly_low_until_playful_bumps(test, shell, "Abbey", 3)
 	test.expect(
 		resting.get("journey_phase") == "cloud-rest",
 		"three nearby bell ropes settle the child onto the shared Cloud Rest: %s"
@@ -140,28 +140,13 @@ func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 	shell.free()
 
 
-# The low Abbey passage flown to its next Playful Bump, so the wobble can be seen while
-# it is still happening.
-func _fly_low_until_bumped(shell: StorybookShell, playful_bumps: int) -> Dictionary:
-	var evidence := DRIVER.fly_until_playful_bumps(shell, playful_bumps)
-	test.expect(
-		not evidence.is_empty(),
-		"the low Abbey passage meets %d Playful Bumps" % playful_bumps,
-	)
-	return evidence
-
-
 # Reaches the Abbey the way a child reaches it: two places flown high, each turned by
 # hand, with no seeded shell state.
 func _fly_to_the_abbey() -> StorybookShell:
 	var shell := STORYBOOK_SHELL.new()
 	var pack_root := ProjectSettings.globalize_path(ACCEPTANCE_TEST.PACK_ROOT)
 	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the Abbey journey prepares")
-	DRIVER.launch(shell)
-	DRIVER.advance(shell, 0.75)
-	for _place: int in 2:
-		DRIVER.advance(shell, 24.0)
-		DRIVER.turn_the_page(shell)
+	DRIVER.fly_to_place(shell, 2)
 	var entry: Dictionary = shell.presentation_evidence()
 	test.expect(
 		entry.get("place") == "abbey"

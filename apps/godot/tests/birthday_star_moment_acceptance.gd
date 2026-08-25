@@ -17,6 +17,7 @@ const MOM_CUTOUT := "source-media/journey/family-guest-mom.png"
 const GRAM_CUTOUT := "source-media/journey/family-guest-gram.png"
 const POP_CUTOUT := "source-media/journey/family-guest-pop.png"
 const BEASLEY_CUTOUT := "source-media/journey/family-guest-beasley.png"
+const UNCLE_CUTOUT := "source-media/journey/family-guest-uncle.png"
 const BIRTHDAY_STAR_SPRITE := "source-media/journey/birthday-star.png"
 const RAINBOW_PATH_TREATMENT := "source-media/journey/rainbow-path.png"
 const ROSE_GARDEN_SENTENCE := (
@@ -58,6 +59,7 @@ func _run() -> void:
 			"family-guest.gram": GRAM_CUTOUT,
 			"family-guest.pop": POP_CUTOUT,
 			"family-guest.beasley": BEASLEY_CUTOUT,
+			"family-guest.uncle": UNCLE_CUTOUT,
 			"journey.birthday-star": BIRTHDAY_STAR_SPRITE,
 			"journey.rainbow-path": RAINBOW_PATH_TREATMENT,
 		},
