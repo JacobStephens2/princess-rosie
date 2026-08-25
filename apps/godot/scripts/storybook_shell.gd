@@ -87,16 +87,18 @@ const REQUIRED_PLACE_FIELDS := [
 # Every place travels the same authored rhythm: the high band answers first, the low
 # band second, then the place's own Playful Bump waits low along the rest of the route.
 # Which delight each band awakens, and whether the bump can happen at all, is place data.
+# The rhythm is held as a fraction of the route rather than in seconds, so retuning how
+# long a place takes speeds the whole passage up without resequencing it.
 const ROUTE_MILESTONES := [
-	{"id": MILESTONE_HIGH_BAND, "seconds": 3.0},
-	{"id": MILESTONE_LOW_BAND, "seconds": 6.0},
-	{"id": MILESTONE_NEAR_MISS, "seconds": 8.0},
-	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 9.5},
-	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 11.75},
-	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 14.0},
-	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 15.5},
-	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 16.4},
-	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 17.3},
+	{"id": MILESTONE_HIGH_BAND, "progress": 0.167},
+	{"id": MILESTONE_LOW_BAND, "progress": 0.333},
+	{"id": MILESTONE_NEAR_MISS, "progress": 0.444},
+	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.528},
+	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.653},
+	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.778},
+	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.861},
+	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.911},
+	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.961},
 	{"id": MILESTONE_ROUTE_COMPLETE},
 ]
 
@@ -861,18 +863,13 @@ func _enter_place(index: int) -> void:
 
 
 func _advance_place_flight() -> void:
-	var authored_duration := float(_single_route_tuning.get("durationSeconds", 18.0))
 	while (
 		_journey_phase == PHASE_PLACE_FLIGHT
 		and _journey_checkpoint < ROUTE_MILESTONES.size()
 	):
 		var milestone: Dictionary = ROUTE_MILESTONES[_journey_checkpoint]
 		var milestone_id: StringName = milestone.get("id", &"")
-		var milestone_progress := (
-			1.0
-			if milestone_id == MILESTONE_ROUTE_COMPLETE
-			else float(milestone.get("seconds", 0.0)) / authored_duration
-		)
+		var milestone_progress := float(milestone.get("progress", 1.0))
 		if _place_progress < milestone_progress:
 			return
 		match milestone_id:

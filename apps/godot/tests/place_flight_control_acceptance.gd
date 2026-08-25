@@ -91,7 +91,7 @@ func _init() -> void:
 			"place": "rose-garden",
 			"place_name": "Rosalia’s Rose Garden",
 			"family_guest": "Mom",
-			"route_duration_seconds": 18.0,
+			"route_duration_seconds": 13.0,
 			"place_progress": 0.0,
 			"safe_limits_preserve_forward_motion": true,
 			"observed_interactions": [],
