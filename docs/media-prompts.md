@@ -129,6 +129,20 @@ Selected output: `shared/edition/source-media/lacewood/lacewood-single-route-bac
 
 Provenance: `shared/edition/source-media/lacewood/single-route-provenance.json`
 
+## Golden Bell Abbey: Place Illustration
+
+Execution: Inkvoke 1.0.1, GPT Image 2, high quality, 1680×944 PNG. Generated rather than
+edited, with the approved Rose Garden and Lacewood art direction described in the prompt:
+the same warm stone, jewel palette, and picture-book register the earlier plates carry.
+The Abbey's four bells hang at four readable heights because the child's altitude chooses
+which bell rings.
+
+> Use case: illustration-story. Asset type: production 16:9 game environment background plate for a gentle Godot active-play scene. Create Golden Bell Abbey, a bright reverent abbey of warm honey-colored stone where a single open flight corridor runs left to right across the frame. Along the upper band show a sunlit bell tower and high arched openings hung with small golden bells, bright stained-glass roundels catching the light, and airy sky. Along the lower band show garden cloisters, a colonnade of warm stone arches, rose and lavender planting beds, and larger round-shouldered bells resting under the arcade. Both bands are open, safe, equally bright, and equally beautiful, with bells clearly readable at several different heights so height alone reads as a different bell. Match the approved premium flat modern children's picture-book style: solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny lighting, and the established jewel palette of luminous mosaic gold, warm cream, blush rose, lavender, and sapphire. Scenery only. No characters, faces, animals, Birthday Star, rainbow path, written text, interface, watermark, correctness cues, danger, religious figures or symbols beyond one small respectful architectural cross on the distant tower, photorealism, 3D render, or anime.
+
+Selected output: `shared/edition/source-media/abbey/abbey-background.png`
+
+Provenance: `shared/edition/source-media/abbey/provenance.json`
+
 Output: `shared/edition/source-media/flight/rosie-stella.png`
 
 ## Birthday Castle celebration illustration

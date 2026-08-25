@@ -31,6 +31,11 @@
       "path": "source-media/lacewood/lacewood-single-route-background.png"
     },
     {
+      "id": "abbey.background",
+      "role": "illustration-layer",
+      "path": "source-media/abbey/abbey-background.png"
+    },
+    {
       "id": "family-guest.mom",
       "role": "character-layer",
       "path": "source-media/journey/family-guest-mom.png"

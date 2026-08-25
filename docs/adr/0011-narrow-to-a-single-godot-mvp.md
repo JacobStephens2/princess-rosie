@@ -1,5 +1,7 @@
 # Narrow to a single Godot MVP
 
+> Refined by [ADR-0012](./0012-answer-the-childs-height-with-an-altitude-ladder.md): a place declares an ordered Altitude Ladder rather than exactly two altitude-band interactions. Two rungs stays the usual shape; Golden Bell Abbey declares four so its four approved bell cues can each be reached by height, and answers every crossing between them so the bells follow the child's hand.
+
 The project had grown into three parallel games — a Phaser Edition being actively revised, a Godot Edition partly built, and a Unity Edition promised but never started — held together by an Edition Contract whose only purpose was to let two engines be compared. Twenty-nine open issues specified Unity parity, Path Choices, Journey History, choice-responsive celebration, and bespoke per-place systems, while the actual journey had exactly one place built. The Godot Edition is therefore the game: Unity is cut, the Phaser Edition is frozen at its deployed state, and the MVP is one complete seven-place journey playable start to finish and exported as an unsigned macOS application.
 
 This supersedes ADR-0003, ADR-0006, and ADR-0007 in full, and supersedes ADR-0010's decision to revise the Phaser Edition. It amends ADR-0008: completing Godot before starting Unity becomes completing Godot instead of Unity. It narrows ADR-0005: each place keeps a distinct vignette, but distinction now comes from art and sound over one shared interaction, not from a bespoke system per place.
