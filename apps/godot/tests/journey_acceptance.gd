@@ -124,6 +124,36 @@ const REQUIRED_SOUND_EVENTS := [
 		"event": "sound-event.birthday-star-moment",
 		"context": {"place": "abbey", "familyGuest": "Pop"},
 	},
+	{"event": "sound-event.place-entry", "context": {"place": "cloister"}},
+	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"place": "cloister", "interaction": "sunlit-arches"},
+	},
+	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"place": "cloister", "interaction": "soft-clouds"},
+	},
+	{"event": "sound-event.near-miss", "context": {"place": "cloister", "kind": "soft-cloud"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{
+		"event": "sound-event.birthday-star-proximity",
+		"context": {"birthdayStar": "birthday-star.cloister"},
+	},
+	{
+		"event": "sound-event.birthday-star-gathered",
+		"context": {"birthdayStar": "birthday-star.cloister"},
+	},
+	{
+		"event": "sound-event.rainbow-path-opened",
+		"context": {"rainbowPath": "rainbow-path.cloister", "familyGuest": "Beasley"},
+	},
+	{
+		"event": "sound-event.birthday-star-moment",
+		"context": {"place": "cloister", "familyGuest": "Beasley"},
+	},
 	{"event": "sound-event.birthday-castle-arrival", "context": {}},
 ]
 
@@ -135,7 +165,7 @@ func _init() -> void:
 	var pack_root := ProjectSettings.globalize_path(ACCEPTANCE_TEST.PACK_ROOT)
 	test.expect(
 		shell.prepare_launch(pack_root).get("ok") == true,
-		"the three-place journey prepares",
+		"the four-place journey prepares",
 	)
 	test.expect(
 		shell.presentation_evidence().get("places") == [
@@ -150,8 +180,8 @@ func _init() -> void:
 		% JSON.stringify(shell.presentation_evidence().get("places")),
 	)
 	test.expect(
-		shell.presentation_evidence().get("realized_places") == 3,
-		"three of the declared places carry an approved Place Illustration so far",
+		shell.presentation_evidence().get("realized_places") == 4,
+		"four of the declared places carry an approved Place Illustration so far",
 	)
 
 	DRIVER.launch(shell)
@@ -276,6 +306,38 @@ func _init() -> void:
 		"the third place reaches its own self-paced Birthday Star Moment",
 	)
 
+	DRIVER.turn_the_page(shell)
+	var cloister_entry: Dictionary = shell.presentation_evidence()
+	test.expect(
+		cloister_entry.get("place") == "cloister"
+		and cloister_entry.get("place_name") == "Cloister of Clouds"
+		and cloister_entry.get("family_guest") == "Beasley"
+		and cloister_entry.get("birthday_stars") == [
+			"birthday-star.rose-garden",
+			"birthday-star.lacewood",
+			"birthday-star.abbey",
+		],
+		"the journey carries all three gathered Stars on into the Cloister of Clouds: %s"
+		% JSON.stringify(cloister_entry),
+	)
+
+	# The Cloister of Clouds: two rungs again, in a place made only of data and media.
+	DRIVER.advance(shell, 3.1)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	DRIVER.advance(shell, 3.1)
+	test.expect(
+		shell.presentation_evidence().get("observed_interactions")
+		== ["sunlit-arches", "soft-clouds"],
+		"the same two bands answer with the Cloister's own arches and clouds: %s"
+		% JSON.stringify(shell.presentation_evidence().get("observed_interactions")),
+	)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.advance(shell, 14.5)
+	test.expect(
+		shell.presentation_evidence().get("state") == "birthday_star_moment",
+		"the fourth place reaches its own self-paced Birthday Star Moment",
+	)
+
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	test.expect(
 		shell.handle_player_action(KEYBOARD_SPACE, true),
@@ -287,14 +349,22 @@ func _init() -> void:
 	test.expect(
 		evidence.get("state") == "celebration"
 		and evidence.get("journey_phase") == "celebration"
-		and evidence.get("birthday_stars")
-		== ["birthday-star.rose-garden", "birthday-star.lacewood", "birthday-star.abbey"]
-		and evidence.get("rainbow_paths")
-		== ["rainbow-path.rose-garden", "rainbow-path.lacewood", "rainbow-path.abbey"]
+		and evidence.get("birthday_stars") == [
+			"birthday-star.rose-garden",
+			"birthday-star.lacewood",
+			"birthday-star.abbey",
+			"birthday-star.cloister",
+		]
+		and evidence.get("rainbow_paths") == [
+			"rainbow-path.rose-garden",
+			"rainbow-path.lacewood",
+			"rainbow-path.abbey",
+			"rainbow-path.cloister",
+		]
 		and evidence.get("playful_bumps") == 3
 		and evidence.get("cloud_rests") == 1
 		and evidence.get("flight_control_cycles") >= 3,
-		"three data-driven places complete one no-failure journey: %s" % JSON.stringify(evidence),
+		"four data-driven places complete one no-failure journey: %s" % JSON.stringify(evidence),
 	)
 	test.expect(
 		not evidence.has("chosen_route")
@@ -309,7 +379,7 @@ func _init() -> void:
 	)
 	test.expect(
 		shell.sound_event_evidence() == REQUIRED_SOUND_EVENTS,
-		"the three-place journey emits the expected sound sequence\nexpected: %s\nactual: %s"
+		"the four-place journey emits the expected sound sequence\nexpected: %s\nactual: %s"
 		% [JSON.stringify(REQUIRED_SOUND_EVENTS), JSON.stringify(shell.sound_event_evidence())],
 	)
 

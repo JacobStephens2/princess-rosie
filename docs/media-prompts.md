@@ -143,6 +143,19 @@ Selected output: `shared/edition/source-media/abbey/abbey-background.png`
 
 Provenance: `shared/edition/source-media/abbey/provenance.json`
 
+## Cloister of Clouds: Place Illustration
+
+Execution: Inkvoke 1.0.1, GPT Image 2, high quality, 1680×944 PNG. Generated rather than
+edited, with the approved Rose Garden, Lacewood, and Abbey art direction described in the
+prompt. The arches sit high in the frame and the clouds bank low, because flying high
+answers with the sunlit arches and settling low answers with the soft clouds.
+
+> Use case: illustration-story. Asset type: production 16:9 game environment background plate for a gentle Godot active-play scene. Create the Cloister of Clouds, a tranquil sky passage where a cloister's arcade floats in open air and a single open flight corridor runs left to right across the frame. Along the upper band show tall sunlit arches of warm honey-colored stone, a slender floating arcade catching bright golden light, and airy sky through every opening. Along the lower band show soft banked clouds, pale and pillowy and rounded, with gentle drifting wisps and a few small stone steps and planters resting on them. Both bands are open, safe, equally bright, and equally beautiful, with the arches clearly readable high in the frame and the soft clouds clearly readable low, so height alone reads as a different delight. Match the approved premium flat modern children's picture-book style: solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny lighting, and the established jewel palette of luminous mosaic gold, warm cream, blush rose, lavender, and sapphire. Scenery only. No characters, faces, animals, Birthday Star, rainbow path, written text, interface, watermark, correctness cues, danger, photorealism, 3D render, or anime.
+
+Selected output: `shared/edition/source-media/cloister/cloister-background.png`
+
+Provenance: `shared/edition/source-media/cloister/provenance.json`
+
 Output: `shared/edition/source-media/flight/rosie-stella.png`
 
 ## Birthday Castle celebration illustration

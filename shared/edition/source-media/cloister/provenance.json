@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rosie-source-media-provenance/1",
+  "asset": "cloister-background.png",
+  "sha256": "d2492c89f96b172fe9b632f01973207339ff06c6138013976ed82fe6ef730781",
+  "createdAt": "2026-08-24",
+  "generation": {
+    "tool": "Inkvoke 1.0.1 CLI against the OpenAI Images API, model gpt-image-2",
+    "mode": "generation",
+    "useCase": "illustration-story",
+    "references": [],
+    "prompt": "Use case: illustration-story. Asset type: production 16:9 game environment background plate for a gentle Godot active-play scene. Create the Cloister of Clouds, a tranquil sky passage where a cloister's arcade floats in open air and a single open flight corridor runs left to right across the frame. Along the upper band show tall sunlit arches of warm honey-colored stone, a slender floating arcade catching bright golden light, and airy sky through every opening. Along the lower band show soft banked clouds, pale and pillowy and rounded, with gentle drifting wisps and a few small stone steps and planters resting on them. Both bands are open, safe, equally bright, and equally beautiful, with the arches clearly readable high in the frame and the soft clouds clearly readable low, so height alone reads as a different delight. Match the approved premium flat modern children's picture-book style: solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny lighting, and the established jewel palette of luminous mosaic gold, warm cream, blush rose, lavender, and sapphire. Scenery only. No characters, faces, animals, Birthday Star, rainbow path, written text, interface, watermark, correctness cues, danger, photorealism, 3D render, or anime.",
+    "output": {
+      "width": 1680,
+      "height": 944,
+      "color": "RGB"
+    }
+  },
+  "selection": {
+    "status": "agent-selected-production-candidate",
+    "ownerManualReview": "pending",
+    "reason": "Scenery only, with sunlit stone arches readable high in the frame and soft banked clouds readable low, so flying high and settling low each have something of their own to answer, and warm honey stone, roses, and lavender continuous with the approved Rose Garden, Lacewood, and Abbey art direction."
+  }
+}

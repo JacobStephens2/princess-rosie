@@ -99,12 +99,14 @@ func _bells_follow_the_child(shell: StorybookShell) -> void:
 		% JSON.stringify(moment.get("birthday_stars")),
 	)
 
-	# The Abbey is the last place carrying an approved Place Illustration, so the journey
-	# continues out of it into the celebration rather than stopping inside it.
+	# The journey continues out of the Abbey into the next place rather than stopping
+	# inside it.
 	DRIVER.turn_the_page(shell)
 	test.expect(
-		shell.presentation_evidence().get("state") == "celebration",
-		"turning the page carries the journey on out of the Abbey without interruption",
+		shell.presentation_evidence().get("state") == "active_play"
+		and shell.presentation_evidence().get("place") == "cloister",
+		"turning the page carries the journey on out of the Abbey without interruption: %s"
+		% JSON.stringify(shell.presentation_evidence()),
 	)
 	shell.free()
 
