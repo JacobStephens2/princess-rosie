@@ -98,6 +98,9 @@ Execution: OpenAI Image API CLI fallback, `gpt-image-1.5`, high quality and inpu
 
 > Use case: production game character-layer extraction. Preserve exactly the approved characters and picture-book illustration style from the reference: young Princess Rosie with long golden-blonde hair, small gold crown, joyful expression, ornate bright pink rose-patterned dress and pink shoes, seated astride Stella; Stella is a friendly white winged unicorn with a pastel pink-purple-blue mane and tail, rainbow horn, two large lavender feathered wings, gold-and-heart bridle, complete body with all four legs and hooves. Isolate only Rosie riding Stella as one complete cohesive character cutout. Remove the garden, archways, sky, sea, flowers, ribbons, star, floor, scenery, shadows, and every other object. Keep the entire silhouette fully inside the canvas with generous transparent padding and no cropping. Output a genuine RGBA PNG with fully transparent pixels everywhere outside the clean character silhouette. No checkerboard, no painted transparency pattern, no white matte, no rectangular background, no halo, no text, no added objects, no anatomy changes, no duplicate limbs or wings.
 
+Output: `shared/edition/source-media/flight/rosie-stella.png`
+
+
 ## Zélie's Lacewood: deferred fork source artwork
 
 Execution: built-in OpenAI image-generation tool with the approved departure illustration and Rose Garden flight background as style, palette, lighting, and world references only. This source artwork is retained for possible post-MVP reconsideration and is not used by the active Single Route.
@@ -156,7 +159,6 @@ Selected output: `shared/edition/source-media/cloister/cloister-background.png`
 
 Provenance: `shared/edition/source-media/cloister/provenance.json`
 
-Output: `shared/edition/source-media/flight/rosie-stella.png`
 
 ## Birthday Castle celebration illustration
 

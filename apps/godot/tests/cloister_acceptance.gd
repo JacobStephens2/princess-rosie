@@ -33,17 +33,32 @@ func _the_sky_answers_both_heights(shell: StorybookShell) -> void:
 	)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	DRIVER.advance(shell, 3.1)
-	var both: Dictionary = shell.presentation_evidence()
+	var both_heights: Dictionary = shell.presentation_evidence()
 	test.expect(
-		both.get("observed_interactions") == ["sunlit-arches", "soft-clouds"],
+		both_heights.get("observed_interactions") == ["sunlit-arches", "soft-clouds"],
 		"settling low answers with the soft clouds on the same passage: %s"
-		% JSON.stringify(both.get("observed_interactions")),
+		% JSON.stringify(both_heights.get("observed_interactions")),
 	)
 	test.expect(
-		both.get("journey_phase") == "place-flight"
-		and both.get("state") == "active_play"
-		and both.get("cloud_rests") == 0,
-		"both heights ask nothing of the child but Flight Control: %s" % JSON.stringify(both),
+		both_heights.get("journey_phase") == "place-flight"
+		and both_heights.get("state") == "active_play"
+		and both_heights.get("cloud_rests") == 0,
+		"both heights ask nothing of the child but Flight Control: %s"
+		% JSON.stringify(both_heights),
+	)
+
+	# The open sky between the arches and the clouds is quiet rather than wrong: a child
+	# who lingers there keeps flying, keeps her Stars, and loses nothing she has awakened.
+	# The most a soft cloud does to her is wobble her on the way past.
+	DRIVER.hold_near(shell, 0.54, 2.0)
+	var between: Dictionary = shell.presentation_evidence()
+	test.expect(
+		between.get("journey_phase") == "place-flight"
+		and between.get("state") == "active_play"
+		and between.get("cloud_rests") == 0
+		and between.get("observed_interactions") == ["sunlit-arches", "soft-clouds"],
+		"flying between the arches and the clouds is quiet, never a mistake: %s"
+		% JSON.stringify(between),
 	)
 
 	# Climbing back into the arches carries her clear of the drifting clouds below.
@@ -125,17 +140,15 @@ func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 	shell.free()
 
 
-# Flies the Cloister the way a child who never climbs flies it, stopping at the frame the
-# named Playful Bump lands so the wobble can be seen while it is still happening.
+# The low Cloister passage flown to its next Playful Bump, so the wobble can be seen
+# while it is still happening.
 func _fly_low_until_bumped(shell: StorybookShell, playful_bumps: int) -> Dictionary:
-	for _frame: int in 900:
-		shell.advance_simulation(1.0 / 60.0)
-		shell.advance_journey(1.0 / 60.0)
-		var evidence: Dictionary = shell.presentation_evidence()
-		if int(evidence.get("playful_bumps", 0)) >= playful_bumps:
-			return evidence
-	test.expect(false, "the low Cloister passage meets %d Playful Bumps" % playful_bumps)
-	return shell.presentation_evidence()
+	var evidence := DRIVER.fly_until_playful_bumps(shell, playful_bumps)
+	test.expect(
+		not evidence.is_empty(),
+		"the low Cloister passage meets %d Playful Bumps" % playful_bumps,
+	)
+	return evidence
 
 
 # Reaches the Cloister the way a child reaches it: three places flown high, each turned
@@ -161,20 +174,12 @@ func _fly_to_the_cloister() -> StorybookShell:
 		"the journey crosses into the Cloister of Clouds: %s" % JSON.stringify(entry),
 	)
 	test.expect(
-		_place_entry_ambiences(shell) == ["rose-garden", "lacewood", "abbey", "cloister"],
+		DRIVER.place_entry_ambiences(shell) == ["rose-garden", "lacewood", "abbey", "cloister"],
 		"entering the Cloister crossfades to its own ambience, one place at a time: %s"
-		% JSON.stringify(_place_entry_ambiences(shell)),
+		% JSON.stringify(DRIVER.place_entry_ambiences(shell)),
 	)
 	test.expect(
 		entry.get("observed_interactions") == [],
 		"the Cloister starts with neither its arches nor its clouds awakened",
 	)
 	return shell
-
-
-func _place_entry_ambiences(shell: StorybookShell) -> Array:
-	var places: Array = []
-	for sound_event: Dictionary in shell.sound_event_evidence():
-		if sound_event.get("event") == "sound-event.place-entry":
-			places.append(sound_event.get("context", {}).get("place"))
-	return places
