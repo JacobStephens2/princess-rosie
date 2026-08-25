@@ -2,294 +2,1101 @@
   "contractVersion": "rosie-edition-contract/1",
   "revision": "mvp-soundscape-1",
   "files": [
-    { "role": "content", "path": "content.json" },
-    { "role": "tuning-intent", "path": "tuning-intent.json" },
-    { "role": "media", "path": "media.json" },
-    { "role": "soundscape-events", "path": "soundscape/events.json" },
-    { "role": "soundscape-catalog", "path": "soundscape/catalog.json" },
-    { "role": "soundscape-source-media", "path": "soundscape/source-media.json" },
-    { "role": "soundscape-mix", "path": "soundscape/mix.json" },
-    { "role": "soundscape-runtime-mappings", "path": "soundscape/runtime-mappings.json" },
-    { "role": "soundscape-provenance", "path": "soundscape/provenance.json" },
-    { "role": "source-media", "path": "source-media/opening-storybook/celebration-preparations.png" },
-    { "role": "source-media", "path": "source-media/opening-storybook/scattered-stars.png" },
-    { "role": "source-media", "path": "source-media/opening-storybook/rosie-stella-departure.png" },
-    { "role": "source-media", "path": "source-media/flight/rose-garden-background.png" },
-    { "role": "source-media", "path": "source-media/flight/rosie-stella.png" },
-    { "role": "source-media-provenance", "path": "source-media/flight/provenance.json" },
-    { "role": "source-media", "path": "source-media/lacewood/lacewood-background.png" },
-    { "role": "source-media-provenance", "path": "source-media/lacewood/provenance.json" },
-    { "role": "source-media", "path": "source-media/lacewood/lacewood-single-route-background.png" },
-    { "role": "source-media-provenance", "path": "source-media/lacewood/single-route-provenance.json" },
-    { "role": "source-media", "path": "source-media/abbey/abbey-background.png" },
-    { "role": "source-media-provenance", "path": "source-media/abbey/provenance.json" },
-    { "role": "source-media", "path": "source-media/cloister/cloister-background.png" },
-    { "role": "source-media-provenance", "path": "source-media/cloister/provenance.json" },
-    { "role": "source-media", "path": "source-media/pellegrino-peak/pellegrino-peak-background.png" },
-    { "role": "source-media-provenance", "path": "source-media/pellegrino-peak/provenance.json" },
-    { "role": "source-media", "path": "source-media/journey/family-guest-mom.png" },
-    { "role": "source-media", "path": "source-media/journey/family-guest-dad.png" },
-    { "role": "source-media", "path": "source-media/journey/family-guest-pop.png" },
-    { "role": "source-media", "path": "source-media/journey/family-guest-gram.png" },
-    { "role": "source-media", "path": "source-media/journey/family-guest-aunt.png" },
-    { "role": "source-media", "path": "source-media/journey/family-guest-uncle.png" },
-    { "role": "source-media", "path": "source-media/journey/family-guest-beasley.png" },
-    { "role": "source-media", "path": "source-media/journey/birthday-star.png" },
-    { "role": "source-media", "path": "source-media/journey/rainbow-path.png" },
-    { "role": "source-media", "path": "source-media/celebration/birthday-castle-celebration.png" },
-    { "role": "source-media-provenance", "path": "source-media/celebration/provenance.json" },
-    { "role": "source-media-provenance", "path": "source-media/journey/provenance.json" },
-    { "role": "source-media-music", "path": "source-media/soundscape/music/birthday-flight.mp3" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/opening-celebration-reveal.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/opening-celebration-reveal.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/opening-celebration-reveal.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/opening-celebration-reveal.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/opening-celebration-reveal.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/opening-star-scatter.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/opening-star-scatter.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/opening-star-scatter.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/opening-star-scatter.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/opening-star-scatter.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/opening-departure.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/opening-departure.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/opening-departure.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/opening-departure.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/opening-departure.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/story-confirmation.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/story-confirmation.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/story-confirmation.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/story-confirmation.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/story-confirmation.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/flight-launch.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/flight-launch.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/flight-launch.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/flight-launch.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/flight-launch.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/movement-flight.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/movement-flight.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/movement-flight.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/movement-flight.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/movement-flight.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/movement-rise.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/movement-rise.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/movement-rise.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/movement-rise.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/movement-rise.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/movement-glide.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/movement-glide.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/movement-glide.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/movement-glide.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/movement-glide.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/place-lacewood.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/place-lacewood.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/place-lacewood.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/place-lacewood.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/place-lacewood.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-lacewood-canopy.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-lacewood-canopy.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-lacewood-canopy.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-lacewood-canopy.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-lacewood-canopy.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-lacewood-floor.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-lacewood-floor.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-lacewood-floor.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-lacewood-floor.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-lacewood-floor.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/playful-bump-lacewood.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/playful-bump-lacewood.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/playful-bump-lacewood.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/playful-bump-lacewood.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/playful-bump-lacewood.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/near-miss.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/near-miss.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/near-miss.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/near-miss.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/near-miss.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/birthday-star-proximity.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/birthday-star-proximity.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/birthday-star-proximity.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/birthday-star-proximity.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/birthday-star-proximity.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/birthday-star-gather.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/birthday-star-gather.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/birthday-star-gather.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/birthday-star-gather.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/birthday-star-gather.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/rainbow-path-open.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/rainbow-path-open.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/rainbow-path-open.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/rainbow-path-open.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/rainbow-path-open.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/birthday-star-moment-lacewood.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/birthday-star-moment-lacewood.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/birthday-star-moment-lacewood.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/birthday-star-moment-lacewood.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/birthday-star-moment-lacewood.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/cloud-rest-enter.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/cloud-rest-enter.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/cloud-rest-enter.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/cloud-rest-enter.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/cloud-rest-enter.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/cloud-rest-ambience.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/cloud-rest-ambience.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/cloud-rest-ambience.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/cloud-rest-ambience.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/cloud-rest-ambience.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/cloud-rest-exit.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/cloud-rest-exit.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/cloud-rest-exit.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/cloud-rest-exit.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/cloud-rest-exit.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/place-rose-garden.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/place-rose-garden.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/place-rose-garden.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/place-rose-garden.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/place-rose-garden.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-rose-garden-awakening-roses.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-rose-garden-awakening-roses.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-rose-garden-awakening-roses.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-rose-garden-awakening-roses.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-rose-garden-awakening-roses.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/playful-bump-rose-garden.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/playful-bump-rose-garden.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/playful-bump-rose-garden.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/playful-bump-rose-garden.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/playful-bump-rose-garden.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/near-miss-rose-garden.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/near-miss-rose-garden.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/near-miss-rose-garden.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/near-miss-rose-garden.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/near-miss-rose-garden.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/birthday-star-moment-rose-garden.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/birthday-star-moment-rose-garden.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/birthday-star-moment-rose-garden.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/birthday-star-moment-rose-garden.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/birthday-star-moment-rose-garden.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/place-abbey.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/place-abbey.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/place-abbey.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/place-abbey.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/place-abbey.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-abbey-bell-low.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-abbey-bell-low.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-abbey-bell-low.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-abbey-bell-low.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-abbey-bell-low.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-abbey-bell-middle.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-abbey-bell-middle.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-abbey-bell-middle.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-abbey-bell-middle.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-abbey-bell-middle.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-abbey-bell-high.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-abbey-bell-high.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-abbey-bell-high.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-abbey-bell-high.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-abbey-bell-high.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-abbey-bell-settle.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-abbey-bell-settle.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-abbey-bell-settle.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-abbey-bell-settle.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-abbey-bell-settle.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/playful-bump-abbey.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/playful-bump-abbey.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/playful-bump-abbey.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/playful-bump-abbey.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/playful-bump-abbey.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/near-miss-abbey.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/near-miss-abbey.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/near-miss-abbey.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/near-miss-abbey.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/near-miss-abbey.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/birthday-star-moment-abbey.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/birthday-star-moment-abbey.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/birthday-star-moment-abbey.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/birthday-star-moment-abbey.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/birthday-star-moment-abbey.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/place-cloister.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/place-cloister.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/place-cloister.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/place-cloister.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/place-cloister.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-cloister-arches.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-cloister-arches.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-cloister-arches.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-cloister-arches.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-cloister-arches.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-cloister-clouds.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-cloister-clouds.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-cloister-clouds.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-cloister-clouds.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-cloister-clouds.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/playful-bump-cloister.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/playful-bump-cloister.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/playful-bump-cloister.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/playful-bump-cloister.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/playful-bump-cloister.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/birthday-star-moment-cloister.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/birthday-star-moment-cloister.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/birthday-star-moment-cloister.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/birthday-star-moment-cloister.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/birthday-star-moment-cloister.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/place-pellegrino-peak.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/place-pellegrino-peak.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/place-pellegrino-peak.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/place-pellegrino-peak.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/place-pellegrino-peak.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-pellegrino-peak-updraft.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-pellegrino-peak-updraft.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-pellegrino-peak-updraft.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-pellegrino-peak-updraft.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-pellegrino-peak-updraft.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/playful-bump-pellegrino-peak.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/playful-bump-pellegrino-peak.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/playful-bump-pellegrino-peak.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/playful-bump-pellegrino-peak.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/playful-bump-pellegrino-peak.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/near-miss-pellegrino-peak.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/near-miss-pellegrino-peak.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/near-miss-pellegrino-peak.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/near-miss-pellegrino-peak.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/near-miss-pellegrino-peak.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/birthday-star-moment-pellegrino-peak.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/birthday-star-moment-pellegrino-peak.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/birthday-star-moment-pellegrino-peak.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/birthday-star-moment-pellegrino-peak.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/birthday-star-moment-pellegrino-peak.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/place-sapphire-sea.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/place-sapphire-sea.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/place-sapphire-sea.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/place-sapphire-sea.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/place-sapphire-sea.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-sapphire-sea-shore.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-sapphire-sea-shore.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-sapphire-sea-shore.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-sapphire-sea-shore.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-sapphire-sea-shore.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/vignette-sapphire-sea-open-water.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/vignette-sapphire-sea-open-water.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/vignette-sapphire-sea-open-water.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/vignette-sapphire-sea-open-water.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/vignette-sapphire-sea-open-water.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/playful-bump-sapphire-sea.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/playful-bump-sapphire-sea.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/playful-bump-sapphire-sea.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/playful-bump-sapphire-sea.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/playful-bump-sapphire-sea.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/near-miss-sapphire-sea.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/near-miss-sapphire-sea.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/near-miss-sapphire-sea.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/near-miss-sapphire-sea.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/near-miss-sapphire-sea.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/birthday-star-moment-sapphire-sea.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/birthday-star-moment-sapphire-sea.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/birthday-star-moment-sapphire-sea.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/birthday-star-moment-sapphire-sea.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/birthday-star-moment-sapphire-sea.json" },
-    { "role": "source-media", "path": "source-media/soundscape/masters/rainbow-path-pellegrino-peak.wav" },
-    { "role": "source-media-provenance", "path": "source-media/soundscape/provenance/rainbow-path-pellegrino-peak.json" },
-    { "role": "source-media-runtime", "path": "source-media/soundscape/runtime/rainbow-path-pellegrino-peak.wav" },
-    { "role": "source-media-runtime-import", "path": "source-media/soundscape/runtime-imports/rainbow-path-pellegrino-peak.json" },
-    { "role": "source-media-catalog-state", "path": "source-media/soundscape/catalog-state/rainbow-path-pellegrino-peak.json" },
-    { "role": "source-media-build-report", "path": "source-media/soundscape/soundscape-build-report.json" }
+    {
+      "role": "content",
+      "path": "content.json"
+    },
+    {
+      "role": "tuning-intent",
+      "path": "tuning-intent.json"
+    },
+    {
+      "role": "media",
+      "path": "media.json"
+    },
+    {
+      "role": "soundscape-events",
+      "path": "soundscape/events.json"
+    },
+    {
+      "role": "soundscape-catalog",
+      "path": "soundscape/catalog.json"
+    },
+    {
+      "role": "soundscape-source-media",
+      "path": "soundscape/source-media.json"
+    },
+    {
+      "role": "soundscape-mix",
+      "path": "soundscape/mix.json"
+    },
+    {
+      "role": "soundscape-runtime-mappings",
+      "path": "soundscape/runtime-mappings.json"
+    },
+    {
+      "role": "soundscape-provenance",
+      "path": "soundscape/provenance.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/opening-storybook/celebration-preparations.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/opening-storybook/scattered-stars.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/opening-storybook/rosie-stella-departure.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/flight/rose-garden-background.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/flight/rosie-stella.png"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/flight/provenance.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/lacewood/lacewood-background.png"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/lacewood/provenance.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/lacewood/lacewood-single-route-background.png"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/lacewood/single-route-provenance.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/abbey/abbey-background.png"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/abbey/provenance.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/cloister/cloister-background.png"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/cloister/provenance.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/pellegrino-peak/pellegrino-peak-background.png"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/pellegrino-peak/provenance.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/journey/family-guest-mom.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/journey/family-guest-dad.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/journey/family-guest-pop.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/journey/family-guest-gram.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/journey/family-guest-aunt.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/journey/family-guest-uncle.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/journey/family-guest-beasley.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/journey/birthday-star.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/journey/rainbow-path.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/celebration/birthday-castle-celebration.png"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/celebration/provenance.json"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/journey/provenance.json"
+    },
+    {
+      "role": "source-media-music",
+      "path": "source-media/soundscape/music/birthday-flight.mp3"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/opening-celebration-reveal.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/opening-celebration-reveal.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/opening-celebration-reveal.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/opening-celebration-reveal.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/opening-celebration-reveal.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/opening-star-scatter.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/opening-star-scatter.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/opening-star-scatter.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/opening-star-scatter.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/opening-star-scatter.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/opening-departure.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/opening-departure.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/opening-departure.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/opening-departure.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/opening-departure.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/story-confirmation.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/story-confirmation.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/story-confirmation.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/story-confirmation.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/story-confirmation.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/flight-launch.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/flight-launch.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/flight-launch.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/flight-launch.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/flight-launch.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/movement-flight.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/movement-flight.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/movement-flight.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/movement-flight.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/movement-flight.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/movement-rise.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/movement-rise.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/movement-rise.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/movement-rise.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/movement-rise.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/movement-glide.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/movement-glide.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/movement-glide.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/movement-glide.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/movement-glide.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/place-lacewood.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/place-lacewood.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/place-lacewood.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/place-lacewood.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/place-lacewood.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-lacewood-canopy.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-lacewood-canopy.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-lacewood-canopy.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-lacewood-canopy.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-lacewood-canopy.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-lacewood-floor.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-lacewood-floor.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-lacewood-floor.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-lacewood-floor.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-lacewood-floor.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/playful-bump-lacewood.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/playful-bump-lacewood.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/playful-bump-lacewood.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/playful-bump-lacewood.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/playful-bump-lacewood.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/near-miss.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/near-miss.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/near-miss.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/near-miss.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/near-miss.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/birthday-star-proximity.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/birthday-star-proximity.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/birthday-star-proximity.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/birthday-star-proximity.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/birthday-star-proximity.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/birthday-star-gather.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/birthday-star-gather.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/birthday-star-gather.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/birthday-star-gather.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/birthday-star-gather.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/rainbow-path-open.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/rainbow-path-open.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/rainbow-path-open.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/rainbow-path-open.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/rainbow-path-open.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/birthday-star-moment-lacewood.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/birthday-star-moment-lacewood.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/birthday-star-moment-lacewood.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/birthday-star-moment-lacewood.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/birthday-star-moment-lacewood.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/place-rose-garden.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/place-rose-garden.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/place-rose-garden.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/place-rose-garden.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/place-rose-garden.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-rose-garden-awakening-roses.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-rose-garden-awakening-roses.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-rose-garden-awakening-roses.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-rose-garden-awakening-roses.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-rose-garden-awakening-roses.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/playful-bump-rose-garden.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/playful-bump-rose-garden.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/playful-bump-rose-garden.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/playful-bump-rose-garden.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/playful-bump-rose-garden.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/near-miss-rose-garden.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/near-miss-rose-garden.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/near-miss-rose-garden.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/near-miss-rose-garden.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/near-miss-rose-garden.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/birthday-star-moment-rose-garden.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/birthday-star-moment-rose-garden.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/birthday-star-moment-rose-garden.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/birthday-star-moment-rose-garden.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/birthday-star-moment-rose-garden.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/place-abbey.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/place-abbey.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/place-abbey.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/place-abbey.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/place-abbey.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-abbey-bell-low.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-abbey-bell-low.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-abbey-bell-low.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-abbey-bell-low.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-abbey-bell-low.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-abbey-bell-middle.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-abbey-bell-middle.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-abbey-bell-middle.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-abbey-bell-middle.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-abbey-bell-middle.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-abbey-bell-high.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-abbey-bell-high.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-abbey-bell-high.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-abbey-bell-high.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-abbey-bell-high.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-abbey-bell-settle.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-abbey-bell-settle.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-abbey-bell-settle.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-abbey-bell-settle.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-abbey-bell-settle.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/playful-bump-abbey.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/playful-bump-abbey.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/playful-bump-abbey.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/playful-bump-abbey.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/playful-bump-abbey.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/near-miss-abbey.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/near-miss-abbey.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/near-miss-abbey.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/near-miss-abbey.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/near-miss-abbey.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/birthday-star-moment-abbey.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/birthday-star-moment-abbey.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/birthday-star-moment-abbey.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/birthday-star-moment-abbey.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/birthday-star-moment-abbey.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/place-cloister.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/place-cloister.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/place-cloister.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/place-cloister.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/place-cloister.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-cloister-arches.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-cloister-arches.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-cloister-arches.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-cloister-arches.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-cloister-arches.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-cloister-clouds.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-cloister-clouds.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-cloister-clouds.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-cloister-clouds.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-cloister-clouds.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/playful-bump-cloister.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/playful-bump-cloister.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/playful-bump-cloister.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/playful-bump-cloister.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/playful-bump-cloister.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/birthday-star-moment-cloister.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/birthday-star-moment-cloister.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/birthday-star-moment-cloister.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/birthday-star-moment-cloister.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/birthday-star-moment-cloister.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/place-pellegrino-peak.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/place-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/place-pellegrino-peak.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/place-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/place-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-pellegrino-peak-updraft.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-pellegrino-peak-updraft.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-pellegrino-peak-updraft.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-pellegrino-peak-updraft.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-pellegrino-peak-updraft.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/playful-bump-pellegrino-peak.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/playful-bump-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/playful-bump-pellegrino-peak.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/playful-bump-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/playful-bump-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/near-miss-pellegrino-peak.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/near-miss-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/near-miss-pellegrino-peak.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/near-miss-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/near-miss-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/birthday-star-moment-pellegrino-peak.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/birthday-star-moment-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/birthday-star-moment-pellegrino-peak.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/birthday-star-moment-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/birthday-star-moment-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/place-sapphire-sea.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/place-sapphire-sea.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/place-sapphire-sea.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/place-sapphire-sea.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/place-sapphire-sea.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-sapphire-sea-shore.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-sapphire-sea-shore.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-sapphire-sea-shore.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-sapphire-sea-shore.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-sapphire-sea-shore.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/vignette-sapphire-sea-open-water.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/vignette-sapphire-sea-open-water.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/vignette-sapphire-sea-open-water.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/vignette-sapphire-sea-open-water.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/vignette-sapphire-sea-open-water.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/playful-bump-sapphire-sea.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/playful-bump-sapphire-sea.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/playful-bump-sapphire-sea.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/playful-bump-sapphire-sea.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/playful-bump-sapphire-sea.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/near-miss-sapphire-sea.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/near-miss-sapphire-sea.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/near-miss-sapphire-sea.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/near-miss-sapphire-sea.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/near-miss-sapphire-sea.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/birthday-star-moment-sapphire-sea.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/birthday-star-moment-sapphire-sea.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/birthday-star-moment-sapphire-sea.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/birthday-star-moment-sapphire-sea.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/birthday-star-moment-sapphire-sea.json"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/rainbow-path-pellegrino-peak.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/rainbow-path-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/rainbow-path-pellegrino-peak.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/rainbow-path-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/rainbow-path-pellegrino-peak.json"
+    },
+    {
+      "role": "source-media-build-report",
+      "path": "source-media/soundscape/soundscape-build-report.json"
+    }
   ]
 }

@@ -101,6 +101,60 @@ static func interaction_for_altitude(
 	return {}
 
 
+# Stella's Bump Floor, and the band of Near Miss above it. ADR-0013 states the floor as a
+# margin above the lowest reachable height rather than as an absolute altitude, so the
+# tuning declares how thick the floor is and the corridor above it is whatever remains.
+# A floor can only grow downward from the ladder, never up into it. Nothing here varies
+# during a journey: there is one game mode.
+const DEFAULT_BUMP_FLOOR_MARGIN := 0.04
+const DEFAULT_COLLISION_HALF_HEIGHT := 0.06
+const DEFAULT_NEAR_MISS_BAND := 0.08
+
+
+static func bump_floor_top(flight_tuning: Dictionary) -> float:
+	return (
+		float(flight_tuning.get("minimumAltitudeStageHeights", 0.0))
+		+ float(flight_tuning.get("bumpFloorMarginStageHeights", DEFAULT_BUMP_FLOOR_MARGIN))
+	)
+
+
+# Stella meets the floor when her lowest point reaches its top, so her own shape is part
+# of the answer rather than something folded into the floor's height.
+static func playful_bump_contact_altitude(flight_tuning: Dictionary) -> float:
+	return (
+		bump_floor_top(flight_tuning)
+		+ float(
+			flight_tuning.get("collisionHalfHeightStageHeights", DEFAULT_COLLISION_HALF_HEIGHT),
+		)
+	)
+
+
+static func near_miss_ceiling(flight_tuning: Dictionary) -> float:
+	return (
+		playful_bump_contact_altitude(flight_tuning)
+		+ float(flight_tuning.get("nearMissBandStageHeights", DEFAULT_NEAR_MISS_BAND))
+	)
+
+
+# The rungs of this place whose every reachable height is already in contact with the
+# Bump Floor. A rung like that is a delight the child cannot hold without bumping, which
+# is the inferior height ADR-0012 forbids, so the shell refuses to launch on it. A rung
+# that merely reaches down into the floor is fine: the child can still fly the top of it.
+static func rungs_without_safe_height(
+	place: Dictionary,
+	single_route_tuning: Dictionary,
+	flight_tuning: Dictionary,
+) -> Array[String]:
+	var contact := playful_bump_contact_altitude(flight_tuning)
+	var highest_reachable := float(flight_tuning.get("maximumAltitudeStageHeights", 1.0))
+	var stranded: Array[String] = []
+	for rung: Dictionary in altitude_ladder(place, single_route_tuning):
+		if minf(float(rung["maximum"]), highest_reachable) <= contact:
+			var interaction: Dictionary = rung["interaction"]
+			stranded.append(str(interaction.get("id", "")))
+	return stranded
+
+
 static func visual_response(place: Dictionary, interaction_id: String) -> String:
 	for interaction_value: Variant in place.get("interactions", []):
 		if interaction_value is Dictionary and interaction_value.get("id") == interaction_id:

@@ -23,10 +23,6 @@
       "description": "A soft synthesized Playful Bump response."
     },
     {
-      "id": "fallback.cloud-rest",
-      "description": "A reassuring synthesized Cloud Rest response."
-    },
-    {
       "id": "fallback.celebration",
       "description": "A warm synthesized celebration response."
     },
@@ -505,36 +501,6 @@
       "runtimePath": "source-media/soundscape/runtime/rainbow-path-pellegrino-peak.wav",
       "runtimeImportPath": "source-media/soundscape/runtime-imports/rainbow-path-pellegrino-peak.json",
       "catalogStatePath": "source-media/soundscape/catalog-state/rainbow-path-pellegrino-peak.json"
-    },
-    {
-      "id": "source-master.cloud-rest.enter",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/cloud-rest-enter.wav",
-      "provenancePath": "source-media/soundscape/provenance/cloud-rest-enter.json",
-      "runtimePath": "source-media/soundscape/runtime/cloud-rest-enter.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/cloud-rest-enter.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/cloud-rest-enter.json"
-    },
-    {
-      "id": "source-master.cloud-rest.ambience",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/cloud-rest-ambience.wav",
-      "provenancePath": "source-media/soundscape/provenance/cloud-rest-ambience.json",
-      "runtimePath": "source-media/soundscape/runtime/cloud-rest-ambience.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/cloud-rest-ambience.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/cloud-rest-ambience.json"
-    },
-    {
-      "id": "source-master.cloud-rest.exit",
-      "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect",
-      "path": "source-media/soundscape/masters/cloud-rest-exit.wav",
-      "provenancePath": "source-media/soundscape/provenance/cloud-rest-exit.json",
-      "runtimePath": "source-media/soundscape/runtime/cloud-rest-exit.wav",
-      "runtimeImportPath": "source-media/soundscape/runtime-imports/cloud-rest-exit.json",
-      "catalogStatePath": "source-media/soundscape/catalog-state/cloud-rest-exit.json"
     },
     {
       "id": "source-master.birthday-castle.arrival",

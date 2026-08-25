@@ -26,8 +26,9 @@ tests=(
   journey_acceptance.gd
   place_flight_control_acceptance.gd
   place_interaction_acceptance.gd
-  cloud_rest_auto_resume_acceptance.gd
-  cloud_rest_gentle_help_acceptance.gd
+  bump_floor_acceptance.gd
+  playful_bump_acceptance.gd
+  near_miss_acceptance.gd
   place_presentation_acceptance.gd
   abbey_acceptance.gd
   cloister_acceptance.gd

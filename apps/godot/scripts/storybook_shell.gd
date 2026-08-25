@@ -51,8 +51,6 @@ const EVENT_BIRTHDAY_STAR_PROXIMITY := &"sound-event.birthday-star-proximity"
 const EVENT_BIRTHDAY_STAR_GATHERED := &"sound-event.birthday-star-gathered"
 const EVENT_RAINBOW_PATH_OPENED := &"sound-event.rainbow-path-opened"
 const EVENT_BIRTHDAY_STAR_MOMENT := &"sound-event.birthday-star-moment"
-const EVENT_CLOUD_REST_ENTERED := &"sound-event.cloud-rest-entered"
-const EVENT_CLOUD_REST_EXITED := &"sound-event.cloud-rest-exited"
 const EVENT_BIRTHDAY_CASTLE_ARRIVAL := &"sound-event.birthday-castle-arrival"
 const EVENT_CELEBRATION_INTERACTION := &"sound-event.celebration-interaction"
 const EVENT_REPLAY := &"sound-event.replay"
@@ -60,22 +58,17 @@ const EVENT_SOUND_PREFERENCE_CHANGED := &"sound-event.sound-preference-changed"
 const ACTION_FLY_AGAIN := "fly-again"
 const PHASE_FLIGHT := "flight"
 const PHASE_PLACE_FLIGHT := "place-flight"
-const PHASE_CLOUD_REST := "cloud-rest"
 const PHASE_STAR_APPROACH := "birthday-star-approach"
 const PHASE_BIRTHDAY_STAR_MOMENT := "birthday-star-moment"
 const PHASE_CELEBRATION := "celebration"
 const MILESTONE_ALTITUDE_BAND: StringName = &"altitude-band-interaction"
-const MILESTONE_NEAR_MISS: StringName = &"near-miss"
-const MILESTONE_PLAYFUL_BUMP: StringName = &"playful-bump"
 const MILESTONE_ROUTE_COMPLETE: StringName = &"route-complete"
 const BIRTHDAY_STAR_MOMENT_DIM := Color(0.55, 0.53, 0.64)
 # How far from the Family Guest the Birthday Star can hang and still read as hers.
 const BIRTHDAY_STAR_REACH := 160.0
-const DEFAULT_CLOUD_REST_ALTITUDE := 0.36
 const DEFAULT_PLAYFUL_BUMP_WOBBLE_SECONDS := 0.45
 const DEFAULT_CROSSING_REST_SECONDS := 0.9
-const DEFAULT_COLLISION_HALF_HEIGHT := 0.06
-const DEFAULT_PLAYFUL_BUMP_OBSTACLE_ALTITUDE := 0.64
+const DEFAULT_NEAR_MISS_REST_SECONDS := 0.9
 const REQUIRED_PLACE_FIELDS := [
 	"id",
 	"name",
@@ -87,26 +80,21 @@ const REQUIRED_PLACE_FIELDS := [
 	"birthdayStarMoment",
 ]
 # Every place travels the same authored rhythm: the route offers the child's height five
-# chances to awaken something, and the place's own Playful Bump waits low along the rest
-# of it. Each chance answers whichever altitude rung Stella is on at that moment, so a
-# place with two rungs answers high then low while Golden Bell Abbey's four bells ring
-# whichever bell the child is beside. Which delights exist, and whether the bump can
-# happen at all, is place data. The rhythm is held as a fraction of the route rather
-# than in seconds, so retuning how long a place takes speeds the whole passage up
-# without resequencing it.
+# chances to awaken something. Each chance answers whichever altitude rung Stella is on
+# at that moment, so a place with two rungs answers high then low while Golden Bell
+# Abbey's four bells ring whichever bell the child is beside. The rhythm is held as a
+# fraction of the route rather than in seconds, so retuning how long a place takes speeds
+# the whole passage up without resequencing it.
+#
+# The Bump Floor and the Near Miss are deliberately absent here. Both answer where Stella
+# actually is rather than where the route has got to, so sampling them at authored points
+# would announce a bump she did not have and stay silent for one she did.
 const ROUTE_MILESTONES := [
 	{"id": MILESTONE_ALTITUDE_BAND, "progress": 0.167},
 	{"id": MILESTONE_ALTITUDE_BAND, "progress": 0.333},
-	{"id": MILESTONE_NEAR_MISS, "progress": 0.444},
 	{"id": MILESTONE_ALTITUDE_BAND, "progress": 0.472},
-	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.528},
 	{"id": MILESTONE_ALTITUDE_BAND, "progress": 0.611},
-	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.653},
 	{"id": MILESTONE_ALTITUDE_BAND, "progress": 0.75},
-	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.778},
-	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.861},
-	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.911},
-	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.961},
 	{"id": MILESTONE_ROUTE_COMPLETE},
 ]
 
@@ -156,7 +144,6 @@ var _opening_moment_index := 0
 var _movement_state := ""
 var _flight_tuning: Dictionary = {}
 var _single_route_tuning: Dictionary = {}
-var _cloud_rest_tuning: Dictionary = {}
 var _flight_distance_stage_widths := 0.0
 var _flight_altitude_stage_heights := 0.0
 var _flight_vertical_speed_stage_heights_per_second := 0.0
@@ -177,13 +164,12 @@ var _place_rung := ""
 var _last_crossing_seconds := -INF
 var _journey_clock_seconds := 0.0
 var _playful_bump_count := 0
-var _nearby_playful_bump_count := 0
-var _last_playful_bump_seconds := 0.0
 var _playful_bump_wobble_seconds := 0.0
-var _cloud_rest_count := 0
-var _cloud_rest_progress_snapshot := -1.0
-var _cloud_rest_altitude_snapshot := 0.0
-var _gentle_help_level := 0
+var _touching_bump_floor := false
+var _near_miss_count := 0
+var _within_near_miss_band := false
+var _near_miss_spent := false
+var _last_near_miss_seconds := -INF
 var _birthday_stars: Array[String] = []
 var _rainbow_paths: Array[String] = []
 var _observed_interactions: Array[String] = []
@@ -277,7 +263,6 @@ func prepare_launch(pack_source: String = default_pack_source()) -> Dictionary:
 	_movement_state = ""
 	_flight_tuning = {}
 	_single_route_tuning = {}
-	_cloud_rest_tuning = {}
 	_flight_distance_stage_widths = 0.0
 	_flight_altitude_stage_heights = 0.0
 	_flight_vertical_speed_stage_heights_per_second = 0.0
@@ -320,10 +305,6 @@ func prepare_launch(pack_source: String = default_pack_source()) -> Dictionary:
 	if not single_route_tuning_value is Dictionary:
 		return _fail_launch("Edition Pack Single Route tuning is missing")
 	_single_route_tuning = single_route_tuning_value
-	var cloud_rest_tuning_value: Variant = tuning_result.value.get("cloudRest")
-	if not cloud_rest_tuning_value is Dictionary:
-		return _fail_launch("Edition Pack Cloud Rest tuning is missing")
-	_cloud_rest_tuning = cloud_rest_tuning_value
 	_opening_moments = _content.get("openingMoments", [])
 	if _opening_moments.is_empty():
 		return _fail_launch("Edition Pack has no Opening Storybook Moments")
@@ -365,10 +346,8 @@ func presentation_evidence() -> Dictionary:
 		"flight_control_cycles": _flight_control_cycle_count,
 		"journey_phase": _journey_phase,
 		"playful_bumps": _playful_bump_count,
-		"nearby_playful_bumps": _nearby_playful_bump_count,
 		"playful_bump_wobbling": _playful_bump_wobble_seconds > 0.0,
-		"cloud_rests": _cloud_rest_count,
-		"gentle_help": gentle_help_evidence(),
+		"near_misses": _near_miss_count,
 		"birthday_stars": _birthday_stars.duplicate(),
 		"rainbow_paths": _rainbow_paths.duplicate(),
 		"observed_interactions": _observed_interactions.duplicate(),
@@ -385,7 +364,6 @@ func presentation_evidence() -> Dictionary:
 			"safeLimitsPreserveForwardMotion",
 			false,
 		),
-		"cloud_rest_automatic_resume": _cloud_rest_tuning.has("automaticResumeSeconds"),
 		"journey_progress_persisted": false,
 		"engine_version": _engine_version(),
 	}
@@ -406,73 +384,25 @@ func flight_evidence() -> Dictionary:
 		),
 		"minimum_altitude_stage_heights": _flight_tuning.get("minimumAltitudeStageHeights", 0.0),
 		"maximum_altitude_stage_heights": _flight_tuning.get("maximumAltitudeStageHeights", 1.0),
+		"bump_floor_top_stage_heights": PLACE_CONTENT.bump_floor_top(_flight_tuning),
+		"playful_bump_contact_altitude_stage_heights": PLACE_CONTENT.playful_bump_contact_altitude(
+			_flight_tuning,
+		),
+		"near_miss_ceiling_stage_heights": PLACE_CONTENT.near_miss_ceiling(_flight_tuning),
+		"touching_bump_floor": _touching_bump_floor,
 	}
 
 
-func gentle_help_evidence() -> Dictionary:
-	var help: Dictionary = _gentle_help_tuning()
+# The Near Miss is the journey's one answer earned by flying well, so the evidence says
+# what the child did rather than what the shell is holding.
+func near_miss_evidence() -> Dictionary:
 	return {
-		"help_level": _gentle_help_level,
-		"maximum_help_level": _maximum_gentle_help_level(),
-		"route_duration_seconds": _gentle_help_route_duration_seconds(),
-		"forward_speed_stage_widths_per_second": _gentle_help_forward_speed(),
-		"rise_acceleration_stage_heights_per_second_squared": _gentle_help_acceleration("rise"),
-		"glide_acceleration_stage_heights_per_second_squared": _gentle_help_acceleration("glide"),
-		"playful_bump_contact_altitude_stage_heights": _playful_bump_contact_altitude(),
-		"collision_half_height_stage_heights": float(
-			help.get("collisionHalfHeightStageHeights", DEFAULT_COLLISION_HALF_HEIGHT),
-		),
-		"safe_corridor_altitude_stage_heights": (
-			float(_flight_tuning.get("maximumAltitudeStageHeights", 0.86))
-			- _playful_bump_contact_altitude()
-		),
-		"visible_help_label": _help_label_shown_to_the_child(),
+		"near_misses": _near_miss_count,
+		"within_band": _within_near_miss_band,
+		"spent_by_contact": _near_miss_spent,
+		"ceiling_stage_heights": PLACE_CONTENT.near_miss_ceiling(_flight_tuning),
+		"rest_seconds": _near_miss_rest_seconds(),
 	}
-
-
-# Gentle Help must never surface in the words the child sees, so the evidence reads the
-# active play copy back rather than asserting an empty string.
-func _help_label_shown_to_the_child() -> String:
-	var copy: Dictionary = _flight_presentation_copy()
-	var shown := "%s %s" % [copy.get("title", ""), copy.get("instruction", "")]
-	var help_labels: Array[String] = [
-		"help level",
-		"gentle help",
-		"difficulty",
-		"assist",
-		"easy mode",
-		"level %d" % _gentle_help_level,
-	]
-	for help_label: String in help_labels:
-		if shown.to_lower().contains(help_label):
-			return shown
-	return ""
-
-
-func cloud_rest_evidence() -> Dictionary:
-	var resting_altitude := _cloud_rest_resting_altitude()
-	return {
-		"resting": _journey_phase == PHASE_CLOUD_REST,
-		"resting_altitude_stage_heights": resting_altitude,
-		"stella_landed_safely": (
-			_journey_phase == PHASE_CLOUD_REST
-			and absf(_flight_altitude_stage_heights - resting_altitude) <= 0.01
-			and is_zero_approx(_flight_vertical_speed_stage_heights_per_second)
-		),
-		"nearby_playful_bumps": _nearby_playful_bump_count,
-		"resume_seconds": float(_cloud_rest_tuning.get("automaticResumeSeconds", 1.2)),
-		"resume_altitude_stage_heights": _cloud_rest_altitude_snapshot,
-		"progress_lost": (
-			_cloud_rest_progress_snapshot >= 0.0
-			and _place_progress < _cloud_rest_progress_snapshot
-		),
-	}
-
-
-func _cloud_rest_resting_altitude() -> float:
-	return float(
-		_cloud_rest_tuning.get("restingAltitudeStageHeights", DEFAULT_CLOUD_REST_ALTITUDE),
-	)
 
 
 func storybook_stage_evidence() -> Dictionary:
@@ -715,8 +645,6 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false
 			_action_held = true
-			if _journey_phase == PHASE_CLOUD_REST:
-				return false
 			if _journey_phase not in [PHASE_FLIGHT, PHASE_PLACE_FLIGHT, PHASE_STAR_APPROACH]:
 				return true
 			if _movement_state == "rise":
@@ -850,12 +778,9 @@ func _answer_player_action(source: StringName, pressed: bool) -> bool:
 func advance_simulation(delta: float) -> bool:
 	if _state != PresentationState.ACTIVE_PLAY or not is_finite(delta) or delta <= 0.0:
 		return false
-	if _journey_phase == PHASE_CLOUD_REST:
-		_settle_onto_cloud_rest(delta)
-		return true
 	if _flight_tuning.get("automaticForwardMotion", false):
-		_flight_distance_stage_widths += _gentle_help_forward_speed() * delta
-	var acceleration := _gentle_help_acceleration(_movement_state)
+		_flight_distance_stage_widths += _forward_speed() * delta
+	var acceleration := _acceleration(_movement_state)
 	var previous_speed := _flight_vertical_speed_stage_heights_per_second
 	var next_speed := clampf(
 		previous_speed + acceleration * delta,
@@ -887,23 +812,17 @@ func advance_journey(delta: float) -> void:
 	_journey_phase_elapsed += delta
 	_journey_clock_seconds += delta
 	_playful_bump_wobble_seconds = maxf(0.0, _playful_bump_wobble_seconds - delta)
-	_forget_distant_playful_bumps()
 	match _journey_phase:
 		PHASE_FLIGHT:
 			if _journey_phase_elapsed >= 0.75:
 				_enter_place(0)
 		PHASE_PLACE_FLIGHT:
 			_place_progress = clampf(
-				_place_progress + delta / _gentle_help_route_duration_seconds(),
+				_place_progress + delta / _route_duration_seconds(),
 				0.0,
 				1.0,
 			)
 			_advance_place_flight()
-		PHASE_CLOUD_REST:
-			if _journey_phase_elapsed >= float(
-				_cloud_rest_tuning.get("automaticResumeSeconds", 1.2),
-			):
-				_resume_from_cloud_rest()
 		PHASE_STAR_APPROACH:
 			_advance_birthday_star_sequence()
 	_render_presentation()
@@ -918,13 +837,18 @@ func _enter_place(index: int) -> void:
 	_place_rung = ""
 	_last_crossing_seconds = -INF
 	_observed_interactions = []
-	_nearby_playful_bump_count = 0
 	_playful_bump_wobble_seconds = 0.0
+	_touching_bump_floor = false
+	_within_near_miss_band = false
+	_near_miss_spent = false
+	_last_near_miss_seconds = -INF
 	_report_sound_event(EVENT_PLACE_ENTRY, {"place": _current_place().get("id", "")})
 
 
 func _advance_place_flight() -> void:
 	_answer_altitude_crossing()
+	_answer_bump_floor()
+	_answer_near_miss()
 	while (
 		_journey_phase == PHASE_PLACE_FLIGHT
 		and _journey_checkpoint < ROUTE_MILESTONES.size()
@@ -943,18 +867,6 @@ func _advance_place_flight() -> void:
 						_flight_altitude_stage_heights,
 					),
 				)
-			MILESTONE_NEAR_MISS:
-				if not PLACE_CONTENT.playful_bump_suppressed(_current_place()):
-					_report_sound_event(
-						EVENT_NEAR_MISS,
-						{
-							"place": _current_place().get("id", ""),
-							"kind": PLACE_CONTENT.playful_bump_kind(_current_place()),
-						},
-					)
-			MILESTONE_PLAYFUL_BUMP:
-				if not PLACE_CONTENT.playful_bump_suppressed(_current_place()) and _is_playful_bump_contact():
-					_report_playful_bump()
 			MILESTONE_ROUTE_COMPLETE:
 				_journey_phase = PHASE_STAR_APPROACH
 				_journey_phase_elapsed = 0.0
@@ -1013,132 +925,96 @@ func _awaken(interaction: Dictionary) -> void:
 	)
 
 
+# Stella meets the Bump Floor where it actually is, so a bump is reported on the frame
+# she touches it and not again until she has climbed clear. A child who settles onto the
+# floor and stays there gets one wobble, not a wobble every frame; a child who dives
+# three times gets three. Nothing accumulates: ADR-0013 leaves a Playful Bump a lone
+# wobble with nothing following from meeting several.
+func _answer_bump_floor() -> void:
+	var contact := _flight_altitude_stage_heights <= PLACE_CONTENT.playful_bump_contact_altitude(
+		_flight_tuning,
+	)
+	var floor_bumps := not PLACE_CONTENT.playful_bump_suppressed(_current_place())
+	if contact and floor_bumps and not _touching_bump_floor:
+		_report_playful_bump()
+	# A place whose floor does not bump still has a floor, and touching it still spends
+	# the Near Miss. The Rose Garden rewards flying well, it does not excuse it.
+	if contact:
+		_near_miss_spent = true
+	_touching_bump_floor = contact
+
+
+# The Near Miss answers the upward crossing out of the band, never the entry into it: on
+# the way down the miss has not happened yet and Stella may still meet the floor. It
+# rests between answers for the reason the Abbey's bells do, so a child hovering on the
+# seam hears one answer rather than a rattle.
+func _answer_near_miss() -> void:
+	var within := _flight_altitude_stage_heights <= PLACE_CONTENT.near_miss_ceiling(
+		_flight_tuning,
+	)
+	if within and not _within_near_miss_band:
+		_near_miss_spent = false
+	elif _within_near_miss_band and not within and not _near_miss_spent:
+		_report_near_miss()
+	_within_near_miss_band = within
+
+
+func _report_near_miss() -> void:
+	if _journey_clock_seconds - _last_near_miss_seconds < _near_miss_rest_seconds():
+		return
+	_last_near_miss_seconds = _journey_clock_seconds
+	_near_miss_count += 1
+	_report_sound_event(
+		EVENT_NEAR_MISS,
+		{
+			"place": _current_place().get("id", ""),
+			"kind": PLACE_CONTENT.playful_bump_kind(_current_place()),
+		},
+	)
+
+
+func _near_miss_rest_seconds() -> float:
+	return float(
+		_single_route_tuning.get("nearMissRestSeconds", DEFAULT_NEAR_MISS_REST_SECONDS),
+	)
+
+
 func _report_playful_bump() -> void:
 	_playful_bump_count += 1
 	_playful_bump_wobble_seconds = _playful_bump_wobble_duration()
-	_forget_distant_playful_bumps()
-	_nearby_playful_bump_count += 1
-	_last_playful_bump_seconds = _journey_clock_seconds
 	_report_sound_event(
 		EVENT_PLAYFUL_BUMP,
-		{"place": _current_place().get("id", ""), "kind": PLACE_CONTENT.playful_bump_kind(_current_place())},
+		{
+			"place": _current_place().get("id", ""),
+			"kind": PLACE_CONTENT.playful_bump_kind(_current_place()),
+		},
 	)
-	if _nearby_playful_bump_count < int(
-		_cloud_rest_tuning.get("afterNearbyPlayfulBumps", 3),
-	):
-		return
-	_enter_cloud_rest()
-
-
-# Playful Bumps only add up while each follows the last inside the nearby window, which
-# is set just wider than the authored spacing of the low lacework. A wobble the child
-# climbs clear of is forgotten rather than saved up for a later, unrelated one.
-func _forget_distant_playful_bumps() -> void:
-	if _nearby_playful_bump_count == 0:
-		return
-	var nearby_seconds := float(_cloud_rest_tuning.get("nearbyPlayfulBumpSeconds", 3.0))
-	if _journey_clock_seconds - _last_playful_bump_seconds > nearby_seconds:
-		_nearby_playful_bump_count = 0
 
 
 func _playful_bump_wobble_duration() -> float:
 	return float(
-		_cloud_rest_tuning.get(
+		_flight_tuning.get(
 			"playfulBumpWobbleSeconds",
 			DEFAULT_PLAYFUL_BUMP_WOBBLE_SECONDS,
 		),
 	)
 
 
-func _enter_cloud_rest() -> void:
-	_cloud_rest_count += 1
-	_cloud_rest_progress_snapshot = _place_progress
-	_cloud_rest_altitude_snapshot = _flight_altitude_stage_heights
-	_gentle_help_level = mini(_gentle_help_level + 1, _maximum_gentle_help_level())
-	_nearby_playful_bump_count = 0
-	_journey_phase = PHASE_CLOUD_REST
-	_journey_phase_elapsed = 0.0
-	_report_sound_event(EVENT_CLOUD_REST_ENTERED, {})
+func _route_duration_seconds() -> float:
+	return float(_single_route_tuning.get("durationSeconds", 18.0))
 
 
-func _settle_onto_cloud_rest(delta: float) -> void:
-	_flight_vertical_speed_stage_heights_per_second = 0.0
-	_flight_altitude_stage_heights = move_toward(
-		_flight_altitude_stage_heights,
-		_cloud_rest_resting_altitude(),
-		float(_cloud_rest_tuning.get("landingSpeedStageHeightsPerSecond", 0.9)) * delta,
-	)
+func _forward_speed() -> float:
+	return float(_flight_tuning.get("forwardSpeedStageWidthsPerSecond", 0.0))
 
 
-func _resume_from_cloud_rest() -> void:
-	_report_sound_event(EVENT_CLOUD_REST_EXITED, {})
-	_movement_state = "rise" if _action_held else "flight"
-	_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
-	_journey_phase = PHASE_PLACE_FLIGHT
-	_journey_phase_elapsed = 0.0
-	_nearby_playful_bump_count = 0
-	_playful_bump_wobble_seconds = 0.0
-	# The cloud lifts Stella back to the height she left, so nothing about the pause
-	# leaves her lower than she was when she reaches the route again.
-	_flight_altitude_stage_heights = _cloud_rest_altitude_snapshot
-	_flight_vertical_speed_stage_heights_per_second = 0.0
-
-
-func _is_playful_bump_contact() -> bool:
-	return _flight_altitude_stage_heights <= _playful_bump_contact_altitude()
-
-
-func _playful_bump_contact_altitude() -> float:
-	var help: Dictionary = _gentle_help_tuning()
-	return (
-		float(
-			help.get(
-				"playfulBumpObstacleAltitudeStageHeights",
-				DEFAULT_PLAYFUL_BUMP_OBSTACLE_ALTITUDE,
-			),
-		)
-		+ float(help.get("collisionHalfHeightStageHeights", DEFAULT_COLLISION_HALF_HEIGHT))
-	)
-
-
-func _maximum_gentle_help_level() -> int:
-	return maxi(0, int(_cloud_rest_tuning.get("maximumHelpLevel", 2)))
-
-
-# Each Cloud Rest quietly moves Stella one step down this list. The child never sees a
-# level; the journey simply travels more slowly and forgives contact more generously.
-func _gentle_help_tuning() -> Dictionary:
-	var help_levels: Variant = _cloud_rest_tuning.get("helpLevels")
-	if not help_levels is Array or help_levels.is_empty():
-		return {}
-	var level: Variant = help_levels[clampi(_gentle_help_level, 0, help_levels.size() - 1)]
-	return level if level is Dictionary else {}
-
-
-func _gentle_help_route_duration_seconds() -> float:
-	return (
-		float(_single_route_tuning.get("durationSeconds", 18.0))
-		* float(_gentle_help_tuning().get("travelDurationMultiplier", 1.0))
-	)
-
-
-func _gentle_help_forward_speed() -> float:
-	return (
-		float(_flight_tuning.get("forwardSpeedStageWidthsPerSecond", 0.0))
-		* float(_gentle_help_tuning().get("forwardSpeedMultiplier", 1.0))
-	)
-
-
-func _gentle_help_acceleration(movement_state: String) -> float:
+func _acceleration(movement_state: String) -> float:
 	var acceleration_key := (
 		"riseAccelerationStageHeightsPerSecondSquared"
 		if movement_state == "rise"
 		else "glideAccelerationStageHeightsPerSecondSquared"
 	)
-	return (
-		float(_flight_tuning.get(acceleration_key, 0.0))
-		* float(_gentle_help_tuning().get("accelerationMultiplier", 1.0))
-	)
+	return float(_flight_tuning.get(acceleration_key, 0.0))
 
 
 func _advance_birthday_star_sequence() -> void:
@@ -1190,13 +1066,12 @@ func _reset_current_journey() -> void:
 	_place_progress = 0.0
 	_journey_clock_seconds = 0.0
 	_playful_bump_count = 0
-	_nearby_playful_bump_count = 0
-	_last_playful_bump_seconds = 0.0
 	_playful_bump_wobble_seconds = 0.0
-	_cloud_rest_count = 0
-	_cloud_rest_progress_snapshot = -1.0
-	_cloud_rest_altitude_snapshot = 0.0
-	_gentle_help_level = 0
+	_touching_bump_floor = false
+	_near_miss_count = 0
+	_within_near_miss_band = false
+	_near_miss_spent = false
+	_last_near_miss_seconds = -INF
 	_birthday_stars = []
 	_rainbow_paths = []
 	_observed_interactions = []
@@ -1317,7 +1192,6 @@ func _render_presentation() -> void:
 		_flight_character.texture = _flight_character_texture
 	var place_visible := _journey_phase in [
 		PHASE_PLACE_FLIGHT,
-		PHASE_CLOUD_REST,
 		PHASE_STAR_APPROACH,
 		PHASE_BIRTHDAY_STAR_MOMENT,
 	]
@@ -1339,7 +1213,6 @@ func _render_presentation() -> void:
 		"altitude": _flight_altitude_stage_heights,
 		"observed_interactions": _observed_interactions,
 		"playful_bump_wobble": _playful_bump_wobble_seconds > 0.0,
-		"cloud_rest_altitude": _cloud_rest_resting_altitude(),
 	})
 	_render_birthday_star_presentation()
 	_apply_place_traversal_presentation()
@@ -1595,13 +1468,28 @@ func _validate_places() -> Dictionary:
 						interaction.get("id", "?"),
 					],
 				}
+		# A rung whose every reachable height is already touching the Bump Floor is a
+		# delight the child cannot hold without bumping — the inferior height ADR-0012
+		# forbids — so a floor that swallows one is named rather than flown.
+		var stranded := PLACE_CONTENT.rungs_without_safe_height(
+			place,
+			_single_route_tuning,
+			_flight_tuning,
+		)
+		if not stranded.is_empty():
+			return {
+				"ok": false,
+				"error": "Place %s rungs %s have no height clear of the Bump Floor" % [
+					place.get("id", "?"),
+					", ".join(stranded),
+				],
+			}
 	return {"ok": true}
 
 
 func _apply_place_traversal_presentation() -> void:
 	if not is_node_ready() or _journey_phase not in [
 		PHASE_PLACE_FLIGHT,
-		PHASE_CLOUD_REST,
 		PHASE_STAR_APPROACH,
 	]:
 		return
@@ -1641,11 +1529,6 @@ func _flight_presentation_copy() -> Dictionary:
 			return {
 				"title": "Flying through %s" % _current_place().get("name", "Fairytale Sicily"),
 				"instruction": "Hold to rise • release to settle",
-			}
-		PHASE_CLOUD_REST:
-			return {
-				"title": "Cloud Rest",
-				"instruction": "Stella is safe • flying on in a moment",
 			}
 		PHASE_STAR_APPROACH:
 			return {

@@ -9,7 +9,7 @@ Play at [rosi.stephens.page](https://rosi.stephens.page/).
 - Hold **Space**, the mouse button, or the large **FLY** touch control to help Stella rise.
 - Let go to glide down.
 - Gather all seven Birthday Stars to open the Rainbow Paths and bring the family to the Birthday Castle.
-- Three nearby bumps lead to a gentle Cloud Rest. No Stars are lost; press Space to continue.
+- Flying all the way down onto a place's Bump Floor wobbles Stella and nothing follows from it. Swooping close and rising away without touching it is answered instead.
 
 The story and controls are designed for a pre-reader with a grown-up nearby. Sound can be turned off at any time.
 

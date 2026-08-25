@@ -164,7 +164,6 @@ jq -e --arg expected_pack_revision "$expected_pack_revision" '
     "high_interaction_visible": true,
     "low_interaction_visible": true,
     "observed_visual_responses": ["roses-open-wide", "petals-drift-upward"],
-    "resting_cloud_visible": false,
     "place_tint_applied": true,
     "playful_bump_wobble_visible": false
   }
@@ -182,48 +181,40 @@ test -s "$journey_capture_path"
 test -s "$journey_evidence_path"
 test "$(stat -f '%z' "$journey_capture_path")" -gt 100000
 jq -e --arg expected_pack_revision "$expected_pack_revision" '
-  .state == "celebration"
-  and .journey_phase == "celebration"
+  .state == "birthday_star_moment"
+  and .journey_phase == "birthday-star-moment"
   and .playful_bumps == 3
-  and .cloud_rests == 1
+  and (has("cloud_rests") | not)
+  and (has("gentle_help") | not)
+  and (.near_misses | type) == "number"
   and .flight_control_cycles >= 3
   and .birthday_stars == ["birthday-star.rose-garden", "birthday-star.lacewood"]
   and .rainbow_paths == ["rainbow-path.rose-garden", "rainbow-path.lacewood"]
   and .observed_interactions == ["silver-ribbons", "rose-lights"]
   and .birthday_star_moment == "Gram followed the silver ribbons and glowing roses through Zélie’s Lacewood!"
-  and .cloud_rest_automatic_resume == true
   and .journey_progress_persisted == false
-  and .gentle_help.help_level == 1
-  and .gentle_help.maximum_help_level == 2
-  and .gentle_help.visible_help_label == ""
-  and .nearby_playful_bumps == 0
   and .pack_revision == $expected_pack_revision
   and .network_requests == 0
   and .capture_sample_colors >= 8
   and .storybook_stage.aspect == "16:9"
   and .storybook_stage.essential_content_cropped == false
-  and .storybook_stage.celebration_visible == true
-  and .storybook_stage.place_background_visible == false
-  and .storybook_stage.celebration_illustration
-    == "source-media/celebration/birthday-castle-celebration.png"
-  and .storybook_stage.celebration_illustration_visible == true
-  and .storybook_stage.flight_character_visible == false
+  and .storybook_stage.celebration_visible == false
+  and .storybook_stage.birthday_star_moment_visible == true
+  and .storybook_stage.birthday_star_moment_composition.family_guest == "Gram"
+  and .storybook_stage.birthday_star_moment_composition.place_illustration_dimmed == true
+  and .storybook_stage.birthday_star_moment_composition.rainbow_path_visible == true
   and (has("chosen_route") | not)
   and (has("path_choices") | not)
   and (has("journey_history") | not)
   and ([.sound_events[].event] | contains([
     "sound-event.place-entry",
     "sound-event.vignette-interaction",
-    "sound-event.near-miss",
     "sound-event.playful-bump",
-    "sound-event.cloud-rest-entered",
-    "sound-event.cloud-rest-exited",
     "sound-event.birthday-star-proximity",
     "sound-event.birthday-star-gathered",
     "sound-event.rainbow-path-opened",
-    "sound-event.birthday-star-moment",
-    "sound-event.birthday-castle-arrival"
+    "sound-event.birthday-star-moment"
   ]))
 ' "$journey_evidence_path" >/dev/null
 
-echo "PASS: exported arm64 launch, opening, responsive flight, a two-place journey, and celebration captures"
+echo "PASS: exported arm64 launch, opening, responsive flight, and a two-place journey to its Birthday Star Moment"

@@ -82,7 +82,6 @@ func _run() -> void:
 			"high_interaction_visible": true,
 			"low_interaction_visible": true,
 			"observed_visual_responses": [],
-			"resting_cloud_visible": false,
 			"place_tint_applied": true,
 			"playful_bump_wobble_visible": false,
 		},

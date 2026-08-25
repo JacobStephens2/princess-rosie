@@ -85,14 +85,14 @@ func _run() -> void:
 		"the gathered Birthday Star travels into the next place",
 	)
 
-	_rest_on_a_cloud(shell)
+	_settle_onto_the_bump_floor(shell)
 	test.expect(
-		shell.presentation_evidence().get("journey_phase") == "cloud-rest"
+		shell.presentation_evidence().get("journey_phase") == "place-flight"
+		and shell.presentation_evidence().get("playful_bumps") > 0
 		and shell.presentation_evidence().get("birthday_stars")
 		== ["birthday-star.rose-garden"],
-		"every gathered Birthday Star survives a Cloud Rest",
+		"every gathered Birthday Star survives meeting the Bump Floor",
 	)
-	DRIVER.advance(shell, 1.25)
 	shell.handle_player_action(KEYBOARD_SPACE, true)
 
 	await _fly_to_birthday_star(shell)
@@ -221,7 +221,7 @@ func _expect_moment_waits_indefinitely(shell: StorybookShell) -> void:
 
 
 # Zélie's Lacewood can bump, so three nearby Playful Bumps settle Stella onto a cloud.
-func _rest_on_a_cloud(shell: StorybookShell) -> void:
+func _settle_onto_the_bump_floor(shell: StorybookShell) -> void:
 	DRIVER.advance(shell, 3.1)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	DRIVER.advance(shell, 3.1)
@@ -229,7 +229,7 @@ func _rest_on_a_cloud(shell: StorybookShell) -> void:
 		shell.handle_player_action(source, true)
 		DRIVER.advance(shell, 0.1)
 		shell.handle_player_action(source, false)
-	DRIVER.advance(shell, 7.7)
+	DRIVER.advance(shell, 3.0)
 
 
 func _last_sound_event(shell: StorybookShell, event_id: String) -> Dictionary:
