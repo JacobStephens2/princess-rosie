@@ -9,6 +9,18 @@ const BAND_LOW := "low"
 const ALTITUDE_BANDS := [BAND_HIGH, BAND_LOW]
 
 
+static func family_guest_illustration(place: Dictionary) -> String:
+	return str(place.get("familyGuestIllustration", ""))
+
+
+static func birthday_star(place: Dictionary) -> String:
+	return str(place.get("birthdayStar", ""))
+
+
+static func rainbow_path(place: Dictionary) -> String:
+	return str(place.get("rainbowPath", ""))
+
+
 static func interaction(place: Dictionary, altitude_band: String) -> Dictionary:
 	for interaction_value: Variant in place.get("interactions", []):
 		if (

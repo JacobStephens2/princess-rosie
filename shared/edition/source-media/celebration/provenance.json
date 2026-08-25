@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "celebration.birthday-castle",
+      "asset": "birthday-castle-celebration.png",
+      "sha256": "55fac239122835ed2a4858e69e58b49a6a3e52217a700d92c1fc5dd1c6c656fc",
+      "purpose": "The Birthday Castle celebration illustration, showing Princess Zélie, Gigi, Beasley, Stella, and the Family Guests gathered around the birthday cake beneath seven Birthday Stars.",
+      "reuse": {
+        "of": "apps/phaser-original/public/assets/celebration-art.png",
+        "sha256": "55fac239122835ed2a4858e69e58b49a6a3e52217a700d92c1fc5dd1c6c656fc",
+        "reason": "ADR-0011 reuses the Phaser Edition's already-approved celebration illustration rather than paying to paint the ending twice. The bytes are copied unchanged, so the Godot Edition shows the celebration the family already knows."
+      },
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-61 celebration presentation",
+        "reason": "Already approved for the released Phaser Edition and carried across byte for byte, so it needs no second approval pass.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-08-24"
+      }
+    }
+  ]
+}

@@ -1,7 +1,6 @@
 class_name PlaceVisuals
 extends Control
 
-const PHASE_CELEBRATION := "celebration"
 const PHASE_CLOUD_REST := "cloud-rest"
 const PLACE_CONTENT := preload("res://scripts/place_content.gd")
 const BAND_HIGH := PLACE_CONTENT.BAND_HIGH
@@ -66,7 +65,7 @@ func set_story_state(state: Dictionary) -> void:
 
 func visual_evidence() -> Dictionary:
 	var resting := visible and _phase == PHASE_CLOUD_REST
-	var travelling := visible and _phase != PHASE_CELEBRATION and not resting
+	var travelling := visible and not resting
 	return {
 		"place": str(_place.get("id", "")),
 		"tint": str(_place.get("tint", "")),
@@ -79,7 +78,6 @@ func visual_evidence() -> Dictionary:
 		"resting_cloud_visible": resting,
 		"place_tint_applied": travelling,
 		"playful_bump_wobble_visible": visible and _playful_bump_wobble and travelling,
-		"celebration_visible": visible and _phase == PHASE_CELEBRATION,
 	}
 
 
@@ -93,17 +91,12 @@ func _draw() -> void:
 		_draw_resting_cloud()
 		return
 	_draw_atmosphere()
-	if _phase == PHASE_CELEBRATION:
-		_draw_arrival_echo()
-		return
 	_draw_single_corridor()
 	_draw_high_band_clusters()
 	_draw_low_band_clusters()
 	_draw_progress_glimmer()
 	if _playful_bump_wobble:
 		_draw_playful_bump_sparkle()
-	if _phase in ["birthday-star-approach", "birthday-star-moment"]:
-		_draw_birthday_star(Vector2(1112.0, 365.0), 24.0 + sin(_elapsed * 2.2) * 2.0)
 
 
 # One soft veil settles the place behind the resting cloud, so a rest in any place
@@ -228,33 +221,6 @@ func _draw_playful_bump_sparkle() -> void:
 			5.0,
 			Color(1.0, 0.93, 0.62, 0.6),
 		)
-
-
-func _draw_arrival_echo() -> void:
-	for ribbon_index: int in 4:
-		var y := 96.0 + ribbon_index * 38.0
-		var wave := PackedVector2Array()
-		for point_index: int in 18:
-			var x := 710.0 + point_index * 38.0
-			wave.append(Vector2(x, y + sin(_elapsed * 1.6 + point_index * 0.5) * 9.0))
-		draw_polyline(wave, Color(0.9, 0.97, 1.0, 0.34), 5.0, true)
-	for rose_index: int in 12:
-		var center := Vector2(
-			720.0 + float(rose_index % 6) * 94.0,
-			500.0 + float(rose_index / 6) * 68.0 + sin(_elapsed * 1.8 + rose_index) * 5.0,
-		)
-		draw_circle(center, 9.0, Color(1.0, 0.51, 0.69, 0.44))
-		draw_circle(center, 3.0, Color(1.0, 0.91, 0.48, 0.72))
-
-
-func _draw_birthday_star(center: Vector2, radius: float) -> void:
-	var points := PackedVector2Array()
-	for index: int in 10:
-		var point_radius := radius if index % 2 == 0 else radius * 0.44
-		var angle := -PI / 2.0 + float(index) * PI / 5.0
-		points.append(center + Vector2.from_angle(angle) * point_radius)
-	draw_colored_polygon(points, Color(1.0, 0.78, 0.25, 0.94))
-	draw_polyline(points + PackedVector2Array([points[0]]), Color(1.0, 0.96, 0.72, 0.96), 3.0, true)
 
 
 # Where Stella sits on the Storybook Stage for a given height, matching the traversal

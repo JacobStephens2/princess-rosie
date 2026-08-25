@@ -29,9 +29,9 @@ func _run() -> void:
 
 func _prove_playful_bumps_stay_playful() -> void:
 	var shell := _start_bumpable_flight()
-	_advance_controlled(shell, 8.6)
+	_advance_controlled(shell, 6.21)
 	var before: Dictionary = shell.presentation_evidence()
-	_advance_controlled(shell, 1.0)
+	_advance_controlled(shell, 0.72)
 	var bumped: Dictionary = shell.presentation_evidence()
 	test.expect(
 		bumped.get("playful_bumps") == 1 and bumped.get("playful_bump_wobbling") == true,
@@ -57,19 +57,19 @@ func _prove_playful_bumps_stay_playful() -> void:
 func _prove_isolated_bumps_age_out() -> void:
 	var shell := _start_bumpable_flight()
 	# Low through the first low-lacework brush, high over the second, low again for the third.
-	_advance_controlled(shell, 9.6)
+	_advance_controlled(shell, 6.93)
 	test.expect(
 		shell.presentation_evidence().get("nearby_playful_bumps") == 1,
 		"one lone Playful Bump waits for a companion",
 	)
 	shell.handle_player_action(KEYBOARD_SPACE, true)
-	_advance_controlled(shell, 3.0)
+	_advance_controlled(shell, 2.17)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	test.expect(
 		shell.presentation_evidence().get("nearby_playful_bumps") == 0,
 		"the lone Playful Bump ages out instead of accumulating forever",
 	)
-	_advance_controlled(shell, 1.6)
+	_advance_controlled(shell, 1.16)
 	var late: Dictionary = shell.presentation_evidence()
 	test.expect(
 		late.get("playful_bumps") == 2
@@ -83,10 +83,10 @@ func _prove_isolated_bumps_age_out() -> void:
 
 func _prove_one_cycle_preserves_everything() -> void:
 	var shell := _start_bumpable_flight()
-	_advance_controlled(shell, 13.4)
+	_advance_controlled(shell, 9.68)
 	var before_rest: Dictionary = shell.presentation_evidence()
 	var route_before_rest: Dictionary = shell.presentation_evidence()
-	_advance_controlled(shell, 0.7)
+	_advance_controlled(shell, 0.51)
 	var resting: Dictionary = shell.presentation_evidence()
 	test.expect(
 		resting.get("journey_phase") == "cloud-rest"
@@ -173,7 +173,7 @@ func _prove_both_help_levels_arrive_quietly() -> void:
 		"the journey starts with no hidden help",
 	)
 
-	_advance_controlled(shell, 14.2)
+	_advance_controlled(shell, 10.26)
 	var helped_once: Dictionary = shell.gentle_help_evidence()
 	test.expect(
 		shell.presentation_evidence().get("cloud_rests") == 1
@@ -183,7 +183,7 @@ func _prove_both_help_levels_arrive_quietly() -> void:
 	_expect_gentler(unhelped, helped_once, "the first Cloud Rest")
 
 	# Staying low through the rest of the low lacework reaches the second Cloud Rest.
-	_advance_controlled(shell, 5.2)
+	_advance_controlled(shell, 3.76)
 	var helped_twice: Dictionary = shell.gentle_help_evidence()
 	test.expect(
 		shell.presentation_evidence().get("cloud_rests") == 2
@@ -211,9 +211,9 @@ func _prove_route_reachable_after_cloud_rests(
 ) -> void:
 	var shell := _start_bumpable_flight()
 	shell.handle_player_action(KEYBOARD_SPACE, true)
-	_advance_controlled(shell, 3.4)
+	_advance_controlled(shell, 2.46)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
-	_advance_controlled(shell, 10.8 + extra_low_seconds)
+	_advance_controlled(shell, 7.8 + extra_low_seconds)
 	var help: Dictionary = shell.gentle_help_evidence()
 	test.expect(
 		shell.presentation_evidence().get("cloud_rests") == expected_help_level
@@ -272,7 +272,7 @@ func _prove_cloud_rest_lands_stella_on_a_visible_cloud() -> void:
 	DRIVER.launch(shell)
 	_advance_controlled(shell, 0.75)
 	DRIVER.cross_into_next_place(shell)
-	_advance_controlled(shell, 8.8)
+	_advance_controlled(shell, 6.36)
 	while shell.presentation_evidence().get("playful_bumps") == 0:
 		_advance_controlled(shell, 1.0 / 60.0)
 	await process_frame

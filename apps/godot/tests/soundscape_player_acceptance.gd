@@ -630,4 +630,42 @@ func _init() -> void:
 		"enabling Sound restores confirmation playback",
 	)
 
+	# All seven Birthday Stars are the same achievement, so all seven share one gather cue
+	# while each Family Guest's Rainbow Path opens with the shared opening cue.
+	var gather_audio := FakeEngineAudioAdapter.new()
+	var gather_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, gather_audio)
+	var gathered_cue_paths: Array[String] = []
+	for birthday_star: String in ["birthday-star.rose-garden", "birthday-star.lacewood"]:
+		var loaded_before_gather := gather_audio.loaded_paths.size()
+		test.expect(
+			gather_soundscape.report_event(
+				&"sound-event.birthday-star-gathered",
+				{"birthdayStar": birthday_star},
+			),
+			"gathering %s reaches playback" % birthday_star,
+		)
+		gathered_cue_paths.append_array(gather_audio.loaded_paths.slice(loaded_before_gather))
+	test.expect(
+		gathered_cue_paths == [
+			"source-media/soundscape/runtime/birthday-star-gather.wav",
+			"source-media/soundscape/runtime/birthday-star-gather.wav",
+		],
+		"every Birthday Star is gathered with the one cue they all share: %s"
+		% JSON.stringify(gathered_cue_paths),
+	)
+	var loaded_before_rainbow := gather_audio.loaded_paths.size()
+	test.expect(
+		gather_soundscape.report_event(
+			&"sound-event.rainbow-path-opened",
+			{"rainbowPath": "rainbow-path.rose-garden", "familyGuest": "Mom"},
+		),
+		"opening Mom's Rainbow Path reaches playback",
+	)
+	test.expect(
+		gather_audio.loaded_paths.slice(loaded_before_rainbow)
+		== ["source-media/soundscape/runtime/rainbow-path-open.wav"],
+		"the gathered Star opens the guest's Rainbow Path with the shared opening cue: %s"
+		% JSON.stringify(gather_audio.loaded_paths.slice(loaded_before_rainbow)),
+	)
+
 	test.finish(self, "Soundscape Player acceptance")
