@@ -23,9 +23,6 @@ const LACEWOOD_CUE_PATHS := [
 	"source-media/soundscape/runtime/birthday-star-gather.wav",
 	"source-media/soundscape/runtime/rainbow-path-open.wav",
 	"source-media/soundscape/runtime/birthday-star-moment-lacewood.wav",
-	"source-media/soundscape/runtime/cloud-rest-enter.wav",
-	"source-media/soundscape/runtime/cloud-rest-ambience.wav",
-	"source-media/soundscape/runtime/cloud-rest-exit.wav",
 ]
 
 const ROSE_GARDEN_AMBIENCE_PATH := "source-media/soundscape/runtime/place-rose-garden.wav"
@@ -71,7 +68,6 @@ func _run() -> void:
 	for fallback_method: StringName in [
 		&"synthesize_birthday_star",
 		&"synthesize_playful_bump",
-		&"synthesize_cloud_rest",
 		&"synthesize_celebration",
 	]:
 		var core_fallback: Variant = (
@@ -256,5 +252,4 @@ func _expects_stereo(cue_path: String) -> bool:
 		cue_path.ends_with("movement-flight.wav")
 		or cue_path.ends_with("place-lacewood.wav")
 		or cue_path.ends_with("rainbow-path-open.wav")
-		or cue_path.ends_with("cloud-rest-ambience.wav")
 	)

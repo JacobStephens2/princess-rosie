@@ -95,9 +95,9 @@ func _fly_high_then_low(shell: StorybookShell) -> void:
 	_record_altitude(shell, "released-settle")
 
 
-# The journey's first place suppresses its Playful Bump, so the smoke run flies it
-# through to its Birthday Star Moment, turns the page, and meets Cloud Rest in the
-# second place.
+# The smoke run flies the first two places through to their Birthday Star Moments,
+# turning each page by hand, and is satisfied by what the journey always does rather
+# than by anything the child has to fly badly to reach.
 func _complete_journey(shell: StorybookShell) -> void:
 	await _reach_birthday_star_moment(shell, 20.0)
 	await _turn_the_birthday_star_page()
@@ -116,34 +116,32 @@ func _complete_journey(shell: StorybookShell) -> void:
 			_emit_keyboard_action(false)
 		else:
 			_emit_pointer_action(false)
-	var rest_deadline_ms := Time.get_ticks_msec() + 10_000
+	# An exported build is healthy when it does what the journey always does: complete a
+	# route and gather its Birthday Star. That is a better health check than a bump loop,
+	# and it no longer depends on the child flying badly.
+	var star_deadline_ms := Time.get_ticks_msec() + 20_000
 	while (
-		int(shell.presentation_evidence().get("cloud_rests", 0)) < 1
-		and Time.get_ticks_msec() < rest_deadline_ms
+		_gathered_birthday_star_count(shell) < 2
+		and Time.get_ticks_msec() < star_deadline_ms
 	):
 		await get_tree().process_frame
-	if int(shell.presentation_evidence().get("cloud_rests", 0)) != 1:
+	if _gathered_birthday_star_count(shell) < 2:
 		push_error(
-			"Export smoke did not reach automatic Cloud Rest: %s"
+			"Export smoke did not gather the second place's Birthday Star: %s"
 			% JSON.stringify(shell.presentation_evidence()),
 		)
 		get_tree().quit(8)
 		return
-	var resume_deadline_ms := Time.get_ticks_msec() + 2_000
-	while (
-		shell.presentation_evidence().get("journey_phase") == "cloud-rest"
-		and Time.get_ticks_msec() < resume_deadline_ms
-	):
-		await get_tree().process_frame
-	if shell.presentation_evidence().get("journey_phase") != "place-flight":
-		push_error("Export smoke did not resume automatically from Cloud Rest")
-		get_tree().quit(9)
-		return
 	_emit_keyboard_action(true)
-	# Gentle help after the Cloud Rest lengthens the remaining travel through the place.
+	# The run stops on the second place's Birthday Star Moment rather than turning past
+	# it, so the captured evidence is of a completed place rather than of whichever place
+	# happens to follow it.
 	await _reach_birthday_star_moment(shell, 12.0)
-	await _turn_the_birthday_star_page()
 	await get_tree().create_timer(0.35).timeout
+
+
+func _gathered_birthday_star_count(shell: StorybookShell) -> int:
+	return shell.presentation_evidence().get("birthday_stars", []).size()
 
 
 func _reach_birthday_star_moment(shell: StorybookShell, timeout_seconds: float) -> void:

@@ -377,42 +377,6 @@ Selection: Clearest capped Birthday Star shimmer on small speakers: balanced aud
 
 Source master: `source-master.birthday-star.proximity`
 
-### cue.cloud-rest.ambience
-
-> A soft indefinite rest under the existing music. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers, with a smooth seamless loop. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
-
-Parameters: 15 seconds, prompt influence 0.3, looping on, source format `pcm_48000`.
-
-Production treatment: inspect-pcm-s16le, preserve-stereo, peak-ceiling--6dbfs, loop-seam-qa, wav-wrap-pcm16le, decode-wav-qa.
-
-Selection: Best continuous Cloud Rest bed: strongest low-crest body, low crossing activity, a validated seamless stereo loop, and a safe -6 dBFS mastered peak for the deliberately quiet ambience slot.
-
-Source master: `source-master.cloud-rest.ambience`
-
-### cue.cloud-rest.enter
-
-> A reassuring gentle landing. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
-
-Parameters: 1.5 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
-
-Production treatment: inspect-pcm-s16le, trim-boundary-silence, fit-catalog-duration, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
-
-Selection: Best reassuring Cloud Rest landing in the replacement batch: clearest usable body, moderate crest and crossing activity, and generous headroom so it remains gentle while replacing the third Playful Bump tail.
-
-Source master: `source-master.cloud-rest.enter`
-
-### cue.cloud-rest.exit
-
-> A safe immediate takeoff. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
-
-Parameters: 1.2 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
-
-Production treatment: inspect-pcm-s16le, trim-boundary-silence, downmix-stereo-to-mono, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
-
-Selection: Best safe Cloud Rest takeoff: strongest clear body, low crossing activity, controlled crest, and a mastered -6 dBFS peak for an immediate reassuring resume into the restored Lacewood and movement layers.
-
-Source master: `source-master.cloud-rest.exit`
-
 ### cue.flight.launch
 
 > A buoyant gentle storybook flight launch: a soft upward rush of warm air, one light harp sweep, and a tiny celesta lift that settles forward without a hard landing. Nonverbal, acoustic, joyful, and clear on MacBook speakers. No voice, speech, singing, recognizable melody, fanfare blast, harsh transient, alarm, impact, battle sound, realistic simulation, or arcade sound.

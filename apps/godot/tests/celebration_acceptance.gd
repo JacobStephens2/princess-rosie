@@ -91,8 +91,9 @@ func _run() -> void:
 	test.expect(
 		flying_again.get("birthday_stars") == []
 		and flying_again.get("rainbow_paths") == []
-		and flying_again.get("cloud_rests") == 0
+		and not flying_again.has("cloud_rests")
 		and flying_again.get("playful_bumps") == 0
+		and flying_again.get("near_misses") == 0
 		and flying_again.get("observed_interactions") == [],
 		"the fresh journey starts with every Birthday Star still to be found: %s"
 		% JSON.stringify(flying_again),

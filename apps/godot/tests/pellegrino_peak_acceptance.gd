@@ -26,7 +26,7 @@ func _init() -> void:
 
 func _run() -> void:
 	_the_mountain_answers_both_heights(_fly_to_the_peak())
-	_a_low_passage_rests_and_keeps_its_stars(_fly_to_the_peak())
+	_a_low_passage_wobbles_and_keeps_its_stars(_fly_to_the_peak())
 	await _the_updrafts_paint_a_blossoming_trail()
 	test.finish(self, "Pellegrino Peak acceptance")
 
@@ -52,7 +52,7 @@ func _the_mountain_answers_both_heights(shell: StorybookShell) -> void:
 	test.expect(
 		both_heights.get("journey_phase") == "place-flight"
 		and both_heights.get("state") == "active_play"
-		and both_heights.get("cloud_rests") == 0,
+		and not both_heights.has("cloud_rests"),
 		"both heights ask nothing of the child but Flight Control: %s"
 		% JSON.stringify(both_heights),
 	)
@@ -65,7 +65,7 @@ func _the_mountain_answers_both_heights(shell: StorybookShell) -> void:
 	test.expect(
 		between.get("journey_phase") == "place-flight"
 		and between.get("state") == "active_play"
-		and between.get("cloud_rests") == 0
+		and not between.has("cloud_rests")
 		and between.get("observed_interactions")
 		== ["flower-petal-updraft", "mountain-flowers"],
 		"flying the open mountain air between them is quiet, never a mistake: %s"
@@ -112,12 +112,18 @@ func _the_mountain_answers_both_heights(shell: StorybookShell) -> void:
 	shell.free()
 
 
-# A child who never climbs drifts into the mountain's flower banks. They wobble her,
-# three in quick succession bring the shared Cloud Rest, and the low passage still ends
-# at the Star — so settling low is another way to fly the Peak, not a worse one.
-func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
+# A child who never climbs drifts down onto the mountain's flower banks. They wobble her
+# once, and the low passage still ends at the Star — so settling low is another way to
+# fly the Peak, not a worse one. This is the passage #75 was reported against.
+func _a_low_passage_wobbles_and_keeps_its_stars(shell: StorybookShell) -> void:
 	shell.handle_player_action(KEYBOARD_SPACE, false)
-	var wobbling: Dictionary = DRIVER.fly_low_until_playful_bumps(test, shell, "Peak", 1)
+	var bumps_before: int = shell.presentation_evidence().get("playful_bumps", 0)
+	var wobbling: Dictionary = DRIVER.fly_low_until_playful_bumps(
+		test,
+		shell,
+		"Peak",
+		bumps_before + 1,
+	)
 	test.expect(
 		wobbling.get("playful_bump_wobbling") == true
 		and wobbling.get("state") == "active_play"
@@ -125,21 +131,23 @@ func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 		"a brushed flower bank wobbles Stella without ending the journey: %s"
 		% JSON.stringify(wobbling),
 	)
-	var resting: Dictionary = DRIVER.fly_low_until_playful_bumps(test, shell, "Peak", 3)
+	DRIVER.advance(shell, 2.0)
+	var still_flying: Dictionary = shell.presentation_evidence()
 	test.expect(
-		resting.get("journey_phase") == "cloud-rest",
-		"three nearby flower banks settle the child onto the shared Cloud Rest: %s"
-		% JSON.stringify(resting),
+		still_flying.get("playful_bumps") == bumps_before + 1
+		and not still_flying.has("cloud_rests"),
+		"drifting along the flower banks adds no second wobble and no Cloud Rest: %s"
+		% JSON.stringify(still_flying),
 	)
 	test.expect(
-		resting.get("birthday_stars") == [
+		still_flying.get("birthday_stars") == [
 			"birthday-star.rose-garden",
 			"birthday-star.lacewood",
 			"birthday-star.abbey",
 			"birthday-star.cloister",
 		],
-		"the Cloud Rest keeps every Birthday Star gathered so far: %s"
-		% JSON.stringify(resting.get("birthday_stars")),
+		"the low passage keeps every Birthday Star gathered so far: %s"
+		% JSON.stringify(still_flying.get("birthday_stars")),
 	)
 	shell.handle_player_action(KEYBOARD_SPACE, true)
 	DRIVER.advance(shell, 24.0)
@@ -147,7 +155,7 @@ func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 	test.expect(
 		moment.get("state") == "birthday_star_moment"
 		and moment.get("birthday_stars").has("birthday-star.pellegrino-peak"),
-		"the rested passage reaches Uncle's Birthday Star all the same: %s"
+		"the low passage reaches Uncle's Birthday Star all the same: %s"
 		% JSON.stringify(moment),
 	)
 	shell.free()

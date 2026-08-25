@@ -19,8 +19,6 @@ const MOVEMENT_EVENT := &"sound-event.movement-state"
 const PLACE_ENTRY_EVENT := &"sound-event.place-entry"
 const NEAR_MISS_EVENT := &"sound-event.near-miss"
 const BIRTHDAY_STAR_PROXIMITY_EVENT := &"sound-event.birthday-star-proximity"
-const CLOUD_REST_ENTERED_EVENT := &"sound-event.cloud-rest-entered"
-const CLOUD_REST_EXITED_EVENT := &"sound-event.cloud-rest-exited"
 const REPLAY_EVENT := &"sound-event.replay"
 const SOUND_PREFERENCE_EVENT := &"sound-event.sound-preference-changed"
 const SOUND_OFF_LIMIT_MS := 200
@@ -50,7 +48,6 @@ var _sound_enabled := true
 var _music_started := false
 var _movement_state := ""
 var _current_place := ""
-var _in_cloud_rest := false
 var _near_miss_times_ms := {}
 var _birthday_star_proximity_shimmers := {}
 var _now_ms: Callable
@@ -111,7 +108,6 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 	if event_id == REPLAY_EVENT:
 		_movement_state = ""
 		_current_place = ""
-		_in_cloud_rest = false
 		_near_miss_times_ms.clear()
 		_birthday_star_proximity_shimmers.clear()
 		if _audio.has_method("stop_slot"):
@@ -169,33 +165,6 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 		if proximity_played:
 			_birthday_star_proximity_shimmers[birthday_star] = true
 		return proximity_played
-	if event_id == CLOUD_REST_ENTERED_EVENT:
-		_in_cloud_rest = true
-		if _audio.has_method("stop_slot"):
-			_audio.stop_slot("foreground")
-			_audio.stop_slot("movement")
-			_audio.stop_slot("ambience")
-		if not _sound_enabled:
-			return false
-		return _play_resolved_cues(event_id, parameters)
-	if event_id == CLOUD_REST_EXITED_EVENT:
-		_in_cloud_rest = false
-		if _audio.has_method("stop_slot"):
-			_audio.stop_slot("ambience")
-		if not _sound_enabled:
-			return false
-		var resumed := _play_resolved_cue(event_id, parameters)
-		if not _current_place.is_empty():
-			resumed = _play_resolved_cue(
-				PLACE_ENTRY_EVENT,
-				{"place": _current_place},
-			) or resumed
-		if not _movement_state.is_empty():
-			resumed = _play_resolved_cue(
-				MOVEMENT_EVENT,
-				{"state": _movement_state},
-			) or resumed
-		return resumed
 	if not _sound_enabled:
 		return false
 	if event_id == OPENING_EVENT:
@@ -225,14 +194,6 @@ func _ensure_music() -> bool:
 
 func _restore_active_layers() -> bool:
 	var restored := _ensure_music()
-	if _in_cloud_rest:
-		for cue: Dictionary in _resolve_cues(
-			CLOUD_REST_ENTERED_EVENT,
-			{"place": _current_place},
-		):
-			if cue.get("looping") == true:
-				restored = _play_cue(cue, CLOUD_REST_ENTERED_EVENT) or restored
-		return restored
 	if not _current_place.is_empty():
 		restored = _play_resolved_cue(
 			PLACE_ENTRY_EVENT,
@@ -322,7 +283,6 @@ func _play_fallback(cue: Dictionary, playback: SoundscapePlayback) -> bool:
 		"fallback.story-confirmation": &"synthesize_confirmation",
 		"fallback.birthday-star": &"synthesize_birthday_star",
 		"fallback.playful-bump": &"synthesize_playful_bump",
-		"fallback.cloud-rest": &"synthesize_cloud_rest",
 		"fallback.celebration": &"synthesize_celebration",
 	}.get(fallback_role, &"")
 	if synthesis_method.is_empty() or not _audio.has_method(synthesis_method):

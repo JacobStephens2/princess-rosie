@@ -9,6 +9,10 @@
     "startingAltitudeStageHeights": 0.5,
     "minimumAltitudeStageHeights": 0.14,
     "maximumAltitudeStageHeights": 0.86,
+    "bumpFloorMarginStageHeights": 0.04,
+    "nearMissBandStageHeights": 0.08,
+    "collisionHalfHeightStageHeights": 0.06,
+    "playfulBumpWobbleSeconds": 0.45,
     "directContactResponse": "richest",
     "nearbyBirthdayStarResponse": "flies-to-stella",
     "failure": "forbidden",
@@ -20,40 +24,8 @@
     "safeLimitsPreserveForwardMotion": true,
     "highBandAltitudeMinimum": 0.56,
     "lowBandAltitudeMaximum": 0.52,
-    "crossingRestSeconds": 0.9
-  },
-  "cloudRest": {
-    "afterNearbyPlayfulBumps": 3,
-    "nearbyPlayfulBumpSeconds": 2.17,
-    "playfulBumpWobbleSeconds": 0.45,
-    "birthdayStarsPreserved": true,
-    "automaticResumeSeconds": 1.2,
-    "restingAltitudeStageHeights": 0.36,
-    "landingSpeedStageHeightsPerSecond": 0.9,
-    "maximumHelpLevel": 2,
-    "helpLevels": [
-      {
-        "travelDurationMultiplier": 1.0,
-        "forwardSpeedMultiplier": 1.0,
-        "accelerationMultiplier": 1.0,
-        "playfulBumpObstacleAltitudeStageHeights": 0.64,
-        "collisionHalfHeightStageHeights": 0.06
-      },
-      {
-        "travelDurationMultiplier": 1.05,
-        "forwardSpeedMultiplier": 0.88,
-        "accelerationMultiplier": 0.85,
-        "playfulBumpObstacleAltitudeStageHeights": 0.6,
-        "collisionHalfHeightStageHeights": 0.045
-      },
-      {
-        "travelDurationMultiplier": 1.1,
-        "forwardSpeedMultiplier": 0.78,
-        "accelerationMultiplier": 0.7,
-        "playfulBumpObstacleAltitudeStageHeights": 0.56,
-        "collisionHalfHeightStageHeights": 0.03
-      }
-    ]
+    "crossingRestSeconds": 0.9,
+    "nearMissRestSeconds": 1.5
   },
   "performance": {
     "minimumFramesPerSecond": 60,
