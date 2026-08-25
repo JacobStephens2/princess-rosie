@@ -99,12 +99,14 @@ func _bells_follow_the_child(shell: StorybookShell) -> void:
 		% JSON.stringify(moment.get("birthday_stars")),
 	)
 
-	# The Abbey is the last place carrying an approved Place Illustration, so the journey
-	# continues out of it into the celebration rather than stopping inside it.
+	# The journey continues out of the Abbey into the next place rather than stopping
+	# inside it.
 	DRIVER.turn_the_page(shell)
 	test.expect(
-		shell.presentation_evidence().get("state") == "celebration",
-		"turning the page carries the journey on out of the Abbey without interruption",
+		shell.presentation_evidence().get("state") == "active_play"
+		and shell.presentation_evidence().get("place") == "cloister",
+		"turning the page carries the journey on out of the Abbey without interruption: %s"
+		% JSON.stringify(shell.presentation_evidence()),
 	)
 	shell.free()
 
@@ -138,17 +140,15 @@ func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 	shell.free()
 
 
-# Flies the Abbey the way a child who never climbs flies it, stopping at the frame the
-# named Playful Bump lands so the wobble can be seen while it is still happening.
+# The low Abbey passage flown to its next Playful Bump, so the wobble can be seen while
+# it is still happening.
 func _fly_low_until_bumped(shell: StorybookShell, playful_bumps: int) -> Dictionary:
-	for _frame: int in 900:
-		shell.advance_simulation(1.0 / 60.0)
-		shell.advance_journey(1.0 / 60.0)
-		var evidence: Dictionary = shell.presentation_evidence()
-		if int(evidence.get("playful_bumps", 0)) >= playful_bumps:
-			return evidence
-	test.expect(false, "the low Abbey passage meets %d Playful Bumps" % playful_bumps)
-	return shell.presentation_evidence()
+	var evidence := DRIVER.fly_until_playful_bumps(shell, playful_bumps)
+	test.expect(
+		not evidence.is_empty(),
+		"the low Abbey passage meets %d Playful Bumps" % playful_bumps,
+	)
+	return evidence
 
 
 # Reaches the Abbey the way a child reaches it: two places flown high, each turned by
@@ -171,9 +171,9 @@ func _fly_to_the_abbey() -> StorybookShell:
 		"the journey crosses into Golden Bell Abbey: %s" % JSON.stringify(entry),
 	)
 	test.expect(
-		_place_entry_ambiences(shell) == ["rose-garden", "lacewood", "abbey"],
+		DRIVER.place_entry_ambiences(shell) == ["rose-garden", "lacewood", "abbey"],
 		"entering the Abbey crossfades to its own ambience, one place at a time: %s"
-		% JSON.stringify(_place_entry_ambiences(shell)),
+		% JSON.stringify(DRIVER.place_entry_ambiences(shell)),
 	)
 	test.expect(
 		entry.get("observed_interactions") == [],
@@ -202,11 +202,3 @@ func _bell_cues(shell: StorybookShell) -> Array:
 		):
 			cues.append(context.get("interaction"))
 	return cues
-
-
-func _place_entry_ambiences(shell: StorybookShell) -> Array:
-	var places: Array = []
-	for sound_event: Dictionary in shell.sound_event_evidence():
-		if sound_event.get("event") == "sound-event.place-entry":
-			places.append(sound_event.get("context", {}).get("place"))
-	return places
