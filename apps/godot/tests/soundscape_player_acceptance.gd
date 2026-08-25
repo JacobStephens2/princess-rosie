@@ -41,9 +41,6 @@ class FakeEngineAudioAdapter extends RefCounted:
 	func synthesize_playful_bump() -> Variant:
 		return "synthesized-playful-bump"
 
-	func synthesize_cloud_rest() -> Variant:
-		return "synthesized-cloud-rest"
-
 	func synthesize_celebration() -> Variant:
 		return "synthesized-celebration"
 
@@ -348,60 +345,39 @@ func _init() -> void:
 		"crossing places never cuts the ambience slot to silence first",
 	)
 
-	var rest_audio := FakeEngineAudioAdapter.new()
-	var rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, rest_audio)
-	var lacewood_rest_events := [
+	var swoop_audio := FakeEngineAudioAdapter.new()
+	var swoop_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, swoop_audio)
+	for semantic_event: Array in [
 		[&"sound-event.movement-state", {"state": "flight"}],
 		[&"sound-event.place-entry", {"place": "lacewood"}],
-		[&"sound-event.playful-bump", {"place": "lacewood", "kind": "silver-ribbon"}],
-		[&"sound-event.playful-bump", {"place": "lacewood", "kind": "silver-ribbon"}],
-		[&"sound-event.playful-bump", {"place": "lacewood", "kind": "silver-ribbon"}],
-	]
-	for semantic_event: Array in lacewood_rest_events:
+	]:
 		test.expect(
-			rest_soundscape.report_event(semantic_event[0], semantic_event[1]),
-			"the Lacewood pre-rest sequence plays: %s" % semantic_event[0],
+			swoop_soundscape.report_event(semantic_event[0], semantic_event[1]),
+			"the Lacewood low-passage sequence plays: %s" % semantic_event[0],
 		)
+	var loaded_before_swoop := swoop_audio.loaded_paths.size()
 	test.expect(
-		rest_soundscape.report_event(
-			&"sound-event.cloud-rest-entered",
-			{},
+		swoop_soundscape.report_event(
+			&"sound-event.near-miss",
+			{"place": "lacewood", "kind": "silver-ribbon"},
 		),
-		"Cloud Rest accepts the landing transition",
+		"an earned Near Miss is heard",
 	)
 	test.expect(
-		rest_audio.stopped_slots == ["foreground", "movement", "ambience"],
-		"Cloud Rest cancels the third Playful Bump tail and replaces movement and ambience",
+		swoop_audio.loaded_paths.size() > loaded_before_swoop
+		and swoop_audio.stopped_slots.is_empty(),
+		"the Near Miss answers over the place rather than cutting its ambience: %s"
+		% JSON.stringify(swoop_audio.stopped_slots),
 	)
 	test.expect(
-		rest_audio.loaded_paths.slice(-2) == [
-			"source-media/soundscape/runtime/cloud-rest-enter.wav",
-			"source-media/soundscape/runtime/cloud-rest-ambience.wav",
-		],
-		"Cloud Rest schedules its reassuring landing and gentle loop together",
+		swoop_soundscape.report_event(
+			&"sound-event.playful-bump",
+			{"place": "lacewood", "kind": "silver-ribbon"},
+		)
+		and swoop_audio.stopped_slots.is_empty(),
+		"a Playful Bump answers the same way, over the place and not instead of it",
 	)
-	var rest_playbacks := rest_audio.playback_settings.slice(-2)
-	test.expect(
-		rest_playbacks[0].get("category") == "critical-foreground"
-		and rest_playbacks[1].get("slot") == "ambience"
-		and rest_playbacks[1].get("looping") == true,
-		"the landing preempts optional detail while the rest loop owns the one ambience slot",
-	)
-	test.expect(
-		rest_soundscape.report_event(
-			&"sound-event.cloud-rest-exited",
-			{},
-		),
-		"Cloud Rest accepts immediate resume",
-	)
-	test.expect(
-		rest_audio.loaded_paths.slice(-3) == [
-			"source-media/soundscape/runtime/cloud-rest-exit.wav",
-			"source-media/soundscape/runtime/place-lacewood.wav",
-			"source-media/soundscape/runtime/movement-flight.wav",
-		],
-		"resume restores the correct Lacewood ambience and flight layer after its takeoff cue",
-	)
+
 	var muted_rest_audio := FakeEngineAudioAdapter.new()
 	var muted_rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, muted_rest_audio)
 	test.expect(
@@ -428,18 +404,14 @@ func _init() -> void:
 	var loaded_before_muted_rest := muted_rest_audio.loaded_paths.size()
 	test.expect(
 		not muted_rest_soundscape.report_event(
-			&"sound-event.cloud-rest-entered",
-			{},
+			&"sound-event.playful-bump",
+			{"place": "lacewood", "kind": "silver-ribbon"},
 		),
-		"muted Cloud Rest state does not start audible media",
-	)
-	test.expect(
-		muted_rest_audio.stopped_slots.slice(-3) == ["foreground", "movement", "ambience"],
-		"muted Cloud Rest still clears stale foreground, flight, and Lacewood slots",
+		"a muted Playful Bump starts no audible media",
 	)
 	test.expect(
 		muted_rest_audio.loaded_paths.size() == loaded_before_muted_rest,
-		"muted Cloud Rest performs no hidden media playback",
+		"a muted Playful Bump performs no hidden media playback",
 	)
 	test.expect(
 		muted_rest_soundscape.report_event(
@@ -448,12 +420,14 @@ func _init() -> void:
 		),
 		"enabling Sound reconciles the current semantic state",
 	)
+	# There is no resting state to come back to any more, so re-enabling Sound restores
+	# the place the child is actually flying and the movement layer she is holding.
 	var enabled_rest_paths := muted_rest_audio.loaded_paths.slice(loaded_before_muted_rest)
 	test.expect(
-		enabled_rest_paths.has("source-media/soundscape/runtime/cloud-rest-ambience.wav")
-		and not enabled_rest_paths.has("source-media/soundscape/runtime/place-lacewood.wav")
-		and not enabled_rest_paths.has("source-media/soundscape/runtime/movement-flight.wav"),
-		"Sound enabled during Cloud Rest restores only the rest loop, never stale flight",
+		enabled_rest_paths.has("source-media/soundscape/runtime/place-lacewood.wav")
+		and enabled_rest_paths.has("source-media/soundscape/runtime/movement-flight.wav"),
+		"Sound enabled mid-flight restores the Lacewood ambience and the flight layer: %s"
+		% JSON.stringify(enabled_rest_paths),
 	)
 	var fallback_audio := FakeEngineAudioAdapter.new()
 	fallback_audio.asset_available = false
@@ -487,20 +461,6 @@ func _init() -> void:
 			else ""
 		) == "synthesized-playful-bump",
 		"Playful Bump failure selects its soft local synthesized fallback",
-	)
-	test.expect(
-		core_fallback_soundscape.report_event(
-			&"sound-event.cloud-rest-entered",
-			{},
-		),
-		"Cloud Rest progression continues when its approved landing and loop cannot load",
-	)
-	test.expect(
-		fallback_audio.played_streams.slice(-2) == [
-			"synthesized-cloud-rest",
-			"synthesized-cloud-rest",
-		],
-		"Cloud Rest failure selects local fallbacks for the landing and owned ambience",
 	)
 	test.expect(
 		core_fallback_soundscape.report_event(&"sound-event.birthday-castle-arrival", {}),

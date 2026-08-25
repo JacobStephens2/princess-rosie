@@ -35,6 +35,38 @@ static func advance(shell: StorybookShell, seconds: float) -> void:
 		shell.advance_journey(1.0 / 60.0)
 
 
+# Prepares a shell from the workspace Edition Pack, recording the launch against the
+# calling script's own expectations.
+static func prepared_shell(test: RefCounted) -> StorybookShell:
+	var shell := STORYBOOK_SHELL.new()
+	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
+	test.expect(shell.prepare_launch(pack_root).get("ok") == true, "the journey prepares")
+	return shell
+
+
+# Lets go until Stella has fallen to the named height, the way a child who stops holding
+# does, and holds until she has climbed back to it. Both stop on the frame she arrives,
+# so a script can read the evidence while the crossing is still happening.
+static func glide_until(shell: StorybookShell, altitude: float) -> void:
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	_fly_until(shell, func() -> bool:
+		return float(shell.flight_evidence().get("altitude_stage_heights", 1.0)) <= altitude)
+
+
+static func hold_until(shell: StorybookShell, altitude: float) -> void:
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	_fly_until(shell, func() -> bool:
+		return float(shell.flight_evidence().get("altitude_stage_heights", 0.0)) >= altitude)
+
+
+static func _fly_until(shell: StorybookShell, arrived: Callable) -> void:
+	for _frame: int in 600:
+		shell.advance_simulation(1.0 / 60.0)
+		shell.advance_journey(1.0 / 60.0)
+		if arrived.call():
+			return
+
+
 # Keeps Stella around one height the way a child does: hold while she is below it,
 # let go while she is above it. Places whose delight is finer-grained than high-or-low
 # are flown this way, because the child guiding them flies them this way.

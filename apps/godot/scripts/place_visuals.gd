@@ -1,7 +1,6 @@
 class_name PlaceVisuals
 extends Control
 
-const PHASE_CLOUD_REST := "cloud-rest"
 const PLACE_CONTENT := preload("res://scripts/place_content.gd")
 const BAND_HIGH := PLACE_CONTENT.BAND_HIGH
 const BAND_LOW := PLACE_CONTENT.BAND_LOW
@@ -14,7 +13,6 @@ var _progress := 0.0
 var _altitude := 0.5
 var _observed_interactions: Array[String] = []
 var _playful_bump_wobble := false
-var _cloud_rest_altitude := 0.36
 var _elapsed := 0.0
 
 
@@ -45,7 +43,6 @@ func set_story_state(state: Dictionary) -> void:
 	var progress := float(state.get("progress", 0.0))
 	var altitude := float(state.get("altitude", 0.5))
 	var playful_bump_wobble := bool(state.get("playful_bump_wobble", false))
-	var cloud_rest_altitude := float(state.get("cloud_rest_altitude", 0.36))
 	var observed_interactions: Array[String] = []
 	for interaction: Variant in state.get("observed_interactions", []):
 		observed_interactions.append(str(interaction))
@@ -54,7 +51,6 @@ func set_story_state(state: Dictionary) -> void:
 		and is_equal_approx(progress, _progress)
 		and is_equal_approx(altitude, _altitude)
 		and playful_bump_wobble == _playful_bump_wobble
-		and is_equal_approx(cloud_rest_altitude, _cloud_rest_altitude)
 		and observed_interactions == _observed_interactions
 	):
 		return
@@ -62,14 +58,12 @@ func set_story_state(state: Dictionary) -> void:
 	_progress = progress
 	_altitude = altitude
 	_playful_bump_wobble = playful_bump_wobble
-	_cloud_rest_altitude = cloud_rest_altitude
 	_observed_interactions = observed_interactions
 	queue_redraw()
 
 
 func visual_evidence() -> Dictionary:
-	var resting := visible and _phase == PHASE_CLOUD_REST
-	var travelling := visible and not resting
+	var travelling := visible
 	return {
 		"place": str(_place.get("id", "")),
 		"tint": str(_place.get("tint", "")),
@@ -79,7 +73,6 @@ func visual_evidence() -> Dictionary:
 		"high_interaction_visible": travelling and not _band_interaction(BAND_HIGH).is_empty(),
 		"low_interaction_visible": travelling and not _band_interaction(BAND_LOW).is_empty(),
 		"observed_visual_responses": _observed_visual_responses(),
-		"resting_cloud_visible": resting,
 		"place_tint_applied": travelling,
 		"playful_bump_wobble_visible": visible and _playful_bump_wobble and travelling,
 	}
@@ -88,28 +81,12 @@ func visual_evidence() -> Dictionary:
 func _draw() -> void:
 	if not visible:
 		return
-	# Cloud Rest is the gentlest moment in the game, so it is the most familiar: the
-	# place's own tint, corridor, and delights give way to one shared resting sky.
-	if _phase == PHASE_CLOUD_REST:
-		_draw_resting_sky()
-		_draw_resting_cloud()
-		return
 	_draw_atmosphere()
 	_draw_single_corridor()
 	_draw_altitude_rungs()
 	_draw_progress_glimmer()
 	if _playful_bump_wobble:
 		_draw_playful_bump_sparkle()
-
-
-# One soft veil settles the place behind the resting cloud, so a rest in any place
-# reads the same to the child.
-func _draw_resting_sky() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), Color(0.97, 0.96, 1.0, 0.72))
-	for index: int in 18:
-		var drift := fmod(_elapsed * (5.0 + index % 3) + index * 83.0, 1420.0) - 70.0
-		var y := 95.0 + fmod(index * 97.0 + sin(_elapsed * 0.45 + index) * 34.0, 535.0)
-		draw_circle(Vector2(drift, y), 2.0 + float(index % 3), Color(1.0, 1.0, 1.0, 0.42))
 
 
 # Each place paints the same composition in its own light; the tint is place data.
@@ -212,21 +189,6 @@ func _draw_progress_glimmer() -> void:
 	var x := lerpf(85.0, 1180.0, clampf(_progress, 0.0, 1.0))
 	var y := lerpf(520.0, 190.0, clampf(_altitude, 0.0, 1.0))
 	draw_circle(Vector2(x, y), 13.0 + sin(_elapsed * 3.5) * 2.0, Color(1.0, 0.92, 0.55, 0.28))
-
-
-# Cloud Rest shows Stella settling onto something solid and soft, right where she was.
-# It is painted the same way in every place so the gentlest moment stays familiar.
-func _draw_resting_cloud() -> void:
-	var center := _stage_position(_cloud_rest_altitude) + Vector2(0.0, 64.0)
-	var breath := sin(_elapsed * 1.1) * 3.0
-	for puff_index: int in 5:
-		var offset := Vector2(float(puff_index - 2) * 34.0, absf(float(puff_index - 2)) * 7.0)
-		draw_circle(
-			center + offset + Vector2(0.0, breath),
-			42.0 - absf(float(puff_index - 2)) * 7.0,
-			Color(1.0, 0.98, 1.0, 0.86),
-		)
-	draw_circle(center + Vector2(0.0, breath), 54.0, Color(0.98, 0.94, 1.0, 0.34))
 
 
 func _draw_playful_bump_sparkle() -> void:

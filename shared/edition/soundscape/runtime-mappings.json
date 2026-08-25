@@ -236,21 +236,6 @@
       "path": "runtime/rainbow-path-pellegrino-peak.wav"
     },
     {
-      "id": "runtime-cue.cloud-rest.enter",
-      "sourceMaster": "source-master.cloud-rest.enter",
-      "path": "runtime/cloud-rest-enter.wav"
-    },
-    {
-      "id": "runtime-cue.cloud-rest.ambience",
-      "sourceMaster": "source-master.cloud-rest.ambience",
-      "path": "runtime/cloud-rest-ambience.wav"
-    },
-    {
-      "id": "runtime-cue.cloud-rest.exit",
-      "sourceMaster": "source-master.cloud-rest.exit",
-      "path": "runtime/cloud-rest-exit.wav"
-    },
-    {
       "id": "runtime-cue.birthday-castle.arrival",
       "sourceMaster": "source-master.birthday-castle.arrival",
       "path": "runtime/birthday-castle-arrival.wav"

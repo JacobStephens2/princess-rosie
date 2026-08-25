@@ -82,7 +82,6 @@ func _init() -> void:
 		"observed_interactions",
 		"birthday_star_moment",
 		"flight_control_cycles",
-		"cloud_rest_automatic_resume",
 		"journey_progress_persisted",
 	]:
 		route_evidence[key] = current_evidence.get(key)
@@ -97,7 +96,6 @@ func _init() -> void:
 			"observed_interactions": [],
 			"birthday_star_moment": "Mom followed the waking roses and drifting petals out of Rosalia’s Rose Garden!",
 			"flight_control_cycles": 1,
-			"cloud_rest_automatic_resume": true,
 			"journey_progress_persisted": false,
 		},
 		"one presentation evidence dictionary describes the controllable route: %s"
