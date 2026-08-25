@@ -27,17 +27,18 @@ func _init() -> void:
 	var settled_low: Dictionary = rose_garden.presentation_evidence()
 	test.expect(
 		settled_low.get("playful_bumps") == 0
-		and settled_low.get("nearby_playful_bumps") == 0
-		and settled_low.get("cloud_rests") == 0,
+		and not settled_low.has("cloud_rests"),
 		"staying low through the whole Rose Garden meets no Playful Bump at any height",
 	)
 	test.expect(
-		not [
-			"sound-event.playful-bump",
-			"sound-event.near-miss",
-		].any(func(suppressed: String) -> bool:
-			return _emitted_events(rose_garden).has(suppressed)),
-		"the Rose Garden emits neither a Playful Bump nor its near miss",
+		not _emitted_events(rose_garden).has("sound-event.playful-bump"),
+		"the Rose Garden's floor does not bump, however low the child flies",
+	)
+	# Suppression narrowed to the bump alone: the Near Miss is not silenced with it. It
+	# stays quiet here only because settling onto the floor spends it.
+	test.expect(
+		not _emitted_events(rose_garden).has("sound-event.near-miss"),
+		"a Stella settled onto the Rose Garden's floor earns no Near Miss either",
 	)
 
 	# Zélie's Lacewood: the same code path, with its Playful Bump left switched on.
@@ -57,9 +58,9 @@ func _init() -> void:
 	)
 	DRIVER.advance(responsive, 4.0)
 	test.expect(
-		responsive.presentation_evidence().get("playful_bumps") == 3
-		and responsive.presentation_evidence().get("journey_phase") == "cloud-rest",
-		"remaining near the low lacework meets three gentle Playful Bumps",
+		responsive.presentation_evidence().get("playful_bumps") == 1
+		and responsive.presentation_evidence().get("journey_phase") == "place-flight",
+		"remaining on the low lacework's Bump Floor is one gentle wobble, and the route flies on",
 	)
 
 	var avoiding := _start_journey()

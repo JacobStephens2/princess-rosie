@@ -105,7 +105,7 @@ The sparkling coastal passage before the Birthday Castle comes into view.
 _Avoid_: Water level, Mediterranean Sea
 
 **Bump Floor**:
-The band of heights at the bottom of the Single Route where a place's Playful Bump lives, declared as a margin above the lowest reachable height and never overlapping the lowest rung of the Altitude Ladder. A place may say its floor does not bump.
+The band of heights at the bottom of the Single Route where a place's Playful Bump lives, declared as a margin above the lowest reachable height. Every rung of the Altitude Ladder keeps heights clear of it, so a rung may reach down into the floor but is never wholly inside it. A place may say its floor does not bump.
 _Avoid_: Obstacle, hazard zone, ground, collision layer
 
 **Playful Bump**:

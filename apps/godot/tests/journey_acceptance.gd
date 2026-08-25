@@ -14,19 +14,22 @@ const REQUIRED_SOUND_EVENTS := [
 		"event": "sound-event.opening-storybook-moment",
 		"context": {"moment": "opening.scattered-stars"},
 	},
-	{"event": "sound-event.opening-storybook-moment", "context": {"moment": "opening.departure"}},
+	{
+		"event": "sound-event.opening-storybook-moment",
+		"context": {"moment": "opening.departure"},
+	},
 	{"event": "sound-event.flight-launch", "context": {}},
 	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{"event": "sound-event.place-entry", "context": {"place": "rose-garden"}},
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "rose-garden", "interaction": "awakening-roses"},
+		"context": {"interaction": "awakening-roses", "place": "rose-garden"},
 	},
 	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "rose-garden", "interaction": "petal-drift"},
+		"context": {"interaction": "petal-drift", "place": "rose-garden"},
 	},
 	{
 		"event": "sound-event.birthday-star-proximity",
@@ -38,35 +41,40 @@ const REQUIRED_SOUND_EVENTS := [
 	},
 	{
 		"event": "sound-event.rainbow-path-opened",
-		"context": {"rainbowPath": "rainbow-path.rose-garden", "familyGuest": "Mom"},
+		"context": {"familyGuest": "Mom", "rainbowPath": "rainbow-path.rose-garden"},
 	},
 	{
 		"event": "sound-event.birthday-star-moment",
-		"context": {"place": "rose-garden", "familyGuest": "Mom"},
+		"context": {"familyGuest": "Mom", "place": "rose-garden"},
 	},
 	{"event": "sound-event.place-entry", "context": {"place": "lacewood"}},
 	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{
+		"event": "sound-event.playful-bump",
+		"context": {"kind": "silver-ribbon", "place": "lacewood"},
+	},
+	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "lacewood", "interaction": "silver-ribbons"},
+		"context": {"interaction": "silver-ribbons", "place": "lacewood"},
 	},
 	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "lacewood", "interaction": "rose-lights"},
+		"context": {"interaction": "rose-lights", "place": "lacewood"},
 	},
-	{"event": "sound-event.near-miss", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
+	{
+		"event": "sound-event.playful-bump",
+		"context": {"kind": "silver-ribbon", "place": "lacewood"},
+	},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
-	{"event": "sound-event.playful-bump", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
-	{"event": "sound-event.playful-bump", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
-	{"event": "sound-event.playful-bump", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
-	{"event": "sound-event.cloud-rest-entered", "context": {}},
-	{"event": "sound-event.cloud-rest-exited", "context": {}},
-	# The child never let go, so the rest resumes straight back into a rise.
+	{
+		"event": "sound-event.playful-bump",
+		"context": {"kind": "silver-ribbon", "place": "lacewood"},
+	},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{
 		"event": "sound-event.birthday-star-proximity",
@@ -78,36 +86,37 @@ const REQUIRED_SOUND_EVENTS := [
 	},
 	{
 		"event": "sound-event.rainbow-path-opened",
-		"context": {"rainbowPath": "rainbow-path.lacewood", "familyGuest": "Gram"},
+		"context": {"familyGuest": "Gram", "rainbowPath": "rainbow-path.lacewood"},
 	},
 	{
 		"event": "sound-event.birthday-star-moment",
-		"context": {"place": "lacewood", "familyGuest": "Gram"},
+		"context": {"familyGuest": "Gram", "place": "lacewood"},
 	},
 	{"event": "sound-event.place-entry", "context": {"place": "abbey"}},
 	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "abbey", "interaction": "golden-bell-note-high"},
+		"context": {"interaction": "golden-bell-note-high", "place": "abbey"},
 	},
 	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
-	# Settling through the Abbey rings its way down the bells, and climbing back rings
-	# the rung she crosses on the way up: the place answers the hand, not a script.
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "abbey", "interaction": "golden-bell-note-middle"},
+		"context": {"interaction": "golden-bell-note-middle", "place": "abbey"},
+	},
+	{
+		"event": "sound-event.playful-bump",
+		"context": {"kind": "golden-bell-rope", "place": "abbey"},
 	},
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "abbey", "interaction": "golden-bell-settle"},
+		"context": {"interaction": "golden-bell-settle", "place": "abbey"},
 	},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "abbey", "interaction": "golden-bell-note-low"},
+		"context": {"interaction": "golden-bell-note-low", "place": "abbey"},
 	},
-	{"event": "sound-event.near-miss", "context": {"place": "abbey", "kind": "golden-bell-rope"}},
 	{
 		"event": "sound-event.birthday-star-proximity",
 		"context": {"birthdayStar": "birthday-star.abbey"},
@@ -118,25 +127,28 @@ const REQUIRED_SOUND_EVENTS := [
 	},
 	{
 		"event": "sound-event.rainbow-path-opened",
-		"context": {"rainbowPath": "rainbow-path.abbey", "familyGuest": "Pop"},
+		"context": {"familyGuest": "Pop", "rainbowPath": "rainbow-path.abbey"},
 	},
 	{
 		"event": "sound-event.birthday-star-moment",
-		"context": {"place": "abbey", "familyGuest": "Pop"},
+		"context": {"familyGuest": "Pop", "place": "abbey"},
 	},
 	{"event": "sound-event.place-entry", "context": {"place": "cloister"}},
 	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "cloister", "interaction": "sunlit-arches"},
+		"context": {"interaction": "sunlit-arches", "place": "cloister"},
 	},
 	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "cloister", "interaction": "soft-clouds"},
+		"context": {"interaction": "soft-clouds", "place": "cloister"},
 	},
-	{"event": "sound-event.near-miss", "context": {"place": "cloister", "kind": "soft-cloud"}},
+	{
+		"event": "sound-event.playful-bump",
+		"context": {"kind": "soft-cloud", "place": "cloister"},
+	},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{
 		"event": "sound-event.birthday-star-proximity",
@@ -148,27 +160,27 @@ const REQUIRED_SOUND_EVENTS := [
 	},
 	{
 		"event": "sound-event.rainbow-path-opened",
-		"context": {"rainbowPath": "rainbow-path.cloister", "familyGuest": "Beasley"},
+		"context": {"familyGuest": "Beasley", "rainbowPath": "rainbow-path.cloister"},
 	},
 	{
 		"event": "sound-event.birthday-star-moment",
-		"context": {"place": "cloister", "familyGuest": "Beasley"},
+		"context": {"familyGuest": "Beasley", "place": "cloister"},
 	},
 	{"event": "sound-event.place-entry", "context": {"place": "pellegrino-peak"}},
 	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "pellegrino-peak", "interaction": "flower-petal-updraft"},
+		"context": {"interaction": "flower-petal-updraft", "place": "pellegrino-peak"},
 	},
 	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
 	{
 		"event": "sound-event.vignette-interaction",
-		"context": {"place": "pellegrino-peak", "interaction": "mountain-flowers"},
+		"context": {"interaction": "mountain-flowers", "place": "pellegrino-peak"},
 	},
 	{
-		"event": "sound-event.near-miss",
-		"context": {"place": "pellegrino-peak", "kind": "flower-bank"},
+		"event": "sound-event.playful-bump",
+		"context": {"kind": "flower-bank", "place": "pellegrino-peak"},
 	},
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{
@@ -181,11 +193,11 @@ const REQUIRED_SOUND_EVENTS := [
 	},
 	{
 		"event": "sound-event.rainbow-path-opened",
-		"context": {"rainbowPath": "rainbow-path.pellegrino-peak", "familyGuest": "Uncle"},
+		"context": {"familyGuest": "Uncle", "rainbowPath": "rainbow-path.pellegrino-peak"},
 	},
 	{
 		"event": "sound-event.birthday-star-moment",
-		"context": {"place": "pellegrino-peak", "familyGuest": "Uncle"},
+		"context": {"familyGuest": "Uncle", "place": "pellegrino-peak"},
 	},
 	{"event": "sound-event.birthday-castle-arrival", "context": {}},
 ]
@@ -242,7 +254,7 @@ func _init() -> void:
 	test.expect(
 		rose_garden_moment.get("state") == "birthday_star_moment"
 		and rose_garden_moment.get("playful_bumps") == 0
-		and rose_garden_moment.get("cloud_rests") == 0
+		and not rose_garden_moment.has("cloud_rests")
 		and rose_garden_moment.get("birthday_stars") == ["birthday-star.rose-garden"],
 		"the whole Rose Garden passage produces a Birthday Star and no Playful Bump: %s"
 		% JSON.stringify(rose_garden_moment),
@@ -283,22 +295,25 @@ func _init() -> void:
 		DRIVER.advance(shell, 0.1)
 		shell.handle_player_action(source, false)
 	DRIVER.advance(shell, 3.9)
-	var resting: Dictionary = shell.presentation_evidence()
+	var settled: Dictionary = shell.presentation_evidence()
 	test.expect(
-		resting.get("journey_phase") == "cloud-rest"
-		and resting.get("birthday_stars") == ["birthday-star.rose-garden"],
-		"three nearby Playful Bumps reach a Cloud Rest that keeps every gathered Star",
+		settled.get("journey_phase") == "place-flight"
+		and settled.get("place") == "lacewood"
+		and settled.get("birthday_stars") == ["birthday-star.rose-garden"],
+		"settling onto the Lacewood's Bump Floor keeps the journey flying: %s"
+		% JSON.stringify(settled),
 	)
-	# A child who is still holding on rides the rest out and climbs away as it releases.
-	shell.handle_player_action(KEYBOARD_SPACE, true)
-	DRIVER.advance(shell, 1.25)
+	# Three wobbles, because each brief press lifts Stella off the floor and settling
+	# back is a new encounter. Nothing accumulates from them.
 	test.expect(
-		shell.presentation_evidence().get("journey_phase") == "place-flight"
-		and shell.presentation_evidence().get("place") == "lacewood",
-		"Cloud Rest resumes into the place it happened in, without another player action",
+		settled.get("playful_bumps") == 3
+		and not settled.has("cloud_rests")
+		and not settled.has("gentle_help"),
+		"nothing follows from meeting the Bump Floor, however long Stella stays on it: %s"
+		% JSON.stringify(settled),
 	)
 
-	# Gentle Help after the Cloud Rest lengthens the remaining travel.
+	shell.handle_player_action(KEYBOARD_SPACE, true)
 	DRIVER.advance(shell, 10.0)
 	test.expect(
 		shell.presentation_evidence().get("state") == "birthday_star_moment",
@@ -429,10 +444,17 @@ func _init() -> void:
 			"rainbow-path.cloister",
 			"rainbow-path.pellegrino-peak",
 		]
-		and evidence.get("playful_bumps") == 3
-		and evidence.get("cloud_rests") == 1
+		and evidence.get("playful_bumps") == 6
+		and not evidence.has("cloud_rests")
+		and not evidence.has("gentle_help")
 		and evidence.get("flight_control_cycles") >= 3,
 		"five data-driven places complete one no-failure journey: %s" % JSON.stringify(evidence),
+	)
+	# This journey dives straight through the Near Miss band to the floor every time, so
+	# it earns none: a swoop is either a bump or a miss, never both.
+	test.expect(
+		evidence.get("near_misses") == 0,
+		"a journey that always touches the floor earns no Near Miss",
 	)
 	test.expect(
 		not evidence.has("chosen_route")

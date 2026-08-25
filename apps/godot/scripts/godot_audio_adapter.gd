@@ -100,10 +100,6 @@ func synthesize_playful_bump() -> AudioStreamWAV:
 	return _synthesize_gentle_response(0.22, 392.0, 1.33, 18.0, 0.07)
 
 
-func synthesize_cloud_rest() -> AudioStreamWAV:
-	return _synthesize_gentle_response(0.75, 523.25, 1.25, 4.0, 0.045)
-
-
 func synthesize_celebration() -> AudioStreamWAV:
 	return _synthesize_gentle_response(0.9, 659.25, 1.5, 3.5, 0.05)
 

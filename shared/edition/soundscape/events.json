@@ -76,14 +76,6 @@
       ]
     },
     {
-      "id": "sound-event.cloud-rest-entered",
-      "parameters": []
-    },
-    {
-      "id": "sound-event.cloud-rest-exited",
-      "parameters": []
-    },
-    {
       "id": "sound-event.birthday-castle-arrival",
       "parameters": []
     },

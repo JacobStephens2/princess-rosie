@@ -21,7 +21,7 @@ var test: RefCounted = ACCEPTANCE_TEST.new()
 
 func _init() -> void:
 	_bells_follow_the_child(_fly_to_the_abbey())
-	_a_low_passage_rests_and_keeps_its_stars(_fly_to_the_abbey())
+	_a_low_passage_wobbles_and_keeps_its_stars(_fly_to_the_abbey())
 	test.finish(self, "Golden Bell Abbey acceptance")
 
 
@@ -66,7 +66,7 @@ func _bells_follow_the_child(shell: StorybookShell) -> void:
 	test.expect(
 		rung_by_rung.get("journey_phase") == "place-flight"
 		and rung_by_rung.get("state") == "active_play"
-		and rung_by_rung.get("cloud_rests") == 0,
+		and not rung_by_rung.has("cloud_rests"),
 		"ringing every bell asks nothing of the child but Flight Control: %s"
 		% JSON.stringify(rung_by_rung),
 	)
@@ -111,11 +111,32 @@ func _bells_follow_the_child(shell: StorybookShell) -> void:
 	shell.free()
 
 
-# The bell ropes hang low. Brushing one wobbles Stella, and three in quick succession
-# bring the same Cloud Rest every other place brings.
-func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
+# The bell ropes hang low. Brushing one wobbles Stella and nothing follows from it. The
+# Abbey is also the place ADR-0013's invariant exists for: its settle bell is the lowest
+# rung in the Edition, and the child has to be able to ring it without meeting the floor.
+func _a_low_passage_wobbles_and_keeps_its_stars(shell: StorybookShell) -> void:
+	var contact := float(
+		shell.flight_evidence().get("playful_bump_contact_altitude_stage_heights", 0.0),
+	)
+	# Near the top of the settle bell's window, which the invariant guarantees is clear
+	# of the floor even after the bang-bang way a child holds a height.
+	var bumps_before: int = shell.presentation_evidence().get("playful_bumps", 0)
+	DRIVER.hold_near(shell, contact + (0.34 - contact) * 0.8, 3.0)
+	var settled: Dictionary = shell.presentation_evidence()
+	test.expect(
+		settled.get("observed_interactions").has("golden-bell-settle")
+		and settled.get("playful_bumps") == bumps_before,
+		"the settle bell rings from a height clear of the Bump Floor: %s"
+		% JSON.stringify(settled),
+	)
+
 	shell.handle_player_action(KEYBOARD_SPACE, false)
-	var wobbling: Dictionary = DRIVER.fly_low_until_playful_bumps(test, shell, "Abbey", 1)
+	var wobbling: Dictionary = DRIVER.fly_low_until_playful_bumps(
+		test,
+		shell,
+		"Abbey",
+		bumps_before + 1,
+	)
 	test.expect(
 		wobbling.get("playful_bump_wobbling") == true
 		and wobbling.get("state") == "active_play"
@@ -123,19 +144,21 @@ func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 		"a brushed bell rope wobbles Stella without ending the journey: %s"
 		% JSON.stringify(wobbling),
 	)
-	var resting: Dictionary = DRIVER.fly_low_until_playful_bumps(test, shell, "Abbey", 3)
+	DRIVER.advance(shell, 2.0)
+	var still_flying: Dictionary = shell.presentation_evidence()
 	test.expect(
-		resting.get("journey_phase") == "cloud-rest",
-		"three nearby bell ropes settle the child onto the shared Cloud Rest: %s"
-		% JSON.stringify(resting),
+		still_flying.get("playful_bumps") == bumps_before + 1
+		and not still_flying.has("cloud_rests"),
+		"staying down among the bell ropes adds no second wobble and no Cloud Rest: %s"
+		% JSON.stringify(still_flying),
 	)
 	test.expect(
-		resting.get("birthday_stars") == [
+		still_flying.get("birthday_stars") == [
 			"birthday-star.rose-garden",
 			"birthday-star.lacewood",
 		],
-		"the Cloud Rest keeps every Birthday Star gathered so far: %s"
-		% JSON.stringify(resting.get("birthday_stars")),
+		"the low passage keeps every Birthday Star gathered so far: %s"
+		% JSON.stringify(still_flying.get("birthday_stars")),
 	)
 	shell.free()
 
