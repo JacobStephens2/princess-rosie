@@ -29,6 +29,51 @@
       "id": "lacewood.background",
       "role": "illustration-layer",
       "path": "source-media/lacewood/lacewood-single-route-background.png"
+    },
+    {
+      "id": "family-guest.mom",
+      "role": "character-layer",
+      "path": "source-media/journey/family-guest-mom.png"
+    },
+    {
+      "id": "family-guest.dad",
+      "role": "character-layer",
+      "path": "source-media/journey/family-guest-dad.png"
+    },
+    {
+      "id": "family-guest.pop",
+      "role": "character-layer",
+      "path": "source-media/journey/family-guest-pop.png"
+    },
+    {
+      "id": "family-guest.gram",
+      "role": "character-layer",
+      "path": "source-media/journey/family-guest-gram.png"
+    },
+    {
+      "id": "family-guest.aunt",
+      "role": "character-layer",
+      "path": "source-media/journey/family-guest-aunt.png"
+    },
+    {
+      "id": "family-guest.uncle",
+      "role": "character-layer",
+      "path": "source-media/journey/family-guest-uncle.png"
+    },
+    {
+      "id": "family-guest.beasley",
+      "role": "character-layer",
+      "path": "source-media/journey/family-guest-beasley.png"
+    },
+    {
+      "id": "journey.birthday-star",
+      "role": "sprite",
+      "path": "source-media/journey/birthday-star.png"
+    },
+    {
+      "id": "journey.rainbow-path",
+      "role": "treatment",
+      "path": "source-media/journey/rainbow-path.png"
     }
   ]
 }

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" path="res://assets/storybook-cover.png" id="2_cover"]
 [ext_resource type="Texture2D" path="res://assets/opening-storybook-moment.png" id="3_opening"]
 [ext_resource type="Script" path="res://scripts/export_smoke_probe.gd" id="4_smoke"]
-[ext_resource type="Script" path="res://scripts/lacewood_visuals.gd" id="5_lacewood_visuals"]
+[ext_resource type="Script" path="res://scripts/place_visuals.gd" id="5_place_visuals"]
 
 [sub_resource type="StyleBoxFlat" id="StyleTitle"]
 bg_color = Color(0.133333, 0.0784314, 0.2, 0.78)
@@ -408,7 +408,7 @@ expand_mode = 1
 stretch_mode = 0
 mouse_filter = 2
 
-[node name="LacewoodBackground" type="TextureRect" parent="Stage/ActivePlayPresentation"]
+[node name="PlaceBackground" type="TextureRect" parent="Stage/ActivePlayPresentation"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -436,7 +436,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0.14902, 0.403922, 0.568627, 0.22)
 
-[node name="LacewoodVisuals" type="Control" parent="Stage/ActivePlayPresentation"]
+[node name="PlaceVisuals" type="Control" parent="Stage/ActivePlayPresentation"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -446,7 +446,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-script = ExtResource("5_lacewood_visuals")
+script = ExtResource("5_place_visuals")
 
 [node name="FlightCharacter" type="TextureRect" parent="Stage/ActivePlayPresentation"]
 unique_name_in_owner = true

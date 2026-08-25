@@ -147,6 +147,90 @@ Execution: Mureka API, model `mureka-9`, one non-streaming instrumental; locally
 
 Output: `public/assets/audio/birthday-flight.mp3`
 
+## Shared journey media
+
+Nine assets that appear in more than one place, generated in one batch against a single
+shared style clause and approved by the project owner in one pass on 2026-08-24. Beasley and
+Gram were settled first; the remaining seven were matched to them. Per ADR-0001 every likeness
+comes from short written appearance cues alone — no photograph was sent to any
+image-generation service, and no surname, school, parish, town, or precise location appears
+in any prompt.
+
+Execution: OpenAI Images API, `gpt-image-1.5`, high quality, transparent background, PNG.
+
+### Family Guest cutout: Mom
+
+> Use case: production game character cutout. Asset type: full-body Family Guest cutout on a transparent background for a gentle children's storybook flying game. Subject: Mom, a warm fictional storybook mother with long straight dirty-blonde hair falling past her shoulders, a soft pink short-sleeve top, blue jeans, and simple flat shoes; she stands with a bright happy smile and both hands raised in a gentle clap. Proportions: a grown-up adult with adult body proportions — about seven heads tall, a mature adult face and build, and clearly not a child or a teenager. Style: smooth digital children's picture-book painting matching the approved Princess Rosie and Stella game cutout — soft airbrushed shading, clean simplified rounded shapes, very little micro-texture, a large friendly face with bright dark eyes and rosy cheeks, warm saturated storybook colour, and a gentle luminous rim light around the figure. Not watercolour, not paper texture, not hyper-detailed fur or fabric weave, not photographic. Composition: one complete full-body figure from the top of the head to the feet, facing the viewer, standing upright and centred, with generous empty padding on every side and no cropping of hair, hands, or feet. Background: completely empty and transparent — no scenery, floor, ground line, cast shadow, vignette, checkerboard, or white matte. Constraints: exactly one character and nothing else; no props, furniture, text, numbers, watermark, logo, photorealism, 3D render, anime, named-studio imitation, realistic portrait, extra limbs, or duplicate figures.
+
+Parameters: 1024x1536, quality high, background transparent.
+
+Output: `shared/edition/source-media/journey/family-guest-mom.png`
+
+### Family Guest cutout: Dad
+
+> Use case: production game character cutout. Asset type: full-body Family Guest cutout on a transparent background for a gentle children's storybook flying game. Subject: Dad, a warm fictional storybook father with short tousled brown hair, a white T-shirt under an open blue chambray short-sleeve shirt, brown trousers, and simple shoes; he stands with a broad friendly grin and one hand raised in a welcoming wave. Proportions: a grown-up adult with adult body proportions — about seven heads tall, a mature adult face and build, and clearly not a child or a teenager. Style: smooth digital children's picture-book painting matching the approved Princess Rosie and Stella game cutout — soft airbrushed shading, clean simplified rounded shapes, very little micro-texture, a large friendly face with bright dark eyes and rosy cheeks, warm saturated storybook colour, and a gentle luminous rim light around the figure. Not watercolour, not paper texture, not hyper-detailed fur or fabric weave, not photographic. Composition: one complete full-body figure from the top of the head to the feet, facing the viewer, standing upright and centred, with generous empty padding on every side and no cropping of hair, hands, or feet. Background: completely empty and transparent — no scenery, floor, ground line, cast shadow, vignette, checkerboard, or white matte. Constraints: exactly one character and nothing else; no props, furniture, text, numbers, watermark, logo, photorealism, 3D render, anime, named-studio imitation, realistic portrait, extra limbs, or duplicate figures.
+
+Parameters: 1024x1536, quality high, background transparent.
+
+Output: `shared/edition/source-media/journey/family-guest-dad.png`
+
+### Family Guest cutout: Pop
+
+> Use case: production game character cutout. Asset type: full-body Family Guest cutout on a transparent background for a gentle children's storybook flying game. Subject: Pop, a warm fictional storybook grandfather with short light strawberry-blonde hair, a pale-yellow patterned short-sleeve shirt, brown trousers, and simple shoes; he stands with a kind delighted smile and both hands raised in a gentle clap. Proportions: a grown-up adult with adult body proportions — about seven heads tall, a mature adult face and build, and clearly not a child or a teenager. Style: smooth digital children's picture-book painting matching the approved Princess Rosie and Stella game cutout — soft airbrushed shading, clean simplified rounded shapes, very little micro-texture, a large friendly face with bright dark eyes and rosy cheeks, warm saturated storybook colour, and a gentle luminous rim light around the figure. Not watercolour, not paper texture, not hyper-detailed fur or fabric weave, not photographic. Composition: one complete full-body figure from the top of the head to the feet, facing the viewer, standing upright and centred, with generous empty padding on every side and no cropping of hair, hands, or feet. Background: completely empty and transparent — no scenery, floor, ground line, cast shadow, vignette, checkerboard, or white matte. Constraints: exactly one character and nothing else; no props, furniture, text, numbers, watermark, logo, photorealism, 3D render, anime, named-studio imitation, realistic portrait, extra limbs, or duplicate figures.
+
+Parameters: 1024x1536, quality high, background transparent.
+
+Output: `shared/edition/source-media/journey/family-guest-pop.png`
+
+### Family Guest cutout: Gram
+
+> Use case: production game character cutout. Asset type: full-body Family Guest cutout on a transparent background for a gentle children's storybook flying game. Subject: Gram, a warm fictional storybook grandmother with short brown permed curls, a soft lavender cardigan over a rose-pink floral blouse, a long cream skirt, and comfortable low shoes; she stands with a delighted welcoming smile and both hands raised in a gentle clap. Proportions: a grown-up adult with adult body proportions — about seven heads tall, a mature adult face and build, and clearly not a child or a teenager. Style: smooth digital children's picture-book painting matching the approved Princess Rosie and Stella game cutout — soft airbrushed shading, clean simplified rounded shapes, very little micro-texture, a large friendly face with bright dark eyes and rosy cheeks, warm saturated storybook colour, and a gentle luminous rim light around the figure. Not watercolour, not paper texture, not hyper-detailed fur or fabric weave, not photographic. Composition: one complete full-body figure from the top of the head to the feet, facing the viewer, standing upright and centred, with generous empty padding on every side and no cropping of hair, hands, or feet. Background: completely empty and transparent — no scenery, floor, ground line, cast shadow, vignette, checkerboard, or white matte. Constraints: exactly one character and nothing else; no props, furniture, text, numbers, watermark, logo, photorealism, 3D render, anime, named-studio imitation, realistic portrait, extra limbs, or duplicate figures.
+
+Parameters: 1024x1536, quality high, background transparent.
+
+Output: `shared/edition/source-media/journey/family-guest-gram.png`
+
+### Family Guest cutout: Aunt
+
+> Use case: production game character cutout. Asset type: full-body Family Guest cutout on a transparent background for a gentle children's storybook flying game. Subject: Aunt, a warm fictional storybook aunt with dirty-blonde hair gathered in a soft bun with a fringe of bangs, a teal short-sleeve top, a long lavender floral skirt, and green flat shoes; she stands with a joyful smile and both hands pressed together in delight. Proportions: a grown-up adult with adult body proportions — about seven heads tall, a mature adult face and build, and clearly not a child or a teenager. Style: smooth digital children's picture-book painting matching the approved Princess Rosie and Stella game cutout — soft airbrushed shading, clean simplified rounded shapes, very little micro-texture, a large friendly face with bright dark eyes and rosy cheeks, warm saturated storybook colour, and a gentle luminous rim light around the figure. Not watercolour, not paper texture, not hyper-detailed fur or fabric weave, not photographic. Composition: one complete full-body figure from the top of the head to the feet, facing the viewer, standing upright and centred, with generous empty padding on every side and no cropping of hair, hands, or feet. Background: completely empty and transparent — no scenery, floor, ground line, cast shadow, vignette, checkerboard, or white matte. Constraints: exactly one character and nothing else; no props, furniture, text, numbers, watermark, logo, photorealism, 3D render, anime, named-studio imitation, realistic portrait, extra limbs, or duplicate figures.
+
+Parameters: 1024x1536, quality high, background transparent.
+
+Output: `shared/edition/source-media/journey/family-guest-aunt.png`
+
+### Family Guest cutout: Uncle
+
+> Use case: production game character cutout. Asset type: full-body Family Guest cutout on a transparent background for a gentle children's storybook flying game. Subject: Uncle, a warm fictional storybook uncle, the tallest of the family, with brown hair swept up in a soft pompadour, a blue patterned short-sleeve shirt worn open over a white T-shirt, blue jeans, and brown shoes; he stands with a big cheerful laugh and one hand raised in a wave. Proportions: a grown-up adult with adult body proportions — about seven heads tall, a mature adult face and build, and clearly not a child or a teenager. Style: smooth digital children's picture-book painting matching the approved Princess Rosie and Stella game cutout — soft airbrushed shading, clean simplified rounded shapes, very little micro-texture, a large friendly face with bright dark eyes and rosy cheeks, warm saturated storybook colour, and a gentle luminous rim light around the figure. Not watercolour, not paper texture, not hyper-detailed fur or fabric weave, not photographic. Composition: one complete full-body figure from the top of the head to the feet, facing the viewer, standing upright and centred, with generous empty padding on every side and no cropping of hair, hands, or feet. Background: completely empty and transparent — no scenery, floor, ground line, cast shadow, vignette, checkerboard, or white matte. Constraints: exactly one character and nothing else; no props, furniture, text, numbers, watermark, logo, photorealism, 3D render, anime, named-studio imitation, realistic portrait, extra limbs, or duplicate figures.
+
+Parameters: 1024x1536, quality high, background transparent.
+
+Output: `shared/edition/source-media/journey/family-guest-uncle.png`
+
+### Family Guest cutout: Beasley
+
+> Use case: production game character cutout. Asset type: full-body Family Guest cutout on a transparent background for a gentle children's storybook flying game. Subject: Beasley, a fictional orange-and-white storybook house cat with a white chest, white paws, a plumed orange tail held high, round friendly eyes and a cheerful open-mouthed smile, sitting upright with one front paw lifted in a playful wave. Style: smooth digital children's picture-book painting matching the approved Princess Rosie and Stella game cutout — soft airbrushed shading, clean simplified rounded shapes, very little micro-texture, a large friendly face with bright dark eyes and rosy cheeks, warm saturated storybook colour, and a gentle luminous rim light around the figure. Not watercolour, not paper texture, not hyper-detailed fur or fabric weave, not photographic. Composition: one complete full-body figure from the top of the head to the feet, facing the viewer, standing upright and centred, with generous empty padding on every side and no cropping of hair, hands, or feet. Background: completely empty and transparent — no scenery, floor, ground line, cast shadow, vignette, checkerboard, or white matte. Constraints: exactly one character and nothing else; no props, furniture, text, numbers, watermark, logo, photorealism, 3D render, anime, named-studio imitation, realistic portrait, extra limbs, or duplicate figures.
+
+Parameters: 1024x1536, quality high, background transparent.
+
+Output: `shared/edition/source-media/journey/family-guest-beasley.png`
+
+### Birthday Star sprite
+
+> Use case: production game sprite. Asset type: single reusable Birthday Star sprite on a transparent background for a gentle children's storybook flying game. Subject: one Birthday Star — a plump five-pointed star with gently rounded points, its surface a warm golden mosaic of small luminous gold and amber tiles, wrapped in a soft radiant halo of warm light with a few tiny sparkles close around it. The Birthday Star wears and carries nothing: no party hat, bow, ribbon, streamer, candle, face, or any other decoration attached to it. Style: smooth digital children's picture-book painting matching the approved Princess Rosie and Stella game art — soft airbrushed shading, clean simplified rounded shapes, warm saturated storybook colour, and a gentle luminous glow. Not watercolour, not paper texture, not photographic. Composition: one complete object, centred, with generous empty padding on every side and no cropping. Background: completely empty and transparent — no scenery, sky, floor, ground line, cast shadow, vignette, checkerboard, or white matte. Constraints: exactly one object and nothing else; no characters, faces, text, numbers, watermark, logo, photorealism, 3D render, anime, or named-studio imitation.
+
+Parameters: 1024x1024, quality high, background transparent.
+
+Output: `shared/edition/source-media/journey/birthday-star.png`
+
+### Rainbow Path treatment
+
+> Use case: production game sprite. Asset type: single reusable Rainbow Path treatment on a transparent background for a gentle children's storybook flying game. Subject: one broad ribbon of soft rainbow light sweeping in a gentle arc from the lower left to the upper right, built from translucent layered bands of blush rose, warm gold, fresh green, sapphire and lavender, glowing softly, scattered with small drifting sparkles, and tapering to a soft fade at both ends. Style: smooth digital children's picture-book painting matching the approved Princess Rosie and Stella game art — soft airbrushed shading, clean simplified rounded shapes, warm saturated storybook colour, and a gentle luminous glow. Not watercolour, not paper texture, not photographic. Composition: one complete object, centred, with generous empty padding on every side and no cropping. Background: completely empty and transparent — no scenery, sky, floor, ground line, cast shadow, vignette, checkerboard, or white matte. Constraints: exactly one object and nothing else; no characters, faces, text, numbers, watermark, logo, photorealism, 3D render, anime, or named-studio imitation.
+
+Parameters: 1536x1024, quality high, background transparent.
+
+Output: `shared/edition/source-media/journey/rainbow-path.png`
+
+Provenance: `shared/edition/source-media/journey/provenance.json`
 <!-- soundscape-build:start -->
 ## Fairytale Soundscape
 

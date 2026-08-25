@@ -59,6 +59,7 @@ class FakeEngineAudioAdapter extends RefCounted:
 				"looping": playback.looping,
 				"max_duration_ms": playback.max_duration_ms,
 				"music_duck_db": playback.music_duck_db,
+				"crossfade_ms": playback.crossfade_ms,
 			})
 		else:
 			playback_requests_are_typed = false
@@ -303,6 +304,41 @@ func _init() -> void:
 		),
 		"Birthday Star visual pulses cannot retrigger the capped shimmer",
 	)
+	var crossing_audio := FakeEngineAudioAdapter.new()
+	var crossing_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, crossing_audio)
+	for crossed_place: String in ["rose-garden", "lacewood"]:
+		test.expect(
+			crossing_soundscape.report_event(
+				&"sound-event.place-entry",
+				{"place": crossed_place},
+			),
+			"%s answers with its own place ambience" % crossed_place,
+		)
+	test.expect(
+		crossing_audio.loaded_paths == [
+			"source-media/soundscape/runtime/place-rose-garden.wav",
+			"source-media/soundscape/runtime/place-lacewood.wav",
+		],
+		"crossing places asks for one place loop each: %s"
+		% JSON.stringify(crossing_audio.loaded_paths),
+	)
+	var crossing_playbacks := crossing_audio.playback_settings
+	test.expect(
+		crossing_playbacks.size() == 2
+		and crossing_playbacks.all(func(playback: Dictionary) -> bool:
+			return (
+				playback.get("slot") == "ambience"
+				and playback.get("looping") == true
+				and playback.get("crossfade_ms") == 600
+			)),
+		"both place loops claim the one ambience slot with the authored crossfade: %s"
+		% JSON.stringify(crossing_playbacks),
+	)
+	test.expect(
+		crossing_audio.stopped_slots.is_empty(),
+		"crossing places never cuts the ambience slot to silence first",
+	)
+
 	var rest_audio := FakeEngineAudioAdapter.new()
 	var rest_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, rest_audio)
 	var lacewood_rest_events := [
@@ -320,7 +356,7 @@ func _init() -> void:
 	test.expect(
 		rest_soundscape.report_event(
 			&"sound-event.cloud-rest-entered",
-			{"place": "lacewood"},
+			{},
 		),
 		"Cloud Rest accepts the landing transition",
 	)
@@ -345,7 +381,7 @@ func _init() -> void:
 	test.expect(
 		rest_soundscape.report_event(
 			&"sound-event.cloud-rest-exited",
-			{"place": "lacewood"},
+			{},
 		),
 		"Cloud Rest accepts immediate resume",
 	)
@@ -384,7 +420,7 @@ func _init() -> void:
 	test.expect(
 		not muted_rest_soundscape.report_event(
 			&"sound-event.cloud-rest-entered",
-			{"place": "lacewood"},
+			{},
 		),
 		"muted Cloud Rest state does not start audible media",
 	)
@@ -446,7 +482,7 @@ func _init() -> void:
 	test.expect(
 		core_fallback_soundscape.report_event(
 			&"sound-event.cloud-rest-entered",
-			{"place": "lacewood"},
+			{},
 		),
 		"Cloud Rest progression continues when its approved landing and loop cannot load",
 	)

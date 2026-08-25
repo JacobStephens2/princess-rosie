@@ -27,6 +27,7 @@ const STAGE_ASPECT := 16.0 / 9.0
 const EDITION_PACK_ADAPTER := preload("res://scripts/edition_pack_adapter.gd")
 const SOUNDSCAPE_PLAYER := preload("res://scripts/soundscape_player.gd")
 const GODOT_AUDIO_ADAPTER := preload("res://scripts/godot_audio_adapter.gd")
+const PLACE_CONTENT := preload("res://scripts/place_content.gd")
 
 const INTENT_BEGIN: StringName = &"begin"
 const INTENT_GROWN_UP_CORNER: StringName = &"grown-up-corner"
@@ -56,17 +57,13 @@ const EVENT_BIRTHDAY_CASTLE_ARRIVAL := &"sound-event.birthday-castle-arrival"
 const EVENT_REPLAY := &"sound-event.replay"
 const EVENT_SOUND_PREFERENCE_CHANGED := &"sound-event.sound-preference-changed"
 const PHASE_FLIGHT := "flight"
-const PHASE_LACEWOOD_FLIGHT := "lacewood-flight"
+const PHASE_PLACE_FLIGHT := "place-flight"
 const PHASE_CLOUD_REST := "cloud-rest"
 const PHASE_STAR_APPROACH := "birthday-star-approach"
 const PHASE_BIRTHDAY_STAR_MOMENT := "birthday-star-moment"
 const PHASE_CELEBRATION := "celebration"
-const LACEWOOD_PLACE := "lacewood"
-const LACEWOOD_SINGLE_ROUTE := "single-route.lacewood"
-const LACEWOOD_BIRTHDAY_STAR := "birthday-star.lacewood"
-const LACEWOOD_RAINBOW_PATH := "rainbow-path.lacewood"
-const MILESTONE_SILVER_RIBBONS: StringName = &"silver-ribbons"
-const MILESTONE_ROSE_LIGHTS: StringName = &"rose-lights"
+const MILESTONE_HIGH_BAND: StringName = &"high-band-interaction"
+const MILESTONE_LOW_BAND: StringName = &"low-band-interaction"
 const MILESTONE_NEAR_MISS: StringName = &"near-miss"
 const MILESTONE_PLAYFUL_BUMP: StringName = &"playful-bump"
 const MILESTONE_ROUTE_COMPLETE: StringName = &"route-complete"
@@ -74,9 +71,21 @@ const DEFAULT_CLOUD_REST_ALTITUDE := 0.36
 const DEFAULT_PLAYFUL_BUMP_WOBBLE_SECONDS := 0.45
 const DEFAULT_COLLISION_HALF_HEIGHT := 0.06
 const DEFAULT_PLAYFUL_BUMP_OBSTACLE_ALTITUDE := 0.64
-const LACEWOOD_MILESTONES := [
-	{"id": MILESTONE_SILVER_RIBBONS, "seconds": 3.0},
-	{"id": MILESTONE_ROSE_LIGHTS, "seconds": 6.0},
+const REQUIRED_PLACE_FIELDS := [
+	"id",
+	"name",
+	"familyGuest",
+	"illustration",
+	"birthdayStar",
+	"rainbowPath",
+	"birthdayStarMoment",
+]
+# Every place travels the same authored rhythm: the high band answers first, the low
+# band second, then the place's own Playful Bump waits low along the rest of the route.
+# Which delight each band awakens, and whether the bump can happen at all, is place data.
+const ROUTE_MILESTONES := [
+	{"id": MILESTONE_HIGH_BAND, "seconds": 3.0},
+	{"id": MILESTONE_LOW_BAND, "seconds": 6.0},
 	{"id": MILESTONE_NEAR_MISS, "seconds": 8.0},
 	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 9.5},
 	{"id": MILESTONE_PLAYFUL_BUMP, "seconds": 11.75},
@@ -119,8 +128,9 @@ var _flight_background_texture: Texture2D
 var _flight_character_texture: Texture2D
 var _flight_character_has_transparency := false
 var _flight_media_paths: Dictionary = {}
-var _lacewood_background_texture: Texture2D
-var _lacewood_media_paths: Dictionary = {}
+var _place_textures: Dictionary = {}
+var _place_media_paths: Dictionary = {}
+var _realized_place_count := 0
 var _opening_moment_index := 0
 var _movement_state := ""
 var _flight_tuning: Dictionary = {}
@@ -140,7 +150,8 @@ var _journey_phase_elapsed := 0.0
 var _journey_checkpoint := 0
 var _action_held := false
 var _flight_control_cycle_count := 0
-var _lacewood_progress := 0.0
+var _place_index := -1
+var _place_progress := 0.0
 var _journey_clock_seconds := 0.0
 var _playful_bump_count := 0
 var _nearby_playful_bump_count := 0
@@ -174,8 +185,8 @@ var _engine_audio: Node
 @onready var _opening_story_card: Control = $Stage/OpeningPresentation/StoryCard
 @onready var _continue_button: Button = %ContinueButton
 @onready var _flight_background: TextureRect = %FlightBackground
-@onready var _lacewood_background: TextureRect = %LacewoodBackground
-@onready var _lacewood_visuals: LacewoodVisuals = %LacewoodVisuals
+@onready var _place_background: TextureRect = %PlaceBackground
+@onready var _place_visuals: PlaceVisuals = %PlaceVisuals
 @onready var _flight_character: TextureRect = %FlightCharacter
 @onready var _flight_card: Control = $Stage/ActivePlayPresentation/FlightCard
 @onready var _pack_badge: Label = %PackBadge
@@ -222,8 +233,9 @@ func prepare_launch(pack_source: String = default_pack_source()) -> Dictionary:
 	_flight_character_texture = null
 	_flight_character_has_transparency = false
 	_flight_media_paths = {}
-	_lacewood_background_texture = null
-	_lacewood_media_paths = {}
+	_place_textures = {}
+	_place_media_paths = {}
+	_realized_place_count = 0
 	_opening_moment_index = 0
 	_movement_state = ""
 	_flight_tuning = {}
@@ -278,7 +290,10 @@ func prepare_launch(pack_source: String = default_pack_source()) -> Dictionary:
 	_opening_moments = _content.get("openingMoments", [])
 	if _opening_moments.is_empty():
 		return _fail_launch("Edition Pack has no Opening Storybook Moments")
-	var media_loaded := _load_opening_media(pack_source, prepared)
+	var places_valid := _validate_places()
+	if not places_valid.ok:
+		return _fail_launch(places_valid.error)
+	var media_loaded := _load_journey_media(pack_source, prepared)
 	if not media_loaded.ok:
 		return _fail_launch(media_loaded.error)
 	_pack_revision = prepared.revision
@@ -302,7 +317,7 @@ func presentation_evidence() -> Dictionary:
 		"observed_opening_checkpoints": _observed_opening_checkpoints.duplicate(true),
 		"opening_media_paths": _opening_media_paths.duplicate(true),
 		"flight_media_paths": _flight_media_paths.duplicate(true),
-		"lacewood_media_paths": _lacewood_media_paths.duplicate(true),
+		"place_media_paths": _place_media_paths.duplicate(true),
 		"movement_state": _movement_state,
 		"active_action_sources": _active_action_source_ids(),
 		"observed_action_sources": _observed_action_source_ids(),
@@ -317,7 +332,21 @@ func presentation_evidence() -> Dictionary:
 		"birthday_stars": _birthday_stars.duplicate(),
 		"rainbow_paths": _rainbow_paths.duplicate(),
 		"observed_interactions": _observed_interactions.duplicate(),
-		"lacewood_progress": _lacewood_progress,
+		"places": _place_ids(),
+		"realized_places": _realized_place_count,
+		"place": str(_current_place().get("id", "")),
+		"place_name": str(_current_place().get("name", "")),
+		"family_guest": str(_current_place().get("familyGuest", "")),
+		"place_progress": _place_progress,
+		"playful_bumps_suppressed": PLACE_CONTENT.playful_bump_suppressed(_current_place()),
+		"birthday_star_moment": _birthday_star_moment_copy(),
+		"route_duration_seconds": _single_route_tuning.get("durationSeconds", 0.0),
+		"safe_limits_preserve_forward_motion": _single_route_tuning.get(
+			"safeLimitsPreserveForwardMotion",
+			false,
+		),
+		"cloud_rest_automatic_resume": _cloud_rest_tuning.has("automaticResumeSeconds"),
+		"journey_progress_persisted": false,
 		"engine_version": _engine_version(),
 	}
 
@@ -395,7 +424,7 @@ func cloud_rest_evidence() -> Dictionary:
 		"resume_altitude_stage_heights": _cloud_rest_altitude_snapshot,
 		"progress_lost": (
 			_cloud_rest_progress_snapshot >= 0.0
-			and _lacewood_progress < _cloud_rest_progress_snapshot
+			and _place_progress < _cloud_rest_progress_snapshot
 		),
 	}
 
@@ -404,30 +433,6 @@ func _cloud_rest_resting_altitude() -> float:
 	return float(
 		_cloud_rest_tuning.get("restingAltitudeStageHeights", DEFAULT_CLOUD_REST_ALTITUDE),
 	)
-
-
-func single_route_evidence() -> Dictionary:
-	return {
-		"single_route": _lacewood_single_route_content().get("id", ""),
-		"duration_seconds": _single_route_tuning.get("durationSeconds", 0.0),
-		"progress": _lacewood_progress,
-		"safe_limits_preserve_forward_motion": _single_route_tuning.get(
-			"safeLimitsPreserveForwardMotion",
-			false,
-		),
-		"observed_interactions": _observed_interactions.duplicate(),
-		"canonical_birthday_star_moment": _lacewood_single_route_content().get(
-			"birthdayStarMoment",
-			"",
-		),
-		"canonical_celebration_echo": _lacewood_single_route_content().get(
-			"celebrationEcho",
-			"",
-		),
-		"flight_control_cycles": _flight_control_cycle_count,
-		"cloud_rest_automatic_resume": _cloud_rest_tuning.has("automaticResumeSeconds"),
-		"journey_progress_persisted": false,
-	}
 
 
 func storybook_stage_evidence() -> Dictionary:
@@ -479,13 +484,13 @@ func storybook_stage_evidence() -> Dictionary:
 		},
 		"flight_motion": {
 			"background_offset_x": (
-				_lacewood_background.position.x
-				if _lacewood_background.is_visible_in_tree()
+				_place_background.position.x
+				if _place_background.is_visible_in_tree()
 				else _flight_background.position.x
 			),
 			"background_scale": (
-				_lacewood_background.scale.x
-				if _lacewood_background.is_visible_in_tree()
+				_place_background.scale.x
+				if _place_background.is_visible_in_tree()
 				else _flight_background.scale.x
 			),
 			"character_position": {
@@ -497,10 +502,10 @@ func storybook_stage_evidence() -> Dictionary:
 		"flight_background_visible": (
 			_flight_background.texture != null and _flight_background.is_visible_in_tree()
 		),
-		"lacewood_background_visible": (
-			_lacewood_background.texture != null and _lacewood_background.is_visible_in_tree()
+		"place_background_visible": (
+			_place_background.texture != null and _place_background.is_visible_in_tree()
 		),
-		"lacewood_single_route_composition": _lacewood_visuals.visual_evidence(),
+		"place_composition": _place_visuals.visual_evidence(),
 		"flight_character_visible": (
 			_flight_character.texture != null and _flight_character.is_visible_in_tree()
 		),
@@ -523,6 +528,12 @@ func handle_player_intent(intent: StringName) -> bool:
 		INTENT_CONTINUE:
 			if _state == PresentationState.BIRTHDAY_STAR_MOMENT:
 				_action_held = false
+				if _place_index + 1 < _realized_place_count:
+					_state = PresentationState.ACTIVE_PLAY
+					_movement_state = "flight"
+					_enter_place(_place_index + 1)
+					_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
+					return true
 				_journey_phase = PHASE_CELEBRATION
 				_state = PresentationState.CELEBRATION
 				_report_sound_event(EVENT_BIRTHDAY_CASTLE_ARRIVAL, {})
@@ -549,7 +560,7 @@ func handle_player_intent(intent: StringName) -> bool:
 			_action_held = true
 			if _journey_phase == PHASE_CLOUD_REST:
 				return false
-			if _journey_phase not in [PHASE_FLIGHT, PHASE_LACEWOOD_FLIGHT, PHASE_STAR_APPROACH]:
+			if _journey_phase not in [PHASE_FLIGHT, PHASE_PLACE_FLIGHT, PHASE_STAR_APPROACH]:
 				return true
 			if _movement_state == "rise":
 				return false
@@ -565,7 +576,7 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false
 			_action_held = false
-			if _journey_phase not in [PHASE_FLIGHT, PHASE_LACEWOOD_FLIGHT, PHASE_STAR_APPROACH]:
+			if _journey_phase not in [PHASE_FLIGHT, PHASE_PLACE_FLIGHT, PHASE_STAR_APPROACH]:
 				return true
 			if _movement_state == "glide":
 				return false
@@ -647,7 +658,12 @@ func handle_player_action(source: StringName, pressed: bool) -> bool:
 				handle_player_intent(INTENT_ACTION_PRESSED)
 			return continued
 		if _state == PresentationState.BIRTHDAY_STAR_MOMENT:
-			return handle_player_intent(INTENT_CONTINUE)
+			# Turning the page into the next place carries the press straight into Flight
+			# Control, exactly as the last Opening Storybook Moment does.
+			var turned := handle_player_intent(INTENT_CONTINUE)
+			if turned and _state == PresentationState.ACTIVE_PLAY:
+				handle_player_intent(INTENT_ACTION_PRESSED)
+			return turned
 		if _state in [PresentationState.ACTIVE_PLAY, PresentationState.CELEBRATION]:
 			return handle_player_intent(INTENT_ACTION_PRESSED)
 		return false
@@ -706,14 +722,14 @@ func advance_journey(delta: float) -> void:
 	match _journey_phase:
 		PHASE_FLIGHT:
 			if _journey_phase_elapsed >= 0.75:
-				_enter_lacewood()
-		PHASE_LACEWOOD_FLIGHT:
-			_lacewood_progress = clampf(
-				_lacewood_progress + delta / _gentle_help_route_duration_seconds(),
+				_enter_place(0)
+		PHASE_PLACE_FLIGHT:
+			_place_progress = clampf(
+				_place_progress + delta / _gentle_help_route_duration_seconds(),
 				0.0,
 				1.0,
 			)
-			_advance_lacewood_flight()
+			_advance_place_flight()
 		PHASE_CLOUD_REST:
 			if _journey_phase_elapsed >= float(
 				_cloud_rest_tuning.get("automaticResumeSeconds", 1.2),
@@ -724,47 +740,55 @@ func advance_journey(delta: float) -> void:
 	_render_presentation()
 
 
-func _enter_lacewood() -> void:
-	_journey_phase = PHASE_LACEWOOD_FLIGHT
+func _enter_place(index: int) -> void:
+	_place_index = clampi(index, 0, maxi(0, _realized_place_count - 1))
+	_journey_phase = PHASE_PLACE_FLIGHT
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
-	_lacewood_progress = 0.0
-	_report_sound_event(EVENT_PLACE_ENTRY, {"place": LACEWOOD_PLACE})
+	_place_progress = 0.0
+	_observed_interactions = []
+	_nearby_playful_bump_count = 0
+	_playful_bump_wobble_seconds = 0.0
+	_report_sound_event(EVENT_PLACE_ENTRY, {"place": _current_place().get("id", "")})
 
 
-func _advance_lacewood_flight() -> void:
+func _advance_place_flight() -> void:
 	var authored_duration := float(_single_route_tuning.get("durationSeconds", 18.0))
 	while (
-		_journey_phase == PHASE_LACEWOOD_FLIGHT
-		and _journey_checkpoint < LACEWOOD_MILESTONES.size()
+		_journey_phase == PHASE_PLACE_FLIGHT
+		and _journey_checkpoint < ROUTE_MILESTONES.size()
 	):
-		var milestone: Dictionary = LACEWOOD_MILESTONES[_journey_checkpoint]
+		var milestone: Dictionary = ROUTE_MILESTONES[_journey_checkpoint]
 		var milestone_id: StringName = milestone.get("id", &"")
 		var milestone_progress := (
 			1.0
 			if milestone_id == MILESTONE_ROUTE_COMPLETE
 			else float(milestone.get("seconds", 0.0)) / authored_duration
 		)
-		if _lacewood_progress < milestone_progress:
+		if _place_progress < milestone_progress:
 			return
 		match milestone_id:
-			MILESTONE_SILVER_RIBBONS:
+			MILESTONE_HIGH_BAND:
 				if _flight_altitude_stage_heights >= float(
-					_single_route_tuning.get("silverRibbonAltitudeMinimum", 0.56),
+					_single_route_tuning.get("highBandAltitudeMinimum", 0.56),
 				):
-					_report_lacewood_interaction("silver-ribbons")
-			MILESTONE_ROSE_LIGHTS:
+					_report_place_interaction(PLACE_CONTENT.BAND_HIGH)
+			MILESTONE_LOW_BAND:
 				if _flight_altitude_stage_heights <= float(
-					_single_route_tuning.get("roseLightAltitudeMaximum", 0.52),
+					_single_route_tuning.get("lowBandAltitudeMaximum", 0.52),
 				):
-					_report_lacewood_interaction("rose-lights")
+					_report_place_interaction(PLACE_CONTENT.BAND_LOW)
 			MILESTONE_NEAR_MISS:
-				_report_sound_event(
-					EVENT_NEAR_MISS,
-					{"place": LACEWOOD_PLACE, "kind": "silver-ribbon"},
-				)
+				if not PLACE_CONTENT.playful_bump_suppressed(_current_place()):
+					_report_sound_event(
+						EVENT_NEAR_MISS,
+						{
+							"place": _current_place().get("id", ""),
+							"kind": PLACE_CONTENT.playful_bump_kind(_current_place()),
+						},
+					)
 			MILESTONE_PLAYFUL_BUMP:
-				if _is_playful_bump_contact():
+				if not PLACE_CONTENT.playful_bump_suppressed(_current_place()) and _is_playful_bump_contact():
 					_report_playful_bump()
 			MILESTONE_ROUTE_COMPLETE:
 				_journey_phase = PHASE_STAR_APPROACH
@@ -774,13 +798,15 @@ func _advance_lacewood_flight() -> void:
 		_journey_checkpoint += 1
 
 
-func _report_lacewood_interaction(interaction: String) -> void:
-	if _observed_interactions.has(interaction):
+func _report_place_interaction(altitude_band: String) -> void:
+	var interaction: Dictionary = PLACE_CONTENT.interaction(_current_place(), altitude_band)
+	var interaction_id: String = interaction.get("id", "")
+	if interaction_id.is_empty() or _observed_interactions.has(interaction_id):
 		return
-	_observed_interactions.append(interaction)
+	_observed_interactions.append(interaction_id)
 	_report_sound_event(
 		EVENT_VIGNETTE_INTERACTION,
-		{"place": LACEWOOD_PLACE, "interaction": interaction},
+		{"place": _current_place().get("id", ""), "interaction": interaction_id},
 	)
 
 
@@ -792,7 +818,7 @@ func _report_playful_bump() -> void:
 	_last_playful_bump_seconds = _journey_clock_seconds
 	_report_sound_event(
 		EVENT_PLAYFUL_BUMP,
-		{"place": LACEWOOD_PLACE, "kind": "silver-ribbon"},
+		{"place": _current_place().get("id", ""), "kind": PLACE_CONTENT.playful_bump_kind(_current_place())},
 	)
 	if _nearby_playful_bump_count < int(
 		_cloud_rest_tuning.get("afterNearbyPlayfulBumps", 3),
@@ -823,13 +849,13 @@ func _playful_bump_wobble_duration() -> float:
 
 func _enter_cloud_rest() -> void:
 	_cloud_rest_count += 1
-	_cloud_rest_progress_snapshot = _lacewood_progress
+	_cloud_rest_progress_snapshot = _place_progress
 	_cloud_rest_altitude_snapshot = _flight_altitude_stage_heights
 	_gentle_help_level = mini(_gentle_help_level + 1, _maximum_gentle_help_level())
 	_nearby_playful_bump_count = 0
 	_journey_phase = PHASE_CLOUD_REST
 	_journey_phase_elapsed = 0.0
-	_report_sound_event(EVENT_CLOUD_REST_ENTERED, {"place": LACEWOOD_PLACE})
+	_report_sound_event(EVENT_CLOUD_REST_ENTERED, {})
 
 
 func _settle_onto_cloud_rest(delta: float) -> void:
@@ -842,10 +868,10 @@ func _settle_onto_cloud_rest(delta: float) -> void:
 
 
 func _resume_from_cloud_rest() -> void:
-	_report_sound_event(EVENT_CLOUD_REST_EXITED, {"place": LACEWOOD_PLACE})
+	_report_sound_event(EVENT_CLOUD_REST_EXITED, {})
 	_movement_state = "rise" if _action_held else "flight"
 	_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
-	_journey_phase = PHASE_LACEWOOD_FLIGHT
+	_journey_phase = PHASE_PLACE_FLIGHT
 	_journey_phase_elapsed = 0.0
 	_nearby_playful_bump_count = 0
 	_playful_bump_wobble_seconds = 0.0
@@ -914,6 +940,10 @@ func _gentle_help_acceleration(movement_state: String) -> float:
 
 func _advance_birthday_star_sequence() -> void:
 	var thresholds := [0.45, 1.0, 2.4, 4.9]
+	var place: Dictionary = _current_place()
+	var birthday_star: String = place.get("birthdayStar", "")
+	var rainbow_path: String = place.get("rainbowPath", "")
+	var family_guest: String = place.get("familyGuest", "")
 	while _journey_phase == PHASE_STAR_APPROACH and _journey_checkpoint < thresholds.size():
 		if _journey_phase_elapsed < thresholds[_journey_checkpoint]:
 			return
@@ -921,26 +951,26 @@ func _advance_birthday_star_sequence() -> void:
 			0:
 				_report_sound_event(
 					EVENT_BIRTHDAY_STAR_PROXIMITY,
-					{"birthdayStar": LACEWOOD_BIRTHDAY_STAR},
+					{"birthdayStar": birthday_star},
 				)
 			1:
-				if not _birthday_stars.has(LACEWOOD_BIRTHDAY_STAR):
-					_birthday_stars.append(LACEWOOD_BIRTHDAY_STAR)
+				if not _birthday_stars.has(birthday_star):
+					_birthday_stars.append(birthday_star)
 				_report_sound_event(
 					EVENT_BIRTHDAY_STAR_GATHERED,
-					{"birthdayStar": LACEWOOD_BIRTHDAY_STAR},
+					{"birthdayStar": birthday_star},
 				)
 			2:
-				if not _rainbow_paths.has(LACEWOOD_RAINBOW_PATH):
-					_rainbow_paths.append(LACEWOOD_RAINBOW_PATH)
+				if not _rainbow_paths.has(rainbow_path):
+					_rainbow_paths.append(rainbow_path)
 				_report_sound_event(
 					EVENT_RAINBOW_PATH_OPENED,
-					{"rainbowPath": LACEWOOD_RAINBOW_PATH, "familyGuest": "Gram"},
+					{"rainbowPath": rainbow_path, "familyGuest": family_guest},
 				)
 			3:
 				_report_sound_event(
 					EVENT_BIRTHDAY_STAR_MOMENT,
-					{"place": LACEWOOD_PLACE, "familyGuest": "Gram"},
+					{"place": place.get("id", ""), "familyGuest": family_guest},
 				)
 				_journey_phase = PHASE_BIRTHDAY_STAR_MOMENT
 				_state = PresentationState.BIRTHDAY_STAR_MOMENT
@@ -953,7 +983,8 @@ func _reset_current_journey() -> void:
 	_journey_checkpoint = 0
 	_action_held = false
 	_flight_control_cycle_count = 0
-	_lacewood_progress = 0.0
+	_place_index = -1
+	_place_progress = 0.0
 	_journey_clock_seconds = 0.0
 	_playful_bump_count = 0
 	_nearby_playful_bump_count = 0
@@ -1004,8 +1035,8 @@ func _process(delta: float) -> void:
 		sin(_authored_motion_seconds * 0.28) * -5.0
 		- forward_parallax * 18.0
 	)
-	_lacewood_background.scale = Vector2.ONE * (1.025 + sin(_authored_motion_seconds * 0.32) * 0.003)
-	_lacewood_background.position.x = sin(_authored_motion_seconds * 0.24) * -4.0
+	_place_background.scale = Vector2.ONE * (1.025 + sin(_authored_motion_seconds * 0.32) * 0.003)
+	_place_background.position.x = sin(_authored_motion_seconds * 0.24) * -4.0
 	var character_breath := sin(_authored_motion_seconds * 2.1)
 	_flight_character.position = Vector2(
 		615.0 + sin(_authored_motion_seconds * 0.8) * 5.0,
@@ -1017,7 +1048,7 @@ func _process(delta: float) -> void:
 		0.07,
 	)
 	_flight_character.scale = Vector2.ONE * (1.0 + character_breath * 0.006)
-	_apply_lacewood_traversal_presentation()
+	_apply_place_traversal_presentation()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -1057,7 +1088,7 @@ func _render_presentation() -> void:
 	_title_label.text = content_title
 	if _state == PresentationState.BIRTHDAY_STAR_MOMENT:
 		_opening_eyebrow.text = "A Birthday Star!"
-		_opening_title.text = "Gram's Rainbow Path"
+		_opening_title.text = "%s's Rainbow Path" % _current_place().get("familyGuest", "")
 		_opening_copy.text = _birthday_star_moment_copy()
 	else:
 		_opening_eyebrow.text = str(opening.get("eyebrow", "A brave big sister"))
@@ -1068,30 +1099,32 @@ func _render_presentation() -> void:
 		_opening_art.texture = _opening_textures[illustration_id]
 	if _flight_background_texture != null:
 		_flight_background.texture = _flight_background_texture
-	if _lacewood_background_texture != null:
-		_lacewood_background.texture = _lacewood_background_texture
+	var place: Dictionary = _current_place()
+	var place_texture: Variant = _place_textures.get(place.get("id", ""))
+	if place_texture is Texture2D:
+		_place_background.texture = place_texture
 	if _flight_character_texture != null:
 		_flight_character.texture = _flight_character_texture
-	var lacewood_visible := _journey_phase in [
-		PHASE_LACEWOOD_FLIGHT,
+	var place_visible := _journey_phase in [
+		PHASE_PLACE_FLIGHT,
 		PHASE_CLOUD_REST,
 		PHASE_STAR_APPROACH,
 		PHASE_BIRTHDAY_STAR_MOMENT,
 	]
 	var celebration_visible := _journey_phase == PHASE_CELEBRATION
-	_flight_background.visible = not lacewood_visible
-	_lacewood_background.visible = lacewood_visible
-	_lacewood_visuals.visible = lacewood_visible or celebration_visible
-	_lacewood_visuals.configure_single_route(_lacewood_single_route_content())
-	_lacewood_visuals.set_story_state({
+	_flight_background.visible = not place_visible
+	_place_background.visible = place_visible
+	_place_visuals.visible = place_visible or celebration_visible
+	_place_visuals.configure_place(place)
+	_place_visuals.set_story_state({
 		"phase": _journey_phase,
-		"progress": _lacewood_progress,
+		"progress": _place_progress,
 		"altitude": _flight_altitude_stage_heights,
 		"observed_interactions": _observed_interactions,
 		"playful_bump_wobble": _playful_bump_wobble_seconds > 0.0,
 		"cloud_rest_altitude": _cloud_rest_resting_altitude(),
 	})
-	_apply_lacewood_traversal_presentation()
+	_apply_place_traversal_presentation()
 	_continue_button.text = (
 		"Keep flying"
 		if _state == PresentationState.BIRTHDAY_STAR_MOMENT
@@ -1275,30 +1308,72 @@ func _player_action_source(event: InputEvent) -> StringName:
 
 
 func _birthday_star_moment_copy() -> String:
-	return _lacewood_single_route_content().get(
-		"birthdayStarMoment",
-		"Gram followed the gentle lights through Zélie's Lacewood!",
-	)
+	return str(_current_place().get("birthdayStarMoment", ""))
 
 
-func _lacewood_single_route_content() -> Dictionary:
-	var place: Variant = _content.get("place")
-	if not place is Dictionary:
+func _places() -> Array:
+	var places: Variant = _content.get("places")
+	return places if places is Array else []
+
+
+func _place_ids() -> Array[String]:
+	var place_ids: Array[String] = []
+	for place_value: Variant in _places():
+		if place_value is Dictionary:
+			place_ids.append(str(place_value.get("id", "")))
+	return place_ids
+
+
+func _place_at(index: int) -> Dictionary:
+	var places := _places()
+	if index < 0 or index >= places.size():
 		return {}
-	var single_route: Variant = place.get("singleRoute")
-	return single_route if single_route is Dictionary else {}
+	var place: Variant = places[index]
+	return place if place is Dictionary else {}
 
 
-func _apply_lacewood_traversal_presentation() -> void:
+func _current_place() -> Dictionary:
+	return _place_at(_place_index)
+
+
+# Every place is declared in the ordered journey; a place is realized once the
+# Edition Pack carries its Place Illustration. The journey flies the realized
+# prefix, so approving the next illustration extends it without code changes.
+func _validate_places() -> Dictionary:
+	var places := _places()
+	if places.is_empty():
+		return {"ok": false, "error": "Edition Pack declares no places"}
+	for place_value: Variant in places:
+		if not place_value is Dictionary:
+			return {"ok": false, "error": "Place content is invalid"}
+		var place: Dictionary = place_value
+		for field: String in REQUIRED_PLACE_FIELDS:
+			if str(place.get(field, "")).is_empty():
+				return {
+					"ok": false,
+					"error": "Place %s is missing %s" % [place.get("id", "?"), field],
+				}
+		if not place.get("playfulBump") is Dictionary:
+			return {"ok": false, "error": "Place %s has no Playful Bump" % place.get("id", "?")}
+		for altitude_band: String in PLACE_CONTENT.ALTITUDE_BANDS:
+			if PLACE_CONTENT.interaction(place, altitude_band).is_empty():
+				return {
+					"ok": false,
+					"error": "Place %s has no %s interaction" % [place.get("id", "?"), altitude_band],
+				}
+	return {"ok": true}
+
+
+func _apply_place_traversal_presentation() -> void:
 	if not is_node_ready() or _journey_phase not in [
-		PHASE_LACEWOOD_FLIGHT,
+		PHASE_PLACE_FLIGHT,
 		PHASE_CLOUD_REST,
 		PHASE_STAR_APPROACH,
 	]:
 		return
 	var wobble := _playful_bump_wobble()
 	var character_center := Vector2(
-		lerpf(300.0, 1040.0, _lacewood_progress),
+		lerpf(300.0, 1040.0, _place_progress),
 		lerpf(520.0, 190.0, _flight_altitude_stage_heights) + wobble * 9.0,
 	)
 	_flight_character.position = character_center - _flight_character.pivot_offset
@@ -1308,9 +1383,9 @@ func _apply_lacewood_traversal_presentation() -> void:
 		-0.12,
 		0.12,
 	) + wobble * 0.11
-	_lacewood_background.scale = Vector2.ONE * 1.12
-	_lacewood_background.position.x = (
-		-_lacewood_progress * 180.0
+	_place_background.scale = Vector2.ONE * 1.12
+	_place_background.position.x = (
+		-_place_progress * 180.0
 		+ sin(_authored_motion_seconds * 0.24) * -4.0
 	)
 
@@ -1328,9 +1403,9 @@ func _playful_bump_wobble() -> float:
 
 func _flight_presentation_copy() -> Dictionary:
 	match _journey_phase:
-		PHASE_LACEWOOD_FLIGHT:
+		PHASE_PLACE_FLIGHT:
 			return {
-				"title": "Flying through Zélie's Lacewood",
+				"title": "Flying through %s" % _current_place().get("name", "Fairytale Sicily"),
 				"instruction": "Hold to rise • release to settle",
 			}
 		PHASE_CLOUD_REST:
@@ -1346,7 +1421,7 @@ func _flight_presentation_copy() -> Dictionary:
 		PHASE_CELEBRATION:
 			return {
 				"title": "Birthday Castle Celebration!",
-				"instruction": "Press to dance again • Lacewood helped Gram arrive",
+				"instruction": "Press to dance again • every Rainbow Path is open",
 			}
 		_:
 			return {
@@ -1355,7 +1430,7 @@ func _flight_presentation_copy() -> Dictionary:
 			}
 
 
-func _load_opening_media(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
+func _load_journey_media(pack_source: String, prepared_pack: Dictionary) -> Dictionary:
 	var media_result: Dictionary = _adapter.load_media(pack_source, prepared_pack)
 	if not media_result.ok:
 		return media_result
@@ -1405,15 +1480,32 @@ func _load_opening_media(pack_source: String, prepared_pack: Dictionary) -> Dict
 	_flight_character_texture = character_result.texture
 	_flight_character_has_transparency = character_result.has_transparency
 	_flight_media_paths[character_id] = character_path
-	var lacewood_media: Dictionary = media_by_id.get("lacewood.background", {})
-	var lacewood_path: String = lacewood_media.get("path", "")
-	if lacewood_media.get("role") != "illustration-layer" or lacewood_path.is_empty():
-		return {"ok": false, "error": "Zélie's Lacewood background media is missing"}
-	var lacewood_result: Dictionary = _adapter.load_png_texture(pack_source, lacewood_path)
-	if not lacewood_result.ok:
-		return lacewood_result
-	_lacewood_background_texture = lacewood_result.texture
-	_lacewood_media_paths["lacewood.background"] = lacewood_path
+	return _load_place_media(pack_source, media_by_id)
+
+
+# The ordered journey names every place; this loads the leading run of them whose
+# Place Illustration the Edition Pack already carries, and stops at the first one
+# still waiting for its approved illustration.
+func _load_place_media(pack_source: String, media_by_id: Dictionary) -> Dictionary:
+	_realized_place_count = 0
+	for place_value: Variant in _places():
+		var place: Dictionary = place_value
+		var illustration_id: String = place.get("illustration", "")
+		var place_media: Dictionary = media_by_id.get(illustration_id, {})
+		var place_path: String = place_media.get("path", "")
+		if place_media.get("role") != "illustration-layer" or place_path.is_empty():
+			break
+		var place_result: Dictionary = _adapter.load_png_texture(pack_source, place_path)
+		if not place_result.ok:
+			return place_result
+		_place_textures[place.get("id", "")] = place_result.texture
+		_place_media_paths[illustration_id] = place_path
+		_realized_place_count += 1
+	if _realized_place_count == 0:
+		return {
+			"ok": false,
+			"error": "Edition Pack has no Place Illustration for the journey's first place",
+		}
 	return {"ok": true}
 
 

@@ -3,11 +3,12 @@ extends SceneTree
 const STORYBOOK_SCENE := preload("res://scenes/storybook_shell.tscn")
 const STORYBOOK_SHELL := preload("res://scripts/storybook_shell.gd")
 const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
+const DRIVER := preload("res://tests/place_journey_driver.gd")
 const KEYBOARD_SPACE: StringName = &"keyboard.space"
 const CHILD_FACING_LABELS := ["%FlightTitle", "%FlightInstruction"]
 const HELP_WORDS := ["level", "difficulty", "easy", "easier", "assist", "mode", "1", "2", "3"]
-const SILVER_RIBBON_ALTITUDE_MINIMUM := 0.56
-const ROSE_LIGHT_ALTITUDE_MAXIMUM := 0.52
+const HIGH_BAND_ALTITUDE_MINIMUM := 0.56
+const LOW_BAND_ALTITUDE_MAXIMUM := 0.52
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -27,7 +28,7 @@ func _run() -> void:
 
 
 func _prove_playful_bumps_stay_playful() -> void:
-	var shell := _start_lacewood_flight()
+	var shell := _start_bumpable_flight()
 	_advance_controlled(shell, 8.6)
 	var before: Dictionary = shell.presentation_evidence()
 	_advance_controlled(shell, 1.0)
@@ -38,9 +39,9 @@ func _prove_playful_bumps_stay_playful() -> void:
 	)
 	test.expect(
 		bumped.get("state") == "active_play"
-		and bumped.get("journey_phase") == "lacewood-flight"
-		and float(shell.single_route_evidence().get("progress", 0.0))
-		> float(before.get("lacewood_progress", 0.0))
+		and bumped.get("journey_phase") == "place-flight"
+		and float(bumped.get("place_progress", 0.0))
+		> float(before.get("place_progress", 0.0))
 		and bumped.get("birthday_stars") == before.get("birthday_stars")
 		and bumped.get("observed_interactions") == before.get("observed_interactions"),
 		"the wobble costs no progress, no Birthday Star, and no forward motion",
@@ -54,7 +55,7 @@ func _prove_playful_bumps_stay_playful() -> void:
 
 
 func _prove_isolated_bumps_age_out() -> void:
-	var shell := _start_lacewood_flight()
+	var shell := _start_bumpable_flight()
 	# Low through the first low-lacework brush, high over the second, low again for the third.
 	_advance_controlled(shell, 9.6)
 	test.expect(
@@ -74,17 +75,17 @@ func _prove_isolated_bumps_age_out() -> void:
 		late.get("playful_bumps") == 2
 		and late.get("nearby_playful_bumps") == 1
 		and late.get("cloud_rests") == 0
-		and late.get("journey_phase") == "lacewood-flight",
+		and late.get("journey_phase") == "place-flight",
 		"two Playful Bumps far apart never add up to a Cloud Rest: %s" % JSON.stringify(late),
 	)
 	shell.free()
 
 
 func _prove_one_cycle_preserves_everything() -> void:
-	var shell := _start_lacewood_flight()
+	var shell := _start_bumpable_flight()
 	_advance_controlled(shell, 13.4)
 	var before_rest: Dictionary = shell.presentation_evidence()
-	var route_before_rest: Dictionary = shell.single_route_evidence()
+	var route_before_rest: Dictionary = shell.presentation_evidence()
 	_advance_controlled(shell, 0.7)
 	var resting: Dictionary = shell.presentation_evidence()
 	test.expect(
@@ -101,7 +102,7 @@ func _prove_one_cycle_preserves_everything() -> void:
 	test.expect(
 		shell.sound_event_evidence().back() == {
 			"event": "sound-event.cloud-rest-entered",
-			"context": {"place": "lacewood"},
+			"context": {},
 		},
 		"Cloud Rest calls for the approved reassuring cue: %s"
 		% JSON.stringify(shell.sound_event_evidence().back()),
@@ -118,12 +119,12 @@ func _prove_one_cycle_preserves_everything() -> void:
 
 	_advance_controlled(shell, 0.7)
 	var resumed: Dictionary = shell.presentation_evidence()
-	var route_after_rest: Dictionary = shell.single_route_evidence()
+	var route_after_rest: Dictionary = shell.presentation_evidence()
 	test.expect(
-		resumed.get("journey_phase") == "lacewood-flight"
+		resumed.get("journey_phase") == "place-flight"
 		and resumed.get("state") == "active_play"
 		and resumed.get("movement_state") == "flight",
-		"Cloud Rest resumes the Lacewood presentation and movement nearby",
+		"Cloud Rest resumes the same place's presentation and movement nearby",
 	)
 	test.expect(
 		is_equal_approx(
@@ -134,16 +135,16 @@ func _prove_one_cycle_preserves_everything() -> void:
 	)
 	test.expect(
 		not route_before_rest.get("observed_interactions", []).is_empty(),
-		"the Lacewood details answered before the rest, so preserving them means something",
+		"the place's details answered before the rest, so preserving them means something",
 	)
 	test.expect(
 		resumed.get("birthday_stars") == before_rest.get("birthday_stars")
 		and resumed.get("rainbow_paths") == before_rest.get("rainbow_paths")
 		and route_after_rest.get("observed_interactions")
 		== route_before_rest.get("observed_interactions")
-		and route_after_rest.get("single_route") == route_before_rest.get("single_route")
-		and float(route_after_rest.get("progress", 0.0))
-		>= float(route_before_rest.get("progress", 0.0)),
+		and route_after_rest.get("place") == route_before_rest.get("place")
+		and float(route_after_rest.get("place_progress", 0.0))
+		>= float(route_before_rest.get("place_progress", 0.0)),
 		"Birthday Stars, Rainbow Paths, and active place progress survive unchanged",
 	)
 	test.expect(
@@ -165,7 +166,7 @@ func _prove_one_cycle_preserves_everything() -> void:
 
 
 func _prove_both_help_levels_arrive_quietly() -> void:
-	var shell := _start_lacewood_flight()
+	var shell := _start_bumpable_flight()
 	var unhelped: Dictionary = shell.gentle_help_evidence()
 	test.expect(
 		unhelped.get("help_level") == 0 and unhelped.get("maximum_help_level") == 2,
@@ -203,12 +204,12 @@ func _prove_every_help_level_reaches_the_whole_route() -> void:
 	_prove_route_reachable_after_cloud_rests(2, 5.2)
 
 
-# Every hidden level must leave both Lacewood heights and the whole route in reach.
+# Every hidden level must leave both altitude bands and the whole route in reach.
 func _prove_route_reachable_after_cloud_rests(
 	expected_help_level: int,
 	extra_low_seconds: float,
 ) -> void:
-	var shell := _start_lacewood_flight()
+	var shell := _start_bumpable_flight()
 	shell.handle_player_action(KEYBOARD_SPACE, true)
 	_advance_controlled(shell, 3.4)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
@@ -225,9 +226,9 @@ func _prove_route_reachable_after_cloud_rests(
 		"help level %d shows the child no label" % expected_help_level,
 	)
 	test.expect(
-		shell.single_route_evidence().get("observed_interactions")
+		shell.presentation_evidence().get("observed_interactions")
 		== ["silver-ribbons", "rose-lights"],
-		"both Lacewood heights answered before help level %d" % expected_help_level,
+		"both place heights answered before help level %d" % expected_help_level,
 	)
 
 	_advance_past_cloud_rest(shell)
@@ -235,15 +236,15 @@ func _prove_route_reachable_after_cloud_rests(
 	_advance_controlled(shell, 1.6)
 	test.expect(
 		float(shell.flight_evidence().get("altitude_stage_heights", 0.0))
-		>= SILVER_RIBBON_ALTITUDE_MINIMUM,
-		"the silver ribbon height stays in reach at help level %d" % expected_help_level,
+		>= HIGH_BAND_ALTITUDE_MINIMUM,
+		"the high band height stays in reach at help level %d" % expected_help_level,
 	)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	_advance_controlled(shell, 1.6)
 	test.expect(
 		float(shell.flight_evidence().get("altitude_stage_heights", 1.0))
-		<= ROSE_LIGHT_ALTITUDE_MAXIMUM,
-		"the rose light height stays in reach at help level %d" % expected_help_level,
+		<= LOW_BAND_ALTITUDE_MAXIMUM,
+		"the low band height stays in reach at help level %d" % expected_help_level,
 	)
 
 	shell.handle_player_action(KEYBOARD_SPACE, true)
@@ -251,8 +252,10 @@ func _prove_route_reachable_after_cloud_rests(
 	var finished: Dictionary = shell.presentation_evidence()
 	test.expect(
 		finished.get("state") == "birthday_star_moment"
-		and finished.get("birthday_stars") == ["birthday-star.lacewood"]
-		and finished.get("rainbow_paths") == ["rainbow-path.lacewood"]
+		and finished.get("birthday_stars")
+		== ["birthday-star.rose-garden", "birthday-star.lacewood"]
+		and finished.get("rainbow_paths")
+		== ["rainbow-path.rose-garden", "rainbow-path.lacewood"]
 		and finished.get("gentle_help", {}).get("help_level") == expected_help_level,
 		"help level %d still completes the whole route to the guaranteed Birthday Star: %s"
 		% [expected_help_level, JSON.stringify(finished)],
@@ -266,20 +269,16 @@ func _prove_cloud_rest_lands_stella_on_a_visible_cloud() -> void:
 	await process_frame
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	shell.prepare_launch(pack_root)
-	shell.handle_player_intent("begin")
-	for _moment: int in 2:
-		shell.handle_player_action(KEYBOARD_SPACE, true)
-		shell.handle_player_action(KEYBOARD_SPACE, false)
-	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.launch(shell)
 	_advance_controlled(shell, 0.75)
-	shell.handle_player_action(KEYBOARD_SPACE, false)
+	DRIVER.cross_into_next_place(shell)
 	_advance_controlled(shell, 8.8)
 	while shell.presentation_evidence().get("playful_bumps") == 0:
 		_advance_controlled(shell, 1.0 / 60.0)
 	await process_frame
 	test.expect(
 		shell.storybook_stage_evidence()
-			.get("lacewood_single_route_composition", {})
+			.get("place_composition", {})
 			.get("playful_bump_wobble_visible") == true,
 		"a Playful Bump is visible as a soft wobble on the Storybook Stage",
 	)
@@ -290,11 +289,20 @@ func _prove_cloud_rest_lands_stella_on_a_visible_cloud() -> void:
 	await process_frame
 	var stage := shell.storybook_stage_evidence()
 	test.expect(
-		stage.get("lacewood_single_route_composition", {}).get("resting_cloud_visible") == true
+		stage.get("place_composition", {}).get("resting_cloud_visible") == true
 		and stage.get("essential_content_cropped") == false
 		and stage.get("flight_character_visible") == true,
 		"Cloud Rest shows Stella safe on a cloud inside the Storybook Stage: %s"
 		% JSON.stringify(stage),
+	)
+	var resting_composition: Dictionary = stage.get("place_composition", {})
+	test.expect(
+		resting_composition.get("place_tint_applied") == false
+		and resting_composition.get("single_corridor_visible") == false
+		and resting_composition.get("high_interaction_visible") == false
+		and resting_composition.get("low_interaction_visible") == false,
+		"Cloud Rest sets the place's own light and delights aside, so it looks the same "
+		+ "wherever it happens: %s" % JSON.stringify(resting_composition),
 	)
 	for label_path: String in CHILD_FACING_LABELS:
 		var label := shell.get_node(label_path) as Label
@@ -351,20 +359,23 @@ func _sound_events_after(shell: StorybookShell, event_id: String) -> Array:
 	return []
 
 
-func _start_lacewood_flight() -> StorybookShell:
+# Cloud Rest needs a place whose Playful Bump is switched on, so every proof here flies
+# the bump-free first place and turns the page into the second one.
+func _start_bumpable_flight() -> StorybookShell:
 	var shell := STORYBOOK_SHELL.new()
 	var pack_root := ProjectSettings.globalize_path("res://../../shared/edition")
 	test.expect(
 		shell.prepare_launch(pack_root).get("ok") == true,
 		"the gentle help journey prepares",
 	)
-	shell.handle_player_intent("begin")
-	for _moment: int in 2:
-		shell.handle_player_action(KEYBOARD_SPACE, true)
-		shell.handle_player_action(KEYBOARD_SPACE, false)
-	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.launch(shell)
 	_advance_controlled(shell, 0.75)
-	shell.handle_player_action(KEYBOARD_SPACE, false)
+	DRIVER.cross_into_next_place(shell)
+	test.expect(
+		shell.presentation_evidence().get("place") == "lacewood"
+		and shell.presentation_evidence().get("playful_bumps_suppressed") == false,
+		"the gentle help journey reaches a place that can bump the child",
+	)
 	return shell
 
 
