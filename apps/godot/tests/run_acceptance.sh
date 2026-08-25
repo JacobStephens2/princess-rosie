@@ -30,6 +30,7 @@ tests=(
   cloud_rest_gentle_help_acceptance.gd
   place_presentation_acceptance.gd
   abbey_acceptance.gd
+  cloister_acceptance.gd
   birthday_star_moment_acceptance.gd
   celebration_acceptance.gd
   soundscape_player_acceptance.gd

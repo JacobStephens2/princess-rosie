@@ -36,6 +36,11 @@
       "path": "source-media/abbey/abbey-background.png"
     },
     {
+      "id": "cloister.background",
+      "role": "illustration-layer",
+      "path": "source-media/cloister/cloister-background.png"
+    },
+    {
       "id": "family-guest.mom",
       "role": "character-layer",
       "path": "source-media/journey/family-guest-mom.png"
