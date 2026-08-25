@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rosie-source-media-provenance/1",
+  "asset": "pellegrino-peak-background.png",
+  "sha256": "ad55201ba5a83dd22042d778f75344ec4ca3aa70f9db9117770da7b01fee2de0",
+  "createdAt": "2026-08-25",
+  "generation": {
+    "tool": "Inkvoke 1.0.1 CLI against the OpenAI Images API, model gpt-image-2",
+    "mode": "generation",
+    "useCase": "illustration-story",
+    "references": [],
+    "prompt": "Use case: illustration-story. Asset type: production 16:9 game environment background plate for a gentle Godot active-play scene. Create Pellegrino Peak, a high flowered mountain passage in wide cool air above a distant sunlit coast, where a single open flight corridor runs left to right across the frame. Along the upper band show rising columns of drifting flower petals lifting through open mountain air, pale blossom clouds catching the light, and a wide cool sky with the sea far below and behind. Along the lower band show the mountain's lower flowered slopes: terraced meadows of blush rose, lavender, and golden wildflowers, soft rounded rock ledges, and low blossoming shrubs. Both bands are open, safe, equally bright, and equally beautiful, with the lifting petals clearly readable high in the frame and the flowered slopes clearly readable low, so height alone reads as a different delight. Match the approved premium flat modern children's picture-book style: solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny lighting, and the established jewel palette of luminous mosaic gold, warm cream, blush rose, lavender, and sapphire. Scenery only. No characters, faces, animals, Birthday Star, rainbow path, written text, interface, watermark, correctness cues, danger, cliffs that read as a fall, photorealism, 3D render, or anime.",
+    "output": {
+      "width": 1680,
+      "height": 944,
+      "color": "RGB"
+    }
+  },
+  "selection": {
+    "status": "agent-selected-production-candidate",
+    "ownerManualReview": "pending",
+    "reason": "Scenery only, with columns of flower petals lifting readably high in the frame and the mountain's flowered slopes readable low, so riding the updrafts and settling onto the slopes each have something of their own to answer, and blush rose, lavender, gold, and sapphire continuous with the approved Rose Garden, Lacewood, Abbey, and Cloister art direction, in the wider cooler air the place asks for."
+  }
+}

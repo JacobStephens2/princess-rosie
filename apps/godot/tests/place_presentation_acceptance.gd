@@ -8,6 +8,7 @@ const ROSE_GARDEN_BACKGROUND := "source-media/flight/rose-garden-background.png"
 const LACEWOOD_BACKGROUND := "source-media/lacewood/lacewood-single-route-background.png"
 const ABBEY_BACKGROUND := "source-media/abbey/abbey-background.png"
 const CLOISTER_BACKGROUND := "source-media/cloister/cloister-background.png"
+const PELLEGRINO_PEAK_BACKGROUND := "source-media/pellegrino-peak/pellegrino-peak-background.png"
 const DEFERRED_FORK_ARTWORK := "source-media/lacewood/lacewood-background.png"
 const KEYBOARD_SPACE: StringName = &"keyboard.space"
 
@@ -53,6 +54,7 @@ func _run() -> void:
 			"lacewood.background": LACEWOOD_BACKGROUND,
 			"abbey.background": ABBEY_BACKGROUND,
 			"cloister.background": CLOISTER_BACKGROUND,
+			"pellegrino-peak.background": PELLEGRINO_PEAK_BACKGROUND,
 		},
 		"the realized places carry one Place Illustration each: %s"
 		% JSON.stringify(shell.presentation_evidence().get("place_media_paths")),

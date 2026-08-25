@@ -159,6 +159,22 @@ Selected output: `shared/edition/source-media/cloister/cloister-background.png`
 
 Provenance: `shared/edition/source-media/cloister/provenance.json`
 
+## Pellegrino Peak: Place Illustration
+
+Execution: Inkvoke 1.0.1, GPT Image 2, high quality, 1680×944 PNG. Generated rather than
+edited, with the approved Rose Garden, Lacewood, Abbey, and Cloister art direction
+described in the prompt. The petals lift in readable columns high in the frame and the
+flowered slopes bank low, because flying high rides the flower-petal updrafts and
+settling low answers with the mountain's lower flowered slopes. The prompt asks for the
+wider, cooler mountain air the place is named for, and for slopes that never read as a
+fall.
+
+> Use case: illustration-story. Asset type: production 16:9 game environment background plate for a gentle Godot active-play scene. Create Pellegrino Peak, a high flowered mountain passage in wide cool air above a distant sunlit coast, where a single open flight corridor runs left to right across the frame. Along the upper band show rising columns of drifting flower petals lifting through open mountain air, pale blossom clouds catching the light, and a wide cool sky with the sea far below and behind. Along the lower band show the mountain's lower flowered slopes: terraced meadows of blush rose, lavender, and golden wildflowers, soft rounded rock ledges, and low blossoming shrubs. Both bands are open, safe, equally bright, and equally beautiful, with the lifting petals clearly readable high in the frame and the flowered slopes clearly readable low, so height alone reads as a different delight. Match the approved premium flat modern children's picture-book style: solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny lighting, and the established jewel palette of luminous mosaic gold, warm cream, blush rose, lavender, and sapphire. Scenery only. No characters, faces, animals, Birthday Star, rainbow path, written text, interface, watermark, correctness cues, danger, cliffs that read as a fall, photorealism, 3D render, or anime.
+
+Selected output: `shared/edition/source-media/pellegrino-peak/pellegrino-peak-background.png`
+
+Provenance: `shared/edition/source-media/pellegrino-peak/provenance.json`
+
 
 ## Birthday Castle celebration illustration
 

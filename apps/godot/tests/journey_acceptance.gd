@@ -154,6 +154,39 @@ const REQUIRED_SOUND_EVENTS := [
 		"event": "sound-event.birthday-star-moment",
 		"context": {"place": "cloister", "familyGuest": "Beasley"},
 	},
+	{"event": "sound-event.place-entry", "context": {"place": "pellegrino-peak"}},
+	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"place": "pellegrino-peak", "interaction": "flower-petal-updraft"},
+	},
+	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"place": "pellegrino-peak", "interaction": "mountain-flowers"},
+	},
+	{
+		"event": "sound-event.near-miss",
+		"context": {"place": "pellegrino-peak", "kind": "flower-bank"},
+	},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{
+		"event": "sound-event.birthday-star-proximity",
+		"context": {"birthdayStar": "birthday-star.pellegrino-peak"},
+	},
+	{
+		"event": "sound-event.birthday-star-gathered",
+		"context": {"birthdayStar": "birthday-star.pellegrino-peak"},
+	},
+	{
+		"event": "sound-event.rainbow-path-opened",
+		"context": {"rainbowPath": "rainbow-path.pellegrino-peak", "familyGuest": "Uncle"},
+	},
+	{
+		"event": "sound-event.birthday-star-moment",
+		"context": {"place": "pellegrino-peak", "familyGuest": "Uncle"},
+	},
 	{"event": "sound-event.birthday-castle-arrival", "context": {}},
 ]
 
@@ -165,7 +198,7 @@ func _init() -> void:
 	var pack_root := ProjectSettings.globalize_path(ACCEPTANCE_TEST.PACK_ROOT)
 	test.expect(
 		shell.prepare_launch(pack_root).get("ok") == true,
-		"the four-place journey prepares",
+		"the five-place journey prepares",
 	)
 	test.expect(
 		shell.presentation_evidence().get("places") == [
@@ -180,8 +213,8 @@ func _init() -> void:
 		% JSON.stringify(shell.presentation_evidence().get("places")),
 	)
 	test.expect(
-		shell.presentation_evidence().get("realized_places") == 4,
-		"four of the declared places carry an approved Place Illustration so far",
+		shell.presentation_evidence().get("realized_places") == 5,
+		"five of the declared places carry an approved Place Illustration so far",
 	)
 
 	DRIVER.launch(shell)
@@ -338,6 +371,39 @@ func _init() -> void:
 		"the fourth place reaches its own self-paced Birthday Star Moment",
 	)
 
+	DRIVER.turn_the_page(shell)
+	var pellegrino_peak_entry: Dictionary = shell.presentation_evidence()
+	test.expect(
+		pellegrino_peak_entry.get("place") == "pellegrino-peak"
+		and pellegrino_peak_entry.get("place_name") == "Pellegrino Peak"
+		and pellegrino_peak_entry.get("family_guest") == "Uncle"
+		and pellegrino_peak_entry.get("birthday_stars") == [
+			"birthday-star.rose-garden",
+			"birthday-star.lacewood",
+			"birthday-star.abbey",
+			"birthday-star.cloister",
+		],
+		"the journey carries all four gathered Stars on up to Pellegrino Peak: %s"
+		% JSON.stringify(pellegrino_peak_entry),
+	)
+
+	# Pellegrino Peak: two rungs again, in the widest, coolest air of the journey.
+	DRIVER.advance(shell, 3.1)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	DRIVER.advance(shell, 3.1)
+	test.expect(
+		shell.presentation_evidence().get("observed_interactions")
+		== ["flower-petal-updraft", "mountain-flowers"],
+		"the same two bands answer with the Peak's own updrafts and flowers: %s"
+		% JSON.stringify(shell.presentation_evidence().get("observed_interactions")),
+	)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.advance(shell, 14.5)
+	test.expect(
+		shell.presentation_evidence().get("state") == "birthday_star_moment",
+		"the fifth place reaches its own self-paced Birthday Star Moment",
+	)
+
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	test.expect(
 		shell.handle_player_action(KEYBOARD_SPACE, true),
@@ -354,17 +420,19 @@ func _init() -> void:
 			"birthday-star.lacewood",
 			"birthday-star.abbey",
 			"birthday-star.cloister",
+			"birthday-star.pellegrino-peak",
 		]
 		and evidence.get("rainbow_paths") == [
 			"rainbow-path.rose-garden",
 			"rainbow-path.lacewood",
 			"rainbow-path.abbey",
 			"rainbow-path.cloister",
+			"rainbow-path.pellegrino-peak",
 		]
 		and evidence.get("playful_bumps") == 3
 		and evidence.get("cloud_rests") == 1
 		and evidence.get("flight_control_cycles") >= 3,
-		"four data-driven places complete one no-failure journey: %s" % JSON.stringify(evidence),
+		"five data-driven places complete one no-failure journey: %s" % JSON.stringify(evidence),
 	)
 	test.expect(
 		not evidence.has("chosen_route")
@@ -379,7 +447,7 @@ func _init() -> void:
 	)
 	test.expect(
 		shell.sound_event_evidence() == REQUIRED_SOUND_EVENTS,
-		"the four-place journey emits the expected sound sequence\nexpected: %s\nactual: %s"
+		"the five-place journey emits the expected sound sequence\nexpected: %s\nactual: %s"
 		% [JSON.stringify(REQUIRED_SOUND_EVENTS), JSON.stringify(shell.sound_event_evidence())],
 	)
 

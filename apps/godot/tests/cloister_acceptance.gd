@@ -90,12 +90,14 @@ func _the_sky_answers_both_heights(shell: StorybookShell) -> void:
 		% JSON.stringify(moment.get("birthday_stars")),
 	)
 
-	# The Cloister is the last place carrying an approved Place Illustration, so the
-	# journey continues out of it rather than stopping inside it.
+	# The journey continues out of the Cloister into the next place rather than stopping
+	# inside it.
 	DRIVER.turn_the_page(shell)
 	test.expect(
-		shell.presentation_evidence().get("state") == "celebration",
-		"turning the page carries the journey on out of the Cloister without interruption",
+		shell.presentation_evidence().get("state") == "active_play"
+		and shell.presentation_evidence().get("place") == "pellegrino-peak",
+		"turning the page carries the journey on out of the Cloister without interruption: %s"
+		% JSON.stringify(shell.presentation_evidence()),
 	)
 	shell.free()
 
