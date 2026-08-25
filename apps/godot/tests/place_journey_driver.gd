@@ -17,6 +17,17 @@ static func launch(shell: StorybookShell) -> void:
 	shell.handle_player_action(KEYBOARD_SPACE, true)
 
 
+# Reaches a place the way a child reaches it: the Opening Storybook Moments turned, the
+# places ahead of it flown high, each turned by hand, and no seeded shell state. The
+# script that calls it has already prepared the shell from the Edition Pack.
+static func fly_to_place(shell: StorybookShell, places_before: int) -> void:
+	launch(shell)
+	advance(shell, 0.75)
+	for _place: int in places_before:
+		advance(shell, 24.0)
+		turn_the_page(shell)
+
+
 static func advance(shell: StorybookShell, seconds: float) -> void:
 	var frame_count := ceili(seconds * 60.0)
 	for _frame: int in frame_count:
@@ -51,6 +62,23 @@ static func cross_into_next_place(shell: StorybookShell) -> void:
 	advance(shell, 24.0)
 	turn_the_page(shell)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
+
+
+# The low passage of the named place flown to its next Playful Bump, recorded against
+# the calling script's own expectations so a place that never meets one is named in the
+# failure rather than only missing from the evidence.
+static func fly_low_until_playful_bumps(
+	test: RefCounted,
+	shell: StorybookShell,
+	place_name: String,
+	playful_bumps: int,
+) -> Dictionary:
+	var evidence := fly_until_playful_bumps(shell, playful_bumps)
+	test.expect(
+		not evidence.is_empty(),
+		"the low %s passage meets %d Playful Bumps" % [place_name, playful_bumps],
+	)
+	return evidence
 
 
 # Flies the current place the way a child who never climbs flies it, stopping at the
