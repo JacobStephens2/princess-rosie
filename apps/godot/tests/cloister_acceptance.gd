@@ -9,6 +9,7 @@ const STORYBOOK_SHELL := preload("res://scripts/storybook_shell.gd")
 const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
 const DRIVER := preload("res://tests/place_journey_driver.gd")
 const KEYBOARD_SPACE: StringName = &"keyboard.space"
+const BETWEEN_THE_RUNGS_ALTITUDE := 0.54
 const BEASLEY_SENTENCE := (
 	"Beasley followed the sunlit arches and the soft clouds through the Cloister of Clouds!"
 )
@@ -50,7 +51,7 @@ func _the_sky_answers_both_heights(shell: StorybookShell) -> void:
 	# The open sky between the arches and the clouds is quiet rather than wrong: a child
 	# who lingers there keeps flying, keeps her Stars, and loses nothing she has awakened.
 	# The most a soft cloud does to her is wobble her on the way past.
-	DRIVER.hold_near(shell, 0.54, 2.0)
+	DRIVER.hold_near(shell, BETWEEN_THE_RUNGS_ALTITUDE, 2.0)
 	var between: Dictionary = shell.presentation_evidence()
 	test.expect(
 		between.get("journey_phase") == "place-flight"
@@ -90,12 +91,14 @@ func _the_sky_answers_both_heights(shell: StorybookShell) -> void:
 		% JSON.stringify(moment.get("birthday_stars")),
 	)
 
-	# The Cloister is the last place carrying an approved Place Illustration, so the
-	# journey continues out of it rather than stopping inside it.
+	# The journey continues out of the Cloister into the next place rather than stopping
+	# inside it.
 	DRIVER.turn_the_page(shell)
 	test.expect(
-		shell.presentation_evidence().get("state") == "celebration",
-		"turning the page carries the journey on out of the Cloister without interruption",
+		shell.presentation_evidence().get("state") == "active_play"
+		and shell.presentation_evidence().get("place") == "pellegrino-peak",
+		"turning the page carries the journey on out of the Cloister without interruption: %s"
+		% JSON.stringify(shell.presentation_evidence()),
 	)
 	shell.free()
 
@@ -105,7 +108,7 @@ func _the_sky_answers_both_heights(shell: StorybookShell) -> void:
 # so settling low is another way to fly the Cloister, not a worse one.
 func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 	shell.handle_player_action(KEYBOARD_SPACE, false)
-	var wobbling: Dictionary = _fly_low_until_bumped(shell, 1)
+	var wobbling: Dictionary = DRIVER.fly_low_until_playful_bumps(test, shell, "Cloister", 1)
 	test.expect(
 		wobbling.get("playful_bump_wobbling") == true
 		and wobbling.get("state") == "active_play"
@@ -113,7 +116,7 @@ func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 		"a brushed soft cloud wobbles Stella without ending the journey: %s"
 		% JSON.stringify(wobbling),
 	)
-	var resting: Dictionary = _fly_low_until_bumped(shell, 3)
+	var resting: Dictionary = DRIVER.fly_low_until_playful_bumps(test, shell, "Cloister", 3)
 	test.expect(
 		resting.get("journey_phase") == "cloud-rest",
 		"three nearby soft clouds settle the child onto the shared Cloud Rest: %s"
@@ -140,17 +143,6 @@ func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 	shell.free()
 
 
-# The low Cloister passage flown to its next Playful Bump, so the wobble can be seen
-# while it is still happening.
-func _fly_low_until_bumped(shell: StorybookShell, playful_bumps: int) -> Dictionary:
-	var evidence := DRIVER.fly_until_playful_bumps(shell, playful_bumps)
-	test.expect(
-		not evidence.is_empty(),
-		"the low Cloister passage meets %d Playful Bumps" % playful_bumps,
-	)
-	return evidence
-
-
 # Reaches the Cloister the way a child reaches it: three places flown high, each turned
 # by hand, with no seeded shell state.
 func _fly_to_the_cloister() -> StorybookShell:
@@ -160,11 +152,7 @@ func _fly_to_the_cloister() -> StorybookShell:
 		shell.prepare_launch(pack_root).get("ok") == true,
 		"the Cloister journey prepares",
 	)
-	DRIVER.launch(shell)
-	DRIVER.advance(shell, 0.75)
-	for _place: int in 3:
-		DRIVER.advance(shell, 24.0)
-		DRIVER.turn_the_page(shell)
+	DRIVER.fly_to_place(shell, 3)
 	var entry: Dictionary = shell.presentation_evidence()
 	test.expect(
 		entry.get("place") == "cloister"
