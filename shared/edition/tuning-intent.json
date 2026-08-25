@@ -15,7 +15,7 @@
     "backtracking": "forbidden"
   },
   "singleRoute": {
-    "durationSeconds": 18.0,
+    "durationSeconds": 13.0,
     "minimumControlCycles": 3,
     "safeLimitsPreserveForwardMotion": true,
     "highBandAltitudeMinimum": 0.56,
@@ -23,7 +23,7 @@
   },
   "cloudRest": {
     "afterNearbyPlayfulBumps": 3,
-    "nearbyPlayfulBumpSeconds": 3.0,
+    "nearbyPlayfulBumpSeconds": 2.17,
     "playfulBumpWobbleSeconds": 0.45,
     "birthdayStarsPreserved": true,
     "automaticResumeSeconds": 1.2,

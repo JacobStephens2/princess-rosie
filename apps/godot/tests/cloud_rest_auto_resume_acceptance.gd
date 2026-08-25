@@ -15,7 +15,7 @@ func _init() -> void:
 	DRIVER.launch(shell)
 	_advance_controlled(shell, 0.75)
 	DRIVER.cross_into_next_place(shell)
-	_advance_controlled(shell, 14.1)
+	_advance_controlled(shell, 10.2)
 	var resting: Dictionary = shell.presentation_evidence()
 	var progress_before_resume := float(resting.get("place_progress", 0.0))
 	test.expect(
@@ -45,7 +45,7 @@ func _init() -> void:
 	)
 
 	var held_shell := _start_low_bumpable_flight()
-	_advance_controlled(held_shell, 13.85)
+	_advance_controlled(held_shell, 10.0)
 	held_shell.handle_player_action(KEYBOARD_SPACE, true)
 	_advance_controlled(held_shell, 0.3)
 	test.expect(

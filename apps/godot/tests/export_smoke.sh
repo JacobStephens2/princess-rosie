@@ -141,7 +141,7 @@ jq -e --arg expected_pack_revision "$expected_pack_revision" '
   and .observed_action_sources == ["keyboard.space", "pointer.primary"]
   and .observed_interactions == ["awakening-roses", "petal-drift"]
   and .playful_bumps_suppressed == true
-  and .route_duration_seconds == 18
+  and .route_duration_seconds == 13
   and .safe_limits_preserve_forward_motion == true
   and .smoke_flight_samples[0].label == "held-rise"
   and .smoke_flight_samples[1].label == "released-settle"
