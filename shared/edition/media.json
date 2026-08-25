@@ -41,6 +41,11 @@
       "path": "source-media/cloister/cloister-background.png"
     },
     {
+      "id": "pellegrino-peak.background",
+      "role": "illustration-layer",
+      "path": "source-media/pellegrino-peak/pellegrino-peak-background.png"
+    },
+    {
       "id": "family-guest.mom",
       "role": "character-layer",
       "path": "source-media/journey/family-guest-mom.png"
