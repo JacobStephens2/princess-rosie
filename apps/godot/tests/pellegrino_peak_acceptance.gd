@@ -15,6 +15,7 @@ const UNCLE_SENTENCE := (
 	+ " down from Pellegrino Peak!"
 )
 const BLOSSOMING_TRAIL := "petals-lift-and-blossom-a-trail"
+const BETWEEN_THE_RUNGS_ALTITUDE := 0.54
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -59,7 +60,7 @@ func _the_mountain_answers_both_heights(shell: StorybookShell) -> void:
 	# The wide cool air between the updrafts and the slopes is quiet rather than wrong: a
 	# child who lingers there keeps flying, keeps her Stars, and loses nothing she has
 	# awakened. The most a flower bank does to her is wobble her on the way past.
-	DRIVER.hold_near(shell, 0.54, 2.0)
+	DRIVER.hold_near(shell, BETWEEN_THE_RUNGS_ALTITUDE, 2.0)
 	var between: Dictionary = shell.presentation_evidence()
 	test.expect(
 		between.get("journey_phase") == "place-flight"
@@ -116,7 +117,7 @@ func _the_mountain_answers_both_heights(shell: StorybookShell) -> void:
 # at the Star — so settling low is another way to fly the Peak, not a worse one.
 func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 	shell.handle_player_action(KEYBOARD_SPACE, false)
-	var wobbling: Dictionary = _fly_low_until_bumped(shell, 1)
+	var wobbling: Dictionary = DRIVER.fly_low_until_playful_bumps(test, shell, "Peak", 1)
 	test.expect(
 		wobbling.get("playful_bump_wobbling") == true
 		and wobbling.get("state") == "active_play"
@@ -124,7 +125,7 @@ func _a_low_passage_rests_and_keeps_its_stars(shell: StorybookShell) -> void:
 		"a brushed flower bank wobbles Stella without ending the journey: %s"
 		% JSON.stringify(wobbling),
 	)
-	var resting: Dictionary = _fly_low_until_bumped(shell, 3)
+	var resting: Dictionary = DRIVER.fly_low_until_playful_bumps(test, shell, "Peak", 3)
 	test.expect(
 		resting.get("journey_phase") == "cloud-rest",
 		"three nearby flower banks settle the child onto the shared Cloud Rest: %s"
@@ -163,11 +164,7 @@ func _the_updrafts_paint_a_blossoming_trail() -> void:
 		shell.prepare_launch(pack_root).get("ok") == true,
 		"the painted Peak passage prepares",
 	)
-	DRIVER.launch(shell)
-	DRIVER.advance(shell, 0.75)
-	for _place: int in 4:
-		DRIVER.advance(shell, 24.0)
-		DRIVER.turn_the_page(shell)
+	DRIVER.fly_to_place(shell, 4)
 	DRIVER.advance(shell, 3.1)
 	await process_frame
 	var composition: Dictionary = shell.storybook_stage_evidence().get("place_composition", {})
@@ -187,17 +184,6 @@ func _the_updrafts_paint_a_blossoming_trail() -> void:
 	await process_frame
 
 
-# The low Peak passage flown to its next Playful Bump, so the wobble can be seen while
-# it is still happening.
-func _fly_low_until_bumped(shell: StorybookShell, playful_bumps: int) -> Dictionary:
-	var evidence := DRIVER.fly_until_playful_bumps(shell, playful_bumps)
-	test.expect(
-		not evidence.is_empty(),
-		"the low Peak passage meets %d Playful Bumps" % playful_bumps,
-	)
-	return evidence
-
-
 # Reaches the Peak the way a child reaches it: four places flown high, each turned by
 # hand, with no seeded shell state.
 func _fly_to_the_peak() -> StorybookShell:
@@ -207,11 +193,7 @@ func _fly_to_the_peak() -> StorybookShell:
 		shell.prepare_launch(pack_root).get("ok") == true,
 		"the Peak journey prepares",
 	)
-	DRIVER.launch(shell)
-	DRIVER.advance(shell, 0.75)
-	for _place: int in 4:
-		DRIVER.advance(shell, 24.0)
-		DRIVER.turn_the_page(shell)
+	DRIVER.fly_to_place(shell, 4)
 	var entry: Dictionary = shell.presentation_evidence()
 	test.expect(
 		entry.get("place") == "pellegrino-peak"
