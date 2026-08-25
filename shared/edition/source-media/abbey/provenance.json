@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "rosie-source-media-provenance/1",
+  "asset": "abbey-background.png",
+  "sha256": "868af4d6c54cf039addcd546cfb9b1c52da535394973453e54d670df221a3b45",
+  "createdAt": "2026-08-24",
+  "generation": {
+    "tool": "Inkvoke 1.0.1 CLI against the OpenAI Images API, model gpt-image-2",
+    "mode": "generation",
+    "useCase": "illustration-story",
+    "references": [],
+    "prompt": "Use case: illustration-story. Asset type: production 16:9 game environment background plate for a gentle Godot active-play scene. Create Golden Bell Abbey, a bright reverent abbey of warm honey-colored stone where a single open flight corridor runs left to right across the frame. Along the upper band show a sunlit bell tower and high arched openings hung with small golden bells, bright stained-glass roundels catching the light, and airy sky. Along the lower band show garden cloisters, a colonnade of warm stone arches, rose and lavender planting beds, and larger round-shouldered bells resting under the arcade. Both bands are open, safe, equally bright, and equally beautiful, with bells clearly readable at several different heights so height alone reads as a different bell. Match the approved premium flat modern children's picture-book style: solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny lighting, and the established jewel palette of luminous mosaic gold, warm cream, blush rose, lavender, and sapphire. Scenery only. No characters, faces, animals, Birthday Star, rainbow path, written text, interface, watermark, correctness cues, danger, religious figures or symbols beyond one small respectful architectural cross on the distant tower, photorealism, 3D render, or anime.",
+    "output": {
+      "width": 1680,
+      "height": 944,
+      "color": "RGB"
+    }
+  },
+  "selection": {
+    "status": "agent-selected-production-candidate",
+    "ownerManualReview": "pending",
+    "reason": "Scenery only, with bells readable at four separate heights so altitude alone reads as a different bell, and warm stone, stained glass, and garden cloisters continuous with the approved Rose Garden and Lacewood art direction."
+  }
+}

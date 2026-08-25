@@ -15,6 +15,7 @@ const ROSE_GARDEN_BACKGROUND := "source-media/flight/rose-garden-background.png"
 const LACEWOOD_BACKGROUND := "source-media/lacewood/lacewood-single-route-background.png"
 const MOM_CUTOUT := "source-media/journey/family-guest-mom.png"
 const GRAM_CUTOUT := "source-media/journey/family-guest-gram.png"
+const POP_CUTOUT := "source-media/journey/family-guest-pop.png"
 const BIRTHDAY_STAR_SPRITE := "source-media/journey/birthday-star.png"
 const RAINBOW_PATH_TREATMENT := "source-media/journey/rainbow-path.png"
 const ROSE_GARDEN_SENTENCE := (
@@ -54,6 +55,7 @@ func _run() -> void:
 		shell.presentation_evidence().get("journey_media_paths") == {
 			"family-guest.mom": MOM_CUTOUT,
 			"family-guest.gram": GRAM_CUTOUT,
+			"family-guest.pop": POP_CUTOUT,
 			"journey.birthday-star": BIRTHDAY_STAR_SPRITE,
 			"journey.rainbow-path": RAINBOW_PATH_TREATMENT,
 		},

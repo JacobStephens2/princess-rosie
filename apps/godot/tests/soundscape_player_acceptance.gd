@@ -306,7 +306,7 @@ func _init() -> void:
 	)
 	var crossing_audio := FakeEngineAudioAdapter.new()
 	var crossing_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, crossing_audio)
-	for crossed_place: String in ["rose-garden", "lacewood"]:
+	for crossed_place: String in ["rose-garden", "lacewood", "abbey"]:
 		test.expect(
 			crossing_soundscape.report_event(
 				&"sound-event.place-entry",
@@ -318,20 +318,21 @@ func _init() -> void:
 		crossing_audio.loaded_paths == [
 			"source-media/soundscape/runtime/place-rose-garden.wav",
 			"source-media/soundscape/runtime/place-lacewood.wav",
+			"source-media/soundscape/runtime/place-abbey.wav",
 		],
 		"crossing places asks for one place loop each: %s"
 		% JSON.stringify(crossing_audio.loaded_paths),
 	)
 	var crossing_playbacks := crossing_audio.playback_settings
 	test.expect(
-		crossing_playbacks.size() == 2
+		crossing_playbacks.size() == 3
 		and crossing_playbacks.all(func(playback: Dictionary) -> bool:
 			return (
 				playback.get("slot") == "ambience"
 				and playback.get("looping") == true
 				and playback.get("crossfade_ms") == 600
 			)),
-		"both place loops claim the one ambience slot with the authored crossfade: %s"
+		"every place loop claims the one ambience slot with the authored crossfade: %s"
 		% JSON.stringify(crossing_playbacks),
 	)
 	test.expect(

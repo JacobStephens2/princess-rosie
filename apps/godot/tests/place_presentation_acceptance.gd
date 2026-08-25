@@ -6,6 +6,7 @@ const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
 const DRIVER := preload("res://tests/place_journey_driver.gd")
 const ROSE_GARDEN_BACKGROUND := "source-media/flight/rose-garden-background.png"
 const LACEWOOD_BACKGROUND := "source-media/lacewood/lacewood-single-route-background.png"
+const ABBEY_BACKGROUND := "source-media/abbey/abbey-background.png"
 const DEFERRED_FORK_ARTWORK := "source-media/lacewood/lacewood-background.png"
 const KEYBOARD_SPACE: StringName = &"keyboard.space"
 
@@ -49,6 +50,7 @@ func _run() -> void:
 		shell.presentation_evidence().get("place_media_paths") == {
 			"flight.rose-garden-background": ROSE_GARDEN_BACKGROUND,
 			"lacewood.background": LACEWOOD_BACKGROUND,
+			"abbey.background": ABBEY_BACKGROUND,
 		},
 		"the realized places carry one Place Illustration each: %s"
 		% JSON.stringify(shell.presentation_evidence().get("place_media_paths")),

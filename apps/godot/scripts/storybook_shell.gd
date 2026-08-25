@@ -64,8 +64,7 @@ const PHASE_CLOUD_REST := "cloud-rest"
 const PHASE_STAR_APPROACH := "birthday-star-approach"
 const PHASE_BIRTHDAY_STAR_MOMENT := "birthday-star-moment"
 const PHASE_CELEBRATION := "celebration"
-const MILESTONE_HIGH_BAND: StringName = &"high-band-interaction"
-const MILESTONE_LOW_BAND: StringName = &"low-band-interaction"
+const MILESTONE_ALTITUDE_BAND: StringName = &"altitude-band-interaction"
 const MILESTONE_NEAR_MISS: StringName = &"near-miss"
 const MILESTONE_PLAYFUL_BUMP: StringName = &"playful-bump"
 const MILESTONE_ROUTE_COMPLETE: StringName = &"route-complete"
@@ -74,6 +73,7 @@ const BIRTHDAY_STAR_MOMENT_DIM := Color(0.55, 0.53, 0.64)
 const BIRTHDAY_STAR_REACH := 160.0
 const DEFAULT_CLOUD_REST_ALTITUDE := 0.36
 const DEFAULT_PLAYFUL_BUMP_WOBBLE_SECONDS := 0.45
+const DEFAULT_CROSSING_REST_SECONDS := 0.9
 const DEFAULT_COLLISION_HALF_HEIGHT := 0.06
 const DEFAULT_PLAYFUL_BUMP_OBSTACLE_ALTITUDE := 0.64
 const REQUIRED_PLACE_FIELDS := [
@@ -86,17 +86,23 @@ const REQUIRED_PLACE_FIELDS := [
 	"rainbowPath",
 	"birthdayStarMoment",
 ]
-# Every place travels the same authored rhythm: the high band answers first, the low
-# band second, then the place's own Playful Bump waits low along the rest of the route.
-# Which delight each band awakens, and whether the bump can happen at all, is place data.
-# The rhythm is held as a fraction of the route rather than in seconds, so retuning how
-# long a place takes speeds the whole passage up without resequencing it.
+# Every place travels the same authored rhythm: the route offers the child's height five
+# chances to awaken something, and the place's own Playful Bump waits low along the rest
+# of it. Each chance answers whichever altitude rung Stella is on at that moment, so a
+# place with two rungs answers high then low while Golden Bell Abbey's four bells ring
+# whichever bell the child is beside. Which delights exist, and whether the bump can
+# happen at all, is place data. The rhythm is held as a fraction of the route rather
+# than in seconds, so retuning how long a place takes speeds the whole passage up
+# without resequencing it.
 const ROUTE_MILESTONES := [
-	{"id": MILESTONE_HIGH_BAND, "progress": 0.167},
-	{"id": MILESTONE_LOW_BAND, "progress": 0.333},
+	{"id": MILESTONE_ALTITUDE_BAND, "progress": 0.167},
+	{"id": MILESTONE_ALTITUDE_BAND, "progress": 0.333},
 	{"id": MILESTONE_NEAR_MISS, "progress": 0.444},
+	{"id": MILESTONE_ALTITUDE_BAND, "progress": 0.472},
 	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.528},
+	{"id": MILESTONE_ALTITUDE_BAND, "progress": 0.611},
 	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.653},
+	{"id": MILESTONE_ALTITUDE_BAND, "progress": 0.75},
 	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.778},
 	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.861},
 	{"id": MILESTONE_PLAYFUL_BUMP, "progress": 0.911},
@@ -167,6 +173,8 @@ var _action_held := false
 var _flight_control_cycle_count := 0
 var _place_index := -1
 var _place_progress := 0.0
+var _place_rung := ""
+var _last_crossing_seconds := -INF
 var _journey_clock_seconds := 0.0
 var _playful_bump_count := 0
 var _nearby_playful_bump_count := 0
@@ -907,6 +915,8 @@ func _enter_place(index: int) -> void:
 	_journey_phase_elapsed = 0.0
 	_journey_checkpoint = 0
 	_place_progress = 0.0
+	_place_rung = ""
+	_last_crossing_seconds = -INF
 	_observed_interactions = []
 	_nearby_playful_bump_count = 0
 	_playful_bump_wobble_seconds = 0.0
@@ -914,6 +924,7 @@ func _enter_place(index: int) -> void:
 
 
 func _advance_place_flight() -> void:
+	_answer_altitude_crossing()
 	while (
 		_journey_phase == PHASE_PLACE_FLIGHT
 		and _journey_checkpoint < ROUTE_MILESTONES.size()
@@ -924,16 +935,14 @@ func _advance_place_flight() -> void:
 		if _place_progress < milestone_progress:
 			return
 		match milestone_id:
-			MILESTONE_HIGH_BAND:
-				if _flight_altitude_stage_heights >= float(
-					_single_route_tuning.get("highBandAltitudeMinimum", 0.56),
-				):
-					_report_place_interaction(PLACE_CONTENT.BAND_HIGH)
-			MILESTONE_LOW_BAND:
-				if _flight_altitude_stage_heights <= float(
-					_single_route_tuning.get("lowBandAltitudeMaximum", 0.52),
-				):
-					_report_place_interaction(PLACE_CONTENT.BAND_LOW)
+			MILESTONE_ALTITUDE_BAND:
+				_report_place_interaction(
+					PLACE_CONTENT.interaction_for_altitude(
+						_current_place(),
+						_single_route_tuning,
+						_flight_altitude_stage_heights,
+					),
+				)
 			MILESTONE_NEAR_MISS:
 				if not PLACE_CONTENT.playful_bump_suppressed(_current_place()):
 					_report_sound_event(
@@ -954,12 +963,50 @@ func _advance_place_flight() -> void:
 		_journey_checkpoint += 1
 
 
-func _report_place_interaction(altitude_band: String) -> void:
-	var interaction: Dictionary = PLACE_CONTENT.interaction(_current_place(), altitude_band)
+# A place that answers every crossing follows the child's hand: each time Flight Control
+# carries Stella from one rung to another, that rung speaks. The rest between answers
+# keeps a hovering child from chattering at a seam and holds the mix to two voices.
+func _answer_altitude_crossing() -> void:
+	var place := _current_place()
+	if not PLACE_CONTENT.awakens_on_every_crossing(place):
+		return
+	var interaction := PLACE_CONTENT.interaction_for_altitude(
+		place,
+		_single_route_tuning,
+		_flight_altitude_stage_heights,
+	)
+	var rung: String = interaction.get("id", "")
+	if rung == _place_rung:
+		return
+	_place_rung = rung
+	if rung.is_empty():
+		return
+	if _journey_clock_seconds - _last_crossing_seconds < _crossing_rest_seconds():
+		return
+	_last_crossing_seconds = _journey_clock_seconds
+	_awaken(interaction)
+
+
+func _crossing_rest_seconds() -> float:
+	return float(
+		_single_route_tuning.get("crossingRestSeconds", DEFAULT_CROSSING_REST_SECONDS),
+	)
+
+
+# The rung Stella is on when the route offers her a chance answers with its own delight,
+# once. A height between two rungs awakens nothing rather than the nearest thing, so the
+# quiet middle of Lacewood stays quiet while every height at the Abbey has a bell.
+func _report_place_interaction(interaction: Dictionary) -> void:
 	var interaction_id: String = interaction.get("id", "")
 	if interaction_id.is_empty() or _observed_interactions.has(interaction_id):
 		return
-	_observed_interactions.append(interaction_id)
+	_awaken(interaction)
+
+
+func _awaken(interaction: Dictionary) -> void:
+	var interaction_id: String = interaction.get("id", "")
+	if not _observed_interactions.has(interaction_id):
+		_observed_interactions.append(interaction_id)
 	_report_sound_event(
 		EVENT_VIGNETTE_INTERACTION,
 		{"place": _current_place().get("id", ""), "interaction": interaction_id},
@@ -1282,7 +1329,10 @@ func _render_presentation() -> void:
 	_place_background.visible = place_visible
 	_place_visuals.visible = place_visible
 	_flight_character.visible = not celebration_visible
-	_place_visuals.configure_place(place)
+	_place_visuals.configure_place(
+		place,
+		PLACE_CONTENT.altitude_ladder(place, _single_route_tuning),
+	)
 	_place_visuals.set_story_state({
 		"phase": _journey_phase,
 		"progress": _place_progress,
@@ -1527,6 +1577,23 @@ func _validate_places() -> Dictionary:
 				return {
 					"ok": false,
 					"error": "Place %s has no %s interaction" % [place.get("id", "?"), altitude_band],
+				}
+		# A rung that names no reachable height would be a delight the child can never
+		# awaken, so the journey refuses to launch rather than flying past it in silence.
+		for interaction_value: Variant in place.get("interactions", []):
+			if not interaction_value is Dictionary:
+				return {
+					"ok": false,
+					"error": "Place %s has invalid interaction content" % place.get("id", "?"),
+				}
+			var interaction: Dictionary = interaction_value
+			if PLACE_CONTENT.altitude_window(interaction, _single_route_tuning).is_empty():
+				return {
+					"ok": false,
+					"error": "Place %s interaction %s answers no height" % [
+						place.get("id", "?"),
+						interaction.get("id", "?"),
+					],
 				}
 	return {"ok": true}
 
