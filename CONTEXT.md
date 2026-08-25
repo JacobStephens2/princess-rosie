@@ -41,7 +41,7 @@ A deferred, post-MVP interaction concept in which Princess Rosie guides Stella o
 _Avoid_: Branch, difficulty path, correct route
 
 **Flight Control**:
-The moment-to-moment guidance of Stella along an automatically advancing route: she rises while the child sustains the shared action and settles when it is released. Her height affects gentle contacts and Playful Bumps without changing story progress or creating failure.
+The moment-to-moment guidance of Stella along an automatically advancing route: she rises while the child sustains the shared action and settles when it is released. Her height affects gentle contacts, Playful Bumps, and Near Misses without changing story progress or creating failure.
 _Avoid_: Path Choice, scene advance, free flight
 
 **Single Route**:
@@ -104,17 +104,17 @@ _Avoid_: Monte Pellegrino, mountain level
 The sparkling coastal passage before the Birthday Castle comes into view.
 _Avoid_: Water level, Mediterranean Sea
 
-**Cloud Rest**:
-A brief, gentle pause after several nearby Playful Bumps in which Stella lands safely on a cloud, then resumes automatically nearby with every Birthday Star preserved and one more level of Gentle Help.
-_Avoid_: Game over, death, loss
+**Bump Floor**:
+The band of heights at the bottom of the Single Route where a place's Playful Bump lives, declared as a margin above the lowest reachable height and never overlapping the lowest rung of the Altitude Ladder. A place may say its floor does not bump.
+_Avoid_: Obstacle, hazard zone, ground, collision layer
 
 **Playful Bump**:
-A soft, place-specific encounter that makes Stella wobble without danger; three in short succession lead to a Cloud Rest, while a lone bump is forgotten rather than saved up.
+A soft, place-specific encounter with the Bump Floor that makes Stella wobble without danger. Every bump is a lone wobble, forgotten rather than saved up, and nothing follows from meeting several.
 _Avoid_: Damage, injury, failure, enemy collision
 
-**Gentle Help**:
-The unnamed easing each Cloud Rest adds, up to two levels, through slower travel, softer acceleration, a wider safe corridor, and a more forgiving shape for Stella. It is never shown, named, or numbered to the child, and never closes off part of a place.
-_Avoid_: Difficulty level, assist mode, easy mode, handicap
+**Near Miss**:
+The place's answer when Stella comes close to the Bump Floor and rises away without touching it, sounded only once the miss is a fact. It is the one response in the journey earned by flying well, and it answers in every place, including those whose floor does not bump.
+_Avoid_: Dodge, close call, bonus, combo
 
 **Storybook Moment**:
 A short, lightly animated illustrated scene with a few large sentences intended for the Grown-up Helper to read aloud with the child.
