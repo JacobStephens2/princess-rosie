@@ -161,9 +161,9 @@ Provenance: `shared/edition/source-media/cloister/provenance.json`
 
 ## Pellegrino Peak: Place Illustration
 
-Execution: Inkvoke 1.0.1, GPT Image 2, high quality, 1680×944 PNG. Generated rather than
-edited, with the approved Rose Garden, Lacewood, Abbey, and Cloister art direction
-described in the prompt. The petals lift in readable columns high in the frame and the
+Execution: Inkvoke 1.0.1, GPT Image 2, high quality, 1680×944 PNG. Approved by the
+project owner on 2026-08-25. Generated rather than edited, with the approved Rose Garden,
+Lacewood, Abbey, and Cloister art direction described in the prompt. The petals lift in readable columns high in the frame and the
 flowered slopes bank low, because flying high rides the flower-petal updrafts and
 settling low answers with the mountain's lower flowered slopes. The prompt asks for the
 wider, cooler mountain air the place is named for, and for slopes that never read as a
