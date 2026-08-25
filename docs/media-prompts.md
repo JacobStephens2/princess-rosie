@@ -98,6 +98,9 @@ Execution: OpenAI Image API CLI fallback, `gpt-image-1.5`, high quality and inpu
 
 > Use case: production game character-layer extraction. Preserve exactly the approved characters and picture-book illustration style from the reference: young Princess Rosie with long golden-blonde hair, small gold crown, joyful expression, ornate bright pink rose-patterned dress and pink shoes, seated astride Stella; Stella is a friendly white winged unicorn with a pastel pink-purple-blue mane and tail, rainbow horn, two large lavender feathered wings, gold-and-heart bridle, complete body with all four legs and hooves. Isolate only Rosie riding Stella as one complete cohesive character cutout. Remove the garden, archways, sky, sea, flowers, ribbons, star, floor, scenery, shadows, and every other object. Keep the entire silhouette fully inside the canvas with generous transparent padding and no cropping. Output a genuine RGBA PNG with fully transparent pixels everywhere outside the clean character silhouette. No checkerboard, no painted transparency pattern, no white matte, no rectangular background, no halo, no text, no added objects, no anatomy changes, no duplicate limbs or wings.
 
+Output: `shared/edition/source-media/flight/rosie-stella.png`
+
+
 ## Zélie's Lacewood: deferred fork source artwork
 
 Execution: built-in OpenAI image-generation tool with the approved departure illustration and Rose Garden flight background as style, palette, lighting, and world references only. This source artwork is retained for possible post-MVP reconsideration and is not used by the active Single Route.
@@ -143,7 +146,19 @@ Selected output: `shared/edition/source-media/abbey/abbey-background.png`
 
 Provenance: `shared/edition/source-media/abbey/provenance.json`
 
-Output: `shared/edition/source-media/flight/rosie-stella.png`
+## Cloister of Clouds: Place Illustration
+
+Execution: Inkvoke 1.0.1, GPT Image 2, high quality, 1680×944 PNG. Generated rather than
+edited, with the approved Rose Garden, Lacewood, and Abbey art direction described in the
+prompt. The arches sit high in the frame and the clouds bank low, because flying high
+answers with the sunlit arches and settling low answers with the soft clouds.
+
+> Use case: illustration-story. Asset type: production 16:9 game environment background plate for a gentle Godot active-play scene. Create the Cloister of Clouds, a tranquil sky passage where a cloister's arcade floats in open air and a single open flight corridor runs left to right across the frame. Along the upper band show tall sunlit arches of warm honey-colored stone, a slender floating arcade catching bright golden light, and airy sky through every opening. Along the lower band show soft banked clouds, pale and pillowy and rounded, with gentle drifting wisps and a few small stone steps and planters resting on them. Both bands are open, safe, equally bright, and equally beautiful, with the arches clearly readable high in the frame and the soft clouds clearly readable low, so height alone reads as a different delight. Match the approved premium flat modern children's picture-book style: solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny lighting, and the established jewel palette of luminous mosaic gold, warm cream, blush rose, lavender, and sapphire. Scenery only. No characters, faces, animals, Birthday Star, rainbow path, written text, interface, watermark, correctness cues, danger, photorealism, 3D render, or anime.
+
+Selected output: `shared/edition/source-media/cloister/cloister-background.png`
+
+Provenance: `shared/edition/source-media/cloister/provenance.json`
+
 
 ## Birthday Castle celebration illustration
 

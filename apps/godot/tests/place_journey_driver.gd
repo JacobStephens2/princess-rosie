@@ -51,3 +51,28 @@ static func cross_into_next_place(shell: StorybookShell) -> void:
 	advance(shell, 24.0)
 	turn_the_page(shell)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
+
+
+# Flies the current place the way a child who never climbs flies it, stopping at the
+# frame the named Playful Bump lands so the wobble can be seen while it is still
+# happening. Returns an empty dictionary if the passage never meets that many, leaving
+# the calling script to say which place fell short.
+static func fly_until_playful_bumps(shell: StorybookShell, playful_bumps: int) -> Dictionary:
+	for _frame: int in 900:
+		shell.advance_simulation(1.0 / 60.0)
+		shell.advance_journey(1.0 / 60.0)
+		var evidence: Dictionary = shell.presentation_evidence()
+		if int(evidence.get("playful_bumps", 0)) >= playful_bumps:
+			return evidence
+	return {}
+
+
+# The places the journey has crossed into so far, in order, as the soundscape heard it.
+# Exactly one ambience is active at a time, so this is also the ambience the child is
+# listening to at each point of the journey.
+static func place_entry_ambiences(shell: StorybookShell) -> Array:
+	var places: Array = []
+	for sound_event: Dictionary in shell.sound_event_evidence():
+		if sound_event.get("event") == "sound-event.place-entry":
+			places.append(sound_event.get("context", {}).get("place"))
+	return places

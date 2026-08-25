@@ -178,16 +178,16 @@
       "tint": "#dfeaff",
       "interactions": [
         {
-          "id": "soft-clouds",
-          "name": "Soft clouds",
-          "altitudeBand": "high",
-          "visualResponse": "clouds-part-softly"
-        },
-        {
           "id": "sunlit-arches",
           "name": "Sunlit arches",
-          "altitudeBand": "low",
+          "altitudeBand": "high",
           "visualResponse": "arches-catch-the-sun"
+        },
+        {
+          "id": "soft-clouds",
+          "name": "Soft clouds",
+          "altitudeBand": "low",
+          "visualResponse": "clouds-part-softly"
         }
       ],
       "playfulBump": {
@@ -197,7 +197,7 @@
       },
       "birthdayStar": "birthday-star.cloister",
       "rainbowPath": "rainbow-path.cloister",
-      "birthdayStarMoment": "Beasley followed the sunlit arches through the Cloister of Clouds!"
+      "birthdayStarMoment": "Beasley followed the sunlit arches and the soft clouds through the Cloister of Clouds!"
     },
     {
       "id": "pellegrino-peak",
