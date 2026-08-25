@@ -450,6 +450,24 @@ expand_mode = 1
 stretch_mode = 0
 mouse_filter = 2
 
+[node name="CelebrationArt" type="TextureRect" parent="Stage/ActivePlayPresentation"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(640, 360)
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
 [node name="FlightTint" type="ColorRect" parent="Stage/ActivePlayPresentation"]
 layout_mode = 1
 anchors_preset = 15

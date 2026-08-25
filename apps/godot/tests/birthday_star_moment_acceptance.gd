@@ -23,10 +23,13 @@ const ROSE_GARDEN_SENTENCE := (
 const LACEWOOD_SENTENCE := (
 	"Gram followed the silver ribbons and glowing roses through Zélie’s Lacewood!"
 )
-const OPENING_ILLUSTRATIONS := [
+# The whole pack's painted illustrations: three that open the story and one that ends it.
+# Every place's Birthday Star Moment is composed instead, so none of these belongs to one.
+const PAINTED_ILLUSTRATIONS := [
 	"opening.celebration-preparations",
 	"opening.scattered-stars",
 	"opening.rosie-stella-departure",
+	"celebration.birthday-castle",
 ]
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
@@ -114,10 +117,11 @@ func _expect_no_painted_moments(pack_root: String) -> void:
 		if media_value is Dictionary and media_value.get("role") == "illustration":
 			illustrations.append(str(media_value.get("id")))
 	test.expect(
-		illustrations == OPENING_ILLUSTRATIONS,
-		"only the Opening Storybook Moments carry a painted illustration: %s"
+		illustrations == PAINTED_ILLUSTRATIONS,
+		"only the story's opening and its ending carry a painted illustration: %s"
 		% JSON.stringify(illustrations),
 	)
+
 
 
 func _fly_to_birthday_star(shell: StorybookShell) -> void:
