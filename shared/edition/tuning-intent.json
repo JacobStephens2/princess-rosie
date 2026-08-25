@@ -19,7 +19,8 @@
     "minimumControlCycles": 3,
     "safeLimitsPreserveForwardMotion": true,
     "highBandAltitudeMinimum": 0.56,
-    "lowBandAltitudeMaximum": 0.52
+    "lowBandAltitudeMaximum": 0.52,
+    "crossingRestSeconds": 0.9
   },
   "cloudRest": {
     "afterNearbyPlayfulBumps": 3,

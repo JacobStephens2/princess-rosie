@@ -24,6 +24,20 @@ static func advance(shell: StorybookShell, seconds: float) -> void:
 		shell.advance_journey(1.0 / 60.0)
 
 
+# Keeps Stella around one height the way a child does: hold while she is below it,
+# let go while she is above it. Places whose delight is finer-grained than high-or-low
+# are flown this way, because the child guiding them flies them this way.
+static func hold_near(shell: StorybookShell, altitude: float, seconds: float) -> void:
+	var frame_count := ceili(seconds * 60.0)
+	for _frame: int in frame_count:
+		var below := (
+			float(shell.flight_evidence().get("altitude_stage_heights", 0.0)) < altitude
+		)
+		shell.handle_player_action(KEYBOARD_SPACE, below)
+		shell.advance_simulation(1.0 / 60.0)
+		shell.advance_journey(1.0 / 60.0)
+
+
 # Dismisses a Birthday Star Moment with the deliberate release and new press it asks
 # for, leaving that press held so it carries into the next place.
 static func turn_the_page(shell: StorybookShell) -> void:

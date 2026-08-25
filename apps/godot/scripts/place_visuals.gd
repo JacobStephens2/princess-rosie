@@ -9,6 +9,7 @@ const DEFAULT_TINT := Color(0.96, 0.86, 0.94)
 
 var _phase := ""
 var _place: Dictionary = {}
+var _altitude_ladder: Array[Dictionary] = []
 var _progress := 0.0
 var _altitude := 0.5
 var _observed_interactions: Array[String] = []
@@ -29,10 +30,13 @@ func _process(delta: float) -> void:
 	queue_redraw()
 
 
-func configure_place(place: Dictionary) -> void:
-	if _place == place:
+# The ladder arrives already resolved, so the module paints whatever rungs the place
+# declares — two for a garden, four for an abbey — without knowing which place it is.
+func configure_place(place: Dictionary, altitude_ladder: Array[Dictionary]) -> void:
+	if _place == place and _altitude_ladder == altitude_ladder:
 		return
 	_place = place.duplicate(true)
+	_altitude_ladder = altitude_ladder.duplicate(true)
 	queue_redraw()
 
 
@@ -92,8 +96,7 @@ func _draw() -> void:
 		return
 	_draw_atmosphere()
 	_draw_single_corridor()
-	_draw_high_band_clusters()
-	_draw_low_band_clusters()
+	_draw_altitude_rungs()
 	_draw_progress_glimmer()
 	if _playful_bump_wobble:
 		_draw_playful_bump_sparkle()
@@ -117,11 +120,6 @@ func _place_tint() -> Color:
 
 func _band_interaction(altitude_band: String) -> Dictionary:
 	return PLACE_CONTENT.interaction(_place, altitude_band)
-
-
-func _band_observed(altitude_band: String) -> bool:
-	var interaction := _band_interaction(altitude_band)
-	return _observed_interactions.has(str(interaction.get("id", "")))
 
 
 func _draw_atmosphere() -> void:
@@ -151,15 +149,34 @@ func _draw_single_corridor() -> void:
 	draw_polyline(points, Color(0.9, 0.97, 1.0, 0.68), 5.0, true)
 
 
-# The high band reads as ribbons of light strung across the upper Stage.
-func _draw_high_band_clusters() -> void:
-	if _band_interaction(BAND_HIGH).is_empty():
-		return
+# Every rung of the place's altitude ladder gets a row of its own, hung at the height it
+# answers to, so the child can see what each height is offering before she flies to it.
+# Rows above the middle of the Stage read as ribbons of light; rows below read as blooms.
+func _draw_altitude_rungs() -> void:
+	for rung_index: int in _altitude_ladder.size():
+		var rung: Dictionary = _altitude_ladder[rung_index]
+		var altitude := _rung_altitude(rung)
+		var interaction: Dictionary = rung.get("interaction", {})
+		var observed := _observed_interactions.has(str(interaction.get("id", "")))
+		if altitude >= 0.5:
+			_draw_ribbon_row(altitude, rung_index, observed)
+		else:
+			_draw_bloom_row(altitude, rung_index, observed)
+
+
+# The middle of the heights a rung answers to, with an open end reaching the Stage edge.
+func _rung_altitude(rung: Dictionary) -> float:
+	var minimum := maxf(float(rung.get("minimum", 0.0)), 0.0)
+	var maximum := minf(float(rung.get("maximum", 1.0)), 1.0)
+	return clampf((minimum + maximum) * 0.5, 0.0, 1.0)
+
+
+func _draw_ribbon_row(altitude: float, row_index: int, observed: bool) -> void:
 	var tint := _place_tint()
-	var centers := [Vector2(330.0, 230.0), Vector2(650.0, 205.0), Vector2(965.0, 250.0)]
+	var y := _row_y(altitude)
 	var pulse := 0.5 + 0.5 * sin(_elapsed * 3.0)
-	var observed := _band_observed(BAND_HIGH)
-	for center: Vector2 in centers:
+	for cluster_index: int in 3:
+		var center := Vector2(330.0 + cluster_index * 317.0 + row_index * 24.0, y)
 		var wave := PackedVector2Array()
 		for index: int in 7:
 			wave.append(center + Vector2(index * 24.0 - 72.0, sin(_elapsed * 1.8 + index) * 9.0))
@@ -171,15 +188,11 @@ func _draw_high_band_clusters() -> void:
 		)
 
 
-# The low band reads as blooms of light gathered along the lower Stage.
-func _draw_low_band_clusters() -> void:
-	if _band_interaction(BAND_LOW).is_empty():
-		return
+func _draw_bloom_row(altitude: float, row_index: int, observed: bool) -> void:
 	var tint := _place_tint()
-	var centers := [Vector2(420.0, 505.0), Vector2(760.0, 530.0), Vector2(1060.0, 485.0)]
-	var observed := _band_observed(BAND_LOW)
-	for cluster_index: int in centers.size():
-		var center: Vector2 = centers[cluster_index]
+	var y := _row_y(altitude)
+	for cluster_index: int in 3:
+		var center := Vector2(420.0 + cluster_index * 320.0 - row_index * 18.0, y)
 		var bloom := 10.0 + (sin(_elapsed * 2.4 + cluster_index) * 2.5 if observed else 0.0)
 		for petal: int in 5:
 			var angle := float(petal) * TAU / 5.0
@@ -189,6 +202,10 @@ func _draw_low_band_clusters() -> void:
 				Color(tint.r, tint.g * 0.6, tint.b * 0.8, 0.72 if observed else 0.42),
 			)
 		draw_circle(center, bloom * 0.34, Color(1.0, 0.9, 0.42, 0.92 if observed else 0.58))
+
+
+func _row_y(altitude: float) -> float:
+	return lerpf(530.0, 205.0, clampf(altitude, 0.0, 1.0))
 
 
 func _draw_progress_glimmer() -> void:
