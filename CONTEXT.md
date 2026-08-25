@@ -69,7 +69,7 @@ The warm, nonverbal storybook-acoustic world of soft bells, celesta, harp, airy 
 _Avoid_: Arcade soundtrack, cinematic battle audio, realistic simulation
 
 **Place**:
-One of the named passages of Fairytale Sicily the journey travels in order before the Birthday Castle: Rosalia's Rose Garden, Zélie's Lacewood, Golden Bell Abbey, the Cloister of Clouds, Pellegrino Peak, and the Sapphire Sea. Every place is declared by the same data — a name, a Family Guest, a Place Illustration, a tint, two altitude-band interactions, a Playful Bump, a Birthday Star, a Rainbow Path, and a Birthday Star Moment sentence — and presented through one code path, so places differ in art, sound, and data rather than in behaviour. A declared place becomes flyable once its Place Illustration is approved into the Edition Pack.
+One of the named passages of Fairytale Sicily the journey travels in order before the Birthday Castle: Rosalia's Rose Garden, Zélie's Lacewood, Golden Bell Abbey, the Cloister of Clouds, Pellegrino Peak, and the Sapphire Sea. Every place is declared by the same data — a name, a Family Guest and her cutout, a Place Illustration, a tint, two altitude-band interactions, a Playful Bump, a Birthday Star, a Rainbow Path, and a Birthday Star Moment sentence — and presented through one code path, so places differ in art, sound, and data rather than in behaviour. A declared place becomes flyable once its Place Illustration is approved into the Edition Pack.
 _Avoid_: Level, stage, area, world
 
 **Rosalia's Rose Garden**:
@@ -129,7 +129,7 @@ A Storybook Moment before the flight begins, comprising the title-cover moment a
 _Avoid_: Opening page, intro screen
 
 **Birthday Star Moment**:
-A Storybook Moment during the flight that celebrates a gathered Birthday Star and the opening of its Family Guest's Rainbow Path.
+A Storybook Moment during the flight that celebrates a gathered Birthday Star and the opening of its Family Guest's Rainbow Path. It is composed at runtime from the current Place Illustration held and dimmed, the shared Family Guest cutout and Rainbow Path treatment, and the place's own sentence, rather than being painted per place.
 _Avoid_: Collectible popup, checkpoint modal
 
 **Grown-up Helper**:

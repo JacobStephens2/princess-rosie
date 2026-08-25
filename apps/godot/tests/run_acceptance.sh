@@ -29,6 +29,7 @@ tests=(
   cloud_rest_auto_resume_acceptance.gd
   cloud_rest_gentle_help_acceptance.gd
   place_presentation_acceptance.gd
+  birthday_star_moment_acceptance.gd
   soundscape_player_acceptance.gd
   godot_audio_adapter_acceptance.gd
 )

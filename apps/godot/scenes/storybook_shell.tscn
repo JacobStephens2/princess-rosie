@@ -324,6 +324,30 @@ expand_mode = 1
 stretch_mode = 0
 mouse_filter = 2
 
+[node name="MomentRainbowPath" type="TextureRect" parent="Stage/OpeningPresentation"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 96.0
+offset_top = 60.0
+offset_right = 616.0
+offset_bottom = 500.0
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="MomentFamilyGuest" type="TextureRect" parent="Stage/OpeningPresentation"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 176.0
+offset_top = 196.0
+offset_right = 464.0
+offset_bottom = 700.0
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
 [node name="StoryCard" type="PanelContainer" parent="Stage/OpeningPresentation"]
 unique_name_in_owner = true
 layout_mode = 0
@@ -447,6 +471,45 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("5_place_visuals")
+
+[node name="RainbowPathTreatment" type="TextureRect" parent="Stage/ActivePlayPresentation"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 900.0
+offset_top = 90.0
+offset_right = 1260.0
+offset_bottom = 470.0
+pivot_offset = Vector2(180, 190)
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="BirthdayStarSprite" type="TextureRect" parent="Stage/ActivePlayPresentation"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 1016.0
+offset_top = 250.0
+offset_right = 1112.0
+offset_bottom = 346.0
+pivot_offset = Vector2(48, 48)
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="FamilyGuest" type="TextureRect" parent="Stage/ActivePlayPresentation"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 1000.0
+offset_top = 386.0
+offset_right = 1128.0
+offset_bottom = 610.0
+pivot_offset = Vector2(64, 112)
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
 
 [node name="FlightCharacter" type="TextureRect" parent="Stage/ActivePlayPresentation"]
 unique_name_in_owner = true

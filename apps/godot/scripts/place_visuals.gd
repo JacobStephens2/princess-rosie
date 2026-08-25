@@ -102,8 +102,6 @@ func _draw() -> void:
 	_draw_progress_glimmer()
 	if _playful_bump_wobble:
 		_draw_playful_bump_sparkle()
-	if _phase in ["birthday-star-approach", "birthday-star-moment"]:
-		_draw_birthday_star(Vector2(1112.0, 365.0), 24.0 + sin(_elapsed * 2.2) * 2.0)
 
 
 # One soft veil settles the place behind the resting cloud, so a rest in any place
@@ -245,16 +243,6 @@ func _draw_arrival_echo() -> void:
 		)
 		draw_circle(center, 9.0, Color(1.0, 0.51, 0.69, 0.44))
 		draw_circle(center, 3.0, Color(1.0, 0.91, 0.48, 0.72))
-
-
-func _draw_birthday_star(center: Vector2, radius: float) -> void:
-	var points := PackedVector2Array()
-	for index: int in 10:
-		var point_radius := radius if index % 2 == 0 else radius * 0.44
-		var angle := -PI / 2.0 + float(index) * PI / 5.0
-		points.append(center + Vector2.from_angle(angle) * point_radius)
-	draw_colored_polygon(points, Color(1.0, 0.78, 0.25, 0.94))
-	draw_polyline(points + PackedVector2Array([points[0]]), Color(1.0, 0.96, 0.72, 0.96), 3.0, true)
 
 
 # Where Stella sits on the Storybook Stage for a given height, matching the traversal
