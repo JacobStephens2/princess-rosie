@@ -67,6 +67,9 @@ const MILESTONE_LOW_BAND: StringName = &"low-band-interaction"
 const MILESTONE_NEAR_MISS: StringName = &"near-miss"
 const MILESTONE_PLAYFUL_BUMP: StringName = &"playful-bump"
 const MILESTONE_ROUTE_COMPLETE: StringName = &"route-complete"
+const BIRTHDAY_STAR_MOMENT_DIM := Color(0.55, 0.53, 0.64)
+# How far from the Family Guest the Birthday Star can hang and still read as hers.
+const BIRTHDAY_STAR_REACH := 160.0
 const DEFAULT_CLOUD_REST_ALTITUDE := 0.36
 const DEFAULT_PLAYFUL_BUMP_WOBBLE_SECONDS := 0.45
 const DEFAULT_COLLISION_HALF_HEIGHT := 0.06
@@ -75,6 +78,7 @@ const REQUIRED_PLACE_FIELDS := [
 	"id",
 	"name",
 	"familyGuest",
+	"familyGuestIllustration",
 	"illustration",
 	"birthdayStar",
 	"rainbowPath",
@@ -130,6 +134,11 @@ var _flight_character_has_transparency := false
 var _flight_media_paths: Dictionary = {}
 var _place_textures: Dictionary = {}
 var _place_media_paths: Dictionary = {}
+var _family_guest_textures: Dictionary = {}
+var _birthday_star_texture: Texture2D
+var _rainbow_path_texture: Texture2D
+var _rainbow_path_media_path := ""
+var _journey_media_paths: Dictionary = {}
 var _realized_place_count := 0
 var _opening_moment_index := 0
 var _movement_state := ""
@@ -187,6 +196,11 @@ var _engine_audio: Node
 @onready var _flight_background: TextureRect = %FlightBackground
 @onready var _place_background: TextureRect = %PlaceBackground
 @onready var _place_visuals: PlaceVisuals = %PlaceVisuals
+@onready var _birthday_star_sprite: TextureRect = %BirthdayStarSprite
+@onready var _family_guest: TextureRect = %FamilyGuest
+@onready var _rainbow_path_treatment: TextureRect = %RainbowPathTreatment
+@onready var _moment_family_guest: TextureRect = %MomentFamilyGuest
+@onready var _moment_rainbow_path: TextureRect = %MomentRainbowPath
 @onready var _flight_character: TextureRect = %FlightCharacter
 @onready var _flight_card: Control = $Stage/ActivePlayPresentation/FlightCard
 @onready var _pack_badge: Label = %PackBadge
@@ -235,6 +249,11 @@ func prepare_launch(pack_source: String = default_pack_source()) -> Dictionary:
 	_flight_media_paths = {}
 	_place_textures = {}
 	_place_media_paths = {}
+	_family_guest_textures = {}
+	_birthday_star_texture = null
+	_rainbow_path_texture = null
+	_rainbow_path_media_path = ""
+	_journey_media_paths = {}
 	_realized_place_count = 0
 	_opening_moment_index = 0
 	_movement_state = ""
@@ -318,6 +337,7 @@ func presentation_evidence() -> Dictionary:
 		"opening_media_paths": _opening_media_paths.duplicate(true),
 		"flight_media_paths": _flight_media_paths.duplicate(true),
 		"place_media_paths": _place_media_paths.duplicate(true),
+		"journey_media_paths": _journey_media_paths.duplicate(true),
 		"movement_state": _movement_state,
 		"active_action_sources": _active_action_source_ids(),
 		"observed_action_sources": _observed_action_source_ids(),
@@ -506,6 +526,8 @@ func storybook_stage_evidence() -> Dictionary:
 			_place_background.texture != null and _place_background.is_visible_in_tree()
 		),
 		"place_composition": _place_visuals.visual_evidence(),
+		"birthday_star_approach": _birthday_star_approach_evidence(),
+		"birthday_star_moment_composition": _birthday_star_moment_composition_evidence(),
 		"flight_character_visible": (
 			_flight_character.texture != null and _flight_character.is_visible_in_tree()
 		),
@@ -514,6 +536,92 @@ func storybook_stage_evidence() -> Dictionary:
 			_opening_copy.get_theme_font_size("font_size"),
 		),
 	}
+
+
+# The Grown-up Corner pauses over a Stage that keeps showing where the child is, so
+# presentation asks which state they are paused inside of rather than the paused state.
+func _presented_state() -> PresentationState:
+	return _paused_from if _state == PresentationState.PAUSED else _state
+
+
+# The Family Guest waits beside her Birthday Star for as long as it takes to gather it;
+# gathering trades the Star for the Rainbow Path that carries her to the celebration.
+func _render_birthday_star_presentation() -> void:
+	var place: Dictionary = _current_place()
+	var approaching := (
+		_presented_state() == PresentationState.ACTIVE_PLAY
+		and _journey_phase == PHASE_STAR_APPROACH
+	)
+	var guest_texture: Variant = _family_guest_textures.get(place.get("id", ""))
+	_family_guest.texture = guest_texture if guest_texture is Texture2D else null
+	_moment_family_guest.texture = _family_guest.texture
+	_birthday_star_sprite.texture = _birthday_star_texture
+	_rainbow_path_treatment.texture = _rainbow_path_texture
+	_moment_rainbow_path.texture = _rainbow_path_texture
+	_family_guest.visible = approaching
+	_birthday_star_sprite.visible = approaching and not _birthday_star_gathered()
+	_rainbow_path_treatment.visible = approaching and _rainbow_path_open()
+	var in_moment := _presented_state() == PresentationState.BIRTHDAY_STAR_MOMENT
+	_moment_family_guest.visible = in_moment
+	_moment_rainbow_path.visible = in_moment
+
+
+func _birthday_star_gathered() -> bool:
+	return _birthday_stars.has(PLACE_CONTENT.birthday_star(_current_place()))
+
+
+func _rainbow_path_open() -> bool:
+	return _rainbow_paths.has(PLACE_CONTENT.rainbow_path(_current_place()))
+
+
+# Only while the child is approaching a Birthday Star is there an approach to describe.
+func _birthday_star_approach_evidence() -> Dictionary:
+	if _presented_state() != PresentationState.ACTIVE_PLAY or _journey_phase != PHASE_STAR_APPROACH:
+		return {}
+	return {
+		"family_guest": str(_current_place().get("familyGuest", "")),
+		"family_guest_visible": _layer_visible(_family_guest),
+		"birthday_star_visible": _layer_visible(_birthday_star_sprite),
+		"birthday_star_within_reach": _birthday_star_within_reach(),
+		"rainbow_path_visible": _layer_visible(_rainbow_path_treatment),
+	}
+
+
+# The Star hangs where the guest could reach it, so gathering it reads as helping her
+# rather than as collecting something from across the Storybook Stage.
+func _birthday_star_within_reach() -> bool:
+	var star := _birthday_star_sprite.get_rect().get_center()
+	var guest := _family_guest.get_rect().get_center()
+	return absf(star.x - guest.x) <= BIRTHDAY_STAR_REACH and star.y < guest.y
+
+
+# Likewise, a composition exists only while the story is paused on the moment itself.
+func _birthday_star_moment_composition_evidence() -> Dictionary:
+	if _presented_state() != PresentationState.BIRTHDAY_STAR_MOMENT:
+		return {}
+	var place: Dictionary = _current_place()
+	var held: Variant = _place_textures.get(place.get("id", ""))
+	var holding_the_place: bool = held is Texture2D and _opening_art.texture == held
+	return {
+		"place_illustration": (
+			str(_place_media_paths.get(place.get("illustration", ""), ""))
+			if holding_the_place
+			else ""
+		),
+		"place_illustration_dimmed": _opening_art.modulate.get_luminance() < 1.0,
+		"family_guest": str(place.get("familyGuest", "")),
+		"family_guest_cutout": str(
+			_journey_media_paths.get(PLACE_CONTENT.family_guest_illustration(place), ""),
+		),
+		"family_guest_visible": _layer_visible(_moment_family_guest),
+		"rainbow_path_treatment": _rainbow_path_media_path,
+		"rainbow_path_visible": _layer_visible(_moment_rainbow_path),
+		"sentence": _opening_copy.text,
+	}
+
+
+func _layer_visible(layer: TextureRect) -> bool:
+	return layer.texture != null and layer.is_visible_in_tree()
 
 
 func handle_player_intent(intent: StringName) -> bool:
@@ -941,8 +1049,8 @@ func _gentle_help_acceleration(movement_state: String) -> float:
 func _advance_birthday_star_sequence() -> void:
 	var thresholds := [0.45, 1.0, 2.4, 4.9]
 	var place: Dictionary = _current_place()
-	var birthday_star: String = place.get("birthdayStar", "")
-	var rainbow_path: String = place.get("rainbowPath", "")
+	var birthday_star := PLACE_CONTENT.birthday_star(place)
+	var rainbow_path := PLACE_CONTENT.rainbow_path(place)
 	var family_guest: String = place.get("familyGuest", "")
 	while _journey_phase == PHASE_STAR_APPROACH and _journey_checkpoint < thresholds.size():
 		if _journey_phase_elapsed < thresholds[_journey_checkpoint]:
@@ -1095,8 +1203,15 @@ func _render_presentation() -> void:
 		_opening_title.text = str(opening.get("title", "Rosie and Stella can help"))
 		_opening_copy.text = str(opening.get("copy", ""))
 	var illustration_id: String = opening.get("illustration", "")
-	if _opening_textures.has(illustration_id):
-		_opening_art.texture = _opening_textures[illustration_id]
+	if _presented_state() == PresentationState.BIRTHDAY_STAR_MOMENT:
+		var held: Variant = _place_textures.get(_current_place().get("id", ""))
+		if held is Texture2D:
+			_opening_art.texture = held
+		_opening_art.modulate = BIRTHDAY_STAR_MOMENT_DIM
+	else:
+		if _opening_textures.has(illustration_id):
+			_opening_art.texture = _opening_textures[illustration_id]
+		_opening_art.modulate = Color.WHITE
 	if _flight_background_texture != null:
 		_flight_background.texture = _flight_background_texture
 	var place: Dictionary = _current_place()
@@ -1124,6 +1239,7 @@ func _render_presentation() -> void:
 		"playful_bump_wobble": _playful_bump_wobble_seconds > 0.0,
 		"cloud_rest_altitude": _cloud_rest_resting_altitude(),
 	})
+	_render_birthday_star_presentation()
 	_apply_place_traversal_presentation()
 	_continue_button.text = (
 		"Keep flying"
@@ -1468,24 +1584,86 @@ func _load_journey_media(pack_source: String, prepared_pack: Dictionary) -> Dict
 	_flight_background_texture = background_result.texture
 	_flight_media_paths[background_id] = background_path
 	var character_id: String = initial_flight.get("character", "")
-	var character_media: Dictionary = media_by_id.get(character_id, {})
-	var character_path: String = character_media.get("path", "")
-	if character_media.get("role") != "character-layer" or character_path.is_empty():
-		return {"ok": false, "error": "Initial flight character media is missing: %s" % character_id}
-	var character_result: Dictionary = _adapter.load_png_texture(pack_source, character_path)
+	var character_result := _load_transparent_layer(
+		pack_source,
+		media_by_id,
+		character_id,
+		"Initial flight character",
+	)
 	if not character_result.ok:
 		return character_result
-	if character_result.get("has_transparency") != true:
-		return {"ok": false, "error": "Initial flight character layer needs genuine transparency"}
 	_flight_character_texture = character_result.texture
 	_flight_character_has_transparency = character_result.has_transparency
-	_flight_media_paths[character_id] = character_path
-	return _load_place_media(pack_source, media_by_id)
+	_flight_media_paths[character_id] = character_result.path
+	var places_loaded := _load_place_media(pack_source, media_by_id)
+	if not places_loaded.ok:
+		return places_loaded
+	return _load_shared_journey_media(pack_source, media_by_id)
+
+
+# The Birthday Star and the Rainbow Path are the same magical objects in every place,
+# so the Edition Pack names them once and the shell loads them once.
+func _load_shared_journey_media(pack_source: String, media_by_id: Dictionary) -> Dictionary:
+	var shared: Variant = _content.get("sharedJourneyMedia")
+	if not shared is Dictionary:
+		return {"ok": false, "error": "Edition Pack declares no shared journey media"}
+	var birthday_star_id := str(shared.get("birthdayStar", ""))
+	var star_result := _load_transparent_layer(
+		pack_source,
+		media_by_id,
+		birthday_star_id,
+		"Birthday Star",
+		"sprite",
+	)
+	if not star_result.ok:
+		return star_result
+	_birthday_star_texture = star_result.texture
+	_journey_media_paths[birthday_star_id] = star_result.path
+	var rainbow_path_id := str(shared.get("rainbowPath", ""))
+	var rainbow_result := _load_transparent_layer(
+		pack_source,
+		media_by_id,
+		rainbow_path_id,
+		"Rainbow Path",
+		"treatment",
+	)
+	if not rainbow_result.ok:
+		return rainbow_result
+	_rainbow_path_texture = rainbow_result.texture
+	_rainbow_path_media_path = rainbow_result.path
+	_journey_media_paths[rainbow_path_id] = rainbow_result.path
+	return {"ok": true}
+
+
+# Every layer laid over the place the child is looking at — Stella, a Family Guest, the
+# Birthday Star, the Rainbow Path — has to arrive with genuine transparency around it.
+func _load_transparent_layer(
+	pack_source: String,
+	media_by_id: Dictionary,
+	media_id: String,
+	description: String,
+	role: String = "character-layer",
+) -> Dictionary:
+	var media: Dictionary = media_by_id.get(media_id, {})
+	var path: String = media.get("path", "")
+	if media.get("role") != role or path.is_empty():
+		return {"ok": false, "error": "%s media is missing: %s" % [description, media_id]}
+	var result: Dictionary = _adapter.load_png_texture(pack_source, path)
+	if not result.ok:
+		return result
+	if result.get("has_transparency") != true:
+		return {
+			"ok": false,
+			"error": "%s media needs genuine transparency: %s" % [description, media_id],
+		}
+	result["path"] = path
+	return result
 
 
 # The ordered journey names every place; this loads the leading run of them whose
 # Place Illustration the Edition Pack already carries, and stops at the first one
-# still waiting for its approved illustration.
+# still waiting for its approved illustration. Each realized place brings its Family
+# Guest, because she is the reason its Birthday Star is worth gathering.
 func _load_place_media(pack_source: String, media_by_id: Dictionary) -> Dictionary:
 	_realized_place_count = 0
 	for place_value: Variant in _places():
@@ -1498,8 +1676,19 @@ func _load_place_media(pack_source: String, media_by_id: Dictionary) -> Dictiona
 		var place_result: Dictionary = _adapter.load_png_texture(pack_source, place_path)
 		if not place_result.ok:
 			return place_result
+		var guest_id := PLACE_CONTENT.family_guest_illustration(place)
+		var guest_result := _load_transparent_layer(
+			pack_source,
+			media_by_id,
+			guest_id,
+			"Family Guest",
+		)
+		if not guest_result.ok:
+			return guest_result
 		_place_textures[place.get("id", "")] = place_result.texture
 		_place_media_paths[illustration_id] = place_path
+		_family_guest_textures[place.get("id", "")] = guest_result.texture
+		_journey_media_paths[guest_id] = guest_result.path
 		_realized_place_count += 1
 	if _realized_place_count == 0:
 		return {

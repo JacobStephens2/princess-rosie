@@ -55,11 +55,16 @@
     "background": "flight.rose-garden-background",
     "character": "flight.rosie-stella"
   },
+  "sharedJourneyMedia": {
+    "birthdayStar": "journey.birthday-star",
+    "rainbowPath": "journey.rainbow-path"
+  },
   "places": [
     {
       "id": "rose-garden",
       "name": "Rosalia’s Rose Garden",
       "familyGuest": "Mom",
+      "familyGuestIllustration": "family-guest.mom",
       "illustration": "flight.rose-garden-background",
       "tint": "#ffd7e6",
       "interactions": [
@@ -89,6 +94,7 @@
       "id": "lacewood",
       "name": "Zélie’s Lacewood",
       "familyGuest": "Gram",
+      "familyGuestIllustration": "family-guest.gram",
       "illustration": "lacewood.background",
       "tint": "#e8f2ff",
       "interactions": [
@@ -118,6 +124,7 @@
       "id": "abbey",
       "name": "Golden Bell Abbey",
       "familyGuest": "Pop",
+      "familyGuestIllustration": "family-guest.pop",
       "illustration": "abbey.background",
       "tint": "#ffe6b8",
       "interactions": [
@@ -147,6 +154,7 @@
       "id": "cloister",
       "name": "Cloister of Clouds",
       "familyGuest": "Beasley",
+      "familyGuestIllustration": "family-guest.beasley",
       "illustration": "cloister.background",
       "tint": "#dfeaff",
       "interactions": [
@@ -176,6 +184,7 @@
       "id": "pellegrino-peak",
       "name": "Pellegrino Peak",
       "familyGuest": "Uncle",
+      "familyGuestIllustration": "family-guest.uncle",
       "illustration": "pellegrino-peak.background",
       "tint": "#ffe0c2",
       "interactions": [
@@ -205,6 +214,7 @@
       "id": "sapphire-sea",
       "name": "Sapphire Sea",
       "familyGuest": "Aunt",
+      "familyGuestIllustration": "family-guest.aunt",
       "illustration": "sapphire-sea.background",
       "tint": "#c8ecff",
       "interactions": [
