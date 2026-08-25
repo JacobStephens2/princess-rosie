@@ -20,7 +20,7 @@ func run_if_requested(shell: StorybookShell) -> void:
 		get_tree().quit(2)
 		return
 	var requested_state := _argument_value(arguments, STATE_ARGUMENT)
-	if requested_state in ["opening", "flight", "lacewood-flight", "lacewood"]:
+	if requested_state in ["opening", "flight", "place-flight", "journey"]:
 		var begin_button := shell.get_node_or_null("%BeginButton") as Button
 		if begin_button == null:
 			push_error("Export smoke could not find the Begin control")
@@ -28,22 +28,22 @@ func run_if_requested(shell: StorybookShell) -> void:
 			return
 		begin_button.pressed.emit()
 		await get_tree().process_frame
-	if requested_state in ["flight", "lacewood-flight", "lacewood"]:
+	if requested_state in ["flight", "place-flight", "journey"]:
 		await _start_flight_with_real_inputs()
 	if requested_state == "flight":
 		await get_tree().create_timer(0.35).timeout
 		_emit_keyboard_action(false)
 		await get_tree().process_frame
-	if requested_state in ["lacewood-flight", "lacewood"]:
+	if requested_state in ["place-flight", "journey"]:
 		await _fly_high_then_low(shell)
-	if requested_state == "lacewood-flight":
+	if requested_state == "place-flight":
 		_emit_pointer_action(true)
 		await get_tree().create_timer(0.6).timeout
 		_record_altitude(shell, "pointer-rise")
 		_emit_pointer_action(false)
 		await get_tree().process_frame
-	if requested_state == "lacewood":
-		await _complete_lacewood(shell)
+	if requested_state == "journey":
+		await _complete_journey(shell)
 
 	for _frame: int in 4:
 		await get_tree().process_frame
@@ -58,7 +58,6 @@ func run_if_requested(shell: StorybookShell) -> void:
 	evidence["network_requests"] = 0
 	evidence["capture_sample_colors"] = _sample_color_count(image)
 	evidence["storybook_stage"] = shell.storybook_stage_evidence()
-	evidence["single_route"] = shell.single_route_evidence()
 	evidence["smoke_flight_samples"] = _flight_samples.duplicate(true)
 	evidence["sound_events"] = shell.sound_event_evidence()
 	var evidence_file := FileAccess.open(evidence_path, FileAccess.WRITE)
@@ -96,7 +95,17 @@ func _fly_high_then_low(shell: StorybookShell) -> void:
 	_record_altitude(shell, "released-settle")
 
 
-func _complete_lacewood(shell: StorybookShell) -> void:
+# The journey's first place suppresses its Playful Bump, so the smoke run flies it
+# through to its Birthday Star Moment, turns the page, and meets Cloud Rest in the
+# second place.
+func _complete_journey(shell: StorybookShell) -> void:
+	await _reach_birthday_star_moment(shell, 20.0)
+	await _turn_the_birthday_star_page()
+	# The second place answers the same two altitude bands before its low encounters.
+	_emit_keyboard_action(true)
+	await get_tree().create_timer(3.85).timeout
+	_emit_keyboard_action(false)
+	await get_tree().create_timer(3.1).timeout
 	for input_kind: String in ["keyboard", "pointer"]:
 		if input_kind == "keyboard":
 			_emit_keyboard_action(true)
@@ -126,18 +135,31 @@ func _complete_lacewood(shell: StorybookShell) -> void:
 		and Time.get_ticks_msec() < resume_deadline_ms
 	):
 		await get_tree().process_frame
-	if shell.presentation_evidence().get("journey_phase") != "lacewood-flight":
+	if shell.presentation_evidence().get("journey_phase") != "place-flight":
 		push_error("Export smoke did not resume automatically from Cloud Rest")
 		get_tree().quit(9)
 		return
 	_emit_keyboard_action(true)
-	# Gentle help after the Cloud Rest lengthens the remaining Lacewood travel.
-	await get_tree().create_timer(10.0).timeout
+	# Gentle help after the Cloud Rest lengthens the remaining travel through the place.
+	await _reach_birthday_star_moment(shell, 12.0)
+	await _turn_the_birthday_star_page()
+	await get_tree().create_timer(0.35).timeout
+
+
+func _reach_birthday_star_moment(shell: StorybookShell, timeout_seconds: float) -> void:
+	var deadline_ms := Time.get_ticks_msec() + int(timeout_seconds * 1000.0)
+	while (
+		shell.presentation_evidence().get("state") != "birthday_star_moment"
+		and Time.get_ticks_msec() < deadline_ms
+	):
+		await get_tree().process_frame
 	if shell.presentation_evidence().get("state") != "birthday_star_moment":
 		push_error("Export smoke did not reach the guaranteed Birthday Star Moment")
 		get_tree().quit(7)
-		return
-	# The held flight input must not advance the moment. A release and new press does.
+
+
+# The held flight input must not advance the moment. A release and new press does.
+func _turn_the_birthday_star_page() -> void:
 	_emit_keyboard_action(true)
 	await get_tree().process_frame
 	_emit_keyboard_action(false)
@@ -146,10 +168,6 @@ func _complete_lacewood(shell: StorybookShell) -> void:
 	await get_tree().process_frame
 	_emit_keyboard_action(false)
 	await get_tree().process_frame
-	_emit_keyboard_action(true)
-	await get_tree().process_frame
-	_emit_keyboard_action(false)
-	await get_tree().create_timer(0.35).timeout
 
 
 func _record_altitude(shell: StorybookShell, label: String) -> void:
@@ -157,7 +175,7 @@ func _record_altitude(shell: StorybookShell, label: String) -> void:
 	_flight_samples.append({
 		"label": label,
 		"altitude": evidence.get("flight", {}).get("altitude_stage_heights", 0.0),
-		"progress": evidence.get("lacewood_progress", 0.0),
+		"progress": evidence.get("place_progress", 0.0),
 	})
 
 

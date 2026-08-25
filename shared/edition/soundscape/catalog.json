@@ -1226,9 +1226,7 @@
     {
       "id": "cue.birthday-star.proximity",
       "event": "sound-event.birthday-star-proximity",
-      "match": {
-        "birthdayStar": "birthday-star.lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 20,
       "requirement": "optional",
@@ -1254,9 +1252,7 @@
     {
       "id": "cue.birthday-star.gather",
       "event": "sound-event.birthday-star-gathered",
-      "match": {
-        "birthdayStar": "birthday-star.lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 100,
       "requirement": "required",
@@ -1282,10 +1278,7 @@
     {
       "id": "cue.rainbow-path.open",
       "event": "sound-event.rainbow-path-opened",
-      "match": {
-        "rainbowPath": "rainbow-path.lacewood",
-        "familyGuest": "Gram"
-      },
+      "match": {},
       "category": "journey",
       "priority": 100,
       "requirement": "required",
@@ -1340,9 +1333,7 @@
     {
       "id": "cue.cloud-rest.enter",
       "event": "sound-event.cloud-rest-entered",
-      "match": {
-        "place": "lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 100,
       "requirement": "required",
@@ -1368,9 +1359,7 @@
     {
       "id": "cue.cloud-rest.ambience",
       "event": "sound-event.cloud-rest-entered",
-      "match": {
-        "place": "lacewood"
-      },
+      "match": {},
       "category": "journey",
       "priority": 40,
       "requirement": "required",
@@ -1396,9 +1385,7 @@
     {
       "id": "cue.cloud-rest.exit",
       "event": "sound-event.cloud-rest-exited",
-      "match": {
-        "place": "lacewood"
-      },
+      "match": {},
       "category": "movement",
       "priority": 100,
       "requirement": "required",

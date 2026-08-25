@@ -2,11 +2,15 @@
   "events": [
     {
       "id": "sound-event.opening-storybook-moment",
-      "parameters": ["moment"]
+      "parameters": [
+        "moment"
+      ]
     },
     {
       "id": "sound-event.story-confirmation",
-      "parameters": ["action"]
+      "parameters": [
+        "action"
+      ]
     },
     {
       "id": "sound-event.flight-launch",
@@ -14,47 +18,70 @@
     },
     {
       "id": "sound-event.movement-state",
-      "parameters": ["state"]
+      "parameters": [
+        "state"
+      ]
     },
     {
       "id": "sound-event.place-entry",
-      "parameters": ["place"]
+      "parameters": [
+        "place"
+      ]
     },
     {
       "id": "sound-event.vignette-interaction",
-      "parameters": ["place", "interaction"]
+      "parameters": [
+        "place",
+        "interaction"
+      ]
     },
     {
       "id": "sound-event.playful-bump",
-      "parameters": ["place", "kind"]
+      "parameters": [
+        "place",
+        "kind"
+      ]
     },
     {
       "id": "sound-event.near-miss",
-      "parameters": ["place", "kind"]
+      "parameters": [
+        "place",
+        "kind"
+      ]
     },
     {
       "id": "sound-event.birthday-star-proximity",
-      "parameters": ["birthdayStar"]
+      "parameters": [
+        "birthdayStar"
+      ]
     },
     {
       "id": "sound-event.birthday-star-gathered",
-      "parameters": ["birthdayStar"]
+      "parameters": [
+        "birthdayStar"
+      ]
     },
     {
       "id": "sound-event.rainbow-path-opened",
-      "parameters": ["rainbowPath", "familyGuest"]
+      "parameters": [
+        "rainbowPath",
+        "familyGuest"
+      ]
     },
     {
       "id": "sound-event.birthday-star-moment",
-      "parameters": ["place", "familyGuest"]
+      "parameters": [
+        "place",
+        "familyGuest"
+      ]
     },
     {
       "id": "sound-event.cloud-rest-entered",
-      "parameters": ["place"]
+      "parameters": []
     },
     {
       "id": "sound-event.cloud-rest-exited",
-      "parameters": ["place"]
+      "parameters": []
     },
     {
       "id": "sound-event.birthday-castle-arrival",
@@ -62,15 +89,21 @@
     },
     {
       "id": "sound-event.celebration-interaction",
-      "parameters": ["action"]
+      "parameters": [
+        "action"
+      ]
     },
     {
       "id": "sound-event.replay",
-      "parameters": ["destination"]
+      "parameters": [
+        "destination"
+      ]
     },
     {
       "id": "sound-event.sound-preference-changed",
-      "parameters": ["enabled"]
+      "parameters": [
+        "enabled"
+      ]
     }
   ]
 }

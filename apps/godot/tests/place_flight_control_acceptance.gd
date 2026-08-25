@@ -31,17 +31,18 @@ func _init() -> void:
 	)
 
 	shell.advance_journey(0.75)
-	var lacewood_entry: Dictionary = shell.presentation_evidence()
+	var place_entry: Dictionary = shell.presentation_evidence()
 	test.expect(
-		lacewood_entry.get("journey_phase") == "lacewood-flight",
-		"Lacewood begins continuous flight without stopping at a fork",
+		place_entry.get("journey_phase") == "place-flight"
+		and place_entry.get("place") == "rose-garden",
+		"the journey's first place begins continuous flight without stopping at a fork",
 	)
 	var entry_speed := float(shell.flight_evidence().get("vertical_speed_stage_heights_per_second", 0.0))
 	shell.advance_simulation(0.2)
 	test.expect(
 		float(shell.flight_evidence().get("vertical_speed_stage_heights_per_second", 0.0))
 		>= entry_speed,
-		"the held action stays live when Lacewood appears",
+		"the held action stays live when the first place appears",
 	)
 
 	test.expect(shell.handle_player_action(KEYBOARD_SPACE, false), "release enters a glide")
@@ -52,7 +53,7 @@ func _init() -> void:
 	test.expect(
 		float(shell.flight_evidence().get("vertical_speed_stage_heights_per_second", 0.0))
 		< speed_before_glide,
-		"release immediately bends Stella downward during Lacewood",
+		"release immediately bends Stella downward inside the place",
 	)
 	test.expect(shell.handle_player_action(POINTER_PRIMARY, true), "pointer hold resumes rise")
 	var speed_before_pointer_rise := float(
@@ -65,28 +66,47 @@ func _init() -> void:
 		"Space and pointer provide the same continuous Flight Control",
 	)
 
-	var single_route: Dictionary = (
-		shell.call("single_route_evidence") if shell.has_method("single_route_evidence") else {}
-	)
 	test.expect(
-		single_route == {
-			"single_route": "single-route.lacewood",
-			"duration_seconds": 18.0,
-			"progress": 0.0,
+		not shell.has_method("single_route_evidence"),
+		"no separate single-route accessor survives beside the presentation evidence",
+	)
+	var current_evidence: Dictionary = shell.presentation_evidence()
+	var route_evidence: Dictionary = {}
+	for key: String in [
+		"place",
+		"place_name",
+		"family_guest",
+		"route_duration_seconds",
+		"place_progress",
+		"safe_limits_preserve_forward_motion",
+		"observed_interactions",
+		"birthday_star_moment",
+		"flight_control_cycles",
+		"cloud_rest_automatic_resume",
+		"journey_progress_persisted",
+	]:
+		route_evidence[key] = current_evidence.get(key)
+	test.expect(
+		route_evidence == {
+			"place": "rose-garden",
+			"place_name": "Rosalia’s Rose Garden",
+			"family_guest": "Mom",
+			"route_duration_seconds": 18.0,
+			"place_progress": 0.0,
 			"safe_limits_preserve_forward_motion": true,
 			"observed_interactions": [],
-			"canonical_birthday_star_moment": "Gram followed the silver ribbons and glowing roses through Zélie’s Lacewood!",
-			"canonical_celebration_echo": "silver-ribbons-and-rose-lights",
+			"birthday_star_moment": "Mom followed the waking roses and drifting petals out of Rosalia’s Rose Garden!",
 			"flight_control_cycles": 1,
 			"cloud_rest_automatic_resume": true,
 			"journey_progress_persisted": false,
 		},
-		"semantic evidence exposes one controllable route with no progression record",
+		"one presentation evidence dictionary describes the controllable route: %s"
+		% JSON.stringify(route_evidence),
 	)
 	test.expect(
-		not lacewood_entry.has("chosen_route")
-		and not lacewood_entry.has("path_choices")
-		and not lacewood_entry.has("journey_history"),
+		not place_entry.has("chosen_route")
+		and not place_entry.has("path_choices")
+		and not place_entry.has("journey_history"),
 		"active evidence contains no Path Choice or Journey History state",
 	)
 
@@ -111,4 +131,4 @@ func _init() -> void:
 	)
 
 	shell.free()
-	test.finish(self, "Lacewood Flight Control acceptance")
+	test.finish(self, "place Flight Control acceptance")
