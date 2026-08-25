@@ -88,10 +88,10 @@ func _start_flight_with_real_inputs() -> void:
 
 
 func _fly_high_then_low(shell: StorybookShell) -> void:
-	await get_tree().create_timer(3.85).timeout
+	await get_tree().create_timer(2.78).timeout
 	_record_altitude(shell, "held-rise")
 	_emit_keyboard_action(false)
-	await get_tree().create_timer(3.1).timeout
+	await get_tree().create_timer(2.24).timeout
 	_record_altitude(shell, "released-settle")
 
 
@@ -103,9 +103,9 @@ func _complete_journey(shell: StorybookShell) -> void:
 	await _turn_the_birthday_star_page()
 	# The second place answers the same two altitude bands before its low encounters.
 	_emit_keyboard_action(true)
-	await get_tree().create_timer(3.85).timeout
+	await get_tree().create_timer(2.78).timeout
 	_emit_keyboard_action(false)
-	await get_tree().create_timer(3.1).timeout
+	await get_tree().create_timer(2.24).timeout
 	for input_kind: String in ["keyboard", "pointer"]:
 		if input_kind == "keyboard":
 			_emit_keyboard_action(true)

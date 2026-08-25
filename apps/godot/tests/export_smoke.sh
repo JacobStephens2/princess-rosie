@@ -141,7 +141,7 @@ jq -e --arg expected_pack_revision "$expected_pack_revision" '
   and .observed_action_sources == ["keyboard.space", "pointer.primary"]
   and .observed_interactions == ["awakening-roses", "petal-drift"]
   and .playful_bumps_suppressed == true
-  and .route_duration_seconds == 18
+  and .route_duration_seconds == 13
   and .safe_limits_preserve_forward_motion == true
   and .smoke_flight_samples[0].label == "held-rise"
   and .smoke_flight_samples[1].label == "released-settle"
@@ -166,8 +166,7 @@ jq -e --arg expected_pack_revision "$expected_pack_revision" '
     "observed_visual_responses": ["roses-open-wide", "petals-drift-upward"],
     "resting_cloud_visible": false,
     "place_tint_applied": true,
-    "playful_bump_wobble_visible": false,
-    "celebration_visible": false
+    "playful_bump_wobble_visible": false
   }
   and (has("chosen_route") | not)
   and (has("path_choices") | not)
@@ -205,7 +204,10 @@ jq -e --arg expected_pack_revision "$expected_pack_revision" '
   and .storybook_stage.essential_content_cropped == false
   and .storybook_stage.celebration_visible == true
   and .storybook_stage.place_background_visible == false
-  and .storybook_stage.place_composition.celebration_visible == true
+  and .storybook_stage.celebration_illustration
+    == "source-media/celebration/birthday-castle-celebration.png"
+  and .storybook_stage.celebration_illustration_visible == true
+  and .storybook_stage.flight_character_visible == false
   and (has("chosen_route") | not)
   and (has("path_choices") | not)
   and (has("journey_history") | not)

@@ -55,7 +55,7 @@ func _init() -> void:
 		== ["silver-ribbons", "rose-lights"],
 		"settling low awakens the rose lights on the same route",
 	)
-	DRIVER.advance(responsive, 8.0)
+	DRIVER.advance(responsive, 4.0)
 	test.expect(
 		responsive.presentation_evidence().get("playful_bumps") == 3
 		and responsive.presentation_evidence().get("journey_phase") == "cloud-rest",

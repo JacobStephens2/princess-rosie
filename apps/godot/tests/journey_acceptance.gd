@@ -56,17 +56,17 @@ const REQUIRED_SOUND_EVENTS := [
 		"event": "sound-event.vignette-interaction",
 		"context": {"place": "lacewood", "interaction": "rose-lights"},
 	},
-	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
-	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
-	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
-	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
 	{"event": "sound-event.near-miss", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
 	{"event": "sound-event.playful-bump", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
 	{"event": "sound-event.playful-bump", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
 	{"event": "sound-event.playful-bump", "context": {"place": "lacewood", "kind": "silver-ribbon"}},
 	{"event": "sound-event.cloud-rest-entered", "context": {}},
 	{"event": "sound-event.cloud-rest-exited", "context": {}},
-	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
+	# The child never let go, so the rest resumes straight back into a rise.
 	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
 	{
 		"event": "sound-event.birthday-star-proximity",
@@ -176,13 +176,15 @@ func _init() -> void:
 		shell.handle_player_action(source, true)
 		DRIVER.advance(shell, 0.1)
 		shell.handle_player_action(source, false)
-	DRIVER.advance(shell, 7.7)
+	DRIVER.advance(shell, 3.9)
 	var resting: Dictionary = shell.presentation_evidence()
 	test.expect(
 		resting.get("journey_phase") == "cloud-rest"
 		and resting.get("birthday_stars") == ["birthday-star.rose-garden"],
 		"three nearby Playful Bumps reach a Cloud Rest that keeps every gathered Star",
 	)
+	# A child who is still holding on rides the rest out and climbs away as it releases.
+	shell.handle_player_action(KEYBOARD_SPACE, true)
 	DRIVER.advance(shell, 1.25)
 	test.expect(
 		shell.presentation_evidence().get("journey_phase") == "place-flight"
@@ -190,7 +192,6 @@ func _init() -> void:
 		"Cloud Rest resumes into the place it happened in, without another player action",
 	)
 
-	shell.handle_player_action(KEYBOARD_SPACE, true)
 	# Gentle Help after the Cloud Rest lengthens the remaining travel.
 	DRIVER.advance(shell, 10.0)
 	test.expect(

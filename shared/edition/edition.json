@@ -30,6 +30,8 @@
     { "role": "source-media", "path": "source-media/journey/family-guest-beasley.png" },
     { "role": "source-media", "path": "source-media/journey/birthday-star.png" },
     { "role": "source-media", "path": "source-media/journey/rainbow-path.png" },
+    { "role": "source-media", "path": "source-media/celebration/birthday-castle-celebration.png" },
+    { "role": "source-media-provenance", "path": "source-media/celebration/provenance.json" },
     { "role": "source-media-provenance", "path": "source-media/journey/provenance.json" },
     { "role": "source-media-music", "path": "source-media/soundscape/music/birthday-flight.mp3" },
     { "role": "source-media", "path": "source-media/soundscape/masters/opening-celebration-reveal.wav" },
