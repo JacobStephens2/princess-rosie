@@ -16,8 +16,10 @@
     }
   },
   "selection": {
-    "status": "agent-selected-production-candidate",
-    "ownerManualReview": "pending",
+    "status": "approved",
+    "ownerManualReview": "approved",
+    "ownerManualReviewBy": "Jacob Stephens",
+    "ownerManualReviewDate": "2026-08-25",
     "reason": "Scenery only, with columns of flower petals lifting readably high in the frame and the mountain's flowered slopes readable low, so riding the updrafts and settling onto the slopes each have something of their own to answer, and blush rose, lavender, gold, and sapphire continuous with the approved Rose Garden, Lacewood, Abbey, and Cloister art direction, in the wider cooler air the place asks for."
   }
 }
