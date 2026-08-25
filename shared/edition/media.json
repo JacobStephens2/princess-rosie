@@ -74,6 +74,11 @@
       "id": "journey.rainbow-path",
       "role": "treatment",
       "path": "source-media/journey/rainbow-path.png"
+    },
+    {
+      "id": "celebration.birthday-castle",
+      "role": "illustration",
+      "path": "source-media/celebration/birthday-castle-celebration.png"
     }
   ]
 }

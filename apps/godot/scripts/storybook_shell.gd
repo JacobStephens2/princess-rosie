@@ -54,8 +54,10 @@ const EVENT_BIRTHDAY_STAR_MOMENT := &"sound-event.birthday-star-moment"
 const EVENT_CLOUD_REST_ENTERED := &"sound-event.cloud-rest-entered"
 const EVENT_CLOUD_REST_EXITED := &"sound-event.cloud-rest-exited"
 const EVENT_BIRTHDAY_CASTLE_ARRIVAL := &"sound-event.birthday-castle-arrival"
+const EVENT_CELEBRATION_INTERACTION := &"sound-event.celebration-interaction"
 const EVENT_REPLAY := &"sound-event.replay"
 const EVENT_SOUND_PREFERENCE_CHANGED := &"sound-event.sound-preference-changed"
+const ACTION_FLY_AGAIN := "fly-again"
 const PHASE_FLIGHT := "flight"
 const PHASE_PLACE_FLIGHT := "place-flight"
 const PHASE_CLOUD_REST := "cloud-rest"
@@ -140,6 +142,8 @@ var _family_guest_textures: Dictionary = {}
 var _birthday_star_texture: Texture2D
 var _rainbow_path_texture: Texture2D
 var _rainbow_path_media_path := ""
+var _celebration_texture: Texture2D
+var _celebration_media_path := ""
 var _journey_media_paths: Dictionary = {}
 var _realized_place_count := 0
 var _opening_moment_index := 0
@@ -177,6 +181,7 @@ var _rainbow_paths: Array[String] = []
 var _observed_interactions: Array[String] = []
 var _soundscape: RefCounted
 var _engine_audio: Node
+var _rendering := false
 
 @onready var _stage: Control = %Stage
 @onready var _cover_presentation: Control = %CoverPresentation
@@ -203,6 +208,7 @@ var _engine_audio: Node
 @onready var _rainbow_path_treatment: TextureRect = %RainbowPathTreatment
 @onready var _moment_family_guest: TextureRect = %MomentFamilyGuest
 @onready var _moment_rainbow_path: TextureRect = %MomentRainbowPath
+@onready var _celebration_art: TextureRect = %CelebrationArt
 @onready var _flight_character: TextureRect = %FlightCharacter
 @onready var _flight_card: Control = $Stage/ActivePlayPresentation/FlightCard
 @onready var _pack_badge: Label = %PackBadge
@@ -255,6 +261,8 @@ func prepare_launch(pack_source: String = default_pack_source()) -> Dictionary:
 	_birthday_star_texture = null
 	_rainbow_path_texture = null
 	_rainbow_path_media_path = ""
+	_celebration_texture = null
+	_celebration_media_path = ""
 	_journey_media_paths = {}
 	_realized_place_count = 0
 	_opening_moment_index = 0
@@ -340,6 +348,8 @@ func presentation_evidence() -> Dictionary:
 		"flight_media_paths": _flight_media_paths.duplicate(true),
 		"place_media_paths": _place_media_paths.duplicate(true),
 		"journey_media_paths": _journey_media_paths.duplicate(true),
+		"celebration_actions": _celebration_actions(),
+		"flight_instruction": _flight_presentation_copy().get("instruction", ""),
 		"movement_state": _movement_state,
 		"active_action_sources": _active_action_source_ids(),
 		"observed_action_sources": _observed_action_source_ids(),
@@ -528,6 +538,8 @@ func storybook_stage_evidence() -> Dictionary:
 			_place_background.texture != null and _place_background.is_visible_in_tree()
 		),
 		"place_composition": _place_visuals.visual_evidence(),
+		"celebration_illustration": _celebration_media_path,
+		"celebration_illustration_visible": _layer_visible(_celebration_art),
 		"birthday_star_approach": _birthday_star_approach_evidence(),
 		"birthday_star_moment_composition": _birthday_star_moment_composition_evidence(),
 		"flight_character_visible": (
@@ -566,6 +578,33 @@ func _render_birthday_star_presentation() -> void:
 	var in_moment := _presented_state() == PresentationState.BIRTHDAY_STAR_MOMENT
 	_moment_family_guest.visible = in_moment
 	_moment_rainbow_path.visible = in_moment
+
+
+# The only thing the ending offers. It begins the whole journey again rather than
+# resuming it, so every Birthday Star is out there to be found once more.
+func _fly_again() -> bool:
+	if not _celebration_actions().has(ACTION_FLY_AGAIN):
+		return false
+	_report_sound_event(EVENT_CELEBRATION_INTERACTION, {"action": ACTION_FLY_AGAIN})
+	_reset_flight_motion()
+	_reset_current_journey()
+	_state = PresentationState.ACTIVE_PLAY
+	_movement_state = "flight"
+	_enter_place(0)
+	_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
+	return true
+
+
+func _celebration() -> Dictionary:
+	var celebration: Variant = _content.get("celebration")
+	return celebration if celebration is Dictionary else {}
+
+
+func _celebration_actions() -> Array[String]:
+	var actions: Array[String] = []
+	for action: Variant in _celebration().get("actions", []):
+		actions.append(str(action))
+	return actions
 
 
 func _birthday_star_gathered() -> bool:
@@ -664,7 +703,7 @@ func handle_player_intent(intent: StringName) -> bool:
 				if _action_held:
 					return false
 				_action_held = true
-				return true
+				return _fly_again()
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false
 			_action_held = true
@@ -752,6 +791,13 @@ func handle_player_intent(intent: StringName) -> bool:
 			return false
 
 func handle_player_action(source: StringName, pressed: bool) -> bool:
+	var answered := _answer_player_action(source, pressed)
+	if answered:
+		_render_presentation()
+	return answered
+
+
+func _answer_player_action(source: StringName, pressed: bool) -> bool:
 	if source not in [SOURCE_KEYBOARD_SPACE, SOURCE_POINTER_PRIMARY]:
 		return false
 	if pressed:
@@ -774,7 +820,12 @@ func handle_player_action(source: StringName, pressed: bool) -> bool:
 			if turned and _state == PresentationState.ACTIVE_PLAY:
 				handle_player_intent(INTENT_ACTION_PRESSED)
 			return turned
-		if _state in [PresentationState.ACTIVE_PLAY, PresentationState.CELEBRATION]:
+		if _state == PresentationState.CELEBRATION:
+			var flew_again := handle_player_intent(INTENT_ACTION_PRESSED)
+			if flew_again and _state == PresentationState.ACTIVE_PLAY:
+				handle_player_intent(INTENT_ACTION_PRESSED)
+			return flew_again
+		if _state == PresentationState.ACTIVE_PLAY:
 			return handle_player_intent(INTENT_ACTION_PRESSED)
 		return false
 
@@ -1163,7 +1214,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	if handle_player_input_event(event):
 		get_viewport().set_input_as_handled()
-		_render_presentation()
 
 
 func handle_player_input_event(event: InputEvent) -> bool:
@@ -1186,8 +1236,9 @@ func _layout_storybook_stage() -> void:
 
 
 func _render_presentation() -> void:
-	if not is_node_ready():
+	if not is_node_ready() or _rendering:
 		return
+	_rendering = true
 	var content_title := str(_content.get("title", "Princess Rosie and the Seven Birthday Stars"))
 	var opening: Dictionary = _current_opening_moment()
 	_title_label.text = content_title
@@ -1224,9 +1275,13 @@ func _render_presentation() -> void:
 		PHASE_BIRTHDAY_STAR_MOMENT,
 	]
 	var celebration_visible := _journey_phase == PHASE_CELEBRATION
-	_flight_background.visible = not place_visible
+	if _celebration_texture != null:
+		_celebration_art.texture = _celebration_texture
+	_celebration_art.visible = celebration_visible
+	_flight_background.visible = not place_visible and not celebration_visible
 	_place_background.visible = place_visible
-	_place_visuals.visible = place_visible or celebration_visible
+	_place_visuals.visible = place_visible
+	_flight_character.visible = not celebration_visible
 	_place_visuals.configure_place(place)
 	_place_visuals.set_story_state({
 		"phase": _journey_phase,
@@ -1280,6 +1335,7 @@ func _render_presentation() -> void:
 			and _paused_from in [PresentationState.ACTIVE_PLAY, PresentationState.CELEBRATION]
 		)
 	)
+	_rendering = false
 
 
 func _center_large_window() -> void:
@@ -1326,13 +1382,11 @@ func _on_sound_pressed() -> void:
 
 
 func _on_continue_button_down() -> void:
-	if handle_player_action(SOURCE_POINTER_PRIMARY, true):
-		_render_presentation()
+	handle_player_action(SOURCE_POINTER_PRIMARY, true)
 
 
 func _on_continue_button_up() -> void:
-	if handle_player_action(SOURCE_POINTER_PRIMARY, false):
-		_render_presentation()
+	handle_player_action(SOURCE_POINTER_PRIMARY, false)
 
 
 func _on_replay_pressed() -> void:
@@ -1534,7 +1588,7 @@ func _flight_presentation_copy() -> Dictionary:
 		PHASE_CELEBRATION:
 			return {
 				"title": "Birthday Castle Celebration!",
-				"instruction": "Press to dance again • every Rainbow Path is open",
+				"instruction": "Press to fly again • every Rainbow Path is open",
 			}
 		_:
 			return {
@@ -1592,10 +1646,31 @@ func _load_journey_media(pack_source: String, prepared_pack: Dictionary) -> Dict
 	_flight_character_texture = character_result.texture
 	_flight_character_has_transparency = character_result.has_transparency
 	_flight_media_paths[character_id] = character_result.path
+	var celebration_loaded := _load_celebration_media(pack_source, media_by_id)
+	if not celebration_loaded.ok:
+		return celebration_loaded
 	var places_loaded := _load_place_media(pack_source, media_by_id)
 	if not places_loaded.ok:
 		return places_loaded
 	return _load_shared_journey_media(pack_source, media_by_id)
+
+
+# One authored ending, reached identically on every journey, painted once.
+func _load_celebration_media(pack_source: String, media_by_id: Dictionary) -> Dictionary:
+	var celebration := _celebration()
+	if celebration.is_empty():
+		return {"ok": false, "error": "Edition Pack declares no celebration"}
+	var illustration_id := str(celebration.get("illustration", ""))
+	var media: Dictionary = media_by_id.get(illustration_id, {})
+	var path: String = media.get("path", "")
+	if media.get("role") != "illustration" or path.is_empty():
+		return {"ok": false, "error": "Celebration illustration is missing: %s" % illustration_id}
+	var result: Dictionary = _adapter.load_png_texture(pack_source, path)
+	if not result.ok:
+		return result
+	_celebration_texture = result.texture
+	_celebration_media_path = path
+	return {"ok": true}
 
 
 # The Birthday Star and the Rainbow Path are the same magical objects in every place,

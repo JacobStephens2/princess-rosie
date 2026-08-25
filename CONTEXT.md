@@ -21,8 +21,12 @@ Princess Rosie's storybook little sister and the child celebrated at the Birthda
 _Avoid_: Princess Her full given name, the objective
 
 **Birthday Castle**:
-The joyful destination where Princess Zélie's birthday is celebrated and Princess Rosie's adventure concludes.
+The joyful destination where Princess Zélie's birthday is celebrated and Princess Rosie's adventure concludes. Its celebration is one authored ending, reached identically on every journey and painted once — the Phaser Edition's approved illustration, reused rather than repainted — with Fly Again the only thing it offers.
 _Avoid_: Finish line, final level
+
+**Fly Again**:
+The single invitation at the Birthday Castle, which begins the whole journey afresh in the first place with every Birthday Star to be found again. It replaced Dance Again, which ADR-0011 cut from the MVP.
+_Avoid_: Restart button, replay level, Dance Again
 
 **Birthday Star**:
 One of seven golden, mosaic-like magical lights found beside a Family Guest and gathered by Princess Rosie to open that guest's Rainbow Path to the Birthday Castle.

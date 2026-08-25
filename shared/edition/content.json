@@ -242,9 +242,9 @@
     }
   ],
   "celebration": {
-    "id": "celebration.tracer",
+    "id": "celebration.birthday-castle",
+    "illustration": "celebration.birthday-castle",
     "actions": [
-      "dance-again",
       "fly-again"
     ]
   }

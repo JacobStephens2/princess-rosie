@@ -79,7 +79,6 @@ func _run() -> void:
 			"resting_cloud_visible": false,
 			"place_tint_applied": true,
 			"playful_bump_wobble_visible": false,
-			"celebration_visible": false,
 		},
 		"one corridor combines both altitude bands without advertising a choice: %s"
 		% JSON.stringify(entry.get("place_composition")),
