@@ -6,6 +6,7 @@ const EVIDENCE_ARGUMENT := "--smoke-evidence="
 const STATE_ARGUMENT := "--smoke-state="
 
 var _flight_samples: Array[Dictionary] = []
+var _whole_journey_evidence: Dictionary = {}
 
 
 func run_if_requested(shell: StorybookShell) -> void:
@@ -55,10 +56,10 @@ func run_if_requested(shell: StorybookShell) -> void:
 		return
 
 	var evidence := shell.presentation_evidence()
-	evidence["network_requests"] = 0
 	evidence["capture_sample_colors"] = _sample_color_count(image)
 	evidence["storybook_stage"] = shell.storybook_stage_evidence()
 	evidence["smoke_flight_samples"] = _flight_samples.duplicate(true)
+	evidence["whole_journey"] = _whole_journey_evidence.duplicate(true)
 	evidence["sound_events"] = shell.sound_event_evidence()
 	var evidence_file := FileAccess.open(evidence_path, FileAccess.WRITE)
 	if evidence_file == null:
@@ -95,65 +96,99 @@ func _fly_high_then_low(shell: StorybookShell) -> void:
 	_record_altitude(shell, "released-settle")
 
 
-# The smoke run flies the first two places through to their Birthday Star Moments,
-# turning each page by hand, and is satisfied by what the journey always does rather
-# than by anything the child has to fly badly to reach.
+# The smoke run traverses the exported game's complete public journey with the same
+# Space and primary-pointer inputs a child uses. Simulation time advances in-process so
+# this remains a quick build check instead of replaying the authored minutes in real time.
 func _complete_journey(shell: StorybookShell) -> void:
-	await _reach_birthday_star_moment(shell, 20.0)
-	await _turn_the_birthday_star_page()
-	# The second place answers the same two altitude bands before its low encounters.
-	_emit_keyboard_action(true)
-	await get_tree().create_timer(2.78).timeout
-	_emit_keyboard_action(false)
-	await get_tree().create_timer(2.24).timeout
-	for input_kind: String in ["keyboard", "pointer"]:
-		if input_kind == "keyboard":
+	var declared_places: Array = shell.presentation_evidence().get("places", [])
+	for place_index: int in declared_places.size():
+		# Alternate the public controls while Flight Control remains one shared action.
+		if place_index % 2 == 0:
 			_emit_keyboard_action(true)
-		else:
-			_emit_pointer_action(true)
-		await get_tree().create_timer(0.1).timeout
-		if input_kind == "keyboard":
+			await get_tree().process_frame
 			_emit_keyboard_action(false)
 		else:
+			_emit_pointer_action(true)
+			await get_tree().process_frame
 			_emit_pointer_action(false)
-	# An exported build is healthy when it does what the journey always does: complete a
-	# route and gather its Birthday Star. That is a better health check than a bump loop,
-	# and it no longer depends on the child flying badly.
-	var star_deadline_ms := Time.get_ticks_msec() + 20_000
-	while (
-		_gathered_birthday_star_count(shell) < 2
-		and Time.get_ticks_msec() < star_deadline_ms
-	):
 		await get_tree().process_frame
-	if _gathered_birthday_star_count(shell) < 2:
-		push_error(
-			"Export smoke did not gather the second place's Birthday Star: %s"
-			% JSON.stringify(shell.presentation_evidence()),
-		)
-		get_tree().quit(8)
+		_advance_shell(shell, 24.0)
+		var moment: Dictionary = shell.presentation_evidence()
+		if (
+			moment.get("state") != "birthday_star_moment"
+			or moment.get("birthday_stars", []).size() != place_index + 1
+			or moment.get("rainbow_paths", []).size() != place_index + 1
+		):
+			push_error(
+				"Export smoke dead-ended in place %d: %s"
+				% [place_index, JSON.stringify(moment)],
+			)
+			get_tree().quit(8)
+			return
+		await _turn_the_birthday_star_page()
+
+	var approach: Dictionary = shell.presentation_evidence()
+	var approach_stage: Dictionary = shell.storybook_stage_evidence()
+	if (
+		approach.get("journey_phase") != "birthday-castle-approach"
+		or approach_stage.get("birthday_castle_approach", {}).get("visible") != true
+	):
+		push_error("Export smoke missed the Birthday Castle approach: %s" % JSON.stringify(approach))
+		get_tree().quit(9)
 		return
-	_emit_keyboard_action(true)
-	# The run stops on the second place's Birthday Star Moment rather than turning past
-	# it, so the captured evidence is of a completed place rather than of whichever place
-	# happens to follow it.
-	await _reach_birthday_star_moment(shell, 12.0)
-	await get_tree().create_timer(0.35).timeout
+	_advance_shell(shell, 4.1)
+	await get_tree().process_frame
+	var celebration: Dictionary = shell.presentation_evidence()
+	var celebration_stage: Dictionary = shell.storybook_stage_evidence()
+	if celebration.get("state") != "celebration":
+		push_error("Export smoke did not reach the celebration: %s" % JSON.stringify(celebration))
+		get_tree().quit(10)
+		return
+	var visited_locations := _visited_places(shell)
+	visited_locations.append("birthday-castle")
+	_whole_journey_evidence = {
+		"visited_locations": visited_locations,
+		"celebration": {
+			"state": celebration.get("state"),
+			"journey_phase": celebration.get("journey_phase"),
+			"birthday_stars": celebration.get("birthday_stars", []).duplicate(),
+			"rainbow_paths": celebration.get("rainbow_paths", []).duplicate(),
+			"returning_rainbow_paths": approach_stage.get(
+				"birthday_castle_approach",
+				{},
+			).get("rainbow_path_count", 0),
+			"visible": celebration_stage.get("celebration_visible", false),
+		},
+	}
+
+	# Fly Again is part of the smoke rather than an isolated reset assertion: the same
+	# packaged process must leave the child in a genuinely playable first place.
+	_emit_pointer_action(true)
+	await get_tree().process_frame
+	_emit_pointer_action(false)
+	await get_tree().process_frame
+	var fly_again: Dictionary = shell.presentation_evidence()
+	_whole_journey_evidence["fly_again"] = {
+		"state": fly_again.get("state"),
+		"journey_phase": fly_again.get("journey_phase"),
+		"place": fly_again.get("place"),
+		"birthday_stars": fly_again.get("birthday_stars", []).duplicate(),
+		"rainbow_paths": fly_again.get("rainbow_paths", []).duplicate(),
+	}
 
 
-func _gathered_birthday_star_count(shell: StorybookShell) -> int:
-	return shell.presentation_evidence().get("birthday_stars", []).size()
+func _advance_shell(shell: StorybookShell, seconds: float) -> void:
+	for _frame: int in ceili(seconds * 60.0):
+		shell.advance_simulation(1.0 / 60.0)
+		shell.advance_journey(1.0 / 60.0)
 
 
-func _reach_birthday_star_moment(shell: StorybookShell, timeout_seconds: float) -> void:
-	var deadline_ms := Time.get_ticks_msec() + int(timeout_seconds * 1000.0)
-	while (
-		shell.presentation_evidence().get("state") != "birthday_star_moment"
-		and Time.get_ticks_msec() < deadline_ms
-	):
-		await get_tree().process_frame
-	if shell.presentation_evidence().get("state") != "birthday_star_moment":
-		push_error("Export smoke did not reach the guaranteed Birthday Star Moment")
-		get_tree().quit(7)
+func _visited_places(shell: StorybookShell) -> Array[String]:
+	var visited: Array[String] = []
+	for sound_event: Dictionary in shell.sound_event_evidence():
+		if sound_event.get("event") == "sound-event.place-entry":
+			visited.append(str(sound_event.get("context", {}).get("place", "")))
+	return visited
 
 
 # The held flight input must not advance the moment. A release and new press does.
