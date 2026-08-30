@@ -1,0 +1,14 @@
+{
+  "cueId": "cue.birthday-castle.arrival",
+  "runtimeMapping": "runtime-cue.birthday-castle.arrival",
+  "sourceMaster": "source-master.birthday-castle.arrival",
+  "sourcePath": "masters/birthday-castle-arrival.wav",
+  "runtimePath": "runtime/birthday-castle-arrival.wav",
+  "sourceHash": "sha256:74e090d2d955dfc7c3a934425d7d88acdcc087f89758181000e051258a685752",
+  "derivativeHash": "sha256:74e090d2d955dfc7c3a934425d7d88acdcc087f89758181000e051258a685752",
+  "import": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "looping": false
+  }
+}

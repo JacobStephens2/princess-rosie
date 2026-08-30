@@ -347,6 +347,70 @@ func _init() -> void:
 		"crossing places never cuts the ambience slot to silence first",
 	)
 
+	var arrival_audio := FakeEngineAudioAdapter.new()
+	var arrival_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, arrival_audio)
+	test.expect(
+		arrival_soundscape.report_event(
+			&"sound-event.movement-state",
+			{"state": "flight"},
+		)
+		and arrival_soundscape.report_event(
+			&"sound-event.place-entry",
+			{"place": "sapphire-sea"},
+		),
+		"the Birthday Castle approach carries Sapphire Sea movement and ambience",
+	)
+	test.expect(
+		arrival_soundscape.report_event(
+			&"sound-event.birthday-star-proximity",
+			{"birthdayStar": "birthday-star.sapphire-sea"},
+		),
+		"the approach remembers its last Birthday Star shimmer",
+	)
+	test.expect(
+		arrival_soundscape.report_event(&"sound-event.birthday-castle-arrival", {}),
+		"arrival answers with its authored fanfare",
+	)
+	test.expect(
+		arrival_audio.stopped_slots == ["movement"]
+		and arrival_audio.loaded_paths.back()
+		== "source-media/soundscape/runtime/birthday-castle-arrival.wav",
+		"party sound replaces the approach movement before the ambience handoff: %s"
+		% JSON.stringify(arrival_audio.stopped_slots),
+	)
+	var arrival_playback: Dictionary = arrival_audio.playback_settings.back()
+	test.expect(
+		arrival_playback.get("slot") == "ambience"
+		and arrival_playback.get("category") == "party-ambience"
+		and arrival_playback.get("priority") == 100
+		and arrival_playback.get("music_duck_db") == -4
+		and arrival_playback.get("crossfade_ms") == 600,
+		"the one arrival fanfare owns the party ambience slot and stays prominent",
+	)
+	var stopped_before_fly_again := arrival_audio.stopped_slots.size()
+	test.expect(
+		arrival_soundscape.report_event(
+			&"sound-event.replay",
+			{"destination": "fresh-journey"},
+		),
+		"Fly Again is accepted as a fresh-journey audio reset",
+	)
+	test.expect(
+		arrival_audio.stopped_slots.slice(stopped_before_fly_again) == [
+			"movement",
+			"ambience",
+			"foreground",
+		],
+		"Fly Again clears every journey layer including the arrival fanfare",
+	)
+	test.expect(
+		arrival_soundscape.report_event(
+			&"sound-event.birthday-star-proximity",
+			{"birthdayStar": "birthday-star.sapphire-sea"},
+		),
+		"the next journey can sound a Birthday Star shimmer that the prior journey used",
+	)
+
 	var swoop_audio := FakeEngineAudioAdapter.new()
 	var swoop_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, swoop_audio)
 	for semantic_event: Array in [

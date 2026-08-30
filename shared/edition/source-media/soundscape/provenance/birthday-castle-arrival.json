@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 3,
+  "cueId": "cue.birthday-castle.arrival",
+  "sourceMasterId": "source-master.birthday-castle.arrival",
+  "runtimeMapping": "runtime-cue.birthday-castle.arrival",
+  "jobHash": "sha256:13d0908d126e68def5cfc9f4347baae61c9f9a1e048a37356a2e38753791546d",
+  "provider": "ElevenLabs",
+  "adapter": "real",
+  "providerProfile": "elevenlabs-api-v1",
+  "sdkVersion": "2.64.0",
+  "model": "eleven_text_to_sound_v2",
+  "parameters": {
+    "prompt": "A gentle authored arrival phrase. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
+    "durationSeconds": 3,
+    "promptInfluence": 0.3,
+    "loop": false,
+    "sourceFormat": "pcm_48000"
+  },
+  "generationTimestamp": "2026-08-30T18:57:08.734Z",
+  "traceId": "c28a22aef602a75f44a2759d623306cf",
+  "providerReportedUsage": {
+    "characterCost": "30"
+  },
+  "sourceHash": "sha256:7265d4ff0857bbcf9eea98bd4c2efb5b46dba2abf59277e351f45466536be406",
+  "selectedOutputHash": "sha256:74e090d2d955dfc7c3a934425d7d88acdcc087f89758181000e051258a685752",
+  "channelLayout": {
+    "sourceChannels": 2,
+    "masterChannels": 2,
+    "sampleRate": 48000,
+    "sampleFormat": "signed-16-bit-little-endian"
+  },
+  "processing": [
+    "inspect-pcm-s16le",
+    "trim-boundary-silence",
+    "preserve-stereo",
+    "fade-in-10ms",
+    "fade-out-20ms",
+    "peak-ceiling--6dbfs",
+    "wav-wrap-pcm16le",
+    "decode-wav-qa"
+  ],
+  "formatProbe": {
+    "requestedFormat": "pcm_48000",
+    "outcome": "accepted",
+    "establishedChannelLayout": {
+      "candidate": "candidate-1",
+      "sourceChannels": 2,
+      "sampleRate": 48000,
+      "sampleFormat": "signed-16-bit-little-endian"
+    }
+  },
+  "audioQa": {
+    "decodable": true,
+    "durationWithinTolerance": true,
+    "nonSilent": true,
+    "sampleRate": 48000,
+    "channels": 2,
+    "peakDbfs": -6,
+    "peakCeilingDbfs": -6,
+    "loopSeamDelta": null
+  },
+  "runtimeDerivativeHash": "sha256:74e090d2d955dfc7c3a934425d7d88acdcc087f89758181000e051258a685752",
+  "commercialPlanStatus": {
+    "tier": "starter",
+    "status": "active",
+    "activePaid": true
+  },
+  "masteringIntent": "gentle-authored-arrival-phrase-for-macbook",
+  "channelPolicy": "warm-stereo",
+  "priority": 100,
+  "priorityBand": "critical",
+  "approvedCandidate": "candidate-2",
+  "selectionReason": "Paid Google Vertex AI Gemini API evaluation with gemini-3.7-flash at HIGH thinking ranked blinded Candidate Alpha (candidate-2) > Candidate Bravo (candidate-1) > Candidate Charlie (candidate-3), with low uncertainty and no perceptual failure flags for Alpha. Waveform QA passed decode, 3.0 s duration, 48 kHz stereo, silence/DC/loudness/peak/true-peak/headroom/clipping checks; the unusually wide opening stereo correlation was flagged for translation review, while Gemini's mono-combined input remained successful. The project owner completed the required MacBook-speaker and headphone listening pass on 2026-08-30 and approved Alpha for its gentle soft-brass and celebratory-chime warmth, low startle risk, clarity, and distinctness from the opening celebration and prior Birthday Star references."
+}
