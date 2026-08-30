@@ -175,6 +175,21 @@ Selected output: `shared/edition/source-media/pellegrino-peak/pellegrino-peak-ba
 
 Provenance: `shared/edition/source-media/pellegrino-peak/provenance.json`
 
+## Sapphire Sea: Place Illustration
+
+Execution: Codex built-in image generation tool, generation mode, 1672×941 RGB PNG.
+Approved by the project owner on 2026-08-30. Generated rather than edited. The open sea
+and its pearly wave crests read high in the frame while sheltered turquoise coves glow
+low, because flying high and settling low each awaken their own equally safe coastal
+delight. The sea-dominant composition keeps the place distinct from the sky architecture
+and flowered mountain before it.
+
+> Use case: illustration-story. Asset type: production 16:9 game environment Place Illustration for a gentle Godot active-play scene. Primary request: Create the Sapphire Sea, the sparkling coastal passage immediately before the Birthday Castle comes into view, with a single open flight corridor running left to right across the frame. Scene/backdrop: Along the upper band show wide open sapphire water beneath a clear luminous sky, with long soft pearly wave crests and trails of sun sparkle clearly readable across the open sea. Along the lower band show a chain of sheltered luminous shore coves, shallow turquoise water glowing over pale rounded stone, warm cream limestone edges, and a few small blush-rose and lavender coastal flowers. Keep the sea dominant and the coastline low so this place is visually distinct from the sky cloister and flowered mountain before it. Style/medium: premium flat modern children’s picture-book illustration; solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny lighting. Composition/framing: wide 16:9 full-Stage scenery painting, open safe flight space through both altitude bands; wave crests readable high and luminous coves readable low so height alone reads as a different delight. Color palette: deep sapphire, luminous turquoise, warm cream, mosaic gold, with restrained blush rose and lavender accents. Lighting/mood: sparkling, coastal, joyful, gentle, spacious; both altitude bands equally bright, safe, and beautiful. Constraints: scenery only; no characters, faces, animals, boats, Princess Rosie, Stella, Aunt, Family Guest, Birthday Star, Rainbow Path, Birthday Castle, written text, interface, watermark, correctness cues, danger, storm, crashing surf, cliffs that read as a fall, photorealism, 3D render, or anime.
+
+Selected output: `shared/edition/source-media/sapphire-sea/sapphire-sea-background.png`
+
+Provenance: `shared/edition/source-media/sapphire-sea/provenance.json`
+
 
 ## Birthday Castle celebration illustration
 

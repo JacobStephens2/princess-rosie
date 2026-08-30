@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "rosie-source-media-provenance/1",
+  "asset": "sapphire-sea-background.png",
+  "sha256": "767119cce2e83c79811c953448c0d52e50bfcb2d1d623eae1d99460a63284104",
+  "createdAt": "2026-08-30",
+  "generation": {
+    "tool": "Codex built-in image generation tool",
+    "mode": "generation",
+    "useCase": "illustration-story",
+    "references": [],
+    "prompt": "Use case: illustration-story. Asset type: production 16:9 game environment Place Illustration for a gentle Godot active-play scene. Primary request: Create the Sapphire Sea, the sparkling coastal passage immediately before the Birthday Castle comes into view, with a single open flight corridor running left to right across the frame. Scene/backdrop: Along the upper band show wide open sapphire water beneath a clear luminous sky, with long soft pearly wave crests and trails of sun sparkle clearly readable across the open sea. Along the lower band show a chain of sheltered luminous shore coves, shallow turquoise water glowing over pale rounded stone, warm cream limestone edges, and a few small blush-rose and lavender coastal flowers. Keep the sea dominant and the coastline low so this place is visually distinct from the sky cloister and flowered mountain before it. Style/medium: premium flat modern children’s picture-book illustration; solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny lighting. Composition/framing: wide 16:9 full-Stage scenery painting, open safe flight space through both altitude bands; wave crests readable high and luminous coves readable low so height alone reads as a different delight. Color palette: deep sapphire, luminous turquoise, warm cream, mosaic gold, with restrained blush rose and lavender accents. Lighting/mood: sparkling, coastal, joyful, gentle, spacious; both altitude bands equally bright, safe, and beautiful. Constraints: scenery only; no characters, faces, animals, boats, Princess Rosie, Stella, Aunt, Family Guest, Birthday Star, Rainbow Path, Birthday Castle, written text, interface, watermark, correctness cues, danger, storm, crashing surf, cliffs that read as a fall, photorealism, 3D render, or anime.",
+    "output": {
+      "width": 1672,
+      "height": 941,
+      "color": "RGB"
+    }
+  },
+  "selection": {
+    "status": "approved",
+    "ownerManualReview": "approved",
+    "ownerManualReviewBy": "Jacob Stephens",
+    "ownerManualReviewDate": "2026-08-30",
+    "reason": "Scenery only, with pearly wave crests readable high and luminous turquoise coves readable low, so the open water and sheltered shore each answer a different height while remaining equally bright and safe. Its sea-dominant sapphire and turquoise composition stays distinct from the Cloister's sky architecture and Pellegrino Peak's flowered slopes."
+  }
+}
