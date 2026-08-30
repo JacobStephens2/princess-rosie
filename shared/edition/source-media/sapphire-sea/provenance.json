@@ -16,8 +16,10 @@
     }
   },
   "selection": {
-    "status": "agent-selected-production-candidate",
-    "ownerManualReview": "pending",
+    "status": "approved",
+    "ownerManualReview": "approved",
+    "ownerManualReviewBy": "Jacob Stephens",
+    "ownerManualReviewDate": "2026-08-30",
     "reason": "Scenery only, with pearly wave crests readable high and luminous turquoise coves readable low, so the open water and sheltered shore each answer a different height while remaining equally bright and safe. Its sea-dominant sapphire and turquoise composition stays distinct from the Cloister's sky architecture and Pellegrino Peak's flowered slopes."
   }
 }
