@@ -1103,6 +1103,26 @@
       "path": "source-media/soundscape/catalog-state/rainbow-path-pellegrino-peak.json"
     },
     {
+      "role": "source-media",
+      "path": "source-media/soundscape/masters/birthday-castle-arrival.wav"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/soundscape/provenance/birthday-castle-arrival.json"
+    },
+    {
+      "role": "source-media-runtime",
+      "path": "source-media/soundscape/runtime/birthday-castle-arrival.wav"
+    },
+    {
+      "role": "source-media-runtime-import",
+      "path": "source-media/soundscape/runtime-imports/birthday-castle-arrival.json"
+    },
+    {
+      "role": "source-media-catalog-state",
+      "path": "source-media/soundscape/catalog-state/birthday-castle-arrival.json"
+    },
+    {
       "role": "source-media-build-report",
       "path": "source-media/soundscape/soundscape-build-report.json"
     }

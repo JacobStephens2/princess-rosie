@@ -60,6 +60,7 @@ const PHASE_FLIGHT := "flight"
 const PHASE_PLACE_FLIGHT := "place-flight"
 const PHASE_STAR_APPROACH := "birthday-star-approach"
 const PHASE_BIRTHDAY_STAR_MOMENT := "birthday-star-moment"
+const PHASE_BIRTHDAY_CASTLE_APPROACH := "birthday-castle-approach"
 const PHASE_CELEBRATION := "celebration"
 const MILESTONE_ALTITUDE_BAND: StringName = &"altitude-band-interaction"
 const MILESTONE_ROUTE_COMPLETE: StringName = &"route-complete"
@@ -69,6 +70,7 @@ const BIRTHDAY_STAR_REACH := 160.0
 const DEFAULT_PLAYFUL_BUMP_WOBBLE_SECONDS := 0.45
 const DEFAULT_CROSSING_REST_SECONDS := 0.9
 const DEFAULT_NEAR_MISS_REST_SECONDS := 0.9
+const BIRTHDAY_CASTLE_APPROACH_SECONDS := 4.0
 const REQUIRED_PLACE_FIELDS := [
 	"id",
 	"name",
@@ -203,6 +205,8 @@ var _rendering := false
 @onready var _moment_family_guest: TextureRect = %MomentFamilyGuest
 @onready var _moment_rainbow_path: TextureRect = %MomentRainbowPath
 @onready var _celebration_art: TextureRect = %CelebrationArt
+@onready var _castle_approach_backdrop: TextureRect = %CastleApproachBackdrop
+@onready var _birthday_castle_approach: BirthdayCastleApproach = %BirthdayCastleApproach
 @onready var _flight_character: TextureRect = %FlightCharacter
 @onready var _flight_card: Control = $Stage/ActivePlayPresentation/FlightCard
 @onready var _pack_badge: Label = %PackBadge
@@ -338,6 +342,8 @@ func presentation_evidence() -> Dictionary:
 		"place_media_paths": _place_media_paths.duplicate(true),
 		"journey_media_paths": _journey_media_paths.duplicate(true),
 		"celebration_actions": _celebration_actions(),
+		"celebration_hosts": _celebration_string_list("hosts"),
+		"celebration_family_guests": _celebration_string_list("familyGuests"),
 		"flight_instruction": _flight_presentation_copy().get("instruction", ""),
 		"movement_state": _movement_state,
 		"active_action_sources": _active_action_source_ids(),
@@ -478,6 +484,9 @@ func storybook_stage_evidence() -> Dictionary:
 		"place_composition": _place_visuals.visual_evidence(),
 		"celebration_illustration": _celebration_media_path,
 		"celebration_illustration_visible": _layer_visible(_celebration_art),
+		"birthday_castle_approach": _birthday_castle_approach.visual_evidence(),
+		"flight_character_center": _flight_character.position + _flight_character.pivot_offset,
+		"flight_character_scale": _flight_character.scale,
 		"birthday_star_approach": _birthday_star_approach_evidence(),
 		"birthday_star_moment_composition": _birthday_star_moment_composition_evidence(),
 		"flight_character_visible": (
@@ -524,6 +533,7 @@ func _fly_again() -> bool:
 	if not _celebration_actions().has(ACTION_FLY_AGAIN):
 		return false
 	_report_sound_event(EVENT_CELEBRATION_INTERACTION, {"action": ACTION_FLY_AGAIN})
+	_report_sound_event(EVENT_REPLAY, {"destination": "fresh-journey"})
 	_reset_flight_motion()
 	_reset_current_journey()
 	_state = PresentationState.ACTIVE_PLAY
@@ -539,10 +549,14 @@ func _celebration() -> Dictionary:
 
 
 func _celebration_actions() -> Array[String]:
-	var actions: Array[String] = []
-	for action: Variant in _celebration().get("actions", []):
-		actions.append(str(action))
-	return actions
+	return _celebration_string_list("actions")
+
+
+func _celebration_string_list(field: String) -> Array[String]:
+	var values: Array[String] = []
+	for value: Variant in _celebration().get(field, []):
+		values.append(str(value))
+	return values
 
 
 func _birthday_star_gathered() -> bool:
@@ -621,9 +635,12 @@ func handle_player_intent(intent: StringName) -> bool:
 					_enter_place(_place_index + 1)
 					_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
 					return true
-				_journey_phase = PHASE_CELEBRATION
-				_state = PresentationState.CELEBRATION
-				_report_sound_event(EVENT_BIRTHDAY_CASTLE_ARRIVAL, {})
+				_journey_phase = PHASE_BIRTHDAY_CASTLE_APPROACH
+				_journey_phase_elapsed = 0.0
+				_journey_checkpoint = 0
+				_state = PresentationState.ACTIVE_PLAY
+				_movement_state = "flight"
+				_report_sound_event(EVENT_MOVEMENT_STATE, {"state": _movement_state})
 				return true
 			if _state != PresentationState.OPENING_STORYBOOK_MOMENT:
 				return false
@@ -645,7 +662,12 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false
 			_action_held = true
-			if _journey_phase not in [PHASE_FLIGHT, PHASE_PLACE_FLIGHT, PHASE_STAR_APPROACH]:
+			if _journey_phase not in [
+				PHASE_FLIGHT,
+				PHASE_PLACE_FLIGHT,
+				PHASE_STAR_APPROACH,
+				PHASE_BIRTHDAY_CASTLE_APPROACH,
+			]:
 				return true
 			if _movement_state == "rise":
 				return false
@@ -661,7 +683,12 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _state != PresentationState.ACTIVE_PLAY:
 				return false
 			_action_held = false
-			if _journey_phase not in [PHASE_FLIGHT, PHASE_PLACE_FLIGHT, PHASE_STAR_APPROACH]:
+			if _journey_phase not in [
+				PHASE_FLIGHT,
+				PHASE_PLACE_FLIGHT,
+				PHASE_STAR_APPROACH,
+				PHASE_BIRTHDAY_CASTLE_APPROACH,
+			]:
 				return true
 			if _movement_state == "glide":
 				return false
@@ -825,6 +852,9 @@ func advance_journey(delta: float) -> void:
 			_advance_place_flight()
 		PHASE_STAR_APPROACH:
 			_advance_birthday_star_sequence()
+		PHASE_BIRTHDAY_CASTLE_APPROACH:
+			if _journey_phase_elapsed >= BIRTHDAY_CASTLE_APPROACH_SECONDS:
+				_arrive_at_birthday_castle()
 	_render_presentation()
 
 
@@ -1077,6 +1107,14 @@ func _reset_current_journey() -> void:
 	_observed_interactions = []
 
 
+func _arrive_at_birthday_castle() -> void:
+	_journey_phase = PHASE_CELEBRATION
+	_journey_phase_elapsed = 0.0
+	_state = PresentationState.CELEBRATION
+	_movement_state = ""
+	_report_sound_event(EVENT_BIRTHDAY_CASTLE_ARRIVAL, {})
+
+
 func storybook_stage_rect(viewport_size: Vector2) -> Rect2:
 	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
 		return Rect2()
@@ -1127,6 +1165,7 @@ func _process(delta: float) -> void:
 	)
 	_flight_character.scale = Vector2.ONE * (1.0 + character_breath * 0.006)
 	_apply_place_traversal_presentation()
+	_apply_birthday_castle_approach_presentation()
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -1198,8 +1237,18 @@ func _render_presentation() -> void:
 	var celebration_visible := _journey_phase == PHASE_CELEBRATION
 	if _celebration_texture != null:
 		_celebration_art.texture = _celebration_texture
+		_castle_approach_backdrop.texture = _celebration_texture
+	_birthday_castle_approach.configure(
+		_rainbow_path_texture,
+		int(_celebration().get("returningRainbowPathCount", 0)),
+	)
+	var castle_approach_visible := _journey_phase == PHASE_BIRTHDAY_CASTLE_APPROACH
 	_celebration_art.visible = celebration_visible
-	_flight_background.visible = not place_visible and not celebration_visible
+	_castle_approach_backdrop.visible = castle_approach_visible
+	_birthday_castle_approach.visible = castle_approach_visible
+	_flight_background.visible = (
+		not place_visible and not castle_approach_visible and not celebration_visible
+	)
 	_place_background.visible = place_visible
 	_place_visuals.visible = place_visible
 	_flight_character.visible = not celebration_visible
@@ -1216,6 +1265,7 @@ func _render_presentation() -> void:
 	})
 	_render_birthday_star_presentation()
 	_apply_place_traversal_presentation()
+	_apply_birthday_castle_approach_presentation()
 	_continue_button.text = (
 		"Keep flying"
 		if _state == PresentationState.BIRTHDAY_STAR_MOMENT
@@ -1512,6 +1562,31 @@ func _apply_place_traversal_presentation() -> void:
 	)
 
 
+func _apply_birthday_castle_approach_presentation() -> void:
+	if not is_node_ready() or _journey_phase != PHASE_BIRTHDAY_CASTLE_APPROACH:
+		return
+	var progress := clampf(
+		_journey_phase_elapsed / BIRTHDAY_CASTLE_APPROACH_SECONDS,
+		0.0,
+		1.0,
+	)
+	var character_center := Vector2(
+		lerpf(360.0, 790.0, progress),
+		lerpf(520.0, 190.0, _flight_altitude_stage_heights),
+	)
+	_flight_character.position = character_center - _flight_character.pivot_offset
+	_flight_character.scale = Vector2.ONE * 0.65
+	_flight_character.rotation = clampf(
+		-_flight_vertical_speed_stage_heights_per_second * 0.16,
+		-0.12,
+		0.12,
+	)
+	_castle_approach_backdrop.scale = Vector2.ONE * lerpf(1.08, 1.0, progress)
+	_castle_approach_backdrop.position = -(_castle_approach_backdrop.size * (
+		_castle_approach_backdrop.scale - Vector2.ONE
+	)) * 0.5
+
+
 # A Playful Bump reads as a soft rocking that fades out; nothing is lost or blocked.
 func _playful_bump_wobble() -> float:
 	if _playful_bump_wobble_seconds <= 0.0:
@@ -1534,6 +1609,11 @@ func _flight_presentation_copy() -> Dictionary:
 			return {
 				"title": "A Birthday Star is near!",
 				"instruction": "It will joyfully fly to Stella",
+			}
+		PHASE_BIRTHDAY_CASTLE_APPROACH:
+			return {
+				"title": "The Birthday Castle is near!",
+				"instruction": "All seven Rainbow Paths are coming home",
 			}
 		PHASE_CELEBRATION:
 			return {

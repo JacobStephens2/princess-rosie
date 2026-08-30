@@ -232,6 +232,9 @@ const REQUIRED_SOUND_EVENTS := [
 		"event": "sound-event.birthday-star-moment",
 		"context": {"familyGuest": "Aunt", "place": "sapphire-sea"},
 	},
+	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
 	{"event": "sound-event.birthday-castle-arrival", "context": {}},
 ]
 
@@ -492,6 +495,15 @@ func _init() -> void:
 		"a release and deliberate new press leaves the last realized place",
 	)
 	shell.handle_player_action(KEYBOARD_SPACE, false)
+
+	var approach: Dictionary = shell.presentation_evidence()
+	test.expect(
+		approach.get("state") == "active_play"
+		and approach.get("journey_phase") == "birthday-castle-approach",
+		"the six-place journey flies the authored Birthday Castle approach: %s"
+		% JSON.stringify(approach),
+	)
+	DRIVER.advance(shell, 4.1)
 
 	var evidence: Dictionary = shell.presentation_evidence()
 	test.expect(

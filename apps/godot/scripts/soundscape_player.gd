@@ -19,6 +19,7 @@ const MOVEMENT_EVENT := &"sound-event.movement-state"
 const PLACE_ENTRY_EVENT := &"sound-event.place-entry"
 const NEAR_MISS_EVENT := &"sound-event.near-miss"
 const BIRTHDAY_STAR_PROXIMITY_EVENT := &"sound-event.birthday-star-proximity"
+const BIRTHDAY_CASTLE_ARRIVAL_EVENT := &"sound-event.birthday-castle-arrival"
 const REPLAY_EVENT := &"sound-event.replay"
 const SOUND_PREFERENCE_EVENT := &"sound-event.sound-preference-changed"
 const SOUND_OFF_LIMIT_MS := 200
@@ -114,8 +115,17 @@ func report_event(event_id: StringName, parameters: Dictionary = {}) -> bool:
 			_audio.stop_slot("movement")
 			_audio.stop_slot("ambience")
 			_audio.stop_slot("foreground")
+		return true
+	if event_id == BIRTHDAY_CASTLE_ARRIVAL_EVENT:
+		_movement_state = ""
+		_current_place = ""
+		if _audio.has_method("stop_slot"):
+			_audio.stop_slot("movement")
 		if not _sound_enabled:
+			if _audio.has_method("stop_slot"):
+				_audio.stop_slot("ambience")
 			return true
+		return _play_resolved_cue(event_id, parameters)
 	if event_id == PLACE_ENTRY_EVENT:
 		var next_place: Variant = parameters.get("place")
 		if not next_place is String or next_place.is_empty():
@@ -318,6 +328,20 @@ func _playback_for(cue: Dictionary, event_id: StringName, duration_ms: int) -> S
 		cue.get("looping", false),
 		duration_ms,
 	)
+	# The one authored arrival cue aggregates its gentle fanfare with the party warmth.
+	# Giving that aggregate the ambience slot makes it replace the approach bed through
+	# the normal bounded handoff instead of becoming another layer over Sapphire Sea.
+	if event_id == BIRTHDAY_CASTLE_ARRIVAL_EVENT:
+		playback.bus = CRITICAL_BUS
+		playback.category = &"party-ambience"
+		playback.slot = SOUNDSCAPE_PLAYBACK.SLOT_AMBIENCE
+		playback.gain_db = (
+			music_reference_gain_db
+			+ float(category_gains.get("criticalForeground", 3.0))
+		)
+		playback.music_duck_db = float(_mix.get("musicDuckDb", -4))
+		playback.crossfade_ms = int(_mix.get("placeCrossfadeMs", 0))
+		return playback
 	if priority >= 100:
 		playback.bus = CRITICAL_BUS
 		playback.category = &"critical-foreground"
