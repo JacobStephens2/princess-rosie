@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://scripts/storybook_shell.gd" id="1_shell"]
 [ext_resource type="Texture2D" path="res://assets/storybook-cover.png" id="2_cover"]
 [ext_resource type="Texture2D" path="res://assets/opening-storybook-moment.png" id="3_opening"]
 [ext_resource type="Script" path="res://scripts/export_smoke_probe.gd" id="4_smoke"]
 [ext_resource type="Script" path="res://scripts/place_visuals.gd" id="5_place_visuals"]
+[ext_resource type="Script" path="res://scripts/birthday_castle_approach.gd" id="6_castle_approach"]
 
 [sub_resource type="StyleBoxFlat" id="StyleTitle"]
 bg_color = Color(0.133333, 0.0784314, 0.2, 0.78)
@@ -468,6 +469,25 @@ expand_mode = 1
 stretch_mode = 0
 mouse_filter = 2
 
+[node name="CastleApproachBackdrop" type="TextureRect" parent="Stage/ActivePlayPresentation"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(640, 360)
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+modulate = Color(0.68, 0.72, 0.86, 0.82)
+
 [node name="FlightTint" type="ColorRect" parent="Stage/ActivePlayPresentation"]
 layout_mode = 1
 anchors_preset = 15
@@ -489,6 +509,18 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("5_place_visuals")
+
+[node name="BirthdayCastleApproach" type="Control" parent="Stage/ActivePlayPresentation"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_castle_approach")
 
 [node name="RainbowPathTreatment" type="TextureRect" parent="Stage/ActivePlayPresentation"]
 unique_name_in_owner = true

@@ -263,6 +263,20 @@
   "celebration": {
     "id": "celebration.birthday-castle",
     "illustration": "celebration.birthday-castle",
+    "returningRainbowPathCount": 7,
+    "hosts": [
+      "Princess Zélie",
+      "Gigi"
+    ],
+    "familyGuests": [
+      "Mom",
+      "Dad",
+      "Pop",
+      "Gram",
+      "Aunt",
+      "Uncle",
+      "Beasley"
+    ],
     "actions": [
       "fly-again"
     ]
