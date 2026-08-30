@@ -272,7 +272,7 @@ jq -e --arg expected_pack_revision "$expected_pack_revision" '
     "rainbow-path.pellegrino-peak",
     "rainbow-path.sapphire-sea"
   ]
-  and .whole_journey.celebration.returning_rainbow_paths == 7
+  and .whole_journey.celebration.returning_rainbow_paths == 6
   and .whole_journey.celebration.visible == true
   and .whole_journey.fly_again.state == "active_play"
   and .whole_journey.fly_again.journey_phase == "place-flight"

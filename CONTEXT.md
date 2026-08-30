@@ -29,12 +29,16 @@ The single invitation at the Birthday Castle, which begins the whole journey afr
 _Avoid_: Restart button, replay level, Dance Again
 
 **Birthday Star**:
-One of seven golden, mosaic-like magical lights found beside a Family Guest and gathered by Princess Rosie to open that guest's Rainbow Path to the Birthday Castle.
-_Avoid_: Coin, point, collectible
+One of the six golden, mosaic-like magical lights scattered beside a Family Guest. It notices Stella nearby, joyfully flies to her, and is gathered when it arrives, opening that guest's Rainbow Path to the Birthday Castle.
+_Avoid_: Coin, point, collectible, Castle Star
+
+**Castle Star**:
+The seventh golden Birthday Star, kept safe by Dad at the Birthday Castle and already shining before the six recovered Stars join it in a visible seven-Star constellation over the celebration.
+_Avoid_: Seventh scattered star, ungathered star, bonus star
 
 **Rainbow Path**:
-The magical route opened by a gathered Birthday Star that carries a Family Guest safely ahead to Princess Zélie's celebration.
-_Avoid_: Teleporter, guest collection
+The magical route opened by a gathered Birthday Star that carries a Family Guest safely ahead to Princess Zélie's celebration. Six Paths return with the six recovered Stars; the Castle Star never needs one.
+_Avoid_: Teleporter, guest collection, seventh returning path
 
 **Path Choice**:
 A deferred, post-MVP interaction concept in which Princess Rosie guides Stella onto one of two equally safe routes that later rejoin. Path Choices are absent from the single-route MVP.

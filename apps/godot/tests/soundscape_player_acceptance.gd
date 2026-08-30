@@ -665,8 +665,8 @@ func _init() -> void:
 		"enabling Sound restores confirmation playback",
 	)
 
-	# All seven Birthday Stars are the same achievement, so all seven share one gather cue
-	# while each Family Guest's Rainbow Path opens with the shared opening cue.
+	# All six scattered Birthday Stars are the same achievement, so they share one gather
+	# cue while each Family Guest's Rainbow Path opens with the shared opening cue.
 	var gather_audio := FakeEngineAudioAdapter.new()
 	var gather_soundscape := SOUNDSCAPE_PLAYER.new(pack_root, gather_audio)
 	var gathered_cue_paths: Array[String] = []
