@@ -102,12 +102,14 @@ func _the_mountain_answers_both_heights(shell: StorybookShell) -> void:
 		% JSON.stringify(moment.get("birthday_stars")),
 	)
 
-	# The Peak is the last place carrying an approved Place Illustration, so the journey
-	# continues out of it rather than stopping inside it.
+	# The journey continues out of the Peak into the next place rather than stopping
+	# inside it.
 	DRIVER.turn_the_page(shell)
 	test.expect(
-		shell.presentation_evidence().get("state") == "celebration",
-		"turning the page carries the journey on out of the Peak without interruption",
+		shell.presentation_evidence().get("state") == "active_play"
+		and shell.presentation_evidence().get("place") == "sapphire-sea",
+		"turning the page carries the journey on out of the Peak without interruption: %s"
+		% JSON.stringify(shell.presentation_evidence()),
 	)
 	shell.free()
 

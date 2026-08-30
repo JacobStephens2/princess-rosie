@@ -238,16 +238,16 @@
       "tint": "#c8ecff",
       "interactions": [
         {
-          "id": "open-sparkling-water",
-          "name": "Open sparkling water",
+          "id": "open-water-wave-crests",
+          "name": "Open water and wave crests",
           "altitudeBand": "high",
-          "visualResponse": "water-sparkles-wide"
+          "visualResponse": "wave-crests-sparkle-wide"
         },
         {
-          "id": "shell-lined-shore",
-          "name": "Shell-lined shore",
+          "id": "luminous-shore-coves",
+          "name": "Luminous shore coves",
           "altitudeBand": "low",
-          "visualResponse": "shore-shells-glow"
+          "visualResponse": "shore-coves-glow"
         }
       ],
       "playfulBump": {
@@ -257,7 +257,7 @@
       },
       "birthdayStar": "birthday-star.sapphire-sea",
       "rainbowPath": "rainbow-path.sapphire-sea",
-      "birthdayStarMoment": "Aunt followed the sparkling water home across the Sapphire Sea!"
+      "birthdayStarMoment": "Aunt followed the wave crests and luminous coves home across the Sapphire Sea!"
     }
   ],
   "celebration": {

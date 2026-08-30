@@ -309,6 +309,7 @@ func _init() -> void:
 		"abbey",
 		"cloister",
 		"pellegrino-peak",
+		"sapphire-sea",
 	]:
 		test.expect(
 			crossing_soundscape.report_event(
@@ -324,13 +325,14 @@ func _init() -> void:
 			"source-media/soundscape/runtime/place-abbey.wav",
 			"source-media/soundscape/runtime/place-cloister.wav",
 			"source-media/soundscape/runtime/place-pellegrino-peak.wav",
+			"source-media/soundscape/runtime/place-sapphire-sea.wav",
 		],
 		"crossing places asks for one place loop each: %s"
 		% JSON.stringify(crossing_audio.loaded_paths),
 	)
 	var crossing_playbacks := crossing_audio.playback_settings
 	test.expect(
-		crossing_playbacks.size() == 5
+		crossing_playbacks.size() == 6
 		and crossing_playbacks.all(func(playback: Dictionary) -> bool:
 			return (
 				playback.get("slot") == "ambience"

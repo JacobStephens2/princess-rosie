@@ -1085,7 +1085,7 @@
       "event": "sound-event.vignette-interaction",
       "match": {
         "place": "sapphire-sea",
-        "interaction": "shell-lined-shore"
+        "interaction": "luminous-shore-coves"
       },
       "category": "interaction",
       "priority": 60,
@@ -1114,7 +1114,7 @@
       "event": "sound-event.vignette-interaction",
       "match": {
         "place": "sapphire-sea",
-        "interaction": "open-sparkling-water"
+        "interaction": "open-water-wave-crests"
       },
       "category": "interaction",
       "priority": 60,

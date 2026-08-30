@@ -46,6 +46,11 @@
       "path": "source-media/pellegrino-peak/pellegrino-peak-background.png"
     },
     {
+      "id": "sapphire-sea.background",
+      "role": "illustration-layer",
+      "path": "source-media/sapphire-sea/sapphire-sea-background.png"
+    },
+    {
       "id": "family-guest.mom",
       "role": "character-layer",
       "path": "source-media/journey/family-guest-mom.png"

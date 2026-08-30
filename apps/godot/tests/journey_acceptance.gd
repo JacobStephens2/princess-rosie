@@ -199,6 +199,39 @@ const REQUIRED_SOUND_EVENTS := [
 		"event": "sound-event.birthday-star-moment",
 		"context": {"familyGuest": "Uncle", "place": "pellegrino-peak"},
 	},
+	{"event": "sound-event.place-entry", "context": {"place": "sapphire-sea"}},
+	{"event": "sound-event.movement-state", "context": {"state": "flight"}},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"interaction": "open-water-wave-crests", "place": "sapphire-sea"},
+	},
+	{"event": "sound-event.movement-state", "context": {"state": "glide"}},
+	{
+		"event": "sound-event.vignette-interaction",
+		"context": {"interaction": "luminous-shore-coves", "place": "sapphire-sea"},
+	},
+	{
+		"event": "sound-event.playful-bump",
+		"context": {"kind": "wave-crest", "place": "sapphire-sea"},
+	},
+	{"event": "sound-event.movement-state", "context": {"state": "rise"}},
+	{
+		"event": "sound-event.birthday-star-proximity",
+		"context": {"birthdayStar": "birthday-star.sapphire-sea"},
+	},
+	{
+		"event": "sound-event.birthday-star-gathered",
+		"context": {"birthdayStar": "birthday-star.sapphire-sea"},
+	},
+	{
+		"event": "sound-event.rainbow-path-opened",
+		"context": {"familyGuest": "Aunt", "rainbowPath": "rainbow-path.sapphire-sea"},
+	},
+	{
+		"event": "sound-event.birthday-star-moment",
+		"context": {"familyGuest": "Aunt", "place": "sapphire-sea"},
+	},
 	{"event": "sound-event.birthday-castle-arrival", "context": {}},
 ]
 
@@ -210,7 +243,7 @@ func _init() -> void:
 	var pack_root := ProjectSettings.globalize_path(ACCEPTANCE_TEST.PACK_ROOT)
 	test.expect(
 		shell.prepare_launch(pack_root).get("ok") == true,
-		"the five-place journey prepares",
+		"the six-place journey prepares",
 	)
 	test.expect(
 		shell.presentation_evidence().get("places") == [
@@ -225,8 +258,8 @@ func _init() -> void:
 		% JSON.stringify(shell.presentation_evidence().get("places")),
 	)
 	test.expect(
-		shell.presentation_evidence().get("realized_places") == 5,
-		"five of the declared places carry an approved Place Illustration so far",
+		shell.presentation_evidence().get("realized_places") == 6,
+		"all six declared places carry an approved Place Illustration",
 	)
 
 	DRIVER.launch(shell)
@@ -419,6 +452,40 @@ func _init() -> void:
 		"the fifth place reaches its own self-paced Birthday Star Moment",
 	)
 
+	DRIVER.turn_the_page(shell)
+	var sapphire_sea_entry: Dictionary = shell.presentation_evidence()
+	test.expect(
+		sapphire_sea_entry.get("place") == "sapphire-sea"
+		and sapphire_sea_entry.get("place_name") == "Sapphire Sea"
+		and sapphire_sea_entry.get("family_guest") == "Aunt"
+		and sapphire_sea_entry.get("birthday_stars") == [
+			"birthday-star.rose-garden",
+			"birthday-star.lacewood",
+			"birthday-star.abbey",
+			"birthday-star.cloister",
+			"birthday-star.pellegrino-peak",
+		],
+		"the journey carries all five gathered Stars down to the Sapphire Sea: %s"
+		% JSON.stringify(sapphire_sea_entry),
+	)
+
+	# Sapphire Sea: the open water answers high and its luminous shore coves answer low.
+	DRIVER.advance(shell, 3.1)
+	shell.handle_player_action(KEYBOARD_SPACE, false)
+	DRIVER.advance(shell, 3.1)
+	test.expect(
+		shell.presentation_evidence().get("observed_interactions")
+		== ["open-water-wave-crests", "luminous-shore-coves"],
+		"the same two bands answer with the Sea's own wave crests and luminous coves: %s"
+		% JSON.stringify(shell.presentation_evidence().get("observed_interactions")),
+	)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.advance(shell, 14.5)
+	test.expect(
+		shell.presentation_evidence().get("state") == "birthday_star_moment",
+		"the sixth place reaches its own self-paced Birthday Star Moment",
+	)
+
 	shell.handle_player_action(KEYBOARD_SPACE, false)
 	test.expect(
 		shell.handle_player_action(KEYBOARD_SPACE, true),
@@ -436,6 +503,7 @@ func _init() -> void:
 			"birthday-star.abbey",
 			"birthday-star.cloister",
 			"birthday-star.pellegrino-peak",
+			"birthday-star.sapphire-sea",
 		]
 		and evidence.get("rainbow_paths") == [
 			"rainbow-path.rose-garden",
@@ -443,12 +511,13 @@ func _init() -> void:
 			"rainbow-path.abbey",
 			"rainbow-path.cloister",
 			"rainbow-path.pellegrino-peak",
+			"rainbow-path.sapphire-sea",
 		]
-		and evidence.get("playful_bumps") == 6
+		and evidence.get("playful_bumps") == 7
 		and not evidence.has("cloud_rests")
 		and not evidence.has("gentle_help")
 		and evidence.get("flight_control_cycles") >= 3,
-		"five data-driven places complete one no-failure journey: %s" % JSON.stringify(evidence),
+		"six data-driven places complete one no-failure journey: %s" % JSON.stringify(evidence),
 	)
 	# This journey dives straight through the Near Miss band to the floor every time, so
 	# it earns none: a swoop is either a bump or a miss, never both.
@@ -469,7 +538,7 @@ func _init() -> void:
 	)
 	test.expect(
 		shell.sound_event_evidence() == REQUIRED_SOUND_EVENTS,
-		"the five-place journey emits the expected sound sequence\nexpected: %s\nactual: %s"
+		"the six-place journey emits the expected sound sequence\nexpected: %s\nactual: %s"
 		% [JSON.stringify(REQUIRED_SOUND_EVENTS), JSON.stringify(shell.sound_event_evidence())],
 	)
 
