@@ -212,7 +212,7 @@ func _the_place_illustration_answers_at_both_heights() -> void:
 		% JSON.stringify(low_composition.get("observed_visual_responses")),
 	)
 	shell.handle_player_action(KEYBOARD_SPACE, true)
-	DRIVER.advance(shell, 12.0)
+	DRIVER.advance(shell, 13.0)
 	await process_frame
 	var moment: Dictionary = shell.storybook_stage_evidence().get(
 		"birthday_star_moment_composition",

@@ -64,6 +64,14 @@ const MILESTONE_ROUTE_COMPLETE: StringName = &"route-complete"
 const BIRTHDAY_STAR_MOMENT_DIM := Color(0.55, 0.53, 0.64)
 # How far from the Family Guest the Birthday Star can hang and still read as hers.
 const BIRTHDAY_STAR_REACH := 160.0
+# One shared attraction: the Star notices Stella anywhere near the end of the route,
+# including the Bump Floor, and flies to her rather than waiting to be touched.
+const BIRTHDAY_STAR_REST := Vector2(1064.0, 298.0)
+const BIRTHDAY_STAR_ATTRACTION_RADIUS := 480.0
+const BIRTHDAY_STAR_FLIGHT_SECONDS := 1.0
+const BIRTHDAY_STAR_SETTLING_GLOW_SECONDS := 1.4
+const BIRTHDAY_STAR_FINAL_SETTLING_GLOW_SECONDS := 2.0
+const BIRTHDAY_STAR_MOMENT_AFTER_PATH_SECONDS := 2.5
 const DEFAULT_PLAYFUL_BUMP_WOBBLE_SECONDS := 0.45
 const DEFAULT_CROSSING_REST_SECONDS := 0.9
 const DEFAULT_NEAR_MISS_REST_SECONDS := 0.9
@@ -164,6 +172,11 @@ var _near_miss_spent := false
 var _last_near_miss_seconds := -INF
 var _birthday_stars: Array[String] = []
 var _rainbow_paths: Array[String] = []
+var _birthday_star_center := BIRTHDAY_STAR_REST
+var _birthday_star_attracted := false
+var _birthday_star_arrived := false
+var _birthday_star_attracted_at := 0.0
+var _birthday_star_gathered_at := -INF
 var _observed_interactions: Array[String] = []
 var _soundscape: RefCounted
 var _engine_audio: Node
@@ -197,6 +210,7 @@ var _rendering := false
 @onready var _celebration_art: TextureRect = %CelebrationArt
 @onready var _castle_approach_backdrop: TextureRect = %CastleApproachBackdrop
 @onready var _birthday_castle_approach: BirthdayCastleApproach = %BirthdayCastleApproach
+@onready var _celebration_stars: CelebrationStars = %CelebrationStars
 @onready var _flight_character: TextureRect = %FlightCharacter
 @onready var _flight_card: Control = $Stage/ActivePlayPresentation/FlightCard
 @onready var _pack_badge: Label = %PackBadge
@@ -341,6 +355,9 @@ func presentation_evidence() -> Dictionary:
 		"near_misses": _near_miss_count,
 		"birthday_stars": _birthday_stars.duplicate(),
 		"rainbow_paths": _rainbow_paths.duplicate(),
+		"returning_rainbow_path_count": int(_celebration().get("returningRainbowPathCount", 0)),
+		"castle_star": str(_celebration().get("castleStar", "")),
+		"castle_star_keeper": str(_celebration().get("castleStarKeeper", "")),
 		"observed_interactions": _observed_interactions.duplicate(),
 		"places": _place_ids(),
 		"realized_places": _realized_place_count,
@@ -470,6 +487,7 @@ func storybook_stage_evidence() -> Dictionary:
 		"celebration_illustration": _celebration_media_path,
 		"celebration_illustration_visible": _layer_visible(_celebration_art),
 		"birthday_castle_approach": _birthday_castle_approach.visual_evidence(),
+		"celebration_stars": _celebration_stars.visual_evidence(),
 		"flight_character_center": _flight_character.position + _flight_character.pivot_offset,
 		"flight_character_scale": _flight_character.scale,
 		"birthday_star_approach": _birthday_star_approach_evidence(),
@@ -505,8 +523,11 @@ func _render_birthday_star_presentation() -> void:
 	_rainbow_path_treatment.texture = _rainbow_path_texture
 	_moment_rainbow_path.texture = _rainbow_path_texture
 	_family_guest.visible = approaching
-	_birthday_star_sprite.visible = approaching and not _birthday_star_gathered()
+	_birthday_star_sprite.visible = approaching and (
+		not _birthday_star_gathered() or _settling_glow_active()
+	)
 	_rainbow_path_treatment.visible = approaching and _rainbow_path_open()
+	_apply_birthday_star_flight_presentation()
 	var in_moment := _presented_state() == PresentationState.BIRTHDAY_STAR_MOMENT
 	_moment_family_guest.visible = in_moment
 	_moment_rainbow_path.visible = in_moment
@@ -562,6 +583,13 @@ func _birthday_star_approach_evidence() -> Dictionary:
 		"birthday_star_visible": _layer_visible(_birthday_star_sprite),
 		"birthday_star_within_reach": _birthday_star_within_reach(),
 		"rainbow_path_visible": _layer_visible(_rainbow_path_treatment),
+		"attracted": _birthday_star_attracted,
+		"arrived": _birthday_star_arrived,
+		"flying_to_stella": _birthday_star_attracted and not _birthday_star_arrived,
+		"settling_glow": _settling_glow_active(),
+		"final_recovered": _is_final_recovered_star(),
+		"star_center": _birthday_star_center,
+		"stella_center": _stella_center(),
 	}
 
 
@@ -794,7 +822,13 @@ func advance_simulation(delta: float) -> bool:
 
 
 func advance_journey(delta: float) -> void:
-	if _state != PresentationState.ACTIVE_PLAY or delta <= 0.0:
+	if delta <= 0.0:
+		return
+	if _state == PresentationState.CELEBRATION:
+		_journey_phase_elapsed += delta
+		_render_presentation()
+		return
+	if _state != PresentationState.ACTIVE_PLAY:
 		return
 	_journey_phase_elapsed += delta
 	_journey_clock_seconds += delta
@@ -832,6 +866,7 @@ func _enter_place(index: int) -> void:
 	_within_near_miss_band = false
 	_near_miss_spent = false
 	_last_near_miss_seconds = -INF
+	_reset_birthday_star_flight()
 	_report_sound_event(EVENT_PLACE_ENTRY, {"place": _current_place().get("id", "")})
 
 
@@ -861,6 +896,7 @@ func _advance_place_flight() -> void:
 				_journey_phase = PHASE_STAR_APPROACH
 				_journey_phase_elapsed = 0.0
 				_journey_checkpoint = 0
+				_reset_birthday_star_flight()
 				return
 		_journey_checkpoint += 1
 
@@ -1008,42 +1044,68 @@ func _acceleration(movement_state: String) -> float:
 
 
 func _advance_birthday_star_sequence() -> void:
-	var thresholds := [0.45, 1.0, 2.4, 4.9]
 	var place: Dictionary = _current_place()
 	var birthday_star := PLACE_CONTENT.birthday_star(place)
 	var rainbow_path := PLACE_CONTENT.rainbow_path(place)
 	var family_guest: String = place.get("familyGuest", "")
-	while _journey_phase == PHASE_STAR_APPROACH and _journey_checkpoint < thresholds.size():
-		if _journey_phase_elapsed < thresholds[_journey_checkpoint]:
+	var stella := _stella_center()
+	if not _birthday_star_attracted:
+		if stella.distance_to(BIRTHDAY_STAR_REST) > BIRTHDAY_STAR_ATTRACTION_RADIUS:
+			_birthday_star_center = BIRTHDAY_STAR_REST
 			return
-		match _journey_checkpoint:
-			0:
-				_report_sound_event(
-					EVENT_BIRTHDAY_STAR_PROXIMITY,
-					{"birthdayStar": birthday_star},
-				)
-			1:
-				if not _birthday_stars.has(birthday_star):
-					_birthday_stars.append(birthday_star)
-				_report_sound_event(
-					EVENT_BIRTHDAY_STAR_GATHERED,
-					{"birthdayStar": birthday_star},
-				)
-			2:
-				if not _rainbow_paths.has(rainbow_path):
-					_rainbow_paths.append(rainbow_path)
-				_report_sound_event(
-					EVENT_RAINBOW_PATH_OPENED,
-					{"rainbowPath": rainbow_path, "familyGuest": family_guest},
-				)
-			3:
-				_report_sound_event(
-					EVENT_BIRTHDAY_STAR_MOMENT,
-					{"place": place.get("id", ""), "familyGuest": family_guest},
-				)
-				_journey_phase = PHASE_BIRTHDAY_STAR_MOMENT
-				_state = PresentationState.BIRTHDAY_STAR_MOMENT
-		_journey_checkpoint += 1
+		_birthday_star_attracted = true
+		_birthday_star_attracted_at = _journey_phase_elapsed
+		_report_sound_event(EVENT_BIRTHDAY_STAR_PROXIMITY, {"birthdayStar": birthday_star})
+	if not _birthday_star_arrived:
+		var flight_t := clampf(
+			(_journey_phase_elapsed - _birthday_star_attracted_at)
+			/ BIRTHDAY_STAR_FLIGHT_SECONDS,
+			0.0,
+			1.0,
+		)
+		var eased := 1.0 - pow(1.0 - flight_t, 2.0)
+		_birthday_star_center = _star_flight_position(eased, stella)
+		if flight_t < 1.0:
+			return
+		_birthday_star_arrived = true
+		_birthday_star_center = stella
+		if not _birthday_stars.has(birthday_star):
+			_birthday_stars.append(birthday_star)
+		_birthday_star_gathered_at = _journey_phase_elapsed
+		_report_sound_event(
+			EVENT_BIRTHDAY_STAR_GATHERED,
+			{"birthdayStar": birthday_star},
+		)
+		return
+	_birthday_star_center = stella
+	if (
+		not _rainbow_path_open()
+		and _journey_phase_elapsed
+		>= _birthday_star_gathered_at + _settling_glow_seconds()
+	):
+		if not _rainbow_paths.has(rainbow_path):
+			_rainbow_paths.append(rainbow_path)
+		_report_sound_event(
+			EVENT_RAINBOW_PATH_OPENED,
+			{"rainbowPath": rainbow_path, "familyGuest": family_guest},
+		)
+		return
+	if (
+		_rainbow_path_open()
+		and _state != PresentationState.BIRTHDAY_STAR_MOMENT
+		and _journey_phase_elapsed
+		>= (
+			_birthday_star_gathered_at
+			+ _settling_glow_seconds()
+			+ BIRTHDAY_STAR_MOMENT_AFTER_PATH_SECONDS
+		)
+	):
+		_report_sound_event(
+			EVENT_BIRTHDAY_STAR_MOMENT,
+			{"place": place.get("id", ""), "familyGuest": family_guest},
+		)
+		_journey_phase = PHASE_BIRTHDAY_STAR_MOMENT
+		_state = PresentationState.BIRTHDAY_STAR_MOMENT
 
 
 func _reset_current_journey() -> void:
@@ -1065,6 +1127,7 @@ func _reset_current_journey() -> void:
 	_birthday_stars = []
 	_rainbow_paths = []
 	_observed_interactions = []
+	_reset_birthday_star_flight()
 
 
 func _arrive_at_birthday_castle() -> void:
@@ -1125,6 +1188,7 @@ func _process(delta: float) -> void:
 	)
 	_flight_character.scale = Vector2.ONE * (1.0 + character_breath * 0.006)
 	_apply_place_traversal_presentation()
+	_apply_birthday_star_flight_presentation()
 	_apply_birthday_castle_approach_presentation()
 
 
@@ -1202,6 +1266,12 @@ func _render_presentation() -> void:
 		_rainbow_path_texture,
 		int(_celebration().get("returningRainbowPathCount", 0)),
 	)
+	_celebration_stars.configure(_birthday_star_texture)
+	_celebration_stars.set_story_state({
+		"phase": _journey_phase,
+		"elapsed": _journey_phase_elapsed,
+		"gathered": _birthday_stars.size(),
+	})
 	var castle_approach_visible := _journey_phase == PHASE_BIRTHDAY_CASTLE_APPROACH
 	_celebration_art.visible = celebration_visible
 	_castle_approach_backdrop.visible = castle_approach_visible
@@ -1225,6 +1295,7 @@ func _render_presentation() -> void:
 	})
 	_render_birthday_star_presentation()
 	_apply_place_traversal_presentation()
+	_apply_birthday_star_flight_presentation()
 	_apply_birthday_castle_approach_presentation()
 	_continue_button.text = (
 		"Keep flying"
@@ -1453,10 +1524,7 @@ func _apply_place_traversal_presentation() -> void:
 	]:
 		return
 	var wobble := _playful_bump_wobble()
-	var character_center := Vector2(
-		lerpf(300.0, 1040.0, _place_progress),
-		lerpf(520.0, 190.0, _flight_altitude_stage_heights) + wobble * 9.0,
-	)
+	var character_center := _stella_center()
 	_flight_character.position = character_center - _flight_character.pivot_offset
 	_flight_character.scale = Vector2.ONE * 0.65
 	_flight_character.rotation = clampf(
@@ -1496,6 +1564,62 @@ func _apply_birthday_castle_approach_presentation() -> void:
 	)) * 0.5
 
 
+func _stella_center() -> Vector2:
+	return Vector2(
+		lerpf(300.0, 1040.0, _place_progress),
+		lerpf(520.0, 190.0, _flight_altitude_stage_heights) + _playful_bump_wobble() * 9.0,
+	)
+
+
+func _star_flight_position(t: float, stella: Vector2) -> Vector2:
+	var start := BIRTHDAY_STAR_REST
+	var peak := Vector2((start.x + stella.x) * 0.5, minf(start.y, stella.y) - 90.0)
+	var remaining := 1.0 - t
+	return remaining * remaining * start + 2.0 * remaining * t * peak + t * t * stella
+
+
+func _reset_birthday_star_flight() -> void:
+	_birthday_star_center = BIRTHDAY_STAR_REST
+	_birthday_star_attracted = false
+	_birthday_star_arrived = false
+	_birthday_star_attracted_at = 0.0
+	_birthday_star_gathered_at = -INF
+
+
+func _is_final_recovered_star() -> bool:
+	return _place_index == _realized_place_count - 1
+
+
+func _settling_glow_seconds() -> float:
+	return (
+		BIRTHDAY_STAR_FINAL_SETTLING_GLOW_SECONDS
+		if _is_final_recovered_star()
+		else BIRTHDAY_STAR_SETTLING_GLOW_SECONDS
+	)
+
+
+func _settling_glow_active() -> bool:
+	if not _birthday_star_arrived or _journey_phase != PHASE_STAR_APPROACH:
+		return false
+	return _journey_phase_elapsed - _birthday_star_gathered_at < _settling_glow_seconds()
+
+
+func _apply_birthday_star_flight_presentation() -> void:
+	if not is_node_ready() or _journey_phase != PHASE_STAR_APPROACH:
+		if is_node_ready():
+			_birthday_star_sprite.scale = Vector2.ONE
+			_birthday_star_sprite.modulate = Color.WHITE
+		return
+	_birthday_star_sprite.position = _birthday_star_center - _birthday_star_sprite.pivot_offset
+	if _settling_glow_active():
+		var glow := 1.0 + 0.14 * sin(_authored_motion_seconds * 8.0)
+		_birthday_star_sprite.scale = Vector2.ONE * glow
+		_birthday_star_sprite.modulate = Color(1.18, 1.12, 0.82, 1.0)
+	else:
+		_birthday_star_sprite.scale = Vector2.ONE
+		_birthday_star_sprite.modulate = Color.WHITE
+
+
 # A Playful Bump reads as a soft rocking that fades out; nothing is lost or blocked.
 func _playful_bump_wobble() -> float:
 	if _playful_bump_wobble_seconds <= 0.0:
@@ -1522,7 +1646,7 @@ func _flight_presentation_copy() -> Dictionary:
 		PHASE_BIRTHDAY_CASTLE_APPROACH:
 			return {
 				"title": "The Birthday Castle is near!",
-				"instruction": "All seven Rainbow Paths are coming home",
+				"instruction": "Six Rainbow Paths are coming home",
 			}
 		PHASE_CELEBRATION:
 			return {

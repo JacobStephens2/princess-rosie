@@ -30,11 +30,12 @@
     {
       "id": "opening.scattered-stars",
       "eyebrow": "Then—WHOOSH!",
-      "title": "Seven Stars flew away",
-      "copy": "A playful wind scattered seven Birthday Stars across Fairytale Sicily. The Rainbow Paths to the Birthday Castle vanished!",
+      "title": "Six Stars flew away",
+      "copy": "A playful wind scattered six Birthday Stars across Fairytale Sicily. Dad kept the Castle Star safe at the Birthday Castle, but the Rainbow Paths vanished!",
       "illustration": "opening.scattered-stars",
       "semanticCheckpoint": {
-        "birthdayStarCount": 7
+        "scatteredBirthdayStarCount": 6,
+        "castleStarKeeper": "Dad"
       }
     },
     {
@@ -263,7 +264,9 @@
   "celebration": {
     "id": "celebration.birthday-castle",
     "illustration": "celebration.birthday-castle",
-    "returningRainbowPathCount": 7,
+    "castleStar": "birthday-star.castle",
+    "castleStarKeeper": "Dad",
+    "returningRainbowPathCount": 6,
     "hosts": [
       "Princess Zélie",
       "Gigi"

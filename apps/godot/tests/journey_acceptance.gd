@@ -525,6 +525,9 @@ func _init() -> void:
 			"rainbow-path.pellegrino-peak",
 			"rainbow-path.sapphire-sea",
 		]
+		and evidence.get("returning_rainbow_path_count") == 6
+		and evidence.get("castle_star") == "birthday-star.castle"
+		and evidence.get("castle_star_keeper") == "Dad"
 		and evidence.get("playful_bumps") == 7
 		and not evidence.has("cloud_rests")
 		and not evidence.has("gentle_help")
