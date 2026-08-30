@@ -1,6 +1,8 @@
 class_name StorybookShell
 extends Control
 
+signal exit_requested
+
 enum PresentationState {
 	UNPREPARED,
 	PACK_ERROR,
@@ -9,12 +11,7 @@ enum PresentationState {
 	ACTIVE_PLAY,
 	BIRTHDAY_STAR_MOMENT,
 	CELEBRATION,
-	PAUSED,
-}
-
-enum PresentationWindowMode {
-	WINDOWED,
-	FULLSCREEN,
+	GROWN_UP_CORNER,
 }
 
 const EXPECTED_ENGINE_VERSION := "4.7.2"
@@ -32,7 +29,6 @@ const PLACE_CONTENT := preload("res://scripts/place_content.gd")
 const INTENT_BEGIN: StringName = &"begin"
 const INTENT_GROWN_UP_CORNER: StringName = &"grown-up-corner"
 const INTENT_ESCAPE: StringName = &"escape"
-const INTENT_RESUME: StringName = &"resume"
 const INTENT_TOGGLE_SOUND: StringName = &"toggle-sound"
 const INTENT_CONTINUE: StringName = &"continue"
 const INTENT_ACTION_PRESSED: StringName = &"action-pressed"
@@ -56,6 +52,7 @@ const EVENT_CELEBRATION_INTERACTION := &"sound-event.celebration-interaction"
 const EVENT_REPLAY := &"sound-event.replay"
 const EVENT_SOUND_PREFERENCE_CHANGED := &"sound-event.sound-preference-changed"
 const ACTION_FLY_AGAIN := "fly-again"
+const GROWN_UP_CORNER_CONTROLS := ["toggle-sound", "replay"]
 const PHASE_FLIGHT := "flight"
 const PHASE_PLACE_FLIGHT := "place-flight"
 const PHASE_STAR_APPROACH := "birthday-star-approach"
@@ -108,22 +105,15 @@ const STATE_IDS := {
 	PresentationState.ACTIVE_PLAY: "active_play",
 	PresentationState.BIRTHDAY_STAR_MOMENT: "birthday_star_moment",
 	PresentationState.CELEBRATION: "celebration",
-	PresentationState.PAUSED: "paused",
+	PresentationState.GROWN_UP_CORNER: "grown_up_corner",
 }
-const WINDOW_MODE_IDS := {
-	PresentationWindowMode.WINDOWED: "windowed",
-	PresentationWindowMode.FULLSCREEN: "fullscreen",
-}
-
 var _adapter: RefCounted = EDITION_PACK_ADAPTER.new()
 var _content: Dictionary = {}
 var _pack_source := ""
 var _pack_revision := ""
 var _state: PresentationState = PresentationState.UNPREPARED
-var _window_mode: PresentationWindowMode = PresentationWindowMode.WINDOWED
 var _launch_error := ""
 var _grown_up_corner_visible := false
-var _paused_from: PresentationState = PresentationState.COVER
 var _sound_enabled := true
 var _opening_moments: Array = []
 var _opening_textures: Dictionary = {}
@@ -183,7 +173,7 @@ var _rendering := false
 @onready var _cover_presentation: Control = %CoverPresentation
 @onready var _opening_presentation: Control = %OpeningPresentation
 @onready var _active_play_presentation: Control = %ActivePlayPresentation
-@onready var _pause_overlay: Control = %PauseOverlay
+@onready var _grown_up_corner_overlay: Control = %GrownUpCornerOverlay
 @onready var _error_presentation: Control = %ErrorPresentation
 @onready var _cover_art: TextureRect = %CoverArt
 @onready var _title_card: Control = %TitleCard
@@ -221,8 +211,6 @@ func _ready() -> void:
 	resized.connect(_layout_storybook_stage)
 	_begin_button.pressed.connect(_on_begin_pressed)
 	_grown_up_corner_button.pressed.connect(_on_grown_up_corner_pressed)
-	%ResumeButton.pressed.connect(_on_resume_pressed)
-	%WindowModeButton.pressed.connect(_on_window_mode_pressed)
 	_sound_button.pressed.connect(_on_sound_pressed)
 	_continue_button.button_down.connect(_on_continue_button_down)
 	_continue_button.button_up.connect(_on_continue_button_up)
@@ -235,8 +223,6 @@ func _ready() -> void:
 		_soundscape = SOUNDSCAPE_PLAYER.new(_pack_source, _engine_audio)
 	_layout_storybook_stage()
 	_render_presentation()
-	if launched.ok:
-		_center_large_window.call_deferred()
 	_export_smoke_probe.call_deferred("run_if_requested", self)
 
 
@@ -280,7 +266,6 @@ func prepare_launch(pack_source: String = default_pack_source()) -> Dictionary:
 	_reset_current_journey()
 	_sound_enabled = true
 	_grown_up_corner_visible = false
-	_paused_from = PresentationState.COVER
 
 	var engine_version := _engine_version()
 	if engine_version != EXPECTED_ENGINE_VERSION:
@@ -320,16 +305,16 @@ func prepare_launch(pack_source: String = default_pack_source()) -> Dictionary:
 		return _fail_launch(media_loaded.error)
 	_pack_revision = prepared.revision
 	_state = PresentationState.COVER
-	_window_mode = PresentationWindowMode.WINDOWED
 	return {"ok": true}
 
 
 func presentation_evidence() -> Dictionary:
 	return {
 		"state": STATE_IDS[_state],
-		"window_mode": WINDOW_MODE_IDS[_window_mode],
+		"window_mode": "fullscreen",
 		"cover_asset": COVER_ASSET,
 		"entry_points": [str(INTENT_BEGIN), str(INTENT_GROWN_UP_CORNER)],
+		"grown_up_corner_controls": GROWN_UP_CORNER_CONTROLS.duplicate(),
 		"pack_revision": _pack_revision,
 		"error": _launch_error,
 		"grown_up_corner_visible": _grown_up_corner_visible,
@@ -499,10 +484,10 @@ func storybook_stage_evidence() -> Dictionary:
 	}
 
 
-# The Grown-up Corner pauses over a Stage that keeps showing where the child is, so
-# presentation asks which state they are paused inside of rather than the paused state.
+# The Grown-up Corner is a cover-only overlay, so the presentation underneath it remains
+# the cover without introducing a second window or a resumable pause state.
 func _presented_state() -> PresentationState:
-	return _paused_from if _state == PresentationState.PAUSED else _state
+	return PresentationState.COVER if _state == PresentationState.GROWN_UP_CORNER else _state
 
 
 # The Family Guest waits beside her Birthday Star for as long as it takes to gather it;
@@ -623,7 +608,6 @@ func handle_player_intent(intent: StringName) -> bool:
 			if _state != PresentationState.COVER:
 				return false
 			_grown_up_corner_visible = false
-			_set_window_mode(PresentationWindowMode.FULLSCREEN)
 			_show_opening_moment(0)
 			return true
 		INTENT_CONTINUE:
@@ -700,36 +684,14 @@ func handle_player_intent(intent: StringName) -> bool:
 		INTENT_GROWN_UP_CORNER:
 			if _state != PresentationState.COVER:
 				return false
-			_paused_from = PresentationState.COVER
-			_state = PresentationState.PAUSED
+			_state = PresentationState.GROWN_UP_CORNER
 			_grown_up_corner_visible = true
 			return true
 		INTENT_ESCAPE:
-			if _state in [
-				PresentationState.UNPREPARED,
-				PresentationState.PACK_ERROR,
-				PresentationState.COVER,
-				PresentationState.PAUSED,
-			]:
-				return false
-			_paused_from = _state
-			_state = PresentationState.PAUSED
-			_grown_up_corner_visible = true
-			_set_window_mode(PresentationWindowMode.WINDOWED)
-			return true
-		INTENT_RESUME:
-			if _state != PresentationState.PAUSED:
-				return false
-			_state = _paused_from
-			_grown_up_corner_visible = false
-			_set_window_mode(
-				PresentationWindowMode.WINDOWED
-				if _state == PresentationState.COVER
-				else PresentationWindowMode.FULLSCREEN,
-			)
+			exit_requested.emit()
 			return true
 		INTENT_TOGGLE_SOUND:
-			if _state != PresentationState.PAUSED:
+			if _state != PresentationState.GROWN_UP_CORNER:
 				return false
 			_sound_enabled = not _sound_enabled
 			_report_sound_event(
@@ -738,17 +700,15 @@ func handle_player_intent(intent: StringName) -> bool:
 			)
 			return true
 		INTENT_REPLAY:
-			if _state != PresentationState.PAUSED:
+			if _state != PresentationState.GROWN_UP_CORNER:
 				return false
 			_report_sound_event(EVENT_REPLAY, {"destination": "opening-storybook"})
 			_state = PresentationState.COVER
-			_paused_from = PresentationState.COVER
 			_opening_moment_index = 0
 			_movement_state = ""
 			_reset_flight_motion()
 			_reset_current_journey()
 			_grown_up_corner_visible = false
-			_set_window_mode(PresentationWindowMode.WINDOWED)
 			return true
 		_:
 			return false
@@ -1169,9 +1129,9 @@ func _process(delta: float) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause_presentation") and handle_player_intent(INTENT_ESCAPE):
+	if event.is_action_pressed("exit_game") and handle_player_intent(INTENT_ESCAPE):
 		get_viewport().set_input_as_handled()
-		_render_presentation()
+		get_tree().quit()
 		return
 	if handle_player_input_event(event):
 		get_viewport().set_input_as_handled()
@@ -1283,44 +1243,20 @@ func _render_presentation() -> void:
 	_sound_button.text = "Sound: On" if _sound_enabled else "Sound: Off"
 
 	_error_presentation.visible = _state == PresentationState.PACK_ERROR
-	_pause_overlay.visible = _state == PresentationState.PAUSED
-	_cover_presentation.visible = (
-		_state == PresentationState.COVER
-		or (_state == PresentationState.PAUSED and _paused_from == PresentationState.COVER)
-	)
-	_opening_presentation.visible = (
-		_state in [
-			PresentationState.OPENING_STORYBOOK_MOMENT,
-			PresentationState.BIRTHDAY_STAR_MOMENT,
-		]
-		or (
-			_state == PresentationState.PAUSED
-			and _paused_from in [
-				PresentationState.OPENING_STORYBOOK_MOMENT,
-				PresentationState.BIRTHDAY_STAR_MOMENT,
-			]
-		)
-	)
-	_active_play_presentation.visible = (
-		_state in [PresentationState.ACTIVE_PLAY, PresentationState.CELEBRATION]
-		or (
-			_state == PresentationState.PAUSED
-			and _paused_from in [PresentationState.ACTIVE_PLAY, PresentationState.CELEBRATION]
-		)
-	)
+	_grown_up_corner_overlay.visible = _state == PresentationState.GROWN_UP_CORNER
+	_cover_presentation.visible = _state in [
+		PresentationState.COVER,
+		PresentationState.GROWN_UP_CORNER,
+	]
+	_opening_presentation.visible = _state in [
+		PresentationState.OPENING_STORYBOOK_MOMENT,
+		PresentationState.BIRTHDAY_STAR_MOMENT,
+	]
+	_active_play_presentation.visible = _state in [
+		PresentationState.ACTIVE_PLAY,
+		PresentationState.CELEBRATION,
+	]
 	_rendering = false
-
-
-func _center_large_window() -> void:
-	if DisplayServer.get_name() == "headless" or _window_mode != PresentationWindowMode.WINDOWED:
-		return
-	var usable_rect := DisplayServer.screen_get_usable_rect()
-	var desired_size := Vector2i(
-		mini(1440, maxi(1, usable_rect.size.x - 120)),
-		mini(900, maxi(1, usable_rect.size.y - 120)),
-	)
-	DisplayServer.window_set_size(desired_size)
-	DisplayServer.window_set_position(usable_rect.position + (usable_rect.size - desired_size) / 2)
 
 
 func _on_begin_pressed() -> void:
@@ -1331,22 +1267,6 @@ func _on_begin_pressed() -> void:
 func _on_grown_up_corner_pressed() -> void:
 	if handle_player_intent(INTENT_GROWN_UP_CORNER):
 		_render_presentation()
-
-
-func _on_resume_pressed() -> void:
-	if handle_player_intent(INTENT_RESUME):
-		_render_presentation()
-
-
-func _on_window_mode_pressed() -> void:
-	var target_mode := (
-		PresentationWindowMode.FULLSCREEN
-		if _window_mode == PresentationWindowMode.WINDOWED
-		else PresentationWindowMode.WINDOWED
-	)
-	_set_window_mode(target_mode)
-	if _window_mode == PresentationWindowMode.WINDOWED:
-		_center_large_window.call_deferred()
 
 
 func _on_sound_pressed() -> void:
@@ -1364,18 +1284,7 @@ func _on_continue_button_up() -> void:
 
 func _on_replay_pressed() -> void:
 	if handle_player_intent(INTENT_REPLAY):
-		_center_large_window.call_deferred()
 		_render_presentation()
-
-
-func _set_window_mode(mode: PresentationWindowMode) -> void:
-	_window_mode = mode
-	if DisplayServer.get_name() == "headless":
-		return
-	if mode == PresentationWindowMode.FULLSCREEN:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
-	else:
-		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 
 func _report_sound_event(event_id: StringName, parameters: Dictionary) -> void:

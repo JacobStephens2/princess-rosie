@@ -12,6 +12,16 @@ Open `project.godot` with the exact 4.7.2 editor, or run:
 
 The application prepares the Edition Pack directly from `shared/edition/` before showing the cover and retains its revision. `shared/edition/` is the engine-neutral content and media store; presentation textures live separately under `assets/` so Godot can import them normally. Exporting stages every file the manifest declares into the application unmodified, under `res://edition`, so the packaged game reads the same bytes the editor does. See `addons/edition_pack_export/`.
 
+## Export and play
+
+Build the local macOS application with the existing `macOS Development` preset by running:
+
+```sh
+apps/godot/tests/export_smoke.sh
+```
+
+The finished application is `apps/godot/build/Princess Rosie.app`. Reveal it in Finder and double-click it to play the same artifact the smoke test exercised. It opens on the cover in fullscreen; Escape exits. The cover's Grown-up Corner contains only Sound on/off and replay the story. The preset leaves project code signing disabled; the official template executable retains Godot's upstream signature, but the assembled application has no valid project signature and fails strict signature and Gatekeeper assessment. Notarization and distribution are intentionally out of scope.
+
 ## Verify
 
 Run the focused public-seam acceptance suite:
@@ -21,7 +31,11 @@ npm run test:godot
 apps/godot/tests/export_smoke.sh
 ```
 
-The export smoke test uses the official universal 4.7.2 debug template, thins the packaged executable to arm64, signs it ad hoc, and launches it with network access denied. It verifies the opening, active flight, continuous Lacewood Flight Control, and complete Lacewood-to-Birthday-Star semantic evidence and Storybook Stage captures under `build/`.
+The export smoke test uses the official universal 4.7.2 debug template without app-specific signing. It opens the application through macOS LaunchServices, the same path Finder uses, and requires the fullscreen cover within five seconds. It then completes the packaged journey under a deny-network sandbox while watching macOS denial events; a control probe first proves that the watcher can observe an attempted connection. The test verifies the Opening Storybook Moments, Space and primary-pointer Flight Control, every declared Place and its Birthday Star and Rainbow Path, all seven returning Rainbow Paths at the Birthday Castle, the celebration, and Fly Again returning to a playable Rosalia's Rose Garden. Semantic evidence, network traces, and Storybook Stage captures are written under `build/`.
+
+Issue #55 corrected the content model to six flyable Places, one Family Guest per Place, with Dad already waiting at the Birthday Castle. Those six Places plus the Birthday Castle are the seven journey locations. Consequently the accepted model gathers six Birthday Stars and opens six Rainbow Paths during flight, while the Castle approach visibly carries all seven returning Rainbow Paths. The packaging smoke asserts those counts explicitly instead of inventing a seventh Place passage that is absent from the Edition Pack.
+
+On 2026-08-30 the packaged artifact was interactively launched through Finder twice: the Sound-on run reached the celebration and proved Fly Again, while the Sound-off run reached the celebration and proved Escape exits. The visual journey, Space, primary pointer, Grown-up Corner, and reset paths passed. This is not a substitute for the project owner's auditory authority. Before handing the game to a child, the owner must play once on MacBook speakers and once on headphones, intentionally earn a Near Miss, and confirm Flight Control feel, Playful Bump gentleness, Near Miss reassurance, audio-loop smoothness, Place distinction, and celebration warmth. Record completion against the affected selections in `docs/media-prompts.md` as required by `docs/agents/audio-evaluation.md`.
 
 Zélie's Lacewood is one uninterrupted picture-book corridor. Stella moves forward automatically for roughly eighteen seconds while holding Space or the pointer raises her and releasing settles her immediately. Silver ribbons and rose lights respond at different heights, the Bump Floor along the bottom of the corridor wobbles her if she settles all the way onto it, and every flight continues to the guaranteed Birthday Star without a fork or timing window.
 

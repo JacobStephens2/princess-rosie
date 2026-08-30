@@ -19,6 +19,7 @@ window/size/viewport_width=1280
 window/size/viewport_height=800
 window/size/window_width_override=1280
 window/size/window_height_override=800
+window/size/mode=3
 window/stretch/mode="canvas_items"
 
 [editor_plugins]
@@ -27,7 +28,7 @@ enabled=PackedStringArray("res://addons/edition_pack_export/plugin.cfg")
 
 [input]
 
-pause_presentation={
+exit_game={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"physical_keycode":4194305,"unicode":27)]
 }
