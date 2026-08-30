@@ -12,6 +12,14 @@ _Avoid_: Original Edition, Phaser prototype, Phaser Web Edition
 The native macOS edition of Princess Rosie and the Seven Birthday Stars built in Godot. It is the edition under active development and the one the canonical storybook experience is realized in.
 _Avoid_: Godot Production Edition, Unity Edition
 
+**Godot Edition Release Candidate**:
+A private, downloadable candidate for Godot Edition v1, published for owner verification before the stable release. Its source tag stays fixed, while its notes and packaging-only assets may be corrected until owner acceptance; it is not itself v1 or a public release.
+_Avoid_: v1, final release, public release
+
+**Runtime Edition Pack**:
+The player-facing form of the Edition Pack bundled with a Godot Edition release, containing only approved content and media required during play. Production provenance, prompts, provider records, build state, and unused masters remain private development records outside it.
+_Avoid_: Full Edition Pack, production archive, source-media bundle
+
 **Princess Rosie**:
 The storybook hero and elder sister through whom the child experiences the adventure. She shares Rosie's name and may use an expressly approved likeness without unrelated identifying personal details.
 _Avoid_: Rosie's avatar, digital Rosie
@@ -21,7 +29,7 @@ Princess Rosie's storybook little sister and the child celebrated at the Birthda
 _Avoid_: Princess Azélie, the objective
 
 **Birthday Castle**:
-The joyful destination where Princess Zélie's birthday is celebrated and Princess Rosie's adventure concludes. Its celebration is one authored ending, reached identically on every journey and painted once — the Phaser Edition's approved illustration, reused rather than repainted — with Fly Again the only thing it offers.
+The joyful destination where Princess Zélie's birthday is celebrated and Princess Rosie's adventure concludes. Its celebration is one authored ending, reached identically on every journey and painted once — the Phaser Edition's approved illustration, reused rather than repainted — where the six recovered Birthday Stars join the Castle Star and Fly Again is the only invitation.
 _Avoid_: Finish line, final level
 
 **Fly Again**:
@@ -29,11 +37,15 @@ The single invitation at the Birthday Castle, which begins the whole journey afr
 _Avoid_: Restart button, replay level, Dance Again
 
 **Birthday Star**:
-One of seven golden, mosaic-like magical lights found beside a Family Guest and gathered by Princess Rosie to open that guest's Rainbow Path to the Birthday Castle.
+One of seven golden, mosaic-like magical lights. Six scatter beside Family Guests across Fairytale Sicily, notice Stella when she flies nearby, and joyfully fly to her before opening their Rainbow Paths; the seventh is the Castle Star.
 _Avoid_: Coin, point, collectible
 
+**Castle Star**:
+The seventh Birthday Star, kept safe by Dad at the Birthday Castle while the other six scatter. It joins the six recovered Stars at the celebration rather than being gathered during flight.
+_Avoid_: Seventh collectible, missing Star, Dad's collectible
+
 **Rainbow Path**:
-The magical route opened by a gathered Birthday Star that carries a Family Guest safely ahead to Princess Zélie's celebration.
+One of six magical routes opened by a gathered Birthday Star that carries its Family Guest safely ahead to Princess Zélie's celebration.
 _Avoid_: Teleporter, guest collection
 
 **Path Choice**:
