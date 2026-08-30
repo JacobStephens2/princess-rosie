@@ -104,6 +104,14 @@
     },
     {
       "role": "source-media",
+      "path": "source-media/sapphire-sea/sapphire-sea-background.png"
+    },
+    {
+      "role": "source-media-provenance",
+      "path": "source-media/sapphire-sea/provenance.json"
+    },
+    {
+      "role": "source-media",
       "path": "source-media/journey/family-guest-mom.png"
     },
     {
