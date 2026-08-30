@@ -1341,7 +1341,7 @@
       "looping": false,
       "channelPolicy": "warm-stereo",
       "masteringIntent": "gentle-authored-arrival-phrase-for-macbook",
-      "selectionStatus": "unapproved",
+      "selectionStatus": "approved",
       "authoring": {
         "prompt": "A gentle authored arrival phrase. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.",
         "model": "eleven_text_to_sound_v2",

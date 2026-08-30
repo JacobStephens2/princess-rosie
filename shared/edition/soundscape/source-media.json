@@ -505,7 +505,12 @@
     {
       "id": "source-master.birthday-castle.arrival",
       "role": "source-media.generated-master",
-      "provenanceRole": "provenance.commercial-generated-effect"
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/birthday-castle-arrival.wav",
+      "provenancePath": "source-media/soundscape/provenance/birthday-castle-arrival.json",
+      "runtimePath": "source-media/soundscape/runtime/birthday-castle-arrival.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/birthday-castle-arrival.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/birthday-castle-arrival.json"
     }
   ]
 }

@@ -108,8 +108,14 @@ func _the_coast_answers_both_heights(shell: StorybookShell) -> void:
 
 	DRIVER.turn_the_page(shell)
 	test.expect(
+		shell.presentation_evidence().get("state") == "active_play"
+		and shell.presentation_evidence().get("journey_phase") == "birthday-castle-approach",
+		"turning the page carries the journey into the Birthday Castle approach",
+	)
+	DRIVER.advance(shell, 4.1)
+	test.expect(
 		shell.presentation_evidence().get("state") == "celebration",
-		"turning the page carries the journey into the Birthday Castle without interruption",
+		"the final approach carries the journey into the Birthday Castle without interruption",
 	)
 	shell.free()
 

@@ -291,10 +291,23 @@ Parameters: 1536x1024, quality high, background transparent.
 Output: `shared/edition/source-media/journey/rainbow-path.png`
 
 Provenance: `shared/edition/source-media/journey/provenance.json`
+
 <!-- soundscape-build:start -->
 ## Fairytale Soundscape
 
 Credit: ElevenLabs Sound Effects API. This project documentation records the provider; No in-game provider credit is added.
+
+### cue.birthday-castle.arrival
+
+> A gentle authored arrival phrase. Warm nonverbal Fairytale Soundscape with soft bells, celesta, harp, airy shimmer, and gentle natural texture as appropriate, clear on MacBook speakers. No voice, speech, singing, recognizable melody, harsh transient, alarm, aggressive impact, battle sound, realistic simulation, or arcade sound.
+
+Parameters: 3 seconds, prompt influence 0.3, looping off, source format `pcm_48000`.
+
+Production treatment: inspect-pcm-s16le, trim-boundary-silence, preserve-stereo, fade-in-10ms, fade-out-20ms, peak-ceiling--6dbfs, wav-wrap-pcm16le, decode-wav-qa.
+
+Selection: Paid Google Vertex AI Gemini API evaluation with gemini-3.7-flash at HIGH thinking ranked blinded Candidate Alpha (candidate-2) > Candidate Bravo (candidate-1) > Candidate Charlie (candidate-3), with low uncertainty and no perceptual failure flags for Alpha. Waveform QA passed decode, 3.0 s duration, 48 kHz stereo, silence/DC/loudness/peak/true-peak/headroom/clipping checks; the unusually wide opening stereo correlation was flagged for translation review, while Gemini's mono-combined input remained successful. The project owner completed the required MacBook-speaker and headphone listening pass on 2026-08-30 and approved Alpha for its gentle soft-brass and celebratory-chime warmth, low startle risk, clarity, and distinctness from the opening celebration and prior Birthday Star references.
+
+Source master: `source-master.birthday-castle.arrival`
 
 ### cue.birthday-star-moment.abbey
 

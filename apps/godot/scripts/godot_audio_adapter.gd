@@ -364,7 +364,9 @@ func _on_playback_finished(player: AudioStreamPlayer) -> void:
 
 func _apply_music_duck() -> void:
 	var duck_db := 0.0
-	for player: AudioStreamPlayer in _foreground_players:
-		if player.playing:
-			duck_db = minf(duck_db, float(_ducking.get(player.get_instance_id(), 0.0)))
+	# Ducking belongs to authored playback priority, not to a particular player slot.
+	# This lets the Birthday Castle's critical party handoff own the ambience slot while
+	# retaining the same restrained music duck as other critical moments.
+	for active_duck_db: Variant in _ducking.values():
+		duck_db = minf(duck_db, float(active_duck_db))
 	_music_player.volume_db = _music_base_gain_db + duck_db
