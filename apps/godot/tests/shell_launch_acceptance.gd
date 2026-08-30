@@ -18,9 +18,13 @@ func _run() -> void:
 	var stage_evidence: Dictionary = shell.storybook_stage_evidence()
 
 	test.expect(evidence.get("state") == "cover", "launch opens on the cover")
-	test.expect(evidence.get("window_mode") == "windowed", "launch starts windowed")
+	test.expect(evidence.get("window_mode") == "fullscreen", "launch starts fullscreen")
 	test.expect(evidence.get("cover_asset") == "res://assets/storybook-cover.png", "the approved cover is selected")
 	test.expect(evidence.get("entry_points") == ["begin", "grown-up-corner"], "both quiet entry points are available")
+	test.expect(
+		evidence.get("grown_up_corner_controls") == ["toggle-sound", "replay"],
+		"the Grown-up Corner exposes exactly Sound and replay",
+	)
 	test.expect(evidence.get("pack_revision") == ACCEPTANCE_TEST.EXPECTED_PACK_REVISION, "launch evidence retains the Edition Pack revision")
 	test.expect(stage_evidence.get("cover_visible") == true, "the real scene displays the approved cover")
 	test.expect(stage_evidence.get("entry_points_visible") == true, "the real scene displays both entry points")
