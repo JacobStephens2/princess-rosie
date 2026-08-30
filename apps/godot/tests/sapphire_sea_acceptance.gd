@@ -13,6 +13,9 @@ const KEYBOARD_SPACE: StringName = &"keyboard.space"
 const AUNT_SENTENCE := (
 	"Aunt followed the wave crests and luminous coves home across the Sapphire Sea!"
 )
+const SAPPHIRE_SEA_BACKGROUND := "source-media/sapphire-sea/sapphire-sea-background.png"
+const AUNT_CUTOUT := "source-media/journey/family-guest-aunt.png"
+const RAINBOW_PATH_TREATMENT := "source-media/journey/rainbow-path.png"
 const WAVE_CRESTS_RESPONSE := "wave-crests-sparkle-wide"
 const LUMINOUS_COVES_RESPONSE := "shore-coves-glow"
 const BETWEEN_THE_RUNGS_ALTITUDE := 0.54
@@ -201,6 +204,25 @@ func _the_place_illustration_answers_at_both_heights() -> void:
 		== [WAVE_CRESTS_RESPONSE, LUMINOUS_COVES_RESPONSE],
 		"settling low paints the luminous shore coves: %s"
 		% JSON.stringify(low_composition.get("observed_visual_responses")),
+	)
+	shell.handle_player_action(KEYBOARD_SPACE, true)
+	DRIVER.advance(shell, 12.0)
+	await process_frame
+	var moment: Dictionary = shell.storybook_stage_evidence().get(
+		"birthday_star_moment_composition",
+		{},
+	)
+	test.expect(
+		moment.get("place_illustration") == SAPPHIRE_SEA_BACKGROUND
+		and moment.get("place_illustration_dimmed") == true
+		and moment.get("family_guest") == "Aunt"
+		and moment.get("family_guest_cutout") == AUNT_CUTOUT
+		and moment.get("family_guest_visible") == true
+		and moment.get("rainbow_path_treatment") == RAINBOW_PATH_TREATMENT
+		and moment.get("rainbow_path_visible") == true
+		and moment.get("sentence") == AUNT_SENTENCE,
+		"Aunt's moment visibly holds the Sapphire Sea, her cutout, Rainbow Path, and sentence: %s"
+		% JSON.stringify(moment),
 	)
 	shell.queue_free()
 	await process_frame
