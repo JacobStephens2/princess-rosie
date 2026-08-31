@@ -1,0 +1,21 @@
+{
+  "entries": [
+    {
+      "id": "cue.story.confirmation",
+      "event": "sound-event.story-confirmation",
+      "match": { "action": "continue" },
+      "category": "storybook",
+      "priority": 60,
+      "requirement": "required",
+      "durationSeconds": 0.6,
+      "looping": false,
+      "authoring": {
+        "prompt": "A fixture prompt that must not ship.",
+        "model": "eleven_text_to_sound_v2"
+      },
+      "sourceMaster": "source-master.story.confirmation",
+      "runtimeMapping": "runtime-cue.story.confirmation",
+      "fallbackRole": "fallback.story-confirmation"
+    }
+  ]
+}

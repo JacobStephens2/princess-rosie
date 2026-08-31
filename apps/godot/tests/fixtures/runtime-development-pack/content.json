@@ -1,0 +1,27 @@
+{
+  "title": "Runtime pack fixture",
+  "openingMoments": [
+    {
+      "id": "opening.celebration-preparations",
+      "illustration": "flight.hero"
+    }
+  ],
+  "initialFlight": {
+    "background": "flight.hero",
+    "character": "flight.hero"
+  },
+  "sharedJourneyMedia": {
+    "birthdayStar": "flight.hero",
+    "rainbowPath": "flight.hero"
+  },
+  "places": [
+    {
+      "id": "rose-garden",
+      "illustration": "flight.hero",
+      "familyGuestIllustration": "flight.hero"
+    }
+  ],
+  "celebration": {
+    "illustration": "flight.hero"
+  }
+}

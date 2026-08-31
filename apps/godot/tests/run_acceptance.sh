@@ -15,6 +15,7 @@ mkdir -p "$log_dir"
 
 tests=(
   edition_pack_acceptance.gd
+  runtime_edition_pack_acceptance.gd
   opening_media_acceptance.gd
   shell_launch_acceptance.gd
   presentation_transition_acceptance.gd
