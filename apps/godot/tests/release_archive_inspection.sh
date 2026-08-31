@@ -180,6 +180,16 @@ printf '%s\n' "$checksum_body" | grep -F -q "$archive_name" \
   /usr/bin/shasum -a 256 -c "$archive_name.sha256"
 ) >/dev/null || fail "the checksum file cannot be verified with shasum"
 
+listing="$(/usr/bin/zipinfo -1 "$archive_path")"
+[[ -n "$listing" ]] || fail "the archive listing is empty"
+top_level="$(printf '%s\n' "$listing" | awk -F/ 'NF && $1 != "" {print $1}' | LC_ALL=C sort -u)"
+expected="$(printf '%s\n' "NOTICE.txt" "Princess Rosie.app" "THIRD-PARTY-NOTICES.txt")"
+[[ "$top_level" == "$expected" ]] \
+  || fail "the archive listing top level is not Princess Rosie.app, NOTICE.txt, and THIRD-PARTY-NOTICES.txt: $top_level"
+appledouble="$(printf '%s\n' "$listing" | grep -E '(^|/)\._' || true)"
+[[ -z "$appledouble" ]] \
+  || fail "the archive listing includes AppleDouble members"
+
 rm -rf "$unpack_dir"
 mkdir -p "$unpack_dir"
 /usr/bin/ditto -x -k "$archive_path" "$unpack_dir"
