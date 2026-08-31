@@ -35,6 +35,7 @@ tests=(
   pellegrino_peak_acceptance.gd
   sapphire_sea_acceptance.gd
   birthday_star_moment_acceptance.gd
+  birthday_star_flight_acceptance.gd
   celebration_acceptance.gd
   soundscape_player_acceptance.gd
   godot_audio_adapter_acceptance.gd

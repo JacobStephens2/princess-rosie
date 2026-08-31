@@ -24,8 +24,8 @@ func _process(delta: float) -> void:
 		path.modulate.a = 0.42 + 0.08 * sin(_elapsed * 2.0 + path_index * 0.7)
 
 
-# Every returning path uses the one approved treatment. Seven instances make the whole
-# journey legible at once without inventing a second Rainbow Path visual language.
+# Every returning path uses the one approved treatment. Six instances make the six
+# recovered Stars' Paths legible at once without inventing a second visual language.
 func configure(texture: Texture2D, rainbow_path_count: int) -> void:
 	if texture == _rainbow_path_texture and rainbow_path_count == _rainbow_path_count:
 		return
