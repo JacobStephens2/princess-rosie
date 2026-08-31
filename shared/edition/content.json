@@ -263,6 +263,7 @@
   ],
   "celebration": {
     "id": "celebration.birthday-castle",
+    "approachIllustration": "celebration.castle-approach",
     "illustration": "celebration.birthday-castle",
     "castleStar": "birthday-star.castle",
     "castleStarKeeper": "Dad",

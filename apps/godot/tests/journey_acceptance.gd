@@ -503,7 +503,8 @@ func _init() -> void:
 		"the six-place journey flies the authored Birthday Castle approach: %s"
 		% JSON.stringify(approach),
 	)
-	DRIVER.advance(shell, 4.1)
+	# The last stretch is flown for a full route, exactly like the six places before it.
+	DRIVER.advance(shell, 14.5)
 
 	var evidence: Dictionary = shell.presentation_evidence()
 	test.expect(

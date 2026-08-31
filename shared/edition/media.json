@@ -96,6 +96,11 @@
       "path": "source-media/journey/rainbow-path.png"
     },
     {
+      "id": "celebration.castle-approach",
+      "role": "illustration-layer",
+      "path": "source-media/celebration/birthday-castle-approach.png"
+    },
+    {
       "id": "celebration.birthday-castle",
       "role": "illustration",
       "path": "source-media/celebration/birthday-castle-celebration.png"

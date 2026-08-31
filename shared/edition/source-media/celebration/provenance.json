@@ -2,6 +2,30 @@
   "schemaVersion": 1,
   "assets": [
     {
+      "id": "celebration.castle-approach",
+      "asset": "birthday-castle-approach.png",
+      "sha256": "1941f8e0db57230e7b67b7593173901f864cd195d6797bf10c51310eca9ee876",
+      "purpose": "The Birthday Castle approach illustration, the scenery Princess Rosie flies the last stretch against while the six returning Rainbow Paths converge, before the celebration is revealed.",
+      "generation": {
+        "tool": "Inkvoke 1.0.1",
+        "provider": "OpenAI",
+        "providerHeadquarters": "United States",
+        "model": "gpt-image-2",
+        "quality": "high",
+        "size": "1680x944",
+        "outputFormat": "png",
+        "mode": "generation",
+        "prompt": "Use case: illustration-story. Asset type: production 16:9 game environment illustration for the final approach of a gentle Godot active-play scene. Primary request: Create the Birthday Castle Approach — the last open stretch of sky Princess Rosie flies before arriving at Princess Zélie's celebration — with a single open flight corridor running left to right across the frame and the Birthday Castle waiting ahead in the right third. Scene/backdrop: The warm golden mosaic Birthday Castle stands in the right third of the frame, a little above centre and clear of the edges, catching bright afternoon sun: rounded Arab-Norman domes, mosaic gold and warm cream walls, open arches, rose garlands and rainbow ribbons along its terraces, small pennants. Below and beyond it the sparkling Sapphire Sea meets a flowered coast of blush-rose and lavender gardens. Along the upper band show open luminous sky with soft rounded clouds and drifting golden sparkles. Along the lower band show gentle flowered coastal terraces and calm shallow turquoise water. Keep the left two thirds of the frame open and uncluttered through both altitude bands. Style/medium: premium flat modern children's picture-book illustration; solid colour blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny lighting. Composition/framing: wide 16:9 full-Stage scenery painting; the castle reads as the destination ahead rather than a place already arrived at; open safe flight space through both altitude bands. Color palette: luminous mosaic gold, warm cream, blush rose, lavender, sapphire, turquoise. Lighting/mood: arriving, welcoming, joyful, gentle, spacious; both altitude bands equally bright, safe, and beautiful. Constraints: scenery and architecture only; no characters, faces, animals, people, Princess Rosie, Stella, Gigi, Family Guests, birthday cake, party interior, Birthday Star, Rainbow Path, written text, interface, watermark, correctness cues, danger, storm, crashing surf, cliffs that read as a fall, photorealism, 3D render, or anime."
+      },
+      "selection": {
+        "status": "approved",
+        "reason": "Chosen from two candidates painted against one prompt. The Birthday Castle reads as the destination ahead in the right third, where the returning Rainbow Paths converge, while the left two thirds stay open sky and calm water so both altitude bands are equally safe to fly. Its mosaic gold, cream, blush rose, and sapphire carry straight on from the Sapphire Sea before it.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-08-31"
+      }
+    },
+    {
       "id": "celebration.birthday-castle",
       "asset": "birthday-castle-celebration.png",
       "sha256": "55fac239122835ed2a4858e69e58b49a6a3e52217a700d92c1fc5dd1c6c656fc",
