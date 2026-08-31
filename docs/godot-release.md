@@ -5,7 +5,7 @@ Release Candidate. Construction is local and never publishes. Credentialed
 signing, notarization, and `gh release` remain separate steps. See ADR-0017
 and ADR-0018.
 
-The Phaser site at [rosi.stephens.page](https://rosi.stephens.page/) is a
+The Phaser Edition at [rosi.stephens.page](https://rosi.stephens.page/) is a
 different artifact. Its evidence is the `Deploy production` workflow in
 `.github/workflows/deploy.yml`. Do not treat that workflow as Godot Edition
 release evidence.
@@ -93,7 +93,9 @@ deliberate `gh release` step on the verification issue:
 
 1. Tag only the exact freshly green `origin/main` commit. The tag never moves.
 2. Publish a prerelease (not a draft) whose notes start with
-   `Status: awaiting owner acceptance`.
+   `Status: awaiting owner acceptance` and distinguish the supported
+   Apple Silicon target from packaged but unverified Intel compatibility
+   (ADR-0016).
 3. Attach the ZIP and the `.sha256` file under those exact names.
 4. Download both assets through GitHub. Do not reuse the locally built copies
    as the acceptance artifact.

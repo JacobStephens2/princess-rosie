@@ -163,7 +163,7 @@ source_date_epoch="$(git -C "$repo_root" log -1 --format=%ct "$intended_revision
 timestamp="$(TZ=UTC /bin/date -u -r "$source_date_epoch" +%Y%m%d%H%M.%S)"
 TZ=UTC find "$stage" -exec /usr/bin/touch -t "$timestamp" {} +
 
-/usr/bin/ditto -c -k "$stage" "$archive_path"
+/usr/bin/ditto -c -k --norsrc --noextattr "$stage" "$archive_path"
 test -s "$archive_path" || fail "the release archive was not written"
 
 checksum="$(/usr/bin/shasum -a 256 "$archive_path" | awk '{print $1}')"
