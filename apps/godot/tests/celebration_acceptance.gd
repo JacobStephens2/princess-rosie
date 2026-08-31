@@ -9,7 +9,7 @@ const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
 const DRIVER := preload("res://tests/place_journey_driver.gd")
 const KEYBOARD_SPACE: StringName = &"keyboard.space"
 const CELEBRATION_ILLUSTRATION := "source-media/celebration/birthday-castle-celebration.png"
-const RETURNING_RAINBOW_PATH_COUNT := 7
+const RETURNING_RAINBOW_PATH_COUNT := 6
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -51,8 +51,15 @@ func _run() -> void:
 			== RETURNING_RAINBOW_PATH_COUNT
 		)
 		and approach_stage.get("birthday_castle_approach", {}).get("converging") == true,
-		"all seven returning Rainbow Paths visibly converge beside Princess Rosie: %s"
+		"six returning Rainbow Paths visibly converge beside Princess Rosie: %s"
 		% JSON.stringify(approach_stage.get("birthday_castle_approach")),
+	)
+	test.expect(
+		approach_stage.get("celebration_stars", {}).get("castle_star_visible") == true
+		and int(approach_stage.get("celebration_stars", {}).get("united_star_count", 0))
+		== 1,
+		"Dad's Castle Star is already shining before the recovered Stars join it: %s"
+		% JSON.stringify(approach_stage.get("celebration_stars")),
 	)
 	test.expect(
 		approach_stage.get("flight_character_visible") == true
@@ -132,6 +139,14 @@ func _run() -> void:
 		and stage.get("place_composition", {}).get("atmospheric_motion") == false,
 		"the authored ending is not overdrawn by the flight presentation: %s"
 		% JSON.stringify(stage.get("place_composition")),
+	)
+	test.expect(
+		stage.get("celebration_stars", {}).get("castle_star_visible") == true
+		and int(stage.get("celebration_stars", {}).get("gathered_star_count", 0)) == 6
+		and int(stage.get("celebration_stars", {}).get("united_star_count", 0)) == 7
+		and stage.get("celebration_stars", {}).get("constellation") == true,
+		"the six recovered Stars join the Castle Star in a seven-Star constellation: %s"
+		% JSON.stringify(stage.get("celebration_stars")),
 	)
 
 	var instruction := str(shell.presentation_evidence().get("flight_instruction", ""))
