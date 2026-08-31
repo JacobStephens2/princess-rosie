@@ -69,6 +69,7 @@ pre-acceptance asset replacement are documented in
 Run the focused public-seam acceptance suite:
 
 ```sh
+apps/godot/tests/godot_ci_inspection.sh
 npm run test:godot
 apps/godot/tests/export_smoke.sh
 apps/godot/tests/release_export_inspection.sh
