@@ -207,6 +207,7 @@ Selected output: `shared/edition/source-media/celebration/birthday-castle-approa
 
 Provenance: `shared/edition/source-media/celebration/provenance.json`
 
+
 ## Birthday Castle celebration illustration
 
 Execution: Inkvoke 1.0.1, GPT Image 2, high quality, 1680×944 PNG.
