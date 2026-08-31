@@ -350,6 +350,7 @@ func _content_media_ids(content: Dictionary) -> PackedStringArray:
 		_append_named_id(ids, place_value, "illustration")
 		_append_named_id(ids, place_value, "familyGuestIllustration")
 	_append_named_id(ids, content.get("celebration", {}), "illustration")
+	_append_named_id(ids, content.get("celebration", {}), "approachIllustration")
 	return ids
 
 

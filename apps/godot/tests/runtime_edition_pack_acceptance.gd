@@ -167,6 +167,16 @@ func _init() -> void:
 		not _paths(release_files).has("source-media/lacewood/lacewood-background.png"),
 		"the unused Lacewood master illustration is excluded",
 	)
+	# The last stretch is flown against its own scenery, so the packaged app has to
+	# carry it as surely as it carries the celebration it leads to.
+	test.expect(
+		_paths(release_files).has("source-media/celebration/birthday-castle-approach.png")
+		and _paths(release_files).has(
+			"source-media/celebration/birthday-castle-celebration.png",
+		),
+		"the Birthday Castle approach travels with the celebration it leads to: %s"
+		% JSON.stringify(_paths(release_files).keys()),
+	)
 	test.expect(
 		not _paths_contain(_paths(release_files), "source-media/soundscape/masters/"),
 		"soundscape masters are excluded from the Runtime Edition Pack",

@@ -75,7 +75,6 @@ const BIRTHDAY_STAR_MOMENT_AFTER_PATH_SECONDS := 2.5
 const DEFAULT_PLAYFUL_BUMP_WOBBLE_SECONDS := 0.45
 const DEFAULT_CROSSING_REST_SECONDS := 0.9
 const DEFAULT_NEAR_MISS_REST_SECONDS := 0.9
-const BIRTHDAY_CASTLE_APPROACH_SECONDS := 4.0
 const REQUIRED_PLACE_FIELDS := [
 	"id",
 	"name",
@@ -138,6 +137,8 @@ var _rainbow_path_texture: Texture2D
 var _rainbow_path_media_path := ""
 var _celebration_texture: Texture2D
 var _celebration_media_path := ""
+var _castle_approach_texture: Texture2D
+var _castle_approach_media_path := ""
 var _journey_media_paths: Dictionary = {}
 var _realized_place_count := 0
 var _opening_moment_index := 0
@@ -261,6 +262,8 @@ func prepare_launch(pack_source: String = default_pack_source()) -> Dictionary:
 	_rainbow_path_media_path = ""
 	_celebration_texture = null
 	_celebration_media_path = ""
+	_castle_approach_texture = null
+	_castle_approach_media_path = ""
 	_journey_media_paths = {}
 	_realized_place_count = 0
 	_opening_moment_index = 0
@@ -486,6 +489,9 @@ func storybook_stage_evidence() -> Dictionary:
 		"place_composition": _place_visuals.visual_evidence(),
 		"celebration_illustration": _celebration_media_path,
 		"celebration_illustration_visible": _layer_visible(_celebration_art),
+		"castle_approach_illustration": _castle_approach_media_path,
+		"castle_approach_illustration_visible": _layer_visible(_castle_approach_backdrop),
+		"castle_approach_backdrop_scale": _castle_approach_backdrop.scale,
 		"birthday_castle_approach": _birthday_castle_approach.visual_evidence(),
 		"celebration_stars": _celebration_stars.visual_evidence(),
 		"flight_character_center": _flight_character.position + _flight_character.pivot_offset,
@@ -847,7 +853,7 @@ func advance_journey(delta: float) -> void:
 		PHASE_STAR_APPROACH:
 			_advance_birthday_star_sequence()
 		PHASE_BIRTHDAY_CASTLE_APPROACH:
-			if _journey_phase_elapsed >= BIRTHDAY_CASTLE_APPROACH_SECONDS:
+			if _journey_phase_elapsed >= _route_duration_seconds():
 				_arrive_at_birthday_castle()
 	_render_presentation()
 
@@ -1261,7 +1267,8 @@ func _render_presentation() -> void:
 	var celebration_visible := _journey_phase == PHASE_CELEBRATION
 	if _celebration_texture != null:
 		_celebration_art.texture = _celebration_texture
-		_castle_approach_backdrop.texture = _celebration_texture
+	if _castle_approach_texture != null:
+		_castle_approach_backdrop.texture = _castle_approach_texture
 	_birthday_castle_approach.configure(
 		_rainbow_path_texture,
 		int(_celebration().get("returningRainbowPathCount", 0)),
@@ -1543,7 +1550,7 @@ func _apply_birthday_castle_approach_presentation() -> void:
 	if not is_node_ready() or _journey_phase != PHASE_BIRTHDAY_CASTLE_APPROACH:
 		return
 	var progress := clampf(
-		_journey_phase_elapsed / BIRTHDAY_CASTLE_APPROACH_SECONDS,
+		_journey_phase_elapsed / _route_duration_seconds(),
 		0.0,
 		1.0,
 	)
@@ -1558,7 +1565,8 @@ func _apply_birthday_castle_approach_presentation() -> void:
 		-0.12,
 		0.12,
 	)
-	_castle_approach_backdrop.scale = Vector2.ONE * lerpf(1.08, 1.0, progress)
+	# Rosie is flying toward the Castle, so the Castle comes nearer as she flies.
+	_castle_approach_backdrop.scale = Vector2.ONE * lerpf(1.0, 1.08, progress)
 	_castle_approach_backdrop.position = -(_castle_approach_backdrop.size * (
 		_castle_approach_backdrop.scale - Vector2.ONE
 	)) * 0.5
@@ -1723,16 +1731,37 @@ func _load_celebration_media(pack_source: String, media_by_id: Dictionary) -> Di
 	var celebration := _celebration()
 	if celebration.is_empty():
 		return {"ok": false, "error": "Edition Pack declares no celebration"}
-	var illustration_id := str(celebration.get("illustration", ""))
-	var media: Dictionary = media_by_id.get(illustration_id, {})
-	var path: String = media.get("path", "")
-	if media.get("role") != "illustration" or path.is_empty():
-		return {"ok": false, "error": "Celebration illustration is missing: %s" % illustration_id}
-	var result: Dictionary = _adapter.load_png_texture(pack_source, path)
+	var result := _load_scenery(
+		pack_source,
+		media_by_id,
+		str(celebration.get("illustration", "")),
+		"Celebration illustration",
+		"illustration",
+	)
 	if not result.ok:
 		return result
 	_celebration_texture = result.texture
-	_celebration_media_path = path
+	_celebration_media_path = result.path
+	return _load_castle_approach_media(pack_source, media_by_id)
+
+
+# The last stretch is flown against scenery of its own, so the celebration it leads to
+# stays unseen until Rosie has actually arrived at it.
+func _load_castle_approach_media(
+	pack_source: String,
+	media_by_id: Dictionary,
+) -> Dictionary:
+	var result := _load_scenery(
+		pack_source,
+		media_by_id,
+		str(_celebration().get("approachIllustration", "")),
+		"Birthday Castle approach illustration",
+		"illustration-layer",
+	)
+	if not result.ok:
+		return result
+	_castle_approach_texture = result.texture
+	_castle_approach_media_path = result.path
 	return {"ok": true}
 
 
@@ -1768,6 +1797,26 @@ func _load_shared_journey_media(pack_source: String, media_by_id: Dictionary) ->
 	_rainbow_path_media_path = rainbow_result.path
 	_journey_media_paths[rainbow_path_id] = rainbow_result.path
 	return {"ok": true}
+
+
+# Whole-Stage scenery the child is looking at, as opposed to the layers laid over it:
+# it fills the frame, so nothing is asked of what surrounds it.
+func _load_scenery(
+	pack_source: String,
+	media_by_id: Dictionary,
+	media_id: String,
+	description: String,
+	role: String,
+) -> Dictionary:
+	var media: Dictionary = media_by_id.get(media_id, {})
+	var path: String = media.get("path", "")
+	if media.get("role") != role or path.is_empty():
+		return {"ok": false, "error": "%s is missing: %s" % [description, media_id]}
+	var result: Dictionary = _adapter.load_png_texture(pack_source, path)
+	if not result.ok:
+		return result
+	result["path"] = path
+	return result
 
 
 # Every layer laid over the place the child is looking at — Stella, a Family Guest, the
