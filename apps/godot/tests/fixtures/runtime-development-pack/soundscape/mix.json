@@ -1,0 +1,12 @@
+{
+  "soundtrack": {
+    "id": "music.theme",
+    "path": "source-media/soundscape/music/theme.mp3",
+    "looping": true,
+    "gainDb": -6.7,
+    "fallbackRole": "fallback.music"
+  },
+  "categoryGainDb": {
+    "music": 0
+  }
+}

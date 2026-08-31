@@ -1,0 +1,8 @@
+{
+  "roles": [
+    {
+      "id": "provenance.commercial-generated-effect",
+      "description": "Development-only evidence."
+    }
+  ]
+}

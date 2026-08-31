@@ -67,6 +67,69 @@ rm -f "$capture_path" "$evidence_path" "$opening_capture_path" "$opening_evidenc
 "$godot_bin" --headless --path "$project_dir" --export-debug "macOS Development" "$app_path"
 
 test -x "$app_binary"
+pck_path="$app_path/Contents/Resources/Princess Rosie and the Seven Birthday Stars.pck"
+test -s "$pck_path"
+if rg -a -q 'Jacob Stephens' "$pck_path"; then
+  echo "FAIL: packaged PCK contains Jacob Stephens" >&2
+  exit 1
+fi
+if rg -a -q 'long straight dirty-blonde hair' "$pck_path"; then
+  echo "FAIL: packaged PCK contains a family appearance prompt" >&2
+  exit 1
+fi
+if rg -a -q 'written appearance cues' "$pck_path"; then
+  echo "FAIL: packaged PCK contains family appearance provenance" >&2
+  exit 1
+fi
+if rg -a -q 'ownerManualReviewBy' "$pck_path"; then
+  echo "FAIL: packaged PCK contains owner review provenance" >&2
+  exit 1
+fi
+if rg -a -q 'traceId' "$pck_path"; then
+  echo "FAIL: packaged PCK contains a provider trace identifier" >&2
+  exit 1
+fi
+if rg -a -q 'providerReportedUsage' "$pck_path"; then
+  echo "FAIL: packaged PCK contains provider usage records" >&2
+  exit 1
+fi
+if rg -a -q 'source-media/soundscape/masters/' "$pck_path"; then
+  echo "FAIL: packaged PCK contains excluded soundscape master paths" >&2
+  exit 1
+fi
+if rg -a -q 'catalog-state/' "$pck_path"; then
+  echo "FAIL: packaged PCK contains catalog-state records" >&2
+  exit 1
+fi
+if rg -a -q 'runtime-imports/' "$pck_path"; then
+  echo "FAIL: packaged PCK contains runtime-import records" >&2
+  exit 1
+fi
+if rg -a -q 'source-media/lacewood/lacewood-background.png' "$pck_path"; then
+  echo "FAIL: packaged PCK contains the unused Lacewood master illustration" >&2
+  exit 1
+fi
+
+for notice_name in NOTICE.txt THIRD-PARTY-NOTICES.txt; do
+  for notice_path in "$build_dir/$notice_name" "$app_path/Contents/Resources/$notice_name"; do
+    if [[ ! -s "$notice_path" ]]; then
+      echo "FAIL: release notice is missing: $notice_path" >&2
+      exit 1
+    fi
+  done
+done
+if ! rg -F -q 'not licensed for' "$build_dir/NOTICE.txt"; then
+  echo "FAIL: private-family/no-redistribution notice is incomplete" >&2
+  exit 1
+fi
+if ! rg -F -q 'Copyright (c) 2014-present Godot Engine contributors' "$build_dir/THIRD-PARTY-NOTICES.txt"; then
+  echo "FAIL: Godot license notice is missing from third-party notices" >&2
+  exit 1
+fi
+if ! rg -F -q 'Juan Linietsky, Ariel Manzur' "$build_dir/THIRD-PARTY-NOTICES.txt"; then
+  echo "FAIL: required Godot copyright is missing from third-party notices" >&2
+  exit 1
+fi
 file "$app_binary" | grep -q "arm64"
 if codesign --verify --deep --strict "$app_path" >/dev/null 2>&1; then
   echo "FAIL: export unexpectedly produced a signed application" >&2

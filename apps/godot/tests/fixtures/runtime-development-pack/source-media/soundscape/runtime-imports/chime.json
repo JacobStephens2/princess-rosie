@@ -1,0 +1,5 @@
+{
+  "cueId": "cue.story.confirmation",
+  "sourcePath": "masters/chime.wav",
+  "runtimePath": "runtime/chime.wav"
+}

@@ -1,0 +1,11 @@
+{
+  "assets": [
+    {
+      "id": "flight.hero",
+      "prompt": "Use case: production game character cutout. Subject: Mom, a warm fictional storybook mother with long straight dirty-blonde hair.",
+      "selection": {
+        "ownerManualReviewBy": "Jacob Stephens"
+      }
+    }
+  ]
+}
