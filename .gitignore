@@ -6,6 +6,7 @@ test-results/
 .DS_Store
 tmp/
 .godot/
+.godot-ci/
 .import/
 Library/
 Logs/
