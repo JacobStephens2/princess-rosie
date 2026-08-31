@@ -1,0 +1,8 @@
+{
+  "cueId": "cue.story.confirmation",
+  "provider": "ElevenLabs",
+  "model": "eleven_text_to_sound_v2",
+  "traceId": "fixture-trace-identifier",
+  "jobHash": "sha256:fixture",
+  "providerReportedUsage": { "characterCost": "1" }
+}

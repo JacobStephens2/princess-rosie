@@ -1,0 +1,26 @@
+{
+  "roles": [
+    {
+      "id": "source-media.generated-master",
+      "description": "An approved source master."
+    }
+  ],
+  "fallbackRoles": [
+    {
+      "id": "fallback.story-confirmation",
+      "description": "A synthesized confirmation."
+    }
+  ],
+  "sourceMasters": [
+    {
+      "id": "source-master.story.confirmation",
+      "role": "source-media.generated-master",
+      "provenanceRole": "provenance.commercial-generated-effect",
+      "path": "source-media/soundscape/masters/chime.wav",
+      "provenancePath": "source-media/soundscape/provenance/chime.json",
+      "runtimePath": "source-media/soundscape/runtime/chime.wav",
+      "runtimeImportPath": "source-media/soundscape/runtime-imports/chime.json",
+      "catalogStatePath": "source-media/soundscape/catalog-state/chime.json"
+    }
+  ]
+}
