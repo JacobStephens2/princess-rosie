@@ -10,6 +10,16 @@ different artifact. Its evidence is the `Deploy production` workflow in
 `.github/workflows/deploy.yml`. Do not treat that workflow as Godot Edition
 release evidence.
 
+Godot Edition construction evidence is the `Verify Godot Edition` workflow in
+`.github/workflows/verify-godot.yml`. It runs on relevant pull requests and
+`main`, installs and checks Godot 4.7.2 Standard, runs the headless acceptance
+suite, and performs Runtime Edition Pack, release-export, and static archive
+inspections that do not need Finder. It never publishes a GitHub Release and
+does not upload the large app archive as an Actions artifact. Finder launch,
+packaged visual smoke, audio judgment, signing, and publication remain
+target-MacBook gates on the verification issue. The publication archive is
+still constructed on the target MacBook.
+
 ## 1. Construct the archive
 
 Start from a clean working tree at the intended revision. For the GitHub
