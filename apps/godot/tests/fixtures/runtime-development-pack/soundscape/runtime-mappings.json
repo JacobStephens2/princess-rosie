@@ -1,0 +1,9 @@
+{
+  "mappings": [
+    {
+      "id": "runtime-cue.story.confirmation",
+      "sourceMaster": "source-master.story.confirmation",
+      "path": "runtime/chime.wav"
+    }
+  ]
+}

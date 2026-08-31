@@ -10,7 +10,9 @@ Open `project.godot` with the exact 4.7.2 editor, or run:
 /Applications/Godot.app/Contents/MacOS/Godot --path apps/godot
 ```
 
-The application prepares the Edition Pack directly from `shared/edition/` before showing the cover and retains its revision. `shared/edition/` is the engine-neutral content and media store; presentation textures live separately under `assets/` so Godot can import them normally. Exporting stages every file the manifest declares into the application unmodified, under `res://edition`, so the packaged game reads the same bytes the editor does. See `addons/edition_pack_export/`.
+The editor and development acceptance suite prepare the complete authoritative Edition Pack from `shared/edition/` before showing the cover and retain its revision. `shared/edition/` is the engine-neutral development store: approved play media sit beside prompts, provenance, provider records, catalog/build state, unused masters, and other reproducibility evidence.
+
+Exporting derives a Runtime Edition Pack from that development tree instead of copying `shared/edition/**` wholesale. The derived pack contains only the content, tuning, illustrations, and sounds referenced during offline play, staged unmodified under `res://edition`, where the packaged game looks first. Prompts, provenance, provider identifiers and usage records, catalog/build state, runtime-import records, unused masters, and other development-only files stay out of the PCK. A private-family/no-redistribution notice and the required Godot and third-party notices are copied alongside the exported application. See ADR-0014 and `addons/edition_pack_export/`.
 
 ## Export and play
 
@@ -20,7 +22,7 @@ Build the local macOS application with the existing `macOS Development` preset b
 apps/godot/tests/export_smoke.sh
 ```
 
-The finished application is `apps/godot/build/Princess Rosie.app`. Reveal it in Finder and double-click it to play the same artifact the smoke test exercised. It opens on the cover in fullscreen; Escape exits. The cover's Grown-up Corner contains only Sound on/off and replay the story. The preset leaves project code signing disabled; the official template executable retains Godot's upstream signature, but the assembled application has no valid project signature and fails strict signature and Gatekeeper assessment. Notarization and distribution are intentionally out of scope.
+The finished application is `apps/godot/build/Princess Rosie.app`. The private-family notice and Godot/third-party notices sit next to it in `apps/godot/build/` and inside the app bundle's Resources. Reveal the application in Finder and double-click it to play the same artifact the smoke test exercised. It opens on the cover in fullscreen; Escape exits. The cover's Grown-up Corner contains only Sound on/off and replay the story. The preset leaves project code signing disabled; the official template executable retains Godot's upstream signature, but the assembled application has no valid project signature and fails strict signature and Gatekeeper assessment. Notarization and distribution are intentionally out of scope. A full provider-terms/public-distribution audit remains deferred until a public release is planned.
 
 ## Verify
 
@@ -31,7 +33,7 @@ npm run test:godot
 apps/godot/tests/export_smoke.sh
 ```
 
-The export smoke test uses the official universal 4.7.2 debug template without app-specific signing. It opens the application through macOS LaunchServices, the same path Finder uses, and requires the fullscreen cover within five seconds. It then completes the packaged journey under a deny-network sandbox while watching macOS denial events; a control probe first proves that the watcher can observe an attempted connection. The test verifies the Opening Storybook Moments, Space and primary-pointer Flight Control, every declared Place and its Birthday Star and Rainbow Path, six returning Rainbow Paths at the Birthday Castle with Dad's Castle Star already shining, the celebration, and Fly Again returning to a playable Rosalia's Rose Garden. Semantic evidence, network traces, and Storybook Stage captures are written under `build/`.
+The export smoke test uses the official universal 4.7.2 debug template without app-specific signing. After export it inspects the PCK for surnames, family appearance prompts, provider trace identifiers, and excluded master/provenance paths, and checks that the release notices shipped alongside the app. It opens the application through macOS LaunchServices, the same path Finder uses, and requires the fullscreen cover within five seconds. It then completes the packaged journey under a deny-network sandbox while watching macOS denial events; a control probe first proves that the watcher can observe an attempted connection. The test verifies the Opening Storybook Moments, Space and primary-pointer Flight Control, every declared Place and its Birthday Star and Rainbow Path, six returning Rainbow Paths at the Birthday Castle with Dad's Castle Star already shining, the celebration, and Fly Again returning to a playable Rosalia's Rose Garden. Semantic evidence, network traces, and Storybook Stage captures are written under `build/`.
 
 Issue #55 corrected the content model to six flyable Places, one Family Guest per Place, with Dad already waiting at the Birthday Castle. Those six Places plus the Birthday Castle are the seven journey locations. Six Birthday Stars scatter and open six Rainbow Paths; Dad keeps the Castle Star safe, already shining before the recovered Stars join it over the celebration. The packaging smoke asserts those counts explicitly instead of inventing a seventh Place passage that is absent from the Edition Pack.
 

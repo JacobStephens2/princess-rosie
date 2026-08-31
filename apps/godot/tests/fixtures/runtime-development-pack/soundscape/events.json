@@ -1,0 +1,8 @@
+{
+  "events": [
+    {
+      "id": "sound-event.story-confirmation",
+      "parameters": ["action"]
+    }
+  ]
+}
