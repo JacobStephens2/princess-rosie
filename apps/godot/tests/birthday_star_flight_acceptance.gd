@@ -284,7 +284,8 @@ func _the_sixth_star_settles_longer_and_the_castle_star_waits() -> void:
 			"stars": approach_stage.get("celebration_stars"),
 		}),
 	)
-	DRIVER.advance(shell, 5.2)
+	# The last stretch is flown for a full route, exactly like the places before it.
+	DRIVER.advance(shell, 14.5)
 	await process_frame
 	var celebration_stage: Dictionary = shell.storybook_stage_evidence()
 	test.expect(

@@ -9,7 +9,11 @@ const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
 const DRIVER := preload("res://tests/place_journey_driver.gd")
 const KEYBOARD_SPACE: StringName = &"keyboard.space"
 const CELEBRATION_ILLUSTRATION := "source-media/celebration/birthday-castle-celebration.png"
+const CASTLE_APPROACH_ILLUSTRATION := "source-media/celebration/birthday-castle-approach.png"
 const RETURNING_RAINBOW_PATH_COUNT := 6
+# The last stretch is flown for as long as any other passage, so the ending never
+# arrives before the child has finished flying to it.
+const ROUTE_DURATION_SECONDS := 13.0
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -66,6 +70,12 @@ func _run() -> void:
 		and approach_stage.get("celebration_illustration_visible") == false,
 		"Princess Rosie flies the last stretch before the party is revealed",
 	)
+	test.expect(
+		approach_stage.get("castle_approach_illustration") == CASTLE_APPROACH_ILLUSTRATION
+		and approach_stage.get("castle_approach_illustration_visible") == true,
+		"the last stretch is flown against its own Birthday Castle approach illustration: %s"
+		% JSON.stringify(approach_stage.get("castle_approach_illustration")),
+	)
 	var approach_character_center: Vector2 = approach_stage.get(
 		"flight_character_center",
 		Vector2.ZERO,
@@ -87,8 +97,40 @@ func _run() -> void:
 		_events_named(shell, "sound-event.birthday-castle-arrival").is_empty(),
 		"the arrival fanfare waits until the paths have converged",
 	)
+	var approach_start_backdrop_scale: float = approach_stage.get(
+		"castle_approach_backdrop_scale",
+		Vector2.ZERO,
+	).x
 
-	DRIVER.advance(shell, 10.0)
+	# Every other passage lasts the authored route duration. So does this one: at the
+	# point the old four-second approach had already ended, Rosie is still flying.
+	DRIVER.advance(shell, ROUTE_DURATION_SECONDS - 1.0)
+	await process_frame
+	test.expect(
+		shell.presentation_evidence().get("journey_phase") == "birthday-castle-approach",
+		"the last stretch is still being flown a second before a full route has passed: %s"
+		% JSON.stringify(shell.presentation_evidence().get("journey_phase")),
+	)
+	test.expect(
+		shell.storybook_stage_evidence().get("celebration_illustration_visible") == false,
+		"the party stays hidden until Rosie has arrived",
+	)
+	# Rosie is flying toward the Castle, so the Castle comes nearer as she flies.
+	test.expect(
+		shell.storybook_stage_evidence().get(
+			"castle_approach_backdrop_scale",
+			Vector2.ZERO,
+		).x > approach_start_backdrop_scale,
+		"the Birthday Castle draws nearer across the approach rather than receding: %s"
+		% JSON.stringify({
+			"start": approach_start_backdrop_scale,
+			"nearly_there": shell.storybook_stage_evidence().get(
+				"castle_approach_backdrop_scale",
+			),
+		}),
+	)
+
+	DRIVER.advance(shell, 2.0)
 	await process_frame
 	test.expect(
 		shell.presentation_evidence().get("state") == "celebration"
@@ -125,7 +167,8 @@ func _run() -> void:
 	)
 	test.expect(
 		stage.get("place_background_visible") == false
-		and stage.get("flight_background_visible") == false,
+		and stage.get("flight_background_visible") == false
+		and stage.get("castle_approach_illustration_visible") == false,
 		"the last place gives way to the Birthday Castle rather than lingering behind it",
 	)
 	test.expect(
@@ -204,7 +247,7 @@ func _run() -> void:
 	# The ending is authored, not a reflection of the journey: flying it again arrives
 	# at exactly the same celebration.
 	_fly_to_castle_approach(shell)
-	DRIVER.advance(shell, 10.0)
+	DRIVER.advance(shell, ROUTE_DURATION_SECONDS + 1.0)
 	await process_frame
 	test.expect(
 		shell.presentation_evidence().get("state") == "celebration"
