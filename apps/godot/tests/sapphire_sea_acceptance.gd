@@ -112,7 +112,8 @@ func _the_coast_answers_both_heights(shell: StorybookShell) -> void:
 		and shell.presentation_evidence().get("journey_phase") == "birthday-castle-approach",
 		"turning the page carries the journey into the Birthday Castle approach",
 	)
-	DRIVER.advance(shell, 4.1)
+	# The last stretch is flown for a full route, exactly like the Sapphire Sea before it.
+	DRIVER.advance(shell, 14.5)
 	test.expect(
 		shell.presentation_evidence().get("state") == "celebration",
 		"the final approach carries the journey into the Birthday Castle without interruption",
