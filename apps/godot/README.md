@@ -40,6 +40,30 @@ apps/godot/tests/release_export_inspection.sh
 
 The inspection checks Info.plist, architectures, macOS 13 minimum-version metadata, that the official release template was used, and that the `.icns` is present with the required macOS icon sizes. The inspected application is `apps/godot/build/release/Princess Rosie.app`.
 
+## Release archive
+
+Construct the GitHub macOS asset and its SHA-256 checksum locally, without publishing, signing, or notarizing:
+
+```sh
+apps/godot/packaging/build_release_archive.sh v1.0.0-rc.1
+```
+
+The command requires a clean working tree at `origin/main`, or pass
+`--source-revision` to name another intended commit. It derives the Runtime
+Edition Pack, exports with the `macOS Release` preset, refuses unresolved
+runtime references and forbidden development-pack contents, and writes:
+
+- `apps/godot/build/release/Princess-Rosie-v1.0.0-rc.1-macOS.zip`
+- `apps/godot/build/release/Princess-Rosie-v1.0.0-rc.1-macOS.zip.sha256`
+
+The ZIP contains `Princess Rosie.app`, `NOTICE.txt`, and
+`THIRD-PARTY-NOTICES.txt` at the top level. Verify the checksum with
+`shasum -a 256 -c` and unzip with `ditto -x -k` so the executable bit, bundle
+structure, and icon are preserved. Unsigned Release Candidate opening, later
+credentialed signing, GitHub upload, download verification, and
+pre-acceptance asset replacement are documented in
+[the Godot Edition release runbook](../../docs/godot-release.md).
+
 ## Verify
 
 Run the focused public-seam acceptance suite:
@@ -48,6 +72,8 @@ Run the focused public-seam acceptance suite:
 npm run test:godot
 apps/godot/tests/export_smoke.sh
 apps/godot/tests/release_export_inspection.sh
+apps/godot/tests/release_archive_inspection.sh
+apps/godot/tests/release_archive_smoke.sh
 ```
 
 The export smoke test uses the official universal 4.7.2 debug template without app-specific signing. After export it inspects the PCK for surnames, family appearance prompts, provider trace identifiers, and excluded master/provenance paths, and checks that the release notices shipped alongside the app. It opens the application through macOS LaunchServices, the same path Finder uses, and requires the fullscreen cover within five seconds. It then completes the packaged journey under a deny-network sandbox while watching macOS denial events; a control probe first proves that the watcher can observe an attempted connection. The test verifies the Opening Storybook Moments, Space and primary-pointer Flight Control, every declared Place and its Birthday Star and Rainbow Path, six returning Rainbow Paths at the Birthday Castle with Dad's Castle Star already shining, the celebration, and Fly Again returning to a playable Rosalia's Rose Garden. Semantic evidence, network traces, and Storybook Stage captures are written under `build/`.
