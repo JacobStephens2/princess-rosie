@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # Packaging inspection for the distinct, non-publishing Godot Edition
-# verification workflow and release-runbook CI evidence. Does not launch the
-# app or construct the GitHub archive.
+# verification workflow and release-runbook CI evidence. CI may construct
+# the ZIP in order to inspect it; that is not publication.
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 workflow="$repo_root/.github/workflows/verify-godot.yml"
@@ -83,8 +83,6 @@ forbid 'export_smoke\.sh' \
   "the Godot workflow runs the Finder-launching development export smoke"
 forbid 'release_archive_smoke\.sh' \
   "the Godot workflow runs the packaged release-archive smoke"
-forbid 'build_release_archive\.sh' \
-  "the Godot workflow constructs the GitHub archive, which is a target-MacBook gate"
 forbid 'gh release' \
   "the Godot workflow publishes a GitHub Release"
 forbid 'upload-artifact' \
@@ -107,5 +105,9 @@ rg -q 'not .*Godot Edition release evidence|Do not treat that workflow as Godot'
   || fail "the runbook does not distinguish Phaser deployment from Godot CI evidence"
 rg -q 'Actions artifact|upload' "$runbook" \
   || fail "the runbook does not say Godot CI does not upload the app archive"
+rg -q 'construct.*ZIP.*inspect|inspect.*ZIP' "$runbook" \
+  || fail "the runbook does not say Godot CI may construct the ZIP to inspect it"
+rg -q 'publication archive' "$runbook" \
+  || fail "the runbook does not keep the publication archive on the target MacBook"
 
 echo "PASS: Godot CI workflow verifies construction on relevant PRs and main without publishing"
