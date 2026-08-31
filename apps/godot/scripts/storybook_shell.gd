@@ -1731,31 +1731,37 @@ func _load_celebration_media(pack_source: String, media_by_id: Dictionary) -> Di
 	var celebration := _celebration()
 	if celebration.is_empty():
 		return {"ok": false, "error": "Edition Pack declares no celebration"}
-	var illustration_id := str(celebration.get("illustration", ""))
-	var media: Dictionary = media_by_id.get(illustration_id, {})
-	var path: String = media.get("path", "")
-	if media.get("role") != "illustration" or path.is_empty():
-		return {"ok": false, "error": "Celebration illustration is missing: %s" % illustration_id}
-	var result: Dictionary = _adapter.load_png_texture(pack_source, path)
+	var result := _load_scenery(
+		pack_source,
+		media_by_id,
+		str(celebration.get("illustration", "")),
+		"Celebration illustration",
+		"illustration",
+	)
 	if not result.ok:
 		return result
 	_celebration_texture = result.texture
-	_celebration_media_path = path
-	# The last stretch is flown against scenery of its own, so the celebration stays
-	# unseen until Rosie has actually arrived at it.
-	var approach_id := str(celebration.get("approachIllustration", ""))
-	var approach_media: Dictionary = media_by_id.get(approach_id, {})
-	var approach_path: String = approach_media.get("path", "")
-	if approach_media.get("role") != "illustration-layer" or approach_path.is_empty():
-		return {
-			"ok": false,
-			"error": "Birthday Castle approach illustration is missing: %s" % approach_id,
-		}
-	var approach_result: Dictionary = _adapter.load_png_texture(pack_source, approach_path)
-	if not approach_result.ok:
-		return approach_result
-	_castle_approach_texture = approach_result.texture
-	_castle_approach_media_path = approach_path
+	_celebration_media_path = result.path
+	return _load_castle_approach_media(pack_source, media_by_id)
+
+
+# The last stretch is flown against scenery of its own, so the celebration it leads to
+# stays unseen until Rosie has actually arrived at it.
+func _load_castle_approach_media(
+	pack_source: String,
+	media_by_id: Dictionary,
+) -> Dictionary:
+	var result := _load_scenery(
+		pack_source,
+		media_by_id,
+		str(_celebration().get("approachIllustration", "")),
+		"Birthday Castle approach illustration",
+		"illustration-layer",
+	)
+	if not result.ok:
+		return result
+	_castle_approach_texture = result.texture
+	_castle_approach_media_path = result.path
 	return {"ok": true}
 
 
@@ -1791,6 +1797,26 @@ func _load_shared_journey_media(pack_source: String, media_by_id: Dictionary) ->
 	_rainbow_path_media_path = rainbow_result.path
 	_journey_media_paths[rainbow_path_id] = rainbow_result.path
 	return {"ok": true}
+
+
+# Whole-Stage scenery the child is looking at, as opposed to the layers laid over it:
+# it fills the frame, so nothing is asked of what surrounds it.
+func _load_scenery(
+	pack_source: String,
+	media_by_id: Dictionary,
+	media_id: String,
+	description: String,
+	role: String,
+) -> Dictionary:
+	var media: Dictionary = media_by_id.get(media_id, {})
+	var path: String = media.get("path", "")
+	if media.get("role") != role or path.is_empty():
+		return {"ok": false, "error": "%s is missing: %s" % [description, media_id]}
+	var result: Dictionary = _adapter.load_png_texture(pack_source, path)
+	if not result.ok:
+		return result
+	result["path"] = path
+	return result
 
 
 # Every layer laid over the place the child is looking at — Stella, a Family Guest, the

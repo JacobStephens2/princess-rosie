@@ -11,9 +11,6 @@ const KEYBOARD_SPACE: StringName = &"keyboard.space"
 const CELEBRATION_ILLUSTRATION := "source-media/celebration/birthday-castle-celebration.png"
 const CASTLE_APPROACH_ILLUSTRATION := "source-media/celebration/birthday-castle-approach.png"
 const RETURNING_RAINBOW_PATH_COUNT := 6
-# The last stretch is flown for as long as any other passage, so the ending never
-# arrives before the child has finished flying to it.
-const ROUTE_DURATION_SECONDS := 13.0
 
 var test: RefCounted = ACCEPTANCE_TEST.new()
 
@@ -102,31 +99,40 @@ func _run() -> void:
 		Vector2.ZERO,
 	).x
 
-	# Every other passage lasts the authored route duration. So does this one: at the
-	# point the old four-second approach had already ended, Rosie is still flying.
-	DRIVER.advance(shell, ROUTE_DURATION_SECONDS - 1.0)
-	await process_frame
-	test.expect(
-		shell.presentation_evidence().get("journey_phase") == "birthday-castle-approach",
-		"the last stretch is still being flown a second before a full route has passed: %s"
-		% JSON.stringify(shell.presentation_evidence().get("journey_phase")),
+	# The last stretch lasts as long as any other passage, so the ending is never
+	# reached before the child has finished flying to it. The shell publishes the
+	# authored route duration rather than this script restating the tuning intent.
+	var route_duration_seconds := float(
+		shell.presentation_evidence().get("route_duration_seconds", 0.0),
 	)
 	test.expect(
-		shell.storybook_stage_evidence().get("celebration_illustration_visible") == false,
+		route_duration_seconds > 0.0,
+		"the journey publishes the authored route duration: %s" % route_duration_seconds,
+	)
+	DRIVER.advance(shell, route_duration_seconds - 1.0)
+	await process_frame
+	var nearly_there: Dictionary = shell.presentation_evidence()
+	var nearly_there_stage: Dictionary = shell.storybook_stage_evidence()
+	test.expect(
+		nearly_there.get("journey_phase") == "birthday-castle-approach",
+		"the last stretch is still being flown a second before a full route has passed: %s"
+		% JSON.stringify(nearly_there.get("journey_phase")),
+	)
+	test.expect(
+		nearly_there_stage.get("celebration_illustration_visible") == false,
 		"the party stays hidden until Rosie has arrived",
 	)
 	# Rosie is flying toward the Castle, so the Castle comes nearer as she flies.
+	var nearly_there_backdrop_scale: Vector2 = nearly_there_stage.get(
+		"castle_approach_backdrop_scale",
+		Vector2.ZERO,
+	)
 	test.expect(
-		shell.storybook_stage_evidence().get(
-			"castle_approach_backdrop_scale",
-			Vector2.ZERO,
-		).x > approach_start_backdrop_scale,
+		nearly_there_backdrop_scale.x > approach_start_backdrop_scale,
 		"the Birthday Castle draws nearer across the approach rather than receding: %s"
 		% JSON.stringify({
 			"start": approach_start_backdrop_scale,
-			"nearly_there": shell.storybook_stage_evidence().get(
-				"castle_approach_backdrop_scale",
-			),
+			"nearly_there": nearly_there_backdrop_scale,
 		}),
 	)
 
@@ -247,7 +253,7 @@ func _run() -> void:
 	# The ending is authored, not a reflection of the journey: flying it again arrives
 	# at exactly the same celebration.
 	_fly_to_castle_approach(shell)
-	DRIVER.advance(shell, ROUTE_DURATION_SECONDS + 1.0)
+	DRIVER.advance(shell, route_duration_seconds + 1.0)
 	await process_frame
 	test.expect(
 		shell.presentation_evidence().get("state") == "celebration"
