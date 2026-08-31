@@ -24,6 +24,22 @@ apps/godot/tests/export_smoke.sh
 
 The finished application is `apps/godot/build/Princess Rosie.app`. The private-family notice and Godot/third-party notices sit next to it in `apps/godot/build/` and inside the app bundle's Resources. Reveal the application in Finder and double-click it to play the same artifact the smoke test exercised. It opens on the cover in fullscreen; Escape exits. The cover's Grown-up Corner contains only Sound on/off and replay the story. The preset leaves project code signing disabled; the official template executable retains Godot's upstream signature, but the assembled application has no valid project signature and fails strict signature and Gatekeeper assessment. Notarization and distribution are intentionally out of scope. A full provider-terms/public-distribution audit remains deferred until a public release is planned.
 
+## Release export
+
+Godot Edition v1 uses a dedicated `macOS Release` preset that is separate from `macOS Development`. The release preset exports a universal binary with the official 4.7.2 release template, bundle short version `1.0.0`, no console wrapper, and the Princess Rosie app icon. It does not replace the development preset or `apps/godot/tests/export_smoke.sh`.
+
+The supported release target is macOS 13 and newer on Apple Silicon, matching the MacBook on which artifacts are accepted. The application remains a universal binary, so Intel hardware is packaged, but Intel compatibility is not independently play-tested. See ADR-0016.
+
+The Finder and Dock icon is composed only from the approved Princess Rosie-and-Stella cutout and golden Birthday Star already in the Edition Pack, placed on a sapphire jewel field. Rebuild it with `apps/godot/packaging/build_app_icon.sh`. Owner approval of that icon in Finder and the Dock is a Release Candidate gate, not a substitute for the automated inspection.
+
+Inspect the release export without launching the app:
+
+```sh
+apps/godot/tests/release_export_inspection.sh
+```
+
+The inspection checks Info.plist, architectures, macOS 13 minimum-version metadata, that the official release template was used, and that the `.icns` is present with the required macOS icon sizes. The inspected application is `apps/godot/build/release/Princess Rosie.app`.
+
 ## Verify
 
 Run the focused public-seam acceptance suite:
@@ -31,6 +47,7 @@ Run the focused public-seam acceptance suite:
 ```sh
 npm run test:godot
 apps/godot/tests/export_smoke.sh
+apps/godot/tests/release_export_inspection.sh
 ```
 
 The export smoke test uses the official universal 4.7.2 debug template without app-specific signing. After export it inspects the PCK for surnames, family appearance prompts, provider trace identifiers, and excluded master/provenance paths, and checks that the release notices shipped alongside the app. It opens the application through macOS LaunchServices, the same path Finder uses, and requires the fullscreen cover within five seconds. It then completes the packaged journey under a deny-network sandbox while watching macOS denial events; a control probe first proves that the watcher can observe an attempted connection. The test verifies the Opening Storybook Moments, Space and primary-pointer Flight Control, every declared Place and its Birthday Star and Rainbow Path, six returning Rainbow Paths at the Birthday Castle with Dad's Castle Star already shining, the celebration, and Fly Again returning to a playable Rosalia's Rose Garden. Semantic evidence, network traces, and Storybook Stage captures are written under `build/`.
