@@ -18,6 +18,7 @@
     "soundscape:media-docs": "npm run media-docs --workspace rosie-soundscape-build --",
     "soundscape:remaster": "npm run remaster --workspace rosie-soundscape-build --",
     "soundscape:validate": "npm run validate --workspace rosie-soundscape-build --",
+    "prototype:family-guest-passage": "python3 -m http.server 4173 --directory .",
     "test:e2e": "npm run test:e2e --workspace princess-rosie-phaser-original",
     "test:e2e:install": "npm run test:e2e:install --workspace princess-rosie-phaser-original",
     "check": "npm run typecheck --workspace rosie-soundscape-build && npm run test:soundscape-build && npm run check --workspace princess-rosie-phaser-original"

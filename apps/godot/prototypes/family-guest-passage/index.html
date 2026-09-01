@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prototype — Family Guest in the Single Route</title>
+    <link rel="stylesheet" href="./prototype.css" />
+  </head>
+  <body>
+    <!--
+      THROWAWAY PROTOTYPE for issue #73.
+      Three Family Guest presence treatments, switchable via ?variant=, in a
+      simulated Godot Storybook Stage using the real Edition Pack art.
+    -->
+    <main class="prototype-shell">
+      <header class="prototype-header">
+        <div>
+          <p class="eyebrow">Throwaway prototype · issue #73</p>
+          <h1>Who is this Place for?</h1>
+          <p class="question">
+            Does seeing a Family Guest during the Single Route make helping her
+            clearer without stealing the Birthday Star arrival?
+          </p>
+        </div>
+
+        <div class="controls" aria-label="Prototype controls">
+          <label>
+            <span>Place</span>
+            <select id="place-select"></select>
+          </label>
+          <label class="progress-control">
+            <span>Passage</span>
+            <input id="progress" type="range" min="0" max="1" step="0.001" />
+          </label>
+          <button id="play-toggle" class="control-button" type="button">Pause</button>
+        </div>
+      </header>
+
+      <section id="stage" class="storybook-stage" aria-label="Animated Single Route comparison">
+        <img id="place-art" class="place-art" alt="" />
+        <div class="story-wash"></div>
+        <div id="sparkle-trail" class="sparkle-trail" aria-hidden="true"></div>
+
+        <div id="cameo-marker" class="cameo-marker" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </div>
+
+        <div id="arrival-halo" class="arrival-halo" aria-hidden="true"></div>
+        <img id="birthday-star" class="birthday-star" alt="Birthday Star" />
+        <img id="family-guest" class="family-guest" alt="" />
+        <img id="stella" class="stella" alt="Princess Rosie flying on Stella" />
+
+        <div class="place-caption">
+          <span id="place-name"></span>
+          <strong id="phase-name"></strong>
+        </div>
+
+        <aside class="state-card" aria-label="Visible prototype state">
+          <p>Visible state</p>
+          <dl>
+            <div><dt>Variant</dt><dd id="state-variant"></dd></div>
+            <div><dt>Guest</dt><dd id="state-guest"></dd></div>
+            <div><dt>Presence</dt><dd id="state-presence"></dd></div>
+            <div><dt>Action</dt><dd id="state-action"></dd></div>
+            <div><dt>Cutout</dt><dd id="state-cutout"></dd></div>
+            <div><dt>Progress</dt><dd id="state-progress"></dd></div>
+          </dl>
+        </aside>
+      </section>
+
+      <section class="reading-notes" aria-label="What this variant tests">
+        <div>
+          <p class="eyebrow">What to watch</p>
+          <h2 id="variant-title"></h2>
+        </div>
+        <p id="variant-description"></p>
+        <ul id="variant-questions"></ul>
+      </section>
+    </main>
+
+    <nav class="variant-switcher" aria-label="Prototype variant switcher">
+      <button id="previous-variant" type="button" aria-label="Previous variant">←</button>
+      <span id="variant-label"></span>
+      <button id="next-variant" type="button" aria-label="Next variant">→</button>
+    </nav>
+
+    <script src="./prototype.js"></script>
+  </body>
+</html>
