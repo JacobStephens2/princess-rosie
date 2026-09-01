@@ -22,7 +22,7 @@ Build the local macOS application with the existing `macOS Development` preset b
 apps/godot/tests/export_smoke.sh
 ```
 
-The finished application is `apps/godot/build/Princess Rosie.app`. The private-family notice and Godot/third-party notices sit next to it in `apps/godot/build/` and inside the app bundle's Resources. Reveal the application in Finder and double-click it to play the same artifact the smoke test exercised. It opens on the cover in fullscreen; Escape exits. The cover's Grown-up Corner contains only Sound on/off and replay the story. The preset leaves project code signing disabled; the official template executable retains Godot's upstream signature, but the assembled application has no valid project signature and fails strict signature and Gatekeeper assessment. Notarization and distribution are intentionally out of scope. A full provider-terms/public-distribution audit remains deferred until a public release is planned.
+The finished application is `apps/godot/build/Princess Rosie.app`. The private-family notice and Godot/third-party notices sit next to it in `apps/godot/build/` and inside the app bundle's Resources. Reveal the application in Finder and double-click it to play the same artifact the smoke test exercised. It opens on the cover in fullscreen; Escape exits. The cover's Grown-up Corner contains only Sound on/off and replay the story. The preset leaves Developer ID signing disabled. After export, the smoke path replaces the invalid leftover Prehensile Tales signature with a credential-free ad-hoc signature. That valid local signature lets macOS launch the executable but gives it no trusted developer identity; Gatekeeper assessment still fails and downloaded candidates use the documented Control-click opening flow. Notarization and distribution are intentionally out of scope. A full provider-terms/public-distribution audit remains deferred until a public release is planned.
 
 ## Release export
 
@@ -45,22 +45,29 @@ The inspection checks Info.plist, architectures, macOS 13 minimum-version metada
 Construct the GitHub macOS asset and its SHA-256 checksum locally, without publishing, signing, or notarizing:
 
 ```sh
-apps/godot/packaging/build_release_archive.sh v1.0.0-rc.1
+apps/godot/packaging/build_release_archive.sh v1.0.0-rc.2
 ```
 
 The command requires a clean working tree at `origin/main`, or pass
 `--source-revision` to name another intended commit. It derives the Runtime
 Edition Pack, exports with the `macOS Release` preset, refuses unresolved
-runtime references and forbidden development-pack contents, and writes:
+runtime references, forbidden development-pack contents, and reuse of an
+existing tag for changed game bytes, and writes:
 
-- `apps/godot/build/release/Princess-Rosie-v1.0.0-rc.1-macOS.zip`
-- `apps/godot/build/release/Princess-Rosie-v1.0.0-rc.1-macOS.zip.sha256`
+- `apps/godot/build/release/Princess-Rosie-v1.0.0-rc.2-macOS.zip`
+- `apps/godot/build/release/Princess-Rosie-v1.0.0-rc.2-macOS.zip.sha256`
 
-The ZIP contains `Princess Rosie.app`, `NOTICE.txt`, and
+The unsigned construction ZIP contains `Princess Rosie.app`, `NOTICE.txt`, and
 `THIRD-PARTY-NOTICES.txt` at the top level. Verify the checksum with
 `shasum -a 256 -c` and unzip with `ditto -x -k` so the executable bit, bundle
-structure, and icon are preserved. Unsigned Release Candidate opening, later
-credentialed signing, GitHub upload, download verification, and
+structure, and icon are preserved. Before publication, the target Mac uses
+`repackage_release_candidate.sh` to apply a credential-free ad-hoc signature
+to a copy of those archive bytes without rebuilding or changing the packaged
+game. It requires a clean, checked-in command revision and the source checksum
+must name and match the exact candidate ZIP. Existing fixed-tag candidates can
+therefore be repaired from their downloaded ZIP and checksum; game-code changes
+require a new RC tag. Candidate opening, later credentialed signing, GitHub
+upload, download verification, and
 pre-acceptance asset replacement are documented in
 [the Godot Edition release runbook](../../docs/godot-release.md).
 
@@ -74,7 +81,8 @@ npm run test:godot
 apps/godot/tests/export_smoke.sh
 apps/godot/tests/release_export_inspection.sh
 apps/godot/tests/release_archive_inspection.sh
-apps/godot/tests/release_archive_smoke.sh
+apps/godot/tests/release_candidate_repackage_inspection.sh v1.0.0-rc.1 /path/to/downloaded.zip
+ROSIE_RELEASE_ARCHIVE_DIR=/path/to/repaired-candidate apps/godot/tests/release_archive_smoke.sh
 ```
 
 The export smoke test uses the official universal 4.7.2 debug template without app-specific signing. After export it inspects the PCK for surnames, family appearance prompts, provider trace identifiers, and excluded master/provenance paths, and checks that the release notices shipped alongside the app. It opens the application through macOS LaunchServices, the same path Finder uses, and requires the fullscreen cover within five seconds. It then completes the packaged journey under a deny-network sandbox while watching macOS denial events; a control probe first proves that the watcher can observe an attempted connection. The test verifies the Opening Storybook Moments, Space and primary-pointer Flight Control, every declared Place and its Birthday Star and Rainbow Path, six returning Rainbow Paths at the Birthday Castle with Dad's Castle Star already shining, the celebration, and Fly Again returning to a playable Rosalia's Rose Garden. Semantic evidence, network traces, and Storybook Stage captures are written under `build/`.

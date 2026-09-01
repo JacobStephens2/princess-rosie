@@ -13,6 +13,7 @@ mkdir -p "$build_dir"
 rm -rf "$app_path" "${app_path%.app}.command"
 
 "$godot_bin" --headless --path "$project_dir" --export-debug "macOS Development" "$app_path"
+"$project_dir/packaging/apply_adhoc_signature.sh" "$app_path"
 
 PROJECT_DIR="$project_dir" BUILD_DIR="$build_dir" APP_PATH="$app_path" \
   "$project_dir/tests/packaged_app_smoke.sh"
