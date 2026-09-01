@@ -69,6 +69,16 @@ source_revision="$(git -C "$git_fixture" rev-parse HEAD)"
 git -C "$git_fixture" remote add origin "$git_fixture"
 git -C "$git_fixture" update-ref refs/remotes/origin/main "$source_revision"
 
+git -C "$git_fixture" tag --no-sign v1.0.0-rc.1 "$first_revision"
+fixed_tag_output="$(
+  expect_fail "the command rebuilt an existing version from different game bytes" \
+    env ROSIE_RELEASE_REPO_ROOT="$git_fixture" \
+    "$command_path" "v1.0.0-rc.1" --source-revision "$source_revision"
+)"
+printf '%s\n' "$fixed_tag_output" | grep -qi 'tag\|fixed\|another RC' \
+  || fail "an existing-tag mismatch is not described as requiring another RC"
+git -C "$git_fixture" tag -d v1.0.0-rc.1 >/dev/null
+
 printf 'dirty\n' > "$git_fixture/UNTRACKED"
 dirty_output="$(
   expect_fail "the command accepted a dirty source revision" \
@@ -125,8 +135,9 @@ pack_output="$(
 printf '%s\n' "$pack_output" | grep -qi 'runtime\|edition pack\|reference\|forbidden' \
   || fail "an invalid Runtime Edition Pack is not described as a pack failure"
 
-if rg -n 'gh release|notarytool|altool|APPLE_ID|GH_TOKEN|codesign --sign' "$command_path"; then
-  fail "the command requires Apple or GitHub credentials or publishes a release"
+if rg -n 'gh release|notarytool|altool|APPLE_ID|GH_TOKEN|codesign .*--(sign|force)|apply_adhoc_signature' \
+  "$command_path"; then
+  fail "the construction command publishes, notarizes, or signs"
 fi
 rg -q -- '--export-release "macOS Release"' "$command_path" \
   || fail "the command does not use the macOS Release preset"
@@ -143,10 +154,14 @@ rg -F -q '.whole_journey.visited_locations == [' "$project_dir/tests/packaged_ap
 
 runbook="$repo_root/docs/godot-release.md"
 test -f "$runbook" || fail "the Godot Edition release runbook is missing"
-rg -F -q 'build_release_archive.sh v1.0.0-rc.1' "$runbook" \
+rg -F -q 'build_release_archive.sh v1.0.0-rc.2' "$runbook" \
   || fail "the runbook does not document the release archive command"
+rg -F -q 'repackage_release_candidate.sh' "$runbook" \
+  || fail "the runbook does not document target-Mac candidate repackaging"
+rg -F -q 'release_candidate_repackage_inspection.sh' "$runbook" \
+  || fail "the runbook does not document fixed-tag packaging inspection"
 rg -q 'Control-click|Open Anyway' "$runbook" \
-  || fail "the runbook does not document unsigned Release Candidate opening"
+  || fail "the runbook does not document untrusted Release Candidate opening"
 rg -q 'Developer ID|notariz' "$runbook" \
   || fail "the runbook does not document future credentialed signing"
 rg -q 'gh release' "$runbook" \
@@ -231,4 +246,4 @@ second_checksum="$(awk '{print $1}' "$checksum_path")"
 [[ "$first_checksum" == "$second_checksum" ]] \
   || fail "repeated construction from the same revision did not yield the same checksum"
 
-echo "PASS: release archive command constructs a deterministic checksummed macOS ZIP without publishing"
+echo "PASS: release archive command constructs a deterministic unsigned macOS ZIP without publishing or signing"

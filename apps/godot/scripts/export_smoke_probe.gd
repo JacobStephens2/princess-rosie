@@ -136,13 +136,18 @@ func _complete_journey(shell: StorybookShell) -> void:
 		push_error("Export smoke missed the Birthday Castle approach: %s" % JSON.stringify(approach))
 		get_tree().quit(9)
 		return
-	_advance_shell(shell, 4.1)
+	var approach_duration_seconds := float(approach.get("route_duration_seconds", 0.0))
+	if approach_duration_seconds <= 0.0:
+		push_error("Export smoke found no authored Birthday Castle approach duration")
+		get_tree().quit(10)
+		return
+	_advance_shell(shell, approach_duration_seconds + 0.1)
 	await get_tree().process_frame
 	var celebration: Dictionary = shell.presentation_evidence()
 	var celebration_stage: Dictionary = shell.storybook_stage_evidence()
 	if celebration.get("state") != "celebration":
 		push_error("Export smoke did not reach the celebration: %s" % JSON.stringify(celebration))
-		get_tree().quit(10)
+		get_tree().quit(11)
 		return
 	var visited_locations := _visited_places(shell)
 	visited_locations.append("birthday-castle")

@@ -6,13 +6,13 @@ set -euo pipefail
 
 project_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 version="${1:-v1.0.0-rc.1}"
-build_dir="$project_dir/build/release"
+build_dir="${ROSIE_RELEASE_ARCHIVE_DIR:-$project_dir/build/release}"
 archive_path="$build_dir/Princess-Rosie-${version}-macOS.zip"
 unpack_dir="$build_dir/unpacked"
 
 if [[ ! -s "$archive_path" ]]; then
   echo "FAIL: release archive is missing: $archive_path" >&2
-  echo "Construct it with: apps/godot/packaging/build_release_archive.sh $version" >&2
+  echo "Construct or repackage it with the commands in docs/godot-release.md" >&2
   exit 1
 fi
 
