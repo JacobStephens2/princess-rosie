@@ -52,6 +52,11 @@ else
   intended_revision="$(git -C "$repo_root" rev-parse --verify "origin/main^{commit}")" \
     || fail "missing release prerequisite: origin/main"
 fi
+if tagged_revision="$(git -C "$repo_root" rev-parse --verify "${version}^{commit}" 2>/dev/null)"; then
+  if [[ "$tagged_revision" != "$intended_revision" ]]; then
+    fail "version $version is fixed at $tagged_revision; changed game code requires another RC tag"
+  fi
+fi
 if [[ "$head_revision" != "$intended_revision" ]]; then
   fail "unintended source revision: HEAD is $head_revision, expected $intended_revision"
 fi

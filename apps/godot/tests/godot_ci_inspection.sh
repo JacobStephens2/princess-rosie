@@ -13,6 +13,7 @@ acceptance="$repo_root/apps/godot/tests/run_acceptance.sh"
 export_inspection="$repo_root/apps/godot/tests/release_export_inspection.sh"
 pack_inspect="$repo_root/apps/godot/packaging/inspect_packaged_pck.sh"
 pack_validate="$repo_root/apps/godot/packaging/validate_runtime_edition_pack.gd"
+archive_inspection="$repo_root/apps/godot/tests/release_archive_inspection.sh"
 
 fail() {
   echo "FAIL: $*" >&2
@@ -83,19 +84,26 @@ forbid 'export_smoke\.sh' \
   "the Godot workflow runs the Finder-launching development export smoke"
 forbid 'release_archive_smoke\.sh' \
   "the Godot workflow runs the packaged release-archive smoke"
+forbid 'release_candidate_repackage_inspection\.sh|repackage_release_candidate\.sh|apply_adhoc_signature\.sh' \
+  "the Godot workflow invokes target-Mac ad-hoc signing"
 forbid 'gh release' \
   "the Godot workflow publishes a GitHub Release"
 forbid 'upload-artifact' \
   "the Godot workflow uploads an Actions artifact"
 forbid 'notarytool' \
   "the Godot workflow notarizes"
-forbid 'codesign --sign' \
-  "the Godot workflow signs with Apple credentials"
+forbid 'codesign .*--(sign|force)' \
+  "the Godot workflow signs an application"
 forbid 'contents: write' \
   "the Godot workflow is granted contents: write"
 
 rg -q 'contents: read' "$workflow" \
   || fail "the Godot workflow is not limited to contents: read"
+
+if rg -n '^[[:space:]]*"?\$project_dir/(tests/release_candidate_repackage_inspection|packaging/(repackage_release_candidate|apply_adhoc_signature))\.sh|^[[:space:]]*(/usr/bin/)?codesign .*--(sign|force)' \
+  "$archive_inspection"; then
+  fail "the CI archive inspection invokes target-Mac signing indirectly"
+fi
 
 rg -F -q 'Deploy production' "$runbook" \
   || fail "the runbook does not name the Phaser Deploy production workflow"
