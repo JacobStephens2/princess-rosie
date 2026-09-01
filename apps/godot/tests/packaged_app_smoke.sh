@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Shared packaged-app smoke: Runtime Edition Pack boundary, notices, unsigned
+# Shared packaged-app smoke: Runtime Edition Pack boundary, notices, untrusted
 # LaunchServices launch, and a deny-network whole journey. Callers export or
 # unzip first. Do not weaken the network-denial or whole-journey assertions.
 
@@ -89,14 +89,7 @@ if ! rg -F -q 'Juan Linietsky, Ariel Manzur' "$build_dir/THIRD-PARTY-NOTICES.txt
   exit 1
 fi
 file "$app_binary" | grep -q "arm64"
-if codesign --verify --deep --strict "$app_path" >/dev/null 2>&1; then
-  echo "FAIL: export unexpectedly produced a signed application" >&2
-  exit 1
-fi
-if spctl --assess --type execute "$app_path" >/dev/null 2>&1; then
-  echo "FAIL: export unexpectedly produced a Gatekeeper-approved application" >&2
-  exit 1
-fi
+"$project_dir/packaging/inspect_adhoc_signature.sh" "$app_path"
 
 launch_started_seconds="$SECONDS"
 open -W -n "$app_path" --args -- --acceptance-smoke \
@@ -330,4 +323,4 @@ if rg -q 'Sandbox: Princess Rosie.*deny\([0-9]+\) network-' "$network_trace_path
   exit 1
 fi
 
-echo "PASS: unsigned LaunchServices launch, offline whole journey, celebration, and Fly Again"
+echo "PASS: ad-hoc-signed LaunchServices launch, offline whole journey, celebration, and Fly Again"
