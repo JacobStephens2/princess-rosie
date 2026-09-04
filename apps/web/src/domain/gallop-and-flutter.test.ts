@@ -10,6 +10,12 @@ import {
   DEFAULT_ROSE_GARDEN_OBSTACLES,
   checkObstacleEncounters,
   type PlayfulObstacle,
+  type Springboard,
+  DEFAULT_ROSE_GARDEN_SPRINGBOARDS,
+  checkSpringboardEncounters,
+  type StarSparkle,
+  DEFAULT_ROSE_GARDEN_SPARKLES,
+  checkSparkleEncounters,
 } from "./gallop-and-flutter";
 
 describe("Gallop and Flutter Runner", () => {
@@ -408,6 +414,169 @@ describe("Gallop and Flutter Runner", () => {
       const landedResult = checkObstacleEncounters(landedAfterNearMiss, [obstacle]);
       expect(landedResult.stumbledObstacle).toBeUndefined();
       expect(landedResult.state.stumbledObstacles).not.toContain("test-bush-4");
+    });
+  });
+
+  describe("Themed Springboards and Catapult Launch", () => {
+    test("themed springboards appear on Storybook Ground in Rosalia's Rose Garden", () => {
+      expect(DEFAULT_ROSE_GARDEN_SPRINGBOARDS).toBeDefined();
+      expect(DEFAULT_ROSE_GARDEN_SPRINGBOARDS.length).toBeGreaterThanOrEqual(2);
+
+      DEFAULT_ROSE_GARDEN_SPRINGBOARDS.forEach((springboard) => {
+        expect(springboard.place).toBe("garden");
+        expect(springboard.type).toBe("giant-rose");
+        expect(springboard.y).toBe(DEFAULT_RUNNER_CONFIG.groundY);
+        expect(springboard.width).toBeGreaterThan(0);
+        expect(springboard.height).toBeGreaterThan(0);
+      });
+    });
+
+    test("contact with a springboard catapults Stella high into the upper 60% of the Stage", () => {
+      const springboard: Springboard = {
+        id: "test-rose-springboard",
+        place: "garden",
+        type: "giant-rose",
+        x: 360,
+        y: DEFAULT_RUNNER_CONFIG.groundY,
+        width: 64,
+        height: 48,
+      };
+
+      const galloping = createRunnerState({
+        x: 355,
+        y: DEFAULT_RUNNER_CONFIG.groundY,
+        isGrounded: true,
+        mode: "galloping",
+      });
+
+      const encounter = checkSpringboardEncounters(galloping, [springboard]);
+
+      expect(encounter.bouncedSpringboard?.id).toBe("test-rose-springboard");
+      expect(encounter.state.isGrounded).toBe(false);
+      expect(encounter.state.velocityY).toBe(DEFAULT_RUNNER_CONFIG.springboardVelocity);
+      expect(encounter.state.bouncedSpringboards).toContain("test-rose-springboard");
+
+      // Advance physics to simulate launch towards apex
+      // With springboardVelocity = -680 and gravity = 900, apex is reached around 680/900 = 0.75s
+      let simState = encounter.state;
+      let minRecordedY = simState.y;
+      for (let step = 0; step < 10; step++) {
+        simState = updateRunner(simState, 0.08, false);
+        if (simState.y < minRecordedY) {
+          minRecordedY = simState.y;
+        }
+      }
+
+      // Upper 60% of 720px stage is y <= 432
+      const stageHeight = 720;
+      const upperSixtyPercentY = stageHeight * 0.6;
+      expect(minRecordedY).toBeLessThanOrEqual(upperSixtyPercentY);
+    });
+
+    test("a springboard does not re-trigger repeatedly during the same bounce", () => {
+      const springboard: Springboard = {
+        id: "test-rose-springboard-2",
+        place: "garden",
+        type: "giant-rose",
+        x: 360,
+        y: DEFAULT_RUNNER_CONFIG.groundY,
+        width: 64,
+        height: 48,
+      };
+
+      const galloping = createRunnerState({
+        x: 355,
+        y: DEFAULT_RUNNER_CONFIG.groundY,
+        isGrounded: true,
+        mode: "galloping",
+      });
+
+      const firstEncounter = checkSpringboardEncounters(galloping, [springboard]);
+      expect(firstEncounter.bouncedSpringboard).toBeDefined();
+
+      // Immediately checking again while still in horizontal overlap should not re-trigger
+      const secondEncounter = checkSpringboardEncounters(firstEncounter.state, [springboard]);
+      expect(secondEncounter.bouncedSpringboard).toBeUndefined();
+    });
+  });
+
+  describe("Celestial Star Sparkles and Melodic Sequential Trails", () => {
+    test("Star Sparkles float in inviting arcs through the sky corridor", () => {
+      expect(DEFAULT_ROSE_GARDEN_SPARKLES).toBeDefined();
+      expect(DEFAULT_ROSE_GARDEN_SPARKLES.length).toBeGreaterThanOrEqual(5);
+
+      DEFAULT_ROSE_GARDEN_SPARKLES.forEach((sparkle) => {
+        expect(sparkle.place).toBe("garden");
+        expect(sparkle.x).toBeGreaterThan(200);
+        expect(sparkle.x).toBeLessThan(DEFAULT_RUNNER_CONFIG.courseLength);
+        // Sky corridor is elevated above Storybook Ground (ground is 560, sparkles float at y <= 430)
+        expect(sparkle.y).toBeLessThanOrEqual(430);
+        expect(sparkle.y).toBeGreaterThanOrEqual(DEFAULT_RUNNER_CONFIG.ceilingY);
+      });
+    });
+
+    test("Stella collects Star Sparkles when approaching within proximity", () => {
+      const sparkle: StarSparkle = {
+        id: "sparkle-test-1",
+        place: "garden",
+        x: 400,
+        y: 350,
+      };
+
+      // Player near sparkle
+      const airborne = createRunnerState({
+        x: 400,
+        y: 380, // Player center Y is around 380 - 36 = 344, close to sparkle y 350
+        isGrounded: false,
+        mode: "jumping",
+      });
+
+      const encounter = checkSparkleEncounters(airborne, [sparkle]);
+      expect(encounter.collectedSparkle?.id).toBe("sparkle-test-1");
+      expect(encounter.state.collectedSparkles).toContain("sparkle-test-1");
+      expect(encounter.state.sparkleStreak).toBe(1);
+
+      // Second check should not re-collect the same sparkle
+      const secondEncounter = checkSparkleEncounters(encounter.state, [sparkle]);
+      expect(secondEncounter.collectedSparkle).toBeUndefined();
+      expect(secondEncounter.state.sparkleStreak).toBe(1);
+    });
+
+    test("collecting sequential Star Sparkles increments the melody streak", () => {
+      const sparkles: StarSparkle[] = [
+        { id: "sparkle-seq-1", place: "garden", x: 400, y: 350 },
+        { id: "sparkle-seq-2", place: "garden", x: 450, y: 320 },
+        { id: "sparkle-seq-3", place: "garden", x: 500, y: 300 },
+      ];
+
+      let state = createRunnerState({ x: 400, y: 385, isGrounded: false });
+      const enc1 = checkSparkleEncounters(state, sparkles);
+      expect(enc1.collectedSparkle?.id).toBe("sparkle-seq-1");
+      expect(enc1.state.sparkleStreak).toBe(1);
+
+      state = { ...enc1.state, x: 450, y: 355 };
+      const enc2 = checkSparkleEncounters(state, sparkles);
+      expect(enc2.collectedSparkle?.id).toBe("sparkle-seq-2");
+      expect(enc2.state.sparkleStreak).toBe(2);
+
+      state = { ...enc2.state, x: 500, y: 335 };
+      const enc3 = checkSparkleEncounters(state, sparkles);
+      expect(enc3.collectedSparkle?.id).toBe("sparkle-seq-3");
+      expect(enc3.state.sparkleStreak).toBe(3);
+    });
+
+    test("landing on Storybook Ground resets the sparkle melody streak", () => {
+      const airborneWithStreak = createRunnerState({
+        isGrounded: false,
+        y: DEFAULT_RUNNER_CONFIG.groundY - 10,
+        velocityY: 200,
+        mode: "falling",
+        sparkleStreak: 4,
+      });
+
+      const landed = updateRunner(airborneWithStreak, 0.1, false);
+      expect(landed.isGrounded).toBe(true);
+      expect(landed.sparkleStreak).toBe(0);
     });
   });
 });

@@ -312,3 +312,66 @@ test("leaping cleanly over an obstacle within proximity triggers Near Miss", asy
   expect(afterState?.nearMissObstacles).toContain(firstObstacle.id);
   expect(afterState?.stumbledObstacles).not.toContain(firstObstacle.id);
 });
+
+test("themed springboards appear on Storybook Ground and catapult Stella into the upper 60% of the Stage", async ({ page }) => {
+  await startStorybookFlight(page);
+
+  // 1. Verify themed springboard elements on Storybook Ground
+  const springboards = await page.evaluate(() => window.__ROSIE_RUNNER__?.getSpringboards?.());
+  expect(springboards).toBeDefined();
+  expect(springboards?.length).toBeGreaterThanOrEqual(2);
+
+  const firstSpringboard = springboards?.[0];
+  if (!firstSpringboard) throw new Error("Missing first springboard");
+
+  expect(firstSpringboard.place).toBe("garden");
+  expect(firstSpringboard.type).toBe("giant-rose");
+  expect(firstSpringboard.y).toBe(560);
+
+  // 2. Allow Stella to gallop into the springboard
+  await expect.poll(async () => {
+    const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+    return s?.bouncedSpringboards?.includes(firstSpringboard.id);
+  }, { timeout: 10000 }).toBe(true);
+
+  // 3. Verify catapult launch into upper 60% of stage (720 * 0.6 = 432)
+  await expect.poll(async () => {
+    const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+    return (s?.y ?? 720) <= 432;
+  }, { timeout: 4000 }).toBe(true);
+});
+
+test("collecting sequential Star Sparkles in an arc advances pentatonic melody streak and fills corner constellation meter with warm light", async ({ page }) => {
+  await startStorybookFlight(page);
+
+  // 1. Verify Star Sparkles are configured across the sky corridor
+  const sparkles = await page.evaluate(() => window.__ROSIE_RUNNER__?.getSparkles?.());
+  expect(sparkles).toBeDefined();
+  expect(sparkles?.length).toBeGreaterThanOrEqual(5);
+
+  const meter = page.locator("#constellation-meter");
+  await expect(meter).toBeVisible();
+  await expect(meter).toHaveAttribute("data-sparkles", "0");
+  await expect(meter).not.toHaveClass(/has-light/);
+
+  // 2. Stella launches from springboard into celestial Star Sparkles arc
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.getCollectedSparklesCount?.() ?? 0);
+  }, { timeout: 12000 }).toBeGreaterThanOrEqual(2);
+
+  // 3. Verify melodic sequential streak was achieved during celestial flight
+  const streak = await page.evaluate(() => {
+    const runner = window.__ROSIE_RUNNER__;
+    return Math.max(runner?.getSparkleStreak?.() ?? 0, runner?.getMaxSparkleStreak?.() ?? 0);
+  });
+  expect(streak).toBeGreaterThanOrEqual(1);
+
+  // 4. Verify constellation meter fills with warm light
+  await expect(meter).toHaveClass(/has-light/);
+  const sparklesCount = Number(await meter.getAttribute("data-sparkles"));
+  expect(sparklesCount).toBeGreaterThanOrEqual(2);
+
+  // Check that constellation stars light up with warm starlight
+  const litStarsCount = await meter.locator(".constellation-node.is-lit").count();
+  expect(litStarsCount).toBeGreaterThanOrEqual(2);
+});

@@ -61,12 +61,33 @@ export interface PlayfulObstacle {
   height: number;
 }
 
+export type SpringboardType = "giant-rose";
+
+export interface Springboard {
+  id: string;
+  place: StarStop;
+  type: SpringboardType;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface StarSparkle {
+  id: string;
+  place: StarStop;
+  x: number;
+  y: number;
+  radius?: number;
+}
+
 export interface RunnerConfig {
   groundY: number;
   ceilingY: number;
   forwardSpeed: number;
   jumpVelocity: number;
   flapVelocity: number;
+  springboardVelocity: number;
   gravity: number;
   maxFallSpeed: number;
   flutterMaxFallSpeed: number;
@@ -74,6 +95,8 @@ export interface RunnerConfig {
   stumbleDuration: number;
   stumbleSpeedMultiplier: number;
   nearMissProximity: number;
+  playerCenterOffsetY: number;
+  groundContactTolerance: number;
 }
 
 export const DEFAULT_RUNNER_CONFIG: RunnerConfig = {
@@ -82,6 +105,7 @@ export const DEFAULT_RUNNER_CONFIG: RunnerConfig = {
   forwardSpeed: 200,
   jumpVelocity: -450,
   flapVelocity: -320,
+  springboardVelocity: -680,
   gravity: 900,
   maxFallSpeed: 450,
   flutterMaxFallSpeed: 90,
@@ -89,6 +113,8 @@ export const DEFAULT_RUNNER_CONFIG: RunnerConfig = {
   stumbleDuration: 0.6,
   stumbleSpeedMultiplier: 0.6,
   nearMissProximity: 100,
+  playerCenterOffsetY: 36,
+  groundContactTolerance: 18,
 };
 
 export const DEFAULT_ROSE_GARDEN_OBSTACLES: readonly PlayfulObstacle[] = [
@@ -112,6 +138,42 @@ export const DEFAULT_ROSE_GARDEN_OBSTACLES: readonly PlayfulObstacle[] = [
   },
 ];
 
+export const DEFAULT_ROSE_GARDEN_SPRINGBOARDS: readonly Springboard[] = [
+  {
+    id: "garden-springboard-1",
+    place: "garden",
+    type: "giant-rose",
+    x: 360,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 64,
+    height: 48,
+  },
+  {
+    id: "garden-springboard-2",
+    place: "garden",
+    type: "giant-rose",
+    x: 980,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 64,
+    height: 48,
+  },
+];
+
+export const DEFAULT_ROSE_GARDEN_SPARKLES: readonly StarSparkle[] = [
+  // Arc 1 - catapulted from giant rose 1 (x: 360)
+  { id: "garden-sparkle-1", place: "garden", x: 410, y: 410 },
+  { id: "garden-sparkle-2", place: "garden", x: 460, y: 345 },
+  { id: "garden-sparkle-3", place: "garden", x: 510, y: 305 },
+  { id: "garden-sparkle-4", place: "garden", x: 560, y: 345 },
+  { id: "garden-sparkle-5", place: "garden", x: 610, y: 410 },
+  // Arc 2 - catapulted from giant rose 2 (x: 980)
+  { id: "garden-sparkle-6", place: "garden", x: 1030, y: 410 },
+  { id: "garden-sparkle-7", place: "garden", x: 1080, y: 345 },
+  { id: "garden-sparkle-8", place: "garden", x: 1130, y: 305 },
+  { id: "garden-sparkle-9", place: "garden", x: 1180, y: 345 },
+  { id: "garden-sparkle-10", place: "garden", x: 1230, y: 410 },
+];
+
 export interface RunnerState {
   x: number;
   y: number;
@@ -123,6 +185,9 @@ export interface RunnerState {
   courseCompleted: boolean;
   stumbledObstacles: string[];
   nearMissObstacles: string[];
+  bouncedSpringboards: string[];
+  collectedSparkles: string[];
+  sparkleStreak: number;
 }
 
 export function createRunnerState(
@@ -140,6 +205,9 @@ export function createRunnerState(
     courseCompleted: false,
     stumbledObstacles: [],
     nearMissObstacles: [],
+    bouncedSpringboards: [],
+    collectedSparkles: [],
+    sparkleStreak: 0,
     ...overrides,
   };
 }
@@ -161,6 +229,19 @@ export interface ObstacleEncounterResult {
   nearMissObstacle?: PlayfulObstacle;
 }
 
+function hasHorizontalOverlap(
+  playerX: number,
+  playerRadiusX: number,
+  targetX: number,
+  targetWidth: number
+): boolean {
+  const targetLeft = targetX - targetWidth / 2;
+  const targetRight = targetX + targetWidth / 2;
+  const playerLeft = playerX - playerRadiusX;
+  const playerRight = playerX + playerRadiusX;
+  return playerRight >= targetLeft && playerLeft <= targetRight;
+}
+
 export function checkObstacleEncounters(
   state: RunnerState,
   obstacles: readonly PlayfulObstacle[],
@@ -173,18 +254,11 @@ export function checkObstacleEncounters(
   const playerRadiusX = 16;
 
   for (const obstacle of obstacles) {
-    const obsLeft = obstacle.x - obstacle.width / 2;
-    const obsRight = obstacle.x + obstacle.width / 2;
-    const obsTop = obstacle.y - obstacle.height;
-    const playerLeft = currentState.x - playerRadiusX;
-    const playerRight = currentState.x + playerRadiusX;
-
-    const horizontalOverlap = playerRight >= obsLeft && playerLeft <= obsRight;
-
-    if (!horizontalOverlap) {
+    if (!hasHorizontalOverlap(currentState.x, playerRadiusX, obstacle.x, obstacle.width)) {
       continue;
     }
 
+    const obsTop = obstacle.y - obstacle.height;
     const hasStumbled = currentState.stumbledObstacles.includes(obstacle.id);
     const hasNearMissed = currentState.nearMissObstacles.includes(obstacle.id);
 
@@ -214,6 +288,91 @@ export function checkObstacleEncounters(
     state: currentState,
     stumbledObstacle,
     nearMissObstacle,
+  };
+}
+
+export interface SpringboardEncounterResult {
+  state: RunnerState;
+  bouncedSpringboard?: Springboard;
+}
+
+export function checkSpringboardEncounters(
+  state: RunnerState,
+  springboards: readonly Springboard[],
+  config: RunnerConfig = DEFAULT_RUNNER_CONFIG
+): SpringboardEncounterResult {
+  let currentState = state;
+  let bouncedSpringboard: Springboard | undefined;
+
+  const playerRadiusX = 16;
+
+  for (const springboard of springboards) {
+    if (!hasHorizontalOverlap(currentState.x, playerRadiusX, springboard.x, springboard.width)) {
+      continue;
+    }
+
+    const hasBounced = currentState.bouncedSpringboards.includes(springboard.id);
+    const isOnOrNearGround =
+      currentState.isGrounded || currentState.y >= config.groundY - config.groundContactTolerance;
+
+    if (!hasBounced && isOnOrNearGround) {
+      bouncedSpringboard = springboard;
+      currentState = {
+        ...currentState,
+        isGrounded: false,
+        velocityY: config.springboardVelocity,
+        mode: "jumping",
+        bouncedSpringboards: [...currentState.bouncedSpringboards, springboard.id],
+      };
+      break;
+    }
+  }
+
+  return {
+    state: currentState,
+    bouncedSpringboard,
+  };
+}
+
+export interface SparkleEncounterResult {
+  state: RunnerState;
+  collectedSparkle?: StarSparkle;
+}
+
+export function checkSparkleEncounters(
+  state: RunnerState,
+  sparkles: readonly StarSparkle[],
+  collectionRadius = 40,
+  config: RunnerConfig = DEFAULT_RUNNER_CONFIG
+): SparkleEncounterResult {
+  let currentState = state;
+  let collectedSparkle: StarSparkle | undefined;
+
+  for (const sparkle of sparkles) {
+    if (currentState.collectedSparkles.includes(sparkle.id)) {
+      continue;
+    }
+
+    const radius = sparkle.radius ?? collectionRadius;
+    const dx = currentState.x - sparkle.x;
+    const playerCenterY = currentState.y - config.playerCenterOffsetY;
+    const dy = playerCenterY - sparkle.y;
+    const distanceSq = dx * dx + dy * dy;
+
+    if (distanceSq <= radius * radius) {
+      collectedSparkle = sparkle;
+      currentState = {
+        ...currentState,
+        collectedSparkles: [...currentState.collectedSparkles, sparkle.id],
+        sparkleStreak: currentState.sparkleStreak + 1,
+      };
+      break;
+    }
+  }
+
+  return {
+    state: currentState,
+    collectedSparkle,
   };
 }
 
@@ -321,6 +480,7 @@ export function updateRunner(
   }
 
   const nextCourseCompleted = state.courseCompleted || nextX >= config.courseLength;
+  const nextSparkleStreak = nextGrounded ? 0 : state.sparkleStreak;
 
   return {
     ...state,
@@ -332,5 +492,6 @@ export function updateRunner(
     mode: nextMode,
     stumbleRemaining: nextStumbleRemaining,
     courseCompleted: nextCourseCompleted,
+    sparkleStreak: nextSparkleStreak,
   };
 }
