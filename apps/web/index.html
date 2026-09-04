@@ -38,7 +38,20 @@
       <section id="game-shell" class="game-shell" hidden>
         <div id="game" class="game" aria-label="Flying game area"></div>
         <header class="game-hud">
-          <div class="logo-small">Princess Rosie</div>
+          <div class="game-hud__left">
+            <div class="logo-small">Princess Rosie</div>
+            <div id="constellation-meter" class="constellation-meter" aria-label="Constellation light meter: 0 Star Sparkles gathered" data-sparkles="0">
+              <div class="constellation-meter__glow" aria-hidden="true"></div>
+              <span class="constellation-meter__symbol" aria-hidden="true">✧</span>
+              <div class="constellation-meter__nodes" aria-hidden="true">
+                <span class="constellation-node">✦</span>
+                <span class="constellation-node">✦</span>
+                <span class="constellation-node">✦</span>
+                <span class="constellation-node">✦</span>
+                <span class="constellation-node">✦</span>
+              </div>
+            </div>
+          </div>
           <div id="star-tracker" class="star-tracker" aria-label="0 of 7 Birthday Stars">
             <span class="star is-lit">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
           </div>
