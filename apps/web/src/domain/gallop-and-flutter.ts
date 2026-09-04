@@ -47,6 +47,16 @@ export const SPRITE_ANIMATIONS: Record<SpriteAnimationState, SpriteAnimationConf
   },
 };
 
+export interface PlayfulObstacle {
+  id: string;
+  place: string;
+  type: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export interface RunnerConfig {
   groundY: number;
   ceilingY: number;
@@ -59,6 +69,7 @@ export interface RunnerConfig {
   courseLength: number;
   stumbleDuration: number;
   stumbleSpeedMultiplier: number;
+  nearMissProximity: number;
 }
 
 export const DEFAULT_RUNNER_CONFIG: RunnerConfig = {
@@ -73,7 +84,29 @@ export const DEFAULT_RUNNER_CONFIG: RunnerConfig = {
   courseLength: 1450,
   stumbleDuration: 0.6,
   stumbleSpeedMultiplier: 0.6,
+  nearMissProximity: 100,
 };
+
+export const DEFAULT_ROSE_GARDEN_OBSTACLES: readonly PlayfulObstacle[] = [
+  {
+    id: "garden-rose-bush-1",
+    place: "garden",
+    type: "rose-bush",
+    x: 580,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 60,
+    height: 55,
+  },
+  {
+    id: "garden-rose-bush-2",
+    place: "garden",
+    type: "rose-bush",
+    x: 980,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 65,
+    height: 55,
+  },
+];
 
 export interface RunnerState {
   x: number;
@@ -84,6 +117,8 @@ export interface RunnerState {
   mode: RunnerMode;
   stumbleRemaining: number;
   courseCompleted: boolean;
+  stumbledObstacles: string[];
+  nearMissObstacles: string[];
 }
 
 export function createRunnerState(
@@ -99,6 +134,8 @@ export function createRunnerState(
     mode: "galloping",
     stumbleRemaining: 0,
     courseCompleted: false,
+    stumbledObstacles: [],
+    nearMissObstacles: [],
     ...overrides,
   };
 }
@@ -111,6 +148,68 @@ export function triggerPlayfulStumble(
     ...state,
     mode: "stumbling",
     stumbleRemaining: duration,
+  };
+}
+
+export interface ObstacleEncounterResult {
+  state: RunnerState;
+  stumbledObstacle?: PlayfulObstacle;
+  nearMissObstacle?: PlayfulObstacle;
+}
+
+export function checkObstacleEncounters(
+  state: RunnerState,
+  obstacles: readonly PlayfulObstacle[],
+  config: RunnerConfig = DEFAULT_RUNNER_CONFIG
+): ObstacleEncounterResult {
+  let currentState = state;
+  let stumbledObstacle: PlayfulObstacle | undefined;
+  let nearMissObstacle: PlayfulObstacle | undefined;
+
+  const playerRadiusX = 35;
+
+  for (const obstacle of obstacles) {
+    const obsLeft = obstacle.x - obstacle.width / 2;
+    const obsRight = obstacle.x + obstacle.width / 2;
+    const obsTop = obstacle.y - obstacle.height;
+    const playerLeft = currentState.x - playerRadiusX;
+    const playerRight = currentState.x + playerRadiusX;
+
+    const horizontalOverlap = playerRight >= obsLeft && playerLeft <= obsRight;
+
+    if (!horizontalOverlap) {
+      continue;
+    }
+
+    const hasStumbled = currentState.stumbledObstacles.includes(obstacle.id);
+    const hasNearMissed = currentState.nearMissObstacles.includes(obstacle.id);
+
+    // Collision check: player is touching or inside the obstacle height
+    if (currentState.y > obsTop) {
+      if (!hasStumbled) {
+        stumbledObstacle = obstacle;
+        currentState = {
+          ...triggerPlayfulStumble(currentState, config.stumbleDuration),
+          stumbledObstacles: [...currentState.stumbledObstacles, obstacle.id],
+        };
+      }
+    } else if (!hasStumbled && !hasNearMissed) {
+      // Clean leap over the obstacle
+      const proximityWindow = obsTop - config.nearMissProximity;
+      if (currentState.y >= proximityWindow) {
+        nearMissObstacle = obstacle;
+        currentState = {
+          ...currentState,
+          nearMissObstacles: [...currentState.nearMissObstacles, obstacle.id],
+        };
+      }
+    }
+  }
+
+  return {
+    state: currentState,
+    stumbledObstacle,
+    nearMissObstacle,
   };
 }
 
@@ -158,9 +257,15 @@ export function updateRunner(
   let nextStumbleRemaining = state.stumbleRemaining;
   let speedMultiplier = 1;
 
-  if (nextStumbleRemaining > 0) {
-    speedMultiplier = config.stumbleSpeedMultiplier;
-    nextStumbleRemaining = Math.max(0, nextStumbleRemaining - deltaSeconds);
+  if (state.stumbleRemaining > 0) {
+    const recoveryWindow = config.stumbleDuration * (2 / 3);
+    if (state.stumbleRemaining >= recoveryWindow) {
+      speedMultiplier = config.stumbleSpeedMultiplier;
+    } else {
+      const recoveryProgress = 1 - state.stumbleRemaining / recoveryWindow;
+      speedMultiplier = config.stumbleSpeedMultiplier + (1 - config.stumbleSpeedMultiplier) * recoveryProgress;
+    }
+    nextStumbleRemaining = Math.max(0, state.stumbleRemaining - deltaSeconds);
   }
 
   const nextX = state.x + config.forwardSpeed * speedMultiplier * deltaSeconds;
