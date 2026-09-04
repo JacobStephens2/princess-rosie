@@ -1,4 +1,4 @@
-type SoundName = "star" | "bump" | "rest" | "button" | "celebrate";
+type SoundName = "star" | "bump" | "stumble" | "near-miss" | "rest" | "button" | "celebrate";
 
 export class GameAudio {
   private context: AudioContext | undefined;
@@ -45,11 +45,23 @@ export class GameAudio {
     const notes: Record<SoundName, readonly number[]> = {
       star: [659, 784, 988],
       bump: [220, 185],
+      stumble: [246, 220, 185],
+      "near-miss": [1047, 1318, 1568, 2093],
       rest: [523, 440, 392],
       button: [523, 659],
       celebrate: [523, 659, 784, 1047],
     };
-    notes[name].forEach((frequency, index) => this.tone(frequency, .1 + index * .1, name === "bump" ? "sine" : "triangle", .11));
+    const isWobble = name === "bump" || name === "stumble";
+    const isNearMiss = name === "near-miss";
+    notes[name].forEach((frequency, index) =>
+      this.tone(
+        frequency,
+        (isNearMiss ? 0.03 : 0.1) + index * (isNearMiss ? 0.05 : 0.1),
+        isWobble ? "sine" : "triangle",
+        isNearMiss ? 0.07 : 0.11,
+        isNearMiss ? 0.18 : 0.24
+      )
+    );
   }
 
   private startMusic(): void {
