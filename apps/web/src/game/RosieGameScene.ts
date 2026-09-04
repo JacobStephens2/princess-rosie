@@ -1,13 +1,19 @@
 import Phaser from "phaser";
 
 import {
-  collectBirthdayStar,
   createJourney,
-  recordBump,
   resumeJourney,
   type Journey,
   type StarStop,
 } from "../domain/journey";
+import {
+  createRunnerState,
+  handleJumpInput,
+  updateRunner,
+  completePlaceCourse,
+  DEFAULT_RUNNER_CONFIG,
+  type RunnerState,
+} from "../domain/gallop-and-flutter";
 import { STOP_STORIES, type FamilyGuest, type StopStory } from "./content";
 
 const VIEW_WIDTH = 1280;
@@ -41,45 +47,49 @@ export interface GameCallbacks {
 export class RosieGameScene extends Phaser.Scene {
   private readonly callbacks: GameCallbacks;
   private journey: Journey = createJourney();
+  private runnerState: RunnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
   private player!: Phaser.GameObjects.Container;
-  private playerBody!: Phaser.Physics.Arcade.Body;
-  private obstacles!: Phaser.Physics.Arcade.StaticGroup;
   private spaceKey: Phaser.Input.Keyboard.Key | undefined;
   private touchHeld = false;
   private frozen = false;
-  private bumpReady = true;
   private nextStop = 0;
   private readonly guests = new Map<StarStop, Phaser.GameObjects.Container>();
   private wing!: Phaser.GameObjects.Ellipse;
+  private frontLeg!: Phaser.GameObjects.Ellipse;
+  private backLeg!: Phaser.GameObjects.Ellipse;
   private sparkleTrail!: Phaser.GameObjects.Particles.ParticleEmitter;
+  private gallopTimer = 0;
 
   constructor(callbacks: GameCallbacks) {
     super("rosie-adventure");
     this.callbacks = callbacks;
   }
 
+  preload(): void {
+    STOP_STORIES.forEach((stop) => {
+      if (stop.placeIllustration) {
+        this.load.image(`place-illustration-${stop.id}`, stop.placeIllustration);
+      }
+    });
+  }
+
   create(): void {
     this.journey = createJourney();
+    this.runnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
     this.nextStop = 0;
     this.frozen = false;
-    this.bumpReady = true;
     this.guests.clear();
     this.createTextures();
     this.createWorld();
-    this.player = this.createPlayer(330, 350);
-    this.physics.add.existing(this.player);
-    this.playerBody = this.player.body as Phaser.Physics.Arcade.Body;
-    this.playerBody.setSize(150, 82).setOffset(-75, -25);
-    this.playerBody.setCollideWorldBounds(false);
-    this.playerBody.setVelocityX(158);
-    this.playerBody.setMaxVelocity(180, 350);
+    this.player = this.createPlayer(this.runnerState.x, this.runnerState.y);
 
-    this.physics.add.overlap(this.player, this.obstacles, () => this.handleBump());
     this.cameras.main.setBounds(0, 0, WORLD_WIDTH, VIEW_HEIGHT);
     this.cameras.main.startFollow(this.player, true, .08, .08, -340, 0);
     this.cameras.main.setBackgroundColor("#8bd8f1");
     this.spaceKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.input.keyboard?.addCapture(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.spaceKey?.on("down", () => this.jumpInput());
+    this.input.on("pointerdown", () => this.jumpInput());
 
     const particles = this.add.particles(0, 0, "sparkle", {
       lifespan: 800,
@@ -97,33 +107,77 @@ export class RosieGameScene extends Phaser.Scene {
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
       this.input.keyboard?.removeCapture(Phaser.Input.Keyboard.KeyCodes.SPACE);
+      this.spaceKey?.removeAllListeners();
+      this.input.removeAllListeners();
     });
   }
 
-  update(): void {
+  jumpInput(): void {
+    if (this.frozen) return;
+    this.runnerState = handleJumpInput(this.runnerState);
+    if (this.runnerState.mode === "flapping") {
+      this.tweens.add({
+        targets: this.wing,
+        rotation: -0.95,
+        scaleY: 1.25,
+        yoyo: true,
+        duration: 90,
+      });
+    }
+  }
+
+  update(time: number, delta: number): void {
     if (this.frozen) return;
 
-    const pointerHeld = this.input.activePointer.isDown;
-    const rising = Boolean(this.spaceKey?.isDown || pointerHeld || this.touchHeld);
-    const cruiseSpeed = 158 - this.journey.helpLevel * 8;
-    const verticalLimit = 350 - this.journey.helpLevel * 30;
-    this.playerBody.setMaxVelocity(180, verticalLimit);
-    this.playerBody.setAccelerationY(rising ? -760 + this.journey.helpLevel * 38 : 430 - this.journey.helpLevel * 55);
-    this.playerBody.setVelocityX(cruiseSpeed);
+    const pointerHeld = this.input.activePointer?.isDown ?? false;
+    const isFlutterHeld = Boolean(this.spaceKey?.isDown || pointerHeld || this.touchHeld);
+    const deltaSeconds = Math.min(delta / 1000, 0.1);
 
-    if (this.player.y < 92) {
-      this.player.y = 92;
-      this.playerBody.setVelocityY(45);
-    } else if (this.player.y > 620) {
-      this.player.y = 620;
-      this.playerBody.setVelocityY(-85);
+    this.runnerState = updateRunner(this.runnerState, deltaSeconds, isFlutterHeld);
+
+    this.player.x = this.runnerState.x;
+    this.player.y = this.runnerState.y;
+
+    if (this.runnerState.isGrounded) {
+      this.gallopTimer += deltaSeconds * 14;
+      const legAngle = Math.sin(this.gallopTimer) * 0.35;
+      this.frontLeg?.setRotation(-0.55 + legAngle);
+      this.backLeg?.setRotation(0.45 - legAngle);
+      this.player.setRotation(Math.sin(this.gallopTimer * 0.5) * 0.025);
+    } else {
+      if (this.runnerState.mode === "fluttering") {
+        this.wing?.setRotation(-0.5 + Math.sin(time * 0.05) * 0.4);
+        this.player.rotation = 0;
+      } else {
+        const targetAngle = Phaser.Math.Clamp(this.runnerState.velocityY * 0.03, -10, 12);
+        this.player.rotation = Phaser.Math.DegToRad(targetAngle);
+      }
     }
 
-    const targetAngle = Phaser.Math.Clamp(this.playerBody.velocity.y * .045, -12, 13);
-    this.player.rotation = Phaser.Math.DegToRad(Phaser.Math.Linear(Phaser.Math.RadToDeg(this.player.rotation), targetAngle, .12));
-
     const stop = STOP_STORIES[this.nextStop];
-    if (stop && this.player.x >= this.stopX(this.nextStop)) this.gatherStar(stop);
+    if (stop && (this.runnerState.courseCompleted || this.player.x >= this.stopX(this.nextStop))) {
+      this.gatherStar(stop);
+    }
+  }
+
+  getRunnerState(): RunnerState {
+    return this.runnerState;
+  }
+
+  getJourney(): Journey {
+    return this.journey;
+  }
+
+  seekToEnd(): void {
+    const stop = STOP_STORIES[this.nextStop];
+    if (!stop) return;
+    this.runnerState = {
+      ...this.runnerState,
+      x: this.stopX(this.nextStop),
+      courseCompleted: true,
+    };
+    this.player.x = this.runnerState.x;
+    this.gatherStar(stop);
   }
 
   setTouchHeld(held: boolean): void { this.touchHeld = held; }
@@ -133,34 +187,38 @@ export class RosieGameScene extends Phaser.Scene {
       this.callbacks.onCelebration();
       return;
     }
+    this.runnerState = {
+      ...this.runnerState,
+      courseCompleted: false,
+    };
     this.resumeMotion();
   }
 
   continueAfterCloudRest(): void {
     this.journey = resumeJourney(this.journey);
-    this.player.y = 360;
-    this.player.x += 115;
-    const hitboxInset = this.journey.helpLevel * 10;
-    this.playerBody.setSize(150 - hitboxInset, 82 - hitboxInset / 2).setOffset(-75 + hitboxInset / 2, -25 + hitboxInset / 4);
-    this.playerBody.setVelocity(158 - this.journey.helpLevel * 8, -40);
+    this.runnerState = {
+      ...this.runnerState,
+      x: this.runnerState.x + 115,
+      y: 360,
+      velocityY: -40,
+      isGrounded: false,
+      mode: "jumping",
+    };
     this.resumeMotion();
   }
 
   private pauseMotion(): void {
     this.frozen = true;
-    this.playerBody.setVelocity(0, 0);
-    this.playerBody.setAcceleration(0, 0);
-    this.sparkleTrail.pause();
+    this.sparkleTrail?.pause();
   }
 
   private resumeMotion(): void {
     this.frozen = false;
-    this.playerBody.setVelocityX(158 - this.journey.helpLevel * 8);
-    this.sparkleTrail.resume();
+    this.sparkleTrail?.resume();
   }
 
   private gatherStar(stop: StopStory): void {
-    this.journey = collectBirthdayStar(this.journey, stop.id);
+    this.journey = completePlaceCourse(this.runnerState, this.journey, stop.id);
     this.drawRainbowPath(this.stopX(this.nextStop) - 290, 580);
     this.sendGuestAlongRainbowPath(stop.id);
     const star = this.children.getByName(`star-${stop.id}`);
@@ -173,24 +231,6 @@ export class RosieGameScene extends Phaser.Scene {
     this.time.delayedCall(720, () => {
       this.callbacks.onBirthdayStar(stop, this.journey.collectedStars.length, this.journey.phase === "celebrating");
     });
-  }
-
-  private handleBump(): void {
-    if (!this.bumpReady || this.frozen) return;
-    this.bumpReady = false;
-    this.journey = recordBump(this.journey);
-    this.callbacks.onBump();
-    this.cameras.main.shake(180, .006);
-    this.playerBody.setVelocityY(-120);
-    this.tweens.add({ targets: this.player, alpha: .35, yoyo: true, repeat: 3, duration: 90 });
-    this.time.delayedCall(1250, () => { this.bumpReady = true; });
-
-    if (this.journey.phase === "cloud-rest") {
-      this.time.delayedCall(320, () => {
-        this.pauseMotion();
-        this.callbacks.onCloudRest();
-      });
-    }
   }
 
   private createTextures(): void {
@@ -226,12 +266,16 @@ export class RosieGameScene extends Phaser.Scene {
   private createWorld(): void {
     const backgrounds = this.add.graphics().setDepth(-30);
     const distant = this.add.graphics().setDepth(-20);
-    this.obstacles = this.physics.add.staticGroup();
 
     STOP_STORIES.forEach((stop, index) => {
       const start = index * SEGMENT_WIDTH;
-      backgrounds.fillStyle(stop.sky, 1).fillRect(start, 0, SEGMENT_WIDTH + 4, VIEW_HEIGHT);
-      this.drawClouds(distant, start, index);
+      if (stop.placeIllustration) {
+        const illustration = this.add.image(start, 0, `place-illustration-${stop.id}`).setOrigin(0, 0).setDepth(-30);
+        illustration.setDisplaySize(SEGMENT_WIDTH + 4, VIEW_HEIGHT);
+      } else {
+        backgrounds.fillStyle(stop.sky, 1).fillRect(start, 0, SEGMENT_WIDTH + 4, VIEW_HEIGHT);
+        this.drawClouds(distant, start, index);
+      }
       this.drawLandscape(backgrounds, start, stop);
       this.add.text(start + 430, 118, stop.place, {
         fontFamily: "Georgia, serif",
@@ -247,18 +291,6 @@ export class RosieGameScene extends Phaser.Scene {
       this.tweens.add({ targets: star, scale: 1.14, angle: 10, yoyo: true, repeat: -1, duration: 650 + index * 50, ease: "Sine.easeInOut" });
       this.add.circle(this.stopX(index), starY, 76, 0xffed97, .18).setDepth(2);
       this.guests.set(stop.id, this.createGuest(this.stopX(index) + 115, 575, stop.guest));
-
-      if (index < STOP_STORIES.length - 1) {
-        const positions = [start + 610, start + 960, start + 1240];
-        const ys = index % 2 === 0 ? [205, 490, 320] : [485, 225, 455];
-        positions.forEach((x, obstacleIndex) => {
-          const textures = ["puff-cloud", "wind-curl", "lace-ribbon"] as const;
-          const obstacle = this.obstacles.create(x, ys[obstacleIndex] ?? 300, textures[obstacleIndex] ?? "puff-cloud") as Phaser.Physics.Arcade.Image;
-          obstacle.setScale(obstacleIndex === 1 ? .8 : .68).refreshBody().setAlpha(.84).setDepth(5);
-          const body = obstacle.body as Phaser.Physics.Arcade.StaticBody;
-          body.setSize(135, obstacleIndex === 0 ? 58 : 45).setOffset(28, obstacleIndex === 0 ? 28 : 25);
-        });
-      }
     });
 
     this.drawCastle(backgrounds, WORLD_WIDTH - 850, 520);
@@ -284,16 +316,19 @@ export class RosieGameScene extends Phaser.Scene {
       graphics.fillRect(start, 520, SEGMENT_WIDTH, 200);
       graphics.lineStyle(9, 0xa7efff, .55);
       for (let wave = 0; wave < 9; wave += 1) graphics.strokeCircle(start + 90 + wave * 210, 555 + (wave % 2) * 45, 100);
-    } else {
-      graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
-    }
-
-    if (stop.id === "garden") {
+    } else if (stop.id === "garden") {
+      // Storybook Ground in Rosalia's Rose Garden
+      graphics.fillStyle(0x5ca364, 1);
+      graphics.fillRect(start, 560, SEGMENT_WIDTH, 160);
+      graphics.fillStyle(0x73b97b, 1);
+      graphics.fillRoundedRect(start, 555, SEGMENT_WIDTH, 20, 8);
       for (let rose = 0; rose < 16; rose += 1) {
         const x = start + 40 + rose * 105;
-        const y = 570 + (rose % 3) * 34;
+        const y = 575 + (rose % 3) * 20;
         graphics.fillStyle(rose % 2 ? 0xf05a9d : 0xff9abb, 1).fillCircle(x, y, 15).fillCircle(x + 14, y, 15).fillCircle(x + 7, y - 12, 15);
       }
+    } else {
+      graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
     }
     if (stop.id === "lacewood") {
       for (let tree = 0; tree < 12; tree += 1) {
@@ -364,6 +399,8 @@ export class RosieGameScene extends Phaser.Scene {
     this.wing = this.add.ellipse(-18, -48, 130, 48, 0xc7aff0, .95).setRotation(-.72);
     const unicornBody = this.add.ellipse(0, 8, 184, 88, 0xfffbf3).setStrokeStyle(4, 0xd9b9d4);
     const legs = [this.add.ellipse(-42, 48, 26, 72, 0xfffbf3).setRotation(.45), this.add.ellipse(45, 48, 26, 72, 0xfffbf3).setRotation(-.55)];
+    this.backLeg = legs[0]!;
+    this.frontLeg = legs[1]!;
     const neck = this.add.ellipse(69, -22, 62, 108, 0xfffbf3).setRotation(-.25);
     const head = this.add.ellipse(99, -65, 86, 61, 0xfffbf3).setStrokeStyle(3, 0xd9b9d4);
     const ear = this.add.triangle(77, -107, 0, 35, 18, 0, 35, 36, 0xffeaf4);
@@ -381,6 +418,7 @@ export class RosieGameScene extends Phaser.Scene {
     const crown = this.add.triangle(-7, -137, 0, 27, 17, 0, 34, 27, 0xffd65e).setStrokeStyle(2, 0xd18a2a);
 
     player.add([...tails, backWing, this.wing, ...legs, unicornBody, neck, head, ear, ...mane, ...horn, eye, smile, hairBack, dress, hair, rosieHead, face, crown]);
+    player.setScale(0.72);
     this.tweens.add({ targets: this.wing, rotation: -.28, scaleY: .75, yoyo: true, repeat: -1, duration: 220, ease: "Sine.easeInOut" });
     this.tweens.add({ targets: tails, angle: "+=9", yoyo: true, repeat: -1, duration: 680, ease: "Sine.easeInOut", stagger: 55 });
     return player;
