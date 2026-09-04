@@ -96,6 +96,11 @@ test("Gallop and Flutter input: jump on tap, flutter-glide on hold, mid-air flap
 
   await expect(page.locator("#game canvas")).toBeVisible();
 
+  // Wait for runner scene to be active and grounded
+  await expect.poll(async () => {
+    return (await page.evaluate(() => window.__ROSIE_RUNNER__?.getState()))?.isGrounded;
+  }).toBe(true);
+
   // 1. Tapping Spacebar triggers an immediate jump
   await page.keyboard.press("Space");
   await expect.poll(async () => {
@@ -158,6 +163,57 @@ test("navigating through the garden course to the end triggers place completion 
   const journey = await page.evaluate(() => window.__ROSIE_RUNNER__?.getJourney());
   expect(journey?.collectedStars).toContain("garden");
   expect(journey?.openRainbowPaths).toContain("garden");
+});
+
+test("multi-state Rosie and Stella sprite sheet animates gallop, leap, flutter, and stumble with seamless transitions", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Begin the story" }).click();
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await page.getByRole("button", { name: "Fly with Rosie" }).click();
+
+  await expect(page.locator("#game canvas")).toBeVisible();
+
+  // 1. Verify multi-state sprite sheet is loaded and animations are registered
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.hasSpriteSheet?.());
+  }, { timeout: 4000 }).toBe(true);
+
+  // 2. On Storybook Ground, gallop animation is active
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.getCurrentAnimation?.());
+  }).toBe("rosie-stella-gallop");
+
+  // 3. Tapping Spacebar transitions to leap animation
+  await page.keyboard.press("Space");
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.getCurrentAnimation?.());
+  }, { timeout: 3000 }).toBe("rosie-stella-leap");
+
+  // 4. Holding Spacebar while airborne transitions to flutter animation
+  await page.keyboard.down("Space");
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.getCurrentAnimation?.());
+  }, { timeout: 3000 }).toBe("rosie-stella-flutter");
+  await page.keyboard.up("Space");
+
+  // 5. Landing returns to gallop animation
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.getCurrentAnimation?.());
+  }, { timeout: 3500 }).toBe("rosie-stella-gallop");
+
+  // 6. Playful Stumble triggers stumble wobble animation and recovers to gallop
+  await page.evaluate(() => {
+    window.__ROSIE_RUNNER__?.triggerStumble?.();
+  });
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.getCurrentAnimation?.());
+  }).toBe("rosie-stella-stumble");
+
+  // Stumble recovers back to gallop without game-over or life loss
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.getCurrentAnimation?.());
+  }, { timeout: 3000 }).toBe("rosie-stella-gallop");
 });
 
 test("the installable shell declares its name and icons", async ({ request }) => {

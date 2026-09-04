@@ -12,6 +12,9 @@ export interface RosieRunnerInterface {
   getState: () => import("./domain/gallop-and-flutter").RunnerState;
   getJourney: () => import("./domain/journey").Journey;
   seekToEnd: () => void;
+  hasSpriteSheet?: () => boolean;
+  getCurrentAnimation?: () => string | undefined;
+  triggerStumble?: () => void;
 }
 
 declare global {
@@ -324,6 +327,9 @@ window.__ROSIE_RUNNER__ = {
   getState: () => scene?.getRunnerState() ?? createRunnerState(),
   getJourney: () => scene?.getJourney() ?? createJourney(),
   seekToEnd: () => scene?.seekToEnd(),
+  hasSpriteSheet: () => scene?.hasSpriteSheet() ?? false,
+  getCurrentAnimation: () => scene?.getCurrentAnimation(),
+  triggerStumble: () => scene?.triggerStumble(),
 };
 
 renderDots();

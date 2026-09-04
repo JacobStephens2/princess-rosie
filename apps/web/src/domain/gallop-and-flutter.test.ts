@@ -4,6 +4,8 @@ import {
   createRunnerState,
   handleJumpInput,
   updateRunner,
+  triggerPlayfulStumble,
+  getSpriteAnimationState,
   DEFAULT_RUNNER_CONFIG,
 } from "./gallop-and-flutter";
 
@@ -138,4 +140,87 @@ describe("Gallop and Flutter Runner", () => {
     expect(journey.collectedStars).toContain("garden");
     expect(journey.openRainbowPaths).toContain("garden");
   });
+
+  describe("Sprite Animation Pipeline and State Transitions", () => {
+    test("maps grounded galloping state to gallop animation", () => {
+      const grounded = createRunnerState({ isGrounded: true, mode: "galloping" });
+      expect(getSpriteAnimationState(grounded)).toBe("gallop");
+    });
+
+    test("maps jump launch and upward crest to leap animation", () => {
+      const leaping = createRunnerState({
+        isGrounded: false,
+        velocityY: DEFAULT_RUNNER_CONFIG.jumpVelocity,
+        mode: "jumping",
+      });
+      expect(getSpriteAnimationState(leaping)).toBe("leap");
+
+      const flapping = createRunnerState({
+        isGrounded: false,
+        velocityY: DEFAULT_RUNNER_CONFIG.flapVelocity,
+        mode: "flapping",
+      });
+      expect(getSpriteAnimationState(flapping)).toBe("leap");
+    });
+
+    test("maps sustained airborne flight to flutter animation", () => {
+      const fluttering = createRunnerState({
+        isGrounded: false,
+        velocityY: 50,
+        isFluttering: true,
+        mode: "fluttering",
+      });
+      expect(getSpriteAnimationState(fluttering)).toBe("flutter");
+    });
+
+    test("triggering a Playful Stumble slows speed and maps to stumble animation", () => {
+      const galloping = createRunnerState({ isGrounded: true, mode: "galloping" });
+      const stumbled = triggerPlayfulStumble(galloping);
+
+      expect(stumbled.mode).toBe("stumbling");
+      expect(stumbled.stumbleRemaining).toBeGreaterThan(0);
+      expect(getSpriteAnimationState(stumbled)).toBe("stumble");
+
+      // Verify speed reduction during stumble
+      const gallopDelta = updateRunner(galloping, 0.2, false);
+      const stumbleDelta = updateRunner(stumbled, 0.2, false);
+      const gallopDistance = gallopDelta.x - galloping.x;
+      const stumbleDistance = stumbleDelta.x - stumbled.x;
+
+      expect(stumbleDistance).toBeLessThan(gallopDistance);
+      expect(stumbleDistance).toBeCloseTo(gallopDistance * 0.6, 2);
+    });
+
+    test("Playful Stumble recovers smoothly back to gallop without penalty or life loss", () => {
+      const galloping = createRunnerState({ isGrounded: true, mode: "galloping" });
+      const stumbled = triggerPlayfulStumble(galloping, 0.4);
+
+      // Halfway through stumble
+      const midStumble = updateRunner(stumbled, 0.2, false);
+      expect(midStumble.mode).toBe("stumbling");
+      expect(midStumble.stumbleRemaining).toBeCloseTo(0.2, 2);
+      expect(getSpriteAnimationState(midStumble)).toBe("stumble");
+
+      // Complete stumble duration
+      const recovered = updateRunner(midStumble, 0.25, false);
+      expect(recovered.mode).toBe("galloping");
+      expect(recovered.stumbleRemaining).toBe(0);
+      expect(getSpriteAnimationState(recovered)).toBe("gallop");
+    });
+
+    test("landing from a leap or flutter returns to gallop animation without popping", () => {
+      const airborne = createRunnerState({
+        isGrounded: false,
+        y: DEFAULT_RUNNER_CONFIG.groundY - 10,
+        velocityY: 200,
+        mode: "falling",
+      });
+      expect(getSpriteAnimationState(airborne)).toBe("leap");
+
+      const landed = updateRunner(airborne, 0.1, false);
+      expect(landed.isGrounded).toBe(true);
+      expect(getSpriteAnimationState(landed)).toBe("gallop");
+    });
+  });
 });
+
