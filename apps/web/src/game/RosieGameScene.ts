@@ -14,11 +14,17 @@ import {
   triggerPlayfulStumble,
   getSpriteAnimationState,
   checkObstacleEncounters,
+  checkSpringboardEncounters,
+  checkSparkleEncounters,
   SPRITE_ANIMATIONS,
   DEFAULT_RUNNER_CONFIG,
   DEFAULT_ROSE_GARDEN_OBSTACLES,
+  DEFAULT_ROSE_GARDEN_SPRINGBOARDS,
+  DEFAULT_ROSE_GARDEN_SPARKLES,
   type RunnerState,
   type PlayfulObstacle,
+  type Springboard,
+  type StarSparkle,
 } from "../domain/gallop-and-flutter";
 import { STOP_STORIES, type FamilyGuest, type StopStory } from "./content";
 
@@ -99,6 +105,8 @@ export interface GameCallbacks {
   onBirthdayStar: (stop: StopStory, count: number, isFinal: boolean) => void;
   onStumble: () => void;
   onNearMiss?: (obstacle: PlayfulObstacle) => void;
+  onSpringboard?: (springboard: Springboard) => void;
+  onSparkleGathered?: (sparkle: StarSparkle, streak: number, totalCount: number) => void;
   onCloudRest: () => void;
   onCelebration: () => void;
 }
@@ -115,6 +123,12 @@ export class RosieGameScene extends Phaser.Scene {
   private readonly guests = new Map<StarStop, Phaser.GameObjects.Container>();
   private readonly obstacles: PlayfulObstacle[] = [...DEFAULT_ROSE_GARDEN_OBSTACLES];
   private readonly obstacleContainers = new Map<string, Phaser.GameObjects.Container>();
+  private readonly springboards: Springboard[] = [...DEFAULT_ROSE_GARDEN_SPRINGBOARDS];
+  private readonly springboardContainers = new Map<string, Phaser.GameObjects.Container>();
+  private readonly sparkles: StarSparkle[] = [...DEFAULT_ROSE_GARDEN_SPARKLES];
+  private readonly sparkleContainers = new Map<string, Phaser.GameObjects.Container>();
+  private totalSparklesCollected = 0;
+  private maxSparkleStreak = 0;
   private sparkleTrail!: Phaser.GameObjects.Particles.ParticleEmitter;
   private ready = false;
 
@@ -143,6 +157,9 @@ export class RosieGameScene extends Phaser.Scene {
     this.ready = false;
     this.guests.clear();
     this.obstacleContainers.clear();
+    this.springboardContainers.clear();
+    this.sparkleContainers.clear();
+    this.totalSparklesCollected = 0;
     this.createTextures();
     this.createAnimations();
     this.createWorld();
@@ -204,6 +221,18 @@ export class RosieGameScene extends Phaser.Scene {
       this.handleObstacleNearMiss(encounter.nearMissObstacle);
     }
 
+    const sbEncounter = checkSpringboardEncounters(this.runnerState, this.springboards);
+    this.runnerState = sbEncounter.state;
+    if (sbEncounter.bouncedSpringboard) {
+      this.handleSpringboardBounce(sbEncounter.bouncedSpringboard);
+    }
+
+    const spEncounter = checkSparkleEncounters(this.runnerState, this.sparkles);
+    this.runnerState = spEncounter.state;
+    if (spEncounter.collectedSparkle) {
+      this.handleSparkleCollected(spEncounter.collectedSparkle);
+    }
+
     this.player.x = this.runnerState.x;
     this.player.y = this.runnerState.y;
 
@@ -257,6 +286,26 @@ export class RosieGameScene extends Phaser.Scene {
 
   getObstacles(): readonly PlayfulObstacle[] {
     return this.obstacles;
+  }
+
+  getSpringboards(): readonly Springboard[] {
+    return this.springboards;
+  }
+
+  getSparkles(): readonly StarSparkle[] {
+    return this.sparkles;
+  }
+
+  getCollectedSparklesCount(): number {
+    return this.totalSparklesCollected;
+  }
+
+  getSparkleStreak(): number {
+    return this.runnerState.sparkleStreak;
+  }
+
+  getMaxSparkleStreak(): number {
+    return this.maxSparkleStreak;
   }
 
   getJourney(): Journey {
@@ -420,6 +469,16 @@ export class RosieGameScene extends Phaser.Scene {
       this.obstacleContainers.set(obstacle.id, container);
     });
 
+    this.springboards.forEach((springboard) => {
+      const container = this.createSpringboard(springboard);
+      this.springboardContainers.set(springboard.id, container);
+    });
+
+    this.sparkles.forEach((sparkle) => {
+      const container = this.createSparkle(sparkle);
+      this.sparkleContainers.set(sparkle.id, container);
+    });
+
     this.drawCastle(backgrounds, WORLD_WIDTH - 850, 520);
   }
 
@@ -479,6 +538,146 @@ export class RosieGameScene extends Phaser.Scene {
       duration: 550,
       ease: "Sine.easeOut",
       onComplete: () => shimmer.destroy(),
+    });
+  }
+
+  private createSpringboard(springboard: Springboard): Phaser.GameObjects.Container {
+    const container = this.add.container(springboard.x, springboard.y).setDepth(16);
+    container.setName(`springboard-${springboard.id}`);
+
+    const graphics = this.add.graphics();
+    // Broad green foliage base on Storybook Ground
+    graphics.fillStyle(0x2f6838, 1);
+    graphics.fillEllipse(0, -springboard.height * 0.25, springboard.width * 0.95, springboard.height * 0.45);
+    graphics.fillStyle(0x4a9456, 1);
+    graphics.fillCircle(-springboard.width * 0.32, -springboard.height * 0.35, springboard.width * 0.24);
+    graphics.fillCircle(springboard.width * 0.32, -springboard.height * 0.35, springboard.width * 0.24);
+
+    // Springy giant rose petals
+    graphics.fillStyle(0xbe2567, 1);
+    graphics.fillEllipse(0, -springboard.height * 0.65, springboard.width * 0.85, springboard.height * 0.65);
+    graphics.fillStyle(0xef4f95, 1);
+    graphics.fillCircle(-springboard.width * 0.2, -springboard.height * 0.68, springboard.width * 0.28);
+    graphics.fillCircle(springboard.width * 0.2, -springboard.height * 0.68, springboard.width * 0.28);
+    graphics.fillCircle(0, -springboard.height * 0.82, springboard.width * 0.32);
+
+    // Soft blush inner highlights
+    graphics.fillStyle(0xff9abb, 1);
+    graphics.fillCircle(0, -springboard.height * 0.76, springboard.width * 0.22);
+
+    // Resonant golden chime pistil center
+    graphics.fillStyle(0xffdf63, 1);
+    graphics.fillCircle(0, -springboard.height * 0.76, springboard.width * 0.12);
+    graphics.fillStyle(0xffffff, 1);
+    graphics.fillCircle(0, -springboard.height * 0.76, 3);
+
+    container.add(graphics);
+    return container;
+  }
+
+  private handleSpringboardBounce(springboard: Springboard): void {
+    this.callbacks.onSpringboard?.(springboard);
+    const container = this.springboardContainers.get(springboard.id);
+    if (container) {
+      this.tweens.add({
+        targets: container,
+        scaleY: { from: 1, to: 0.62 },
+        scaleX: { from: 1, to: 1.32 },
+        yoyo: true,
+        duration: 80,
+        ease: "Sine.easeOut",
+        onComplete: () => {
+          this.tweens.add({
+            targets: container,
+            scaleY: { from: 1, to: 1.18 },
+            scaleX: { from: 1, to: 0.9 },
+            yoyo: true,
+            duration: 140,
+            ease: "Sine.easeInOut",
+          });
+        },
+      });
+    }
+
+    const chimeBurst = this.add.star(springboard.x, springboard.y - springboard.height * 0.8, 6, 12, 28, 0xfff7c8, 1).setDepth(25);
+    this.tweens.add({
+      targets: chimeBurst,
+      scale: { from: 0.8, to: 2.2 },
+      alpha: { from: 1, to: 0 },
+      y: chimeBurst.y - 45,
+      angle: 120,
+      duration: 550,
+      ease: "Sine.easeOut",
+      onComplete: () => chimeBurst.destroy(),
+    });
+  }
+
+  private createSparkle(sparkle: StarSparkle): Phaser.GameObjects.Container {
+    const container = this.add.container(sparkle.x, sparkle.y).setDepth(18);
+    container.setName(`sparkle-${sparkle.id}`);
+
+    const graphics = this.add.graphics();
+    // Warm outer starlight aura
+    graphics.fillStyle(0xffed97, 0.35);
+    graphics.fillCircle(0, 0, 18);
+    graphics.fillStyle(0xffdf63, 0.55);
+    graphics.fillCircle(0, 0, 11);
+
+    // 4-pointed celestial star sparkle
+    graphics.fillStyle(0xfff7c8, 1);
+    graphics.fillTriangle(-2, 0, 2, 0, 0, -14);
+    graphics.fillTriangle(-2, 0, 2, 0, 0, 14);
+    graphics.fillTriangle(0, -2, 0, 2, -14, 0);
+    graphics.fillTriangle(0, -2, 0, 2, 14, 0);
+
+    // Radiant starlight core
+    graphics.fillStyle(0xffffff, 1);
+    graphics.fillCircle(0, 0, 3.5);
+
+    container.add(graphics);
+
+    // Gentle hovering idle motion
+    this.tweens.add({
+      targets: container,
+      y: sparkle.y - 6,
+      yoyo: true,
+      repeat: -1,
+      duration: 550 + (sparkle.x % 140),
+      ease: "Sine.easeInOut",
+    });
+
+    return container;
+  }
+
+  private handleSparkleCollected(sparkle: StarSparkle): void {
+    this.totalSparklesCollected += 1;
+    this.maxSparkleStreak = Math.max(this.maxSparkleStreak, this.runnerState.sparkleStreak);
+    this.callbacks.onSparkleGathered?.(sparkle, this.runnerState.sparkleStreak, this.totalSparklesCollected);
+
+    const container = this.sparkleContainers.get(sparkle.id);
+    if (container) {
+      this.tweens.add({
+        targets: container,
+        scale: 2.2,
+        alpha: 0,
+        y: container.y - 25,
+        duration: 300,
+        ease: "Back.easeIn",
+        onComplete: () => {
+          container.setVisible(false);
+        },
+      });
+    }
+
+    const collectStar = this.add.star(sparkle.x, sparkle.y, 5, 7, 20, 0xfff7c8, 1).setDepth(26);
+    this.tweens.add({
+      targets: collectStar,
+      scale: { from: 1, to: 2.4 },
+      alpha: { from: 1, to: 0 },
+      angle: 90,
+      duration: 380,
+      ease: "Sine.easeOut",
+      onComplete: () => collectStar.destroy(),
     });
   }
 

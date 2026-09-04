@@ -17,6 +17,11 @@ export interface RosieRunnerInterface {
   getCurrentAnimation?: () => string | undefined;
   triggerStumble?: () => void;
   getObstacles?: () => readonly import("./domain/gallop-and-flutter").PlayfulObstacle[];
+  getSpringboards?: () => readonly import("./domain/gallop-and-flutter").Springboard[];
+  getSparkles?: () => readonly import("./domain/gallop-and-flutter").StarSparkle[];
+  getCollectedSparklesCount?: () => number;
+  getSparkleStreak?: () => number;
+  getMaxSparkleStreak?: () => number;
 }
 
 declare global {
@@ -135,10 +140,16 @@ function startGame(): void {
   ending.hidden = true;
   gameShell.hidden = false;
   updateStars(0);
+  updateConstellationMeter(0);
   scene = new RosieGameScene({
     onBirthdayStar: showBirthdayStar,
     onStumble: () => sound.play("stumble"),
     onNearMiss: () => sound.play("near-miss"),
+    onSpringboard: () => sound.play("chime"),
+    onSparkleGathered: (_sparkle, streak, totalCount) => {
+      sound.playSparkle(streak - 1);
+      updateConstellationMeter(totalCount);
+    },
     onCloudRest: showCloudRest,
     onCelebration: showEnding,
   });
@@ -190,6 +201,26 @@ function updateStars(count: number): void {
   const tracker = getElement<HTMLElement>("star-tracker");
   tracker.querySelectorAll(".star").forEach((star, index) => star.classList.toggle("is-lit", index < count));
   tracker.setAttribute("aria-label", `${count} of ${STOP_STORIES.length} Birthday Stars`);
+}
+
+function updateConstellationMeter(count: number): void {
+  const meter = document.getElementById("constellation-meter");
+  if (!meter) return;
+  meter.setAttribute("data-sparkles", String(count));
+  meter.setAttribute("aria-label", `Constellation light meter: ${count} Star Sparkles gathered`);
+  if (count > 0) {
+    meter.classList.add("has-light");
+    meter.classList.remove("is-sparkling");
+    void meter.offsetWidth;
+    meter.classList.add("is-sparkling");
+  } else {
+    meter.classList.remove("has-light", "is-sparkling");
+  }
+  const nodes = meter.querySelectorAll<HTMLElement>(".constellation-node");
+  const litCount = count === 0 ? 0 : ((count - 1) % nodes.length) + 1;
+  nodes.forEach((node, index) => {
+    node.classList.toggle("is-lit", index < litCount);
+  });
 }
 
 function showEnding(): void {
@@ -335,6 +366,11 @@ window.__ROSIE_RUNNER__ = {
   getCurrentAnimation: () => scene?.getCurrentAnimation(),
   triggerStumble: () => scene?.triggerStumble(),
   getObstacles: () => scene?.getObstacles() ?? [],
+  getSpringboards: () => scene?.getSpringboards() ?? [],
+  getSparkles: () => scene?.getSparkles() ?? [],
+  getCollectedSparklesCount: () => scene?.getCollectedSparklesCount() ?? 0,
+  getSparkleStreak: () => scene?.getSparkleStreak() ?? 0,
+  getMaxSparkleStreak: () => scene?.getMaxSparkleStreak() ?? 0,
 };
 
 renderDots();
