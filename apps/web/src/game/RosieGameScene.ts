@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
 import {
+  collectBirthdayStar,
   createJourney,
   resumeJourney,
   type Journey,
@@ -10,7 +11,6 @@ import {
   createRunnerState,
   handleJumpInput,
   updateRunner,
-  completePlaceCourse,
   DEFAULT_RUNNER_CONFIG,
   type RunnerState,
 } from "../domain/gallop-and-flutter";
@@ -35,6 +35,58 @@ const GUEST_STYLES: Record<Exclude<FamilyGuest, "Beasley">, GuestStyle> = {
   Gram: { clothes: 0x9d72bd, hair: 0x73503f, trousers: 0x76507f, hairStyle: "curls" },
   Aunt: { clothes: 0x57a49b, hair: 0xb38b5f, trousers: 0x755a94, hairStyle: "bun" },
   Uncle: { clothes: 0x477fa8, hair: 0x654333, trousers: 0x3e5770, hairStyle: "pompadour" },
+};
+
+type LandscapeDrawer = (graphics: Phaser.GameObjects.Graphics, start: number) => void;
+
+const LANDSCAPE_DRAWERS: Record<StarStop, LandscapeDrawer> = {
+  garden: (graphics, start) => {
+    graphics.fillStyle(0x5ca364, 1);
+    graphics.fillRect(start, 560, SEGMENT_WIDTH, 160);
+    graphics.fillStyle(0x73b97b, 1);
+    graphics.fillRoundedRect(start, 555, SEGMENT_WIDTH, 20, 8);
+    for (let rose = 0; rose < 16; rose += 1) {
+      const x = start + 40 + rose * 105;
+      const y = 575 + (rose % 3) * 20;
+      graphics.fillStyle(rose % 2 ? 0xf05a9d : 0xff9abb, 1).fillCircle(x, y, 15).fillCircle(x + 14, y, 15).fillCircle(x + 7, y - 12, 15);
+    }
+  },
+  lacewood: (graphics, start) => {
+    graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
+    for (let tree = 0; tree < 12; tree += 1) {
+      const x = start + 60 + tree * 145;
+      graphics.fillStyle(0x5e765a, 1).fillRect(x, 410, 28, 230);
+      graphics.fillStyle(0x397a5b, 1).fillCircle(x + 10, 390, 78);
+      graphics.lineStyle(5, 0xf8f5ff, .8).beginPath().moveTo(x - 65, 420).lineTo(x + 78, 505).strokePath();
+    }
+  },
+  abbey: (graphics, start) => {
+    graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
+    graphics.fillStyle(0xf2d292, 1).fillRoundedRect(start + 760, 300, 470, 330, 35);
+    graphics.fillStyle(0xe3ad54, 1).fillTriangle(start + 715, 320, start + 995, 150, start + 1280, 320);
+    graphics.fillStyle(0x7e71c7, 1).fillCircle(start + 995, 390, 65);
+    graphics.fillStyle(0xffd65e, 1).fillCircle(start + 900, 218, 34).fillCircle(start + 1080, 218, 34);
+  },
+  clouds: (graphics, start) => {
+    graphics.fillStyle(0xf4fbff, .95).fillEllipse(start + 850, 670, 1850, 220);
+    for (let arch = 0; arch < 6; arch += 1) {
+      graphics.lineStyle(20, 0xfff1db, .72).strokeCircle(start + 220 + arch * 280, 400, 125);
+    }
+  },
+  peak: (graphics, start) => {
+    graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
+    graphics.fillStyle(0x6d7f70, 1).fillTriangle(start, 650, start + 920, 120, start + 1700, 650);
+    graphics.fillStyle(0xf5e3ed, 1);
+    for (let flower = 0; flower < 20; flower += 1) graphics.fillCircle(start + 90 + flower * 77, 590 - (flower % 5) * 28, 10);
+  },
+  sea: (graphics, start) => {
+    graphics.fillRect(start, 520, SEGMENT_WIDTH, 200);
+    graphics.lineStyle(9, 0xa7efff, .55);
+    for (let wave = 0; wave < 9; wave += 1) graphics.strokeCircle(start + 90 + wave * 210, 555 + (wave % 2) * 45, 100);
+  },
+  castle: (graphics, start) => {
+    graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
+  },
 };
 
 export interface GameCallbacks {
@@ -218,7 +270,7 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   private gatherStar(stop: StopStory): void {
-    this.journey = completePlaceCourse(this.runnerState, this.journey, stop.id);
+    this.journey = collectBirthdayStar(this.journey, stop.id);
     this.drawRainbowPath(this.stopX(this.nextStop) - 290, 580);
     this.sendGuestAlongRainbowPath(stop.id);
     const star = this.children.getByName(`star-${stop.id}`);
@@ -307,48 +359,7 @@ export class RosieGameScene extends Phaser.Scene {
 
   private drawLandscape(graphics: Phaser.GameObjects.Graphics, start: number, stop: StopStory): void {
     graphics.fillStyle(stop.ground, 1);
-    if (stop.id === "clouds") {
-      graphics.fillStyle(0xf4fbff, .95).fillEllipse(start + 850, 670, 1850, 220);
-      for (let arch = 0; arch < 6; arch += 1) {
-        graphics.lineStyle(20, 0xfff1db, .72).strokeCircle(start + 220 + arch * 280, 400, 125);
-      }
-    } else if (stop.id === "sea") {
-      graphics.fillRect(start, 520, SEGMENT_WIDTH, 200);
-      graphics.lineStyle(9, 0xa7efff, .55);
-      for (let wave = 0; wave < 9; wave += 1) graphics.strokeCircle(start + 90 + wave * 210, 555 + (wave % 2) * 45, 100);
-    } else if (stop.id === "garden") {
-      // Storybook Ground in Rosalia's Rose Garden
-      graphics.fillStyle(0x5ca364, 1);
-      graphics.fillRect(start, 560, SEGMENT_WIDTH, 160);
-      graphics.fillStyle(0x73b97b, 1);
-      graphics.fillRoundedRect(start, 555, SEGMENT_WIDTH, 20, 8);
-      for (let rose = 0; rose < 16; rose += 1) {
-        const x = start + 40 + rose * 105;
-        const y = 575 + (rose % 3) * 20;
-        graphics.fillStyle(rose % 2 ? 0xf05a9d : 0xff9abb, 1).fillCircle(x, y, 15).fillCircle(x + 14, y, 15).fillCircle(x + 7, y - 12, 15);
-      }
-    } else {
-      graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
-    }
-    if (stop.id === "lacewood") {
-      for (let tree = 0; tree < 12; tree += 1) {
-        const x = start + 60 + tree * 145;
-        graphics.fillStyle(0x5e765a, 1).fillRect(x, 410, 28, 230);
-        graphics.fillStyle(0x397a5b, 1).fillCircle(x + 10, 390, 78);
-        graphics.lineStyle(5, 0xf8f5ff, .8).beginPath().moveTo(x - 65, 420).lineTo(x + 78, 505).strokePath();
-      }
-    }
-    if (stop.id === "abbey") {
-      graphics.fillStyle(0xf2d292, 1).fillRoundedRect(start + 760, 300, 470, 330, 35);
-      graphics.fillStyle(0xe3ad54, 1).fillTriangle(start + 715, 320, start + 995, 150, start + 1280, 320);
-      graphics.fillStyle(0x7e71c7, 1).fillCircle(start + 995, 390, 65);
-      graphics.fillStyle(0xffd65e, 1).fillCircle(start + 900, 218, 34).fillCircle(start + 1080, 218, 34);
-    }
-    if (stop.id === "peak") {
-      graphics.fillStyle(0x6d7f70, 1).fillTriangle(start, 650, start + 920, 120, start + 1700, 650);
-      graphics.fillStyle(0xf5e3ed, 1);
-      for (let flower = 0; flower < 20; flower += 1) graphics.fillCircle(start + 90 + flower * 77, 590 - (flower % 5) * 28, 10);
-    }
+    LANDSCAPE_DRAWERS[stop.id]?.(graphics, start);
   }
 
   private createGuest(x: number, groundY: number, name: FamilyGuest): Phaser.GameObjects.Container {

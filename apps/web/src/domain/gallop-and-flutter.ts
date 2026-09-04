@@ -1,9 +1,3 @@
-import {
-  collectBirthdayStar,
-  type Journey,
-  type StarStop,
-} from "./journey";
-
 export type RunnerMode =
   | "galloping"
   | "jumping"
@@ -141,12 +135,4 @@ export function updateRunner(
     mode: nextMode,
     courseCompleted: nextCourseCompleted,
   };
-}
-
-export function completePlaceCourse(
-  _runner: RunnerState,
-  journey: Journey,
-  placeId: StarStop
-): Journey {
-  return collectBirthdayStar(journey, placeId);
 }

@@ -1,10 +1,9 @@
 import { describe, expect, test } from "vitest";
-import { createJourney } from "./journey";
+import { collectBirthdayStar, createJourney } from "./journey";
 import {
   createRunnerState,
   handleJumpInput,
   updateRunner,
-  completePlaceCourse,
   DEFAULT_RUNNER_CONFIG,
 } from "./gallop-and-flutter";
 
@@ -135,7 +134,7 @@ describe("Gallop and Flutter Runner", () => {
     expect(completed.courseCompleted).toBe(true);
 
     // Domain state transition on course completion
-    journey = completePlaceCourse(completed, journey, "garden");
+    journey = collectBirthdayStar(journey, "garden");
     expect(journey.collectedStars).toContain("garden");
     expect(journey.openRainbowPaths).toContain("garden");
   });
