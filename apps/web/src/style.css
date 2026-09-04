@@ -345,6 +345,72 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
   animation: card-in .35s cubic-bezier(.2, .9, .3, 1.2) both;
 }
 
+.stamp-award-frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 18px;
+}
+
+.storybook-stamp {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 22px;
+  background: radial-gradient(circle at 50% 25%, #fffef8 0%, #fff2db 85%, #ffe6be 100%);
+  border: 3px dashed #e8992e;
+  border-radius: 20px;
+  box-shadow: 0 0 0 6px rgba(255, 248, 234, 0.95), 0 8px 24px rgba(79, 40, 80, 0.22);
+  animation: stamp-pop 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.25) both;
+}
+
+.storybook-stamp__icon {
+  font-size: 42px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 8px rgba(220, 120, 40, 0.35));
+  animation: stamp-icon-bounce 1.6s ease-in-out infinite;
+}
+
+.storybook-stamp__details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  text-align: left;
+}
+
+.storybook-stamp__title {
+  color: #7d3258;
+  font: 900 clamp(16px, 2.2vw, 20px)/1.2 ui-rounded, "Arial Rounded MT Bold", sans-serif;
+  letter-spacing: 0.2px;
+}
+
+.storybook-stamp__guest {
+  color: #a05a84;
+  font: 700 clamp(11px, 1.6vw, 13px)/1.2 ui-rounded, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.storybook-stamp__stars {
+  color: #e59a22;
+  font-size: 14px;
+  letter-spacing: 4px;
+  padding-left: 6px;
+}
+
+@keyframes stamp-pop {
+  0% { transform: scale(0.4) rotate(-6deg); opacity: 0; }
+  70% { transform: scale(1.08) rotate(1.5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes stamp-icon-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px) scale(1.06); }
+}
+
 .moment__icon {
   display: grid;
   place-items: center;

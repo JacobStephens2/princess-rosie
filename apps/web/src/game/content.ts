@@ -1,6 +1,12 @@
-import type { StarStop } from "../domain/journey";
+import type { FamilyGuest, StarStop } from "../domain/journey";
 
-export type FamilyGuest = "Mom" | "Dad" | "Pop" | "Gram" | "Aunt" | "Uncle" | "Beasley";
+export type { FamilyGuest };
+
+export interface StorybookStampInfo {
+  title: string;
+  icon: string;
+  description: string;
+}
 
 export interface StopStory {
   id: StarStop;
@@ -11,16 +17,109 @@ export interface StopStory {
   sky: number;
   ground: number;
   placeIllustration?: string;
+  stamp: StorybookStampInfo;
 }
 
 export const STOP_STORIES: readonly StopStory[] = [
-  { id: "garden", place: "Rosalia’s Rose Garden", guest: "Mom", moment: "Mom found a Star among Rosalia’s roses!", icon: "🌹", sky: 0x8bd8f1, ground: 0x76bd7a, placeIllustration: "/assets/rose-garden-place-illustration.png" },
-  { id: "lacewood", place: "Zélie’s Lacewood", guest: "Gram", moment: "Gram followed the silver ribbons through Zélie’s Lacewood!", icon: "🎀", sky: 0xb4ddee, ground: 0x5fa273 },
-  { id: "abbey", place: "Golden Bell Abbey", guest: "Pop", moment: "Pop rang the bells of the Golden Bell Abbey!", icon: "🔔", sky: 0x92d9f6, ground: 0xd4aa68 },
-  { id: "clouds", place: "Cloister of Clouds", guest: "Beasley", moment: "Beasley pounced through the soft clouds!", icon: "🐈", sky: 0x76ccef, ground: 0xe8f7ff },
-  { id: "peak", place: "Pellegrino Peak", guest: "Aunt", moment: "Aunt waved from the flowers of Pellegrino Peak!", icon: "🌸", sky: 0x8ecff3, ground: 0x829a71 },
-  { id: "sea", place: "Sapphire Sea", guest: "Uncle", moment: "Uncle waited beside the sparkling Sapphire Sea!", icon: "🌊", sky: 0x6fd3ef, ground: 0x168fc4 },
-  { id: "castle", place: "Birthday Castle gates", guest: "Dad", moment: "Dad held the final Birthday Star at the castle gates!", icon: "🏰", sky: 0xf6b6cf, ground: 0xe6ae55 },
+  {
+    id: "garden",
+    place: "Rosalia’s Rose Garden",
+    guest: "Mom",
+    moment: "Mom found a Star among Rosalia’s roses!",
+    icon: "🌹",
+    sky: 0x8bd8f1,
+    ground: 0x76bd7a,
+    placeIllustration: "/assets/rose-garden-place-illustration.png",
+    stamp: {
+      title: "Mom’s Rose Stamp",
+      icon: "🌹",
+      description: "Awakened the waking roses of Rosalia’s Rose Garden",
+    },
+  },
+  {
+    id: "lacewood",
+    place: "Zélie’s Lacewood",
+    guest: "Gram",
+    moment: "Gram followed the silver ribbons through Zélie’s Lacewood!",
+    icon: "🎀",
+    sky: 0xb4ddee,
+    ground: 0x5fa273,
+    stamp: {
+      title: "Gram’s Lace Ribbon Stamp",
+      icon: "🎀",
+      description: "Followed the silver ribbons through Zélie’s Lacewood",
+    },
+  },
+  {
+    id: "abbey",
+    place: "Golden Bell Abbey",
+    guest: "Pop",
+    moment: "Pop rang the bells of the Golden Bell Abbey!",
+    icon: "🔔",
+    sky: 0x92d9f6,
+    ground: 0xd4aa68,
+    stamp: {
+      title: "Pop’s Golden Bell Stamp",
+      icon: "🔔",
+      description: "Rang the golden bells of Golden Bell Abbey",
+    },
+  },
+  {
+    id: "clouds",
+    place: "Cloister of Clouds",
+    guest: "Beasley",
+    moment: "Beasley pounced through the soft clouds!",
+    icon: "🐈",
+    sky: 0x76ccef,
+    ground: 0xe8f7ff,
+    stamp: {
+      title: "Beasley’s Cloud Paws Stamp",
+      icon: "🐈",
+      description: "Pounced through the soft Cloister of Clouds",
+    },
+  },
+  {
+    id: "peak",
+    place: "Pellegrino Peak",
+    guest: "Aunt",
+    moment: "Aunt waved from the flowers of Pellegrino Peak!",
+    icon: "🌸",
+    sky: 0x8ecff3,
+    ground: 0x829a71,
+    stamp: {
+      title: "Aunt’s Mountain Flower Stamp",
+      icon: "🌸",
+      description: "Waved from the flowers of Pellegrino Peak",
+    },
+  },
+  {
+    id: "sea",
+    place: "Sapphire Sea",
+    guest: "Uncle",
+    moment: "Uncle waited beside the sparkling Sapphire Sea!",
+    icon: "🌊",
+    sky: 0x6fd3ef,
+    ground: 0x168fc4,
+    stamp: {
+      title: "Uncle’s Sea Wave Stamp",
+      icon: "🌊",
+      description: "Waited beside the sparkling Sapphire Sea",
+    },
+  },
+  {
+    id: "castle",
+    place: "Birthday Castle gates",
+    guest: "Dad",
+    moment: "Dad held the final Birthday Star at the castle gates!",
+    icon: "🏰",
+    sky: 0xf6b6cf,
+    ground: 0xe6ae55,
+    stamp: {
+      title: "Dad’s Castle Gate Stamp",
+      icon: "🏰",
+      description: "Kept the Castle Star safe at the Birthday Castle gates",
+    },
+  },
 ] as const;
 
 export const OPENING_STORYBOOK_MOMENTS_AFTER_COVER = [
