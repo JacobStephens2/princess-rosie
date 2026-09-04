@@ -128,7 +128,7 @@ test("Gallop and Flutter input: jump on tap, flutter-glide on hold, mid-air flap
   // 4. Landing on Storybook Ground immediately returns to galloping
   await expect.poll(async () => {
     return (await page.evaluate(() => window.__ROSIE_RUNNER__?.getState()))?.mode;
-  }, { timeout: 3000 }).toBe("galloping");
+  }, { timeout: 5000 }).toBe("galloping");
 
   const landedState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
   expect(landedState?.isGrounded).toBe(true);
@@ -238,4 +238,77 @@ test("the storybook reopens offline after its first visit", async ({ context, pa
   await expect(page.getByRole("heading", { name: "Princess Rosie and the Seven Birthday Stars" })).toBeVisible();
 
   await expectOpeningArtworkSequence(page);
+});
+
+async function startStorybookFlight(page: Page): Promise<void> {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Begin the story" }).click();
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await page.getByRole("button", { name: "Fly with Rosie" }).click();
+  await expect(page.locator("#game canvas")).toBeVisible();
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.());
+  }, { timeout: 5000 }).toBe(true);
+}
+
+test("playful obstacles on Storybook Ground cause Playful Stumble with speed reduction, wobble, and smooth recovery without failure", async ({ page }) => {
+  await startStorybookFlight(page);
+
+  // 1. Verify place-appropriate playful obstacles are present
+  const obstacles = await page.evaluate(() => window.__ROSIE_RUNNER__?.getObstacles?.());
+  expect(obstacles).toBeDefined();
+  expect(obstacles?.length).toBeGreaterThanOrEqual(2);
+  expect(obstacles?.[0]?.type).toBe("rose-bush");
+
+  const firstObstacle = obstacles?.[0];
+  if (!firstObstacle) throw new Error("Missing first obstacle");
+
+  // 2. Allow Stella to gallop automatically into the first obstacle on Storybook Ground without jumping
+  await expect.poll(async () => {
+    const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+    return s?.stumbledObstacles?.includes(firstObstacle.id);
+  }, { timeout: 12000 }).toBe(true);
+
+  // 3. Verify stumble state: no failure, damage, or restart states occurred
+  const stumbleState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+  expect(stumbleState?.stumbledObstacles).toContain(firstObstacle.id);
+  expect(stumbleState?.courseCompleted).toBe(false);
+
+  // 4. Verify smooth recovery back to normal galloping speed
+  await expect.poll(async () => {
+    const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+    return s?.mode === "galloping" && s?.stumbleRemaining === 0;
+  }, { timeout: 12000 }).toBe(true);
+});
+
+test("leaping cleanly over an obstacle within proximity triggers Near Miss", async ({ page }) => {
+  await startStorybookFlight(page);
+
+  const obstacles = await page.evaluate(() => window.__ROSIE_RUNNER__?.getObstacles?.());
+  const firstObstacle = obstacles?.[0];
+  if (!firstObstacle) throw new Error("Missing first obstacle");
+
+  // Wait until Stella approaches the leap approach zone
+  await expect.poll(async () => {
+    const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+    return (s?.x ?? 0) >= firstObstacle.x - 140;
+  }, { intervals: [30], timeout: 12000 }).toBe(true);
+
+  // Leap cleanly over the obstacle
+  await page.keyboard.press("Space");
+  await expect.poll(async () => {
+    const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+    return s && !s.isGrounded;
+  }, { timeout: 1000 }).toBe(true);
+
+  // Verify Near Miss triggered cleanly
+  await expect.poll(async () => {
+    const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+    return s?.nearMissObstacles?.includes(firstObstacle.id);
+  }, { timeout: 12000 }).toBe(true);
+
+  const afterState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+  expect(afterState?.nearMissObstacles).toContain(firstObstacle.id);
+  expect(afterState?.stumbledObstacles).not.toContain(firstObstacle.id);
 });

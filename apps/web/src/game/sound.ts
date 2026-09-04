@@ -1,4 +1,72 @@
-type SoundName = "star" | "bump" | "rest" | "button" | "celebrate";
+export type SoundName = "star" | "bump" | "stumble" | "near-miss" | "rest" | "button" | "celebrate";
+
+interface SoundProfile {
+  frequencies: readonly number[];
+  type: OscillatorType;
+  initialDelay: number;
+  stepDelay: number;
+  volume: number;
+  duration: number;
+}
+
+const SOUND_PROFILES: Record<SoundName, SoundProfile> = {
+  star: {
+    frequencies: [659, 784, 988],
+    type: "triangle",
+    initialDelay: 0.1,
+    stepDelay: 0.1,
+    volume: 0.11,
+    duration: 0.24,
+  },
+  bump: {
+    frequencies: [220, 185],
+    type: "sine",
+    initialDelay: 0.1,
+    stepDelay: 0.1,
+    volume: 0.11,
+    duration: 0.24,
+  },
+  stumble: {
+    frequencies: [246, 220, 185],
+    type: "sine",
+    initialDelay: 0.08,
+    stepDelay: 0.09,
+    volume: 0.12,
+    duration: 0.22,
+  },
+  "near-miss": {
+    frequencies: [1047, 1318, 1568, 2093],
+    type: "triangle",
+    initialDelay: 0.03,
+    stepDelay: 0.05,
+    volume: 0.07,
+    duration: 0.18,
+  },
+  rest: {
+    frequencies: [523, 440, 392],
+    type: "triangle",
+    initialDelay: 0.1,
+    stepDelay: 0.1,
+    volume: 0.11,
+    duration: 0.24,
+  },
+  button: {
+    frequencies: [523, 659],
+    type: "triangle",
+    initialDelay: 0.1,
+    stepDelay: 0.1,
+    volume: 0.11,
+    duration: 0.24,
+  },
+  celebrate: {
+    frequencies: [523, 659, 784, 1047],
+    type: "triangle",
+    initialDelay: 0.1,
+    stepDelay: 0.1,
+    volume: 0.11,
+    duration: 0.24,
+  },
+};
 
 export class GameAudio {
   private context: AudioContext | undefined;
@@ -42,14 +110,17 @@ export class GameAudio {
 
   play(name: SoundName): void {
     if (!this.context || !this.master || !this.enabled) return;
-    const notes: Record<SoundName, readonly number[]> = {
-      star: [659, 784, 988],
-      bump: [220, 185],
-      rest: [523, 440, 392],
-      button: [523, 659],
-      celebrate: [523, 659, 784, 1047],
-    };
-    notes[name].forEach((frequency, index) => this.tone(frequency, .1 + index * .1, name === "bump" ? "sine" : "triangle", .11));
+    const profile = SOUND_PROFILES[name];
+    if (!profile) return;
+    profile.frequencies.forEach((frequency, index) =>
+      this.tone(
+        frequency,
+        profile.initialDelay + index * profile.stepDelay,
+        profile.type,
+        profile.volume,
+        profile.duration
+      )
+    );
   }
 
   private startMusic(): void {
