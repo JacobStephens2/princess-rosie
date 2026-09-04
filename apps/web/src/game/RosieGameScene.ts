@@ -97,7 +97,7 @@ const LANDSCAPE_DRAWERS: Record<StarStop, LandscapeDrawer> = {
 
 export interface GameCallbacks {
   onBirthdayStar: (stop: StopStory, count: number, isFinal: boolean) => void;
-  onBump: () => void;
+  onStumble: () => void;
   onNearMiss?: (obstacle: PlayfulObstacle) => void;
   onCloudRest: () => void;
   onCelebration: () => void;
@@ -252,7 +252,7 @@ export class RosieGameScene extends Phaser.Scene {
     if (this.frozen) return;
     this.runnerState = triggerPlayfulStumble(this.runnerState);
     this.player.play(SPRITE_ANIMATIONS.stumble.key, false);
-    this.callbacks.onBump();
+    this.callbacks.onStumble();
   }
 
   getObstacles(): readonly PlayfulObstacle[] {
@@ -464,7 +464,7 @@ export class RosieGameScene extends Phaser.Scene {
         },
       });
     }
-    this.callbacks.onBump();
+    this.callbacks.onStumble();
   }
 
   private handleObstacleNearMiss(obstacle: PlayfulObstacle): void {

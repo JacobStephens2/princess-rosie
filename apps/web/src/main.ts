@@ -137,7 +137,7 @@ function startGame(): void {
   updateStars(0);
   scene = new RosieGameScene({
     onBirthdayStar: showBirthdayStar,
-    onBump: () => sound.play("bump"),
+    onStumble: () => sound.play("stumble"),
     onNearMiss: () => sound.play("near-miss"),
     onCloudRest: showCloudRest,
     onCelebration: showEnding,
