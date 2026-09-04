@@ -18,7 +18,15 @@
     {
       "id": "rose-garden",
       "illustration": "flight.hero",
-      "familyGuestIllustration": "flight.hero"
+      "familyGuestIllustration": "flight.hero",
+      "cameo": {
+        "stagePosition": {
+          "x": 0.59,
+          "y": 0.46
+        },
+        "stageWidth": 0.11,
+        "action": "tends the waking roses"
+      }
     }
   ],
   "celebration": {

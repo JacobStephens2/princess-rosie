@@ -561,6 +561,17 @@ expand_mode = 1
 stretch_mode = 5
 mouse_filter = 2
 
+[node name="CameoFamilyGuest" type="TextureRect" parent="Stage/ActivePlayPresentation"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 210.0
+pivot_offset = Vector2(70, 105)
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
 [node name="FamilyGuest" type="TextureRect" parent="Stage/ActivePlayPresentation"]
 unique_name_in_owner = true
 visible = false

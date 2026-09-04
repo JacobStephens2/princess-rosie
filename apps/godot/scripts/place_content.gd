@@ -21,6 +21,26 @@ static func rainbow_path(place: Dictionary) -> String:
 	return str(place.get("rainbowPath", ""))
 
 
+static func cameo(place: Dictionary) -> Dictionary:
+	var value: Variant = place.get("cameo")
+	return value if value is Dictionary else {}
+
+
+static func cameo_action(place: Dictionary) -> String:
+	return str(cameo(place).get("action", ""))
+
+
+static func cameo_stage_position(place: Dictionary) -> Vector2:
+	var value: Variant = cameo(place).get("stagePosition")
+	if value is Dictionary:
+		return Vector2(float(value.get("x", 0.0)), float(value.get("y", 0.0)))
+	return Vector2.ZERO
+
+
+static func cameo_stage_width(place: Dictionary) -> float:
+	return float(cameo(place).get("stageWidth", 0.0))
+
+
 static func interaction(place: Dictionary, altitude_band: String) -> Dictionary:
 	for interaction_value: Variant in place.get("interactions", []):
 		if (
