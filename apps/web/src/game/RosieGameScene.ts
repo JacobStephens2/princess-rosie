@@ -110,6 +110,7 @@ export class RosieGameScene extends Phaser.Scene {
   private nextStop = 0;
   private readonly guests = new Map<StarStop, Phaser.GameObjects.Container>();
   private sparkleTrail!: Phaser.GameObjects.Particles.ParticleEmitter;
+  private ready = false;
 
   constructor(callbacks: GameCallbacks) {
     super("rosie-adventure");
@@ -133,6 +134,7 @@ export class RosieGameScene extends Phaser.Scene {
     this.runnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
     this.nextStop = 0;
     this.frozen = false;
+    this.ready = false;
     this.guests.clear();
     this.createTextures();
     this.createAnimations();
@@ -166,11 +168,15 @@ export class RosieGameScene extends Phaser.Scene {
       this.spaceKey?.removeAllListeners();
       this.input.removeAllListeners();
     });
+    this.ready = true;
   }
 
   jumpInput(): void {
     if (this.frozen) return;
     this.runnerState = handleJumpInput(this.runnerState);
+    if (this.runnerState.mode === "flapping") {
+      this.player.play(SPRITE_ANIMATIONS.leap.key, false);
+    }
   }
 
   update(_time: number, delta: number): void {
@@ -187,16 +193,16 @@ export class RosieGameScene extends Phaser.Scene {
 
     const animState = getSpriteAnimationState(this.runnerState);
     const animConfig = SPRITE_ANIMATIONS[animState];
-    if (this.player.anims.currentAnim?.key !== animConfig.key) {
+    if (this.player.anims.getName() !== animConfig.key) {
       this.player.play(animConfig.key, true);
     }
 
-    if (this.runnerState.isGrounded || animState === "flutter" || animState === "stumble") {
-      this.player.rotation = 0;
-    } else {
-      const targetAngle = Phaser.Math.Clamp(this.runnerState.velocityY * 0.025, -8, 10);
-      this.player.rotation = Phaser.Math.DegToRad(targetAngle);
+    let targetAngle = 0;
+    if (!this.runnerState.isGrounded && animState !== "flutter" && animState !== "stumble") {
+      const deg = Phaser.Math.Clamp(this.runnerState.velocityY * 0.025, -8, 10);
+      targetAngle = Phaser.Math.DegToRad(deg);
     }
+    this.player.rotation = Phaser.Math.Linear(this.player.rotation, targetAngle, Math.min(1, deltaSeconds * 14));
 
     const stop = STOP_STORIES[this.nextStop];
     if (stop && (this.runnerState.courseCompleted || this.player.x >= this.stopX(this.nextStop))) {
@@ -206,6 +212,10 @@ export class RosieGameScene extends Phaser.Scene {
 
   getRunnerState(): RunnerState {
     return this.runnerState;
+  }
+
+  isReady(): boolean {
+    return this.ready;
   }
 
   hasSpriteSheet(): boolean {
@@ -219,7 +229,7 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   getCurrentAnimation(): string | undefined {
-    return this.player?.anims?.currentAnim?.key;
+    return this.player?.anims?.getName();
   }
 
   triggerStumble(): void {

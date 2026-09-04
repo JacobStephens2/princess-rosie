@@ -73,7 +73,7 @@ test("Princess Rosie and Stella gallop forward automatically along Storybook Gro
 
   // Initial state on Storybook Ground
   await expect.poll(async () => {
-    return (await page.evaluate(() => window.__ROSIE_RUNNER__?.getState()))?.isGrounded;
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.() && window.__ROSIE_RUNNER__?.getState()?.isGrounded);
   }).toBe(true);
 
   const initial = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
@@ -98,7 +98,7 @@ test("Gallop and Flutter input: jump on tap, flutter-glide on hold, mid-air flap
 
   // Wait for runner scene to be active and grounded
   await expect.poll(async () => {
-    return (await page.evaluate(() => window.__ROSIE_RUNNER__?.getState()))?.isGrounded;
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.() && window.__ROSIE_RUNNER__?.getState()?.isGrounded);
   }).toBe(true);
 
   // 1. Tapping Spacebar triggers an immediate jump
@@ -176,7 +176,7 @@ test("multi-state Rosie and Stella sprite sheet animates gallop, leap, flutter, 
 
   // 1. Verify multi-state sprite sheet is loaded and animations are registered
   await expect.poll(async () => {
-    return await page.evaluate(() => window.__ROSIE_RUNNER__?.hasSpriteSheet?.());
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.() && window.__ROSIE_RUNNER__?.hasSpriteSheet?.());
   }, { timeout: 4000 }).toBe(true);
 
   // 2. On Storybook Ground, gallop animation is active
@@ -210,7 +210,7 @@ test("multi-state Rosie and Stella sprite sheet animates gallop, leap, flutter, 
     return await page.evaluate(() => window.__ROSIE_RUNNER__?.getCurrentAnimation?.());
   }).toBe("rosie-stella-stumble");
 
-  // Stumble recovers back to gallop without game-over or life loss
+  // Stumble recovers back to gallop
   await expect.poll(async () => {
     return await page.evaluate(() => window.__ROSIE_RUNNER__?.getCurrentAnimation?.());
   }, { timeout: 3000 }).toBe("rosie-stella-gallop");

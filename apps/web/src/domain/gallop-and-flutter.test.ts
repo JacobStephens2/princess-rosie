@@ -191,7 +191,7 @@ describe("Gallop and Flutter Runner", () => {
       expect(stumbleDistance).toBeCloseTo(gallopDistance * 0.6, 2);
     });
 
-    test("Playful Stumble recovers smoothly back to gallop without penalty or life loss", () => {
+    test("Playful Stumble recovers smoothly back to gallop", () => {
       const galloping = createRunnerState({ isGrounded: true, mode: "galloping" });
       const stumbled = triggerPlayfulStumble(galloping, 0.4);
 
