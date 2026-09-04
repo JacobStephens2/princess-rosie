@@ -203,6 +203,7 @@ var _rendering := false
 @onready var _flight_background: TextureRect = %FlightBackground
 @onready var _place_background: TextureRect = %PlaceBackground
 @onready var _place_visuals: PlaceVisuals = %PlaceVisuals
+@onready var _cameo_family_guest: TextureRect = %CameoFamilyGuest
 @onready var _birthday_star_sprite: TextureRect = %BirthdayStarSprite
 @onready var _family_guest: TextureRect = %FamilyGuest
 @onready var _rainbow_path_treatment: TextureRect = %RainbowPathTreatment
@@ -496,6 +497,7 @@ func storybook_stage_evidence() -> Dictionary:
 		"celebration_stars": _celebration_stars.visual_evidence(),
 		"flight_character_center": _flight_character.position + _flight_character.pivot_offset,
 		"flight_character_scale": _flight_character.scale,
+		"place_cameo": _place_cameo_evidence(),
 		"birthday_star_approach": _birthday_star_approach_evidence(),
 		"birthday_star_moment_composition": _birthday_star_moment_composition_evidence(),
 		"flight_character_visible": (
@@ -512,6 +514,60 @@ func storybook_stage_evidence() -> Dictionary:
 # the cover without introducing a second window or a resumable pause state.
 func _presented_state() -> PresentationState:
 	return PresentationState.COVER if _state == PresentationState.GROWN_UP_CORNER else _state
+
+
+func _cameo_opacity(progress: float) -> float:
+	const CAMEO_START := 0.16
+	const CAMEO_FADE_IN_END := 0.22
+	const CAMEO_FADE_OUT_START := 0.43
+	const CAMEO_END := 0.49
+	if progress < CAMEO_START or progress > CAMEO_END:
+		return 0.0
+	if progress < CAMEO_FADE_IN_END:
+		return (progress - CAMEO_START) / (CAMEO_FADE_IN_END - CAMEO_START)
+	if progress <= CAMEO_FADE_OUT_START:
+		return 1.0
+	return 1.0 - (progress - CAMEO_FADE_OUT_START) / (CAMEO_END - CAMEO_FADE_OUT_START)
+
+
+func _current_cameo_opacity() -> float:
+	if _presented_state() != PresentationState.ACTIVE_PLAY or _journey_phase != PHASE_PLACE_FLIGHT:
+		return 0.0
+	return _cameo_opacity(_place_progress)
+
+
+func _stage_dimensions() -> Vector2:
+	return _stage.size if _stage != null and _stage.size.x > 0.0 and _stage.size.y > 0.0 else Vector2(1280.0, 720.0)
+
+
+# One mid-passage scenic sighting establishes who the Place is for, clearing the Storybook
+# Stage well before the Birthday Star approach begins.
+func _render_place_cameo_presentation() -> void:
+	var place: Dictionary = _current_place()
+	var opacity := _current_cameo_opacity()
+	var guest_texture: Variant = _family_guest_textures.get(place.get("id", ""))
+	_cameo_family_guest.texture = guest_texture if guest_texture is Texture2D else null
+	_cameo_family_guest.visible = opacity > 0.0
+	_cameo_family_guest.modulate.a = opacity
+
+
+func _place_cameo_evidence() -> Dictionary:
+	var place: Dictionary = _current_place()
+	var cameo := PLACE_CONTENT.cameo(place)
+	var opacity := _current_cameo_opacity()
+	var stage_size := _stage_dimensions()
+	var authored_pos := PLACE_CONTENT.cameo_stage_position(place)
+	return {
+		"visible": _layer_visible(_cameo_family_guest) and opacity > 0.0,
+		"family_guest": str(place.get("familyGuest", "")),
+		"action": str(cameo.get("action", "")),
+		"opacity": opacity,
+		"stage_position": Vector2(authored_pos.x * stage_size.x, authored_pos.y * stage_size.y),
+		"stage_width": stage_size.x * PLACE_CONTENT.cameo_stage_width(place),
+		"current_center": _cameo_family_guest.position + _cameo_family_guest.pivot_offset,
+		"current_scale": _cameo_family_guest.scale,
+		"progress": _place_progress,
+	}
 
 
 # The Family Guest waits beside her Birthday Star for as long as it takes to gather it;
@@ -1194,6 +1250,7 @@ func _process(delta: float) -> void:
 	)
 	_flight_character.scale = Vector2.ONE * (1.0 + character_breath * 0.006)
 	_apply_place_traversal_presentation()
+	_apply_place_cameo_presentation()
 	_apply_birthday_star_flight_presentation()
 	_apply_birthday_castle_approach_presentation()
 
@@ -1300,8 +1357,10 @@ func _render_presentation() -> void:
 		"observed_interactions": _observed_interactions,
 		"playful_bump_wobble": _playful_bump_wobble_seconds > 0.0,
 	})
+	_render_place_cameo_presentation()
 	_render_birthday_star_presentation()
 	_apply_place_traversal_presentation()
+	_apply_place_cameo_presentation()
 	_apply_birthday_star_flight_presentation()
 	_apply_birthday_castle_approach_presentation()
 	_continue_button.text = (
@@ -1482,6 +1541,16 @@ func _validate_places() -> Dictionary:
 				}
 		if not place.get("playfulBump") is Dictionary:
 			return {"ok": false, "error": "Place %s has no Playful Bump" % place.get("id", "?")}
+		var cameo := PLACE_CONTENT.cameo(place)
+		if cameo.is_empty():
+			return {"ok": false, "error": "Place %s has no Place Cameo" % place.get("id", "?")}
+		if PLACE_CONTENT.cameo_action(place).is_empty():
+			return {"ok": false, "error": "Place %s cameo has no action" % place.get("id", "?")}
+		var cameo_pos := PLACE_CONTENT.cameo_stage_position(place)
+		if cameo_pos.x <= 0.0 or cameo_pos.x >= 1.0 or cameo_pos.y <= 0.0 or cameo_pos.y >= 1.0:
+			return {"ok": false, "error": "Place %s cameo stagePosition is outside stage" % place.get("id", "?")}
+		if PLACE_CONTENT.cameo_stage_width(place) <= 0.0 or PLACE_CONTENT.cameo_stage_width(place) >= 1.0:
+			return {"ok": false, "error": "Place %s cameo stageWidth is invalid" % place.get("id", "?")}
 		for altitude_band: String in PLACE_CONTENT.ALTITUDE_BANDS:
 			if PLACE_CONTENT.interaction(place, altitude_band).is_empty():
 				return {
@@ -1544,6 +1613,30 @@ func _apply_place_traversal_presentation() -> void:
 		-_place_progress * 180.0
 		+ sin(_authored_motion_seconds * 0.24) * -4.0
 	)
+
+
+func _apply_place_cameo_presentation() -> void:
+	if not is_node_ready() or not _cameo_family_guest.visible:
+		return
+	var place: Dictionary = _current_place()
+	var stage_size := _stage_dimensions()
+	var stage_pos := PLACE_CONTENT.cameo_stage_position(place)
+	var stage_width_fraction := PLACE_CONTENT.cameo_stage_width(place)
+	var width := stage_size.x * stage_width_fraction
+	var texture_aspect := 1.5
+	if _cameo_family_guest.texture != null:
+		var tex_size := _cameo_family_guest.texture.get_size()
+		if tex_size.x > 0.0:
+			texture_aspect = tex_size.y / tex_size.x
+	var height := width * texture_aspect
+	_cameo_family_guest.size = Vector2(width, height)
+	_cameo_family_guest.pivot_offset = Vector2(width * 0.5, height * 0.5)
+
+	var breathe := sin(_authored_motion_seconds * 2.1)
+	_cameo_family_guest.scale = Vector2.ONE * (1.0 + breathe * 0.012)
+	var base_center := Vector2(stage_pos.x * stage_size.x, stage_pos.y * stage_size.y)
+	var center := base_center + Vector2(0.0, breathe * 2.0)
+	_cameo_family_guest.position = center - _cameo_family_guest.pivot_offset
 
 
 func _apply_birthday_castle_approach_presentation() -> void:

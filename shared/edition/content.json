@@ -68,6 +68,14 @@
       "familyGuestIllustration": "family-guest.mom",
       "illustration": "flight.rose-garden-background",
       "tint": "#ffd7e6",
+      "cameo": {
+        "stagePosition": {
+          "x": 0.59,
+          "y": 0.46
+        },
+        "stageWidth": 0.11,
+        "action": "tends the waking roses"
+      },
       "interactions": [
         {
           "id": "awakening-roses",
@@ -98,6 +106,14 @@
       "familyGuestIllustration": "family-guest.gram",
       "illustration": "lacewood.background",
       "tint": "#e8f2ff",
+      "cameo": {
+        "stagePosition": {
+          "x": 0.61,
+          "y": 0.44
+        },
+        "stageWidth": 0.10,
+        "action": "follows a silver ribbon"
+      },
       "interactions": [
         {
           "id": "silver-ribbons",
@@ -128,6 +144,14 @@
       "familyGuestIllustration": "family-guest.pop",
       "illustration": "abbey.background",
       "tint": "#ffe6b8",
+      "cameo": {
+        "stagePosition": {
+          "x": 0.60,
+          "y": 0.43
+        },
+        "stageWidth": 0.10,
+        "action": "listens beneath the golden bells"
+      },
       "awakensOnEveryCrossing": true,
       "interactions": [
         {
@@ -177,6 +201,14 @@
       "familyGuestIllustration": "family-guest.beasley",
       "illustration": "cloister.background",
       "tint": "#dfeaff",
+      "cameo": {
+        "stagePosition": {
+          "x": 0.60,
+          "y": 0.60
+        },
+        "stageWidth": 0.09,
+        "action": "pounces after Stella’s sparkles"
+      },
       "interactions": [
         {
           "id": "sunlit-arches",
@@ -207,6 +239,14 @@
       "familyGuestIllustration": "family-guest.uncle",
       "illustration": "pellegrino-peak.background",
       "tint": "#ffe0c2",
+      "cameo": {
+        "stagePosition": {
+          "x": 0.60,
+          "y": 0.45
+        },
+        "stageWidth": 0.10,
+        "action": "watches the flower petals lift"
+      },
       "interactions": [
         {
           "id": "flower-petal-updraft",
@@ -237,6 +277,14 @@
       "familyGuestIllustration": "family-guest.aunt",
       "illustration": "sapphire-sea.background",
       "tint": "#c8ecff",
+      "cameo": {
+        "stagePosition": {
+          "x": 0.59,
+          "y": 0.45
+        },
+        "stageWidth": 0.10,
+        "action": "waves from the luminous cove"
+      },
       "interactions": [
         {
           "id": "open-water-wave-crests",
