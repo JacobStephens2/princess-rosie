@@ -13,9 +13,12 @@ import {
   updateRunner,
   triggerPlayfulStumble,
   getSpriteAnimationState,
+  checkObstacleEncounters,
   SPRITE_ANIMATIONS,
   DEFAULT_RUNNER_CONFIG,
+  DEFAULT_ROSE_GARDEN_OBSTACLES,
   type RunnerState,
+  type PlayfulObstacle,
 } from "../domain/gallop-and-flutter";
 import { STOP_STORIES, type FamilyGuest, type StopStory } from "./content";
 
@@ -94,7 +97,8 @@ const LANDSCAPE_DRAWERS: Record<StarStop, LandscapeDrawer> = {
 
 export interface GameCallbacks {
   onBirthdayStar: (stop: StopStory, count: number, isFinal: boolean) => void;
-  onBump: () => void;
+  onStumble: () => void;
+  onNearMiss?: (obstacle: PlayfulObstacle) => void;
   onCloudRest: () => void;
   onCelebration: () => void;
 }
@@ -109,6 +113,8 @@ export class RosieGameScene extends Phaser.Scene {
   private frozen = false;
   private nextStop = 0;
   private readonly guests = new Map<StarStop, Phaser.GameObjects.Container>();
+  private readonly obstacles: PlayfulObstacle[] = [...DEFAULT_ROSE_GARDEN_OBSTACLES];
+  private readonly obstacleContainers = new Map<string, Phaser.GameObjects.Container>();
   private sparkleTrail!: Phaser.GameObjects.Particles.ParticleEmitter;
   private ready = false;
 
@@ -136,6 +142,7 @@ export class RosieGameScene extends Phaser.Scene {
     this.frozen = false;
     this.ready = false;
     this.guests.clear();
+    this.obstacleContainers.clear();
     this.createTextures();
     this.createAnimations();
     this.createWorld();
@@ -188,6 +195,15 @@ export class RosieGameScene extends Phaser.Scene {
 
     this.runnerState = updateRunner(this.runnerState, deltaSeconds, isFlutterHeld);
 
+    const encounter = checkObstacleEncounters(this.runnerState, this.obstacles);
+    this.runnerState = encounter.state;
+
+    if (encounter.stumbledObstacle) {
+      this.handleObstacleStumble(encounter.stumbledObstacle);
+    } else if (encounter.nearMissObstacle) {
+      this.handleObstacleNearMiss(encounter.nearMissObstacle);
+    }
+
     this.player.x = this.runnerState.x;
     this.player.y = this.runnerState.y;
 
@@ -236,7 +252,11 @@ export class RosieGameScene extends Phaser.Scene {
     if (this.frozen) return;
     this.runnerState = triggerPlayfulStumble(this.runnerState);
     this.player.play(SPRITE_ANIMATIONS.stumble.key, false);
-    this.callbacks.onBump();
+    this.callbacks.onStumble();
+  }
+
+  getObstacles(): readonly PlayfulObstacle[] {
+    return this.obstacles;
   }
 
   getJourney(): Journey {
@@ -395,7 +415,71 @@ export class RosieGameScene extends Phaser.Scene {
       this.guests.set(stop.id, this.createGuest(this.stopX(index) + 115, 575, stop.guest));
     });
 
+    this.obstacles.forEach((obstacle) => {
+      const container = this.createObstacle(obstacle);
+      this.obstacleContainers.set(obstacle.id, container);
+    });
+
     this.drawCastle(backgrounds, WORLD_WIDTH - 850, 520);
+  }
+
+  private createObstacle(obstacle: PlayfulObstacle): Phaser.GameObjects.Container {
+    const container = this.add.container(obstacle.x, obstacle.y).setDepth(15);
+    container.setName(`obstacle-${obstacle.id}`);
+
+    const bush = this.add.graphics();
+    bush.fillStyle(0x3e7a46, 1);
+    bush.fillEllipse(0, -obstacle.height * 0.45, obstacle.width, obstacle.height * 0.85);
+    bush.fillStyle(0x5ca364, 1);
+    bush.fillCircle(-obstacle.width * 0.22, -obstacle.height * 0.5, obstacle.width * 0.28);
+    bush.fillCircle(obstacle.width * 0.22, -obstacle.height * 0.5, obstacle.width * 0.28);
+    bush.fillCircle(0, -obstacle.height * 0.65, obstacle.width * 0.32);
+
+    bush.fillStyle(0xf05a9d, 1);
+    bush.fillCircle(-14, -obstacle.height * 0.48, 9);
+    bush.fillCircle(14, -obstacle.height * 0.42, 10);
+    bush.fillCircle(0, -obstacle.height * 0.72, 11);
+
+    bush.fillStyle(0xffd65e, 1);
+    bush.fillCircle(-14, -obstacle.height * 0.48, 3.5);
+    bush.fillCircle(14, -obstacle.height * 0.42, 3.5);
+    bush.fillCircle(0, -obstacle.height * 0.72, 4);
+
+    container.add(bush);
+    return container;
+  }
+
+  private handleObstacleStumble(obstacle: PlayfulObstacle): void {
+    this.player.play(SPRITE_ANIMATIONS.stumble.key, false);
+    const container = this.obstacleContainers.get(obstacle.id);
+    if (container) {
+      this.tweens.add({
+        targets: container,
+        angle: { from: -7, to: 7 },
+        yoyo: true,
+        repeat: 2,
+        duration: 75,
+        onComplete: () => {
+          container.angle = 0;
+        },
+      });
+    }
+    this.callbacks.onStumble();
+  }
+
+  private handleObstacleNearMiss(obstacle: PlayfulObstacle): void {
+    this.callbacks.onNearMiss?.(obstacle);
+    const shimmer = this.add.star(obstacle.x, obstacle.y - obstacle.height - 18, 5, 8, 18, 0xfff7c8, 1).setDepth(25);
+    this.tweens.add({
+      targets: shimmer,
+      scale: { from: 0.6, to: 1.8 },
+      alpha: { from: 1, to: 0 },
+      y: shimmer.y - 30,
+      angle: 90,
+      duration: 550,
+      ease: "Sine.easeOut",
+      onComplete: () => shimmer.destroy(),
+    });
   }
 
   private drawClouds(graphics: Phaser.GameObjects.Graphics, start: number, index: number): void {

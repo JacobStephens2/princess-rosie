@@ -16,6 +16,7 @@ export interface RosieRunnerInterface {
   hasSpriteSheet?: () => boolean;
   getCurrentAnimation?: () => string | undefined;
   triggerStumble?: () => void;
+  getObstacles?: () => readonly import("./domain/gallop-and-flutter").PlayfulObstacle[];
 }
 
 declare global {
@@ -136,7 +137,8 @@ function startGame(): void {
   updateStars(0);
   scene = new RosieGameScene({
     onBirthdayStar: showBirthdayStar,
-    onBump: () => sound.play("bump"),
+    onStumble: () => sound.play("stumble"),
+    onNearMiss: () => sound.play("near-miss"),
     onCloudRest: showCloudRest,
     onCelebration: showEnding,
   });
@@ -332,6 +334,7 @@ window.__ROSIE_RUNNER__ = {
   hasSpriteSheet: () => scene?.hasSpriteSheet() ?? false,
   getCurrentAnimation: () => scene?.getCurrentAnimation(),
   triggerStumble: () => scene?.triggerStumble(),
+  getObstacles: () => scene?.getObstacles() ?? [],
 };
 
 renderDots();
