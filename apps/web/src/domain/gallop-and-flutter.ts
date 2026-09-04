@@ -168,16 +168,11 @@ export function updateRunner(
   let nextVelocityY = state.velocityY;
   let nextGrounded = state.isGrounded;
   let nextIsFluttering = false;
-  let nextMode = state.mode;
-
-  if (nextStumbleRemaining === 0 && state.mode === "stumbling") {
-    nextMode = state.isGrounded ? "galloping" : "falling";
-  }
+  const isStumbling = nextStumbleRemaining > 0;
 
   if (!state.isGrounded) {
-    if (flutterHeld && nextVelocityY >= 0 && nextStumbleRemaining === 0) {
+    if (flutterHeld && nextVelocityY >= 0 && !isStumbling) {
       nextIsFluttering = true;
-      nextMode = "fluttering";
       nextVelocityY = Math.min(
         nextVelocityY + config.gravity * 0.25 * deltaSeconds,
         config.flutterMaxFallSpeed
@@ -188,9 +183,6 @@ export function updateRunner(
         nextVelocityY + config.gravity * deltaSeconds,
         config.maxFallSpeed
       );
-      if (nextVelocityY > 0 && nextStumbleRemaining === 0) {
-        nextMode = "falling";
-      }
     }
 
     nextY += nextVelocityY * deltaSeconds;
@@ -203,10 +195,20 @@ export function updateRunner(
       nextVelocityY = 0;
       nextGrounded = true;
       nextIsFluttering = false;
-      if (nextStumbleRemaining === 0) {
-        nextMode = "galloping";
-      }
     }
+  }
+
+  let nextMode: RunnerMode;
+  if (isStumbling) {
+    nextMode = "stumbling";
+  } else if (nextGrounded) {
+    nextMode = "galloping";
+  } else if (nextIsFluttering) {
+    nextMode = "fluttering";
+  } else if (nextVelocityY > 0) {
+    nextMode = "falling";
+  } else {
+    nextMode = state.mode === "flapping" ? "flapping" : "jumping";
   }
 
   const nextCourseCompleted = state.courseCompleted || nextX >= config.courseLength;
