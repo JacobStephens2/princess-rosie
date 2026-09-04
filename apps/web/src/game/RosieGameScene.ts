@@ -11,6 +11,9 @@ import {
   createRunnerState,
   handleJumpInput,
   updateRunner,
+  triggerPlayfulStumble,
+  getSpriteAnimationState,
+  SPRITE_ANIMATIONS,
   DEFAULT_RUNNER_CONFIG,
   type RunnerState,
 } from "../domain/gallop-and-flutter";
@@ -100,17 +103,14 @@ export class RosieGameScene extends Phaser.Scene {
   private readonly callbacks: GameCallbacks;
   private journey: Journey = createJourney();
   private runnerState: RunnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
-  private player!: Phaser.GameObjects.Container;
+  private player!: Phaser.GameObjects.Sprite;
   private spaceKey: Phaser.Input.Keyboard.Key | undefined;
   private touchHeld = false;
   private frozen = false;
   private nextStop = 0;
   private readonly guests = new Map<StarStop, Phaser.GameObjects.Container>();
-  private wing!: Phaser.GameObjects.Ellipse;
-  private frontLeg!: Phaser.GameObjects.Ellipse;
-  private backLeg!: Phaser.GameObjects.Ellipse;
   private sparkleTrail!: Phaser.GameObjects.Particles.ParticleEmitter;
-  private gallopTimer = 0;
+  private ready = false;
 
   constructor(callbacks: GameCallbacks) {
     super("rosie-adventure");
@@ -118,6 +118,10 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   preload(): void {
+    this.load.spritesheet("rosie-stella", "assets/rosie-stella-spritesheet.png", {
+      frameWidth: 256,
+      frameHeight: 256,
+    });
     STOP_STORIES.forEach((stop) => {
       if (stop.placeIllustration) {
         this.load.image(`place-illustration-${stop.id}`, stop.placeIllustration);
@@ -130,8 +134,10 @@ export class RosieGameScene extends Phaser.Scene {
     this.runnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
     this.nextStop = 0;
     this.frozen = false;
+    this.ready = false;
     this.guests.clear();
     this.createTextures();
+    this.createAnimations();
     this.createWorld();
     this.player = this.createPlayer(this.runnerState.x, this.runnerState.y);
 
@@ -152,7 +158,7 @@ export class RosieGameScene extends Phaser.Scene {
       frequency: 130,
       quantity: 1,
       follow: this.player,
-      followOffset: { x: -105, y: 20 },
+      followOffset: { x: -65, y: 15 },
     });
     particles.setDepth(18);
     this.sparkleTrail = particles;
@@ -162,23 +168,18 @@ export class RosieGameScene extends Phaser.Scene {
       this.spaceKey?.removeAllListeners();
       this.input.removeAllListeners();
     });
+    this.ready = true;
   }
 
   jumpInput(): void {
     if (this.frozen) return;
     this.runnerState = handleJumpInput(this.runnerState);
     if (this.runnerState.mode === "flapping") {
-      this.tweens.add({
-        targets: this.wing,
-        rotation: -0.95,
-        scaleY: 1.25,
-        yoyo: true,
-        duration: 90,
-      });
+      this.player.play(SPRITE_ANIMATIONS.leap.key, false);
     }
   }
 
-  update(time: number, delta: number): void {
+  update(_time: number, delta: number): void {
     if (this.frozen) return;
 
     const pointerHeld = this.input.activePointer?.isDown ?? false;
@@ -190,21 +191,18 @@ export class RosieGameScene extends Phaser.Scene {
     this.player.x = this.runnerState.x;
     this.player.y = this.runnerState.y;
 
-    if (this.runnerState.isGrounded) {
-      this.gallopTimer += deltaSeconds * 14;
-      const legAngle = Math.sin(this.gallopTimer) * 0.35;
-      this.frontLeg?.setRotation(-0.55 + legAngle);
-      this.backLeg?.setRotation(0.45 - legAngle);
-      this.player.setRotation(Math.sin(this.gallopTimer * 0.5) * 0.025);
-    } else {
-      if (this.runnerState.mode === "fluttering") {
-        this.wing?.setRotation(-0.5 + Math.sin(time * 0.05) * 0.4);
-        this.player.rotation = 0;
-      } else {
-        const targetAngle = Phaser.Math.Clamp(this.runnerState.velocityY * 0.03, -10, 12);
-        this.player.rotation = Phaser.Math.DegToRad(targetAngle);
-      }
+    const animState = getSpriteAnimationState(this.runnerState);
+    const animConfig = SPRITE_ANIMATIONS[animState];
+    if (this.player.anims.getName() !== animConfig.key) {
+      this.player.play(animConfig.key, true);
     }
+
+    let targetAngle = 0;
+    if (!this.runnerState.isGrounded && animState !== "flutter" && animState !== "stumble") {
+      const deg = Phaser.Math.Clamp(this.runnerState.velocityY * 0.025, -8, 10);
+      targetAngle = Phaser.Math.DegToRad(deg);
+    }
+    this.player.rotation = Phaser.Math.Linear(this.player.rotation, targetAngle, Math.min(1, deltaSeconds * 14));
 
     const stop = STOP_STORIES[this.nextStop];
     if (stop && (this.runnerState.courseCompleted || this.player.x >= this.stopX(this.nextStop))) {
@@ -214,6 +212,31 @@ export class RosieGameScene extends Phaser.Scene {
 
   getRunnerState(): RunnerState {
     return this.runnerState;
+  }
+
+  isReady(): boolean {
+    return this.ready;
+  }
+
+  hasSpriteSheet(): boolean {
+    return (
+      this.textures.exists("rosie-stella") &&
+      this.anims.exists(SPRITE_ANIMATIONS.gallop.key) &&
+      this.anims.exists(SPRITE_ANIMATIONS.leap.key) &&
+      this.anims.exists(SPRITE_ANIMATIONS.flutter.key) &&
+      this.anims.exists(SPRITE_ANIMATIONS.stumble.key)
+    );
+  }
+
+  getCurrentAnimation(): string | undefined {
+    return this.player?.anims?.getName();
+  }
+
+  triggerStumble(): void {
+    if (this.frozen) return;
+    this.runnerState = triggerPlayfulStumble(this.runnerState);
+    this.player.play(SPRITE_ANIMATIONS.stumble.key, false);
+    this.callbacks.onBump();
   }
 
   getJourney(): Journey {
@@ -286,6 +309,16 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   private createTextures(): void {
+    if (!this.textures.exists("rosie-stella")) {
+      const canvas = this.textures.createCanvas("rosie-stella", 1024, 1024);
+      if (canvas) {
+        for (let i = 0; i < 16; i += 1) {
+          const col = i % 4;
+          const row = Math.floor(i / 4);
+          canvas.add(i, 0, col * 256, row * 256, 256, 256);
+        }
+      }
+    }
     if (this.textures.exists("puff-cloud")) return;
     const cloud = this.make.graphics({ x: 0, y: 0 });
     cloud.fillStyle(0x768eb6, .9);
@@ -313,6 +346,23 @@ export class RosieGameScene extends Phaser.Scene {
     sparkle.fillTriangle(6, 0, 8, 6, 4, 6).fillTriangle(6, 12, 8, 6, 4, 6);
     sparkle.generateTexture("sparkle", 12, 12);
     sparkle.destroy();
+  }
+
+  private createAnimations(): void {
+    if (!this.textures.exists("rosie-stella")) return;
+    Object.values(SPRITE_ANIMATIONS).forEach((anim) => {
+      if (!this.anims.exists(anim.key)) {
+        this.anims.create({
+          key: anim.key,
+          frames: this.anims.generateFrameNumbers("rosie-stella", {
+            start: anim.startFrame,
+            end: anim.endFrame,
+          }),
+          frameRate: anim.frameRate,
+          repeat: anim.repeat,
+        });
+      }
+    });
   }
 
   private createWorld(): void {
@@ -402,36 +452,11 @@ export class RosieGameScene extends Phaser.Scene {
     return guest;
   }
 
-  private createPlayer(x: number, y: number): Phaser.GameObjects.Container {
-    const player = this.add.container(x, y).setDepth(20);
-    const tailColors = [0xe95ca6, 0xf4a25f, 0xf5d75f, 0x63c984, 0x64bce2, 0x9171d0];
-    const tails = tailColors.map((color, index) => this.add.ellipse(-93 - index * 7, 22 + index * 4, 86, 15, color).setRotation(-.2 + index * .06));
-    const backWing = this.add.ellipse(-34, -30, 118, 43, 0xa88be1, .72).setRotation(-.6);
-    this.wing = this.add.ellipse(-18, -48, 130, 48, 0xc7aff0, .95).setRotation(-.72);
-    const unicornBody = this.add.ellipse(0, 8, 184, 88, 0xfffbf3).setStrokeStyle(4, 0xd9b9d4);
-    const legs = [this.add.ellipse(-42, 48, 26, 72, 0xfffbf3).setRotation(.45), this.add.ellipse(45, 48, 26, 72, 0xfffbf3).setRotation(-.55)];
-    this.backLeg = legs[0]!;
-    this.frontLeg = legs[1]!;
-    const neck = this.add.ellipse(69, -22, 62, 108, 0xfffbf3).setRotation(-.25);
-    const head = this.add.ellipse(99, -65, 86, 61, 0xfffbf3).setStrokeStyle(3, 0xd9b9d4);
-    const ear = this.add.triangle(77, -107, 0, 35, 18, 0, 35, 36, 0xffeaf4);
-    const eye = this.add.circle(117, -75, 7, 0x3f3456);
-    const smile = this.add.arc(126, -52, 13, 10, 160, false, 0, 0).setStrokeStyle(3, 0xc66d91);
-    const mane = [0xe95ca6, 0x9e77d1, 0x6dc9dc].map((color, index) => this.add.circle(67 - index * 8, -75 + index * 21, 18, color));
-    const hornColors = [0xf164a9, 0xf7a85b, 0xf5d65d, 0x63c985, 0x5bbce3, 0x9473d1];
-    const horn = hornColors.map((color, index) => this.add.rectangle(91 + index * 5, -118 - index * 9, 13 - index, 17, color).setRotation(.48));
-
-    const dress = this.add.triangle(-6, -39, 0, 85, 70, 85, 34, 0, 0xe94f9b).setStrokeStyle(3, 0xb83276);
-    const rosieHead = this.add.circle(-3, -93, 27, 0xffd7bd);
-    const hair = this.add.circle(-10, -103, 29, 0xf0c36a);
-    const hairBack = this.add.ellipse(-31, -76, 38, 62, 0xf0c36a).setRotation(.2);
-    const face = this.add.circle(5, -94, 3, 0x553146);
-    const crown = this.add.triangle(-7, -137, 0, 27, 17, 0, 34, 27, 0xffd65e).setStrokeStyle(2, 0xd18a2a);
-
-    player.add([...tails, backWing, this.wing, ...legs, unicornBody, neck, head, ear, ...mane, ...horn, eye, smile, hairBack, dress, hair, rosieHead, face, crown]);
+  private createPlayer(x: number, y: number): Phaser.GameObjects.Sprite {
+    const player = this.add.sprite(x, y, "rosie-stella").setDepth(20);
+    player.setOrigin(0.5, 0.8);
     player.setScale(0.72);
-    this.tweens.add({ targets: this.wing, rotation: -.28, scaleY: .75, yoyo: true, repeat: -1, duration: 220, ease: "Sine.easeInOut" });
-    this.tweens.add({ targets: tails, angle: "+=9", yoyo: true, repeat: -1, duration: 680, ease: "Sine.easeInOut", stagger: 55 });
+    player.play(SPRITE_ANIMATIONS.gallop.key);
     return player;
   }
 
