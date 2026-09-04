@@ -165,17 +165,103 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
   z-index: 5;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
-  align-items: center;
+  align-items: start;
   pointer-events: none;
 }
 
-.logo-small {
+.game-hud__left {
   justify-self: start;
-  padding: 8px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.logo-small {
+  padding: 4px 14px;
   color: white;
   font: 900 16px/1 ui-rounded, "Arial Rounded MT Bold", sans-serif;
   letter-spacing: .02em;
   text-shadow: 0 2px 8px rgba(79,40,80,.5);
+}
+
+.constellation-meter {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: rgba(43, 20, 48, 0.68);
+  backdrop-filter: blur(8px);
+  border: 2px solid rgba(255, 235, 175, 0.45);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(45, 15, 50, 0.25);
+  transition: all 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.constellation-meter__glow {
+  position: absolute;
+  inset: -60%;
+  background: radial-gradient(circle, rgba(255, 225, 110, 0.85) 0%, rgba(255, 185, 45, 0.45) 45%, transparent 75%);
+  opacity: 0;
+  transform: scale(0.6);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+  pointer-events: none;
+}
+
+.constellation-meter.has-light {
+  border-color: rgba(255, 245, 200, 0.95);
+  background: rgba(72, 35, 78, 0.85);
+  box-shadow: 0 0 22px rgba(255, 215, 80, 0.7), 0 4px 16px rgba(45, 15, 50, 0.25);
+}
+
+.constellation-meter.has-light .constellation-meter__glow {
+  opacity: 0.88;
+  transform: scale(1);
+}
+
+.constellation-meter__symbol {
+  position: relative;
+  z-index: 1;
+  color: #ffd861;
+  font-size: 16px;
+  line-height: 1;
+  text-shadow: 0 0 6px #fff;
+  animation: star-spin 3s ease-in-out infinite;
+}
+
+.constellation-meter__nodes {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.constellation-node {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 14px;
+  line-height: 1;
+  transition: all 0.25s ease;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.constellation-node.is-lit {
+  color: #fff4a3;
+  text-shadow: 0 0 10px #ffd966, 0 0 16px #ffae19;
+  transform: scale(1.25);
+}
+
+.constellation-meter.is-sparkling {
+  animation: constellation-sparkle 0.4s ease-out;
+}
+
+@keyframes constellation-sparkle {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 .star-tracker {

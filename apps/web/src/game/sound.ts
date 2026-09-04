@@ -1,4 +1,17 @@
-export type SoundName = "star" | "bump" | "stumble" | "near-miss" | "rest" | "button" | "celebrate";
+export type SoundName = "star" | "bump" | "stumble" | "near-miss" | "rest" | "button" | "celebrate" | "chime";
+
+export const PENTATONIC_SCALE = [
+  523.25, // C5
+  587.33, // D5
+  659.25, // E5
+  783.99, // G5
+  880.00, // A5
+  1046.50, // C6
+  1174.66, // D6
+  1318.51, // E6
+  1567.98, // G6
+  1760.00, // A6
+] as const;
 
 interface SoundProfile {
   frequencies: readonly number[];
@@ -66,6 +79,14 @@ const SOUND_PROFILES: Record<SoundName, SoundProfile> = {
     volume: 0.11,
     duration: 0.24,
   },
+  chime: {
+    frequencies: [587, 880, 1175, 1760],
+    type: "sine",
+    initialDelay: 0.02,
+    stepDelay: 0.06,
+    volume: 0.13,
+    duration: 0.42,
+  },
 };
 
 export class GameAudio {
@@ -121,6 +142,14 @@ export class GameAudio {
         profile.duration
       )
     );
+  }
+
+  playSparkle(step: number): void {
+    if (!this.context || !this.master || !this.enabled) return;
+    const noteIndex = Math.max(0, step) % PENTATONIC_SCALE.length;
+    const frequency = PENTATONIC_SCALE[noteIndex] ?? 523.25;
+    this.tone(frequency, 0, "sine", 0.13, 0.38);
+    this.tone(frequency * 2, 0.012, "triangle", 0.05, 0.26);
   }
 
   private startMusic(): void {
