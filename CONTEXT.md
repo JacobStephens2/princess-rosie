@@ -4,21 +4,14 @@ A joyful, replayable birthday game centered on a fictional storybook hero inspir
 
 ## Language
 
-**Phaser Edition**:
-The browser-playable edition of Princess Rosie and the Seven Birthday Stars that was made for the birthday and remains deployed. It is frozen at its released state and is no longer revised.
+**Web Edition**:
+The browser-playable edition of Princess Rosie and the Seven Birthday Stars built in Phaser, TypeScript, and Vite, deployed at `rosie.stephens.page`. It is the canonical, active edition under development.
 _Avoid_: Original Edition, Phaser prototype, Phaser Web Edition
 
 **Godot Edition**:
-The native macOS edition of Princess Rosie and the Seven Birthday Stars built in Godot. It is the edition under active development and the one the canonical storybook experience is realized in.
+The previous native macOS prototype built in Godot. It is archived and superseded by the Web Edition.
 _Avoid_: Godot Production Edition, Unity Edition
 
-**Godot Edition Release Candidate**:
-A private, downloadable candidate for Godot Edition v1, published for owner verification before the stable release. Its source tag stays fixed, while its notes and packaging-only assets may be corrected until owner acceptance; it is not itself v1 or a public release.
-_Avoid_: v1, final release, public release
-
-**Runtime Edition Pack**:
-The player-facing form of the Edition Pack bundled with a Godot Edition release, containing only approved content and media required during play. Production provenance, prompts, provider records, build state, and unused masters remain private development records outside it.
-_Avoid_: Full Edition Pack, production archive, source-media bundle
 
 **Princess Rosie**:
 The storybook hero and elder sister through whom the child experiences the adventure. She shares Rosie's name and may use an expressly approved likeness without unrelated identifying personal details.
@@ -56,12 +49,12 @@ _Avoid_: Teleporter, guest collection, seventh returning path
 A deferred, post-MVP interaction concept in which Princess Rosie guides Stella onto one of two equally safe routes that later rejoin. Path Choices are absent from the single-route MVP.
 _Avoid_: Branch, difficulty path, correct route
 
-**Flight Control**:
-The moment-to-moment guidance of Stella along an automatically advancing route: she rises while the child sustains the shared action and settles when it is released. Her height affects gentle contacts, Playful Bumps, and Near Misses without changing story progress or creating failure.
-_Avoid_: Path Choice, scene advance, free flight
+**Gallop and Flutter**:
+The moment-to-moment guidance of Princess Rosie and Stella along an automatically advancing Storybook Ground: Stella gallops forward, leaps on tap, and flutters her magical wings on hold to glide smoothly over obstacles. Avoiding obstacles and catching high-altitude star trails provides delight and musical feedback without creating failure.
+_Avoid_: Flight Control, free flight, path choice, auto-flight
 
 **Single Route**:
-The uninterrupted scenic passage through each MVP place. Flight Control changes Stella's height and encounters along it without changing the destination or story outcome.
+The uninterrupted scenic passage through each MVP place. Gallop and Flutter changes Stella's jumping, fluttering, and encounters along it without changing the destination or story outcome.
 _Avoid_: Fixed animation, Path Choice, branching route
 
 **Stella**:
@@ -124,17 +117,29 @@ _Avoid_: Monte Pellegrino, mountain level
 The sparkling coastal passage before the Birthday Castle comes into view.
 _Avoid_: Water level, Mediterranean Sea
 
-**Bump Floor**:
-The band of heights at the bottom of the Single Route where a place's Playful Bump lives, declared as a margin above the lowest reachable height. Every rung of the Altitude Ladder keeps heights clear of it, so a rung may reach down into the floor but is never wholly inside it. A place may say its floor does not bump.
-_Avoid_: Obstacle, hazard zone, ground, collision layer
+**Storybook Ground**:
+The walkable path along the bottom of the Place Illustration where Stella gallops, lands, and encounters playful obstacles and springboards.
+_Avoid_: Bump Floor, collision layer, floor hazard
 
-**Playful Bump**:
-A soft, place-specific encounter with the Bump Floor that makes Stella wobble without danger. Every bump is a lone wobble, forgotten rather than saved up, and nothing follows from meeting several.
-_Avoid_: Damage, injury, failure, enemy collision
+**Playful Stumble**:
+A soft, bouncy encounter with an obstacle on the Storybook Ground that makes Stella wobble and briefly slow down without danger, injury, or loss of progress.
+_Avoid_: Playful Bump, damage, death, life loss, penalty
+
+**Springboard**:
+A themed, bouncy environmental element (such as a giant rose, abbey bell, or cloud updraft) that joyfully launches Stella high into the sky to reveal the Place Illustration and collect celestial Star Sparkles.
+_Avoid_: Trampoline, jump pad, bounce pad
 
 **Near Miss**:
-The place's answer when Stella comes close to the Bump Floor and rises away without touching it, sounded only once the miss is a fact. It is the one response in the journey earned by flying well, and it answers in every place, including those whose floor does not bump.
+The place's answer when Stella leaps cleanly over an obstacle without touching it, sounding an airy sparkle chime once the clean jump is complete.
 _Avoid_: Dodge, close call, bonus, combo
+
+**Star Sparkle**:
+A floating musical light scattered along high and low paths that chimes an ascending harp or celesta note when gathered during Gallop and Flutter.
+_Avoid_: Coin, point, gem, mini-star
+
+**Storybook Stamp**:
+A celebratory illustrated memento of a Family Guest, awarded upon completing a place's Rainbow Archway and collected into the Birthday Castle celebration album.
+_Avoid_: Achievement, trophy, badge
 
 **Storybook Moment**:
 A short, lightly animated illustrated scene with a few large sentences intended for the Grown-up Helper to read aloud with the child.

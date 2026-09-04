@@ -10,10 +10,11 @@ export interface StopStory {
   icon: string;
   sky: number;
   ground: number;
+  placeIllustration?: string;
 }
 
 export const STOP_STORIES: readonly StopStory[] = [
-  { id: "garden", place: "Rosalia’s Rose Garden", guest: "Mom", moment: "Mom found a Star among Rosalia’s roses!", icon: "🌹", sky: 0x8bd8f1, ground: 0x76bd7a },
+  { id: "garden", place: "Rosalia’s Rose Garden", guest: "Mom", moment: "Mom found a Star among Rosalia’s roses!", icon: "🌹", sky: 0x8bd8f1, ground: 0x76bd7a, placeIllustration: "/assets/rose-garden-place-illustration.png" },
   { id: "lacewood", place: "Zélie’s Lacewood", guest: "Gram", moment: "Gram followed the silver ribbons through Zélie’s Lacewood!", icon: "🎀", sky: 0xb4ddee, ground: 0x5fa273 },
   { id: "abbey", place: "Golden Bell Abbey", guest: "Pop", moment: "Pop rang the bells of the Golden Bell Abbey!", icon: "🔔", sky: 0x92d9f6, ground: 0xd4aa68 },
   { id: "clouds", place: "Cloister of Clouds", guest: "Beasley", moment: "Beasley pounced through the soft clouds!", icon: "🐈", sky: 0x76ccef, ground: 0xe8f7ff },

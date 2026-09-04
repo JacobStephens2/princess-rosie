@@ -5,6 +5,20 @@ import "./style.css";
 import { OPENING_STORYBOOK_MOMENTS_AFTER_COVER, STOP_STORIES, type StopStory } from "./game/content";
 import { GAME_SIZE, RosieGameScene } from "./game/RosieGameScene";
 import { GameAudio } from "./game/sound";
+import { createRunnerState } from "./domain/gallop-and-flutter";
+import { createJourney } from "./domain/journey";
+
+export interface RosieRunnerInterface {
+  getState: () => import("./domain/gallop-and-flutter").RunnerState;
+  getJourney: () => import("./domain/journey").Journey;
+  seekToEnd: () => void;
+}
+
+declare global {
+  interface Window {
+    __ROSIE_RUNNER__?: RosieRunnerInterface;
+  }
+}
 
 const getElement = <T extends HTMLElement>(id: string): T => {
   const element = document.getElementById(id);
@@ -290,7 +304,12 @@ getElement<HTMLButtonElement>("dance-button").addEventListener("click", danceAga
 getElement<HTMLButtonElement>("replay-button").addEventListener("click", () => window.location.reload());
 
 const setTouch = (held: boolean): void => scene?.setTouchHeld(held);
-touchControl.addEventListener("pointerdown", (event) => { event.preventDefault(); touchControl.setPointerCapture(event.pointerId); setTouch(true); });
+touchControl.addEventListener("pointerdown", (event) => {
+  event.preventDefault();
+  touchControl.setPointerCapture(event.pointerId);
+  scene?.jumpInput();
+  setTouch(true);
+});
 touchControl.addEventListener("pointerup", () => setTouch(false));
 touchControl.addEventListener("pointercancel", () => setTouch(false));
 
@@ -300,6 +319,12 @@ document.addEventListener("keydown", (event) => {
   else if (!cloudRest.hidden) { event.preventDefault(); continueFromCloudRest(); }
   else if (!ending.hidden) { event.preventDefault(); danceAgain(); }
 });
+
+window.__ROSIE_RUNNER__ = {
+  getState: () => scene?.getRunnerState() ?? createRunnerState(),
+  getJourney: () => scene?.getJourney() ?? createJourney(),
+  seekToEnd: () => scene?.seekToEnd(),
+};
 
 renderDots();
 OPENING_STORYBOOK_MOMENTS_AFTER_COVER.forEach((momentContent) => void preloadStoryArtwork(momentContent.image));
