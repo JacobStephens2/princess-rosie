@@ -5,6 +5,7 @@ test-results/
 .soundscape-build/
 .DS_Store
 tmp/
+worktrees/
 .godot/
 .godot-ci/
 .import/
