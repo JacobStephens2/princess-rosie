@@ -1,3 +1,5 @@
+import type { StarStop } from "./journey";
+
 export type RunnerMode =
   | "galloping"
   | "jumping"
@@ -47,10 +49,12 @@ export const SPRITE_ANIMATIONS: Record<SpriteAnimationState, SpriteAnimationConf
   },
 };
 
+export type ObstacleType = "rose-bush";
+
 export interface PlayfulObstacle {
   id: string;
-  place: string;
-  type: string;
+  place: StarStop;
+  type: ObstacleType;
   x: number;
   y: number;
   width: number;
@@ -92,19 +96,19 @@ export const DEFAULT_ROSE_GARDEN_OBSTACLES: readonly PlayfulObstacle[] = [
     id: "garden-rose-bush-1",
     place: "garden",
     type: "rose-bush",
-    x: 580,
+    x: 840,
     y: DEFAULT_RUNNER_CONFIG.groundY,
-    width: 60,
-    height: 55,
+    width: 50,
+    height: 40,
   },
   {
     id: "garden-rose-bush-2",
     place: "garden",
     type: "rose-bush",
-    x: 980,
+    x: 1200,
     y: DEFAULT_RUNNER_CONFIG.groundY,
-    width: 65,
-    height: 55,
+    width: 50,
+    height: 40,
   },
 ];
 
@@ -166,7 +170,7 @@ export function checkObstacleEncounters(
   let stumbledObstacle: PlayfulObstacle | undefined;
   let nearMissObstacle: PlayfulObstacle | undefined;
 
-  const playerRadiusX = 35;
+  const playerRadiusX = 16;
 
   for (const obstacle of obstacles) {
     const obsLeft = obstacle.x - obstacle.width / 2;
@@ -186,7 +190,7 @@ export function checkObstacleEncounters(
 
     // Collision check: player is touching or inside the obstacle height
     if (currentState.y > obsTop) {
-      if (!hasStumbled) {
+      if (!hasStumbled && !hasNearMissed) {
         stumbledObstacle = obstacle;
         currentState = {
           ...triggerPlayfulStumble(currentState, config.stumbleDuration),

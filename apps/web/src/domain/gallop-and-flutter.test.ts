@@ -390,6 +390,24 @@ describe("Gallop and Flutter Runner", () => {
       const secondResult = checkObstacleEncounters(jumpedAfterStumble, [obstacle]);
       expect(secondResult.nearMissObstacle).toBeUndefined();
       expect(secondResult.state.nearMissObstacles).not.toContain("test-bush-4");
+
+      // Conversely, an obstacle that earned Near Miss cannot subsequently trigger a stumble upon descending/landing
+      const clearLeap = createRunnerState({
+        x: 600,
+        y: 470,
+        isGrounded: false,
+      });
+      const nearMissResult = checkObstacleEncounters(clearLeap, [obstacle]);
+      expect(nearMissResult.nearMissObstacle?.id).toBe("test-bush-4");
+
+      const landedAfterNearMiss = {
+        ...nearMissResult.state,
+        y: DEFAULT_RUNNER_CONFIG.groundY,
+        isGrounded: true,
+      };
+      const landedResult = checkObstacleEncounters(landedAfterNearMiss, [obstacle]);
+      expect(landedResult.stumbledObstacle).toBeUndefined();
+      expect(landedResult.state.stumbledObstacles).not.toContain("test-bush-4");
     });
   });
 });
