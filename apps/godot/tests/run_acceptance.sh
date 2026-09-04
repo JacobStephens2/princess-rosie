@@ -31,6 +31,7 @@ tests=(
   playful_bump_acceptance.gd
   near_miss_acceptance.gd
   place_presentation_acceptance.gd
+  place_cameo_acceptance.gd
   abbey_acceptance.gd
   cloister_acceptance.gd
   pellegrino_peak_acceptance.gd
