@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { collectBirthdayStar, createJourney } from "./journey";
+import { collectBirthdayStar, createJourney, STAR_STOPS } from "./journey";
 import {
   createRunnerState,
   handleJumpInput,
@@ -16,6 +16,9 @@ import {
   type StarSparkle,
   DEFAULT_ROSE_GARDEN_SPARKLES,
   checkSparkleEncounters,
+  AUTHORED_RAINBOW_ARCHWAYS,
+  DEFAULT_ROSE_GARDEN_ARCHWAY,
+  checkArchwayArrival,
 } from "./gallop-and-flutter";
 
 describe("Gallop and Flutter Runner", () => {
@@ -577,6 +580,64 @@ describe("Gallop and Flutter Runner", () => {
       const landed = updateRunner(airborneWithStreak, 0.1, false);
       expect(landed.isGrounded).toBe(true);
       expect(landed.sparkleStreak).toBe(0);
+    });
+  });
+
+  describe("Family Guest Rainbow Archways and Storybook Stamps", () => {
+    test("every place concludes at an authored Rainbow Archway with that place's Family Guest waiting", () => {
+      expect(DEFAULT_ROSE_GARDEN_ARCHWAY).toBe(AUTHORED_RAINBOW_ARCHWAYS.garden);
+
+      const seenIds = new Set<string>();
+      let previousX = 0;
+
+      for (const stop of STAR_STOPS) {
+        const archway = AUTHORED_RAINBOW_ARCHWAYS[stop];
+        expect(archway).toBeDefined();
+        expect(archway.place).toBe(stop);
+        expect(archway.guest).toBeDefined();
+        expect(archway.width).toBeGreaterThan(0);
+        expect(archway.height).toBeGreaterThan(0);
+        expect(archway.y).toBe(DEFAULT_RUNNER_CONFIG.groundY);
+        expect(archway.x).toBeGreaterThan(previousX);
+        expect(seenIds.has(archway.id)).toBe(false);
+        seenIds.add(archway.id);
+        previousX = archway.x;
+      }
+    });
+
+    test("passing through the Rainbow Archway marks arrival and pauses forward galloping for the reunion moment across places", () => {
+      for (const stop of ["garden", "lacewood", "abbey"] as const) {
+        const archway = AUTHORED_RAINBOW_ARCHWAYS[stop];
+        const approaching = createRunnerState({
+          x: archway.x - 10,
+          y: DEFAULT_RUNNER_CONFIG.groundY,
+          isGrounded: true,
+          mode: "galloping",
+        });
+
+        const beforeArrival = checkArchwayArrival(approaching, archway);
+        expect(beforeArrival.archwayArrival).toBeUndefined();
+        expect(beforeArrival.state.arrivedAtArchway).toBe(false);
+        expect(beforeArrival.state.pausedForReunion).toBe(false);
+
+        // Now Stella reaches the archway
+        const atArchway = createRunnerState({
+          x: archway.x,
+          y: DEFAULT_RUNNER_CONFIG.groundY,
+          isGrounded: true,
+          mode: "galloping",
+        });
+
+        const arrival = checkArchwayArrival(atArchway, archway);
+        expect(arrival.archwayArrival?.id).toBe(archway.id);
+        expect(arrival.state.arrivedAtArchway).toBe(true);
+        expect(arrival.state.pausedForReunion).toBe(true);
+
+        // Verify forward galloping is paused
+        const advanced = updateRunner(arrival.state, 0.5, false);
+        expect(advanced.x).toBe(arrival.state.x);
+        expect(advanced.pausedForReunion).toBe(true);
+      }
     });
   });
 });
