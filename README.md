@@ -2,7 +2,7 @@
 
 A short, joyful flying game made for Rosie to play with a grown-up at Princess Zélie’s very first birthday celebration.
 
-Play at [rosi.stephens.page](https://rosi.stephens.page/).
+Play at [rosie.stephens.page](https://rosie.stephens.page/).
 
 ## Play
 
@@ -19,15 +19,15 @@ Open the deployed game once while online. In Chrome or Edge, use the install ico
 
 ## Develop
 
-The repository contains the deployed Phaser Edition, frozen at its released state, and the native macOS Godot Edition under active development:
+The repository contains the Web Edition under active development and the archived Godot Edition:
 
 ```text
-apps/phaser-original/
+apps/web/
 apps/godot/
 shared/
 ```
 
-The root npm commands operate on the Phaser Edition and preserve the deployable static site in `dist/`. Requires Node.js and npm.
+The root npm commands operate on the Web Edition and preserve the deployable static site in `dist/`. Requires Node.js and npm.
 
 ```sh
 npm install
@@ -44,7 +44,7 @@ npm run test:e2e
 
 The production build is a static site in `dist/`.
 
-To publish a verified Phaser Edition build, follow the [deployment runbook](docs/deployment.md). To construct the private Godot Edition macOS archive, follow the [Godot Edition release runbook](docs/godot-release.md).
+To publish a verified Web Edition build, follow the [deployment runbook](docs/deployment.md). To construct the private Godot Edition macOS archive, follow the [Godot Edition release runbook](docs/godot-release.md).
 
 ## Media
 
