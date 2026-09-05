@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: rosi-production
+  group: rosie-production
   cancel-in-progress: false
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: production
-      url: https://rosi.stephens.page/
+      url: https://rosie.stephens.page/
 
     steps:
       - name: Check out the revision
@@ -64,17 +64,21 @@ jobs:
 
       - name: Verify the live release
         run: |
-          rosi_local_index_sha=$(sha256sum dist/index.html | cut -d ' ' -f 1)
-          rosi_live_index_sha=$(curl --fail --silent --show-error --retry 5 \
-            https://rosi.stephens.page/ | sha256sum | cut -d ' ' -f 1)
-          test "$rosi_local_index_sha" = "$rosi_live_index_sha"
+          rosie_local_index_sha=$(sha256sum dist/index.html | cut -d ' ' -f 1)
+          rosie_live_index_sha=$(curl --fail --silent --show-error --retry 5 \
+            https://rosie.stephens.page/ | sha256sum | cut -d ' ' -f 1)
+          test "$rosie_local_index_sha" = "$rosie_live_index_sha"
+          test "$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
+            http://rosie.stephens.page/)" = 301
           test "$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
             http://rosi.stephens.page/)" = 301
-          for rosi_path in manifest.webmanifest sw.js \
+          test "$(curl --fail --silent --show-error --output /dev/null --write-out '%{http_code}' \
+            https://rosi.stephens.page/)" = 200
+          for rosie_path in manifest.webmanifest sw.js \
             assets/storybook-celebration-preparations.webp \
             assets/storybook-scattered-stars.webp \
-            assets/storybook-rosi-stella-departure.webp
+            assets/storybook-rosie-stella-departure.webp
           do
             test "$(curl --fail --silent --show-error --output /dev/null --write-out '%{http_code}' \
-              "https://rosi.stephens.page/$rosi_path")" = 200
+              "https://rosie.stephens.page/$rosie_path")" = 200
           done
