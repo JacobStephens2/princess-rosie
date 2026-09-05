@@ -22,6 +22,9 @@ export interface RosieRunnerInterface {
   getCollectedSparklesCount?: () => number;
   getSparkleStreak?: () => number;
   getMaxSparkleStreak?: () => number;
+  getArchway?: (stopId?: import("./domain/journey").StarStop) => import("./domain/gallop-and-flutter").RainbowArchway | undefined;
+  isGuestWaving?: (stopId?: import("./domain/journey").StarStop) => boolean;
+  getAcquiredStamps?: () => readonly import("./domain/journey").StarStop[];
 }
 
 declare global {
@@ -143,6 +146,8 @@ function startGame(): void {
   updateConstellationMeter(0);
   scene = new RosieGameScene({
     onBirthdayStar: showBirthdayStar,
+    onStarGatherChime: () => sound.play("star"),
+    onStorybookStampAwarded: () => sound.play("stamp"),
     onStumble: () => sound.play("stumble"),
     onNearMiss: () => sound.play("near-miss"),
     onSpringboard: () => sound.play("chime"),
@@ -167,12 +172,25 @@ function startGame(): void {
 }
 
 function showBirthdayStar(stop: StopStory, count: number, isFinal: boolean): void {
-  sound.play("star");
   updateStars(count);
   finalStarWaiting = isFinal;
   momentPlace.textContent = stop.place;
   momentCopy.textContent = stop.moment;
   momentIcon.textContent = stop.icon;
+
+  const stampIcon = document.getElementById("moment-stamp-icon");
+  if (stampIcon) stampIcon.textContent = stop.stamp.icon;
+  const stampTitle = document.getElementById("moment-stamp-title");
+  if (stampTitle) stampTitle.textContent = stop.stamp.title;
+  const stampGuest = document.getElementById("moment-stamp-guest");
+  if (stampGuest) stampGuest.textContent = `Presented by ${stop.guest}`;
+
+  const stampCard = document.getElementById("moment-stamp");
+  if (stampCard) {
+    stampCard.setAttribute("data-stamp", stop.id);
+    stampCard.setAttribute("aria-label", `${stop.stamp.title} awarded by ${stop.guest}`);
+  }
+
   momentNext.innerHTML = isFinal ? "To the celebration <b aria-hidden=\"true\">★</b>" : "Keep flying <b aria-hidden=\"true\">→</b>";
   moment.hidden = false;
   window.setTimeout(() => momentNext.focus(), 80);
@@ -371,6 +389,9 @@ window.__ROSIE_RUNNER__ = {
   getCollectedSparklesCount: () => scene?.getCollectedSparklesCount() ?? 0,
   getSparkleStreak: () => scene?.getSparkleStreak() ?? 0,
   getMaxSparkleStreak: () => scene?.getMaxSparkleStreak() ?? 0,
+  getArchway: (stopId) => scene?.getArchway(stopId),
+  isGuestWaving: (stopId) => scene?.isGuestWaving(stopId) ?? false,
+  getAcquiredStamps: () => scene?.getAcquiredStamps() ?? [],
 };
 
 renderDots();

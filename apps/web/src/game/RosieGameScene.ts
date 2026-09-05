@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
 import {
+  acquireStorybookStamp,
   collectBirthdayStar,
   createJourney,
   resumeJourney,
@@ -21,10 +22,13 @@ import {
   DEFAULT_ROSE_GARDEN_OBSTACLES,
   DEFAULT_ROSE_GARDEN_SPRINGBOARDS,
   DEFAULT_ROSE_GARDEN_SPARKLES,
+  AUTHORED_RAINBOW_ARCHWAYS,
+  checkArchwayArrival,
   type RunnerState,
   type PlayfulObstacle,
   type Springboard,
   type StarSparkle,
+  type RainbowArchway,
 } from "../domain/gallop-and-flutter";
 import { STOP_STORIES, type FamilyGuest, type StopStory } from "./content";
 
@@ -103,6 +107,8 @@ const LANDSCAPE_DRAWERS: Record<StarStop, LandscapeDrawer> = {
 
 export interface GameCallbacks {
   onBirthdayStar: (stop: StopStory, count: number, isFinal: boolean) => void;
+  onStarGatherChime?: () => void;
+  onStorybookStampAwarded?: (stop: StopStory) => void;
   onStumble: () => void;
   onNearMiss?: (obstacle: PlayfulObstacle) => void;
   onSpringboard?: (springboard: Springboard) => void;
@@ -121,6 +127,8 @@ export class RosieGameScene extends Phaser.Scene {
   private frozen = false;
   private nextStop = 0;
   private readonly guests = new Map<StarStop, Phaser.GameObjects.Container>();
+  private readonly archways = new Map<StarStop, RainbowArchway>();
+  private readonly archwayContainers = new Map<StarStop, Phaser.GameObjects.Container>();
   private readonly obstacles: PlayfulObstacle[] = [...DEFAULT_ROSE_GARDEN_OBSTACLES];
   private readonly obstacleContainers = new Map<string, Phaser.GameObjects.Container>();
   private readonly springboards: Springboard[] = [...DEFAULT_ROSE_GARDEN_SPRINGBOARDS];
@@ -130,6 +138,7 @@ export class RosieGameScene extends Phaser.Scene {
   private totalSparklesCollected = 0;
   private maxSparkleStreak = 0;
   private sparkleTrail!: Phaser.GameObjects.Particles.ParticleEmitter;
+  private reunionInProgress = false;
   private ready = false;
 
   constructor(callbacks: GameCallbacks) {
@@ -154,8 +163,11 @@ export class RosieGameScene extends Phaser.Scene {
     this.runnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
     this.nextStop = 0;
     this.frozen = false;
+    this.reunionInProgress = false;
     this.ready = false;
     this.guests.clear();
+    this.archways.clear();
+    this.archwayContainers.clear();
     this.obstacleContainers.clear();
     this.springboardContainers.clear();
     this.sparkleContainers.clear();
@@ -250,8 +262,15 @@ export class RosieGameScene extends Phaser.Scene {
     this.player.rotation = Phaser.Math.Linear(this.player.rotation, targetAngle, Math.min(1, deltaSeconds * 14));
 
     const stop = STOP_STORIES[this.nextStop];
-    if (stop && (this.runnerState.courseCompleted || this.player.x >= this.stopX(this.nextStop))) {
-      this.gatherStar(stop);
+    if (stop && !this.runnerState.arrivedAtArchway) {
+      const archway = this.archways.get(stop.id) ?? AUTHORED_RAINBOW_ARCHWAYS[stop.id];
+      if (archway) {
+        const encounter = checkArchwayArrival(this.runnerState, archway);
+        if (encounter.archwayArrival) {
+          this.runnerState = encounter.state;
+          this.handleArchwayArrival(stop);
+        }
+      }
     }
   }
 
@@ -312,21 +331,37 @@ export class RosieGameScene extends Phaser.Scene {
     return this.journey;
   }
 
+  getArchway(stopId: StarStop = "garden"): RainbowArchway | undefined {
+    return this.archways.get(stopId);
+  }
+
+  isGuestWaving(stopId: StarStop = "garden"): boolean {
+    const guest = this.guests.get(stopId);
+    return Boolean(guest?.getData("isWaving"));
+  }
+
+  getAcquiredStamps(): readonly StarStop[] {
+    return this.journey.acquiredStamps;
+  }
+
   seekToEnd(): void {
     const stop = STOP_STORIES[this.nextStop];
     if (!stop) return;
+    const archway = this.archways.get(stop.id) ?? AUTHORED_RAINBOW_ARCHWAYS[stop.id];
     this.runnerState = {
       ...this.runnerState,
-      x: this.stopX(this.nextStop),
-      courseCompleted: true,
+      x: archway.x,
     };
     this.player.x = this.runnerState.x;
-    this.gatherStar(stop);
+    const encounter = checkArchwayArrival(this.runnerState, archway);
+    this.runnerState = encounter.state;
+    this.handleArchwayArrival(stop);
   }
 
   setTouchHeld(held: boolean): void { this.touchHeld = held; }
 
   continueAfterBirthdayStar(): void {
+    this.reunionInProgress = false;
     if (this.journey.phase === "celebrating") {
       this.callbacks.onCelebration();
       return;
@@ -334,6 +369,8 @@ export class RosieGameScene extends Phaser.Scene {
     this.runnerState = {
       ...this.runnerState,
       courseCompleted: false,
+      arrivedAtArchway: false,
+      pausedForReunion: false,
     };
     this.resumeMotion();
   }
@@ -361,18 +398,64 @@ export class RosieGameScene extends Phaser.Scene {
     this.sparkleTrail?.resume();
   }
 
-  private gatherStar(stop: StopStory): void {
-    this.journey = collectBirthdayStar(this.journey, stop.id);
-    this.drawRainbowPath(this.stopX(this.nextStop) - 290, 580);
-    this.sendGuestAlongRainbowPath(stop.id);
-    const star = this.children.getByName(`star-${stop.id}`);
-    if (star) {
-      this.tweens.add({ targets: star, scale: 2.4, alpha: 0, angle: 180, duration: 520, ease: "Back.easeIn" });
-    }
-    this.cameras.main.flash(250, 255, 232, 150, false);
-    this.nextStop += 1;
+  private handleArchwayArrival(stop: StopStory): void {
+    if (this.reunionInProgress) return;
+    this.reunionInProgress = true;
+
+    this.runnerState = {
+      ...this.runnerState,
+      arrivedAtArchway: true,
+      pausedForReunion: true,
+      courseCompleted: true,
+    };
     this.pauseMotion();
-    this.time.delayedCall(720, () => {
+
+    const star = this.children.getByName(`star-${stop.id}`) as Phaser.GameObjects.Star | null;
+    if (star) {
+      this.tweens.killTweensOf(star);
+      this.tweens.add({
+        targets: star,
+        x: this.player.x + 25,
+        y: this.player.y - 45,
+        scale: { from: 1.14, to: 1.7 },
+        duration: 480,
+        ease: "Cubic.easeInOut",
+        onComplete: () => {
+          this.callbacks.onStarGatherChime?.();
+          this.journey = collectBirthdayStar(this.journey, stop.id);
+          this.cameras.main.flash(260, 255, 235, 160, false);
+          this.tweens.add({
+            targets: star,
+            scale: 2.8,
+            alpha: 0,
+            angle: 180,
+            duration: 380,
+            ease: "Back.easeIn",
+            onComplete: () => {
+              this.awardStorybookStamp(stop);
+            },
+          });
+        },
+      });
+    } else {
+      this.journey = collectBirthdayStar(this.journey, stop.id);
+      this.awardStorybookStamp(stop);
+    }
+  }
+
+  private awardStorybookStamp(stop: StopStory): void {
+    this.journey = acquireStorybookStamp(this.journey, stop.id);
+    if (stop.id !== "castle") {
+      this.drawRainbowPath(this.stopX(this.nextStop) - 290, 580);
+      this.sendGuestAlongRainbowPath(stop.id);
+    }
+
+    const floatingStamp = this.createFloatingStampPresentation(stop, this.player.x + 85, this.player.y - 55);
+    this.callbacks.onStorybookStampAwarded?.(stop);
+
+    this.nextStop += 1;
+    this.time.delayedCall(780, () => {
+      floatingStamp.destroy();
       this.callbacks.onBirthdayStar(stop, this.journey.collectedStars.length, this.journey.phase === "celebrating");
     });
   }
@@ -456,12 +539,17 @@ export class RosieGameScene extends Phaser.Scene {
         strokeThickness: 7,
       }).setDepth(-5).setAlpha(.92);
 
+      const archway = AUTHORED_RAINBOW_ARCHWAYS[stop.id];
+      this.archways.set(stop.id, archway);
+      const archwayContainer = this.createRainbowArchway(archway);
+      this.archwayContainers.set(stop.id, archwayContainer);
+
       const starY = 245 + (index % 3) * 80;
-      const star = this.add.star(this.stopX(index), starY, 7, 23, 49, 0xffd65e, 1)
-        .setStrokeStyle(7, 0xfff7c8, 1).setDepth(3).setName(`star-${stop.id}`);
+      const star = this.add.star(archway.x, starY, 7, 23, 49, 0xffd65e, 1)
+        .setStrokeStyle(7, 0xfff7c8, 1).setDepth(18).setName(`star-${stop.id}`);
       this.tweens.add({ targets: star, scale: 1.14, angle: 10, yoyo: true, repeat: -1, duration: 650 + index * 50, ease: "Sine.easeInOut" });
-      this.add.circle(this.stopX(index), starY, 76, 0xffed97, .18).setDepth(2);
-      this.guests.set(stop.id, this.createGuest(this.stopX(index) + 115, 575, stop.guest));
+      this.add.circle(archway.x, starY, 76, 0xffed97, .18).setDepth(17);
+      this.guests.set(stop.id, this.createGuest(archway.x + 95, 575, stop.guest));
     });
 
     this.obstacles.forEach((obstacle) => {
@@ -695,14 +783,126 @@ export class RosieGameScene extends Phaser.Scene {
     LANDSCAPE_DRAWERS[stop.id]?.(graphics, start);
   }
 
+  private createRainbowArchway(archway: RainbowArchway): Phaser.GameObjects.Container {
+    const container = this.add.container(archway.x, archway.y).setDepth(14);
+    container.setName(`rainbow-archway-${archway.place}`);
+
+    const graphics = this.add.graphics();
+    const archCenterY = -140;
+    const pillarLeftX = -archway.width / 2 + 14;
+    const pillarRightX = archway.width / 2 - 14;
+    const pillarWidth = 26;
+    const pillarHeight = 140;
+
+    // Glowing starlight aura behind archway
+    graphics.fillStyle(0xfff7c8, 0.22);
+    graphics.fillCircle(0, archCenterY, 92);
+
+    // Marble and golden pillars
+    graphics.fillStyle(0xe2a842, 1);
+    graphics.fillRoundedRect(pillarLeftX - pillarWidth / 2 - 4, -pillarHeight - 12, pillarWidth + 8, 16, 4);
+    graphics.fillRoundedRect(pillarRightX - pillarWidth / 2 - 4, -pillarHeight - 12, pillarWidth + 8, 16, 4);
+
+    graphics.fillStyle(0xf5cd72, 1);
+    graphics.fillRect(pillarLeftX - pillarWidth / 2, -pillarHeight, pillarWidth, pillarHeight);
+    graphics.fillRect(pillarRightX - pillarWidth / 2, -pillarHeight, pillarWidth, pillarHeight);
+
+    graphics.fillStyle(0xcca03a, 1);
+    graphics.fillRoundedRect(pillarLeftX - pillarWidth / 2 - 6, -18, pillarWidth + 12, 18, 4);
+    graphics.fillRoundedRect(pillarRightX - pillarWidth / 2 - 6, -18, pillarWidth + 12, 18, 4);
+
+    // Shining Rainbow bands spanning the arch
+    const rainbowColors = [0xef5d9d, 0xf4a658, 0xf3d760, 0x67c984, 0x5bbce3, 0x9271d1];
+    rainbowColors.forEach((color, i) => {
+      const radius = 68 - i * 8;
+      graphics.lineStyle(8, color, 0.95);
+      graphics.beginPath();
+      graphics.arc(0, archCenterY, radius, Phaser.Math.DegToRad(180), Phaser.Math.DegToRad(360), false);
+      graphics.strokePath();
+    });
+
+    container.add(graphics);
+
+    const crownStar = this.add.star(0, archCenterY - 78, 6, 9, 22, 0xfff7c8, 1);
+    crownStar.setStrokeStyle(3, 0xffe985, 1);
+    container.add(crownStar);
+
+    this.tweens.add({
+      targets: crownStar,
+      scale: { from: 0.92, to: 1.25 },
+      alpha: { from: 0.8, to: 1 },
+      yoyo: true,
+      repeat: -1,
+      duration: 650,
+      ease: "Sine.easeInOut",
+    });
+
+    return container;
+  }
+
+  private createFloatingStampPresentation(stop: StopStory, x: number, y: number): Phaser.GameObjects.Container {
+    const container = this.add.container(x, y).setDepth(30);
+    container.setName(`stamp-presentation-${stop.id}`);
+
+    const bg = this.add.graphics();
+    bg.fillStyle(0xfff8ea, 1);
+    bg.fillRoundedRect(-50, -65, 100, 130, 10);
+    bg.lineStyle(4, 0xf4c45c, 1);
+    bg.strokeRoundedRect(-50, -65, 100, 130, 10);
+    bg.fillStyle(0xffe89e, 0.4);
+    bg.fillRoundedRect(-44, -59, 88, 118, 6);
+
+    const icon = this.add.text(0, -25, stop.stamp.icon, { fontSize: "40px" }).setOrigin(0.5);
+    const guestLabel = this.add.text(0, 18, stop.guest, {
+      fontFamily: "Arial, sans-serif",
+      fontStyle: "bold",
+      fontSize: "14px",
+      color: "#7d4670",
+    }).setOrigin(0.5);
+    const stampLabel = this.add.text(0, 36, "STAMP", {
+      fontFamily: "Arial, sans-serif",
+      fontStyle: "bold",
+      fontSize: "11px",
+      color: "#f05a9d",
+    }).setOrigin(0.5);
+
+    container.add([bg, icon, guestLabel, stampLabel]);
+    container.setScale(0.2);
+    container.alpha = 0;
+
+    this.tweens.add({
+      targets: container,
+      scale: 1.25,
+      alpha: 1,
+      y: y - 45,
+      duration: 480,
+      ease: "Back.easeOut",
+    });
+
+    return container;
+  }
+
   private createGuest(x: number, groundY: number, name: FamilyGuest): Phaser.GameObjects.Container {
-    const guest = this.add.container(x, groundY).setDepth(2);
+    const guest = this.add.container(x, groundY).setDepth(16);
+    guest.setData("isWaving", true);
+    guest.setName(`guest-${name}`);
     if (name === "Beasley") {
       const body = this.add.ellipse(0, 0, 64, 42, 0xf39a38);
       const head = this.add.circle(29, -22, 25, 0xf39a38);
       const chest = this.add.ellipse(13, -3, 23, 35, 0xfff5df);
       const ears = [this.add.triangle(12, -43, 0, 20, 18, 0, 28, 24, 0xf39a38), this.add.triangle(43, -43, 0, 24, 12, 0, 25, 22, 0xf39a38)];
-      guest.add([body, head, chest, ...ears]);
+      const wavePaw = this.add.ellipse(32, -30, 12, 22, 0xf39a38);
+      wavePaw.setOrigin(0.5, 0.85);
+      wavePaw.angle = 20;
+      this.tweens.add({
+        targets: wavePaw,
+        angle: { from: 5, to: 42 },
+        yoyo: true,
+        repeat: -1,
+        duration: 320,
+        ease: "Sine.easeInOut",
+      });
+      guest.add([body, head, chest, ...ears, wavePaw]);
     } else {
       const style = GUEST_STYLES[name];
       const skin = 0xffd7bd;
@@ -722,11 +922,22 @@ export class RosieGameScene extends Phaser.Scene {
         hairDetails.push(this.add.ellipse(-12, -124, 48, 25, style.hair).setRotation(-.22));
       }
       const smile = this.add.arc(0, -82, 12, 20, 160, false, 0, 0).setStrokeStyle(3, 0x8f4a5b, 1);
+      const waveArm = this.add.ellipse(26, -55, 14, 38, style.clothes);
+      waveArm.setOrigin(0.5, 0.9);
+      waveArm.angle = 20;
+      this.tweens.add({
+        targets: waveArm,
+        angle: { from: 10, to: 48 },
+        yoyo: true,
+        repeat: -1,
+        duration: 360,
+        ease: "Sine.easeInOut",
+      });
       const layers: Phaser.GameObjects.GameObject[] = [...legs, ...shoes];
       if (longHair) layers.push(longHair);
       layers.push(body);
       if (name === "Dad" || name === "Uncle") layers.push(this.add.rectangle(0, -31, 17, 62, 0xfff8e9));
-      layers.push(head, hair, ...hairDetails, smile);
+      layers.push(head, hair, ...hairDetails, smile, waveArm);
       guest.add(layers);
     }
     guest.add(this.add.text(0, 32, name, { fontFamily: "Arial, sans-serif", fontStyle: "bold", fontSize: "20px", color: "#69395d", backgroundColor: "#fff8eacc", padding: { x: 9, y: 5 } }).setOrigin(.5));

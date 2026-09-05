@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 
 import {
   STAR_STOPS,
+  acquireStorybookStamp,
   collectBirthdayStar,
   createJourney,
   recordBump,
@@ -55,5 +56,25 @@ describe("Birthday Star journey", () => {
     }
 
     expect(journey).toMatchObject({ phase: "flying", helpLevel: 2 });
+  });
+
+  test("journey domain state records both the gathered Birthday Star and the acquired Storybook Stamp", () => {
+    const initial = createJourney();
+    expect(initial.collectedStars).toEqual([]);
+    expect(initial.acquiredStamps).toEqual([]);
+
+    const withGardenStar = collectBirthdayStar(initial, "garden");
+    expect(withGardenStar.collectedStars).toContain("garden");
+    expect(withGardenStar.acquiredStamps).toEqual([]);
+
+    const withGardenStamp = acquireStorybookStamp(withGardenStar, "garden");
+    expect(withGardenStamp.collectedStars).toContain("garden");
+    expect(withGardenStamp.acquiredStamps).toContain("garden");
+
+    const withLacewoodStamp = acquireStorybookStamp(withGardenStamp, "lacewood");
+    expect(withLacewoodStamp.acquiredStamps).toEqual(["garden", "lacewood"]);
+    // Duplicate award is a no-op
+    const duplicateStamp = acquireStorybookStamp(withLacewoodStamp, "lacewood");
+    expect(duplicateStamp.acquiredStamps).toEqual(["garden", "lacewood"]);
   });
 });
