@@ -1,3 +1,5 @@
+export type FamilyGuest = "Mom" | "Dad" | "Pop" | "Gram" | "Aunt" | "Uncle" | "Beasley";
+
 export const STAR_STOPS = [
   "garden",
   "lacewood",
@@ -15,6 +17,7 @@ export interface Journey {
   phase: JourneyPhase;
   collectedStars: StarStop[];
   openRainbowPaths: StarStop[];
+  acquiredStamps: StarStop[];
   bumpStreak: number;
   helpLevel: number;
 }
@@ -24,8 +27,17 @@ export function createJourney(): Journey {
     phase: "flying",
     collectedStars: [],
     openRainbowPaths: [],
+    acquiredStamps: [],
     bumpStreak: 0,
     helpLevel: 0,
+  };
+}
+
+export function acquireStorybookStamp(journey: Journey, stop: StarStop): Journey {
+  if (journey.acquiredStamps.includes(stop)) return journey;
+  return {
+    ...journey,
+    acquiredStamps: [...journey.acquiredStamps, stop],
   };
 }
 

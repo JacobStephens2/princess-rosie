@@ -1,4 +1,4 @@
-export type SoundName = "star" | "bump" | "stumble" | "near-miss" | "rest" | "button" | "celebrate" | "chime";
+export type SoundName = "star" | "bump" | "stumble" | "near-miss" | "rest" | "button" | "celebrate" | "chime" | "stamp";
 
 export const PENTATONIC_SCALE = [
   523.25, // C5
@@ -86,6 +86,14 @@ const SOUND_PROFILES: Record<SoundName, SoundProfile> = {
     stepDelay: 0.06,
     volume: 0.13,
     duration: 0.42,
+  },
+  stamp: {
+    frequencies: [587, 740, 880, 1175, 1480],
+    type: "triangle",
+    initialDelay: 0.04,
+    stepDelay: 0.07,
+    volume: 0.14,
+    duration: 0.36,
   },
 };
 

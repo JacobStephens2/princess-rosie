@@ -163,6 +163,7 @@ test("navigating through the garden course to the end triggers place completion 
   const journey = await page.evaluate(() => window.__ROSIE_RUNNER__?.getJourney());
   expect(journey?.collectedStars).toContain("garden");
   expect(journey?.openRainbowPaths).toContain("garden");
+  expect(journey?.acquiredStamps).toContain("garden");
 });
 
 test("multi-state Rosie and Stella sprite sheet animates gallop, leap, flutter, and stumble with seamless transitions", async ({ page }) => {
@@ -374,4 +375,65 @@ test("collecting sequential Star Sparkles in an arc advances pentatonic melody s
   // Check that constellation stars light up with warm starlight
   const litStarsCount = await meter.locator(".constellation-node.is-lit").count();
   expect(litStarsCount).toBeGreaterThanOrEqual(2);
+});
+
+test("Family Guest Rainbow Archway arrival sequence pauses forward galloping, gathers Birthday Star, awards Storybook Stamp, and updates journey domain state", async ({ page }) => {
+  await startStorybookFlight(page);
+
+  // 1. Each place concludes at an authored Rainbow Archway with that place's Family Guest waving
+  for (const stop of ["garden", "lacewood", "abbey", "clouds", "peak", "sea", "castle"] as const) {
+    const arch = await page.evaluate((s) => window.__ROSIE_RUNNER__?.getArchway?.(s), stop);
+    expect(arch).toBeDefined();
+    expect(arch?.place).toBe(stop);
+    expect(arch?.x).toBeGreaterThan(0);
+    const waving = await page.evaluate((s) => window.__ROSIE_RUNNER__?.isGuestWaving?.(s), stop);
+    expect(waving).toBe(true);
+  }
+
+  // 2. Stella arrives at the Rainbow Archway in Rosalia's Rose Garden
+  await page.evaluate(() => {
+    window.__ROSIE_RUNNER__?.seekToEnd();
+  });
+
+  // 3. Passing through the archway pauses forward galloping for the reunion moment
+  const runnerState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
+  expect(runnerState?.arrivedAtArchway).toBe(true);
+  expect(runnerState?.pausedForReunion).toBe(true);
+  expect(runnerState?.courseCompleted).toBe(true);
+
+  // 4. The recovered Birthday Star is gathered and Family Guest awards their unique Storybook Stamp with celebratory visual presentation
+  await expect(page.locator("#moment")).toBeVisible();
+  await expect(page.locator("#moment-stamp")).toBeVisible();
+  await expect(page.locator("#moment-stamp-title")).toHaveText("Mom’s Rose Stamp");
+  await expect(page.locator("#moment-stamp-guest")).toContainText("Mom");
+  await expect(page.locator("#moment-stamp-icon")).toHaveText("🌹");
+
+  // 5. Journey domain state records both the gathered Birthday Star and the acquired Storybook Stamp
+  let journey = await page.evaluate(() => window.__ROSIE_RUNNER__?.getJourney());
+  expect(journey?.collectedStars).toContain("garden");
+  expect(journey?.acquiredStamps).toContain("garden");
+
+  let acquiredStamps = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAcquiredStamps?.());
+  expect(acquiredStamps).toContain("garden");
+
+  // 6. Continue to the next place (Zélie's Lacewood) and verify Gram's Rainbow Archway and Storybook Stamp
+  await page.locator("#moment-next").click();
+  await expect(page.locator("#moment")).toBeHidden();
+
+  await page.evaluate(() => {
+    window.__ROSIE_RUNNER__?.seekToEnd();
+  });
+
+  await expect(page.locator("#moment")).toBeVisible();
+  await expect(page.locator("#moment-stamp")).toBeVisible();
+  await expect(page.locator("#moment-stamp-title")).toHaveText("Gram’s Lace Ribbon Stamp");
+  await expect(page.locator("#moment-stamp-guest")).toContainText("Gram");
+  await expect(page.locator("#moment-stamp-icon")).toHaveText("🎀");
+
+  journey = await page.evaluate(() => window.__ROSIE_RUNNER__?.getJourney());
+  expect(journey?.collectedStars).toEqual(["garden", "lacewood"]);
+  expect(journey?.acquiredStamps).toEqual(["garden", "lacewood"]);
+
+  acquiredStamps = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAcquiredStamps?.());
+  expect(acquiredStamps).toEqual(["garden", "lacewood"]);
 });

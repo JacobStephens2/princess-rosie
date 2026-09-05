@@ -1,4 +1,5 @@
-import type { StarStop } from "./journey";
+import type { FamilyGuest, StarStop } from "./journey";
+export type { FamilyGuest };
 
 export type RunnerMode =
   | "galloping"
@@ -80,6 +81,86 @@ export interface StarSparkle {
   y: number;
   radius?: number;
 }
+
+export type FamilyGuestName = FamilyGuest;
+
+export interface RainbowArchway {
+  readonly id: string;
+  readonly place: StarStop;
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+  readonly guest: FamilyGuest;
+}
+
+export const AUTHORED_RAINBOW_ARCHWAYS: Record<StarStop, RainbowArchway> = {
+  garden: {
+    id: "archway-garden",
+    place: "garden",
+    x: 1450,
+    y: 560,
+    width: 160,
+    height: 240,
+    guest: "Mom",
+  },
+  lacewood: {
+    id: "archway-lacewood",
+    place: "lacewood",
+    x: 3150,
+    y: 560,
+    width: 160,
+    height: 240,
+    guest: "Gram",
+  },
+  abbey: {
+    id: "archway-abbey",
+    place: "abbey",
+    x: 4850,
+    y: 560,
+    width: 160,
+    height: 240,
+    guest: "Pop",
+  },
+  clouds: {
+    id: "archway-clouds",
+    place: "clouds",
+    x: 6550,
+    y: 560,
+    width: 160,
+    height: 240,
+    guest: "Beasley",
+  },
+  peak: {
+    id: "archway-peak",
+    place: "peak",
+    x: 8250,
+    y: 560,
+    width: 160,
+    height: 240,
+    guest: "Aunt",
+  },
+  sea: {
+    id: "archway-sea",
+    place: "sea",
+    x: 9950,
+    y: 560,
+    width: 160,
+    height: 240,
+    guest: "Uncle",
+  },
+  castle: {
+    id: "archway-castle",
+    place: "castle",
+    x: 11650,
+    y: 560,
+    width: 160,
+    height: 240,
+    guest: "Dad",
+  },
+};
+
+export const DEFAULT_ROSE_GARDEN_ARCHWAY: RainbowArchway = AUTHORED_RAINBOW_ARCHWAYS.garden;
 
 export interface RunnerConfig {
   groundY: number;
@@ -188,6 +269,8 @@ export interface RunnerState {
   bouncedSpringboards: string[];
   collectedSparkles: string[];
   sparkleStreak: number;
+  arrivedAtArchway: boolean;
+  pausedForReunion: boolean;
 }
 
 export function createRunnerState(
@@ -208,6 +291,8 @@ export function createRunnerState(
     bouncedSpringboards: [],
     collectedSparkles: [],
     sparkleStreak: 0,
+    arrivedAtArchway: false,
+    pausedForReunion: false,
     ...overrides,
   };
 }
@@ -376,6 +461,29 @@ export function checkSparkleEncounters(
   };
 }
 
+export interface ArchwayEncounterResult {
+  state: RunnerState;
+  archwayArrival?: RainbowArchway;
+}
+
+export function checkArchwayArrival(
+  state: RunnerState,
+  archway: RainbowArchway
+): ArchwayEncounterResult {
+  if (!state.arrivedAtArchway && state.x >= archway.x) {
+    return {
+      state: {
+        ...state,
+        arrivedAtArchway: true,
+        pausedForReunion: true,
+        courseCompleted: true,
+      },
+      archwayArrival: archway,
+    };
+  }
+  return { state };
+}
+
 export function getSpriteAnimationState(state: RunnerState): SpriteAnimationState {
   if (state.mode === "stumbling" || state.stumbleRemaining > 0) {
     return "stumble";
@@ -417,6 +525,10 @@ export function updateRunner(
   flutterHeld = false,
   config: RunnerConfig = DEFAULT_RUNNER_CONFIG
 ): RunnerState {
+  if (state.pausedForReunion) {
+    return state;
+  }
+
   let nextStumbleRemaining = state.stumbleRemaining;
   let speedMultiplier = 1;
 

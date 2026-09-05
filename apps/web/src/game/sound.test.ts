@@ -25,4 +25,10 @@ describe("GameAudio sound profiles and pentatonic melodies", () => {
     expect(() => audio.playSparkle(1)).not.toThrow();
     expect(() => audio.playSparkle(5)).not.toThrow();
   });
+
+  test("can trigger star gather chime and stamp award fanfare", () => {
+    const audio = new GameAudio();
+    expect(() => audio.play("star")).not.toThrow();
+    expect(() => audio.play("stamp")).not.toThrow();
+  });
 });
