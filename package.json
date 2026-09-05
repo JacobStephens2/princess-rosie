@@ -20,6 +20,6 @@
     "soundscape:validate": "npm run validate --workspace rosie-soundscape-build --",
     "test:e2e": "npm run test:e2e --workspace princess-rosie-web",
     "test:e2e:install": "npm run test:e2e:install --workspace princess-rosie-web",
-    "check": "npm run typecheck --workspace rosie-soundscape-build && npm run test:soundscape-build && npm run check --workspace princess-rosie-web"
+    "check": "apps/web/tests/deploy_inspection.sh && npm run typecheck --workspace rosie-soundscape-build && npm run test:soundscape-build && npm run check --workspace princess-rosie-web"
   }
 }
