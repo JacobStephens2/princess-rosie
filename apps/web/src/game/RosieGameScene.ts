@@ -4,6 +4,7 @@ import {
   acquireStorybookStamp,
   collectBirthdayStar,
   createJourney,
+  resetJourney,
   resumeJourney,
   type Journey,
   type StarStop,
@@ -19,9 +20,9 @@ import {
   checkSparkleEncounters,
   SPRITE_ANIMATIONS,
   DEFAULT_RUNNER_CONFIG,
-  DEFAULT_ROSE_GARDEN_OBSTACLES,
-  DEFAULT_ROSE_GARDEN_SPRINGBOARDS,
-  DEFAULT_ROSE_GARDEN_SPARKLES,
+  AUTHORED_OBSTACLES,
+  AUTHORED_SPRINGBOARDS,
+  AUTHORED_SPARKLES,
   AUTHORED_RAINBOW_ARCHWAYS,
   checkArchwayArrival,
   type RunnerState,
@@ -130,11 +131,11 @@ export class RosieGameScene extends Phaser.Scene {
   private readonly guests = new Map<StarStop, Phaser.GameObjects.Container>();
   private readonly archways = new Map<StarStop, RainbowArchway>();
   private readonly archwayContainers = new Map<StarStop, Phaser.GameObjects.Container>();
-  private readonly obstacles: PlayfulObstacle[] = [...DEFAULT_ROSE_GARDEN_OBSTACLES];
+  private readonly obstacles: PlayfulObstacle[] = [...AUTHORED_OBSTACLES];
   private readonly obstacleContainers = new Map<string, Phaser.GameObjects.Container>();
-  private readonly springboards: Springboard[] = [...DEFAULT_ROSE_GARDEN_SPRINGBOARDS];
+  private readonly springboards: Springboard[] = [...AUTHORED_SPRINGBOARDS];
   private readonly springboardContainers = new Map<string, Phaser.GameObjects.Container>();
-  private readonly sparkles: StarSparkle[] = [...DEFAULT_ROSE_GARDEN_SPARKLES];
+  private readonly sparkles: StarSparkle[] = [...AUTHORED_SPARKLES];
   private readonly sparkleContainers = new Map<string, Phaser.GameObjects.Container>();
   private totalSparklesCollected = 0;
   private maxSparkleStreak = 0;
@@ -336,6 +337,20 @@ export class RosieGameScene extends Phaser.Scene {
     return this.journey;
   }
 
+  resetJourney(): Journey {
+    this.journey = resetJourney(this.journey);
+    this.nextStop = 0;
+    this.runnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
+    if (this.player) {
+      this.player.x = 200;
+      this.player.y = DEFAULT_RUNNER_CONFIG.groundY;
+    }
+    this.frozen = false;
+    this.reunionInProgress = false;
+    this.totalSparklesCollected = 0;
+    return this.journey;
+  }
+
   getArchway(stopId: StarStop = "garden"): RainbowArchway | undefined {
     return this.archways.get(stopId);
   }
@@ -347,6 +362,14 @@ export class RosieGameScene extends Phaser.Scene {
 
   getAcquiredStamps(): readonly StarStop[] {
     return this.journey.acquiredStamps;
+  }
+
+  getCurrentStopIndex(): number {
+    return this.nextStop;
+  }
+
+  hasPlaceIllustration(stopId: StarStop): boolean {
+    return this.textures.exists(`place-illustration-${stopId}`);
   }
 
   seekToEnd(): void {
@@ -583,25 +606,118 @@ export class RosieGameScene extends Phaser.Scene {
     const container = this.add.container(obstacle.x, obstacle.y).setDepth(15);
     container.setName(`obstacle-${obstacle.id}`);
 
-    const bush = this.add.graphics();
-    bush.fillStyle(0x3e7a46, 1);
-    bush.fillEllipse(0, -obstacle.height * 0.45, obstacle.width, obstacle.height * 0.85);
-    bush.fillStyle(0x5ca364, 1);
-    bush.fillCircle(-obstacle.width * 0.22, -obstacle.height * 0.5, obstacle.width * 0.28);
-    bush.fillCircle(obstacle.width * 0.22, -obstacle.height * 0.5, obstacle.width * 0.28);
-    bush.fillCircle(0, -obstacle.height * 0.65, obstacle.width * 0.32);
+    const g = this.add.graphics();
+    const w = obstacle.width;
+    const h = obstacle.height;
 
-    bush.fillStyle(0xf05a9d, 1);
-    bush.fillCircle(-14, -obstacle.height * 0.48, 9);
-    bush.fillCircle(14, -obstacle.height * 0.42, 10);
-    bush.fillCircle(0, -obstacle.height * 0.72, 11);
+    switch (obstacle.type) {
+      case "silver-ribbon": {
+        g.fillStyle(0x44533c, 1);
+        g.fillRoundedRect(-w * 0.45, -h * 0.6, w * 0.9, h * 0.6, 8);
+        g.fillStyle(0x628052, 1);
+        g.fillEllipse(-w * 0.15, -h * 0.62, w * 0.4, 8);
+        g.lineStyle(4, 0xf0f5ff, 0.95);
+        g.beginPath();
+        g.moveTo(-w * 0.35, -h * 0.1);
+        g.lineTo(-w * 0.1, -h * 0.65);
+        g.lineTo(w * 0.15, -h * 0.15);
+        g.lineTo(w * 0.35, -h * 0.6);
+        g.strokePath();
+        g.fillStyle(0xffffff, 1);
+        g.fillCircle(w * 0.15, -h * 0.5, 4);
+        break;
+      }
+      case "bell-rope": {
+        g.fillStyle(0xd4aa68, 1);
+        g.fillRoundedRect(-w * 0.42, -h * 0.7, w * 0.84, h * 0.7, 6);
+        g.fillStyle(0xb88d4c, 1);
+        g.fillRect(-w * 0.46, -h * 0.78, w * 0.92, 6);
+        g.lineStyle(5, 0xffd65e, 0.95);
+        g.beginPath();
+        g.moveTo(-w * 0.15, -h * 0.8);
+        g.lineTo(-w * 0.15, -h * 0.2);
+        g.moveTo(w * 0.15, -h * 0.8);
+        g.lineTo(w * 0.15, -h * 0.2);
+        g.strokePath();
+        g.fillStyle(0xffea88, 1);
+        g.fillCircle(-w * 0.15, -h * 0.15, 6);
+        g.fillCircle(w * 0.15, -h * 0.15, 6);
+        break;
+      }
+      case "soft-cloud": {
+        g.fillStyle(0xd6ecfa, 0.9);
+        g.fillCircle(-w * 0.24, -h * 0.4, w * 0.32);
+        g.fillCircle(w * 0.24, -h * 0.4, w * 0.32);
+        g.fillCircle(0, -h * 0.6, w * 0.36);
+        g.fillStyle(0xffffff, 0.95);
+        g.fillCircle(-w * 0.2, -h * 0.45, w * 0.26);
+        g.fillCircle(w * 0.2, -h * 0.45, w * 0.26);
+        g.fillCircle(0, -h * 0.65, w * 0.3);
+        break;
+      }
+      case "flower-bank": {
+        g.fillStyle(0x6e7b75, 1);
+        g.fillRoundedRect(-w * 0.45, -h * 0.65, w * 0.9, h * 0.65, 8);
+        g.fillStyle(0x8a9e88, 1);
+        g.fillCircle(-w * 0.1, -h * 0.68, w * 0.32);
+        g.fillStyle(0xf05a9d, 1);
+        g.fillCircle(-w * 0.25, -h * 0.5, 7);
+        g.fillCircle(w * 0.2, -h * 0.55, 8);
+        g.fillCircle(0, -h * 0.75, 7);
+        g.fillStyle(0xffd65e, 1);
+        g.fillCircle(-w * 0.25, -h * 0.5, 3);
+        g.fillCircle(w * 0.2, -h * 0.55, 3);
+        g.fillCircle(0, -h * 0.75, 3);
+        break;
+      }
+      case "wave-crest": {
+        g.fillStyle(0x168fc4, 0.95);
+        g.fillEllipse(0, -h * 0.4, w * 0.85, h * 0.8);
+        g.fillStyle(0x6fd3ef, 0.95);
+        g.fillCircle(-w * 0.2, -h * 0.5, w * 0.25);
+        g.fillCircle(w * 0.18, -h * 0.55, w * 0.28);
+        g.fillStyle(0xffffff, 0.95);
+        g.fillCircle(-w * 0.22, -h * 0.7, 6);
+        g.fillCircle(0, -h * 0.75, 7);
+        g.fillCircle(w * 0.22, -h * 0.7, 6);
+        break;
+      }
+      case "castle-bunting": {
+        g.fillStyle(0x9b3260, 1);
+        g.fillRoundedRect(-w * 0.45, -h * 0.6, w * 0.9, h * 0.6, 6);
+        g.fillStyle(0xf4c45c, 1);
+        g.fillRect(-w * 0.48, -h * 0.72, w * 0.96, 6);
+        g.lineStyle(3, 0xffd65e, 1);
+        g.beginPath();
+        g.moveTo(-w * 0.4, -h * 0.4);
+        g.lineTo(0, -h * 0.15);
+        g.lineTo(w * 0.4, -h * 0.4);
+        g.strokePath();
+        break;
+      }
+      case "rose-bush":
+      default: {
+        g.fillStyle(0x3e7a46, 1);
+        g.fillEllipse(0, -h * 0.45, w, h * 0.85);
+        g.fillStyle(0x5ca364, 1);
+        g.fillCircle(-w * 0.22, -h * 0.5, w * 0.28);
+        g.fillCircle(w * 0.22, -h * 0.5, w * 0.28);
+        g.fillCircle(0, -h * 0.65, w * 0.32);
 
-    bush.fillStyle(0xffd65e, 1);
-    bush.fillCircle(-14, -obstacle.height * 0.48, 3.5);
-    bush.fillCircle(14, -obstacle.height * 0.42, 3.5);
-    bush.fillCircle(0, -obstacle.height * 0.72, 4);
+        g.fillStyle(0xf05a9d, 1);
+        g.fillCircle(-14, -h * 0.48, 9);
+        g.fillCircle(14, -h * 0.42, 10);
+        g.fillCircle(0, -h * 0.72, 11);
 
-    container.add(bush);
+        g.fillStyle(0xffd65e, 1);
+        g.fillCircle(-14, -h * 0.48, 3.5);
+        g.fillCircle(14, -h * 0.42, 3.5);
+        g.fillCircle(0, -h * 0.72, 4);
+        break;
+      }
+    }
+
+    container.add(g);
     return container;
   }
 
@@ -642,33 +758,104 @@ export class RosieGameScene extends Phaser.Scene {
     const container = this.add.container(springboard.x, springboard.y).setDepth(16);
     container.setName(`springboard-${springboard.id}`);
 
-    const graphics = this.add.graphics();
-    // Broad green foliage base on Storybook Ground
-    graphics.fillStyle(0x2f6838, 1);
-    graphics.fillEllipse(0, -springboard.height * 0.25, springboard.width * 0.95, springboard.height * 0.45);
-    graphics.fillStyle(0x4a9456, 1);
-    graphics.fillCircle(-springboard.width * 0.32, -springboard.height * 0.35, springboard.width * 0.24);
-    graphics.fillCircle(springboard.width * 0.32, -springboard.height * 0.35, springboard.width * 0.24);
+    const g = this.add.graphics();
+    const w = springboard.width;
+    const h = springboard.height;
 
-    // Springy giant rose petals
-    graphics.fillStyle(0xbe2567, 1);
-    graphics.fillEllipse(0, -springboard.height * 0.65, springboard.width * 0.85, springboard.height * 0.65);
-    graphics.fillStyle(0xef4f95, 1);
-    graphics.fillCircle(-springboard.width * 0.2, -springboard.height * 0.68, springboard.width * 0.28);
-    graphics.fillCircle(springboard.width * 0.2, -springboard.height * 0.68, springboard.width * 0.28);
-    graphics.fillCircle(0, -springboard.height * 0.82, springboard.width * 0.32);
+    switch (springboard.type) {
+      case "lace-sprout": {
+        g.fillStyle(0x397a5b, 1);
+        g.fillEllipse(0, -h * 0.25, w * 0.9, h * 0.4);
+        g.fillStyle(0x9d72bd, 1);
+        g.fillEllipse(0, -h * 0.65, w * 0.85, h * 0.65);
+        g.fillStyle(0xc49bd8, 1);
+        g.fillCircle(-w * 0.2, -h * 0.68, w * 0.26);
+        g.fillCircle(w * 0.2, -h * 0.68, w * 0.26);
+        g.fillStyle(0xffffff, 1);
+        g.fillCircle(0, -h * 0.78, 6);
+        break;
+      }
+      case "abbey-bell": {
+        g.fillStyle(0xb88d4c, 1);
+        g.fillRoundedRect(-w * 0.45, -h * 0.25, w * 0.9, h * 0.3, 4);
+        g.fillStyle(0xe3ad54, 1);
+        g.fillEllipse(0, -h * 0.65, w * 0.85, h * 0.65);
+        g.fillStyle(0xffd65e, 1);
+        g.fillCircle(0, -h * 0.74, w * 0.24);
+        g.fillStyle(0xffffff, 1);
+        g.fillCircle(0, -h * 0.74, 5);
+        break;
+      }
+      case "cloud-updraft": {
+        g.fillStyle(0xa4dcf4, 0.8);
+        g.fillEllipse(0, -h * 0.25, w * 0.95, h * 0.4);
+        g.fillStyle(0xedf8ff, 0.95);
+        g.fillCircle(-w * 0.22, -h * 0.6, w * 0.28);
+        g.fillCircle(w * 0.22, -h * 0.6, w * 0.28);
+        g.fillCircle(0, -h * 0.78, w * 0.32);
+        g.fillStyle(0xffea88, 1);
+        g.fillCircle(0, -h * 0.78, 6);
+        break;
+      }
+      case "mountain-blossom": {
+        g.fillStyle(0x56695e, 1);
+        g.fillEllipse(0, -h * 0.25, w * 0.9, h * 0.4);
+        g.fillStyle(0xf5e3ed, 1);
+        g.fillEllipse(0, -h * 0.65, w * 0.85, h * 0.65);
+        g.fillStyle(0xff9abb, 1);
+        g.fillCircle(-w * 0.2, -h * 0.68, w * 0.25);
+        g.fillCircle(w * 0.2, -h * 0.68, w * 0.25);
+        g.fillStyle(0xffd65e, 1);
+        g.fillCircle(0, -h * 0.76, w * 0.14);
+        break;
+      }
+      case "sea-geyser": {
+        g.fillStyle(0x0e6e99, 1);
+        g.fillEllipse(0, -h * 0.25, w * 0.95, h * 0.4);
+        g.fillStyle(0x6fd3ef, 0.95);
+        g.fillEllipse(0, -h * 0.65, w * 0.85, h * 0.65);
+        g.fillStyle(0xa7efff, 1);
+        g.fillCircle(0, -h * 0.75, w * 0.26);
+        g.fillStyle(0xffffff, 1);
+        g.fillCircle(0, -h * 0.78, 6);
+        break;
+      }
+      case "castle-drum": {
+        g.fillStyle(0x7d284a, 1);
+        g.fillRoundedRect(-w * 0.42, -h * 0.55, w * 0.84, h * 0.55, 6);
+        g.fillStyle(0xf4c45c, 1);
+        g.fillEllipse(0, -h * 0.6, w * 0.88, h * 0.4);
+        g.fillStyle(0xfff5df, 1);
+        g.fillCircle(0, -h * 0.62, w * 0.2);
+        break;
+      }
+      case "giant-rose":
+      default: {
+        g.fillStyle(0x2f6838, 1);
+        g.fillEllipse(0, -h * 0.25, w * 0.95, h * 0.45);
+        g.fillStyle(0x4a9456, 1);
+        g.fillCircle(-w * 0.32, -h * 0.35, w * 0.24);
+        g.fillCircle(w * 0.32, -h * 0.35, w * 0.24);
 
-    // Soft blush inner highlights
-    graphics.fillStyle(0xff9abb, 1);
-    graphics.fillCircle(0, -springboard.height * 0.76, springboard.width * 0.22);
+        g.fillStyle(0xbe2567, 1);
+        g.fillEllipse(0, -h * 0.65, w * 0.85, h * 0.65);
+        g.fillStyle(0xef4f95, 1);
+        g.fillCircle(-w * 0.2, -h * 0.68, w * 0.28);
+        g.fillCircle(w * 0.2, -h * 0.68, w * 0.28);
+        g.fillCircle(0, -h * 0.82, w * 0.32);
 
-    // Resonant golden chime pistil center
-    graphics.fillStyle(0xffdf63, 1);
-    graphics.fillCircle(0, -springboard.height * 0.76, springboard.width * 0.12);
-    graphics.fillStyle(0xffffff, 1);
-    graphics.fillCircle(0, -springboard.height * 0.76, 3);
+        g.fillStyle(0xff9abb, 1);
+        g.fillCircle(0, -h * 0.76, w * 0.22);
 
-    container.add(graphics);
+        g.fillStyle(0xffdf63, 1);
+        g.fillCircle(0, -h * 0.76, w * 0.12);
+        g.fillStyle(0xffffff, 1);
+        g.fillCircle(0, -h * 0.76, 3);
+        break;
+      }
+    }
+
+    container.add(g);
     return container;
   }
 

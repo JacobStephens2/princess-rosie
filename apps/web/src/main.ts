@@ -6,7 +6,7 @@ import { OPENING_STORYBOOK_MOMENTS_AFTER_COVER, STOP_STORIES, type StopStory } f
 import { GAME_SIZE, RosieGameScene } from "./game/RosieGameScene";
 import { GameAudio } from "./game/sound";
 import { createRunnerState } from "./domain/gallop-and-flutter";
-import { createJourney } from "./domain/journey";
+import { createJourney, resetJourney } from "./domain/journey";
 import {
   cancelGrownUpHold,
   closeGrownUpCorner,
@@ -35,7 +35,11 @@ export interface RosieRunnerInterface {
   getArchway?: (stopId?: import("./domain/journey").StarStop) => import("./domain/gallop-and-flutter").RainbowArchway | undefined;
   isGuestWaving?: (stopId?: import("./domain/journey").StarStop) => boolean;
   getAcquiredStamps?: () => readonly import("./domain/journey").StarStop[];
+  getCurrentStopIndex?: () => number;
+  hasPlaceIllustration?: (stopId: import("./domain/journey").StarStop) => boolean;
   getGrownUpCornerState?: () => GrownUpCornerState;
+  resetJourney?: () => import("./domain/journey").Journey;
+  flyAgain?: () => void;
 }
 
 declare global {
@@ -72,6 +76,12 @@ const grownUpSoundToggle = getElement<HTMLButtonElement>("grown-up-sound-toggle"
 const grownUpSoundLabel = getElement<HTMLElement>("grown-up-sound-label");
 const grownUpRestartButton = getElement<HTMLButtonElement>("grown-up-restart-button");
 const grownUpResumeButton = getElement<HTMLButtonElement>("grown-up-resume-button");
+const flyAgainButton = getElement<HTMLButtonElement>("fly-again-button");
+const celebrationAlbumGrid = getElement<HTMLElement>("celebration-album-grid");
+const albumPreviewIcon = getElement<HTMLElement>("album-preview-icon");
+const albumPreviewTitle = getElement<HTMLElement>("album-preview-title");
+const albumPreviewGuest = getElement<HTMLElement>("album-preview-guest");
+const albumPreviewDesc = getElement<HTMLElement>("album-preview-desc");
 const soundButtons = [getElement<HTMLButtonElement>("sound-toggle"), grownUpSoundToggle];
 const storyArtworks = Array.from(storybook.querySelectorAll<HTMLImageElement>(".storybook__art"));
 const sound = new GameAudio();
@@ -171,6 +181,8 @@ function startGame(): void {
     phaserGame.destroy(true);
     phaserGame = undefined;
   }
+  const gameContainer = document.getElementById("game");
+  if (gameContainer) gameContainer.replaceChildren();
   scene = new RosieGameScene({
     onBirthdayStar: showBirthdayStar,
     onStarGatherChime: () => sound.play("star"),
@@ -268,20 +280,93 @@ function updateConstellationMeter(count: number): void {
   });
 }
 
+function updateAlbumPreview(stop: StopStory): void {
+  albumPreviewIcon.textContent = stop.stamp.icon;
+  albumPreviewTitle.textContent = stop.stamp.title;
+  albumPreviewGuest.textContent = `Presented by ${stop.guest}`;
+  albumPreviewDesc.textContent = stop.stamp.description;
+}
+
+function renderCelebrationAlbum(): void {
+  const acquired = scene?.getAcquiredStamps() ?? [];
+  const earnedStops = STOP_STORIES.filter((stop) => acquired.length === 0 || acquired.includes(stop.id));
+  celebrationAlbumGrid.replaceChildren(
+    ...earnedStops.map((stop, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "album-stamp-item";
+      button.setAttribute("data-stamp-id", stop.id);
+      button.setAttribute("aria-label", `${stop.stamp.title} awarded by ${stop.guest}`);
+      button.setAttribute("role", "tab");
+      button.setAttribute("aria-selected", index === 0 ? "true" : "false");
+      if (index === 0) {
+        button.classList.add("is-active");
+        updateAlbumPreview(stop);
+      }
+
+      const icon = document.createElement("span");
+      icon.className = "album-stamp-item__icon";
+      icon.setAttribute("aria-hidden", "true");
+      icon.textContent = stop.stamp.icon;
+
+      const guest = document.createElement("span");
+      guest.className = "album-stamp-item__guest";
+      guest.textContent = stop.guest;
+
+      button.append(icon, guest);
+      button.addEventListener("click", () => {
+        sound.play("stamp");
+        celebrationAlbumGrid.querySelectorAll(".album-stamp-item").forEach((item) => {
+          item.classList.remove("is-active");
+          item.setAttribute("aria-selected", "false");
+        });
+        button.classList.add("is-active");
+        button.setAttribute("aria-selected", "true");
+        updateAlbumPreview(stop);
+      });
+      return button;
+    })
+  );
+}
+
+function renderCelebrationConstellation(): void {
+  const constellation = document.getElementById("celebration-constellation");
+  if (!constellation) return;
+  const castleStar = constellation.querySelector<HTMLElement>(".constellation-star--castle");
+  if (castleStar) castleStar.classList.add("is-lit");
+
+  const stars = constellation.querySelectorAll<HTMLElement>(".constellation-star:not(.constellation-star--castle)");
+  stars.forEach((star, index) => {
+    star.classList.remove("is-lit", "is-joining");
+    window.setTimeout(() => {
+      star.classList.add("is-lit", "is-joining");
+      sound.playSparkle(index % 5);
+    }, 100 + index * 100);
+  });
+}
+
+function flyAgain(): void {
+  sound.play("button");
+  if (scene) {
+    scene.resetJourney();
+  }
+  ending.hidden = true;
+  moment.hidden = true;
+  cloudRest.hidden = true;
+  gameShell.hidden = false;
+  updateStars(0);
+  updateConstellationMeter(0);
+  startGame();
+}
+
 function showEnding(): void {
   gameShell.hidden = true;
   ending.hidden = false;
   sound.play("celebrate");
   burstConfetti(260);
-  window.setTimeout(() => getElement<HTMLButtonElement>("dance-button").focus(), 100);
-}
-
-function danceAgain(): void {
-  sound.play("celebrate");
-  ending.classList.remove("is-dancing");
-  requestAnimationFrame(() => ending.classList.add("is-dancing"));
-  window.setTimeout(() => ending.classList.remove("is-dancing"), 3000);
-  burstConfetti(180);
+  renderCelebrationConstellation();
+  renderCelebrationAlbum();
+  window.setTimeout(() => flyAgainButton.focus(), 100);
 }
 
 function toggleSound(): void {
@@ -489,8 +574,7 @@ storyNext.addEventListener("click", () => void advanceStory());
 momentNext.addEventListener("click", continueFromMoment);
 restNext.addEventListener("click", continueFromCloudRest);
 soundButtons.forEach((button) => button.addEventListener("click", toggleSound));
-getElement<HTMLButtonElement>("dance-button").addEventListener("click", danceAgain);
-getElement<HTMLButtonElement>("replay-button").addEventListener("click", () => window.location.reload());
+flyAgainButton.addEventListener("click", flyAgain);
 
 grownUpButton.addEventListener("pointerdown", onGrownUpPointerDown);
 grownUpButton.addEventListener("pointerup", onGrownUpPointerUp);
@@ -550,7 +634,7 @@ document.addEventListener("keydown", (event) => {
   if (!grownUpDialog.hidden) return;
   if (!moment.hidden) { event.preventDefault(); continueFromMoment(); }
   else if (!cloudRest.hidden) { event.preventDefault(); continueFromCloudRest(); }
-  else if (!ending.hidden) { event.preventDefault(); danceAgain(); }
+  else if (!ending.hidden) { event.preventDefault(); flyAgain(); }
 });
 
 window.__ROSIE_RUNNER__ = {
@@ -571,7 +655,11 @@ window.__ROSIE_RUNNER__ = {
   getArchway: (stopId) => scene?.getArchway(stopId),
   isGuestWaving: (stopId) => scene?.isGuestWaving(stopId) ?? false,
   getAcquiredStamps: () => scene?.getAcquiredStamps() ?? [],
+  getCurrentStopIndex: () => scene?.getCurrentStopIndex() ?? 0,
+  hasPlaceIllustration: (stopId) => scene?.hasPlaceIllustration(stopId) ?? false,
   getGrownUpCornerState: () => grownUpCornerState,
+  resetJourney: () => scene?.resetJourney() ?? resetJourney(),
+  flyAgain: () => flyAgain(),
 };
 
 renderDots();

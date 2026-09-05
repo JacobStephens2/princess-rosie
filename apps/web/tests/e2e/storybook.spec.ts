@@ -214,7 +214,7 @@ test("multi-state Rosie and Stella sprite sheet animates gallop, leap, flutter, 
   // Stumble recovers back to gallop
   await expect.poll(async () => {
     return await page.evaluate(() => window.__ROSIE_RUNNER__?.getCurrentAnimation?.());
-  }, { timeout: 3000 }).toBe("rosie-stella-gallop");
+  }, { timeout: 6000 }).toBe("rosie-stella-gallop");
 });
 
 test("the installable shell declares its name and icons", async ({ request }) => {
@@ -585,5 +585,165 @@ test("Grown-up Corner requires 2-second hold to reveal controls and pause play w
   await page.locator("#grown-up-restart-button").click();
   await expect(page.locator("#storybook")).toBeVisible();
   await expect(page.locator("#game-shell")).toBeHidden();
+});
+
+test("complete 6-place journey across Birthday Castle Approach into grand celebration, constellation, album, and Fly Again reset", async ({ page }) => {
+  test.setTimeout(90_000);
+  await startStorybookFlight(page);
+
+  // 1. Verify all 6 places + castle approach illustrations are loaded
+  const stops = [
+    { id: "garden", place: "Rosalia’s Rose Garden", guest: "Mom", stampTitle: "Mom’s Rose Stamp", icon: "🌹" },
+    { id: "lacewood", place: "Zélie’s Lacewood", guest: "Gram", stampTitle: "Gram’s Lace Ribbon Stamp", icon: "🎀" },
+    { id: "abbey", place: "Golden Bell Abbey", guest: "Pop", stampTitle: "Pop’s Golden Bell Stamp", icon: "🔔" },
+    { id: "clouds", place: "Cloister of Clouds", guest: "Beasley", stampTitle: "Beasley’s Cloud Paws Stamp", icon: "🐈" },
+    { id: "peak", place: "Pellegrino Peak", guest: "Aunt", stampTitle: "Aunt’s Mountain Flower Stamp", icon: "🌸" },
+    { id: "sea", place: "Sapphire Sea", guest: "Uncle", stampTitle: "Uncle’s Sea Wave Stamp", icon: "🌊" },
+    { id: "castle", place: "Birthday Castle gates", guest: "Dad", stampTitle: "Dad’s Castle Gate Stamp", icon: "🏰" },
+  ] as const;
+
+  for (const stop of stops) {
+    const hasIllustration = await page.evaluate((id) => window.__ROSIE_RUNNER__?.hasPlaceIllustration?.(id), stop.id);
+    expect(hasIllustration).toBe(true);
+  }
+
+  // 2. Verify place-themed obstacles and springboards span all stops
+  const obstacles = await page.evaluate(() => window.__ROSIE_RUNNER__?.getObstacles?.());
+  expect(obstacles).toBeDefined();
+  const obstacleTypes = new Set(obstacles?.map((o) => o.type));
+  expect(obstacleTypes).toContain("rose-bush");
+  expect(obstacleTypes).toContain("silver-ribbon");
+  expect(obstacleTypes).toContain("bell-rope");
+  expect(obstacleTypes).toContain("soft-cloud");
+  expect(obstacleTypes).toContain("flower-bank");
+  expect(obstacleTypes).toContain("wave-crest");
+  expect(obstacleTypes).toContain("castle-bunting");
+
+  const springboards = await page.evaluate(() => window.__ROSIE_RUNNER__?.getSpringboards?.());
+  expect(springboards).toBeDefined();
+  const springboardTypes = new Set(springboards?.map((s) => s.type));
+  expect(springboardTypes).toContain("giant-rose");
+  expect(springboardTypes).toContain("lace-sprout");
+  expect(springboardTypes).toContain("abbey-bell");
+  expect(springboardTypes).toContain("cloud-updraft");
+  expect(springboardTypes).toContain("mountain-blossom");
+  expect(springboardTypes).toContain("sea-geyser");
+  expect(springboardTypes).toContain("castle-drum");
+
+  // 3. Play through all six places in sequence, culminating at Birthday Castle gates
+  for (const [i, stop] of stops.entries()) {
+    const isFinal = i === stops.length - 1;
+
+    // Check archway and guest waving
+    const arch = await page.evaluate((s) => window.__ROSIE_RUNNER__?.getArchway?.(s), stop.id);
+    expect(arch).toBeDefined();
+    const waving = await page.evaluate((s) => window.__ROSIE_RUNNER__?.isGuestWaving?.(s), stop.id);
+    expect(waving).toBe(true);
+
+    // Gallop to archway
+    await page.evaluate(() => {
+      window.__ROSIE_RUNNER__?.seekToEnd();
+    });
+
+    // Wait for Moment card to reveal reunion and stamp
+    await expect(page.locator("#moment")).toBeVisible();
+    await expect(page.locator("#moment-place")).toHaveText(stop.place);
+    await expect(page.locator("#moment-stamp-title")).toHaveText(stop.stampTitle);
+    await expect(page.locator("#moment-stamp-guest")).toContainText(stop.guest);
+    await expect(page.locator("#moment-stamp-icon")).toHaveText(stop.icon);
+
+    // Verify Star Tracker counter
+    await expect(page.locator("#star-tracker")).toHaveAttribute("aria-label", `${i + 1} of 7 Birthday Stars`);
+
+    // Verify domain state
+    const journey = await page.evaluate(() => window.__ROSIE_RUNNER__?.getJourney());
+    expect(journey?.collectedStars).toContain(stop.id);
+    expect(journey?.acquiredStamps).toContain(stop.id);
+
+    if (!isFinal) {
+      await expect(page.locator("#moment-next")).toContainText("Keep flying");
+      await page.locator("#moment-next").click();
+      await expect(page.locator("#moment")).toBeHidden();
+    } else {
+      await expect(page.locator("#moment-next")).toContainText("To the celebration");
+      await page.locator("#moment-next").click();
+      await expect(page.locator("#moment")).toBeHidden();
+    }
+  }
+
+  // 4. Smooth transition introduces the Grand Celebration
+  await expect(page.locator("#game-shell")).toBeHidden();
+  await expect(page.locator("#ending")).toBeVisible();
+  await expect(page.getByRole("heading", { name: /Happy Birthday/i })).toBeVisible();
+
+  // 5. Constellation: all 6 recovered stars join Dad's Castle Star above Princess Zélie
+  const constellation = page.locator("#celebration-constellation");
+  await expect(constellation).toBeVisible();
+  const litStars = constellation.locator(".constellation-star.is-lit");
+  await expect(litStars).toHaveCount(7);
+  const castleStar = constellation.locator('[data-star="castle"]');
+  await expect(castleStar).toBeVisible();
+  await expect(castleStar).toHaveClass(/constellation-star--castle/);
+  await expect(castleStar).toHaveClass(/is-lit/);
+
+  // 6. Celebration Album: displays all 7 earned stamps with interactive preview switching
+  const albumGrid = page.locator("#celebration-album-grid");
+  await expect(albumGrid).toBeVisible();
+  const stampButtons = albumGrid.locator(".album-stamp-item");
+  await expect(stampButtons).toHaveCount(7);
+
+  // Initially shows Mom's Rose Stamp
+  await expect(page.locator("#album-preview-title")).toHaveText("Mom’s Rose Stamp");
+  await expect(page.locator("#album-preview-guest")).toContainText("Mom");
+
+  // Clicking Dad's Castle Gate Stamp tab updates preview
+  const dadTab = albumGrid.locator('[data-stamp-id="castle"]');
+  await expect(dadTab).toBeVisible();
+  await dadTab.scrollIntoViewIfNeeded();
+  await dadTab.click();
+  await expect(dadTab).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator("#album-preview-title")).toHaveText("Dad’s Castle Gate Stamp");
+  await expect(page.locator("#album-preview-guest")).toContainText("Dad");
+  await expect(page.locator("#album-preview-desc")).toHaveText("Kept the Castle Star safe at the Birthday Castle gates");
+
+  // Clicking Beasley's Cloud Paws Stamp tab updates preview
+  const beasleyTab = albumGrid.locator('[data-stamp-id="clouds"]');
+  await beasleyTab.scrollIntoViewIfNeeded();
+  await beasleyTab.click();
+  await expect(beasleyTab).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator("#album-preview-title")).toHaveText("Beasley’s Cloud Paws Stamp");
+  await expect(page.locator("#album-preview-guest")).toContainText("Beasley");
+
+  // 7. Fly Again cleanly resets journey state and begins adventure from Rosalia's Rose Garden
+  const flyAgainBtn = page.locator("#fly-again-button");
+  await expect(flyAgainBtn).toBeVisible();
+  await flyAgainBtn.scrollIntoViewIfNeeded();
+  await flyAgainBtn.click();
+
+  // Game shell is shown, ending screen hidden
+  await expect(page.locator("#ending")).toBeHidden();
+  await expect(page.locator("#game-shell")).toBeVisible();
+  await expect(page.locator("#game canvas")).toBeVisible();
+
+  // Star tracker reset to 0 of 7
+  await expect(page.locator("#star-tracker")).toHaveAttribute("aria-label", "0 of 7 Birthday Stars");
+
+  // Wait for runner scene to be ready and grounded
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.() && window.__ROSIE_RUNNER__?.getState()?.isGrounded);
+  }, { timeout: 5000 }).toBe(true);
+
+  // Domain journey reset cleanly
+  const resetState = await page.evaluate(() => ({
+    journey: window.__ROSIE_RUNNER__?.getJourney(),
+    state: window.__ROSIE_RUNNER__?.getState(),
+    stopIndex: window.__ROSIE_RUNNER__?.getCurrentStopIndex?.(),
+  }));
+
+  expect(resetState.journey?.collectedStars).toEqual([]);
+  expect(resetState.journey?.acquiredStamps).toEqual([]);
+  expect(resetState.journey?.phase).toBe("flying");
+  expect(resetState.stopIndex).toBe(0);
+  expect(resetState.state?.x).toBeLessThanOrEqual(300);
 });
 

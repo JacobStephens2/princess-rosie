@@ -76,3 +76,7 @@ export function resumeJourney(journey: Journey): Journey {
     helpLevel: Math.min(2, journey.helpLevel + 1),
   };
 }
+
+export function resetJourney(_journey?: Journey): Journey {
+  return createJourney();
+}
