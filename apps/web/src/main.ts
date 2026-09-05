@@ -7,12 +7,22 @@ import { GAME_SIZE, RosieGameScene } from "./game/RosieGameScene";
 import { GameAudio } from "./game/sound";
 import { createRunnerState } from "./domain/gallop-and-flutter";
 import { createJourney } from "./domain/journey";
+import {
+  cancelGrownUpHold,
+  closeGrownUpCorner,
+  createGrownUpCornerState,
+  startGrownUpHold,
+  triggerTwoFingerTap,
+  updateGrownUpHold,
+  type GrownUpCornerState,
+} from "./domain/grown-up-corner";
 
 export interface RosieRunnerInterface {
   getState: () => import("./domain/gallop-and-flutter").RunnerState;
   getJourney: () => import("./domain/journey").Journey;
   seekToEnd: () => void;
   isReady?: () => boolean;
+  isPaused?: () => boolean;
   hasSpriteSheet?: () => boolean;
   getCurrentAnimation?: () => string | undefined;
   triggerStumble?: () => void;
@@ -25,6 +35,7 @@ export interface RosieRunnerInterface {
   getArchway?: (stopId?: import("./domain/journey").StarStop) => import("./domain/gallop-and-flutter").RainbowArchway | undefined;
   isGuestWaving?: (stopId?: import("./domain/journey").StarStop) => boolean;
   getAcquiredStamps?: () => readonly import("./domain/journey").StarStop[];
+  getGrownUpCornerState?: () => GrownUpCornerState;
 }
 
 declare global {
@@ -54,14 +65,26 @@ const momentIcon = getElement<HTMLElement>("moment-icon");
 const momentNext = getElement<HTMLButtonElement>("moment-next");
 const cloudRest = getElement<HTMLElement>("cloud-rest");
 const restNext = getElement<HTMLButtonElement>("rest-next");
-const touchControl = getElement<HTMLButtonElement>("touch-control");
-const soundButtons = [getElement<HTMLButtonElement>("sound-toggle"), getElement<HTMLButtonElement>("game-sound-toggle")];
+const grownUpButton = getElement<HTMLButtonElement>("grown-up-corner-button");
+const grownUpMeter = document.getElementById("grown-up-meter") as SVGCircleElement | null;
+const grownUpDialog = getElement<HTMLElement>("grown-up-dialog");
+const grownUpSoundToggle = getElement<HTMLButtonElement>("grown-up-sound-toggle");
+const grownUpSoundLabel = getElement<HTMLElement>("grown-up-sound-label");
+const grownUpRestartButton = getElement<HTMLButtonElement>("grown-up-restart-button");
+const grownUpResumeButton = getElement<HTMLButtonElement>("grown-up-resume-button");
+const soundButtons = [getElement<HTMLButtonElement>("sound-toggle"), grownUpSoundToggle];
 const storyArtworks = Array.from(storybook.querySelectorAll<HTMLImageElement>(".storybook__art"));
 const sound = new GameAudio();
+
+let grownUpCornerState: GrownUpCornerState = createGrownUpCornerState();
+let holdRafId: number | undefined;
+let lastHoldTime = 0;
+const HOLD_RING_CIRCUMFERENCE = 94.25;
 
 let openingMomentIndex = 0;
 let visibleStoryArtworkIndex = 0;
 let scene: RosieGameScene | undefined;
+let phaserGame: Phaser.Game | undefined;
 let finalStarWaiting = false;
 
 const storyArtworkLoads = new Map<string, Promise<boolean>>();
@@ -144,6 +167,10 @@ function startGame(): void {
   gameShell.hidden = false;
   updateStars(0);
   updateConstellationMeter(0);
+  if (phaserGame) {
+    phaserGame.destroy(true);
+    phaserGame = undefined;
+  }
   scene = new RosieGameScene({
     onBirthdayStar: showBirthdayStar,
     onStarGatherChime: () => sound.play("star"),
@@ -158,7 +185,7 @@ function startGame(): void {
     onCloudRest: showCloudRest,
     onCelebration: showEnding,
   });
-  new Phaser.Game({
+  phaserGame = new Phaser.Game({
     type: Phaser.AUTO,
     parent: "game",
     width: GAME_SIZE.width,
@@ -259,12 +286,21 @@ function danceAgain(): void {
 
 function toggleSound(): void {
   sound.setEnabled(!sound.isEnabled());
-  soundButtons.forEach((button) => {
-    button.setAttribute("aria-pressed", String(sound.isEnabled()));
-    button.setAttribute("aria-label", sound.isEnabled() ? "Turn sound off" : "Turn sound on");
-    button.textContent = sound.isEnabled() ? "♪" : "×";
-  });
+  updateSoundUi();
   if (sound.isEnabled()) void sound.start();
+}
+
+function updateSoundUi(): void {
+  const isEnabled = sound.isEnabled();
+  soundButtons.forEach((button) => {
+    button.setAttribute("aria-pressed", String(isEnabled));
+    button.setAttribute("aria-label", isEnabled ? "Turn sound off" : "Turn sound on");
+  });
+  const coverSound = getElement<HTMLButtonElement>("sound-toggle");
+  coverSound.textContent = isEnabled ? "♪" : "×";
+  grownUpSoundLabel.textContent = isEnabled ? "Sound is on" : "Sound is muted";
+  const grownUpIcon = grownUpSoundToggle.querySelector("b");
+  if (grownUpIcon) grownUpIcon.textContent = isEnabled ? "♪" : "×";
 }
 
 function burstConfetti(count: number): void {
@@ -351,6 +387,104 @@ function burstConfetti(count: number): void {
   requestAnimationFrame(frame);
 }
 
+function updateHoldMeter(): void {
+  if (grownUpMeter) {
+    grownUpMeter.style.strokeDashoffset = String(HOLD_RING_CIRCUMFERENCE * (1 - grownUpCornerState.holdProgress));
+  }
+}
+
+function stopHoldLoop(): void {
+  if (holdRafId !== undefined) {
+    cancelAnimationFrame(holdRafId);
+    holdRafId = undefined;
+  }
+}
+
+function openGrownUpCorner(): void {
+  stopHoldLoop();
+  grownUpButton.classList.remove("is-holding");
+  grownUpButton.setAttribute("aria-expanded", "true");
+  grownUpDialog.hidden = false;
+  scene?.pause();
+  updateSoundUi();
+  window.setTimeout(() => grownUpResumeButton.focus(), 80);
+}
+
+function closeGrownUpCornerDialog(): void {
+  stopHoldLoop();
+  grownUpCornerState = closeGrownUpCorner(grownUpCornerState);
+  grownUpButton.classList.remove("is-holding");
+  grownUpButton.setAttribute("aria-expanded", "false");
+  grownUpDialog.hidden = true;
+  updateHoldMeter();
+  scene?.resume();
+}
+
+function startHoldLoop(): void {
+  stopHoldLoop();
+  lastHoldTime = performance.now();
+  const tick = (now: number): void => {
+    if (!grownUpCornerState.isHolding) return;
+    const delta = now - lastHoldTime;
+    lastHoldTime = now;
+    const update = updateGrownUpHold(grownUpCornerState, delta);
+    grownUpCornerState = update.state;
+    updateHoldMeter();
+    if (update.triggered) {
+      openGrownUpCorner();
+    } else {
+      holdRafId = requestAnimationFrame(tick);
+    }
+  };
+  holdRafId = requestAnimationFrame(tick);
+}
+
+function onGrownUpPointerDown(event: PointerEvent): void {
+  event.preventDefault();
+  event.stopPropagation();
+  try {
+    grownUpButton.setPointerCapture(event.pointerId);
+  } catch {
+    // Ignore pointer capture errors
+  }
+  grownUpCornerState = startGrownUpHold(grownUpCornerState);
+  grownUpButton.classList.add("is-holding");
+  startHoldLoop();
+}
+
+function onGrownUpPointerUp(event?: PointerEvent): void {
+  if (event) {
+    try {
+      if (grownUpButton.hasPointerCapture(event.pointerId)) {
+        grownUpButton.releasePointerCapture(event.pointerId);
+      }
+    } catch {
+      // Ignore
+    }
+  }
+  stopHoldLoop();
+  grownUpButton.classList.remove("is-holding");
+  grownUpCornerState = cancelGrownUpHold(grownUpCornerState);
+  updateHoldMeter();
+}
+
+function restartJourney(): void {
+  sound.play("button");
+  closeGrownUpCornerDialog();
+  gameShell.hidden = true;
+  moment.hidden = true;
+  cloudRest.hidden = true;
+  ending.hidden = true;
+  storybook.hidden = false;
+  openingMomentIndex = 0;
+  renderOpeningStorybookMoment();
+  if (phaserGame) {
+    phaserGame.destroy(true);
+    phaserGame = undefined;
+  }
+  scene = undefined;
+}
+
 storyNext.addEventListener("click", () => void advanceStory());
 momentNext.addEventListener("click", continueFromMoment);
 restNext.addEventListener("click", continueFromCloudRest);
@@ -358,18 +492,62 @@ soundButtons.forEach((button) => button.addEventListener("click", toggleSound));
 getElement<HTMLButtonElement>("dance-button").addEventListener("click", danceAgain);
 getElement<HTMLButtonElement>("replay-button").addEventListener("click", () => window.location.reload());
 
-const setTouch = (held: boolean): void => scene?.setTouchHeld(held);
-touchControl.addEventListener("pointerdown", (event) => {
-  event.preventDefault();
-  touchControl.setPointerCapture(event.pointerId);
-  scene?.jumpInput();
-  setTouch(true);
+grownUpButton.addEventListener("pointerdown", onGrownUpPointerDown);
+grownUpButton.addEventListener("pointerup", onGrownUpPointerUp);
+grownUpButton.addEventListener("pointercancel", onGrownUpPointerUp);
+grownUpButton.addEventListener("pointerleave", (e) => {
+  if (!grownUpButton.hasPointerCapture(e.pointerId)) {
+    onGrownUpPointerUp(e);
+  }
 });
-touchControl.addEventListener("pointerup", () => setTouch(false));
-touchControl.addEventListener("pointercancel", () => setTouch(false));
+grownUpButton.addEventListener("touchstart", (event) => {
+  if (event.targetTouches.length >= 2) {
+    event.preventDefault();
+    event.stopPropagation();
+    grownUpCornerState = triggerTwoFingerTap(grownUpCornerState);
+    updateHoldMeter();
+    openGrownUpCorner();
+  }
+}, { passive: false });
+grownUpButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+});
+
+grownUpResumeButton.addEventListener("click", () => {
+  sound.play("button");
+  closeGrownUpCornerDialog();
+});
+grownUpRestartButton.addEventListener("click", restartJourney);
+
+const activeStagePointers = new Set<number>();
+gameShell.addEventListener("pointerdown", (event) => {
+  if ((event.target as HTMLElement).closest("button, .moment, .grown-up-dialog")) return;
+  activeStagePointers.add(event.pointerId);
+  const canvas = gameShell.querySelector("canvas");
+  if (event.target !== canvas) {
+    scene?.jumpInput();
+  }
+  scene?.setTouchHeld(true);
+});
+
+window.addEventListener("pointerup", (event) => {
+  activeStagePointers.delete(event.pointerId);
+  if (activeStagePointers.size === 0) {
+    scene?.setTouchHeld(false);
+  }
+});
+
+window.addEventListener("pointercancel", (event) => {
+  activeStagePointers.delete(event.pointerId);
+  if (activeStagePointers.size === 0) {
+    scene?.setTouchHeld(false);
+  }
+});
 
 document.addEventListener("keydown", (event) => {
   if (event.code !== "Space" || event.repeat) return;
+  if (!grownUpDialog.hidden) return;
   if (!moment.hidden) { event.preventDefault(); continueFromMoment(); }
   else if (!cloudRest.hidden) { event.preventDefault(); continueFromCloudRest(); }
   else if (!ending.hidden) { event.preventDefault(); danceAgain(); }
@@ -380,6 +558,7 @@ window.__ROSIE_RUNNER__ = {
   getJourney: () => scene?.getJourney() ?? createJourney(),
   seekToEnd: () => scene?.seekToEnd(),
   isReady: () => scene?.isReady() ?? false,
+  isPaused: () => scene?.isPaused() ?? false,
   hasSpriteSheet: () => scene?.hasSpriteSheet() ?? false,
   getCurrentAnimation: () => scene?.getCurrentAnimation(),
   triggerStumble: () => scene?.triggerStumble(),
@@ -392,6 +571,7 @@ window.__ROSIE_RUNNER__ = {
   getArchway: (stopId) => scene?.getArchway(stopId),
   isGuestWaving: (stopId) => scene?.isGuestWaving(stopId) ?? false,
   getAcquiredStamps: () => scene?.getAcquiredStamps() ?? [],
+  getGrownUpCornerState: () => grownUpCornerState,
 };
 
 renderDots();

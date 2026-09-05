@@ -437,3 +437,153 @@ test("Family Guest Rainbow Archway arrival sequence pauses forward galloping, ga
   acquiredStamps = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAcquiredStamps?.());
   expect(acquiredStamps).toEqual(["garden", "lacewood"]);
 });
+
+test("fullscreen touch ergonomics and keyboard Up Arrow mirror primary jump and flutter input", async ({ page }) => {
+  await startStorybookFlight(page);
+
+  // 1. Tapping canvas triggers jump
+  await page.locator("#game canvas").click({ position: { x: 300, y: 300 } });
+  await expect.poll(async () => {
+    const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
+    return s && !s.isGrounded && (s.mode === "jumping" || s.velocityY < 0);
+  }).toBe(true);
+
+  // Holding canvas pointer down triggers flutter-glide
+  await page.mouse.move(300, 300);
+  await page.mouse.down();
+  await expect.poll(async () => {
+    return (await page.evaluate(() => window.__ROSIE_RUNNER__?.getState()))?.isFluttering;
+  }, { timeout: 3000 }).toBe(true);
+  let state = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
+  expect(state?.mode).toBe("fluttering");
+  expect(state?.velocityY).toBeLessThanOrEqual(90);
+  await page.mouse.up();
+
+  // Wait to land
+  await expect.poll(async () => {
+    return (await page.evaluate(() => window.__ROSIE_RUNNER__?.getState()))?.isGrounded;
+  }, { timeout: 5000 }).toBe(true);
+
+  // 2. Keyboard Up Arrow mirrors primary jump input
+  await page.keyboard.press("ArrowUp");
+  await expect.poll(async () => {
+    const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
+    return s && !s.isGrounded && (s.mode === "jumping" || s.velocityY < 0);
+  }).toBe(true);
+
+  // Holding Up Arrow triggers flutter-glide
+  await page.keyboard.down("ArrowUp");
+  await expect.poll(async () => {
+    return (await page.evaluate(() => window.__ROSIE_RUNNER__?.getState()))?.isFluttering;
+  }, { timeout: 3000 }).toBe(true);
+  state = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
+  expect(state?.mode).toBe("fluttering");
+  await page.keyboard.up("ArrowUp");
+});
+
+test("Storybook Stage maintains a sharp, letterboxed 16:9 aspect ratio across iPad, mobile, and desktop viewports", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Begin the story" }).click();
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await page.getByRole("button", { name: "Fly with Rosie" }).click();
+  await expect(page.locator("#game canvas")).toBeVisible();
+
+  // Desktop 1280x720 (native 16:9)
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.waitForTimeout(300);
+  let canvasBox = await page.locator("#game canvas").boundingBox();
+  expect(canvasBox).not.toBeNull();
+  if (canvasBox) {
+    const ratio = canvasBox.width / canvasBox.height;
+    expect(ratio).toBeCloseTo(16 / 9, 1);
+  }
+
+  // iPad 1024x768 (4:3 aspect ratio)
+  await page.setViewportSize({ width: 1024, height: 768 });
+  await page.waitForTimeout(300);
+  canvasBox = await page.locator("#game canvas").boundingBox();
+  expect(canvasBox).not.toBeNull();
+  if (canvasBox) {
+    const ratio = canvasBox.width / canvasBox.height;
+    expect(ratio).toBeCloseTo(16 / 9, 1);
+    expect(canvasBox.height).toBeLessThanOrEqual(578);
+    expect(canvasBox.height).toBeGreaterThanOrEqual(574);
+  }
+
+  // Mobile 390x844 (tall phone)
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.waitForTimeout(300);
+  canvasBox = await page.locator("#game canvas").boundingBox();
+  expect(canvasBox).not.toBeNull();
+  if (canvasBox) {
+    const ratio = canvasBox.width / canvasBox.height;
+    expect(ratio).toBeCloseTo(16 / 9, 1);
+    expect(canvasBox.height).toBeLessThanOrEqual(222);
+    expect(canvasBox.height).toBeGreaterThanOrEqual(217);
+  }
+});
+
+test("Grown-up Corner requires 2-second hold to reveal controls and pause play while ignoring brief accidental taps", async ({ page }) => {
+  await startStorybookFlight(page);
+
+  const grownUpButton = page.locator("#grown-up-corner-button");
+  await expect(grownUpButton).toBeVisible();
+
+  // Accidental brief tap (< 2s) does not open dialog or pause play
+  await grownUpButton.click();
+  await expect(page.locator("#grown-up-dialog")).toBeHidden();
+  expect(await page.evaluate(() => window.__ROSIE_RUNNER__?.isPaused?.())).toBe(false);
+
+  // Sustained 2-second press on Grown-up Corner
+  const buttonBox = await grownUpButton.boundingBox();
+  expect(buttonBox).not.toBeNull();
+  if (buttonBox) {
+    await page.mouse.move(buttonBox.x + buttonBox.width / 2, buttonBox.y + buttonBox.height / 2);
+    await page.mouse.down();
+    await page.waitForTimeout(2100);
+    await page.mouse.up();
+  }
+
+  // Reveals dialog, pauses flight, and reveals sound toggle and restart controls
+  await expect(page.locator("#grown-up-dialog")).toBeVisible();
+  expect(await page.evaluate(() => window.__ROSIE_RUNNER__?.isPaused?.())).toBe(true);
+  await expect(page.locator("#grown-up-sound-toggle")).toBeVisible();
+  await expect(page.locator("#grown-up-restart-button")).toBeVisible();
+  await expect(page.locator("#grown-up-resume-button")).toBeVisible();
+
+  // Toggling sound works
+  const initialPressed = await page.locator("#grown-up-sound-toggle").getAttribute("aria-pressed");
+  await page.locator("#grown-up-sound-toggle").click();
+  const nextPressed = await page.locator("#grown-up-sound-toggle").getAttribute("aria-pressed");
+  expect(nextPressed).not.toBe(initialPressed);
+
+  // Resuming flight unpauses game and hides dialog
+  await page.locator("#grown-up-resume-button").click();
+  await expect(page.locator("#grown-up-dialog")).toBeHidden();
+  expect(await page.evaluate(() => window.__ROSIE_RUNNER__?.isPaused?.())).toBe(false);
+
+  // Secondary two-finger tap immediately reveals controls
+  await page.evaluate(() => {
+    const btn = document.getElementById("grown-up-corner-button");
+    if (!btn) throw new Error("Missing grown-up-corner-button");
+    const t1 = new Touch({ identifier: 0, target: btn, clientX: 10, clientY: 10 });
+    const t2 = new Touch({ identifier: 1, target: btn, clientX: 20, clientY: 20 });
+    const event = new TouchEvent("touchstart", {
+      touches: [t1, t2],
+      targetTouches: [t1, t2],
+      changedTouches: [t1, t2],
+      bubbles: true,
+      cancelable: true,
+    });
+    btn.dispatchEvent(event);
+  });
+  await expect(page.locator("#grown-up-dialog")).toBeVisible();
+  expect(await page.evaluate(() => window.__ROSIE_RUNNER__?.isPaused?.())).toBe(true);
+
+  // Restart control restarts the journey
+  await page.locator("#grown-up-restart-button").click();
+  await expect(page.locator("#storybook")).toBeVisible();
+  await expect(page.locator("#game-shell")).toBeHidden();
+});
+

@@ -123,6 +123,7 @@ export class RosieGameScene extends Phaser.Scene {
   private runnerState: RunnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
   private player!: Phaser.GameObjects.Sprite;
   private spaceKey: Phaser.Input.Keyboard.Key | undefined;
+  private upKey: Phaser.Input.Keyboard.Key | undefined;
   private touchHeld = false;
   private frozen = false;
   private nextStop = 0;
@@ -181,8 +182,11 @@ export class RosieGameScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, .08, .08, -340, 0);
     this.cameras.main.setBackgroundColor("#8bd8f1");
     this.spaceKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-    this.input.keyboard?.addCapture(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.upKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+    this.input.keyboard?.addCapture([Phaser.Input.Keyboard.KeyCodes.SPACE, Phaser.Input.Keyboard.KeyCodes.UP]);
     this.spaceKey?.on("down", () => this.jumpInput());
+    this.upKey?.on("down", () => this.jumpInput());
+    this.input.addPointer(1);
     this.input.on("pointerdown", () => this.jumpInput());
 
     const particles = this.add.particles(0, 0, "sparkle", {
@@ -200,8 +204,9 @@ export class RosieGameScene extends Phaser.Scene {
     this.sparkleTrail = particles;
 
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
-      this.input.keyboard?.removeCapture(Phaser.Input.Keyboard.KeyCodes.SPACE);
+      this.input.keyboard?.removeCapture([Phaser.Input.Keyboard.KeyCodes.SPACE, Phaser.Input.Keyboard.KeyCodes.UP]);
       this.spaceKey?.removeAllListeners();
+      this.upKey?.removeAllListeners();
       this.input.removeAllListeners();
     });
     this.ready = true;
@@ -219,7 +224,7 @@ export class RosieGameScene extends Phaser.Scene {
     if (this.frozen) return;
 
     const pointerHeld = this.input.activePointer?.isDown ?? false;
-    const isFlutterHeld = Boolean(this.spaceKey?.isDown || pointerHeld || this.touchHeld);
+    const isFlutterHeld = Boolean(this.spaceKey?.isDown || this.upKey?.isDown || pointerHeld || this.touchHeld);
     const deltaSeconds = Math.min(delta / 1000, 0.1);
 
     this.runnerState = updateRunner(this.runnerState, deltaSeconds, isFlutterHeld);
@@ -372,7 +377,7 @@ export class RosieGameScene extends Phaser.Scene {
       arrivedAtArchway: false,
       pausedForReunion: false,
     };
-    this.resumeMotion();
+    this.resume();
   }
 
   continueAfterCloudRest(): void {
@@ -385,17 +390,21 @@ export class RosieGameScene extends Phaser.Scene {
       isGrounded: false,
       mode: "jumping",
     };
-    this.resumeMotion();
+    this.resume();
   }
 
-  private pauseMotion(): void {
+  pause(): void {
     this.frozen = true;
     this.sparkleTrail?.pause();
   }
 
-  private resumeMotion(): void {
+  resume(): void {
     this.frozen = false;
     this.sparkleTrail?.resume();
+  }
+
+  isPaused(): boolean {
+    return this.frozen;
   }
 
   private handleArchwayArrival(stop: StopStory): void {
@@ -408,7 +417,7 @@ export class RosieGameScene extends Phaser.Scene {
       pausedForReunion: true,
       courseCompleted: true,
     };
-    this.pauseMotion();
+    this.pause();
 
     const star = this.children.getByName(`star-${stop.id}`) as Phaser.GameObjects.Star | null;
     if (star) {
