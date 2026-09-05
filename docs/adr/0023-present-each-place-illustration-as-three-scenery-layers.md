@@ -15,3 +15,4 @@ The Web Edition runner scrolled each approved 16:9 painting at 1:1 with Stella, 
 - Scenery Layers are candidate assets like any other: they live under `shared/edition/source-media/<place>/` with provenance, and are owner-approved before they become canonical (ADR-0017).
 - A prepare step derives web assets from source media. The Web Edition stops hand-copying paintings into `apps/web/public/assets`.
 - The scene builds one place at a time. World coordinates restart per place, and adjacent places never abut in one world.
+- The image API caps aspect ratio at 3:1, so only the far layer is one painting. The middle and near layers are built from Set Pieces, authored transparent paintings placed along the layer by the place's data, which also lets generic pieces be shared across places.
