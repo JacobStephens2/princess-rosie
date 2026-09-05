@@ -198,7 +198,7 @@ function startGame(): void {
     onCelebration: showEnding,
   });
   phaserGame = new Phaser.Game({
-    type: Phaser.AUTO,
+    type: import.meta.env.VITE_PHASER_CANVAS === "1" ? Phaser.CANVAS : Phaser.AUTO,
     parent: "game",
     width: GAME_SIZE.width,
     height: GAME_SIZE.height,
