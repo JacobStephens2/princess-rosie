@@ -577,7 +577,12 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 .moment__card > p:not(.eyebrow) { margin: 8px auto 24px; font-size: clamp(18px, 2.5vw, 24px); }
 #moment-path { color: var(--lavender); font-weight: bold; }
 
-.ending { align-items: center; }
+.ending {
+  align-items: center;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 24px 0;
+}
 .ending__art { background: url("/assets/celebration-art.png") center 42% / cover no-repeat; }
 .ending-character { position: absolute; inset: -3%; z-index: -1; background: url("/assets/celebration-art.png") center 42% / cover no-repeat; pointer-events: none; }
 .ending-character--rosie { clip-path: polygon(10% 42%, 40% 42%, 40% 100%, 8% 100%); transform-origin: 25% 76%; }
@@ -585,10 +590,10 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 .ending-character--gigi { clip-path: polygon(0 8%, 27% 8%, 27% 100%, 0 100%); transform-origin: 12% 72%; }
 .ending-character--guests { clip-path: polygon(40% 15%, 100% 15%, 100% 100%, 40% 100%); transform-origin: 72% 68%; }
 .ending::before { content: ""; position: absolute; inset: 0; z-index: -2; background: rgba(68,24,64,.25); }
-.ending__card { max-width: 780px; margin: 20px; }
-.ending h2 { margin: 6px 0 14px; color: var(--berry); font-size: clamp(45px, 7vw, 82px); line-height: .95; }
+.ending__card { max-width: 780px; margin: auto; padding: clamp(20px, 3vw, 36px) clamp(20px, 4vw, 48px); }
+.ending h2 { margin: 4px 0 10px; color: var(--berry); font-size: clamp(34px, 5.5vw, 60px); line-height: .98; }
 .ending h2 span { color: var(--lavender); }
-.ending__card > p:not(.eyebrow) { font-size: clamp(18px, 2.3vw, 24px); }
+.ending__card > p:not(.eyebrow) { font-size: clamp(16px, 2vw, 20px); margin: 6px auto; }
 .party-dancers { display: flex; align-items: center; justify-content: center; gap: clamp(7px, 1.5vw, 16px); margin: 10px auto 18px; }
 .party-dancers span { display: inline-grid; place-items: center; min-width: 48px; height: 48px; padding: 0 8px; font-size: 31px; background: #fff; border: 2px solid #f3cadd; border-radius: 999px; box-shadow: 0 5px 12px rgba(79,40,80,.12); }
 .party-dancers__guests { font-size: 24px !important; }
@@ -604,6 +609,225 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 .ending.is-dancing .ending-character--guests { animation: illustrated-guests-clap .25s ease-in-out 12 alternate; }
 .text-button { padding: 16px; color: var(--berry); font-weight: bold; background: transparent; border: 0; text-decoration: underline; cursor: pointer; }
 #confetti { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* Celebration Constellation */
+.celebration-constellation {
+  position: relative;
+  width: min(420px, 100%);
+  margin: 0 auto 12px;
+  padding: 10px 10px 18px;
+}
+
+.constellation-glow {
+  position: absolute;
+  inset: -10px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(255, 235, 140, 0.45) 0%, rgba(255, 214, 94, 0.15) 55%, transparent 75%);
+  filter: blur(14px);
+  pointer-events: none;
+}
+
+.constellation-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 0 6px rgba(255, 225, 110, 0.8));
+}
+
+.constellation-line {
+  stroke: rgba(255, 235, 140, 0.85);
+  stroke-width: 2.5;
+  stroke-dasharray: 4 2;
+  animation: constellation-line-pulse 2.5s ease-in-out infinite alternate;
+}
+
+.constellation-stars-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.constellation-star {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffd861;
+  font-size: 22px;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 8px rgba(255, 216, 97, 0.9));
+  animation: constellation-star-twinkle 3s ease-in-out infinite;
+}
+
+.constellation-star--castle {
+  color: #fff4a8;
+  font-size: 32px;
+  filter: drop-shadow(0 0 14px rgba(255, 240, 150, 1));
+  z-index: 2;
+}
+
+.constellation-star--castle .constellation-star__label {
+  margin-top: 2px;
+  padding: 2px 7px;
+  color: #744068;
+  font: 800 10px/1 ui-rounded, sans-serif;
+  background: rgba(255, 248, 234, 0.95);
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(79, 40, 80, 0.2);
+  white-space: nowrap;
+}
+
+.constellation-star[data-star="castle"] { left: 50%; top: 20%; }
+.constellation-star[data-star="garden"] { left: 16.6%; top: 40%; }
+.constellation-star[data-star="lacewood"] { left: 33.3%; top: 65%; }
+.constellation-star[data-star="abbey"] { left: 8.3%; top: 80%; }
+.constellation-star[data-star="clouds"] { left: 66.6%; top: 65%; }
+.constellation-star[data-star="peak"] { left: 83.3%; top: 40%; }
+.constellation-star[data-star="sea"] { left: 91.6%; top: 80%; }
+
+@keyframes constellation-line-pulse {
+  0% { opacity: 0.6; stroke-width: 2; }
+  100% { opacity: 1; stroke-width: 3; }
+}
+
+@keyframes constellation-star-twinkle {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+  50% { transform: translate(-50%, -50%) scale(1.18); opacity: 1; }
+}
+
+.constellation-star.is-joining {
+  animation: constellation-star-join 0.6s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+@keyframes constellation-star-join {
+  0% { transform: translate(-50%, -50%) scale(0) rotate(-45deg); opacity: 0; }
+  60% { transform: translate(-50%, -50%) scale(1.4) rotate(15deg); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.95; }
+}
+
+/* Celebration Album */
+.celebration-album {
+  width: 100%;
+  max-width: 660px;
+  margin: 16px auto;
+  padding: 16px 20px;
+  background: rgba(255, 252, 244, 0.95);
+  border: 3px solid #f3c772;
+  border-radius: 28px;
+  box-shadow: 0 10px 30px rgba(79, 40, 80, 0.15);
+}
+
+.celebration-album__header {
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.celebration-album__title {
+  margin: 2px 0 0;
+  color: var(--berry);
+  font: 900 clamp(20px, 3vw, 26px)/1.1 ui-rounded, "Arial Rounded MT Bold", sans-serif;
+}
+
+.celebration-album__grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.album-stamp-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: clamp(68px, 12vw, 80px);
+  padding: 8px 4px;
+  background: #fff9ed;
+  border: 2px dashed #e8992e;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.2), box-shadow 0.18s ease;
+}
+
+.album-stamp-item:hover,
+.album-stamp-item:focus-visible {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 14px rgba(232, 153, 46, 0.35);
+  outline: none;
+}
+
+.album-stamp-item.is-active {
+  background: #fff2db;
+  border-color: #d46320;
+  border-style: solid;
+  box-shadow: 0 0 0 3px rgba(212, 99, 32, 0.35), 0 8px 18px rgba(79, 40, 80, 0.2);
+  transform: translateY(-4px) scale(1.08);
+}
+
+.album-stamp-item__icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.album-stamp-item__guest {
+  color: #7d3258;
+  font: 800 11px/1.1 ui-rounded, sans-serif;
+  text-align: center;
+}
+
+.celebration-album__preview {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  background: radial-gradient(circle at 50% 20%, #fffdf7 0%, #fff5e2 100%);
+  border: 2px solid #ecd398;
+  border-radius: 18px;
+  text-align: left;
+}
+
+.album-preview__icon {
+  font-size: 38px;
+  line-height: 1;
+  filter: drop-shadow(0 2px 8px rgba(220, 120, 40, 0.3));
+}
+
+.album-preview__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.album-preview__title {
+  color: #7d3258;
+  font: 900 16px/1.2 ui-rounded, "Arial Rounded MT Bold", sans-serif;
+}
+
+.album-preview__guest {
+  color: #a05a84;
+  font: 700 11px/1 ui-rounded, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.album-preview__desc {
+  margin: 2px 0 0;
+  color: #4a243b;
+  font: 500 13px/1.35 ui-rounded, sans-serif;
+}
+
+.storybook-button--fly-again {
+  min-width: 220px;
+  font-size: clamp(19px, 2.4vw, 24px);
+  background: linear-gradient(145deg, #e94f9b, #b9296f);
+  box-shadow: 0 10px 0 #7e1948, 0 18px 30px rgba(185, 41, 111, 0.4);
+}
+
+.storybook-button--fly-again:hover {
+  box-shadow: 0 12px 0 #7e1948, 0 22px 34px rgba(185, 41, 111, 0.45);
+}
 
 @keyframes story-drift { from { transform: scale(1.03) translate3d(-.5%,0,0); } to { transform: scale(1.08) translate3d(.8%,-1.2%,0); } }
 @keyframes card-in { from { opacity: 0; transform: translateY(20px) scale(.94); } to { opacity: 1; transform: none; } }
