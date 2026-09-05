@@ -5,7 +5,7 @@ A joyful, replayable birthday game centered on a fictional storybook hero inspir
 ## Language
 
 **Web Edition**:
-The browser-playable edition of Princess Rosie and the Seven Birthday Stars built in Phaser, TypeScript, and Vite, deployed at `rosie.stephens.page`. It is the canonical, active edition under development.
+The browser-playable edition of Princess Rosie and the Seven Birthday Stars built in Phaser, TypeScript, and Vite. It is the canonical, active edition under development.
 _Avoid_: Original Edition, Phaser prototype, Phaser Web Edition
 
 **Godot Edition**:

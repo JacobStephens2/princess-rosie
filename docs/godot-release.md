@@ -5,7 +5,7 @@ Release Candidate. Construction is local and never publishes. Credentialed
 signing, notarization, and `gh release` remain separate steps. See ADR-0017
 and ADR-0018.
 
-The Phaser Edition at [rosi.stephens.page](https://rosi.stephens.page/) is a
+The Web Edition at [rosie.stephens.page](https://rosie.stephens.page/) is a
 different artifact. Its evidence is the `Deploy production` workflow in
 `.github/workflows/deploy.yml`. Do not treat that workflow as Godot Edition
 release evidence.
