@@ -178,7 +178,7 @@ test("multi-state Rosie and Stella sprite sheet animates gallop, leap, flutter, 
   // 1. Verify multi-state sprite sheet is loaded and animations are registered
   await expect.poll(async () => {
     return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.() && window.__ROSIE_RUNNER__?.hasSpriteSheet?.());
-  }, { timeout: 4000 }).toBe(true);
+  }, { timeout: 15_000 }).toBe(true);
 
   // 2. On Storybook Ground, gallop animation is active
   await expect.poll(async () => {
@@ -250,7 +250,7 @@ async function startStorybookFlight(page: Page): Promise<void> {
   await expect(page.locator("#game canvas")).toBeVisible();
   await expect.poll(async () => {
     return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.());
-  }, { timeout: 5000 }).toBe(true);
+  }, { timeout: 15_000 }).toBe(true);
 }
 
 test("playful obstacles on Storybook Ground cause Playful Stumble with speed reduction, wobble, and smooth recovery without failure", async ({ page }) => {

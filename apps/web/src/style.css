@@ -407,8 +407,11 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
   background: rgba(255,248,234,.9);
   border-radius: 999px;
   box-shadow: 0 7px 20px rgba(79,40,80,.12);
-  animation: hint-fade 8s 2s both;
   pointer-events: none;
+}
+
+.game-shell:not([hidden]) .flight-hint {
+  animation: hint-fade 8s 2s both;
 }
 
 .flight-hint span { display: inline-grid; place-items: center; width: 28px; height: 28px; margin-right: 5px; color: white; background: var(--pink); border-radius: 50%; }
