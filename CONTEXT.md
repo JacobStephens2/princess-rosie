@@ -45,6 +45,10 @@ _Avoid_: Seventh scattered star, ungathered star, bonus star, seventh collectibl
 One of six magical routes opened by a gathered Birthday Star that carries its Family Guest safely ahead to Princess Zélie's celebration. The Castle Star never needs one.
 _Avoid_: Teleporter, guest collection, seventh returning path
 
+**Rainbow Archway**:
+The golden arch crowned with rainbow bands where a Family Guest waits at the end of her place's Single Route. The Birthday Star flies to Stella there, the Rainbow Path opens, and the Storybook Stamp is awarded.
+_Avoid_: Finish gate, checkpoint, goal post
+
 **Path Choice**:
 A deferred, post-MVP interaction concept in which Princess Rosie guides Stella onto one of two equally safe routes that later rejoin. Path Choices are absent from the single-route MVP.
 _Avoid_: Branch, difficulty path, correct route
@@ -82,11 +86,11 @@ The warm, nonverbal storybook-acoustic world of soft bells, celesta, harp, airy 
 _Avoid_: Arcade soundtrack, cinematic battle audio, realistic simulation
 
 **Place**:
-One of the named passages of Fairytale Sicily the journey travels in order before the Birthday Castle: Rosalia's Rose Garden, Zélie's Lacewood, Golden Bell Abbey, the Cloister of Clouds, Pellegrino Peak, and the Sapphire Sea. Every place is declared by the same data — a name, a Family Guest and her cutout, a Place Illustration, a tint, a Place Cameo, an Altitude Ladder of interactions, a Playful Bump, a Birthday Star, a Rainbow Path, and a Birthday Star Moment sentence — and presented through one code path, so places differ in art, sound, and data rather than in behaviour. A declared place becomes flyable once its Place Illustration is approved into the Edition Pack.
+One of the named passages of Fairytale Sicily the journey travels in order before the Birthday Castle: Rosalia's Rose Garden, Zélie's Lacewood, Golden Bell Abbey, the Cloister of Clouds, Pellegrino Peak, and the Sapphire Sea. Every place is declared by the same data — a name, a Family Guest and her cutout, a Place Illustration of three Scenery Layers, its playful obstacles, Springboards, and Star Sparkles along the Storybook Ground, a Rainbow Archway, a Birthday Star, a Rainbow Path, and a Birthday Star Moment sentence — and presented through one code path, so places differ in art, sound, and data rather than in behaviour. A declared place becomes flyable once its Scenery Layers are approved.
 _Avoid_: Level, stage, area, world
 
 **Place Cameo**:
-A brief, scenic mid-passage sighting of a Family Guest in her Place during the Single Route, which clears the Storybook Stage well before the Birthday Star approach begins.
+A superseded Godot Edition concept in which a Family Guest was sighted mid-passage during the Single Route. In the Web Edition she waits at her Rainbow Archway instead.
 _Avoid_: Companion, sidekick, obstacle, mid-level checkpoint
 
 **Altitude Ladder**:
@@ -154,8 +158,12 @@ The illustrated, lightly animated view of Princess Rosie and Stella traveling th
 _Avoid_: Fly-through, gameplay skin, background swap
 
 **Place Illustration**:
-The full-Stage scenery painting that establishes one place during the Flight Presentation while leaving gameplay-significant characters, Birthday Stars, and encounters to distinct interactive elements.
-_Avoid_: Background plate, scrolling panorama, wallpaper
+The layered scenery painting that establishes one place during the Flight Presentation. It is painted wider than the Storybook Stage and separated into three Scenery Layers that travel past at different depths as Stella advances, while gameplay-significant characters, Birthday Stars, and encounters remain distinct interactive elements.
+_Avoid_: Background plate, wallpaper, single-screen backdrop
+
+**Scenery Layer**:
+One of the three paintings, far, middle, and near, that together form a Place Illustration and travel past at their own depth as Stella advances. Only the near layer, which carries the Storybook Ground, may repeat within a place.
+_Avoid_: Parallax layer, depth layer, background layer
 
 **Opening Storybook Moment**:
 A Storybook Moment before the flight begins, comprising the title-cover moment and the three moments that establish the celebration, the scattered Birthday Stars, and Princess Rosie's promise to help.
