@@ -162,8 +162,12 @@ The layered scenery painting that establishes one place during the Flight Presen
 _Avoid_: Background plate, wallpaper, single-screen backdrop
 
 **Scenery Layer**:
-One of the three paintings, far, middle, and near, that together form a Place Illustration and travel past at their own depth as Stella advances. Only the near layer, which carries the Storybook Ground, may repeat within a place.
+One of the three depths, far, middle, and near, that together form a Place Illustration and travel past at their own pace as Stella advances. The far layer is a single painting; the middle and near layers are compositions of Set Pieces, and only the near layer, which carries the Storybook Ground, may repeat within a place.
 _Avoid_: Parallax layer, depth layer, background layer
+
+**Set Piece**:
+One authored transparent painting, such as an arch cluster, a bell tower, or a rose wall, placed along a Scenery Layer by its place's data. Most Set Pieces belong to one place; a small shared library holds generic pieces any place may borrow.
+_Avoid_: Prop, tile, decal
 
 **Opening Storybook Moment**:
 A Storybook Moment before the flight begins, comprising the title-cover moment and the three moments that establish the celebration, the scattered Birthday Stars, and Princess Rosie's promise to help.
