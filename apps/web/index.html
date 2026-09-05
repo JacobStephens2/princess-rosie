@@ -55,12 +55,38 @@
           <div id="star-tracker" class="star-tracker" aria-label="0 of 7 Birthday Stars">
             <span class="star is-lit">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
           </div>
-          <button id="game-sound-toggle" class="round-button round-button--small" type="button" aria-label="Turn sound off" aria-pressed="true">♪</button>
+          <button id="grown-up-corner-button" class="grown-up-corner-button" type="button" aria-label="Grown-up Corner (hold 2 seconds)" aria-haspopup="dialog" aria-expanded="false">
+            <span class="grown-up-corner-button__ring" aria-hidden="true">
+              <svg class="grown-up-corner-button__svg" viewBox="0 0 36 36">
+                <circle class="grown-up-corner-button__track" cx="18" cy="18" r="15" />
+                <circle class="grown-up-corner-button__meter" id="grown-up-meter" cx="18" cy="18" r="15" />
+              </svg>
+            </span>
+            <span class="grown-up-corner-button__icon" aria-hidden="true">✦</span>
+            <span class="grown-up-corner-button__label">Grown-ups</span>
+          </button>
         </header>
         <div id="flight-hint" class="flight-hint"><span aria-hidden="true">↑</span> Tap to jump · Hold to flutter</div>
-        <button id="touch-control" class="touch-control" type="button" aria-label="Tap to jump or flap, hold to flutter">
-          <span aria-hidden="true">🦄</span><b>JUMP</b>
-        </button>
+
+        <div id="grown-up-dialog" class="moment grown-up-dialog" hidden aria-modal="true" role="dialog" aria-labelledby="grown-up-title" aria-live="assertive">
+          <div class="moment__card grown-up-card">
+            <div class="moment__icon moment__icon--grown-up" aria-hidden="true">✦</div>
+            <p class="eyebrow">A quiet pause for helpers</p>
+            <h2 id="grown-up-title">Grown-up Corner</h2>
+            <p class="grown-up-copy">Story controls and sound for Grown-up Helpers.</p>
+            <div class="grown-up-actions">
+              <button id="grown-up-sound-toggle" class="storybook-button storybook-button--secondary" type="button" aria-label="Turn sound off" aria-pressed="true">
+                <span id="grown-up-sound-label">Sound is on</span> <b aria-hidden="true">♪</b>
+              </button>
+              <button id="grown-up-restart-button" class="storybook-button storybook-button--warm" type="button">
+                <span>Start journey over</span> <b aria-hidden="true">↺</b>
+              </button>
+              <button id="grown-up-resume-button" class="storybook-button" type="button">
+                <span>Resume flying</span> <b aria-hidden="true">→</b>
+              </button>
+            </div>
+          </div>
+        </div>
 
         <div id="moment" class="moment" hidden aria-live="assertive">
           <div class="moment__card">
