@@ -8,13 +8,16 @@ import {
   getSpriteAnimationState,
   DEFAULT_RUNNER_CONFIG,
   DEFAULT_ROSE_GARDEN_OBSTACLES,
+  AUTHORED_OBSTACLES,
   checkObstacleEncounters,
   type PlayfulObstacle,
   type Springboard,
   DEFAULT_ROSE_GARDEN_SPRINGBOARDS,
+  AUTHORED_SPRINGBOARDS,
   checkSpringboardEncounters,
   type StarSparkle,
   DEFAULT_ROSE_GARDEN_SPARKLES,
+  AUTHORED_SPARKLES,
   checkSparkleEncounters,
   AUTHORED_RAINBOW_ARCHWAYS,
   DEFAULT_ROSE_GARDEN_ARCHWAY,
@@ -638,6 +641,103 @@ describe("Gallop and Flutter Runner", () => {
         expect(advanced.x).toBe(arrival.state.x);
         expect(advanced.pausedForReunion).toBe(true);
       }
+    });
+  });
+
+  describe("All Six Places and Castle Approach Authored Course Content", () => {
+    test("every place has themed obstacles declared along Storybook Ground", () => {
+      const placeObstacles = new Map<string, PlayfulObstacle[]>();
+      for (const obs of AUTHORED_OBSTACLES) {
+        const list = placeObstacles.get(obs.place) ?? [];
+        list.push(obs);
+        placeObstacles.set(obs.place, list);
+        expect(obs.y).toBe(DEFAULT_RUNNER_CONFIG.groundY);
+        expect(obs.width).toBeGreaterThan(0);
+        expect(obs.height).toBeGreaterThan(0);
+      }
+
+      for (const stop of STAR_STOPS) {
+        const obsList = placeObstacles.get(stop);
+        expect(obsList).toBeDefined();
+        expect(obsList!.length).toBeGreaterThanOrEqual(2);
+      }
+
+      // Verify specific themed obstacle types
+      expect(placeObstacles.get("garden")?.[0]?.type).toBe("rose-bush");
+      expect(placeObstacles.get("lacewood")?.[0]?.type).toBe("silver-ribbon");
+      expect(placeObstacles.get("abbey")?.[0]?.type).toBe("bell-rope");
+      expect(placeObstacles.get("clouds")?.[0]?.type).toBe("soft-cloud");
+      expect(placeObstacles.get("peak")?.[0]?.type).toBe("flower-bank");
+      expect(placeObstacles.get("sea")?.[0]?.type).toBe("wave-crest");
+      expect(placeObstacles.get("castle")?.[0]?.type).toBe("castle-bunting");
+    });
+
+    test("every place has themed springboards declared along Storybook Ground", () => {
+      const placeSpringboards = new Map<string, Springboard[]>();
+      for (const sb of AUTHORED_SPRINGBOARDS) {
+        const list = placeSpringboards.get(sb.place) ?? [];
+        list.push(sb);
+        placeSpringboards.set(sb.place, list);
+        expect(sb.y).toBe(DEFAULT_RUNNER_CONFIG.groundY);
+        expect(sb.width).toBeGreaterThan(0);
+        expect(sb.height).toBeGreaterThan(0);
+      }
+
+      for (const stop of STAR_STOPS) {
+        const sbList = placeSpringboards.get(stop);
+        expect(sbList).toBeDefined();
+        expect(sbList!.length).toBeGreaterThanOrEqual(2);
+      }
+
+      // Verify specific themed springboard types
+      expect(placeSpringboards.get("garden")?.[0]?.type).toBe("giant-rose");
+      expect(placeSpringboards.get("lacewood")?.[0]?.type).toBe("lace-sprout");
+      expect(placeSpringboards.get("abbey")?.[0]?.type).toBe("abbey-bell");
+      expect(placeSpringboards.get("clouds")?.[0]?.type).toBe("cloud-updraft");
+      expect(placeSpringboards.get("peak")?.[0]?.type).toBe("mountain-blossom");
+      expect(placeSpringboards.get("sea")?.[0]?.type).toBe("sea-geyser");
+      expect(placeSpringboards.get("castle")?.[0]?.type).toBe("castle-drum");
+    });
+
+    test("every place has celestial Star Sparkles trails in the upper corridor", () => {
+      const placeSparkles = new Map<string, StarSparkle[]>();
+      for (const sp of AUTHORED_SPARKLES) {
+        const list = placeSparkles.get(sp.place) ?? [];
+        list.push(sp);
+        placeSparkles.set(sp.place, list);
+        expect(sp.y).toBeLessThan(DEFAULT_RUNNER_CONFIG.groundY);
+        expect(sp.y).toBeGreaterThanOrEqual(80);
+      }
+
+      for (const stop of STAR_STOPS) {
+        const spList = placeSparkles.get(stop);
+        expect(spList).toBeDefined();
+        expect(spList!.length).toBeGreaterThanOrEqual(6);
+      }
+    });
+
+    test("Stella encounters themed obstacles, springboards, and sparkles across non-garden places", () => {
+      // Lacewood springboard and sparkle encounter
+      const lacewoodSpringboard = AUTHORED_SPRINGBOARDS.find((sb) => sb.place === "lacewood")!;
+      const stateAtSpringboard = createRunnerState({
+        x: lacewoodSpringboard.x,
+        y: DEFAULT_RUNNER_CONFIG.groundY,
+        isGrounded: true,
+      });
+      const sbResult = checkSpringboardEncounters(stateAtSpringboard, AUTHORED_SPRINGBOARDS);
+      expect(sbResult.bouncedSpringboard?.id).toBe(lacewoodSpringboard.id);
+      expect(sbResult.state.velocityY).toBe(DEFAULT_RUNNER_CONFIG.springboardVelocity);
+
+      // Abbey obstacle stumble encounter
+      const abbeyObstacle = AUTHORED_OBSTACLES.find((o) => o.place === "abbey")!;
+      const stateAtAbbeyObs = createRunnerState({
+        x: abbeyObstacle.x,
+        y: DEFAULT_RUNNER_CONFIG.groundY,
+        isGrounded: true,
+      });
+      const obsResult = checkObstacleEncounters(stateAtAbbeyObs, AUTHORED_OBSTACLES);
+      expect(obsResult.stumbledObstacle?.id).toBe(abbeyObstacle.id);
+      expect(obsResult.state.mode).toBe("stumbling");
     });
   });
 });

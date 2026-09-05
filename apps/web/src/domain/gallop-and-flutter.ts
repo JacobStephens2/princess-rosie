@@ -50,7 +50,14 @@ export const SPRITE_ANIMATIONS: Record<SpriteAnimationState, SpriteAnimationConf
   },
 };
 
-export type ObstacleType = "rose-bush";
+export type ObstacleType =
+  | "rose-bush"
+  | "silver-ribbon"
+  | "bell-rope"
+  | "soft-cloud"
+  | "flower-bank"
+  | "wave-crest"
+  | "castle-bunting";
 
 export interface PlayfulObstacle {
   id: string;
@@ -62,7 +69,14 @@ export interface PlayfulObstacle {
   height: number;
 }
 
-export type SpringboardType = "giant-rose";
+export type SpringboardType =
+  | "giant-rose"
+  | "lace-sprout"
+  | "abbey-bell"
+  | "cloud-updraft"
+  | "mountain-blossom"
+  | "sea-geyser"
+  | "castle-drum";
 
 export interface Springboard {
   id: string;
@@ -219,6 +233,124 @@ export const DEFAULT_ROSE_GARDEN_OBSTACLES: readonly PlayfulObstacle[] = [
   },
 ];
 
+export const AUTHORED_OBSTACLES: readonly PlayfulObstacle[] = [
+  ...DEFAULT_ROSE_GARDEN_OBSTACLES,
+  // Zélie's Lacewood
+  {
+    id: "lacewood-obstacle-1",
+    place: "lacewood",
+    type: "silver-ribbon",
+    x: 2540,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 52,
+    height: 42,
+  },
+  {
+    id: "lacewood-obstacle-2",
+    place: "lacewood",
+    type: "silver-ribbon",
+    x: 2900,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 52,
+    height: 42,
+  },
+  // Golden Bell Abbey
+  {
+    id: "abbey-obstacle-1",
+    place: "abbey",
+    type: "bell-rope",
+    x: 4240,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 50,
+    height: 42,
+  },
+  {
+    id: "abbey-obstacle-2",
+    place: "abbey",
+    type: "bell-rope",
+    x: 4600,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 50,
+    height: 42,
+  },
+  // Cloister of Clouds
+  {
+    id: "clouds-obstacle-1",
+    place: "clouds",
+    type: "soft-cloud",
+    x: 5940,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 54,
+    height: 40,
+  },
+  {
+    id: "clouds-obstacle-2",
+    place: "clouds",
+    type: "soft-cloud",
+    x: 6300,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 54,
+    height: 40,
+  },
+  // Pellegrino Peak
+  {
+    id: "peak-obstacle-1",
+    place: "peak",
+    type: "flower-bank",
+    x: 7640,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 52,
+    height: 42,
+  },
+  {
+    id: "peak-obstacle-2",
+    place: "peak",
+    type: "flower-bank",
+    x: 8000,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 52,
+    height: 42,
+  },
+  // Sapphire Sea
+  {
+    id: "sea-obstacle-1",
+    place: "sea",
+    type: "wave-crest",
+    x: 9340,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 52,
+    height: 42,
+  },
+  {
+    id: "sea-obstacle-2",
+    place: "sea",
+    type: "wave-crest",
+    x: 9700,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 52,
+    height: 42,
+  },
+  // Birthday Castle Approach
+  {
+    id: "castle-obstacle-1",
+    place: "castle",
+    type: "castle-bunting",
+    x: 11040,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 50,
+    height: 40,
+  },
+  {
+    id: "castle-obstacle-2",
+    place: "castle",
+    type: "castle-bunting",
+    x: 11400,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 50,
+    height: 40,
+  },
+];
+
 export const DEFAULT_ROSE_GARDEN_SPRINGBOARDS: readonly Springboard[] = [
   {
     id: "garden-springboard-1",
@@ -240,19 +372,149 @@ export const DEFAULT_ROSE_GARDEN_SPRINGBOARDS: readonly Springboard[] = [
   },
 ];
 
-export const DEFAULT_ROSE_GARDEN_SPARKLES: readonly StarSparkle[] = [
-  // Arc 1 - catapulted from giant rose 1 (x: 360)
-  { id: "garden-sparkle-1", place: "garden", x: 410, y: 410 },
-  { id: "garden-sparkle-2", place: "garden", x: 460, y: 345 },
-  { id: "garden-sparkle-3", place: "garden", x: 510, y: 305 },
-  { id: "garden-sparkle-4", place: "garden", x: 560, y: 345 },
-  { id: "garden-sparkle-5", place: "garden", x: 610, y: 410 },
-  // Arc 2 - catapulted from giant rose 2 (x: 980)
-  { id: "garden-sparkle-6", place: "garden", x: 1030, y: 410 },
-  { id: "garden-sparkle-7", place: "garden", x: 1080, y: 345 },
-  { id: "garden-sparkle-8", place: "garden", x: 1130, y: 305 },
-  { id: "garden-sparkle-9", place: "garden", x: 1180, y: 345 },
-  { id: "garden-sparkle-10", place: "garden", x: 1230, y: 410 },
+export const AUTHORED_SPRINGBOARDS: readonly Springboard[] = [
+  ...DEFAULT_ROSE_GARDEN_SPRINGBOARDS,
+  // Zélie's Lacewood
+  {
+    id: "lacewood-springboard-1",
+    place: "lacewood",
+    type: "lace-sprout",
+    x: 2060,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 64,
+    height: 48,
+  },
+  {
+    id: "lacewood-springboard-2",
+    place: "lacewood",
+    type: "lace-sprout",
+    x: 2680,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 64,
+    height: 48,
+  },
+  // Golden Bell Abbey
+  {
+    id: "abbey-springboard-1",
+    place: "abbey",
+    type: "abbey-bell",
+    x: 3760,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 64,
+    height: 48,
+  },
+  {
+    id: "abbey-springboard-2",
+    place: "abbey",
+    type: "abbey-bell",
+    x: 4380,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 64,
+    height: 48,
+  },
+  // Cloister of Clouds
+  {
+    id: "clouds-springboard-1",
+    place: "clouds",
+    type: "cloud-updraft",
+    x: 5460,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 68,
+    height: 50,
+  },
+  {
+    id: "clouds-springboard-2",
+    place: "clouds",
+    type: "cloud-updraft",
+    x: 6080,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 68,
+    height: 50,
+  },
+  // Pellegrino Peak
+  {
+    id: "peak-springboard-1",
+    place: "peak",
+    type: "mountain-blossom",
+    x: 7160,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 64,
+    height: 48,
+  },
+  {
+    id: "peak-springboard-2",
+    place: "peak",
+    type: "mountain-blossom",
+    x: 7780,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 64,
+    height: 48,
+  },
+  // Sapphire Sea
+  {
+    id: "sea-springboard-1",
+    place: "sea",
+    type: "sea-geyser",
+    x: 8860,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 66,
+    height: 50,
+  },
+  {
+    id: "sea-springboard-2",
+    place: "sea",
+    type: "sea-geyser",
+    x: 9480,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 66,
+    height: 50,
+  },
+  // Birthday Castle Approach
+  {
+    id: "castle-springboard-1",
+    place: "castle",
+    type: "castle-drum",
+    x: 10560,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 64,
+    height: 48,
+  },
+  {
+    id: "castle-springboard-2",
+    place: "castle",
+    type: "castle-drum",
+    x: 11180,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 64,
+    height: 48,
+  },
+];
+
+function createPlaceSparkles(place: StarStop, offset: number): StarSparkle[] {
+  return [
+    { id: `${place}-sparkle-1`, place, x: offset + 410, y: 410 },
+    { id: `${place}-sparkle-2`, place, x: offset + 460, y: 345 },
+    { id: `${place}-sparkle-3`, place, x: offset + 510, y: 305 },
+    { id: `${place}-sparkle-4`, place, x: offset + 560, y: 345 },
+    { id: `${place}-sparkle-5`, place, x: offset + 610, y: 410 },
+    { id: `${place}-sparkle-6`, place, x: offset + 1030, y: 410 },
+    { id: `${place}-sparkle-7`, place, x: offset + 1080, y: 345 },
+    { id: `${place}-sparkle-8`, place, x: offset + 1130, y: 305 },
+    { id: `${place}-sparkle-9`, place, x: offset + 1180, y: 345 },
+    { id: `${place}-sparkle-10`, place, x: offset + 1230, y: 410 },
+  ];
+}
+
+export const DEFAULT_ROSE_GARDEN_SPARKLES: readonly StarSparkle[] = createPlaceSparkles("garden", 0);
+
+export const AUTHORED_SPARKLES: readonly StarSparkle[] = [
+  ...DEFAULT_ROSE_GARDEN_SPARKLES,
+  ...createPlaceSparkles("lacewood", 1700),
+  ...createPlaceSparkles("abbey", 3400),
+  ...createPlaceSparkles("clouds", 5100),
+  ...createPlaceSparkles("peak", 6800),
+  ...createPlaceSparkles("sea", 8500),
+  ...createPlaceSparkles("castle", 10200),
 ];
 
 export interface RunnerState {

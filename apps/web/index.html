@@ -129,6 +129,33 @@
         <div class="ending-character ending-character--guests" aria-hidden="true"></div>
         <canvas id="confetti" aria-hidden="true"></canvas>
         <div class="ending__card">
+          <!-- Seven-Star Constellation above Princess Zélie -->
+          <div id="celebration-constellation" class="celebration-constellation" aria-label="Seven Birthday Stars constellation shining above Princess Zélie">
+            <div class="constellation-glow" aria-hidden="true"></div>
+            <svg class="constellation-svg" viewBox="0 0 360 100" aria-hidden="true">
+              <line class="constellation-line" x1="180" y1="20" x2="60" y2="40" />
+              <line class="constellation-line" x1="180" y1="20" x2="300" y2="40" />
+              <line class="constellation-line" x1="180" y1="20" x2="120" y2="65" />
+              <line class="constellation-line" x1="180" y1="20" x2="240" y2="65" />
+              <line class="constellation-line" x1="60" y1="40" x2="30" y2="80" />
+              <line class="constellation-line" x1="300" y1="40" x2="330" y2="80" />
+              <line class="constellation-line" x1="120" y1="65" x2="30" y2="80" />
+              <line class="constellation-line" x1="240" y1="65" x2="330" y2="80" />
+            </svg>
+            <div class="constellation-stars-layer">
+              <div class="constellation-star constellation-star--castle is-lit" data-star="castle" title="Dad’s Castle Star">
+                <span class="constellation-star__glyph">★</span>
+                <span class="constellation-star__label">Castle Star</span>
+              </div>
+              <div class="constellation-star" data-star="garden" title="Mom’s Rose Star"><span class="constellation-star__glyph">★</span></div>
+              <div class="constellation-star" data-star="lacewood" title="Gram’s Lacewood Star"><span class="constellation-star__glyph">★</span></div>
+              <div class="constellation-star" data-star="abbey" title="Pop’s Abbey Star"><span class="constellation-star__glyph">★</span></div>
+              <div class="constellation-star" data-star="clouds" title="Beasley’s Cloud Star"><span class="constellation-star__glyph">★</span></div>
+              <div class="constellation-star" data-star="peak" title="Aunt’s Mountain Star"><span class="constellation-star__glyph">★</span></div>
+              <div class="constellation-star" data-star="sea" title="Uncle’s Sea Star"><span class="constellation-star__glyph">★</span></div>
+            </div>
+          </div>
+
           <p class="eyebrow">Every Birthday Star shone. Every Rainbow Path opened.</p>
           <h2>Happy Birthday,<br /><span>Princess Zélie!</span></h2>
           <p>Princess Rosie and Stella had brought the whole family together for Princess Zélie’s very first birthday.</p>
@@ -138,9 +165,30 @@
             <span class="party-dancers__gigi">🦒</span>
             <span class="party-dancers__guests">👏 👏 👏</span>
           </div>
+
+          <!-- Celebration Album -->
+          <div id="celebration-album" class="celebration-album" aria-label="Celebration Album of Storybook Stamps">
+            <div class="celebration-album__header">
+              <span class="eyebrow">Rosie’s Storybook Stamps</span>
+              <h3 class="celebration-album__title">Celebration Album</h3>
+            </div>
+            <div id="celebration-album-grid" class="celebration-album__grid" role="tablist" aria-label="Collected Storybook Stamps">
+              <!-- Dynamically populated from STOP_STORIES -->
+            </div>
+            <div id="celebration-album-preview" class="celebration-album__preview" aria-live="polite">
+              <span id="album-preview-icon" class="album-preview__icon" aria-hidden="true">🌹</span>
+              <div class="album-preview__content">
+                <strong id="album-preview-title" class="album-preview__title">Mom’s Rose Stamp</strong>
+                <span id="album-preview-guest" class="album-preview__guest">Presented by Mom</span>
+                <p id="album-preview-desc" class="album-preview__desc">Awakened the waking roses of Rosalia’s Rose Garden</p>
+              </div>
+            </div>
+          </div>
+
           <div class="ending__actions">
-            <button id="dance-button" class="storybook-button" type="button">Dance again <b aria-hidden="true">♪</b></button>
-            <button id="replay-button" class="text-button" type="button">Fly the adventure again</button>
+            <button id="fly-again-button" class="storybook-button storybook-button--fly-again" type="button">
+              <span>Fly Again</span> <b aria-hidden="true">↺</b>
+            </button>
           </div>
         </div>
       </section>

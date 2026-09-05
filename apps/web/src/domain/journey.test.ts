@@ -6,6 +6,7 @@ import {
   collectBirthdayStar,
   createJourney,
   recordBump,
+  resetJourney,
   resumeJourney,
 } from "./journey";
 
@@ -76,5 +77,30 @@ describe("Birthday Star journey", () => {
     // Duplicate award is a no-op
     const duplicateStamp = acquireStorybookStamp(withLacewoodStamp, "lacewood");
     expect(duplicateStamp.acquiredStamps).toEqual(["garden", "lacewood"]);
+  });
+
+  test("full 6-place journey across Fairytale Sicily collects all 7 stars, all 7 stamps, and Fly Again cleanly resets state", () => {
+    let journey = createJourney();
+    const stops: typeof STAR_STOPS = ["garden", "lacewood", "abbey", "clouds", "peak", "sea", "castle"];
+
+    for (const stop of stops) {
+      journey = collectBirthdayStar(journey, stop);
+      journey = acquireStorybookStamp(journey, stop);
+    }
+
+    expect(journey.phase).toBe("celebrating");
+    expect(journey.collectedStars).toEqual(stops);
+    expect(journey.acquiredStamps).toEqual(stops);
+    expect(journey.openRainbowPaths).toEqual(stops);
+
+    // Fly Again cleanly resets journey state
+    const reset = resetJourney(journey);
+    expect(reset).toEqual(createJourney());
+    expect(reset.phase).toBe("flying");
+    expect(reset.collectedStars).toEqual([]);
+    expect(reset.acquiredStamps).toEqual([]);
+    expect(reset.openRainbowPaths).toEqual([]);
+    expect(reset.bumpStreak).toBe(0);
+    expect(reset.helpLevel).toBe(0);
   });
 });
