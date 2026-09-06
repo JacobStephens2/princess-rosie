@@ -40,7 +40,7 @@ import { STOP_STORIES, type FamilyGuest, type StopStory } from "./content";
 
 const VIEW_WIDTH = 1280;
 const VIEW_HEIGHT = 720;
-const PLACE_COURSE_WIDTH = 2400;
+const PLACE_COURSE_WIDTH = DEFAULT_RUNNER_CONFIG.courseLength + 1100;
 
 interface GuestStyle {
   clothes: number;
@@ -60,21 +60,29 @@ const GUEST_STYLES: Record<Exclude<FamilyGuest, "Beasley">, GuestStyle> = {
 
 type LandscapeDrawer = (graphics: Phaser.GameObjects.Graphics, start: number) => void;
 
+function drawRollingHills(graphics: Phaser.GameObjects.Graphics, start: number): void {
+  for (let hillX = start + 520; hillX < start + PLACE_COURSE_WIDTH; hillX += 900) {
+    graphics.fillEllipse(hillX, 690, 1200, 330);
+  }
+}
+
 const LANDSCAPE_DRAWERS: Record<StarStop, LandscapeDrawer> = {
   garden: (graphics, start) => {
     graphics.fillStyle(0x5ca364, 1);
     graphics.fillRect(start, 560, PLACE_COURSE_WIDTH, 160);
     graphics.fillStyle(0x73b97b, 1);
     graphics.fillRoundedRect(start, 555, PLACE_COURSE_WIDTH, 20, 8);
-    for (let rose = 0; rose < 16; rose += 1) {
+    const rosesCount = Math.floor(PLACE_COURSE_WIDTH / 105);
+    for (let rose = 0; rose < rosesCount; rose += 1) {
       const x = start + 40 + rose * 105;
       const y = 575 + (rose % 3) * 20;
       graphics.fillStyle(rose % 2 ? 0xf05a9d : 0xff9abb, 1).fillCircle(x, y, 15).fillCircle(x + 14, y, 15).fillCircle(x + 7, y - 12, 15);
     }
   },
   lacewood: (graphics, start) => {
-    graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
-    for (let tree = 0; tree < 12; tree += 1) {
+    drawRollingHills(graphics, start);
+    const treeCount = Math.floor(PLACE_COURSE_WIDTH / 145);
+    for (let tree = 0; tree < treeCount; tree += 1) {
       const x = start + 60 + tree * 145;
       graphics.fillStyle(0x5e765a, 1).fillRect(x, 410, 28, 230);
       graphics.fillStyle(0x397a5b, 1).fillCircle(x + 10, 390, 78);
@@ -82,31 +90,38 @@ const LANDSCAPE_DRAWERS: Record<StarStop, LandscapeDrawer> = {
     }
   },
   abbey: (graphics, start) => {
-    graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
+    drawRollingHills(graphics, start);
     graphics.fillStyle(0xf2d292, 1).fillRoundedRect(start + 760, 300, 470, 330, 35);
     graphics.fillStyle(0xe3ad54, 1).fillTriangle(start + 715, 320, start + 995, 150, start + 1280, 320);
     graphics.fillStyle(0x7e71c7, 1).fillCircle(start + 995, 390, 65);
     graphics.fillStyle(0xffd65e, 1).fillCircle(start + 900, 218, 34).fillCircle(start + 1080, 218, 34);
   },
   clouds: (graphics, start) => {
-    graphics.fillStyle(0xf4fbff, .95).fillEllipse(start + 850, 670, 1850, 220);
-    for (let arch = 0; arch < 6; arch += 1) {
+    for (let cloudBaseX = start + 850; cloudBaseX < start + PLACE_COURSE_WIDTH; cloudBaseX += 1400) {
+      graphics.fillStyle(0xf4fbff, .95).fillEllipse(cloudBaseX, 670, 1850, 220);
+    }
+    const archCount = Math.floor(PLACE_COURSE_WIDTH / 280);
+    for (let arch = 0; arch < archCount; arch += 1) {
       graphics.lineStyle(20, 0xfff1db, .72).strokeCircle(start + 220 + arch * 280, 400, 125);
     }
   },
   peak: (graphics, start) => {
-    graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
-    graphics.fillStyle(0x6d7f70, 1).fillTriangle(start, 650, start + 920, 120, start + 1700, 650);
+    drawRollingHills(graphics, start);
+    for (let peakX = start; peakX < start + PLACE_COURSE_WIDTH; peakX += 1700) {
+      graphics.fillStyle(0x6d7f70, 1).fillTriangle(peakX, 650, peakX + 920, 120, peakX + 1700, 650);
+    }
     graphics.fillStyle(0xf5e3ed, 1);
-    for (let flower = 0; flower < 20; flower += 1) graphics.fillCircle(start + 90 + flower * 77, 590 - (flower % 5) * 28, 10);
+    const flowerCount = Math.floor(PLACE_COURSE_WIDTH / 77);
+    for (let flower = 0; flower < flowerCount; flower += 1) graphics.fillCircle(start + 90 + flower * 77, 590 - (flower % 5) * 28, 10);
   },
   sea: (graphics, start) => {
     graphics.fillRect(start, 520, PLACE_COURSE_WIDTH, 200);
     graphics.lineStyle(9, 0xa7efff, .55);
-    for (let wave = 0; wave < 9; wave += 1) graphics.strokeCircle(start + 90 + wave * 210, 555 + (wave % 2) * 45, 100);
+    const waveCount = Math.floor(PLACE_COURSE_WIDTH / 210);
+    for (let wave = 0; wave < waveCount; wave += 1) graphics.strokeCircle(start + 90 + wave * 210, 555 + (wave % 2) * 45, 100);
   },
   castle: (graphics, start) => {
-    graphics.fillEllipse(start + 520, 690, 1200, 330).fillEllipse(start + 1340, 665, 1050, 290);
+    drawRollingHills(graphics, start);
   },
 };
 
@@ -649,6 +664,7 @@ export class RosieGameScene extends Phaser.Scene {
     this.cleanupCurrentPlace();
 
     const stopIndex = STOP_STORIES.findIndex((s) => s.id === stop.id);
+    const archway = AUTHORED_RAINBOW_ARCHWAYS[stop.id];
 
     // 1. Fallback background if place illustration is absent
     const backgrounds = this.add.graphics().setDepth(-35);
@@ -656,7 +672,7 @@ export class RosieGameScene extends Phaser.Scene {
     this.drawClouds(backgrounds, 0, stopIndex);
     this.drawLandscape(backgrounds, 0, stop);
     if (stop.id === "castle") {
-      this.drawCastle(backgrounds, 1450, 520);
+      this.drawCastle(backgrounds, archway.x, 520);
     }
     this.currentBackgroundGraphics = backgrounds;
 
@@ -684,7 +700,6 @@ export class RosieGameScene extends Phaser.Scene {
       .setAlpha(0.92);
 
     // 4. Rainbow Archway
-    const archway = AUTHORED_RAINBOW_ARCHWAYS[stop.id];
     this.archways.set(stop.id, archway);
     this.currentArchwayContainer = this.createRainbowArchway(archway);
     this.archwayContainers.set(stop.id, this.currentArchwayContainer);
@@ -1115,7 +1130,8 @@ export class RosieGameScene extends Phaser.Scene {
 
   private drawClouds(graphics: Phaser.GameObjects.Graphics, start: number, index: number): void {
     graphics.fillStyle(0xffffff, .34);
-    for (let cloudIndex = 0; cloudIndex < 5; cloudIndex += 1) {
+    const cloudsCount = Math.floor(PLACE_COURSE_WIDTH / 360);
+    for (let cloudIndex = 0; cloudIndex < cloudsCount; cloudIndex += 1) {
       const x = start + 120 + cloudIndex * 360 + (index % 2) * 100;
       const y = 70 + (cloudIndex % 3) * 115;
       graphics.fillCircle(x, y, 48).fillCircle(x + 55, y - 14, 66).fillCircle(x + 118, y + 2, 44);
