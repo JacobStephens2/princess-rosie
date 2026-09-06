@@ -83,4 +83,24 @@ describe("content and derivative place illustrations", () => {
     expect(entry?.role).toBe("treatment");
     expect(entry?.id).toBe("journey.rainbow-path");
   });
+
+  test("all 7 stops declare three Scenery Layers with valid derivatives", () => {
+    for (const stop of STOP_STORIES) {
+      expect(stop.layers).toHaveLength(3);
+      const [far, middle, near] = stop.layers;
+      expect(far?.depth).toBe("far");
+      expect(far?.depthFactor).toBe(0);
+      expect(far?.paintingAssetId).toBeDefined();
+      expect(resolveDerivativePath(far!.paintingAssetId!)).toBe(stop.placeIllustration);
+
+      expect(middle?.depth).toBe("middle");
+      expect(middle?.depthFactor).toBe(0.5);
+      expect(middle?.setPieces).toEqual([]);
+
+      expect(near?.depth).toBe("near");
+      expect(near?.depthFactor).toBe(1.0);
+      expect(near?.setPieces).toEqual([]);
+    }
+  });
 });
+
