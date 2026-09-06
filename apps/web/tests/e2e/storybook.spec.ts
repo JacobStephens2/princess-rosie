@@ -269,7 +269,7 @@ test("playful obstacles on Storybook Ground cause Playful Stumble with speed red
   await expect.poll(async () => {
     const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
     return s?.stumbledObstacles?.includes(firstObstacle.id);
-  }, { timeout: 12000 }).toBe(true);
+  }, { timeout: 16000 }).toBe(true);
 
   // 3. Verify stumble state: no failure, damage, or restart states occurred
   const stumbleState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
@@ -280,7 +280,7 @@ test("playful obstacles on Storybook Ground cause Playful Stumble with speed red
   await expect.poll(async () => {
     const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
     return s?.mode === "galloping" && s?.stumbleRemaining === 0;
-  }, { timeout: 12000 }).toBe(true);
+  }, { timeout: 16000 }).toBe(true);
 });
 
 test("leaping cleanly over an obstacle within proximity triggers Near Miss", async ({ page }) => {
@@ -294,7 +294,7 @@ test("leaping cleanly over an obstacle within proximity triggers Near Miss", asy
   await expect.poll(async () => {
     const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
     return (s?.x ?? 0) >= firstObstacle.x - 140;
-  }, { intervals: [30], timeout: 12000 }).toBe(true);
+  }, { intervals: [30], timeout: 16000 }).toBe(true);
 
   // Leap cleanly over the obstacle
   await page.keyboard.press("Space");
@@ -307,7 +307,7 @@ test("leaping cleanly over an obstacle within proximity triggers Near Miss", asy
   await expect.poll(async () => {
     const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
     return s?.nearMissObstacles?.includes(firstObstacle.id);
-  }, { timeout: 12000 }).toBe(true);
+  }, { timeout: 16000 }).toBe(true);
 
   const afterState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
   expect(afterState?.nearMissObstacles).toContain(firstObstacle.id);
@@ -789,7 +789,7 @@ test("each Place Illustration renders at its painted 16:9 aspect ratio without v
   expect(gardenPlaceObjects?.sparkles).toHaveLength(10);
   expect(gardenPlaceObjects?.sparkles.every((sp) => sp.place === "garden")).toBe(true);
   expect(gardenPlaceObjects?.archway?.place).toBe("garden");
-  expect(gardenPlaceObjects?.archway?.x).toBe(1450);
+  expect(gardenPlaceObjects?.archway?.x).toBe(4500);
 
   // 2. Advance to the end of Rosalia's Rose Garden
   await page.evaluate(() => {
@@ -836,7 +836,7 @@ test("each Place Illustration renders at its painted 16:9 aspect ratio without v
   expect(lacewoodPlaceObjects?.sparkles).toHaveLength(10);
   expect(lacewoodPlaceObjects?.sparkles.every((sp) => sp.place === "lacewood")).toBe(true);
   expect(lacewoodPlaceObjects?.archway?.place).toBe("lacewood");
-  expect(lacewoodPlaceObjects?.archway?.x).toBe(1450);
+  expect(lacewoodPlaceObjects?.archway?.x).toBe(4500);
 
   // Player position reset to place start
   const lacewoodPlayerState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
@@ -869,7 +869,50 @@ test("each Place Illustration renders at its painted 16:9 aspect ratio without v
   expect(abbeyPlaceObjects?.springboards.every((s) => s.place === "abbey")).toBe(true);
   expect(abbeyPlaceObjects?.sparkles).toHaveLength(10);
   expect(abbeyPlaceObjects?.sparkles.every((sp) => sp.place === "abbey")).toBe(true);
-  expect(abbeyPlaceObjects?.archway?.x).toBe(1450);
+  expect(abbeyPlaceObjects?.archway?.x).toBe(4500);
+});
+
+test("an e2e check flies one place without stumbling and confirms Rainbow Archway arrival between 27 and 35 seconds", async ({ page }) => {
+  test.setTimeout(60_000);
+  await startStorybookFlight(page);
+
+  const startTime = Date.now();
+  let jumpedForFirst = false;
+  let jumpedForSecond = false;
+
+  // Fly through Rosalia's Rose Garden at 150 px/s without stumbling:
+  // Obstacle 1 is at 1400; jump approaching at 1260
+  // Obstacle 2 is at 3400; jump approaching at 3260
+  while (Date.now() - startTime < 45_000) {
+    const s = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+    if (s?.arrivedAtArchway) break;
+
+    if (!jumpedForFirst && s && s.x >= 1260 && s.x < 1400) {
+      jumpedForFirst = true;
+      await page.keyboard.press("Space");
+    }
+
+    if (!jumpedForSecond && s && s.x >= 3260 && s.x < 3400) {
+      jumpedForSecond = true;
+      await page.keyboard.press("Space");
+    }
+
+    await page.waitForTimeout(40);
+  }
+
+  // Confirm Rainbow Archway arrival
+  await expect(page.locator("#moment")).toBeVisible({ timeout: 10_000 });
+  const arrivalTime = Date.now();
+  const elapsedSeconds = (arrivalTime - startTime) / 1000;
+
+  // Confirm Rainbow Archway arrival between 27 and 35 seconds
+  expect(elapsedSeconds).toBeGreaterThanOrEqual(27);
+  expect(elapsedSeconds).toBeLessThanOrEqual(35);
+
+  // Confirm zero stumbles occurred
+  const finalState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+  expect(finalState?.stumbledObstacles).toHaveLength(0);
+  expect(finalState?.arrivedAtArchway).toBe(true);
 });
 
 
