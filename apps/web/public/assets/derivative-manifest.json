@@ -1,0 +1,151 @@
+{
+  "derivatives": [
+    {
+      "id": "opening.celebration-preparations",
+      "role": "illustration",
+      "path": "/assets/derivatives/opening.celebration-preparations.webp",
+      "width": 1279,
+      "height": 720
+    },
+    {
+      "id": "opening.scattered-stars",
+      "role": "illustration",
+      "path": "/assets/derivatives/opening.scattered-stars.webp",
+      "width": 1279,
+      "height": 720
+    },
+    {
+      "id": "opening.rosie-stella-departure",
+      "role": "illustration",
+      "path": "/assets/derivatives/opening.rosie-stella-departure.webp",
+      "width": 1279,
+      "height": 720
+    },
+    {
+      "id": "flight.rose-garden-background",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/flight.rose-garden-background.webp",
+      "width": 1279,
+      "height": 720
+    },
+    {
+      "id": "flight.rosie-stella",
+      "role": "character-layer",
+      "path": "/assets/derivatives/flight.rosie-stella.webp",
+      "width": 384,
+      "height": 256
+    },
+    {
+      "id": "lacewood.background",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/lacewood.background.webp",
+      "width": 1279,
+      "height": 720
+    },
+    {
+      "id": "abbey.background",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/abbey.background.webp",
+      "width": 1281,
+      "height": 720
+    },
+    {
+      "id": "cloister.background",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/cloister.background.webp",
+      "width": 1281,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.background",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/pellegrino-peak.background.webp",
+      "width": 1281,
+      "height": 720
+    },
+    {
+      "id": "sapphire-sea.background",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/sapphire-sea.background.webp",
+      "width": 1279,
+      "height": 720
+    },
+    {
+      "id": "family-guest.mom",
+      "role": "character-layer",
+      "path": "/assets/derivatives/family-guest.mom.webp",
+      "width": 336,
+      "height": 504
+    },
+    {
+      "id": "family-guest.dad",
+      "role": "character-layer",
+      "path": "/assets/derivatives/family-guest.dad.webp",
+      "width": 336,
+      "height": 504
+    },
+    {
+      "id": "family-guest.pop",
+      "role": "character-layer",
+      "path": "/assets/derivatives/family-guest.pop.webp",
+      "width": 336,
+      "height": 504
+    },
+    {
+      "id": "family-guest.gram",
+      "role": "character-layer",
+      "path": "/assets/derivatives/family-guest.gram.webp",
+      "width": 336,
+      "height": 504
+    },
+    {
+      "id": "family-guest.aunt",
+      "role": "character-layer",
+      "path": "/assets/derivatives/family-guest.aunt.webp",
+      "width": 336,
+      "height": 504
+    },
+    {
+      "id": "family-guest.uncle",
+      "role": "character-layer",
+      "path": "/assets/derivatives/family-guest.uncle.webp",
+      "width": 336,
+      "height": 504
+    },
+    {
+      "id": "family-guest.beasley",
+      "role": "character-layer",
+      "path": "/assets/derivatives/family-guest.beasley.webp",
+      "width": 336,
+      "height": 504
+    },
+    {
+      "id": "journey.birthday-star",
+      "role": "sprite",
+      "path": "/assets/derivatives/journey.birthday-star.webp",
+      "width": 128,
+      "height": 128
+    },
+    {
+      "id": "journey.rainbow-path",
+      "role": "treatment",
+      "path": "/assets/derivatives/journey.rainbow-path.webp",
+      "width": 768,
+      "height": 512
+    },
+    {
+      "id": "celebration.castle-approach",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/celebration.castle-approach.webp",
+      "width": 1281,
+      "height": 720
+    },
+    {
+      "id": "celebration.birthday-castle",
+      "role": "illustration",
+      "path": "/assets/derivatives/celebration.birthday-castle.webp",
+      "width": 1281,
+      "height": 720
+    }
+  ]
+}

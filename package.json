@@ -4,7 +4,8 @@
   "private": true,
   "workspaces": [
     "apps/web",
-    "tools/soundscape-build"
+    "tools/soundscape-build",
+    "tools/media-prepare"
   ],
   "scripts": {
     "dev": "npm run dev --workspace princess-rosie-web",
@@ -12,7 +13,9 @@
     "preview": "npm run preview --workspace princess-rosie-web",
     "test": "npm run test --workspace princess-rosie-web",
     "test:soundscape-build": "npm run test --workspace rosie-soundscape-build",
+    "test:media-prepare": "npm run test --workspace rosie-media-prepare",
     "test:godot": "apps/godot/tests/run_acceptance.sh",
+    "media:prepare": "npm run prepare-media --workspace rosie-media-prepare --",
     "soundscape:build": "npm run build --workspace rosie-soundscape-build --",
     "soundscape:build-confirmation": "npm run build:confirmation --workspace rosie-soundscape-build --",
     "soundscape:media-docs": "npm run media-docs --workspace rosie-soundscape-build --",
@@ -20,6 +23,6 @@
     "soundscape:validate": "npm run validate --workspace rosie-soundscape-build --",
     "test:e2e": "npm run test:e2e --workspace princess-rosie-web",
     "test:e2e:install": "npm run test:e2e:install --workspace princess-rosie-web",
-    "check": "apps/web/tests/deploy_inspection.sh && npm run typecheck --workspace rosie-soundscape-build && npm run test:soundscape-build && npm run check --workspace princess-rosie-web"
+    "check": "apps/web/tests/deploy_inspection.sh && npm run typecheck --workspace rosie-soundscape-build && npm run test:soundscape-build && npm run typecheck --workspace rosie-media-prepare && npm run test:media-prepare && npm run check --workspace princess-rosie-web"
   }
 }
