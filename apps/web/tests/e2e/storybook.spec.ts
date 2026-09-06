@@ -175,9 +175,9 @@ test("multi-state Rosie and Stella sprite sheet animates gallop, leap, flutter, 
 
   await expect(page.locator("#game canvas")).toBeVisible();
 
-  // 1. Verify multi-state sprite sheet is loaded and animations are registered
+  // 1. Verify wing puppet is loaded and ready
   await expect.poll(async () => {
-    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.() && window.__ROSIE_RUNNER__?.hasSpriteSheet?.());
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.() && window.__ROSIE_RUNNER__?.hasPuppet?.());
   }, { timeout: 15_000 }).toBe(true);
 
   // 2. On Storybook Ground, gallop animation is active
@@ -771,7 +771,7 @@ test("each Place Illustration renders at its painted 16:9 aspect ratio without v
   // Assert aspect matches source painting asset
   const gardenSourceAspect = await page.evaluate(async () => {
     const img = new Image();
-    img.src = "/assets/rose-garden-place-illustration.png";
+    img.src = "/assets/derivatives/flight.rose-garden-background.webp";
     await img.decode();
     return img.naturalWidth / img.naturalHeight;
   });
@@ -820,7 +820,7 @@ test("each Place Illustration renders at its painted 16:9 aspect ratio without v
   // Assert aspect matches source painting asset
   const lacewoodSourceAspect = await page.evaluate(async () => {
     const img = new Image();
-    img.src = "/assets/lacewood-place-illustration.png";
+    img.src = "/assets/derivatives/lacewood.background.webp";
     await img.decode();
     return img.naturalWidth / img.naturalHeight;
   });

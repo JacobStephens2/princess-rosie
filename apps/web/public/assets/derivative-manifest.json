@@ -36,6 +36,27 @@
       "height": 256
     },
     {
+      "id": "flight.rosie-stella-back-wing",
+      "role": "character-layer",
+      "path": "/assets/derivatives/flight.rosie-stella-back-wing.webp",
+      "width": 384,
+      "height": 256
+    },
+    {
+      "id": "flight.rosie-stella-body",
+      "role": "character-layer",
+      "path": "/assets/derivatives/flight.rosie-stella-body.webp",
+      "width": 384,
+      "height": 256
+    },
+    {
+      "id": "flight.rosie-stella-front-wing",
+      "role": "character-layer",
+      "path": "/assets/derivatives/flight.rosie-stella-front-wing.webp",
+      "width": 384,
+      "height": 256
+    },
+    {
       "id": "lacewood.background",
       "role": "illustration-layer",
       "path": "/assets/derivatives/lacewood.background.webp",

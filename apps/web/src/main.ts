@@ -23,6 +23,7 @@ export interface RosieRunnerInterface {
   seekToEnd: () => void;
   isReady?: () => boolean;
   isPaused?: () => boolean;
+  hasPuppet?: () => boolean;
   hasSpriteSheet?: () => boolean;
   getCurrentAnimation?: () => string | undefined;
   triggerStumble?: () => void;
@@ -653,6 +654,7 @@ window.__ROSIE_RUNNER__ = {
   seekToEnd: () => scene?.seekToEnd(),
   isReady: () => scene?.isReady() ?? false,
   isPaused: () => scene?.isPaused() ?? false,
+  hasPuppet: () => scene?.hasPuppet() ?? false,
   hasSpriteSheet: () => scene?.hasSpriteSheet() ?? false,
   getCurrentAnimation: () => scene?.getCurrentAnimation(),
   triggerStumble: () => scene?.triggerStumble(),
