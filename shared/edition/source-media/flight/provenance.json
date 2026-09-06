@@ -47,6 +47,76 @@
         "ownerManualReviewDate": "2026-08-23"
       },
       "prompt": "Use case: production game character-layer extraction. Preserve exactly the approved characters and picture-book illustration style from the reference: young Princess Rosie with long golden-blonde hair, small gold crown, joyful expression, ornate bright pink rose-patterned dress and pink shoes, seated astride Stella; Stella is a friendly white winged unicorn with a pastel pink-purple-blue mane and tail, rainbow horn, two large lavender feathered wings, gold-and-heart bridle, complete body with all four legs and hooves. Isolate only Rosie riding Stella as one complete cohesive character cutout. Remove the garden, archways, sky, sea, flowers, ribbons, star, floor, scenery, shadows, and every other object. Keep the entire silhouette fully inside the canvas with generous transparent padding and no cropping. Output a genuine RGBA PNG with fully transparent pixels everywhere outside the clean character silhouette. No checkerboard, no painted transparency pattern, no white matte, no rectangular background, no halo, no text, no added objects, no anatomy changes, no duplicate limbs or wings."
+    },
+    {
+      "id": "flight.rosie-stella-back-wing",
+      "execution": "Manual polygon masking of back wing from approved cutout",
+      "input": {
+        "path": "source-media/flight/rosie-stella.png",
+        "sha256": "5b711626b4e43be16084d6c1a879b61ac958a7dd08b5b326fd80f0e273e62532"
+      },
+      "output": {
+        "path": "source-media/flight/rosie-stella-back-wing.png",
+        "sha256": "623597dfc629bf2880242668d077c12114aadd19058d7b5dcb77ab4e1cd2dfb5",
+        "format": "RGBA PNG",
+        "size": "1536x1024"
+      },
+      "purpose": "Back wing piece of the Rosie and Stella three-piece puppet, rendered behind the body.",
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-129 implementation review",
+        "reason": "Pixel-for-pixel preservation of approved cutout back wing feathers with root extension under Rosie's dress for flutter rotation.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-06"
+      }
+    },
+    {
+      "id": "flight.rosie-stella-body",
+      "execution": "Manual masking of wings and local inpainting of hidden chest patch with IOPaint LaMa model",
+      "model": "lama",
+      "input": {
+        "path": "source-media/flight/rosie-stella.png",
+        "sha256": "5b711626b4e43be16084d6c1a879b61ac958a7dd08b5b326fd80f0e273e62532"
+      },
+      "output": {
+        "path": "source-media/flight/rosie-stella-body.png",
+        "sha256": "1e1cfd05fd8ddf70f791b44ad55fe392d3fbcbce1fec941accd78e3364d97a96",
+        "format": "RGBA PNG",
+        "size": "1536x1024"
+      },
+      "purpose": "Body piece of the Rosie and Stella three-piece puppet with wings removed and hidden chest patch inpainted.",
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-129 implementation review",
+        "reason": "Preserves Rosie and Stella anatomy pixel for pixel while cleanly inpainting the chest under the front wing.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-06"
+      }
+    },
+    {
+      "id": "flight.rosie-stella-front-wing",
+      "execution": "Manual polygon masking of front wing from approved cutout",
+      "input": {
+        "path": "source-media/flight/rosie-stella.png",
+        "sha256": "5b711626b4e43be16084d6c1a879b61ac958a7dd08b5b326fd80f0e273e62532"
+      },
+      "output": {
+        "path": "source-media/flight/rosie-stella-front-wing.png",
+        "sha256": "310a4f0c8a8a7f6e136f14de8e8398e399bc6255b4ed633f34b8735fb949aa5c",
+        "format": "RGBA PNG",
+        "size": "1536x1024"
+      },
+      "purpose": "Front wing piece of the Rosie and Stella three-piece puppet, rendered in front of the body.",
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-129 implementation review",
+        "reason": "Pixel-for-pixel preservation of approved cutout front wing feathers with clean chest seam.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-06"
+      }
     }
   ]
 }

@@ -234,6 +234,9 @@ describe("prepareMedia", () => {
         media: [
           { id: "family-guest.mom", role: "character-layer", path: "family-guest-mom.png" },
           { id: "flight.rosie-stella", role: "character-layer", path: "rosie-stella.png" },
+          { id: "flight.rosie-stella-back-wing", role: "character-layer", path: "rosie-stella.png" },
+          { id: "flight.rosie-stella-body", role: "character-layer", path: "rosie-stella.png" },
+          { id: "flight.rosie-stella-front-wing", role: "character-layer", path: "rosie-stella.png" },
           { id: "journey.rainbow-path", role: "treatment", path: "rainbow-path.png" },
           { id: "journey.birthday-star", role: "sprite", path: "birthday-star.png" },
         ],
@@ -268,6 +271,17 @@ describe("prepareMedia", () => {
       expect(rosieMeta.hasAlpha).toBe(true);
       expect(rosieMeta.height).toBe(256);
       expect(rosieMeta.width).toBe(384);
+
+      // Rosie & Stella puppet pieces (back wing, body, front wing) also sized at 256 height budget
+      const bodyDerivative = result.derivatives.find((d) => d.id === "flight.rosie-stella-body");
+      expect(bodyDerivative).toBeDefined();
+      expect(bodyDerivative?.height).toBe(256);
+      expect(bodyDerivative?.width).toBe(384);
+
+      const bodyMeta = await sharp(join(outputDir, "flight.rosie-stella-body.webp")).metadata();
+      expect(bodyMeta.hasAlpha).toBe(true);
+      expect(bodyMeta.height).toBe(256);
+      expect(bodyMeta.width).toBe(384);
 
       // Treatment cutout: scaled to budget (max width 768)
       const pathDerivative = result.derivatives.find((d) => d.id === "journey.rainbow-path");

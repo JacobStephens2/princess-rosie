@@ -26,6 +26,21 @@
       "path": "source-media/flight/rosie-stella.png"
     },
     {
+      "id": "flight.rosie-stella-back-wing",
+      "role": "character-layer",
+      "path": "source-media/flight/rosie-stella-back-wing.png"
+    },
+    {
+      "id": "flight.rosie-stella-body",
+      "role": "character-layer",
+      "path": "source-media/flight/rosie-stella-body.png"
+    },
+    {
+      "id": "flight.rosie-stella-front-wing",
+      "role": "character-layer",
+      "path": "source-media/flight/rosie-stella-front-wing.png"
+    },
+    {
       "id": "lacewood.background",
       "role": "illustration-layer",
       "path": "source-media/lacewood/lacewood-single-route-background.png"
