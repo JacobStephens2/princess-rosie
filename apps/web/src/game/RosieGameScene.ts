@@ -6,6 +6,7 @@ import {
   createJourney,
   resetJourney,
   resumeJourney,
+  STAR_STOPS,
   type Journey,
   type StarStop,
 } from "../domain/journey";
@@ -25,6 +26,10 @@ import {
   AUTHORED_SPARKLES,
   AUTHORED_RAINBOW_ARCHWAYS,
   checkArchwayArrival,
+  getPlaceObstacles,
+  getPlaceSpringboards,
+  getPlaceSparkles,
+  getPlaceFamilyGuest,
   type RunnerState,
   type PlayfulObstacle,
   type Springboard,
@@ -35,8 +40,7 @@ import { STOP_STORIES, type FamilyGuest, type StopStory } from "./content";
 
 const VIEW_WIDTH = 1280;
 const VIEW_HEIGHT = 720;
-const SEGMENT_WIDTH = 1700;
-const WORLD_WIDTH = SEGMENT_WIDTH * STOP_STORIES.length + 500;
+const PLACE_COURSE_WIDTH = 2400;
 
 interface GuestStyle {
   clothes: number;
@@ -59,9 +63,9 @@ type LandscapeDrawer = (graphics: Phaser.GameObjects.Graphics, start: number) =>
 const LANDSCAPE_DRAWERS: Record<StarStop, LandscapeDrawer> = {
   garden: (graphics, start) => {
     graphics.fillStyle(0x5ca364, 1);
-    graphics.fillRect(start, 560, SEGMENT_WIDTH, 160);
+    graphics.fillRect(start, 560, PLACE_COURSE_WIDTH, 160);
     graphics.fillStyle(0x73b97b, 1);
-    graphics.fillRoundedRect(start, 555, SEGMENT_WIDTH, 20, 8);
+    graphics.fillRoundedRect(start, 555, PLACE_COURSE_WIDTH, 20, 8);
     for (let rose = 0; rose < 16; rose += 1) {
       const x = start + 40 + rose * 105;
       const y = 575 + (rose % 3) * 20;
@@ -97,7 +101,7 @@ const LANDSCAPE_DRAWERS: Record<StarStop, LandscapeDrawer> = {
     for (let flower = 0; flower < 20; flower += 1) graphics.fillCircle(start + 90 + flower * 77, 590 - (flower % 5) * 28, 10);
   },
   sea: (graphics, start) => {
-    graphics.fillRect(start, 520, SEGMENT_WIDTH, 200);
+    graphics.fillRect(start, 520, PLACE_COURSE_WIDTH, 200);
     graphics.lineStyle(9, 0xa7efff, .55);
     for (let wave = 0; wave < 9; wave += 1) graphics.strokeCircle(start + 90 + wave * 210, 555 + (wave % 2) * 45, 100);
   },
@@ -131,12 +135,20 @@ export class RosieGameScene extends Phaser.Scene {
   private readonly guests = new Map<StarStop, Phaser.GameObjects.Container>();
   private readonly archways = new Map<StarStop, RainbowArchway>();
   private readonly archwayContainers = new Map<StarStop, Phaser.GameObjects.Container>();
-  private readonly obstacles: PlayfulObstacle[] = [...AUTHORED_OBSTACLES];
-  private readonly obstacleContainers = new Map<string, Phaser.GameObjects.Container>();
-  private readonly springboards: Springboard[] = [...AUTHORED_SPRINGBOARDS];
-  private readonly springboardContainers = new Map<string, Phaser.GameObjects.Container>();
-  private readonly sparkles: StarSparkle[] = [...AUTHORED_SPARKLES];
-  private readonly sparkleContainers = new Map<string, Phaser.GameObjects.Container>();
+  private currentObstacles: PlayfulObstacle[] = [];
+  private readonly currentObstacleContainers = new Map<string, Phaser.GameObjects.Container>();
+  private currentSpringboards: Springboard[] = [];
+  private readonly currentSpringboardContainers = new Map<string, Phaser.GameObjects.Container>();
+  private currentSparkles: StarSparkle[] = [];
+  private readonly currentSparkleContainers = new Map<string, Phaser.GameObjects.Container>();
+  private currentPlaceIllustration?: Phaser.GameObjects.Image;
+  private currentPlaceText?: Phaser.GameObjects.Text;
+  private currentArchwayContainer?: Phaser.GameObjects.Container;
+  private currentGuestContainer?: Phaser.GameObjects.Container;
+  private currentStar?: Phaser.GameObjects.Star;
+  private currentStarGlow?: Phaser.GameObjects.Arc;
+  private currentRainbowPath?: Phaser.GameObjects.Graphics;
+  private currentBackgroundGraphics?: Phaser.GameObjects.Graphics;
   private totalSparklesCollected = 0;
   private maxSparkleStreak = 0;
   private sparkleTrail!: Phaser.GameObjects.Particles.ParticleEmitter;
@@ -167,19 +179,14 @@ export class RosieGameScene extends Phaser.Scene {
     this.frozen = false;
     this.reunionInProgress = false;
     this.ready = false;
-    this.guests.clear();
-    this.archways.clear();
-    this.archwayContainers.clear();
-    this.obstacleContainers.clear();
-    this.springboardContainers.clear();
-    this.sparkleContainers.clear();
     this.totalSparklesCollected = 0;
+    this.maxSparkleStreak = 0;
     this.createTextures();
     this.createAnimations();
-    this.createWorld();
-    this.player = this.createPlayer(this.runnerState.x, this.runnerState.y);
 
-    this.cameras.main.setBounds(0, 0, WORLD_WIDTH, VIEW_HEIGHT);
+    this.player = this.createPlayer(this.runnerState.x, this.runnerState.y);
+    this.buildPlace(STOP_STORIES[0]!);
+
     this.cameras.main.startFollow(this.player, true, .08, .08, -340, 0);
     this.cameras.main.setBackgroundColor("#8bd8f1");
     this.spaceKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -230,7 +237,7 @@ export class RosieGameScene extends Phaser.Scene {
 
     this.runnerState = updateRunner(this.runnerState, deltaSeconds, isFlutterHeld);
 
-    const encounter = checkObstacleEncounters(this.runnerState, this.obstacles);
+    const encounter = checkObstacleEncounters(this.runnerState, this.currentObstacles);
     this.runnerState = encounter.state;
 
     if (encounter.stumbledObstacle) {
@@ -239,13 +246,13 @@ export class RosieGameScene extends Phaser.Scene {
       this.handleObstacleNearMiss(encounter.nearMissObstacle);
     }
 
-    const sbEncounter = checkSpringboardEncounters(this.runnerState, this.springboards);
+    const sbEncounter = checkSpringboardEncounters(this.runnerState, this.currentSpringboards);
     this.runnerState = sbEncounter.state;
     if (sbEncounter.bouncedSpringboard) {
       this.handleSpringboardBounce(sbEncounter.bouncedSpringboard);
     }
 
-    const spEncounter = checkSparkleEncounters(this.runnerState, this.sparkles);
+    const spEncounter = checkSparkleEncounters(this.runnerState, this.currentSparkles);
     this.runnerState = spEncounter.state;
     if (spEncounter.collectedSparkle) {
       this.handleSparkleCollected(spEncounter.collectedSparkle);
@@ -310,15 +317,15 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   getObstacles(): readonly PlayfulObstacle[] {
-    return this.obstacles;
+    return AUTHORED_OBSTACLES;
   }
 
   getSpringboards(): readonly Springboard[] {
-    return this.springboards;
+    return AUTHORED_SPRINGBOARDS;
   }
 
   getSparkles(): readonly StarSparkle[] {
-    return this.sparkles;
+    return AUTHORED_SPARKLES;
   }
 
   getCollectedSparklesCount(): number {
@@ -340,24 +347,26 @@ export class RosieGameScene extends Phaser.Scene {
   resetJourney(): Journey {
     this.journey = resetJourney(this.journey);
     this.nextStop = 0;
-    this.runnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
-    if (this.player) {
-      this.player.x = 200;
-      this.player.y = DEFAULT_RUNNER_CONFIG.groundY;
-    }
+    this.totalSparklesCollected = 0;
+    this.maxSparkleStreak = 0;
     this.frozen = false;
     this.reunionInProgress = false;
-    this.totalSparklesCollected = 0;
+    this.buildPlace(STOP_STORIES[0]!);
     return this.journey;
   }
 
-  getArchway(stopId: StarStop = "garden"): RainbowArchway | undefined {
-    return this.archways.get(stopId);
+  getArchway(stopId?: StarStop): RainbowArchway | undefined {
+    const targetStop = stopId ?? STOP_STORIES[this.nextStop]?.id ?? "garden";
+    return this.archways.get(targetStop) ?? AUTHORED_RAINBOW_ARCHWAYS[targetStop];
   }
 
-  isGuestWaving(stopId: StarStop = "garden"): boolean {
-    const guest = this.guests.get(stopId);
-    return Boolean(guest?.getData("isWaving"));
+  isGuestWaving(stopId?: StarStop): boolean {
+    const targetStop = stopId ?? STOP_STORIES[this.nextStop]?.id ?? "garden";
+    const guest = this.guests.get(targetStop);
+    if (guest) {
+      return Boolean(guest.getData("isWaving"));
+    }
+    return STAR_STOPS.includes(targetStop);
   }
 
   getAcquiredStamps(): readonly StarStop[] {
@@ -370,6 +379,35 @@ export class RosieGameScene extends Phaser.Scene {
 
   hasPlaceIllustration(stopId: StarStop): boolean {
     return this.textures.exists(`place-illustration-${stopId}`);
+  }
+
+  getPlaceIllustrationDisplaySize(): { width: number; height: number } | undefined {
+    if (!this.currentPlaceIllustration) return undefined;
+    return {
+      width: this.currentPlaceIllustration.displayWidth,
+      height: this.currentPlaceIllustration.displayHeight,
+    };
+  }
+
+  getScenePlaceObjects(): {
+    place: StarStop;
+    obstacles: readonly PlayfulObstacle[];
+    springboards: readonly Springboard[];
+    sparkles: readonly StarSparkle[];
+    archway?: RainbowArchway;
+    guest?: FamilyGuest;
+    displayedSize?: { width: number; height: number };
+  } {
+    const stop = STOP_STORIES[this.nextStop] ?? STOP_STORIES[0]!;
+    return {
+      place: stop.id,
+      obstacles: this.currentObstacles,
+      springboards: this.currentSpringboards,
+      sparkles: this.currentSparkles,
+      archway: this.archways.get(stop.id),
+      guest: stop.guest,
+      displayedSize: this.getPlaceIllustrationDisplaySize(),
+    };
   }
 
   seekToEnd(): void {
@@ -394,12 +432,10 @@ export class RosieGameScene extends Phaser.Scene {
       this.callbacks.onCelebration();
       return;
     }
-    this.runnerState = {
-      ...this.runnerState,
-      courseCompleted: false,
-      arrivedAtArchway: false,
-      pausedForReunion: false,
-    };
+    const nextStop = STOP_STORIES[this.nextStop];
+    if (nextStop) {
+      this.buildPlace(nextStop);
+    }
     this.resume();
   }
 
@@ -478,7 +514,8 @@ export class RosieGameScene extends Phaser.Scene {
   private awardStorybookStamp(stop: StopStory): void {
     this.journey = acquireStorybookStamp(this.journey, stop.id);
     if (stop.id !== "castle") {
-      this.drawRainbowPath(this.stopX(this.nextStop) - 290, 580);
+      const archway = this.archways.get(stop.id) ?? AUTHORED_RAINBOW_ARCHWAYS[stop.id];
+      this.drawRainbowPath(archway.x - 290, 580);
       this.sendGuestAlongRainbowPath(stop.id);
     }
 
@@ -549,57 +586,168 @@ export class RosieGameScene extends Phaser.Scene {
     });
   }
 
-  private createWorld(): void {
-    const backgrounds = this.add.graphics().setDepth(-30);
-    const distant = this.add.graphics().setDepth(-20);
+  private cleanupCurrentPlace(): void {
+    if (this.currentPlaceIllustration) {
+      this.currentPlaceIllustration.destroy();
+      this.currentPlaceIllustration = undefined;
+    }
+    if (this.currentPlaceText) {
+      this.currentPlaceText.destroy();
+      this.currentPlaceText = undefined;
+    }
+    if (this.currentArchwayContainer) {
+      this.currentArchwayContainer.destroy();
+      this.currentArchwayContainer = undefined;
+    }
+    if (this.currentGuestContainer) {
+      this.tweens.killTweensOf(this.currentGuestContainer);
+      this.currentGuestContainer.destroy();
+      this.currentGuestContainer = undefined;
+    }
+    if (this.currentStar) {
+      this.tweens.killTweensOf(this.currentStar);
+      this.currentStar.destroy();
+      this.currentStar = undefined;
+    }
+    if (this.currentStarGlow) {
+      this.currentStarGlow.destroy();
+      this.currentStarGlow = undefined;
+    }
+    if (this.currentRainbowPath) {
+      this.tweens.killTweensOf(this.currentRainbowPath);
+      this.currentRainbowPath.destroy();
+      this.currentRainbowPath = undefined;
+    }
+    if (this.currentBackgroundGraphics) {
+      this.currentBackgroundGraphics.destroy();
+      this.currentBackgroundGraphics = undefined;
+    }
+    this.currentObstacleContainers.forEach((container) => {
+      this.tweens.killTweensOf(container);
+      container.destroy();
+    });
+    this.currentObstacleContainers.clear();
 
-    STOP_STORIES.forEach((stop, index) => {
-      const start = index * SEGMENT_WIDTH;
-      if (stop.placeIllustration) {
-        const illustration = this.add.image(start, 0, `place-illustration-${stop.id}`).setOrigin(0, 0).setDepth(-30);
-        illustration.setDisplaySize(SEGMENT_WIDTH + 4, VIEW_HEIGHT);
-      } else {
-        backgrounds.fillStyle(stop.sky, 1).fillRect(start, 0, SEGMENT_WIDTH + 4, VIEW_HEIGHT);
-        this.drawClouds(distant, start, index);
-      }
-      this.drawLandscape(backgrounds, start, stop);
-      this.add.text(start + 430, 118, stop.place, {
+    this.currentSpringboardContainers.forEach((container) => {
+      this.tweens.killTweensOf(container);
+      container.destroy();
+    });
+    this.currentSpringboardContainers.clear();
+
+    this.currentSparkleContainers.forEach((container) => {
+      this.tweens.killTweensOf(container);
+      container.destroy();
+    });
+    this.currentSparkleContainers.clear();
+
+    this.guests.clear();
+    this.archways.clear();
+    this.archwayContainers.clear();
+  }
+
+  private buildPlace(stop: StopStory): void {
+    this.cleanupCurrentPlace();
+
+    const stopIndex = STOP_STORIES.findIndex((s) => s.id === stop.id);
+
+    // 1. Fallback background if place illustration is absent
+    const backgrounds = this.add.graphics().setDepth(-35);
+    backgrounds.fillStyle(stop.sky, 1).fillRect(0, 0, PLACE_COURSE_WIDTH, VIEW_HEIGHT);
+    this.drawClouds(backgrounds, 0, stopIndex);
+    this.drawLandscape(backgrounds, 0, stop);
+    if (stop.id === "castle") {
+      this.drawCastle(backgrounds, 1450, 520);
+    }
+    this.currentBackgroundGraphics = backgrounds;
+
+    // 2. Place Illustration fills the Storybook Stage at its painted 16:9 aspect, fixed in place.
+    // Interim presentation per issue #126 while Scenery Layers (ADR-0023) art arrives.
+    if (stop.placeIllustration && this.textures.exists(`place-illustration-${stop.id}`)) {
+      this.currentPlaceIllustration = this.add
+        .image(0, 0, `place-illustration-${stop.id}`)
+        .setOrigin(0, 0)
+        .setDepth(-30)
+        .setScrollFactor(0);
+      this.currentPlaceIllustration.setDisplaySize(VIEW_WIDTH, VIEW_HEIGHT);
+    }
+
+    // 3. Place name text along Storybook Ground at start of place
+    this.currentPlaceText = this.add
+      .text(430, 118, stop.place, {
         fontFamily: "Georgia, serif",
         fontSize: "34px",
         color: "#ffffff",
         stroke: "#7d4670",
         strokeThickness: 7,
-      }).setDepth(-5).setAlpha(.92);
+      })
+      .setDepth(-5)
+      .setAlpha(0.92);
 
-      const archway = AUTHORED_RAINBOW_ARCHWAYS[stop.id];
-      this.archways.set(stop.id, archway);
-      const archwayContainer = this.createRainbowArchway(archway);
-      this.archwayContainers.set(stop.id, archwayContainer);
+    // 4. Rainbow Archway
+    const archway = AUTHORED_RAINBOW_ARCHWAYS[stop.id];
+    this.archways.set(stop.id, archway);
+    this.currentArchwayContainer = this.createRainbowArchway(archway);
+    this.archwayContainers.set(stop.id, this.currentArchwayContainer);
 
-      const starY = 245 + (index % 3) * 80;
-      const star = this.add.star(archway.x, starY, 7, 23, 49, 0xffd65e, 1)
-        .setStrokeStyle(7, 0xfff7c8, 1).setDepth(18).setName(`star-${stop.id}`);
-      this.tweens.add({ targets: star, scale: 1.14, angle: 10, yoyo: true, repeat: -1, duration: 650 + index * 50, ease: "Sine.easeInOut" });
-      this.add.circle(archway.x, starY, 76, 0xffed97, .18).setDepth(17);
-      this.guests.set(stop.id, this.createGuest(archway.x + 95, 575, stop.guest));
+    // 5. Birthday Star & Glow
+    const starY = 245 + (stopIndex % 3) * 80;
+    this.currentStar = this.add
+      .star(archway.x, starY, 7, 23, 49, 0xffd65e, 1)
+      .setStrokeStyle(7, 0xfff7c8, 1)
+      .setDepth(18)
+      .setName(`star-${stop.id}`);
+    this.tweens.add({
+      targets: this.currentStar,
+      scale: 1.14,
+      angle: 10,
+      yoyo: true,
+      repeat: -1,
+      duration: 650 + stopIndex * 50,
+      ease: "Sine.easeInOut",
     });
+    this.currentStarGlow = this.add.circle(archway.x, starY, 76, 0xffed97, 0.18).setDepth(17);
 
-    this.obstacles.forEach((obstacle) => {
+    // 6. Family Guest declared relative to place course
+    const guestPlacement = getPlaceFamilyGuest(stop.id);
+    this.currentGuestContainer = this.createGuest(guestPlacement.x, guestPlacement.y, guestPlacement.guest);
+    this.guests.set(stop.id, this.currentGuestContainer);
+
+    // 7. Obstacles for this place
+    this.currentObstacles = [...getPlaceObstacles(stop.id)];
+    this.currentObstacles.forEach((obstacle) => {
       const container = this.createObstacle(obstacle);
-      this.obstacleContainers.set(obstacle.id, container);
+      this.currentObstacleContainers.set(obstacle.id, container);
     });
 
-    this.springboards.forEach((springboard) => {
+    // 8. Springboards for this place
+    this.currentSpringboards = [...getPlaceSpringboards(stop.id)];
+    this.currentSpringboards.forEach((springboard) => {
       const container = this.createSpringboard(springboard);
-      this.springboardContainers.set(springboard.id, container);
+      this.currentSpringboardContainers.set(springboard.id, container);
     });
 
-    this.sparkles.forEach((sparkle) => {
+    // 9. Sparkles for this place
+    this.currentSparkles = [...getPlaceSparkles(stop.id)];
+    this.currentSparkles.forEach((sparkle) => {
       const container = this.createSparkle(sparkle);
-      this.sparkleContainers.set(sparkle.id, container);
+      this.currentSparkleContainers.set(sparkle.id, container);
     });
 
-    this.drawCastle(backgrounds, WORLD_WIDTH - 850, 520);
+    // 10. Reset RunnerState & Player for this place
+    this.runnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
+    if (this.player) {
+      this.player.x = 200;
+      this.player.y = DEFAULT_RUNNER_CONFIG.groundY;
+      this.player.rotation = 0;
+      this.player.play(SPRITE_ANIMATIONS.gallop.key, true);
+    }
+    if (this.sparkleTrail) {
+      this.sparkleTrail.killAll();
+    }
+
+    // 11. Camera bounds and reset
+    this.cameras.main.setBounds(0, 0, PLACE_COURSE_WIDTH, VIEW_HEIGHT);
+    this.cameras.main.scrollX = 0;
   }
 
   private createObstacle(obstacle: PlayfulObstacle): Phaser.GameObjects.Container {
@@ -723,7 +871,7 @@ export class RosieGameScene extends Phaser.Scene {
 
   private handleObstacleStumble(obstacle: PlayfulObstacle): void {
     this.player.play(SPRITE_ANIMATIONS.stumble.key, false);
-    const container = this.obstacleContainers.get(obstacle.id);
+    const container = this.currentObstacleContainers.get(obstacle.id);
     if (container) {
       this.tweens.add({
         targets: container,
@@ -861,7 +1009,7 @@ export class RosieGameScene extends Phaser.Scene {
 
   private handleSpringboardBounce(springboard: Springboard): void {
     this.callbacks.onSpringboard?.(springboard);
-    const container = this.springboardContainers.get(springboard.id);
+    const container = this.currentSpringboardContainers.get(springboard.id);
     if (container) {
       this.tweens.add({
         targets: container,
@@ -938,7 +1086,7 @@ export class RosieGameScene extends Phaser.Scene {
     this.maxSparkleStreak = Math.max(this.maxSparkleStreak, this.runnerState.sparkleStreak);
     this.callbacks.onSparkleGathered?.(sparkle, this.runnerState.sparkleStreak, this.totalSparklesCollected);
 
-    const container = this.sparkleContainers.get(sparkle.id);
+    const container = this.currentSparkleContainers.get(sparkle.id);
     if (container) {
       this.tweens.add({
         targets: container,
@@ -1185,8 +1333,6 @@ export class RosieGameScene extends Phaser.Scene {
     graphics.fillStyle(0x8b4d78, 1).fillRoundedRect(x + 225, groundY - 160, 110, 190, 55);
     graphics.fillStyle(0xf1e8ff, 1).fillCircle(x + 280, groundY - 235, 48);
   }
-
-  private stopX(index: number): number { return index * SEGMENT_WIDTH + 1450; }
 }
 
 export const GAME_SIZE = { width: VIEW_WIDTH, height: VIEW_HEIGHT } as const;
