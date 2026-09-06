@@ -45,6 +45,13 @@ import {
   type FamilyGuest,
   type StopStory,
 } from "./content";
+import {
+  calculateSceneryLayerOffset,
+  getPlaceLayers,
+  getAllPlaceLayers,
+  type SceneryLayer,
+  type SceneryLayerDepth,
+} from "../domain/scenery";
 import { WingPuppet, WING_PUPPET_TEXTURES } from "./WingPuppet";
 
 const VIEW_WIDTH = 1280;
@@ -60,6 +67,19 @@ const GUEST_ORIGIN_Y: Record<FamilyGuest, number> = {
   Uncle: 470 / 504,
   Beasley: 405 / 504,
 };
+
+const SCENERY_LAYER_DEPTHS: Record<SceneryLayerDepth, number> = {
+  far: -30,
+  middle: -20,
+  near: -10,
+};
+
+interface ActiveSceneryLayer {
+  layer: SceneryLayer;
+  container: Phaser.GameObjects.Container;
+  image?: Phaser.GameObjects.Image;
+  pieceImages: Phaser.GameObjects.Image[];
+}
 
 type LandscapeDrawer = (graphics: Phaser.GameObjects.Graphics, start: number) => void;
 
@@ -160,6 +180,7 @@ export class RosieGameScene extends Phaser.Scene {
   private currentSparkles: StarSparkle[] = [];
   private readonly currentSparkleContainers = new Map<string, Phaser.GameObjects.Container>();
   private currentPlaceIllustration?: Phaser.GameObjects.Image;
+  private activeSceneryLayers: ActiveSceneryLayer[] = [];
   private currentPlaceText?: Phaser.GameObjects.Text;
   private currentArchwayContainer?: Phaser.GameObjects.Container;
   private currentGuestContainer?: Phaser.GameObjects.Container;
@@ -192,9 +213,22 @@ export class RosieGameScene extends Phaser.Scene {
       resolveDerivativePath("flight.rosie-stella-front-wing")
     );
     STOP_STORIES.forEach((stop) => {
-      if (stop.placeIllustration) {
+      const layers = stop.layers ?? getPlaceLayers(stop.id);
+      const farLayer = layers.find((l) => l.depth === "far");
+      const paintingId = farLayer?.paintingAssetId;
+      if (paintingId) {
+        const path = resolveDerivativePath(paintingId);
+        this.load.image(`place-illustration-${stop.id}`, path);
+        this.load.image(paintingId, path);
+      } else if (stop.placeIllustration) {
         this.load.image(`place-illustration-${stop.id}`, stop.placeIllustration);
       }
+
+      layers.forEach((layer) => {
+        layer.setPieces?.forEach((piece) => {
+          this.load.image(piece.assetId, resolveDerivativePath(piece.assetId));
+        });
+      });
     });
 
     FAMILY_GUESTS.forEach((guest) => {
@@ -288,6 +322,7 @@ export class RosieGameScene extends Phaser.Scene {
     }
 
     this.player.update(deltaSeconds, this.runnerState);
+    this.updateSceneryLayers();
 
     const stop = STOP_STORIES[this.nextStop];
     if (stop && !this.runnerState.arrivedAtArchway) {
@@ -424,6 +459,18 @@ export class RosieGameScene extends Phaser.Scene {
     };
   }
 
+  getPlaceLayers(place: StarStop): readonly SceneryLayer[];
+  getPlaceLayers(): Record<StarStop, readonly SceneryLayer[]>;
+  getPlaceLayers(
+    place?: StarStop
+  ): readonly SceneryLayer[] | Record<StarStop, readonly SceneryLayer[]> {
+    if (place !== undefined) {
+      const stop = STOP_STORIES.find((s) => s.id === place);
+      return stop?.layers ?? getPlaceLayers(place);
+    }
+    return getAllPlaceLayers();
+  }
+
   getScenePlaceObjects(): {
     place: StarStop;
     obstacles: readonly PlayfulObstacle[];
@@ -432,6 +479,7 @@ export class RosieGameScene extends Phaser.Scene {
     archway?: RainbowArchway;
     guest?: FamilyGuest;
     displayedSize?: { width: number; height: number };
+    layers?: readonly SceneryLayer[];
   } {
     const stop = STOP_STORIES[this.nextStop] ?? STOP_STORIES[0]!;
     return {
@@ -442,6 +490,7 @@ export class RosieGameScene extends Phaser.Scene {
       archway: this.archways.get(stop.id),
       guest: stop.guest,
       displayedSize: this.getPlaceIllustrationDisplaySize(),
+      layers: this.getPlaceLayers(stop.id),
     };
   }
 
@@ -609,6 +658,10 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   private cleanupCurrentPlace(): void {
+    for (const active of this.activeSceneryLayers) {
+      active.container.destroy();
+    }
+    this.activeSceneryLayers = [];
     if (this.currentPlaceIllustration) {
       this.currentPlaceIllustration.destroy();
       this.currentPlaceIllustration = undefined;
@@ -663,6 +716,13 @@ export class RosieGameScene extends Phaser.Scene {
     this.archwayContainers.clear();
   }
 
+  private updateSceneryLayers(): void {
+    for (const active of this.activeSceneryLayers) {
+      const offset = calculateSceneryLayerOffset(this.runnerState.x, active.layer.depthFactor);
+      active.container.x = -offset;
+    }
+  }
+
   private buildPlace(stop: StopStory): void {
     this.cleanupCurrentPlace();
 
@@ -679,15 +739,54 @@ export class RosieGameScene extends Phaser.Scene {
     }
     this.currentBackgroundGraphics = backgrounds;
 
-    // 2. Place Illustration fills the Storybook Stage at its painted 16:9 aspect, fixed in place.
-    // Interim presentation per issue #126 while Scenery Layers (ADR-0023) art arrives.
-    if (stop.placeIllustration && this.textures.exists(`place-illustration-${stop.id}`)) {
-      this.currentPlaceIllustration = this.add
-        .image(0, 0, `place-illustration-${stop.id}`)
-        .setOrigin(0, 0)
-        .setDepth(-30)
-        .setScrollFactor(0);
-      this.currentPlaceIllustration.setDisplaySize(VIEW_WIDTH, VIEW_HEIGHT);
+    // 2. Scenery Layers rendered in depth order beneath all interactive elements.
+    // Far layer (depth -30) initially renders the place's approved painting with depth factor 0.
+    // Middle (depth -20) and Near (depth -10) render any declared Set Pieces with depth factors.
+    const sceneryLayers = stop.layers ?? getPlaceLayers(stop.id);
+    for (const layer of sceneryLayers) {
+      const depth = SCENERY_LAYER_DEPTHS[layer.depth];
+      const container = this.add.container(0, 0).setDepth(depth).setScrollFactor(0);
+      let layerImage: Phaser.GameObjects.Image | undefined;
+      const pieceImages: Phaser.GameObjects.Image[] = [];
+
+      if (layer.paintingAssetId) {
+        const textureKey = this.textures.exists(`place-illustration-${stop.id}`)
+          ? `place-illustration-${stop.id}`
+          : layer.paintingAssetId;
+        if (this.textures.exists(textureKey)) {
+          layerImage = this.add
+            .image(0, 0, textureKey)
+            .setOrigin(0, 0);
+          layerImage.setDisplaySize(VIEW_WIDTH, VIEW_HEIGHT);
+          container.add(layerImage);
+
+          if (layer.depth === "far") {
+            this.currentPlaceIllustration = layerImage;
+          }
+        }
+      }
+
+      if (Array.isArray(layer.setPieces)) {
+        for (const piece of layer.setPieces) {
+          if (this.textures.exists(piece.assetId)) {
+            const pieceImage = this.add
+              .image(piece.positionAlongCourse, DEFAULT_RUNNER_CONFIG.groundY, piece.assetId)
+              .setOrigin(0.5, piece.groundAnchor);
+            container.add(pieceImage);
+            pieceImages.push(pieceImage);
+          }
+        }
+      }
+
+      const offset = calculateSceneryLayerOffset(this.runnerState.x, layer.depthFactor);
+      container.x = -offset;
+
+      this.activeSceneryLayers.push({
+        layer,
+        container,
+        image: layerImage,
+        pieceImages,
+      });
     }
 
     // 3. Place name text along Storybook Ground at start of place
