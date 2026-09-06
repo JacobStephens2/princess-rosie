@@ -1,4 +1,5 @@
 import type { FamilyGuest, StarStop } from "../domain/journey";
+import derivativeManifest from "../../public/assets/derivative-manifest.json";
 
 export type { FamilyGuest };
 
@@ -20,6 +21,14 @@ export interface StopStory {
   stamp: StorybookStampInfo;
 }
 
+export function resolveDerivativePath(id: string): string {
+  const derivative = derivativeManifest.derivatives.find((entry) => entry.id === id);
+  if (!derivative) {
+    throw new Error(`Derivative not found for media ID: ${id}`);
+  }
+  return derivative.path;
+}
+
 export const STOP_STORIES: readonly StopStory[] = [
   {
     id: "garden",
@@ -29,7 +38,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🌹",
     sky: 0x8bd8f1,
     ground: 0x76bd7a,
-    placeIllustration: "/assets/rose-garden-place-illustration.png",
+    placeIllustration: resolveDerivativePath("flight.rose-garden-background"),
     stamp: {
       title: "Mom’s Rose Stamp",
       icon: "🌹",
@@ -44,7 +53,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🎀",
     sky: 0xb4ddee,
     ground: 0x5fa273,
-    placeIllustration: "/assets/lacewood-place-illustration.png",
+    placeIllustration: resolveDerivativePath("lacewood.background"),
     stamp: {
       title: "Gram’s Lace Ribbon Stamp",
       icon: "🎀",
@@ -59,7 +68,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🔔",
     sky: 0x92d9f6,
     ground: 0xd4aa68,
-    placeIllustration: "/assets/abbey-place-illustration.png",
+    placeIllustration: resolveDerivativePath("abbey.background"),
     stamp: {
       title: "Pop’s Golden Bell Stamp",
       icon: "🔔",
@@ -74,7 +83,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🐈",
     sky: 0x76ccef,
     ground: 0xe8f7ff,
-    placeIllustration: "/assets/cloister-place-illustration.png",
+    placeIllustration: resolveDerivativePath("cloister.background"),
     stamp: {
       title: "Beasley’s Cloud Paws Stamp",
       icon: "🐈",
@@ -89,7 +98,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🌸",
     sky: 0x8ecff3,
     ground: 0x829a71,
-    placeIllustration: "/assets/pellegrino-peak-place-illustration.png",
+    placeIllustration: resolveDerivativePath("pellegrino-peak.background"),
     stamp: {
       title: "Aunt’s Mountain Flower Stamp",
       icon: "🌸",
@@ -104,7 +113,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🌊",
     sky: 0x6fd3ef,
     ground: 0x168fc4,
-    placeIllustration: "/assets/sapphire-sea-place-illustration.png",
+    placeIllustration: resolveDerivativePath("sapphire-sea.background"),
     stamp: {
       title: "Uncle’s Sea Wave Stamp",
       icon: "🌊",
@@ -119,7 +128,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🏰",
     sky: 0xf6b6cf,
     ground: 0xe6ae55,
-    placeIllustration: "/assets/castle-approach-place-illustration.png",
+    placeIllustration: resolveDerivativePath("celebration.castle-approach"),
     stamp: {
       title: "Dad’s Castle Gate Stamp",
       icon: "🏰",

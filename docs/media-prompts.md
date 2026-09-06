@@ -2,6 +2,22 @@
 
 The game remains playable without generation services. These calls produced the polished, local media bundled with the static site; no runtime API calls or credentials ship to players.
 
+## Preparing web derivatives from approved source media
+
+After approving a new source asset, placing its source PNG under `shared/edition/source-media/`, and adding its entry to `shared/edition/media.json`, run:
+
+```bash
+npm run media:prepare
+```
+
+This runs `tools/media-prepare`:
+- Generates web-ready WebP derivatives into `apps/web/public/assets/derivatives/`.
+- Scales full-height layers and paintings to 1× Storybook Stage height (720 px), preserving aspect ratio.
+- Scales cutouts and sprites to their presentation budgets while preserving genuine alpha transparency.
+- Caps any wide derivative width strictly under the 4096 px texture limit.
+- Emits the derivative manifest at `apps/web/public/assets/derivative-manifest.json`.
+- Runs idempotently without touching unchanged assets or manifests on disk.
+
 ## Opening storybook cover illustration
 
 Execution: built-in OpenAI image-generation tool.
