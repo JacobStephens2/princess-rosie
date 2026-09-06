@@ -29,6 +29,18 @@ export function resolveDerivativePath(id: string): string {
   return derivative.path;
 }
 
+export function getFamilyGuestDerivativePath(guest: FamilyGuest): string {
+  return resolveDerivativePath(`family-guest.${guest.toLowerCase()}`);
+}
+
+export function getBirthdayStarDerivativePath(): string {
+  return resolveDerivativePath("journey.birthday-star");
+}
+
+export function getRainbowPathDerivativePath(): string {
+  return resolveDerivativePath("journey.rainbow-path");
+}
+
 export const STOP_STORIES: readonly StopStory[] = [
   {
     id: "garden",

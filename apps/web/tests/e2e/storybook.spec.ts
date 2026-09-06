@@ -388,6 +388,8 @@ test("Family Guest Rainbow Archway arrival sequence pauses forward galloping, ga
     expect(arch?.x).toBeGreaterThan(0);
     const waving = await page.evaluate((s) => window.__ROSIE_RUNNER__?.isGuestWaving?.(s), stop);
     expect(waving).toBe(true);
+    const isCutout = await page.evaluate((s) => window.__ROSIE_RUNNER__?.isGuestCutout?.(s), stop);
+    expect(isCutout).toBe(true);
   }
 
   // 2. Stella arrives at the Rainbow Archway in Rosalia's Rose Garden
@@ -639,6 +641,8 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
     expect(arch).toBeDefined();
     const waving = await page.evaluate((s) => window.__ROSIE_RUNNER__?.isGuestWaving?.(s), stop.id);
     expect(waving).toBe(true);
+    const isCutout = await page.evaluate((s) => window.__ROSIE_RUNNER__?.isGuestCutout?.(s), stop.id);
+    expect(isCutout).toBe(true);
 
     // Gallop to archway
     await page.evaluate(() => {

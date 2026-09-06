@@ -35,6 +35,7 @@ export interface RosieRunnerInterface {
   getMaxSparkleStreak?: () => number;
   getArchway?: (stopId?: import("./domain/journey").StarStop) => import("./domain/gallop-and-flutter").RainbowArchway | undefined;
   isGuestWaving?: (stopId?: import("./domain/journey").StarStop) => boolean;
+  isGuestCutout?: (stopId?: import("./domain/journey").StarStop) => boolean;
   getAcquiredStamps?: () => readonly import("./domain/journey").StarStop[];
   getCurrentStopIndex?: () => number;
   hasPlaceIllustration?: (stopId: import("./domain/journey").StarStop) => boolean;
@@ -666,6 +667,7 @@ window.__ROSIE_RUNNER__ = {
   getMaxSparkleStreak: () => scene?.getMaxSparkleStreak() ?? 0,
   getArchway: (stopId) => scene?.getArchway(stopId),
   isGuestWaving: (stopId) => scene?.isGuestWaving(stopId) ?? false,
+  isGuestCutout: (stopId) => scene?.isGuestCutout(stopId) ?? false,
   getAcquiredStamps: () => scene?.getAcquiredStamps() ?? [],
   getCurrentStopIndex: () => scene?.getCurrentStopIndex() ?? 0,
   hasPlaceIllustration: (stopId) => scene?.hasPlaceIllustration(stopId) ?? false,

@@ -33,28 +33,29 @@ import {
   type Springboard,
   type StarSparkle,
   type RainbowArchway,
-} from "../domain/gallop-and-flutter";
-import { STOP_STORIES, type FamilyGuest, type StopStory, resolveDerivativePath } from "./content";
+import {
+  STOP_STORIES,
+  resolveDerivativePath,
+  getFamilyGuestDerivativePath,
+  getBirthdayStarDerivativePath,
+  getRainbowPathDerivativePath,
+  type FamilyGuest,
+  type StopStory,
+} from "./content";
 import { WingPuppet, WING_PUPPET_TEXTURES } from "./WingPuppet";
 
 const VIEW_WIDTH = 1280;
 const VIEW_HEIGHT = 720;
 const PLACE_COURSE_WIDTH = DEFAULT_RUNNER_CONFIG.courseLength + 1100;
 
-interface GuestStyle {
-  clothes: number;
-  hair: number;
-  trousers: number;
-  hairStyle: "long" | "curls" | "short" | "bun" | "pompadour";
-}
-
-const GUEST_STYLES: Record<Exclude<FamilyGuest, "Beasley">, GuestStyle> = {
-  Mom: { clothes: 0xef719f, hair: 0xc49b68, trousers: 0x5683b3, hairStyle: "long" },
-  Dad: { clothes: 0x4e8eb8, hair: 0x76503c, trousers: 0x6a705f, hairStyle: "short" },
-  Pop: { clothes: 0xf0c171, hair: 0xd8aa72, trousers: 0x80664f, hairStyle: "short" },
-  Gram: { clothes: 0x9d72bd, hair: 0x73503f, trousers: 0x76507f, hairStyle: "curls" },
-  Aunt: { clothes: 0x57a49b, hair: 0xb38b5f, trousers: 0x755a94, hairStyle: "bun" },
-  Uncle: { clothes: 0x477fa8, hair: 0x654333, trousers: 0x3e5770, hairStyle: "pompadour" },
+const GUEST_ORIGIN_Y: Record<FamilyGuest, number> = {
+  Mom: 448 / 504,
+  Dad: 450 / 504,
+  Pop: 458 / 504,
+  Gram: 462 / 504,
+  Aunt: 467 / 504,
+  Uncle: 470 / 504,
+  Beasley: 405 / 504,
 };
 
 type LandscapeDrawer = (graphics: Phaser.GameObjects.Graphics, start: number) => void;
@@ -159,9 +160,9 @@ export class RosieGameScene extends Phaser.Scene {
   private currentPlaceText?: Phaser.GameObjects.Text;
   private currentArchwayContainer?: Phaser.GameObjects.Container;
   private currentGuestContainer?: Phaser.GameObjects.Container;
-  private currentStar?: Phaser.GameObjects.Star;
+  private currentStar?: Phaser.GameObjects.Image;
   private currentStarGlow?: Phaser.GameObjects.Arc;
-  private currentRainbowPath?: Phaser.GameObjects.Graphics;
+  private currentRainbowPath?: Phaser.GameObjects.Image;
   private currentBackgroundGraphics?: Phaser.GameObjects.Graphics;
   private totalSparklesCollected = 0;
   private maxSparkleStreak = 0;
@@ -192,6 +193,13 @@ export class RosieGameScene extends Phaser.Scene {
         this.load.image(`place-illustration-${stop.id}`, stop.placeIllustration);
       }
     });
+
+    const guestNames: readonly FamilyGuest[] = ["Mom", "Dad", "Pop", "Gram", "Aunt", "Uncle", "Beasley"];
+    guestNames.forEach((guest) => {
+      this.load.image(`guest-${guest.toLowerCase()}`, getFamilyGuestDerivativePath(guest));
+    });
+    this.load.image("birthday-star", getBirthdayStarDerivativePath());
+    this.load.image("rainbow-path", getRainbowPathDerivativePath());
   }
 
   create(): void {
@@ -376,6 +384,29 @@ export class RosieGameScene extends Phaser.Scene {
     return STAR_STOPS.includes(targetStop);
   }
 
+  isGuestCutout(stopId?: StarStop): boolean {
+    const targetStop = stopId ?? STOP_STORIES[this.nextStop]?.id ?? "garden";
+    const guest = this.guests.get(targetStop);
+    if (guest) {
+      const isCutoutData = Boolean(guest.getData("isCutout"));
+      const hasCutoutImage = guest.list.some(
+        (child) => child instanceof Phaser.GameObjects.Image && child.texture.key.startsWith("guest-"),
+      );
+      const hasTextLabel = guest.list.some((child) => child instanceof Phaser.GameObjects.Text);
+      const hasPrimitiveGraphics = guest.list.some(
+        (child) =>
+          child instanceof Phaser.GameObjects.Graphics ||
+          child instanceof Phaser.GameObjects.Shape,
+      );
+      return isCutoutData && hasCutoutImage && !hasTextLabel && !hasPrimitiveGraphics;
+    }
+    if (STAR_STOPS.includes(targetStop)) {
+      const placement = getPlaceFamilyGuest(targetStop);
+      return this.textures.exists(`guest-${placement.guest.toLowerCase()}`);
+    }
+    return false;
+  }
+
   getAcquiredStamps(): readonly StarStop[] {
     return this.journey.acquiredStamps;
   }
@@ -485,7 +516,7 @@ export class RosieGameScene extends Phaser.Scene {
     };
     this.pause();
 
-    const star = this.children.getByName(`star-${stop.id}`) as Phaser.GameObjects.Star | null;
+    const star = this.children.getByName(`star-${stop.id}`) as Phaser.GameObjects.Image | null;
     if (star) {
       this.tweens.killTweensOf(star);
       this.tweens.add({
@@ -521,8 +552,8 @@ export class RosieGameScene extends Phaser.Scene {
   private awardStorybookStamp(stop: StopStory): void {
     this.journey = acquireStorybookStamp(this.journey, stop.id);
     if (stop.id !== "castle") {
-      const archway = this.archways.get(stop.id) ?? AUTHORED_RAINBOW_ARCHWAYS[stop.id];
-      this.drawRainbowPath(archway.x - 290, 580);
+      const guestPlacement = getPlaceFamilyGuest(stop.id);
+      this.drawRainbowPath(guestPlacement.x, guestPlacement.y);
       this.sendGuestAlongRainbowPath(stop.id);
     }
 
@@ -686,8 +717,7 @@ export class RosieGameScene extends Phaser.Scene {
     // 5. Birthday Star & Glow
     const starY = 245 + (stopIndex % 3) * 80;
     this.currentStar = this.add
-      .star(archway.x, starY, 7, 23, 49, 0xffd65e, 1)
-      .setStrokeStyle(7, 0xfff7c8, 1)
+      .image(archway.x, starY, "birthday-star")
       .setDepth(18)
       .setName(`star-${stop.id}`);
     this.tweens.add({
@@ -1219,65 +1249,25 @@ export class RosieGameScene extends Phaser.Scene {
 
   private createGuest(x: number, groundY: number, name: FamilyGuest): Phaser.GameObjects.Container {
     const guest = this.add.container(x, groundY).setDepth(16);
+    guest.setData("isCutout", true);
     guest.setData("isWaving", true);
+    guest.setData("guestName", name);
     guest.setName(`guest-${name}`);
-    if (name === "Beasley") {
-      const body = this.add.ellipse(0, 0, 64, 42, 0xf39a38);
-      const head = this.add.circle(29, -22, 25, 0xf39a38);
-      const chest = this.add.ellipse(13, -3, 23, 35, 0xfff5df);
-      const ears = [this.add.triangle(12, -43, 0, 20, 18, 0, 28, 24, 0xf39a38), this.add.triangle(43, -43, 0, 24, 12, 0, 25, 22, 0xf39a38)];
-      const wavePaw = this.add.ellipse(32, -30, 12, 22, 0xf39a38);
-      wavePaw.setOrigin(0.5, 0.85);
-      wavePaw.angle = 20;
-      this.tweens.add({
-        targets: wavePaw,
-        angle: { from: 5, to: 42 },
-        yoyo: true,
-        repeat: -1,
-        duration: 320,
-        ease: "Sine.easeInOut",
-      });
-      guest.add([body, head, chest, ...ears, wavePaw]);
-    } else {
-      const style = GUEST_STYLES[name];
-      const skin = 0xffd7bd;
-      const legs = [this.add.rectangle(-14, 19, 18, 54, style.trousers), this.add.rectangle(14, 19, 18, 54, style.trousers)];
-      const shoes = [this.add.ellipse(-14, 47, 24, 12, name === "Uncle" ? 0x70452f : 0x5e4e5a), this.add.ellipse(14, 47, 24, 12, name === "Uncle" ? 0x70452f : 0x5e4e5a)];
-      const body = this.add.ellipse(0, -27, 64, 82, style.clothes);
-      const longHair = style.hairStyle === "long" ? this.add.ellipse(-2, -72, 64, 86, style.hair) : undefined;
-      const head = this.add.circle(0, -88, 34, skin);
-      const hair = this.add.ellipse(0, -106, 70, style.hairStyle === "pompadour" ? 34 : 42, style.hair)
-        .setRotation(style.hairStyle === "pompadour" ? -.16 : 0);
-      const hairDetails: Phaser.GameObjects.GameObject[] = [];
-      if (style.hairStyle === "curls") {
-        [-25, -12, 2, 16, 28].forEach((hairX, curlIndex) => hairDetails.push(this.add.circle(hairX, -108 - (curlIndex % 2) * 7, 13, style.hair)));
-      } else if (style.hairStyle === "bun") {
-        hairDetails.push(this.add.circle(19, -135, 18, style.hair), this.add.rectangle(-10, -108, 38, 10, style.hair).setRotation(.12));
-      } else if (style.hairStyle === "pompadour") {
-        hairDetails.push(this.add.ellipse(-12, -124, 48, 25, style.hair).setRotation(-.22));
-      }
-      const smile = this.add.arc(0, -82, 12, 20, 160, false, 0, 0).setStrokeStyle(3, 0x8f4a5b, 1);
-      const waveArm = this.add.ellipse(26, -55, 14, 38, style.clothes);
-      waveArm.setOrigin(0.5, 0.9);
-      waveArm.angle = 20;
-      this.tweens.add({
-        targets: waveArm,
-        angle: { from: 10, to: 48 },
-        yoyo: true,
-        repeat: -1,
-        duration: 360,
-        ease: "Sine.easeInOut",
-      });
-      const layers: Phaser.GameObjects.GameObject[] = [...legs, ...shoes];
-      if (longHair) layers.push(longHair);
-      layers.push(body);
-      if (name === "Dad" || name === "Uncle") layers.push(this.add.rectangle(0, -31, 17, 62, 0xfff8e9));
-      layers.push(head, hair, ...hairDetails, smile, waveArm);
-      guest.add(layers);
-    }
-    guest.add(this.add.text(0, 32, name, { fontFamily: "Arial, sans-serif", fontStyle: "bold", fontSize: "20px", color: "#69395d", backgroundColor: "#fff8eacc", padding: { x: 9, y: 5 } }).setOrigin(.5));
-    if (name === "Uncle") guest.setScale(1.14);
-    this.tweens.add({ targets: guest, y: groundY - 7, yoyo: true, repeat: -1, duration: 780, ease: "Sine.easeInOut" });
+
+    const cutout = this.add
+      .image(0, 0, `guest-${name.toLowerCase()}`)
+      .setOrigin(0.5, GUEST_ORIGIN_Y[name])
+      .setScale(0.44);
+    guest.add(cutout);
+
+    this.tweens.add({
+      targets: guest,
+      y: groundY - 7,
+      yoyo: true,
+      repeat: -1,
+      duration: 780,
+      ease: "Sine.easeInOut",
+    });
     return guest;
   }
 
@@ -1286,12 +1276,23 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   private drawRainbowPath(x: number, y: number): void {
-    const path = this.add.graphics().setDepth(1);
-    [0xef5d9d, 0xf4a658, 0xf3d760, 0x67c984, 0x5bbce3, 0x9271d1].forEach((color, index) => {
-      path.lineStyle(12, color, .9).beginPath().moveTo(x - 350, y + index * 9).lineTo(x + 350, y - 110 + index * 9).strokePath();
+    if (this.currentRainbowPath) {
+      this.tweens.killTweensOf(this.currentRainbowPath);
+      this.currentRainbowPath.destroy();
+      this.currentRainbowPath = undefined;
+    }
+    const path = this.add
+      .image(x, y, "rainbow-path")
+      .setDepth(1)
+      .setOrigin(0.18, 0.78)
+      .setAlpha(0);
+    this.currentRainbowPath = path;
+    this.tweens.add({
+      targets: path,
+      alpha: 1,
+      duration: 550,
+      ease: "Sine.easeOut",
     });
-    path.alpha = 0;
-    this.tweens.add({ targets: path, alpha: 1, duration: 550 });
   }
 
   private sendGuestAlongRainbowPath(stop: StarStop): void {
@@ -1302,7 +1303,7 @@ export class RosieGameScene extends Phaser.Scene {
       targets: guest,
       x: guest.x + 620,
       y: 450,
-      scale: .72,
+      scale: guest.scale * 0.85,
       angle: -4,
       duration: 680,
       ease: "Sine.easeInOut",
