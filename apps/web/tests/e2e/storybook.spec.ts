@@ -921,4 +921,73 @@ test("an e2e check flies one place without stumbling and confirms Rainbow Archwa
   expect(finalState?.arrivedAtArchway).toBe(true);
 });
 
+test("every place declares its existing painting as a single fixed far layer and the test hook lists each place's layers with their factors", async ({ page }) => {
+  await startStorybookFlight(page);
+
+  const places = ["garden", "lacewood", "abbey", "clouds", "peak", "sea", "castle"] as const;
+  const expectedPaintings: Record<(typeof places)[number], string> = {
+    garden: "flight.rose-garden-background",
+    lacewood: "lacewood.background",
+    abbey: "abbey.background",
+    clouds: "cloister.background",
+    peak: "pellegrino-peak.background",
+    sea: "sapphire-sea.background",
+    castle: "celebration.castle-approach",
+  };
+
+  // 1. Verify getPlaceLayers hook with no arguments lists each place's layers with their factors
+  const allPlacesLayers = (await page.evaluate(() =>
+    window.__ROSIE_RUNNER__?.getPlaceLayers?.()
+  )) as Record<(typeof places)[number], Array<{ depth: string; depthFactor: number; paintingAssetId?: string; setPieces: any[] }>>;
+  expect(allPlacesLayers).toBeDefined();
+
+  for (const place of places) {
+    const placeFromAll = allPlacesLayers[place];
+    expect(placeFromAll).toBeDefined();
+    expect(placeFromAll).toHaveLength(3);
+
+    const [farFromAll, middleFromAll, nearFromAll] = placeFromAll;
+    expect(farFromAll?.depth).toBe("far");
+    expect(farFromAll?.depthFactor).toBe(0);
+    expect(farFromAll?.paintingAssetId).toBe(expectedPaintings[place]);
+    expect(farFromAll?.setPieces).toEqual([]);
+
+    expect(middleFromAll?.depth).toBe("middle");
+    expect(middleFromAll?.depthFactor).toBe(0.5);
+    expect(middleFromAll?.setPieces).toEqual([]);
+
+    expect(nearFromAll?.depth).toBe("near");
+    expect(nearFromAll?.depthFactor).toBe(1.0);
+    expect(nearFromAll?.setPieces).toEqual([]);
+
+    // 2. Verify getPlaceLayers(place) returns the same layers for that specific place
+    const layers = (await page.evaluate(
+      (p) => window.__ROSIE_RUNNER__?.getPlaceLayers?.(p as any),
+      place
+    )) as Array<{ depth: string; depthFactor: number; paintingAssetId?: string; setPieces: any[] }>;
+    expect(layers).toBeDefined();
+    expect(layers).toHaveLength(3);
+    expect(layers).toEqual(placeFromAll);
+  }
+
+  // 3. Verify getScenePlaceObjects includes declared layers
+  const sceneObjects = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
+  expect(sceneObjects?.layers).toBeDefined();
+  expect(sceneObjects?.layers).toHaveLength(3);
+
+  // 4. Verify no visual change: displayed illustration size remains 1280x720 at painted 16:9 aspect
+  const displaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
+  expect(displaySize?.width).toBe(1280);
+  expect(displaySize?.height).toBe(720);
+
+  // Advance runner and verify far layer stays fixed at factor 0 (display size unchanged)
+  await page.waitForTimeout(500);
+  const runnerState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
+  expect(runnerState?.x).toBeGreaterThan(200);
+
+  const advancedDisplaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
+  expect(advancedDisplaySize?.width).toBe(1280);
+  expect(advancedDisplaySize?.height).toBe(720);
+});
+
 

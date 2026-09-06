@@ -3,6 +3,7 @@ import { registerSW } from "virtual:pwa-register";
 
 import "./style.css";
 import { OPENING_STORYBOOK_MOMENTS_AFTER_COVER, STOP_STORIES, type StopStory } from "./game/content";
+import { getPlaceLayers } from "./domain/scenery";
 import { GAME_SIZE, RosieGameScene } from "./game/RosieGameScene";
 import { GameAudio } from "./game/sound";
 import { createRunnerState } from "./domain/gallop-and-flutter";
@@ -40,6 +41,11 @@ export interface RosieRunnerInterface {
   getCurrentStopIndex?: () => number;
   hasPlaceIllustration?: (stopId: import("./domain/journey").StarStop) => boolean;
   getPlaceIllustrationDisplaySize?: () => { width: number; height: number } | undefined;
+  getPlaceLayers?: (
+    stopId?: import("./domain/journey").StarStop
+  ) =>
+    | readonly import("./domain/scenery").SceneryLayer[]
+    | Record<import("./domain/journey").StarStop, readonly import("./domain/scenery").SceneryLayer[]>;
   getScenePlaceObjects?: () => {
     place: import("./domain/journey").StarStop;
     obstacles: readonly import("./domain/gallop-and-flutter").PlayfulObstacle[];
@@ -48,6 +54,7 @@ export interface RosieRunnerInterface {
     archway?: import("./domain/gallop-and-flutter").RainbowArchway;
     guest?: import("./domain/journey").FamilyGuest;
     displayedSize?: { width: number; height: number };
+    layers?: readonly import("./domain/scenery").SceneryLayer[];
   } | undefined;
   getGrownUpCornerState?: () => GrownUpCornerState;
   resetJourney?: () => import("./domain/journey").Journey;
@@ -672,6 +679,10 @@ window.__ROSIE_RUNNER__ = {
   getCurrentStopIndex: () => scene?.getCurrentStopIndex() ?? 0,
   hasPlaceIllustration: (stopId) => scene?.hasPlaceIllustration(stopId) ?? false,
   getPlaceIllustrationDisplaySize: () => scene?.getPlaceIllustrationDisplaySize(),
+  getPlaceLayers: (stopId) =>
+    stopId !== undefined
+      ? scene?.getPlaceLayers(stopId) ?? getPlaceLayers(stopId)
+      : scene?.getPlaceLayers() ?? getPlaceLayers(),
   getScenePlaceObjects: () => scene?.getScenePlaceObjects(),
   getGrownUpCornerState: () => grownUpCornerState,
   resetJourney: () => scene?.resetJourney() ?? resetJourney(),

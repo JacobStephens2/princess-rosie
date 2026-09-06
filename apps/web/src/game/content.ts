@@ -1,8 +1,9 @@
 import { FAMILY_GUESTS, type FamilyGuest, type StarStop } from "../domain/journey";
+import { getPlaceLayers, type SceneryLayer } from "../domain/scenery";
 import derivativeManifest from "../../public/assets/derivative-manifest.json";
 
 export { FAMILY_GUESTS };
-export type { FamilyGuest };
+export type { FamilyGuest, SceneryLayer };
 
 export interface StorybookStampInfo {
   title: string;
@@ -19,6 +20,7 @@ export interface StopStory {
   sky: number;
   ground: number;
   placeIllustration?: string;
+  layers: readonly SceneryLayer[];
   stamp: StorybookStampInfo;
 }
 
@@ -56,6 +58,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     sky: 0x8bd8f1,
     ground: 0x76bd7a,
     placeIllustration: resolveDerivativePath("flight.rose-garden-background"),
+    layers: getPlaceLayers("garden"),
     stamp: {
       title: "Mom’s Rose Stamp",
       icon: "🌹",
@@ -71,6 +74,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     sky: 0xb4ddee,
     ground: 0x5fa273,
     placeIllustration: resolveDerivativePath("lacewood.background"),
+    layers: getPlaceLayers("lacewood"),
     stamp: {
       title: "Gram’s Lace Ribbon Stamp",
       icon: "🎀",
@@ -86,6 +90,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     sky: 0x92d9f6,
     ground: 0xd4aa68,
     placeIllustration: resolveDerivativePath("abbey.background"),
+    layers: getPlaceLayers("abbey"),
     stamp: {
       title: "Pop’s Golden Bell Stamp",
       icon: "🔔",
@@ -101,6 +106,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     sky: 0x76ccef,
     ground: 0xe8f7ff,
     placeIllustration: resolveDerivativePath("cloister.background"),
+    layers: getPlaceLayers("clouds"),
     stamp: {
       title: "Beasley’s Cloud Paws Stamp",
       icon: "🐈",
@@ -116,6 +122,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     sky: 0x8ecff3,
     ground: 0x829a71,
     placeIllustration: resolveDerivativePath("pellegrino-peak.background"),
+    layers: getPlaceLayers("peak"),
     stamp: {
       title: "Aunt’s Mountain Flower Stamp",
       icon: "🌸",
@@ -131,6 +138,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     sky: 0x6fd3ef,
     ground: 0x168fc4,
     placeIllustration: resolveDerivativePath("sapphire-sea.background"),
+    layers: getPlaceLayers("sea"),
     stamp: {
       title: "Uncle’s Sea Wave Stamp",
       icon: "🌊",
@@ -146,6 +154,7 @@ export const STOP_STORIES: readonly StopStory[] = [
     sky: 0xf6b6cf,
     ground: 0xe6ae55,
     placeIllustration: resolveDerivativePath("celebration.castle-approach"),
+    layers: getPlaceLayers("castle"),
     stamp: {
       title: "Dad’s Castle Gate Stamp",
       icon: "🏰",
