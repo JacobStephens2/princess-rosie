@@ -1,6 +1,7 @@
-import type { FamilyGuest, StarStop } from "../domain/journey";
+import { FAMILY_GUESTS, type FamilyGuest, type StarStop } from "../domain/journey";
 import derivativeManifest from "../../public/assets/derivative-manifest.json";
 
+export { FAMILY_GUESTS };
 export type { FamilyGuest };
 
 export interface StorybookStampInfo {
@@ -27,6 +28,10 @@ export function resolveDerivativePath(id: string): string {
     throw new Error(`Derivative not found for media ID: ${id}`);
   }
   return derivative.path;
+}
+
+export function getFamilyGuestTextureKey(guest: FamilyGuest): string {
+  return `guest-${guest.toLowerCase()}`;
 }
 
 export function getFamilyGuestDerivativePath(guest: FamilyGuest): string {

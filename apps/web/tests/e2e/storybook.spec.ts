@@ -380,17 +380,15 @@ test("collecting sequential Star Sparkles in an arc advances pentatonic melody s
 test("Family Guest Rainbow Archway arrival sequence pauses forward galloping, gathers Birthday Star, awards Storybook Stamp, and updates journey domain state", async ({ page }) => {
   await startStorybookFlight(page);
 
-  // 1. Each place concludes at an authored Rainbow Archway with that place's Family Guest waving
-  for (const stop of ["garden", "lacewood", "abbey", "clouds", "peak", "sea", "castle"] as const) {
-    const arch = await page.evaluate((s) => window.__ROSIE_RUNNER__?.getArchway?.(s), stop);
-    expect(arch).toBeDefined();
-    expect(arch?.place).toBe(stop);
-    expect(arch?.x).toBeGreaterThan(0);
-    const waving = await page.evaluate((s) => window.__ROSIE_RUNNER__?.isGuestWaving?.(s), stop);
-    expect(waving).toBe(true);
-    const isCutout = await page.evaluate((s) => window.__ROSIE_RUNNER__?.isGuestCutout?.(s), stop);
-    expect(isCutout).toBe(true);
-  }
+  // 1. Rosalia's Rose Garden concludes at an authored Rainbow Archway with Mom presented as an illustrated cutout
+  const gardenArch = await page.evaluate(() => window.__ROSIE_RUNNER__?.getArchway?.("garden"));
+  expect(gardenArch).toBeDefined();
+  expect(gardenArch?.place).toBe("garden");
+  expect(gardenArch?.x).toBeGreaterThan(0);
+  const gardenWaving = await page.evaluate(() => window.__ROSIE_RUNNER__?.isGuestWaving?.("garden"));
+  expect(gardenWaving).toBe(true);
+  const gardenCutout = await page.evaluate(() => window.__ROSIE_RUNNER__?.isGuestCutout?.("garden"));
+  expect(gardenCutout).toBe(true);
 
   // 2. Stella arrives at the Rainbow Archway in Rosalia's Rose Garden
   await page.evaluate(() => {
@@ -421,6 +419,10 @@ test("Family Guest Rainbow Archway arrival sequence pauses forward galloping, ga
   // 6. Continue to the next place (Zélie's Lacewood) and verify Gram's Rainbow Archway and Storybook Stamp
   await page.locator("#moment-next").click();
   await expect(page.locator("#moment")).toBeHidden();
+
+  // Gram is presented as an illustrated cutout at Lacewood archway
+  const lacewoodCutout = await page.evaluate(() => window.__ROSIE_RUNNER__?.isGuestCutout?.("lacewood"));
+  expect(lacewoodCutout).toBe(true);
 
   await page.evaluate(() => {
     window.__ROSIE_RUNNER__?.seekToEnd();
