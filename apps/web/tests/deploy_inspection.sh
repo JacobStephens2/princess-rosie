@@ -36,11 +36,11 @@ test -f "$adr" || fail "ADR-0022 is missing"
 grep -q '^name: Deploy production$' "$workflow" \
   || fail "the production workflow is no longer named Deploy production"
 
-python3 - "$lockfile" <<'PY' || fail "package-lock.json workspaces are not apps/web and tools/soundscape-build"
+python3 - "$lockfile" <<'PY' || fail "package-lock.json workspaces are not apps/web, tools/soundscape-build, and tools/media-prepare"
 import json, sys
 lock = json.load(open(sys.argv[1]))
 workspaces = lock.get("packages", {}).get("", {}).get("workspaces", [])
-if workspaces != ["apps/web", "tools/soundscape-build"]:
+if workspaces != ["apps/web", "tools/soundscape-build", "tools/media-prepare"]:
     raise SystemExit(1)
 if "apps/web" not in lock.get("packages", {}):
     raise SystemExit(1)

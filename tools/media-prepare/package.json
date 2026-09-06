@@ -1,0 +1,20 @@
+{
+  "name": "rosie-media-prepare",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare-media": "node --import tsx src/bin.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "sharp": "0.33.5"
+  },
+  "devDependencies": {
+    "@types/node": "26.2.0",
+    "tsx": "4.20.5",
+    "typescript": "7.0.2",
+    "vitest": "4.1.11"
+  }
+}
