@@ -1,5 +1,12 @@
 import { describe, expect, test } from "vitest";
-import { STOP_STORIES, resolveDerivativePath } from "./content";
+import {
+  STOP_STORIES,
+  resolveDerivativePath,
+  getFamilyGuestDerivativePath,
+  getBirthdayStarDerivativePath,
+  getRainbowPathDerivativePath,
+} from "./content";
+import { FAMILY_GUESTS } from "../domain/journey";
 import derivativeManifest from "../../public/assets/derivative-manifest.json";
 
 describe("content and derivative place illustrations", () => {
@@ -43,5 +50,37 @@ describe("content and derivative place illustrations", () => {
     for (const stop of STOP_STORIES) {
       expect(stop.placeIllustration).not.toMatch(/place-illustration\.png$/);
     }
+  });
+
+  test("all 7 Family Guests resolve through the derivative manifest", () => {
+    for (const guest of FAMILY_GUESTS) {
+      const path = getFamilyGuestDerivativePath(guest);
+      expect(path).toBe(`/assets/derivatives/family-guest.${guest.toLowerCase()}.webp`);
+
+      const entry = derivativeManifest.derivatives.find((d) => d.path === path);
+      expect(entry).toBeDefined();
+      expect(entry?.role).toBe("character-layer");
+      expect(entry?.id).toBe(`family-guest.${guest.toLowerCase()}`);
+    }
+  });
+
+  test("painted Birthday Star resolves through the derivative manifest", () => {
+    const path = getBirthdayStarDerivativePath();
+    expect(path).toBe("/assets/derivatives/journey.birthday-star.webp");
+
+    const entry = derivativeManifest.derivatives.find((d) => d.path === path);
+    expect(entry).toBeDefined();
+    expect(entry?.role).toBe("sprite");
+    expect(entry?.id).toBe("journey.birthday-star");
+  });
+
+  test("painted Rainbow Path resolves through the derivative manifest", () => {
+    const path = getRainbowPathDerivativePath();
+    expect(path).toBe("/assets/derivatives/journey.rainbow-path.webp");
+
+    const entry = derivativeManifest.derivatives.find((d) => d.path === path);
+    expect(entry).toBeDefined();
+    expect(entry?.role).toBe("treatment");
+    expect(entry?.id).toBe("journey.rainbow-path");
   });
 });
