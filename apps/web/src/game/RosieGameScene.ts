@@ -33,9 +33,12 @@ import {
   type Springboard,
   type StarSparkle,
   type RainbowArchway,
+} from "../domain/gallop-and-flutter";
 import {
   STOP_STORIES,
+  FAMILY_GUESTS,
   resolveDerivativePath,
+  getFamilyGuestTextureKey,
   getFamilyGuestDerivativePath,
   getBirthdayStarDerivativePath,
   getRainbowPathDerivativePath,
@@ -194,9 +197,8 @@ export class RosieGameScene extends Phaser.Scene {
       }
     });
 
-    const guestNames: readonly FamilyGuest[] = ["Mom", "Dad", "Pop", "Gram", "Aunt", "Uncle", "Beasley"];
-    guestNames.forEach((guest) => {
-      this.load.image(`guest-${guest.toLowerCase()}`, getFamilyGuestDerivativePath(guest));
+    FAMILY_GUESTS.forEach((guest) => {
+      this.load.image(getFamilyGuestTextureKey(guest), getFamilyGuestDerivativePath(guest));
     });
     this.load.image("birthday-star", getBirthdayStarDerivativePath());
     this.load.image("rainbow-path", getRainbowPathDerivativePath());
@@ -387,24 +389,19 @@ export class RosieGameScene extends Phaser.Scene {
   isGuestCutout(stopId?: StarStop): boolean {
     const targetStop = stopId ?? STOP_STORIES[this.nextStop]?.id ?? "garden";
     const guest = this.guests.get(targetStop);
-    if (guest) {
-      const isCutoutData = Boolean(guest.getData("isCutout"));
-      const hasCutoutImage = guest.list.some(
-        (child) => child instanceof Phaser.GameObjects.Image && child.texture.key.startsWith("guest-"),
-      );
-      const hasTextLabel = guest.list.some((child) => child instanceof Phaser.GameObjects.Text);
-      const hasPrimitiveGraphics = guest.list.some(
-        (child) =>
-          child instanceof Phaser.GameObjects.Graphics ||
-          child instanceof Phaser.GameObjects.Shape,
-      );
-      return isCutoutData && hasCutoutImage && !hasTextLabel && !hasPrimitiveGraphics;
-    }
-    if (STAR_STOPS.includes(targetStop)) {
-      const placement = getPlaceFamilyGuest(targetStop);
-      return this.textures.exists(`guest-${placement.guest.toLowerCase()}`);
-    }
-    return false;
+    if (!guest) return false;
+    const isCutoutData = Boolean(guest.getData("isCutout"));
+    const expectedTextureKey = getFamilyGuestTextureKey(getPlaceFamilyGuest(targetStop).guest);
+    const hasCutoutImage = guest.list.some(
+      (child) => child instanceof Phaser.GameObjects.Image && child.texture.key === expectedTextureKey,
+    );
+    const hasTextLabel = guest.list.some((child) => child instanceof Phaser.GameObjects.Text);
+    const hasPrimitiveGraphics = guest.list.some(
+      (child) =>
+        child instanceof Phaser.GameObjects.Graphics ||
+        child instanceof Phaser.GameObjects.Shape,
+    );
+    return isCutoutData && hasCutoutImage && !hasTextLabel && !hasPrimitiveGraphics;
   }
 
   getAcquiredStamps(): readonly StarStop[] {
@@ -638,11 +635,7 @@ export class RosieGameScene extends Phaser.Scene {
       this.currentStarGlow.destroy();
       this.currentStarGlow = undefined;
     }
-    if (this.currentRainbowPath) {
-      this.tweens.killTweensOf(this.currentRainbowPath);
-      this.currentRainbowPath.destroy();
-      this.currentRainbowPath = undefined;
-    }
+    this.destroyRainbowPath();
     if (this.currentBackgroundGraphics) {
       this.currentBackgroundGraphics.destroy();
       this.currentBackgroundGraphics = undefined;
@@ -1255,7 +1248,7 @@ export class RosieGameScene extends Phaser.Scene {
     guest.setName(`guest-${name}`);
 
     const cutout = this.add
-      .image(0, 0, `guest-${name.toLowerCase()}`)
+      .image(0, 0, getFamilyGuestTextureKey(name))
       .setOrigin(0.5, GUEST_ORIGIN_Y[name])
       .setScale(0.44);
     guest.add(cutout);
@@ -1275,12 +1268,16 @@ export class RosieGameScene extends Phaser.Scene {
     return new WingPuppet(this, x, y);
   }
 
-  private drawRainbowPath(x: number, y: number): void {
+  private destroyRainbowPath(): void {
     if (this.currentRainbowPath) {
       this.tweens.killTweensOf(this.currentRainbowPath);
       this.currentRainbowPath.destroy();
       this.currentRainbowPath = undefined;
     }
+  }
+
+  private drawRainbowPath(x: number, y: number): void {
+    this.destroyRainbowPath();
     const path = this.add
       .image(x, y, "rainbow-path")
       .setDepth(1)

@@ -6,7 +6,7 @@ import {
   getBirthdayStarDerivativePath,
   getRainbowPathDerivativePath,
 } from "./content";
-import type { FamilyGuest } from "../domain/journey";
+import { FAMILY_GUESTS } from "../domain/journey";
 import derivativeManifest from "../../public/assets/derivative-manifest.json";
 
 describe("content and derivative place illustrations", () => {
@@ -53,9 +53,7 @@ describe("content and derivative place illustrations", () => {
   });
 
   test("all 7 Family Guests resolve through the derivative manifest", () => {
-    const guests: FamilyGuest[] = ["Mom", "Dad", "Pop", "Gram", "Aunt", "Uncle", "Beasley"];
-
-    for (const guest of guests) {
+    for (const guest of FAMILY_GUESTS) {
       const path = getFamilyGuestDerivativePath(guest);
       expect(path).toBe(`/assets/derivatives/family-guest.${guest.toLowerCase()}.webp`);
 

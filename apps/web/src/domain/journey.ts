@@ -1,4 +1,14 @@
-export type FamilyGuest = "Mom" | "Dad" | "Pop" | "Gram" | "Aunt" | "Uncle" | "Beasley";
+export const FAMILY_GUESTS = [
+  "Mom",
+  "Dad",
+  "Pop",
+  "Gram",
+  "Aunt",
+  "Uncle",
+  "Beasley",
+] as const;
+
+export type FamilyGuest = (typeof FAMILY_GUESTS)[number];
 
 export const STAR_STOPS = [
   "garden",
