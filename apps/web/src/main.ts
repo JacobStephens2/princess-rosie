@@ -37,6 +37,16 @@ export interface RosieRunnerInterface {
   getAcquiredStamps?: () => readonly import("./domain/journey").StarStop[];
   getCurrentStopIndex?: () => number;
   hasPlaceIllustration?: (stopId: import("./domain/journey").StarStop) => boolean;
+  getPlaceIllustrationDisplaySize?: () => { width: number; height: number } | undefined;
+  getScenePlaceObjects?: () => {
+    place: import("./domain/journey").StarStop;
+    obstacles: readonly import("./domain/gallop-and-flutter").PlayfulObstacle[];
+    springboards: readonly import("./domain/gallop-and-flutter").Springboard[];
+    sparkles: readonly import("./domain/gallop-and-flutter").StarSparkle[];
+    archway?: import("./domain/gallop-and-flutter").RainbowArchway;
+    guest?: import("./domain/journey").FamilyGuest;
+    displayedSize?: { width: number; height: number };
+  } | undefined;
   getGrownUpCornerState?: () => GrownUpCornerState;
   resetJourney?: () => import("./domain/journey").Journey;
   flyAgain?: () => void;
@@ -237,8 +247,8 @@ function showBirthdayStar(stop: StopStory, count: number, isFinal: boolean): voi
 
 function continueFromMoment(): void {
   sound.play("button");
-  moment.hidden = true;
   scene?.continueAfterBirthdayStar();
+  moment.hidden = true;
   if (!finalStarWaiting) getElement<HTMLElement>("game").focus();
 }
 
@@ -657,6 +667,8 @@ window.__ROSIE_RUNNER__ = {
   getAcquiredStamps: () => scene?.getAcquiredStamps() ?? [],
   getCurrentStopIndex: () => scene?.getCurrentStopIndex() ?? 0,
   hasPlaceIllustration: (stopId) => scene?.hasPlaceIllustration(stopId) ?? false,
+  getPlaceIllustrationDisplaySize: () => scene?.getPlaceIllustrationDisplaySize(),
+  getScenePlaceObjects: () => scene?.getScenePlaceObjects(),
   getGrownUpCornerState: () => grownUpCornerState,
   resetJourney: () => scene?.resetJourney() ?? resetJourney(),
   flyAgain: () => flyAgain(),

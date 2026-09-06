@@ -747,3 +747,129 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
   expect(resetState.state?.x).toBeLessThanOrEqual(300);
 });
 
+test("each Place Illustration renders at its painted 16:9 aspect ratio without vertical squash, and the scene holds only one place's objects at a time across places", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Begin the story" }).click();
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await page.getByRole("button", { name: "Turn the page" }).click();
+  await page.getByRole("button", { name: "Fly with Rosie" }).click();
+
+  await expect(page.locator("#game canvas")).toBeVisible();
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.());
+  }).toBe(true);
+
+  // 1. Initial Place (Rosalia's Rose Garden)
+  // Display size must be 1280x720 matching 16:9 painted aspect ratio with no vertical squash
+  const gardenDisplaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
+  expect(gardenDisplaySize).toBeDefined();
+  expect(gardenDisplaySize?.width).toBe(1280);
+  expect(gardenDisplaySize?.height).toBe(720);
+  const gardenAspect = (gardenDisplaySize?.width ?? 0) / (gardenDisplaySize?.height ?? 1);
+  expect(Math.abs(gardenAspect - 16 / 9)).toBeLessThan(0.001);
+
+  // Assert aspect matches source painting asset
+  const gardenSourceAspect = await page.evaluate(async () => {
+    const img = new Image();
+    img.src = "/assets/rose-garden-place-illustration.png";
+    await img.decode();
+    return img.naturalWidth / img.naturalHeight;
+  });
+  expect(Math.abs(gardenAspect - gardenSourceAspect)).toBeLessThan(0.01);
+
+  // Scene holds only one place's objects at a time
+  const gardenPlaceObjects = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
+  expect(gardenPlaceObjects).toBeDefined();
+  expect(gardenPlaceObjects?.place).toBe("garden");
+  expect(gardenPlaceObjects?.guest).toBe("Mom");
+  expect(gardenPlaceObjects?.obstacles).toHaveLength(2);
+  expect(gardenPlaceObjects?.obstacles.every((o) => o.place === "garden")).toBe(true);
+  expect(gardenPlaceObjects?.springboards).toHaveLength(2);
+  expect(gardenPlaceObjects?.springboards.every((s) => s.place === "garden")).toBe(true);
+  expect(gardenPlaceObjects?.sparkles).toHaveLength(10);
+  expect(gardenPlaceObjects?.sparkles.every((sp) => sp.place === "garden")).toBe(true);
+  expect(gardenPlaceObjects?.archway?.place).toBe("garden");
+  expect(gardenPlaceObjects?.archway?.x).toBe(1450);
+
+  // 2. Advance to the end of Rosalia's Rose Garden
+  await page.evaluate(() => {
+    window.__ROSIE_RUNNER__?.seekToEnd();
+  });
+
+  await expect(page.locator("#moment")).toBeVisible();
+  await expect(page.locator("#moment-place")).toHaveText("Rosalia’s Rose Garden");
+
+  // Continuing from Birthday Star Moment rebuilds next place with no flash or empty stage
+  await page.locator("#moment-next").click();
+  await expect(page.locator("#moment")).toBeHidden();
+  await expect(page.locator("#game canvas")).toBeVisible();
+
+  // 3. Second Place (Lacewood)
+  await expect.poll(async () => {
+    const objs = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
+    return objs?.place;
+  }).toBe("lacewood");
+
+  const lacewoodDisplaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
+  expect(lacewoodDisplaySize).toBeDefined();
+  expect(lacewoodDisplaySize?.width).toBe(1280);
+  expect(lacewoodDisplaySize?.height).toBe(720);
+  const lacewoodAspect = (lacewoodDisplaySize?.width ?? 0) / (lacewoodDisplaySize?.height ?? 1);
+  expect(Math.abs(lacewoodAspect - 16 / 9)).toBeLessThan(0.001);
+
+  // Assert aspect matches source painting asset
+  const lacewoodSourceAspect = await page.evaluate(async () => {
+    const img = new Image();
+    img.src = "/assets/lacewood-place-illustration.png";
+    await img.decode();
+    return img.naturalWidth / img.naturalHeight;
+  });
+  expect(Math.abs(lacewoodAspect - lacewoodSourceAspect)).toBeLessThan(0.01);
+
+  const lacewoodPlaceObjects = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
+  expect(lacewoodPlaceObjects?.place).toBe("lacewood");
+  expect(lacewoodPlaceObjects?.guest).toBe("Gram");
+  expect(lacewoodPlaceObjects?.obstacles).toHaveLength(2);
+  expect(lacewoodPlaceObjects?.obstacles.every((o) => o.place === "lacewood")).toBe(true);
+  expect(lacewoodPlaceObjects?.springboards).toHaveLength(2);
+  expect(lacewoodPlaceObjects?.springboards.every((s) => s.place === "lacewood")).toBe(true);
+  expect(lacewoodPlaceObjects?.sparkles).toHaveLength(10);
+  expect(lacewoodPlaceObjects?.sparkles.every((sp) => sp.place === "lacewood")).toBe(true);
+  expect(lacewoodPlaceObjects?.archway?.place).toBe("lacewood");
+  expect(lacewoodPlaceObjects?.archway?.x).toBe(1450);
+
+  // Player position reset to place start
+  const lacewoodPlayerState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
+  expect(lacewoodPlayerState?.x).toBeLessThanOrEqual(300);
+
+  // 4. Advance through Lacewood to Abbey to confirm another clean transition
+  await page.evaluate(() => {
+    window.__ROSIE_RUNNER__?.seekToEnd();
+  });
+  await expect(page.locator("#moment")).toBeVisible();
+  await expect(page.locator("#moment-place")).toHaveText("Zélie’s Lacewood");
+  await page.locator("#moment-next").click();
+  await expect(page.locator("#moment")).toBeHidden();
+  await expect(page.locator("#game canvas")).toBeVisible();
+
+  await expect.poll(async () => {
+    const objs = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
+    return objs?.place;
+  }).toBe("abbey");
+
+  const abbeyDisplaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
+  expect(abbeyDisplaySize?.width).toBe(1280);
+  expect(abbeyDisplaySize?.height).toBe(720);
+
+  const abbeyPlaceObjects = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
+  expect(abbeyPlaceObjects?.place).toBe("abbey");
+  expect(abbeyPlaceObjects?.obstacles).toHaveLength(2);
+  expect(abbeyPlaceObjects?.obstacles.every((o) => o.place === "abbey")).toBe(true);
+  expect(abbeyPlaceObjects?.springboards).toHaveLength(2);
+  expect(abbeyPlaceObjects?.springboards.every((s) => s.place === "abbey")).toBe(true);
+  expect(abbeyPlaceObjects?.sparkles).toHaveLength(10);
+  expect(abbeyPlaceObjects?.sparkles.every((sp) => sp.place === "abbey")).toBe(true);
+  expect(abbeyPlaceObjects?.archway?.x).toBe(1450);
+});
+
+

@@ -22,6 +22,11 @@ import {
   AUTHORED_RAINBOW_ARCHWAYS,
   DEFAULT_ROSE_GARDEN_ARCHWAY,
   checkArchwayArrival,
+  getPlaceObstacles,
+  getPlaceSpringboards,
+  getPlaceSparkles,
+  getPlaceRainbowArchway,
+  getPlaceFamilyGuest,
 } from "./gallop-and-flutter";
 
 describe("Gallop and Flutter Runner", () => {
@@ -591,7 +596,6 @@ describe("Gallop and Flutter Runner", () => {
       expect(DEFAULT_ROSE_GARDEN_ARCHWAY).toBe(AUTHORED_RAINBOW_ARCHWAYS.garden);
 
       const seenIds = new Set<string>();
-      let previousX = 0;
 
       for (const stop of STAR_STOPS) {
         const archway = AUTHORED_RAINBOW_ARCHWAYS[stop];
@@ -601,10 +605,9 @@ describe("Gallop and Flutter Runner", () => {
         expect(archway.width).toBeGreaterThan(0);
         expect(archway.height).toBeGreaterThan(0);
         expect(archway.y).toBe(DEFAULT_RUNNER_CONFIG.groundY);
-        expect(archway.x).toBeGreaterThan(previousX);
+        expect(archway.x).toBe(DEFAULT_RUNNER_CONFIG.courseLength);
         expect(seenIds.has(archway.id)).toBe(false);
         seenIds.add(archway.id);
-        previousX = archway.x;
       }
     });
 
@@ -718,26 +721,96 @@ describe("Gallop and Flutter Runner", () => {
 
     test("Stella encounters themed obstacles, springboards, and sparkles across non-garden places", () => {
       // Lacewood springboard and sparkle encounter
-      const lacewoodSpringboard = AUTHORED_SPRINGBOARDS.find((sb) => sb.place === "lacewood")!;
+      const lacewoodSpringboards = getPlaceSpringboards("lacewood");
+      const lacewoodSpringboard = lacewoodSpringboards[0]!;
       const stateAtSpringboard = createRunnerState({
         x: lacewoodSpringboard.x,
         y: DEFAULT_RUNNER_CONFIG.groundY,
         isGrounded: true,
       });
-      const sbResult = checkSpringboardEncounters(stateAtSpringboard, AUTHORED_SPRINGBOARDS);
+      const sbResult = checkSpringboardEncounters(stateAtSpringboard, lacewoodSpringboards);
       expect(sbResult.bouncedSpringboard?.id).toBe(lacewoodSpringboard.id);
       expect(sbResult.state.velocityY).toBe(DEFAULT_RUNNER_CONFIG.springboardVelocity);
 
       // Abbey obstacle stumble encounter
-      const abbeyObstacle = AUTHORED_OBSTACLES.find((o) => o.place === "abbey")!;
+      const abbeyObstacles = getPlaceObstacles("abbey");
+      const abbeyObstacle = abbeyObstacles[0]!;
       const stateAtAbbeyObs = createRunnerState({
         x: abbeyObstacle.x,
         y: DEFAULT_RUNNER_CONFIG.groundY,
         isGrounded: true,
       });
-      const obsResult = checkObstacleEncounters(stateAtAbbeyObs, AUTHORED_OBSTACLES);
+      const obsResult = checkObstacleEncounters(stateAtAbbeyObs, abbeyObstacles);
       expect(obsResult.stumbledObstacle?.id).toBe(abbeyObstacle.id);
       expect(obsResult.state.mode).toBe("stumbling");
+    });
+  });
+
+  describe("Per-Place Course Coordinates and Archway Arrival", () => {
+    test("every place declares obstacles, springboards, sparkles, guest, and archway relative to course start", () => {
+      for (const stop of STAR_STOPS) {
+        const archway = getPlaceRainbowArchway(stop);
+        expect(archway.x).toBe(DEFAULT_RUNNER_CONFIG.courseLength);
+        expect(archway.y).toBe(DEFAULT_RUNNER_CONFIG.groundY);
+        expect(archway.place).toBe(stop);
+
+        const guestPlacement = getPlaceFamilyGuest(stop);
+        expect(guestPlacement.place).toBe(stop);
+        expect(guestPlacement.x).toBe(archway.x + 95);
+        expect(guestPlacement.y).toBe(575);
+        expect(guestPlacement.guest).toBe(archway.guest);
+
+        const obstacles = getPlaceObstacles(stop);
+        expect(obstacles.length).toBeGreaterThanOrEqual(2);
+        for (const obs of obstacles) {
+          expect(obs.place).toBe(stop);
+          expect(obs.x).toBeGreaterThan(0);
+          expect(obs.x).toBeLessThan(archway.x);
+          expect(obs.y).toBe(DEFAULT_RUNNER_CONFIG.groundY);
+        }
+
+        const springboards = getPlaceSpringboards(stop);
+        expect(springboards.length).toBeGreaterThanOrEqual(2);
+        for (const sb of springboards) {
+          expect(sb.place).toBe(stop);
+          expect(sb.x).toBeGreaterThan(0);
+          expect(sb.x).toBeLessThan(archway.x);
+          expect(sb.y).toBe(DEFAULT_RUNNER_CONFIG.groundY);
+        }
+
+        const sparkles = getPlaceSparkles(stop);
+        expect(sparkles.length).toBeGreaterThanOrEqual(10);
+        for (const sp of sparkles) {
+          expect(sp.place).toBe(stop);
+          expect(sp.x).toBeGreaterThan(0);
+          expect(sp.x).toBeLessThan(archway.x);
+          expect(sp.y).toBeGreaterThanOrEqual(80);
+          expect(sp.y).toBeLessThan(DEFAULT_RUNNER_CONFIG.groundY);
+        }
+      }
+    });
+
+    test("advancing across any place's course triggers archway arrival at course length", () => {
+      for (const stop of STAR_STOPS) {
+        const archway = getPlaceRainbowArchway(stop);
+        const approachingState = createRunnerState({
+          x: archway.x - 20,
+          isGrounded: true,
+          mode: "galloping",
+        });
+
+        const beforeArrival = checkArchwayArrival(approachingState, archway);
+        expect(beforeArrival.state.arrivedAtArchway).toBe(false);
+
+        const advancedState = updateRunner(approachingState, 0.2, false);
+        expect(advancedState.x).toBeGreaterThanOrEqual(archway.x);
+
+        const arrival = checkArchwayArrival(advancedState, archway);
+        expect(arrival.archwayArrival?.place).toBe(stop);
+        expect(arrival.state.arrivedAtArchway).toBe(true);
+        expect(arrival.state.pausedForReunion).toBe(true);
+        expect(arrival.state.courseCompleted).toBe(true);
+      }
     });
   });
 });
