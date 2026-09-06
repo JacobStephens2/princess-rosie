@@ -59,6 +59,18 @@
       "path": "source-media/flight/rosie-stella.png"
     },
     {
+      "role": "source-media",
+      "path": "source-media/flight/rosie-stella-back-wing.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/flight/rosie-stella-body.png"
+    },
+    {
+      "role": "source-media",
+      "path": "source-media/flight/rosie-stella-front-wing.png"
+    },
+    {
       "role": "source-media-provenance",
       "path": "source-media/flight/provenance.json"
     },

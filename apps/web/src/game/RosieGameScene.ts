@@ -15,11 +15,9 @@ import {
   handleJumpInput,
   updateRunner,
   triggerPlayfulStumble,
-  getSpriteAnimationState,
   checkObstacleEncounters,
   checkSpringboardEncounters,
   checkSparkleEncounters,
-  SPRITE_ANIMATIONS,
   DEFAULT_RUNNER_CONFIG,
   AUTHORED_OBSTACLES,
   AUTHORED_SPRINGBOARDS,
@@ -36,7 +34,8 @@ import {
   type StarSparkle,
   type RainbowArchway,
 } from "../domain/gallop-and-flutter";
-import { STOP_STORIES, type FamilyGuest, type StopStory } from "./content";
+import { STOP_STORIES, type FamilyGuest, type StopStory, resolveDerivativePath } from "./content";
+import { WingPuppet, WING_PUPPET_TEXTURES } from "./WingPuppet";
 
 const VIEW_WIDTH = 1280;
 const VIEW_HEIGHT = 720;
@@ -126,7 +125,7 @@ export class RosieGameScene extends Phaser.Scene {
   private readonly callbacks: GameCallbacks;
   private journey: Journey = createJourney();
   private runnerState: RunnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
-  private player!: Phaser.GameObjects.Sprite;
+  private player!: WingPuppet;
   private spaceKey: Phaser.Input.Keyboard.Key | undefined;
   private upKey: Phaser.Input.Keyboard.Key | undefined;
   private touchHeld = false;
@@ -161,10 +160,18 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   preload(): void {
-    this.load.spritesheet("rosie-stella", "assets/rosie-stella-spritesheet.png", {
-      frameWidth: 256,
-      frameHeight: 256,
-    });
+    this.load.image(
+      WING_PUPPET_TEXTURES.backWing,
+      resolveDerivativePath("flight.rosie-stella-back-wing")
+    );
+    this.load.image(
+      WING_PUPPET_TEXTURES.body,
+      resolveDerivativePath("flight.rosie-stella-body")
+    );
+    this.load.image(
+      WING_PUPPET_TEXTURES.frontWing,
+      resolveDerivativePath("flight.rosie-stella-front-wing")
+    );
     STOP_STORIES.forEach((stop) => {
       if (stop.placeIllustration) {
         this.load.image(`place-illustration-${stop.id}`, stop.placeIllustration);
@@ -206,7 +213,7 @@ export class RosieGameScene extends Phaser.Scene {
       frequency: 130,
       quantity: 1,
       follow: this.player,
-      followOffset: { x: -65, y: 15 },
+      followOffset: { x: -65, y: -25 },
     });
     particles.setDepth(18);
     this.sparkleTrail = particles;
@@ -223,9 +230,6 @@ export class RosieGameScene extends Phaser.Scene {
   jumpInput(): void {
     if (this.frozen) return;
     this.runnerState = handleJumpInput(this.runnerState);
-    if (this.runnerState.mode === "flapping") {
-      this.player.play(SPRITE_ANIMATIONS.leap.key, false);
-    }
   }
 
   update(_time: number, delta: number): void {
@@ -258,21 +262,7 @@ export class RosieGameScene extends Phaser.Scene {
       this.handleSparkleCollected(spEncounter.collectedSparkle);
     }
 
-    this.player.x = this.runnerState.x;
-    this.player.y = this.runnerState.y;
-
-    const animState = getSpriteAnimationState(this.runnerState);
-    const animConfig = SPRITE_ANIMATIONS[animState];
-    if (this.player.anims.getName() !== animConfig.key) {
-      this.player.play(animConfig.key, true);
-    }
-
-    let targetAngle = 0;
-    if (!this.runnerState.isGrounded && animState !== "flutter" && animState !== "stumble") {
-      const deg = Phaser.Math.Clamp(this.runnerState.velocityY * 0.025, -8, 10);
-      targetAngle = Phaser.Math.DegToRad(deg);
-    }
-    this.player.rotation = Phaser.Math.Linear(this.player.rotation, targetAngle, Math.min(1, deltaSeconds * 14));
+    this.player.update(deltaSeconds, this.runnerState);
 
     const stop = STOP_STORIES[this.nextStop];
     if (stop && !this.runnerState.arrivedAtArchway) {
@@ -295,24 +285,26 @@ export class RosieGameScene extends Phaser.Scene {
     return this.ready;
   }
 
-  hasSpriteSheet(): boolean {
+  hasPuppet(): boolean {
     return (
-      this.textures.exists("rosie-stella") &&
-      this.anims.exists(SPRITE_ANIMATIONS.gallop.key) &&
-      this.anims.exists(SPRITE_ANIMATIONS.leap.key) &&
-      this.anims.exists(SPRITE_ANIMATIONS.flutter.key) &&
-      this.anims.exists(SPRITE_ANIMATIONS.stumble.key)
+      this.textures.exists(WING_PUPPET_TEXTURES.backWing) &&
+      this.textures.exists(WING_PUPPET_TEXTURES.body) &&
+      this.textures.exists(WING_PUPPET_TEXTURES.frontWing) &&
+      Boolean(this.player?.hasPuppet?.())
     );
   }
 
+  hasSpriteSheet(): boolean {
+    return this.hasPuppet();
+  }
+
   getCurrentAnimation(): string | undefined {
-    return this.player?.anims?.getName();
+    return this.player?.getCurrentAnimation();
   }
 
   triggerStumble(): void {
     if (this.frozen) return;
     this.runnerState = triggerPlayfulStumble(this.runnerState);
-    this.player.play(SPRITE_ANIMATIONS.stumble.key, false);
     this.callbacks.onStumble();
   }
 
@@ -570,20 +562,7 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   private createAnimations(): void {
-    if (!this.textures.exists("rosie-stella")) return;
-    Object.values(SPRITE_ANIMATIONS).forEach((anim) => {
-      if (!this.anims.exists(anim.key)) {
-        this.anims.create({
-          key: anim.key,
-          frames: this.anims.generateFrameNumbers("rosie-stella", {
-            start: anim.startFrame,
-            end: anim.endFrame,
-          }),
-          frameRate: anim.frameRate,
-          repeat: anim.repeat,
-        });
-      }
-    });
+    // Legacy spritesheet frames replaced by procedural WingPuppet kinematics.
   }
 
   private cleanupCurrentPlace(): void {
@@ -736,10 +715,7 @@ export class RosieGameScene extends Phaser.Scene {
     // 10. Reset RunnerState & Player for this place
     this.runnerState = createRunnerState({ x: 200, y: DEFAULT_RUNNER_CONFIG.groundY });
     if (this.player) {
-      this.player.x = 200;
-      this.player.y = DEFAULT_RUNNER_CONFIG.groundY;
-      this.player.rotation = 0;
-      this.player.play(SPRITE_ANIMATIONS.gallop.key, true);
+      this.player.reset(200, DEFAULT_RUNNER_CONFIG.groundY);
     }
     if (this.sparkleTrail) {
       this.sparkleTrail.killAll();
@@ -870,7 +846,6 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   private handleObstacleStumble(obstacle: PlayfulObstacle): void {
-    this.player.play(SPRITE_ANIMATIONS.stumble.key, false);
     const container = this.currentObstacleContainers.get(obstacle.id);
     if (container) {
       this.tweens.add({
@@ -1290,12 +1265,8 @@ export class RosieGameScene extends Phaser.Scene {
     return guest;
   }
 
-  private createPlayer(x: number, y: number): Phaser.GameObjects.Sprite {
-    const player = this.add.sprite(x, y, "rosie-stella").setDepth(20);
-    player.setOrigin(0.5, 0.8);
-    player.setScale(0.72);
-    player.play(SPRITE_ANIMATIONS.gallop.key);
-    return player;
+  private createPlayer(x: number, y: number): WingPuppet {
+    return new WingPuppet(this, x, y);
   }
 
   private drawRainbowPath(x: number, y: number): void {
