@@ -37,7 +37,7 @@ export function calculateTargetDimensions(
       break;
     }
     case "character-layer": {
-      if (entry.id === "flight.rosie-stella") {
+      if (entry.id.startsWith("flight.rosie-stella")) {
         height = 256;
         width = Math.round((sourceWidth * height) / sourceHeight);
       } else {
