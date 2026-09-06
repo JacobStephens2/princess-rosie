@@ -30,6 +30,22 @@ import {
 } from "./gallop-and-flutter";
 
 describe("Gallop and Flutter Runner", () => {
+  test("runner configuration sets forward speed to 150 px/s and course length to give about 30 seconds per place while preserving flight physics", () => {
+    expect(DEFAULT_RUNNER_CONFIG.forwardSpeed).toBe(150);
+    expect(DEFAULT_RUNNER_CONFIG.courseLength).toBe(4500);
+
+    const fullSpeedDurationSeconds = DEFAULT_RUNNER_CONFIG.courseLength / DEFAULT_RUNNER_CONFIG.forwardSpeed;
+    expect(fullSpeedDurationSeconds).toBeCloseTo(30, 1);
+
+    // Jump velocity, flap impulse, flutter fall speed, gravity, and springboard launch are unchanged
+    expect(DEFAULT_RUNNER_CONFIG.jumpVelocity).toBe(-450);
+    expect(DEFAULT_RUNNER_CONFIG.flapVelocity).toBe(-320);
+    expect(DEFAULT_RUNNER_CONFIG.springboardVelocity).toBe(-680);
+    expect(DEFAULT_RUNNER_CONFIG.gravity).toBe(900);
+    expect(DEFAULT_RUNNER_CONFIG.maxFallSpeed).toBe(450);
+    expect(DEFAULT_RUNNER_CONFIG.flutterMaxFallSpeed).toBe(90);
+  });
+
   test("Princess Rosie and Stella gallop forward automatically along Storybook Ground", () => {
     const initial = createRunnerState();
 
@@ -811,6 +827,62 @@ describe("Gallop and Flutter Runner", () => {
         expect(arrival.state.pausedForReunion).toBe(true);
         expect(arrival.state.courseCompleted).toBe(true);
       }
+    });
+
+    test("every place spaces obstacles and springboards across the 4500 px course with breathing room", () => {
+      for (const stop of STAR_STOPS) {
+        const obstacles = getPlaceObstacles(stop);
+        const springboards = getPlaceSpringboards(stop);
+        const archway = getPlaceRainbowArchway(stop);
+
+        expect(springboards.length).toBeGreaterThanOrEqual(2);
+        expect(obstacles.length).toBeGreaterThanOrEqual(2);
+
+        // Springboard 1 introduces early flight
+        expect(springboards[0]!.x).toBeGreaterThanOrEqual(600);
+        expect(springboards[0]!.x).toBeLessThanOrEqual(900);
+
+        // Obstacle 1 is in first half of course
+        expect(obstacles[0]!.x).toBeGreaterThanOrEqual(1200);
+        expect(obstacles[0]!.x).toBeLessThanOrEqual(1800);
+
+        // Springboard 2 is in mid-course
+        expect(springboards[1]!.x).toBeGreaterThanOrEqual(2200);
+        expect(springboards[1]!.x).toBeLessThanOrEqual(2800);
+
+        // Obstacle 2 is in latter half of course
+        expect(obstacles[1]!.x).toBeGreaterThanOrEqual(3200);
+        expect(obstacles[1]!.x).toBeLessThanOrEqual(3800);
+
+        // Substantial spacing (breathing room) between any two ground interactive beats (at least 400 px)
+        const allBeats = [...obstacles.map((o) => o.x), ...springboards.map((s) => s.x)].sort((a, b) => a - b);
+        for (let i = 1; i < allBeats.length; i++) {
+          expect(allBeats[i]! - allBeats[i - 1]!).toBeGreaterThanOrEqual(400);
+        }
+
+        // Room to breathe before the Rainbow Archway (at least 500 px)
+        expect(archway.x - allBeats[allBeats.length - 1]!).toBeGreaterThanOrEqual(500);
+      }
+    });
+
+    test("running one place at full forward speed reaches Rainbow Archway in about 30 seconds", () => {
+      const archway = getPlaceRainbowArchway("garden");
+      let state = createRunnerState({ x: 0 });
+      const dt = 0.1;
+      let totalElapsed = 0;
+
+      while (!state.arrivedAtArchway && totalElapsed < 40) {
+        state = updateRunner(state, dt, false);
+        totalElapsed += dt;
+        const arrival = checkArchwayArrival(state, archway);
+        state = arrival.state;
+      }
+
+      expect(state.arrivedAtArchway).toBe(true);
+      expect(state.pausedForReunion).toBe(true);
+      expect(totalElapsed).toBeGreaterThanOrEqual(27);
+      expect(totalElapsed).toBeLessThanOrEqual(31);
+      expect(totalElapsed).toBeCloseTo(30, 0);
     });
   });
 });

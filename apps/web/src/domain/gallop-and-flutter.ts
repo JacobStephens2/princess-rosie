@@ -98,109 +98,6 @@ export interface StarSparkle {
 
 export type FamilyGuestName = FamilyGuest;
 
-export interface RainbowArchway {
-  readonly id: string;
-  readonly place: StarStop;
-  readonly x: number;
-  readonly y: number;
-  readonly width: number;
-  readonly height: number;
-  readonly guest: FamilyGuest;
-}
-
-export const AUTHORED_RAINBOW_ARCHWAYS: Record<StarStop, RainbowArchway> = {
-  garden: {
-    id: "archway-garden",
-    place: "garden",
-    x: 1450,
-    y: 560,
-    width: 160,
-    height: 240,
-    guest: "Mom",
-  },
-  lacewood: {
-    id: "archway-lacewood",
-    place: "lacewood",
-    x: 1450,
-    y: 560,
-    width: 160,
-    height: 240,
-    guest: "Gram",
-  },
-  abbey: {
-    id: "archway-abbey",
-    place: "abbey",
-    x: 1450,
-    y: 560,
-    width: 160,
-    height: 240,
-    guest: "Pop",
-  },
-  clouds: {
-    id: "archway-clouds",
-    place: "clouds",
-    x: 1450,
-    y: 560,
-    width: 160,
-    height: 240,
-    guest: "Beasley",
-  },
-  peak: {
-    id: "archway-peak",
-    place: "peak",
-    x: 1450,
-    y: 560,
-    width: 160,
-    height: 240,
-    guest: "Aunt",
-  },
-  sea: {
-    id: "archway-sea",
-    place: "sea",
-    x: 1450,
-    y: 560,
-    width: 160,
-    height: 240,
-    guest: "Uncle",
-  },
-  castle: {
-    id: "archway-castle",
-    place: "castle",
-    x: 1450,
-    y: 560,
-    width: 160,
-    height: 240,
-    guest: "Dad",
-  },
-};
-
-export const DEFAULT_ROSE_GARDEN_ARCHWAY: RainbowArchway = AUTHORED_RAINBOW_ARCHWAYS.garden;
-
-export function getPlaceRainbowArchway(place: StarStop): RainbowArchway {
-  return AUTHORED_RAINBOW_ARCHWAYS[place];
-}
-
-export interface FamilyGuestPlacement {
-  readonly place: StarStop;
-  readonly guest: FamilyGuest;
-  readonly x: number;
-  readonly y: number;
-}
-
-export const AUTHORED_FAMILY_GUEST_PLACEMENTS: Record<StarStop, FamilyGuestPlacement> = {
-  garden: { place: "garden", guest: "Mom", x: 1545, y: 575 },
-  lacewood: { place: "lacewood", guest: "Gram", x: 1545, y: 575 },
-  abbey: { place: "abbey", guest: "Pop", x: 1545, y: 575 },
-  clouds: { place: "clouds", guest: "Beasley", x: 1545, y: 575 },
-  peak: { place: "peak", guest: "Aunt", x: 1545, y: 575 },
-  sea: { place: "sea", guest: "Uncle", x: 1545, y: 575 },
-  castle: { place: "castle", guest: "Dad", x: 1545, y: 575 },
-};
-
-export function getPlaceFamilyGuest(place: StarStop): FamilyGuestPlacement {
-  return AUTHORED_FAMILY_GUEST_PLACEMENTS[place];
-}
-
 export interface RunnerConfig {
   groundY: number;
   ceilingY: number;
@@ -222,14 +119,14 @@ export interface RunnerConfig {
 export const DEFAULT_RUNNER_CONFIG: RunnerConfig = {
   groundY: 560,
   ceilingY: 80,
-  forwardSpeed: 200,
+  forwardSpeed: 150,
   jumpVelocity: -450,
   flapVelocity: -320,
   springboardVelocity: -680,
   gravity: 900,
   maxFallSpeed: 450,
   flutterMaxFallSpeed: 90,
-  courseLength: 1450,
+  courseLength: 4500,
   stumbleDuration: 0.6,
   stumbleSpeedMultiplier: 0.6,
   nearMissProximity: 100,
@@ -237,12 +134,111 @@ export const DEFAULT_RUNNER_CONFIG: RunnerConfig = {
   groundContactTolerance: 18,
 };
 
+export interface RainbowArchway {
+  readonly id: string;
+  readonly place: StarStop;
+  readonly x: number;
+  readonly y: number;
+  readonly width: number;
+  readonly height: number;
+  readonly guest: FamilyGuest;
+}
+
+function createRainbowArchway(place: StarStop, guest: FamilyGuest): RainbowArchway {
+  return {
+    id: `archway-${place}`,
+    place,
+    x: DEFAULT_RUNNER_CONFIG.courseLength,
+    y: DEFAULT_RUNNER_CONFIG.groundY,
+    width: 160,
+    height: 240,
+    guest,
+  };
+}
+
+export const AUTHORED_RAINBOW_ARCHWAYS: Record<StarStop, RainbowArchway> = {
+  garden: createRainbowArchway("garden", "Mom"),
+  lacewood: createRainbowArchway("lacewood", "Gram"),
+  abbey: createRainbowArchway("abbey", "Pop"),
+  clouds: createRainbowArchway("clouds", "Beasley"),
+  peak: createRainbowArchway("peak", "Aunt"),
+  sea: createRainbowArchway("sea", "Uncle"),
+  castle: createRainbowArchway("castle", "Dad"),
+};
+
+export const DEFAULT_ROSE_GARDEN_ARCHWAY: RainbowArchway = AUTHORED_RAINBOW_ARCHWAYS.garden;
+
+export function getPlaceRainbowArchway(place: StarStop): RainbowArchway {
+  return AUTHORED_RAINBOW_ARCHWAYS[place];
+}
+
+export interface FamilyGuestPlacement {
+  readonly place: StarStop;
+  readonly guest: FamilyGuest;
+  readonly x: number;
+  readonly y: number;
+}
+
+function createFamilyGuestPlacement(place: StarStop, guest: FamilyGuest): FamilyGuestPlacement {
+  return {
+    place,
+    guest,
+    x: DEFAULT_RUNNER_CONFIG.courseLength + 95,
+    y: DEFAULT_RUNNER_CONFIG.groundY + 15,
+  };
+}
+
+export const AUTHORED_FAMILY_GUEST_PLACEMENTS: Record<StarStop, FamilyGuestPlacement> = {
+  garden: createFamilyGuestPlacement("garden", "Mom"),
+  lacewood: createFamilyGuestPlacement("lacewood", "Gram"),
+  abbey: createFamilyGuestPlacement("abbey", "Pop"),
+  clouds: createFamilyGuestPlacement("clouds", "Beasley"),
+  peak: createFamilyGuestPlacement("peak", "Aunt"),
+  sea: createFamilyGuestPlacement("sea", "Uncle"),
+  castle: createFamilyGuestPlacement("castle", "Dad"),
+};
+
+export function getPlaceFamilyGuest(place: StarStop): FamilyGuestPlacement {
+  return AUTHORED_FAMILY_GUEST_PLACEMENTS[place];
+}
+
+export const FIRST_OBSTACLE_X = 1400;
+export const SECOND_OBSTACLE_X = 3400;
+
+function createPlaceObstacles(
+  place: StarStop,
+  type: ObstacleType,
+  width: number,
+  height: number
+): readonly PlayfulObstacle[] {
+  return [
+    {
+      id: `${place}-obstacle-1`,
+      place,
+      type,
+      x: FIRST_OBSTACLE_X,
+      y: DEFAULT_RUNNER_CONFIG.groundY,
+      width,
+      height,
+    },
+    {
+      id: `${place}-obstacle-2`,
+      place,
+      type,
+      x: SECOND_OBSTACLE_X,
+      y: DEFAULT_RUNNER_CONFIG.groundY,
+      width,
+      height,
+    },
+  ];
+}
+
 export const DEFAULT_ROSE_GARDEN_OBSTACLES: readonly PlayfulObstacle[] = [
   {
     id: "garden-rose-bush-1",
     place: "garden",
     type: "rose-bush",
-    x: 840,
+    x: FIRST_OBSTACLE_X,
     y: DEFAULT_RUNNER_CONFIG.groundY,
     width: 50,
     height: 40,
@@ -251,7 +247,7 @@ export const DEFAULT_ROSE_GARDEN_OBSTACLES: readonly PlayfulObstacle[] = [
     id: "garden-rose-bush-2",
     place: "garden",
     type: "rose-bush",
-    x: 1200,
+    x: SECOND_OBSTACLE_X,
     y: DEFAULT_RUNNER_CONFIG.groundY,
     width: 50,
     height: 40,
@@ -260,126 +256,12 @@ export const DEFAULT_ROSE_GARDEN_OBSTACLES: readonly PlayfulObstacle[] = [
 
 export const AUTHORED_OBSTACLES_BY_PLACE: Record<StarStop, readonly PlayfulObstacle[]> = {
   garden: DEFAULT_ROSE_GARDEN_OBSTACLES,
-  lacewood: [
-    {
-      id: "lacewood-obstacle-1",
-      place: "lacewood",
-      type: "silver-ribbon",
-      x: 840,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 52,
-      height: 42,
-    },
-    {
-      id: "lacewood-obstacle-2",
-      place: "lacewood",
-      type: "silver-ribbon",
-      x: 1200,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 52,
-      height: 42,
-    },
-  ],
-  abbey: [
-    {
-      id: "abbey-obstacle-1",
-      place: "abbey",
-      type: "bell-rope",
-      x: 840,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 50,
-      height: 42,
-    },
-    {
-      id: "abbey-obstacle-2",
-      place: "abbey",
-      type: "bell-rope",
-      x: 1200,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 50,
-      height: 42,
-    },
-  ],
-  clouds: [
-    {
-      id: "clouds-obstacle-1",
-      place: "clouds",
-      type: "soft-cloud",
-      x: 840,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 54,
-      height: 40,
-    },
-    {
-      id: "clouds-obstacle-2",
-      place: "clouds",
-      type: "soft-cloud",
-      x: 1200,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 54,
-      height: 40,
-    },
-  ],
-  peak: [
-    {
-      id: "peak-obstacle-1",
-      place: "peak",
-      type: "flower-bank",
-      x: 840,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 52,
-      height: 42,
-    },
-    {
-      id: "peak-obstacle-2",
-      place: "peak",
-      type: "flower-bank",
-      x: 1200,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 52,
-      height: 42,
-    },
-  ],
-  sea: [
-    {
-      id: "sea-obstacle-1",
-      place: "sea",
-      type: "wave-crest",
-      x: 840,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 52,
-      height: 42,
-    },
-    {
-      id: "sea-obstacle-2",
-      place: "sea",
-      type: "wave-crest",
-      x: 1200,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 52,
-      height: 42,
-    },
-  ],
-  castle: [
-    {
-      id: "castle-obstacle-1",
-      place: "castle",
-      type: "castle-bunting",
-      x: 840,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 50,
-      height: 40,
-    },
-    {
-      id: "castle-obstacle-2",
-      place: "castle",
-      type: "castle-bunting",
-      x: 1200,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 50,
-      height: 40,
-    },
-  ],
+  lacewood: createPlaceObstacles("lacewood", "silver-ribbon", 52, 42),
+  abbey: createPlaceObstacles("abbey", "bell-rope", 50, 42),
+  clouds: createPlaceObstacles("clouds", "soft-cloud", 54, 40),
+  peak: createPlaceObstacles("peak", "flower-bank", 52, 42),
+  sea: createPlaceObstacles("sea", "wave-crest", 52, 42),
+  castle: createPlaceObstacles("castle", "castle-bunting", 50, 40),
 };
 
 export const AUTHORED_OBSTACLES: readonly PlayfulObstacle[] = STAR_STOPS.flatMap(
@@ -390,12 +272,43 @@ export function getPlaceObstacles(place: StarStop): readonly PlayfulObstacle[] {
   return AUTHORED_OBSTACLES_BY_PLACE[place];
 }
 
+export const FIRST_SPRINGBOARD_X = 700;
+export const SECOND_SPRINGBOARD_X = 2400;
+
+function createPlaceSpringboards(
+  place: StarStop,
+  type: SpringboardType,
+  width: number,
+  height: number
+): readonly Springboard[] {
+  return [
+    {
+      id: `${place}-springboard-1`,
+      place,
+      type,
+      x: FIRST_SPRINGBOARD_X,
+      y: DEFAULT_RUNNER_CONFIG.groundY,
+      width,
+      height,
+    },
+    {
+      id: `${place}-springboard-2`,
+      place,
+      type,
+      x: SECOND_SPRINGBOARD_X,
+      y: DEFAULT_RUNNER_CONFIG.groundY,
+      width,
+      height,
+    },
+  ];
+}
+
 export const DEFAULT_ROSE_GARDEN_SPRINGBOARDS: readonly Springboard[] = [
   {
     id: "garden-springboard-1",
     place: "garden",
     type: "giant-rose",
-    x: 360,
+    x: FIRST_SPRINGBOARD_X,
     y: DEFAULT_RUNNER_CONFIG.groundY,
     width: 64,
     height: 48,
@@ -404,7 +317,7 @@ export const DEFAULT_ROSE_GARDEN_SPRINGBOARDS: readonly Springboard[] = [
     id: "garden-springboard-2",
     place: "garden",
     type: "giant-rose",
-    x: 980,
+    x: SECOND_SPRINGBOARD_X,
     y: DEFAULT_RUNNER_CONFIG.groundY,
     width: 64,
     height: 48,
@@ -413,126 +326,12 @@ export const DEFAULT_ROSE_GARDEN_SPRINGBOARDS: readonly Springboard[] = [
 
 export const AUTHORED_SPRINGBOARDS_BY_PLACE: Record<StarStop, readonly Springboard[]> = {
   garden: DEFAULT_ROSE_GARDEN_SPRINGBOARDS,
-  lacewood: [
-    {
-      id: "lacewood-springboard-1",
-      place: "lacewood",
-      type: "lace-sprout",
-      x: 360,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 64,
-      height: 48,
-    },
-    {
-      id: "lacewood-springboard-2",
-      place: "lacewood",
-      type: "lace-sprout",
-      x: 980,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 64,
-      height: 48,
-    },
-  ],
-  abbey: [
-    {
-      id: "abbey-springboard-1",
-      place: "abbey",
-      type: "abbey-bell",
-      x: 360,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 64,
-      height: 48,
-    },
-    {
-      id: "abbey-springboard-2",
-      place: "abbey",
-      type: "abbey-bell",
-      x: 980,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 64,
-      height: 48,
-    },
-  ],
-  clouds: [
-    {
-      id: "clouds-springboard-1",
-      place: "clouds",
-      type: "cloud-updraft",
-      x: 360,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 68,
-      height: 50,
-    },
-    {
-      id: "clouds-springboard-2",
-      place: "clouds",
-      type: "cloud-updraft",
-      x: 980,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 68,
-      height: 50,
-    },
-  ],
-  peak: [
-    {
-      id: "peak-springboard-1",
-      place: "peak",
-      type: "mountain-blossom",
-      x: 360,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 64,
-      height: 48,
-    },
-    {
-      id: "peak-springboard-2",
-      place: "peak",
-      type: "mountain-blossom",
-      x: 980,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 64,
-      height: 48,
-    },
-  ],
-  sea: [
-    {
-      id: "sea-springboard-1",
-      place: "sea",
-      type: "sea-geyser",
-      x: 360,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 66,
-      height: 50,
-    },
-    {
-      id: "sea-springboard-2",
-      place: "sea",
-      type: "sea-geyser",
-      x: 980,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 66,
-      height: 50,
-    },
-  ],
-  castle: [
-    {
-      id: "castle-springboard-1",
-      place: "castle",
-      type: "castle-drum",
-      x: 360,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 64,
-      height: 48,
-    },
-    {
-      id: "castle-springboard-2",
-      place: "castle",
-      type: "castle-drum",
-      x: 980,
-      y: DEFAULT_RUNNER_CONFIG.groundY,
-      width: 64,
-      height: 48,
-    },
-  ],
+  lacewood: createPlaceSpringboards("lacewood", "lace-sprout", 64, 48),
+  abbey: createPlaceSpringboards("abbey", "abbey-bell", 64, 48),
+  clouds: createPlaceSpringboards("clouds", "cloud-updraft", 68, 50),
+  peak: createPlaceSpringboards("peak", "mountain-blossom", 64, 48),
+  sea: createPlaceSpringboards("sea", "sea-geyser", 66, 50),
+  castle: createPlaceSpringboards("castle", "castle-drum", 64, 48),
 };
 
 export const AUTHORED_SPRINGBOARDS: readonly Springboard[] = STAR_STOPS.flatMap(
@@ -543,18 +342,28 @@ export function getPlaceSpringboards(place: StarStop): readonly Springboard[] {
   return AUTHORED_SPRINGBOARDS_BY_PLACE[place];
 }
 
+const SPRINGBOARD_SPARKLE_OFFSETS = [
+  { dx: 40, y: 400 },
+  { dx: 75, y: 330 },
+  { dx: 115, y: 290 },
+  { dx: 155, y: 330 },
+  { dx: 190, y: 400 },
+] as const;
+
 function createPlaceSparkles(place: StarStop): StarSparkle[] {
   return [
-    { id: `${place}-sparkle-1`, place, x: 410, y: 410 },
-    { id: `${place}-sparkle-2`, place, x: 460, y: 345 },
-    { id: `${place}-sparkle-3`, place, x: 510, y: 305 },
-    { id: `${place}-sparkle-4`, place, x: 560, y: 345 },
-    { id: `${place}-sparkle-5`, place, x: 610, y: 410 },
-    { id: `${place}-sparkle-6`, place, x: 1030, y: 410 },
-    { id: `${place}-sparkle-7`, place, x: 1080, y: 345 },
-    { id: `${place}-sparkle-8`, place, x: 1130, y: 305 },
-    { id: `${place}-sparkle-9`, place, x: 1180, y: 345 },
-    { id: `${place}-sparkle-10`, place, x: 1230, y: 410 },
+    ...SPRINGBOARD_SPARKLE_OFFSETS.map((offset, index) => ({
+      id: `${place}-sparkle-${index + 1}`,
+      place,
+      x: FIRST_SPRINGBOARD_X + offset.dx,
+      y: offset.y,
+    })),
+    ...SPRINGBOARD_SPARKLE_OFFSETS.map((offset, index) => ({
+      id: `${place}-sparkle-${index + 6}`,
+      place,
+      x: SECOND_SPRINGBOARD_X + offset.dx,
+      y: offset.y,
+    })),
   ];
 }
 
