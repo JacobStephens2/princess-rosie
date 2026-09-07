@@ -85,6 +85,15 @@ _Avoid_: Historical Sicily, generic medieval kingdom, Moorish fantasy
 The warm, nonverbal storybook-acoustic world of soft bells, celesta, harp, airy shimmer, and gentle natural textures that gives Princess Rosie's journey a cohesive sonic identity.
 _Avoid_: Arcade soundtrack, cinematic battle audio, realistic simulation
 
+**Flight Soundtrack**:
+The gentle, looping instrumental acoustic piece that plays continuously as Princess Rosie and Stella travel through the places of Fairytale Sicily during one journey. It rotates to a different piece on each journey to keep repeated play fresh.
+_Avoid_: Background music, BGM, level music, song, flight music
+
+**Celebration Theme**:
+The joyful musical piece that greets Princess Rosie and Stella upon arrival at the Birthday Castle, celebrating Princess Zélie's birthday before Fly Again invites a new journey.
+_Avoid_: Ending music, victory fanfare, credits music, celebration song
+
+
 **Place**:
 One of the named passages of Fairytale Sicily the journey travels in order before the Birthday Castle: Rosalia's Rose Garden, Zélie's Lacewood, Golden Bell Abbey, the Cloister of Clouds, Pellegrino Peak, and the Sapphire Sea. Every place is declared by the same data — a name, a Family Guest and her cutout, a Place Illustration of three Scenery Layers, its playful obstacles, Springboards, and Star Sparkles along the Storybook Ground, a Rainbow Archway, a Birthday Star, a Rainbow Path, and a Birthday Star Moment sentence — and presented through one code path, so places differ in art, sound, and data rather than in behaviour. A declared place becomes flyable once its Scenery Layers are approved.
 _Avoid_: Level, stage, area, world

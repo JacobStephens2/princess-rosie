@@ -687,10 +687,18 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
     }
   }
 
-  // 4. Smooth transition introduces the Grand Celebration
+  // Record flight track before reaching celebration
+  const firstJourneyTrack = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAudioTrack?.());
+  expect(firstJourneyTrack?.id).toBe("birthday-flight");
+
+  // 4. Smooth transition introduces the Grand Celebration and crossfades to Celebration Theme
   await expect(page.locator("#game-shell")).toBeHidden();
   await expect(page.locator("#ending")).toBeVisible();
   await expect(page.getByRole("heading", { name: /Happy Birthday/i })).toBeVisible();
+
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isAudioCelebrating?.());
+  }).toBe(true);
 
   // 5. Constellation: all 6 recovered stars join Dad's Castle Star above Princess Zélie
   const constellation = page.locator("#celebration-constellation");
@@ -730,7 +738,7 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
   await expect(page.locator("#album-preview-title")).toHaveText("Beasley’s Cloud Paws Stamp");
   await expect(page.locator("#album-preview-guest")).toContainText("Beasley");
 
-  // 7. Fly Again cleanly resets journey state and begins adventure from Rosalia's Rose Garden
+  // 7. Fly Again cleanly resets journey state and begins adventure from Rosalia's Rose Garden with next rotated soundtrack
   const flyAgainBtn = page.locator("#fly-again-button");
   await expect(flyAgainBtn).toBeVisible();
   await flyAgainBtn.scrollIntoViewIfNeeded();
@@ -744,6 +752,12 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
   // Star tracker reset to 0 of 6 with Castle Star safe
   await expect(page.locator("#star-tracker")).toHaveAttribute("aria-label", "0 of 6 scattered Stars recovered · Castle Star safe");
   await expect(page.locator("#star-tracker .star--castle")).toHaveClass(/is-lit/);
+
+  // Audio returned to flight mode with rotated Flight Soundtrack from non-repeating shuffle
+  const secondJourneyTrack = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAudioTrack?.());
+  expect(secondJourneyTrack).toBeDefined();
+  expect(secondJourneyTrack?.id).not.toBe(firstJourneyTrack?.id);
+  expect(await page.evaluate(() => window.__ROSIE_RUNNER__?.isAudioCelebrating?.())).toBe(false);
 
   // Wait for runner scene to be ready and grounded
   await expect.poll(async () => {
@@ -763,6 +777,30 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
   expect(resetState.stopIndex).toBe(0);
   expect(resetState.state?.x).toBeLessThanOrEqual(300);
 });
+
+test("soundtrack rotation position persists across page reloads and non-repeating shuffle avoids consecutive repeats", async ({ page }) => {
+  await startStorybookFlight(page);
+
+  // 1. Initial soundtrack is the first track
+  const track1 = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAudioTrack?.());
+  expect(track1?.id).toBe("birthday-flight");
+
+  // 2. Advance to next journey via Fly Again
+  await page.evaluate(() => window.__ROSIE_RUNNER__?.flyAgain?.());
+  const track2 = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAudioTrack?.());
+  expect(track2).toBeDefined();
+  expect(track2?.id).not.toBe(track1?.id);
+
+  // 3. Reload the page and advance past cover to start audio
+  await page.reload();
+  await page.getByRole("button", { name: "Begin the story" }).click();
+
+  // Restored soundtrack matches track2 (persisted last played track)
+  const reloadedTrack = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAudioTrack?.());
+  expect(reloadedTrack?.id).toBe(track2?.id);
+});
+
+
 
 test("each Place Illustration renders at its painted 16:9 aspect ratio without vertical squash, and the scene holds only one place's objects at a time across places", async ({ page }) => {
   await page.goto("/");
