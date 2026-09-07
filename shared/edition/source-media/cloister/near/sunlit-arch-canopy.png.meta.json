@@ -1,0 +1,20 @@
+{
+  "id": "cloister.sunlit-arch-canopy",
+  "role": "sunlit-arch-canopy",
+  "category": "near",
+  "reason": "Overarching upper canopy of sunlit honey stone arches and carved mouldings framing the top of the scene on transparent background.",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/sunlit-arch-canopy.png",
+  "sha256": "ef64331fa42dcac7f826dd3aa4a8061504c889290615c6a74128f5bcce33e18f",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 108,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16518,
+  "elapsedSeconds": 126.18,
+  "prompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of sunlit honey-colored stone arches and classical carved architectural mouldings framing the top of the scene, with climbing pink roses and soft wisps of cloud curling around the arch keystones. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the arched stone openings and lower border, no background sky, no ground, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of sunlit honey-colored stone arches and classical carved architectural mouldings framing the top of the scene, with climbing pink roses and soft wisps of cloud curling around the arch keystones. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the arched stone openings and lower border, no background sky, no ground, no characters, no text. Storybook picture-book style matching Cloister of Clouds."
+}

@@ -1,0 +1,69 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "near",
+  "depthFactor": 1.0,
+  "totalSpendUsd": 0.49553,
+  "assets": [
+    {
+      "id": "cloister.soft-cloud-ground",
+      "role": "soft-cloud-ground",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of soft, voluminous banked cumulus clouds, pale and pillowy and rounded, with warm golden sunlit rim highlights and pastel pink and lavender shaded undersides, carrying the Storybook Ground along the bottom of the screen. Low horizontal cloud bank spanning the width on transparent background. Clean alpha channel everywhere above the upper billowing cloud contour, no sky, no ground below, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+      "outputPath": "source-media/cloister/near/soft-cloud-ground.png",
+      "sha256": "6d1834a98ae1431fa75e59b4854fe43ee43db09bd8e5666f1f85776de3dc99b8",
+      "costUsd": 0.165205,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-136 implementation review",
+        "reason": "Soft voluminous rounded banked cumulus clouds with golden rim highlights carrying Storybook Ground on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "cloister.cloud-stepping-stones",
+      "role": "cloud-stepping-stones",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of smooth cream flagstone pavers and stepping stones nestled among billowy soft white clouds with scattered fallen flower petals and tiny flowering cloud-moss, carrying the Storybook Ground. Low horizontal paved stone and cloud strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+      "outputPath": "source-media/cloister/near/cloud-stepping-stones.png",
+      "sha256": "d461102f4d741002a6072c05ac27359e4366505409f94eb6845e80c722f0cb1a",
+      "costUsd": 0.165145,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-136 implementation review",
+        "reason": "Smooth cream flagstone pavers and stepping stones nestled in soft clouds carrying Storybook Ground on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "cloister.sunlit-arch-canopy",
+      "role": "sunlit-arch-canopy",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of sunlit honey-colored stone arches and classical carved architectural mouldings framing the top of the scene, with climbing pink roses and soft wisps of cloud curling around the arch keystones. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the arched stone openings and lower border, no background sky, no ground, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+      "outputPath": "source-media/cloister/near/sunlit-arch-canopy.png",
+      "sha256": "ef64331fa42dcac7f826dd3aa4a8061504c889290615c6a74128f5bcce33e18f",
+      "costUsd": 0.16518,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-136 implementation review",
+        "reason": "Overarching upper canopy of sunlit honey stone arches and carved mouldings framing the top of the scene on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

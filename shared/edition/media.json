@@ -234,6 +234,56 @@
       "id": "lacewood.lace-sprout",
       "role": "cutout",
       "path": "source-media/lacewood/cutouts/lace-sprout.png"
+    },
+    {
+      "id": "cloister.far-layer",
+      "role": "illustration-layer",
+      "path": "source-media/cloister/far/far-layer.png"
+    },
+    {
+      "id": "cloister.cloister-arcade",
+      "role": "set-piece",
+      "path": "source-media/cloister/middle/cloister-arcade.png"
+    },
+    {
+      "id": "cloister.cloud-colonnade-pavilion",
+      "role": "set-piece",
+      "path": "source-media/cloister/middle/cloud-colonnade-pavilion.png"
+    },
+    {
+      "id": "cloister.sunlit-stone-balustrade",
+      "role": "set-piece",
+      "path": "source-media/cloister/middle/sunlit-stone-balustrade.png"
+    },
+    {
+      "id": "shared.stone-planter",
+      "role": "set-piece",
+      "path": "source-media/shared/stone-planter.png"
+    },
+    {
+      "id": "cloister.soft-cloud-ground",
+      "role": "set-piece",
+      "path": "source-media/cloister/near/soft-cloud-ground.png"
+    },
+    {
+      "id": "cloister.cloud-stepping-stones",
+      "role": "set-piece",
+      "path": "source-media/cloister/near/cloud-stepping-stones.png"
+    },
+    {
+      "id": "cloister.sunlit-arch-canopy",
+      "role": "set-piece",
+      "path": "source-media/cloister/near/sunlit-arch-canopy.png"
+    },
+    {
+      "id": "cloister.soft-cloud",
+      "role": "cutout",
+      "path": "source-media/cloister/cutouts/soft-cloud.png"
+    },
+    {
+      "id": "cloister.cloud-updraft",
+      "role": "cutout",
+      "path": "source-media/cloister/cutouts/cloud-updraft.png"
     }
   ]
 }

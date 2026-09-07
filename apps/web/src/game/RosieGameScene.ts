@@ -97,15 +97,6 @@ const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
     graphics.fillStyle(0x7e71c7, 1).fillCircle(start + 995, 390, 65);
     graphics.fillStyle(0xffd65e, 1).fillCircle(start + 900, 218, 34).fillCircle(start + 1080, 218, 34);
   },
-  clouds: (graphics, start) => {
-    for (let cloudBaseX = start + 850; cloudBaseX < start + PLACE_COURSE_WIDTH; cloudBaseX += 1400) {
-      graphics.fillStyle(0xf4fbff, .95).fillEllipse(cloudBaseX, 670, 1850, 220);
-    }
-    const archCount = Math.floor(PLACE_COURSE_WIDTH / 280);
-    for (let arch = 0; arch < archCount; arch += 1) {
-      graphics.lineStyle(20, 0xfff1db, .72).strokeCircle(start + 220 + arch * 280, 400, 125);
-    }
-  },
   peak: (graphics, start) => {
     drawRollingHills(graphics, start);
     for (let peakX = start; peakX < start + PLACE_COURSE_WIDTH; peakX += 1700) {
@@ -221,6 +212,8 @@ export class RosieGameScene extends Phaser.Scene {
     this.load.image("shared.rainbow-archway", resolveDerivativePath("shared.rainbow-archway"));
     this.load.image("lacewood.silver-ribbon", resolveDerivativePath("lacewood.silver-ribbon"));
     this.load.image("lacewood.lace-sprout", resolveDerivativePath("lacewood.lace-sprout"));
+    this.load.image("cloister.soft-cloud", resolveDerivativePath("cloister.soft-cloud"));
+    this.load.image("cloister.cloud-updraft", resolveDerivativePath("cloister.cloud-updraft"));
   }
 
   create(): void {
@@ -914,6 +907,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "soft-cloud": {
+        if (this.textures.exists("cloister.soft-cloud")) {
+          const img = this.add.image(0, 0, "cloister.soft-cloud").setOrigin(0.5, 1);
+          img.setDisplaySize(72, 60);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0xd6ecfa, 0.9);
         g.fillCircle(-w * 0.24, -h * 0.4, w * 0.32);
         g.fillCircle(w * 0.24, -h * 0.4, w * 0.32);
@@ -1067,6 +1066,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "cloud-updraft": {
+        if (this.textures.exists("cloister.cloud-updraft")) {
+          const img = this.add.image(0, 0, "cloister.cloud-updraft").setOrigin(0.5, 1);
+          img.setDisplaySize(80, 80);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0xa4dcf4, 0.8);
         g.fillEllipse(0, -h * 0.25, w * 0.95, h * 0.4);
         g.fillStyle(0xedf8ff, 0.95);
