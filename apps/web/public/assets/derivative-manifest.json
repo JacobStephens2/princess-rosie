@@ -538,6 +538,76 @@
       "path": "/assets/derivatives/pellegrino-peak.mountain-blossom.webp",
       "width": 256,
       "height": 256
+    },
+    {
+      "id": "castle.far-layer",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/castle.far-layer.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "castle.gatehouse-pavilion",
+      "role": "set-piece",
+      "path": "/assets/derivatives/castle.gatehouse-pavilion.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "castle.terrace-balustrade-row",
+      "role": "set-piece",
+      "path": "/assets/derivatives/castle.terrace-balustrade-row.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "castle.mosaic-tower-spire",
+      "role": "set-piece",
+      "path": "/assets/derivatives/castle.mosaic-tower-spire.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "shared.festive-banner-post",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.festive-banner-post.webp",
+      "width": 720,
+      "height": 720
+    },
+    {
+      "id": "castle.mosaic-stone-ground",
+      "role": "set-piece",
+      "path": "/assets/derivatives/castle.mosaic-stone-ground.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "castle.coastal-flower-border",
+      "role": "set-piece",
+      "path": "/assets/derivatives/castle.coastal-flower-border.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "castle.palace-garland-canopy",
+      "role": "set-piece",
+      "path": "/assets/derivatives/castle.palace-garland-canopy.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "castle.castle-bunting",
+      "role": "cutout",
+      "path": "/assets/derivatives/castle.castle-bunting.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "castle.castle-drum",
+      "role": "cutout",
+      "path": "/assets/derivatives/castle.castle-drum.webp",
+      "width": 256,
+      "height": 256
     }
   ]
 }

@@ -1,0 +1,18 @@
+{
+  "id": "shared.festive-banner-post",
+  "role": "shared-set-piece",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/shared/festive-banner-post.png",
+  "sha256": "9a1e0c17dee71ee9b1dfacf3908cee7d222b0101dabd0e4f4d56a2563dc6a66e",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 109,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.211265,
+  "elapsedSeconds": 162.92,
+  "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook festive palace pennant banner pole: an ornate carved cream stone pedestal supporting a gilded post with fluttering colorful silk pennants and rainbow ribbons, draped with miniature pink rose garlands and glowing with subtle golden sparkle dust. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the pedestal base, no background, no characters, no text. Storybook picture-book illustration style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook festive palace pennant banner pole: an ornate carved cream stone pedestal supporting a gilded post with fluttering colorful silk pennants and rainbow ribbons, draped with miniature pink rose garlands and glowing with subtle golden sparkle dust. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the pedestal base, no background, no characters, no text. Storybook picture-book illustration style matching Fairytale Sicily."
+}
