@@ -1,0 +1,20 @@
+{
+  "id": "cloister.cloud-stepping-stones",
+  "role": "cloud-stepping-stones",
+  "category": "near",
+  "reason": "Smooth cream flagstone pavers and stepping stones nestled in soft clouds carrying Storybook Ground on transparent background.",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/cloud-stepping-stones.png",
+  "sha256": "d461102f4d741002a6072c05ac27359e4366505409f94eb6845e80c722f0cb1a",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 101,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165145,
+  "elapsedSeconds": 117.34,
+  "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of smooth cream flagstone pavers and stepping stones nestled among billowy soft white clouds with scattered fallen flower petals and tiny flowering cloud-moss, carrying the Storybook Ground. Low horizontal paved stone and cloud strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of smooth cream flagstone pavers and stepping stones nestled among billowy soft white clouds with scattered fallen flower petals and tiny flowering cloud-moss, carrying the Storybook Ground. Low horizontal paved stone and cloud strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Cloister of Clouds."
+}

@@ -1,0 +1,29 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "far",
+  "depthFactor": 0.2,
+  "totalSpendUsd": 0.119075,
+  "assets": [
+    {
+      "id": "cloister.far-layer",
+      "role": "far-layer",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "opaque",
+      "prompt": "Use case: production game far scenery layer. A wide panoramic landscape of Cloister of Clouds far layer: clear sunny sapphire blue and radiant golden sky with soft drifting fairytale clouds, distant Sicilian mountain peaks rising softly through a morning sea of pastel clouds, and golden sunbeams under warm Mediterranean light. Distant panoramic viewpoint, no foreground arches, no foreground buildings, no people, no characters, no text, no star. Painterly children's picture-book illustration matching Fairytale Sicily.",
+      "outputPath": "source-media/cloister/far/far-layer.png",
+      "sha256": "4ef5edda706d067e71599ff37821bb7e93321538b680e1cb6e11d579af18be63",
+      "costUsd": 0.119075,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-136 implementation review",
+        "reason": "Opaque 3:1 panorama landscape vista of tranquil open sky, soft morning cloud banks, and distant Sicilian mountain peaks under warm Mediterranean light; no characters, text, or foreground arches.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

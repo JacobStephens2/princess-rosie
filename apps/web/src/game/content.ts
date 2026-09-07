@@ -92,7 +92,8 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🔔",
     sky: 0x92d9f6,
     ground: 0xd4aa68,
-    placeIllustration: resolveDerivativePath("abbey.background"),
+    placeIllustration: resolveDerivativePath("abbey.far-layer"),
+    archwayTint: 0xffe899,
     layers: getPlaceLayers("abbey"),
     stamp: {
       title: "Pop’s Golden Bell Stamp",
@@ -108,7 +109,8 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🐈",
     sky: 0x76ccef,
     ground: 0xe8f7ff,
-    placeIllustration: resolveDerivativePath("cloister.background"),
+    placeIllustration: resolveDerivativePath("cloister.far-layer"),
+    archwayTint: 0xe0f2fe,
     layers: getPlaceLayers("clouds"),
     stamp: {
       title: "Beasley’s Cloud Paws Stamp",

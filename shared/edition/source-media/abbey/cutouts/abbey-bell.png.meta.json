@@ -1,0 +1,19 @@
+{
+  "id": "abbey.abbey-bell",
+  "role": "abbey-bell",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/cutouts/abbey-bell.png",
+  "sha256": "1c38ea9b473993b0f7d876e32fd1bd5e7122ed0da7572fc9cd9552e8718c2862",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 122,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.21133,
+  "elapsedSeconds": 162.81,
+  "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: an ornate, gleaming golden abbey bell resting on a springy, coiled bronze mount with soft leafy ivy and lavender accents, with a rounded clapper and glowing warm musical star chime glints, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: an ornate, gleaming golden abbey bell resting on a springy, coiled bronze mount with soft leafy ivy and lavender accents, with a rounded clapper and glowing warm musical star chime glints, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "reason": "Gleaming golden abbey bell springboard on springy bronze mount with ivy and musical star glints on transparent background."
+}

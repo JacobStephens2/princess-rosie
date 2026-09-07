@@ -1,0 +1,19 @@
+{
+  "id": "abbey.bell-tower-belfry",
+  "role": "bell-tower-belfry",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/middle/bell-tower-belfry.png",
+  "sha256": "1612282c03ad858dffd25121970d886896da974afc0889fa2c55b84b462ae50b",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 107,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165175,
+  "elapsedSeconds": 120.13,
+  "prompt": "Use case: production game middle scenery Set Piece. A graceful, sunlit abbey bell tower belfry of warm honey-colored stone with tall arched openings revealing swinging polished golden church bells, topped with a gentle terracotta tiled roof and delicate carved architectural finial. Isolated vertical tower Set Piece on transparent background. Clean alpha channel through open archways and around the tower silhouette, no background sky, no ground plane, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A graceful, sunlit abbey bell tower belfry of warm honey-colored stone with tall arched openings revealing swinging polished golden church bells, topped with a gentle terracotta tiled roof and delicate carved architectural finial. Isolated vertical tower Set Piece on transparent background. Clean alpha channel through open archways and around the tower silhouette, no background sky, no ground plane, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+  "reason": "Sunlit abbey bell tower belfry of warm honey-colored stone with tall arched openings revealing swinging golden church bells on transparent background."
+}
