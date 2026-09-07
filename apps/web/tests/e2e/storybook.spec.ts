@@ -903,7 +903,7 @@ test("an e2e check flies one place without stumbling and confirms Rainbow Archwa
   expect(finalState?.arrivedAtArchway).toBe(true);
 });
 
-test("authored places declare three Scenery Layers with distinct factors and far layer moves slower than near during flight", async ({ page }) => {
+test("realized places declare three Scenery Layers with distinct factors and far layer moves slower than near during flight", async ({ page }) => {
   await startStorybookFlight(page);
 
   const places = ["garden", "lacewood", "abbey", "clouds", "peak", "sea", "castle"] as const;
@@ -914,7 +914,7 @@ test("authored places declare three Scenery Layers with distinct factors and far
     clouds: "cloister.far-layer",
     peak: "pellegrino-peak.far-layer",
     sea: "sapphire-sea.far-layer",
-    castle: "celebration.castle-approach",
+    castle: "castle.far-layer",
   };
 
   // 1. Verify getPlaceLayers hook with no arguments lists each place's layers with their factors
@@ -1007,27 +1007,24 @@ test("authored places declare three Scenery Layers with distinct factors and far
   expect(seaLayers[2]?.depthFactor).toBe(1.0);
   expect(seaLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
 
-  // Other place (castle) retains initial 0 factor
-  for (const place of ["castle"] as const) {
+  // Verify Birthday Castle Approach has distinct factors 0.2, 0.5, 1.0
+  const castleLayers = allPlacesLayers.castle;
+  expect(castleLayers).toBeDefined();
+  expect(castleLayers).toHaveLength(3);
+  expect(castleLayers[0]?.depth).toBe("far");
+  expect(castleLayers[0]?.depthFactor).toBe(0.2);
+  expect(castleLayers[0]?.paintingAssetId).toBe("castle.far-layer");
+  expect(castleLayers[1]?.depth).toBe("middle");
+  expect(castleLayers[1]?.depthFactor).toBe(0.5);
+  expect(castleLayers[1]?.setPieces.length).toBeGreaterThanOrEqual(6);
+  expect(castleLayers[2]?.depth).toBe("near");
+  expect(castleLayers[2]?.depthFactor).toBe(1.0);
+  expect(castleLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
+
+  // 2. Verify getPlaceLayers(place) returns the same layers for that specific place
+  for (const place of places) {
     const placeFromAll = allPlacesLayers[place];
-    expect(placeFromAll).toBeDefined();
-    expect(placeFromAll).toHaveLength(3);
-
-    const [farFromAll, middleFromAll, nearFromAll] = placeFromAll;
-    expect(farFromAll?.depth).toBe("far");
-    expect(farFromAll?.depthFactor).toBe(0);
-    expect(farFromAll?.paintingAssetId).toBe(expectedPaintings[place]);
-    expect(farFromAll?.setPieces).toEqual([]);
-
-    expect(middleFromAll?.depth).toBe("middle");
-    expect(middleFromAll?.depthFactor).toBe(0.5);
-    expect(middleFromAll?.setPieces).toEqual([]);
-
-    expect(nearFromAll?.depth).toBe("near");
-    expect(nearFromAll?.depthFactor).toBe(1.0);
-    expect(nearFromAll?.setPieces).toEqual([]);
-
-    // 2. Verify getPlaceLayers(place) returns the same layers for that specific place
+    expect(placeFromAll[0]?.paintingAssetId).toBe(expectedPaintings[place]);
     const layers = (await page.evaluate(
       (p) => window.__ROSIE_RUNNER__?.getPlaceLayers?.(p as any),
       place

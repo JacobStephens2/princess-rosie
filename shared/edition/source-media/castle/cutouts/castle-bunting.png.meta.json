@@ -1,0 +1,18 @@
+{
+  "id": "castle.castle-bunting",
+  "role": "castle-bunting",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/cutouts/castle-bunting.png",
+  "sha256": "f7429c573dcdfb7be113a4345a73cc43ddc058b3e0480e42c68b5931f2d1fbd7",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 120,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.21132,
+  "elapsedSeconds": 165.36,
+  "prompt": "Use case: production game playful obstacle cutout. A charming, festive storybook castle bunting obstacle cutout for a gentle children's game: a cheerful swag of rich berry-rose and golden silk bunting pennants strung between two ornamental carved cream stone posts adorned with rosebuds and tied with fluttering rainbow ribbons, resting on a small stone base. Genuine RGBA transparent background around the bunting silhouette. Isolated cutout, no background, no ground plane outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, festive storybook castle bunting obstacle cutout for a gentle children's game: a cheerful swag of rich berry-rose and golden silk bunting pennants strung between two ornamental carved cream stone posts adorned with rosebuds and tied with fluttering rainbow ribbons, resting on a small stone base. Genuine RGBA transparent background around the bunting silhouette. Isolated cutout, no background, no ground plane outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+}

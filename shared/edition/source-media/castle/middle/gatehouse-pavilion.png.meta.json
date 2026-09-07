@@ -1,0 +1,18 @@
+{
+  "id": "castle.gatehouse-pavilion",
+  "role": "gatehouse-pavilion",
+  "model": "gpt-image-2",
+  "size": "3072x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/middle/gatehouse-pavilion.png",
+  "sha256": "57f6b1ec90067973979c33da88cd1a243fcfed575c728b0939a448b1594188bf",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 166,
+    "img_in": 0,
+    "img_out": 3952
+  },
+  "estimatedCostUsd": 0.11939,
+  "elapsedSeconds": 79.51,
+  "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and celebratory composition from the approved reference painting of Birthday Castle Approach: a grand, sunlit classical Arab-Norman palace entrance gatehouse arcade and pavilion of cream-and-honey stone pillars with delicate mosaic arches, supporting an ornate golden dome, flanked by low stone balustrades, stone urns overflowing with blooming pink roses, glowing glass lanterns, festive rainbow ribbons, and tall cypress spires, framing the arrival at the Rainbow Archway. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and pavilion pillars and outside the structure, no background sky, no ground plane below the stone steps and balustrade base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and celebratory composition from the approved reference painting of Birthday Castle Approach: a grand, sunlit classical Arab-Norman palace entrance gatehouse arcade and pavilion of cream-and-honey stone pillars with delicate mosaic arches, supporting an ornate golden dome, flanked by low stone balustrades, stone urns overflowing with blooming pink roses, glowing glass lanterns, festive rainbow ribbons, and tall cypress spires, framing the arrival at the Rainbow Archway. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and pavilion pillars and outside the structure, no background sky, no ground plane below the stone steps and balustrade base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+}

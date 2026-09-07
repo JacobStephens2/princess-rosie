@@ -1,0 +1,186 @@
+{
+  "totalCostUsd": 1.6985,
+  "itemCount": 10,
+  "items": [
+    {
+      "id": "castle.gatehouse-pavilion",
+      "role": "gatehouse-pavilion",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/middle/gatehouse-pavilion.png",
+      "sha256": "57f6b1ec90067973979c33da88cd1a243fcfed575c728b0939a448b1594188bf",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 166,
+        "img_in": 0,
+        "img_out": 3952
+      },
+      "estimatedCostUsd": 0.11939,
+      "elapsedSeconds": 79.51,
+      "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and celebratory composition from the approved reference painting of Birthday Castle Approach: a grand, sunlit classical Arab-Norman palace entrance gatehouse arcade and pavilion of cream-and-honey stone pillars with delicate mosaic arches, supporting an ornate golden dome, flanked by low stone balustrades, stone urns overflowing with blooming pink roses, glowing glass lanterns, festive rainbow ribbons, and tall cypress spires, framing the arrival at the Rainbow Archway. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and pavilion pillars and outside the structure, no background sky, no ground plane below the stone steps and balustrade base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and celebratory composition from the approved reference painting of Birthday Castle Approach: a grand, sunlit classical Arab-Norman palace entrance gatehouse arcade and pavilion of cream-and-honey stone pillars with delicate mosaic arches, supporting an ornate golden dome, flanked by low stone balustrades, stone urns overflowing with blooming pink roses, glowing glass lanterns, festive rainbow ribbons, and tall cypress spires, framing the arrival at the Rainbow Archway. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and pavilion pillars and outside the structure, no background sky, no ground plane below the stone steps and balustrade base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+    },
+    {
+      "id": "castle.far-layer",
+      "role": "far-layer",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/far/far-layer.png",
+      "sha256": "e0186f747e2f050c8b096e6ad59116e5150b40b4ec394023c86da318d6b2c1b8",
+      "background": "opaque",
+      "tokens": {
+        "text_in": 180,
+        "img_in": 0,
+        "img_out": 3952
+      },
+      "estimatedCostUsd": 0.11946,
+      "elapsedSeconds": 87.74,
+      "prompt": "Use case: production game far scenery layer. A wide panoramic landscape of the Birthday Castle Approach far layer: luminous sapphire and powder-blue sunny sky with soft drifting fairytale clouds. In the right half of the panorama, the warm golden mosaic Birthday Castle stands waiting ahead under bright Mediterranean sun with rounded Arab-Norman domes, mosaic gold and cream walls, open arches, and colorful festive pennants. High in the luminous sky above the castle, the radiant golden Castle Star already shines brightly, casting a warm golden glow, and six gentle convergent rainbow light trails sweep across the sky toward the castle gates. Below, the sparkling Sapphire Sea meets gentle flowered coastal terraces. Distant panoramic viewpoint, wide open flight corridor through the left two-thirds. Scenery and architecture only, no people, no characters, no text. Painterly children's picture-book illustration matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game far scenery layer. A wide panoramic landscape of the Birthday Castle Approach far layer: luminous sapphire and powder-blue sunny sky with soft drifting fairytale clouds. In the right half of the panorama, the warm golden mosaic Birthday Castle stands waiting ahead under bright Mediterranean sun with rounded Arab-Norman domes, mosaic gold and cream walls, open arches, and colorful festive pennants. High in the luminous sky above the castle, the radiant golden Castle Star already shines brightly, casting a warm golden glow, and six gentle convergent rainbow light trails sweep across the sky toward the castle gates. Below, the sparkling Sapphire Sea meets gentle flowered coastal terraces. Distant panoramic viewpoint, wide open flight corridor through the left two-thirds. Scenery and architecture only, no people, no characters, no text. Painterly children's picture-book illustration matching Fairytale Sicily."
+    },
+    {
+      "id": "castle.terrace-balustrade-row",
+      "role": "terrace-balustrade-row",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/middle/terrace-balustrade-row.png",
+      "sha256": "b480409abfcf7533756302c3c7d8b1851618d0cf1f8f1bea49509f3546efd4c4",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 102,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16515,
+      "elapsedSeconds": 117.09,
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral row of classical cream stone courtyard terrace balustrades with golden mosaic borders, adorned with climbing pink roses, green ivy, draped festive rainbow ribbons, small celebratory pennants, and glowing storybook lanterns. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below pedestal and balustrade base, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral row of classical cream stone courtyard terrace balustrades with golden mosaic borders, adorned with climbing pink roses, green ivy, draped festive rainbow ribbons, small celebratory pennants, and glowing storybook lanterns. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below pedestal and balustrade base, no characters, no text. Storybook picture-book style matching the Birthday Castle."
+    },
+    {
+      "id": "castle.mosaic-tower-spire",
+      "role": "mosaic-tower-spire",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/middle/mosaic-tower-spire.png",
+      "sha256": "3e05f69603bb2e54f49ac51d0db8e501cb9bdc11793ee3716464e7c12df7920d",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 102,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16515,
+      "elapsedSeconds": 118.24,
+      "prompt": "Use case: production game middle scenery Set Piece. A slender, elegant Arab-Norman palace watchtower and turret of warm cream and golden mosaic masonry, crowned with a small rounded golden dome, fluttering colorful pennants, and climbing blush roses entwined around arched windows. Isolated vertical tower Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane outside tower base, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. A slender, elegant Arab-Norman palace watchtower and turret of warm cream and golden mosaic masonry, crowned with a small rounded golden dome, fluttering colorful pennants, and climbing blush roses entwined around arched windows. Isolated vertical tower Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane outside tower base, no characters, no text. Storybook picture-book style matching the Birthday Castle."
+    },
+    {
+      "id": "castle.mosaic-stone-ground",
+      "role": "mosaic-stone-ground",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/near/mosaic-stone-ground.png",
+      "sha256": "77b2a15d4820bfaa7686431eeee301c5bfa30fb3514274b75301fe3e4e0c131f",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 106,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16517,
+      "elapsedSeconds": 115.08,
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit cream stone flagstones with ornate golden mosaic inlay patterns, soft dappled shadows, and scattered fallen blush-rose petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved stone surface, no sky, no background, no characters, no text. Storybook picture-book style matching the Birthday Castle Approach.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit cream stone flagstones with ornate golden mosaic inlay patterns, soft dappled shadows, and scattered fallen blush-rose petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved stone surface, no sky, no background, no characters, no text. Storybook picture-book style matching the Birthday Castle Approach."
+    },
+    {
+      "id": "castle.palace-garland-canopy",
+      "role": "palace-garland-canopy",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/near/palace-garland-canopy.png",
+      "sha256": "5ee9a19bc0b4283fa1bfe031c742f097cc0d1057c60279a7655d13767bac18d1",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 107,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165175,
+      "elapsedSeconds": 120.92,
+      "prompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of sunlit palace courtyard awnings, ornate carved golden arch trims, cascading blush-rose garlands, and fluttering celebratory rainbow silk ribbon swags framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the upper arch and garland trim, no background sky, no ground, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of sunlit palace courtyard awnings, ornate carved golden arch trims, cascading blush-rose garlands, and fluttering celebratory rainbow silk ribbon swags framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the upper arch and garland trim, no background sky, no ground, no characters, no text. Storybook picture-book style matching the Birthday Castle."
+    },
+    {
+      "id": "shared.festive-banner-post",
+      "role": "shared-set-piece",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/shared/festive-banner-post.png",
+      "sha256": "9a1e0c17dee71ee9b1dfacf3908cee7d222b0101dabd0e4f4d56a2563dc6a66e",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 109,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.211265,
+      "elapsedSeconds": 162.92,
+      "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook festive palace pennant banner pole: an ornate carved cream stone pedestal supporting a gilded post with fluttering colorful silk pennants and rainbow ribbons, draped with miniature pink rose garlands and glowing with subtle golden sparkle dust. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the pedestal base, no background, no characters, no text. Storybook picture-book illustration style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook festive palace pennant banner pole: an ornate carved cream stone pedestal supporting a gilded post with fluttering colorful silk pennants and rainbow ribbons, draped with miniature pink rose garlands and glowing with subtle golden sparkle dust. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the pedestal base, no background, no characters, no text. Storybook picture-book illustration style matching Fairytale Sicily."
+    },
+    {
+      "id": "castle.coastal-flower-border",
+      "role": "coastal-flower-border",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/near/coastal-flower-border.png",
+      "sha256": "4bee552ddc719e50a965248fe29a34bd18d8439bf6ba3461947059ce09625213",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 94,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16511,
+      "elapsedSeconds": 128.04,
+      "prompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of coastal blush-rose bushes, lavender blooms, gentle leafy shrubs, and fluttering festive golden ribbons entwined along the garden edge. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the plant foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of coastal blush-rose bushes, lavender blooms, gentle leafy shrubs, and fluttering festive golden ribbons entwined along the garden edge. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the plant foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching the Birthday Castle."
+    },
+    {
+      "id": "castle.castle-bunting",
+      "role": "castle-bunting",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/cutouts/castle-bunting.png",
+      "sha256": "f7429c573dcdfb7be113a4345a73cc43ddc058b3e0480e42c68b5931f2d1fbd7",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 120,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.21132,
+      "elapsedSeconds": 165.36,
+      "prompt": "Use case: production game playful obstacle cutout. A charming, festive storybook castle bunting obstacle cutout for a gentle children's game: a cheerful swag of rich berry-rose and golden silk bunting pennants strung between two ornamental carved cream stone posts adorned with rosebuds and tied with fluttering rainbow ribbons, resting on a small stone base. Genuine RGBA transparent background around the bunting silhouette. Isolated cutout, no background, no ground plane outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, festive storybook castle bunting obstacle cutout for a gentle children's game: a cheerful swag of rich berry-rose and golden silk bunting pennants strung between two ornamental carved cream stone posts adorned with rosebuds and tied with fluttering rainbow ribbons, resting on a small stone base. Genuine RGBA transparent background around the bunting silhouette. Isolated cutout, no background, no ground plane outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+    },
+    {
+      "id": "castle.castle-drum",
+      "role": "castle-drum",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/cutouts/castle-drum.png",
+      "sha256": "ab1f540eb2cc4fc6f2ace58a3780c59af1f345d2c745acab9096189af1fef23c",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 118,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.21131,
+      "elapsedSeconds": 170.5,
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, festive storybook celebration drum springboard cutout: a rounded ceremonial birthday castle drum in royal berry-crimson and golden mosaic trim, with a bouncy taut ivory drumhead glowing with warm golden starlight dust at its center, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game interactive springboard cutout. A joyful, festive storybook celebration drum springboard cutout: a rounded ceremonial birthday castle drum in royal berry-crimson and golden mosaic trim, with a bouncy taut ivory drumhead glowing with warm golden starlight dust at its center, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+    }
+  ]
+}

@@ -160,7 +160,8 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🏰",
     sky: 0xf6b6cf,
     ground: 0xe6ae55,
-    placeIllustration: resolveDerivativePath("celebration.castle-approach"),
+    placeIllustration: resolveDerivativePath("castle.far-layer"),
+    archwayTint: 0xffecc4,
     layers: getPlaceLayers("castle"),
     stamp: {
       title: "Dad’s Castle Gate Stamp",

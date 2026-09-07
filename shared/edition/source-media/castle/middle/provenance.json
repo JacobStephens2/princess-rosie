@@ -1,0 +1,69 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "middle",
+  "depthFactor": 0.5,
+  "totalSpendUsd": 0.44969,
+  "assets": [
+    {
+      "id": "castle.gatehouse-pavilion",
+      "role": "gatehouse-pavilion",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and celebratory composition from the approved reference painting of Birthday Castle Approach: a grand, sunlit classical Arab-Norman palace entrance gatehouse arcade and pavilion of cream-and-honey stone pillars with delicate mosaic arches, supporting an ornate golden dome, flanked by low stone balustrades, stone urns overflowing with blooming pink roses, glowing glass lanterns, festive rainbow ribbons, and tall cypress spires, framing the arrival at the Rainbow Archway. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and pavilion pillars and outside the structure, no background sky, no ground plane below the stone steps and balustrade base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/castle/middle/gatehouse-pavilion.png",
+      "sha256": "57f6b1ec90067973979c33da88cd1a243fcfed575c728b0939a448b1594188bf",
+      "costUsd": 0.11939,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-139 implementation review",
+        "reason": "Grand golden-domed Arab-Norman gatehouse entrance arcade with clean alpha channel through arches framing arrival at the Rainbow Archway.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "castle.terrace-balustrade-row",
+      "role": "terrace-balustrade-row",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral row of classical cream stone courtyard terrace balustrades with golden mosaic borders, adorned with climbing pink roses, green ivy, draped festive rainbow ribbons, small celebratory pennants, and glowing storybook lanterns. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below pedestal and balustrade base, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+      "outputPath": "source-media/castle/middle/terrace-balustrade-row.png",
+      "sha256": "b480409abfcf7533756302c3c7d8b1851618d0cf1f8f1bea49509f3546efd4c4",
+      "costUsd": 0.16515,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-139 implementation review",
+        "reason": "Classical cream stone terrace balustrades with golden mosaic borders, climbing roses, and festive rainbow ribbons on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "castle.mosaic-tower-spire",
+      "role": "mosaic-tower-spire",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A slender, elegant Arab-Norman palace watchtower and turret of warm cream and golden mosaic masonry, crowned with a small rounded golden dome, fluttering colorful pennants, and climbing blush roses entwined around arched windows. Isolated vertical tower Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane outside tower base, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+      "outputPath": "source-media/castle/middle/mosaic-tower-spire.png",
+      "sha256": "3e05f69603bb2e54f49ac51d0db8e501cb9bdc11793ee3716464e7c12df7920d",
+      "costUsd": 0.16515,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-139 implementation review",
+        "reason": "Slender Arab-Norman palace watchtower with golden dome, colorful pennants, and climbing blush roses on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}
