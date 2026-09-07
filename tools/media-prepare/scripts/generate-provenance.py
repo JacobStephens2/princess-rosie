@@ -2,9 +2,12 @@ import os
 import hashlib
 import json
 
-DIR = "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/garden/bake-off"
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+DIR = os.path.join(REPO_ROOT, "shared", "edition", "source-media", "garden", "bake-off")
 
 def get_sha256(path: str) -> str:
+    if not os.path.exists(path):
+        return ""
     h = hashlib.sha256()
     with open(path, "rb") as f:
         while chunk := f.read(8192):
@@ -61,6 +64,21 @@ generations = [
     },
     # Recraft
     {
+        "id": "bake-off.recraft.style-reference",
+        "provider": "Recraft (Recraft Inc.)",
+        "model": "recraft-style",
+        "role": "style-reference",
+        "size": "reference-style",
+        "prompt": "Style reference extraction from approved Rose Garden painting (source-media/flight/rose-garden-background.png) creating style ID aacf4fbf-775a-4553-80ad-56aa783669ff.",
+        "costUsd": 0.005,
+        "outputPath": "source-media/garden/bake-off/recraft-style-reference.json",
+        "sha256": get_sha256(os.path.join(REPO_ROOT, "shared", "edition", "source-media", "flight", "rose-garden-background.png")),
+        "selection": {
+            "status": "candidate",
+            "reason": "Style model created from reference painting for issue #131 provider bake-off."
+        }
+    },
+    {
         "id": "bake-off.recraft.arch-cluster",
         "provider": "Recraft (Recraft Inc.)",
         "model": "recraftv4_styles + removeBackground",
@@ -100,7 +118,7 @@ generations = [
         "size": "1344x768 (16:9)",
         "prompt": "Spacious character-free panoramic vista of Rosalia's Rose Garden: sunny sapphire sky with soft gentle clouds, distant green rolling hills dotted with wildflowers, distant sparkling blue sea, and warm sunlit atmosphere. Flat modern children's picture-book illustration style, no characters, no text.",
         "referenceStyleId": "aacf4fbf-775a-4553-80ad-56aa783669ff",
-        "costUsd": 0.040,
+        "costUsd": 0.035,
         "outputPath": "source-media/garden/bake-off/recraft-far-layer.png",
         "sha256": get_sha256(os.path.join(DIR, "recraft-far-layer.png")),
         "selection": {
