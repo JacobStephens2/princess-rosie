@@ -3,8 +3,8 @@ import {
   collectBirthdayStar,
   acquireStorybookStamp,
   createJourney,
+  SCATTERED_STAR_STOPS,
   STAR_STOPS,
-  type StarStop,
 } from "./journey";
 import {
   createRunnerState,
@@ -183,14 +183,14 @@ describe("Gallop and Flutter Runner", () => {
     expect(journey.openRainbowPaths).toContain("garden");
   });
 
-  test("navigating through the castle course awards Dad's stamp without collecting Castle Star and transitions to celebrating", () => {
+  test("navigating through the Birthday Castle Approach awards Dad's stamp without collecting Castle Star and transitions to celebrating", () => {
     let journey = createJourney();
-    const scatteredPlaces: StarStop[] = ["garden", "lacewood", "abbey", "clouds", "peak", "sea"];
-    for (const place of scatteredPlaces) {
+
+    for (const place of SCATTERED_STAR_STOPS) {
       journey = collectBirthdayStar(journey, place);
       journey = acquireStorybookStamp(journey, place);
     }
-    expect(journey.collectedStars).toHaveLength(6);
+    expect(journey.collectedStars).toHaveLength(SCATTERED_STAR_STOPS.length);
     expect(journey.phase).toBe("flying");
 
     // Completing castle course
@@ -203,7 +203,7 @@ describe("Gallop and Flutter Runner", () => {
     // Castle arrival: star collection attempted is a no-op, stamp award triggers celebration
     journey = collectBirthdayStar(journey, "castle");
     expect(journey.collectedStars).not.toContain("castle");
-    expect(journey.collectedStars).toHaveLength(6);
+    expect(journey.collectedStars).toHaveLength(SCATTERED_STAR_STOPS.length);
 
     journey = acquireStorybookStamp(journey, "castle");
     expect(journey.acquiredStamps).toContain("castle");
