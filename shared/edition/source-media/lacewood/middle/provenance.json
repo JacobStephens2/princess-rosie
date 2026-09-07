@@ -17,10 +17,12 @@
       "sha256": "d62160f6d0a5e29cc03676f1f5c103385e8b444a8cbb70d6840478c7600b1cd8",
       "costUsd": 0.11931,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-134 implementation review",
         "reason": "Grand golden-domed classical garden gazebo and lace pavilion with flawless alpha transparency framing arrival at Rainbow Archway.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -35,10 +37,12 @@
       "sha256": "9ddbf2927bffffb1f8478da3a437a1b21af1efd57d24778c5c5242b032f57b8a",
       "costUsd": 0.16513,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-134 implementation review",
         "reason": "Graceful sunlit tree with climbing pink roses and draped translucent silver lace ribbons on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -53,10 +57,12 @@
       "sha256": "ef5d45ed7d84a52f2004b822499220b22df27f8d8f4f2780b504c447e7c74027",
       "costUsd": 0.16517,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-134 implementation review",
         "reason": "Classical cream stone pedestals and balustrades with climbing roses, lace ribbons, and glowing lanterns on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]

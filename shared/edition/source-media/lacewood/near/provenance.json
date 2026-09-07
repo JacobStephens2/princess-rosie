@@ -17,10 +17,12 @@
       "sha256": "503255b9c4ba75016aed53d4ddc676a1ecb06a227dd37f230b8ce74f9ccabb0d",
       "costUsd": 0.165175,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-134 implementation review",
         "reason": "Sunlit patterned cream-and-gold paved flagstone courtyard path carrying Storybook Ground on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -35,10 +37,12 @@
       "sha256": "ac1527d57f6dc133fbc0530250a2a7845dcb9380dfa99162939c5103784e3cc3",
       "costUsd": 0.165125,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-134 implementation review",
         "reason": "Lush foreground rose bushes with dark green foliage and entwined silver lace ribbons on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -53,10 +57,12 @@
       "sha256": "d077d65dfc10ca685008a5bf83e469e60baa68d94022e972b9ea3c7d3b0ca7c9",
       "costUsd": 0.165125,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-134 implementation review",
         "reason": "Overarching top canopy branches with climbing roses and draped silver lace ribbons on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]

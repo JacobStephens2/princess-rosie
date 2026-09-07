@@ -16,10 +16,12 @@
       "sha256": "321aefe43af93375cba11d30281636fe9163a9b33e193122d97fbb33bbb95758",
       "costUsd": 0.21128,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-134 implementation review",
         "reason": "Charming delicate silver lace ribbon bow obstacle fluttering above moss and rosebuds on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -34,10 +36,12 @@
       "sha256": "aef7278c4fadad9cfba2639a422b8a054340aac8a77de48b1461cde4ac3a0040",
       "costUsd": 0.211365,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-134 implementation review",
         "reason": "Bouncy coiled botanical lace sprout with golden starlight pollen center on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]
