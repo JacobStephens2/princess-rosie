@@ -62,7 +62,7 @@ export function calculateFramePlacements(assets: EntrantAssets): FramePlacements
   const archHeight = Math.round(frameWidth * archRatio);
   const archCluster: ElementPlacement = {
     x: 0,
-    y: Math.max(0, STORYBOOK_GROUND_Y - archHeight),
+    y: Math.max(0, Math.min(STORYBOOK_GROUND_Y - archHeight + 40, frameHeight - archHeight)),
     width: frameWidth,
     height: archHeight,
   };
@@ -108,7 +108,7 @@ export function calculateContactSheetLayout(
   };
 }
 
-export type BakeoffRole = "arch-cluster" | "rose-bush" | "far-layer";
+export type BakeoffRole = "arch-cluster" | "rose-bush" | "far-layer" | "style-reference";
 
 export interface BakeoffGenerationParams {
   provider: string;

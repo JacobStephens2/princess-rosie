@@ -56,6 +56,21 @@
       }
     },
     {
+      "id": "bake-off.recraft.style-reference",
+      "provider": "Recraft (Recraft Inc.)",
+      "model": "recraft-style",
+      "role": "style-reference",
+      "size": "reference-style",
+      "prompt": "Style reference extraction from approved Rose Garden painting (source-media/flight/rose-garden-background.png) creating style ID aacf4fbf-775a-4553-80ad-56aa783669ff.",
+      "costUsd": 0.005,
+      "outputPath": "source-media/garden/bake-off/recraft-style-reference.json",
+      "sha256": "da9eabdb23b01639e01b9d6f3b304ba10ae4876a44ce6a00ccd4a371d1ba6c81",
+      "selection": {
+        "status": "candidate",
+        "reason": "Style model created from reference painting for issue #131 provider bake-off."
+      }
+    },
+    {
       "id": "bake-off.recraft.arch-cluster",
       "provider": "Recraft (Recraft Inc.)",
       "model": "recraftv4_styles + removeBackground",
@@ -95,7 +110,7 @@
       "size": "1344x768 (16:9)",
       "prompt": "Spacious character-free panoramic vista of Rosalia's Rose Garden: sunny sapphire sky with soft gentle clouds, distant green rolling hills dotted with wildflowers, distant sparkling blue sea, and warm sunlit atmosphere. Flat modern children's picture-book illustration style, no characters, no text.",
       "referenceStyleId": "aacf4fbf-775a-4553-80ad-56aa783669ff",
-      "costUsd": 0.04,
+      "costUsd": 0.035,
       "outputPath": "source-media/garden/bake-off/recraft-far-layer.png",
       "sha256": "83bef36ac9347cd2aeb314b793e9f28211e30af17300c0c5990398edfeaa1f24",
       "selection": {
