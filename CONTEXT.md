@@ -18,7 +18,7 @@ The storybook hero and elder sister through whom the child experiences the adven
 _Avoid_: Rosie's avatar, digital Rosie
 
 **Princess Zélie**:
-Princess Rosie's storybook little sister and the child celebrated at the Birthday Castle. She shares Her full given name's saint-inspired nickname and may use an expressly approved likeness without unrelated identifying personal details.
+Princess Rosie's one-year-old storybook baby sister and the child celebrated at the Birthday Castle for her very first birthday. She shares Her full given name's saint-inspired nickname and may use an expressly approved likeness without unrelated identifying personal details.
 _Avoid_: Princess Her full given name, the objective
 
 **Birthday Castle**:
