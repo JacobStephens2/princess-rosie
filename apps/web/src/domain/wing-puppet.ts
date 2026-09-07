@@ -50,7 +50,7 @@ export function getWingAttachmentOffset(piece: "frontWing" | "backWing"): { x: n
   };
 }
 
-import { getSpriteAnimationState, type RunnerState } from "./gallop-and-flutter";
+import { getSpriteAnimationState, type RunnerMode, type RunnerState } from "./gallop-and-flutter";
 
 /**
  * Wing stroke rate during flutter-glide: one full stroke per second.
@@ -85,6 +85,9 @@ export interface PuppetKinematicState {
   readonly flutterPhase: number;
   readonly stumbleTimer: number;
   readonly squashTimer: number;
+  readonly flapTimer: number;
+  readonly previousMode: RunnerMode;
+  readonly previousVelocityY: number;
 }
 
 export function createPuppetKinematicState(
@@ -103,15 +106,20 @@ export function createPuppetKinematicState(
     flutterPhase: 0,
     stumbleTimer: 0,
     squashTimer: 0,
+    flapTimer: 0,
+    previousMode: "galloping",
+    previousVelocityY: 0,
     ...overrides,
   };
 }
+
 
 function lerp(start: number, target: number, t: number): number {
   return start + (target - start) * Math.min(1, Math.max(0, t));
 }
 
 const SQUASH_DURATION = 0.24;
+export const FLAP_DURATION = 0.5;
 
 export function updatePuppetKinematics(
   state: PuppetKinematicState,
@@ -120,6 +128,18 @@ export function updatePuppetKinematics(
 ): PuppetKinematicState {
   const animationName = getPuppetAnimationName(runner);
   const justLanded = !state.wasGrounded && runner.isGrounded;
+
+  const justLeaped = state.wasGrounded && !runner.isGrounded && runner.velocityY < 0;
+  const justFlapped =
+    !runner.isGrounded &&
+    runner.mode === "flapping" &&
+    (state.previousMode !== "flapping" || runner.velocityY < (state.previousVelocityY ?? 0) - 50);
+
+  let flapTimer = runner.isGrounded
+    ? 0
+    : justLeaped || justFlapped
+    ? Math.max(0, FLAP_DURATION - deltaSeconds)
+    : Math.max(0, state.flapTimer - deltaSeconds);
 
   let squashTimer = justLanded
     ? Math.max(0, SQUASH_DURATION - deltaSeconds)
@@ -161,8 +181,16 @@ export function updatePuppetKinematics(
   } else if (animationName === "rosie-stella-leap") {
     // Airborne (leap / fall)
     targetContainerRot = Math.min(Math.max(runner.velocityY * 0.00045, -0.15), 0.18);
-    targetFrontWing = -0.05;
-    targetBackWing = -0.08;
+    if (flapTimer > 0) {
+      const p = 1 - flapTimer / FLAP_DURATION;
+      const flapSweep = Math.sin(p * Math.PI);
+      targetFrontWing = -0.05 + flapSweep * 0.43;
+      targetBackWing = -0.08 - flapSweep * 0.35;
+      bobOffsetY = -flapSweep * 2.0;
+    } else {
+      targetFrontWing = -0.05;
+      targetBackWing = -0.08;
+    }
     stumbleTimer = 0;
   } else {
     // Grounded (gallop)
@@ -175,19 +203,21 @@ export function updatePuppetKinematics(
   }
 
   const isFluttering = animationName === "rosie-stella-flutter";
+  const isFlappingImpulse = animationName === "rosie-stella-leap" && flapTimer > 0;
   const isStumbling = animationName === "rosie-stella-stumble";
 
   const containerRotation = isStumbling
     ? targetContainerRot
     : lerp(state.containerRotation, targetContainerRot, Math.min(1, deltaSeconds * 14));
 
-  const frontWingRotation = isFluttering
+  const frontWingRotation = isFluttering || isFlappingImpulse
     ? targetFrontWing
-    : lerp(state.frontWingRotation, targetFrontWing, Math.min(1, deltaSeconds * 14));
+    : lerp(state.frontWingRotation, targetFrontWing, Math.min(1, deltaSeconds * 20));
 
-  const backWingRotation = isFluttering
+  const backWingRotation = isFluttering || isFlappingImpulse
     ? targetBackWing
-    : lerp(state.backWingRotation, targetBackWing, Math.min(1, deltaSeconds * 14));
+    : lerp(state.backWingRotation, targetBackWing, Math.min(1, deltaSeconds * 20));
+
 
   return {
     animationName,
@@ -202,5 +232,8 @@ export function updatePuppetKinematics(
     flutterPhase,
     stumbleTimer,
     squashTimer,
+    flapTimer,
+    previousMode: runner.mode,
+    previousVelocityY: runner.velocityY,
   };
 }
