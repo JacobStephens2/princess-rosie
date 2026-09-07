@@ -881,15 +881,21 @@ export class RosieGameScene extends Phaser.Scene {
     this.cameras.main.scrollX = 0;
   }
 
-  private createObstacle(obstacle: PlayfulObstacle): Phaser.GameObjects.Container {
-    const container = this.add.container(obstacle.x, obstacle.y).setDepth(15);
-    container.setName(`obstacle-${obstacle.id}`);
-
-    const cutout = OBSTACLE_CUTOUTS[obstacle.type];
+  private tryAttachCutout(container: Phaser.GameObjects.Container, cutout?: CutoutVisualConfig): boolean {
     if (cutout && this.textures.exists(cutout.textureKey)) {
       const img = this.add.image(0, 0, cutout.textureKey).setOrigin(0.5, 1);
       img.setDisplaySize(cutout.width, cutout.height);
       container.add(img);
+      return true;
+    }
+    return false;
+  }
+
+  private createObstacle(obstacle: PlayfulObstacle): Phaser.GameObjects.Container {
+    const container = this.add.container(obstacle.x, obstacle.y).setDepth(15);
+    container.setName(`obstacle-${obstacle.id}`);
+
+    if (this.tryAttachCutout(container, OBSTACLE_CUTOUTS[obstacle.type])) {
       return container;
     }
 
@@ -1044,11 +1050,7 @@ export class RosieGameScene extends Phaser.Scene {
     const container = this.add.container(springboard.x, springboard.y).setDepth(16);
     container.setName(`springboard-${springboard.id}`);
 
-    const cutout = SPRINGBOARD_CUTOUTS[springboard.type];
-    if (cutout && this.textures.exists(cutout.textureKey)) {
-      const img = this.add.image(0, 0, cutout.textureKey).setOrigin(0.5, 1);
-      img.setDisplaySize(cutout.width, cutout.height);
-      container.add(img);
+    if (this.tryAttachCutout(container, SPRINGBOARD_CUTOUTS[springboard.type])) {
       return container;
     }
 

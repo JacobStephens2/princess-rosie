@@ -1,5 +1,13 @@
 import sharp from "sharp";
 import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+export const REPO_ROOT = path.resolve(__dirname, "../../..");
+export const STAGE_WIDTH = 1280;
+export const STAGE_HEIGHT = 720;
+export const GROUND_Y = 560;
 
 export interface SheetElement {
   path: string;
@@ -11,7 +19,6 @@ export interface SheetElement {
 export interface ContactSheetOptions {
   stageWidth?: number;
   stageHeight?: number;
-  groundY?: number;
   farLayerPath: string;
   outputPath: string;
   frameAElements: SheetElement[];
@@ -19,8 +26,8 @@ export interface ContactSheetOptions {
 }
 
 export async function generateContactSheet(options: ContactSheetOptions): Promise<void> {
-  const stageWidth = options.stageWidth ?? 1280;
-  const stageHeight = options.stageHeight ?? 720;
+  const stageWidth = options.stageWidth ?? STAGE_WIDTH;
+  const stageHeight = options.stageHeight ?? STAGE_HEIGHT;
 
   // 1. Verify required source assets exist
   const allFiles = [

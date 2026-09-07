@@ -164,7 +164,7 @@ export const SAPPHIRE_SEA_SCENERY: PlaceScenery = {
       setPieces: [
         { assetId: "sapphire-sea.coastal-shelf-ground", positionAlongCourse: 800, groundAnchor: 0.95 },
         { assetId: "sapphire-sea.flowered-rock-border", positionAlongCourse: 2200, groundAnchor: 0.92 },
-        { assetId: "sapphire-sea.turquoise-shallows-pool", positionAlongCourse: 3600, groundAnchor: 0.78 },
+        { assetId: "sapphire-sea.turquoise-shallows-pool", positionAlongCourse: 3600, groundAnchor: 0.95 },
       ],
     },
   ],

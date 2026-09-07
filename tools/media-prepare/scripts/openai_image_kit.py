@@ -11,8 +11,18 @@ import sys
 import time
 import urllib.request
 import urllib.error
+from typing import TypedDict, Optional
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+
+class ImageGenerationItem(TypedDict, total=False):
+    id: str
+    role: str
+    output: str
+    size: str
+    transparent: bool
+    prompt: str
+    model: Optional[str]
 
 PRICING_PER_1M_TOKENS = {
     "text_in": 5.00,
@@ -28,7 +38,7 @@ def calculate_cost(text_in: int, img_in: int, img_out: int) -> float:
     )
     return round(cost, 6)
 
-def generate_image(api_key: str, item: dict) -> dict:
+def generate_image(api_key: str, item: ImageGenerationItem) -> dict:
     prompt = item["prompt"]
     output_path = item["output"]
     size = item["size"]
@@ -135,7 +145,7 @@ def generate_image(api_key: str, item: dict) -> dict:
     print(f"Done: {os.path.basename(output_path)} ({sha256[:8]}..., ${cost}, {elapsed}s)", flush=True)
     return metadata
 
-def run_kit_generation(items: list[dict], kit_label: str, summary_file: str, max_workers: int = 4) -> None:
+def run_kit_generation(items: list[ImageGenerationItem], kit_label: str, summary_file: str, max_workers: int = 4) -> None:
     api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
         print("Error: OPENAI_API_KEY is not set", file=sys.stderr, flush=True)
