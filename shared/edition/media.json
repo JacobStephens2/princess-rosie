@@ -234,6 +234,56 @@
       "id": "lacewood.lace-sprout",
       "role": "cutout",
       "path": "source-media/lacewood/cutouts/lace-sprout.png"
+    },
+    {
+      "id": "pellegrino-peak.far-layer",
+      "role": "illustration-layer",
+      "path": "source-media/pellegrino-peak/far/far-layer.png"
+    },
+    {
+      "id": "pellegrino-peak.terrace-overlook",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/middle/terrace-overlook.png"
+    },
+    {
+      "id": "pellegrino-peak.blossom-tree",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/middle/blossom-tree.png"
+    },
+    {
+      "id": "pellegrino-peak.flowered-ridge",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/middle/flowered-ridge.png"
+    },
+    {
+      "id": "shared.limestone-boulder",
+      "role": "set-piece",
+      "path": "source-media/shared/limestone-boulder.png"
+    },
+    {
+      "id": "pellegrino-peak.flowered-ground",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/near/flowered-ground.png"
+    },
+    {
+      "id": "pellegrino-peak.wildflower-border",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/near/wildflower-border.png"
+    },
+    {
+      "id": "pellegrino-peak.overhang-crag",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/near/overhang-crag.png"
+    },
+    {
+      "id": "pellegrino-peak.flower-bank",
+      "role": "cutout",
+      "path": "source-media/pellegrino-peak/cutouts/flower-bank.png"
+    },
+    {
+      "id": "pellegrino-peak.mountain-blossom",
+      "role": "cutout",
+      "path": "source-media/pellegrino-peak/cutouts/mountain-blossom.png"
     }
   ]
 }

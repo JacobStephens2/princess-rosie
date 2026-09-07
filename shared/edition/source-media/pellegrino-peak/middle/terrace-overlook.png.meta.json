@@ -1,0 +1,18 @@
+{
+  "id": "pellegrino-peak.terrace-overlook",
+  "role": "terrace-overlook",
+  "model": "gpt-image-2",
+  "size": "3072x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/middle/terrace-overlook.png",
+  "sha256": "3290771449af1b3e6c76c76dfe16f08f960357cdb04add3ee49053557feade9f",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 138,
+    "img_in": 0,
+    "img_out": 3952
+  },
+  "estimatedCostUsd": 0.11925,
+  "elapsedSeconds": 75.34,
+  "prompt": "Use case: production game middle scenery signature Set Piece. Preserve the composition and mountain botanical feel from the approved reference painting of Pellegrino Peak: a magnificent terraced mountain ridge with stepped warm cream-and-honey limestone rock ledges ascending on the left, covered with lush blooming pink mountain blossom trees, golden wildflower cushions, and purple lavender terraces overlooking the distant sea. Wide panoramic middle Set Piece on transparent background. Clean alpha channel through all gaps between rock ledges, branches, and open space above the ridge, no background sky, no ground plane below the base limestone rocks, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game middle scenery signature Set Piece. Preserve the composition and mountain botanical feel from the approved reference painting of Pellegrino Peak: a magnificent terraced mountain ridge with stepped warm cream-and-honey limestone rock ledges ascending on the left, covered with lush blooming pink mountain blossom trees, golden wildflower cushions, and purple lavender terraces overlooking the distant sea. Wide panoramic middle Set Piece on transparent background. Clean alpha channel through all gaps between rock ledges, branches, and open space above the ridge, no background sky, no ground plane below the base limestone rocks, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+}

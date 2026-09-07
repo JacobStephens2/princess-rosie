@@ -124,7 +124,8 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🌸",
     sky: 0x8ecff3,
     ground: 0x829a71,
-    placeIllustration: resolveDerivativePath("pellegrino-peak.background"),
+    placeIllustration: resolveDerivativePath("pellegrino-peak.far-layer"),
+    archwayTint: 0xffe0c2,
     layers: getPlaceLayers("peak"),
     stamp: {
       title: "Aunt’s Mountain Flower Stamp",

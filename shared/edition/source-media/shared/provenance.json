@@ -2,7 +2,7 @@
   "manifestVersion": "1.0.0",
   "updatedAt": "2026-09-07",
   "category": "shared-library",
-  "totalSpendUsd": 0.7525,
+  "totalSpendUsd": 0.96375,
   "assets": [
     {
       "id": "shared.cypress-tree",
@@ -82,6 +82,24 @@
         "ownerManualReview": "approved",
         "ownerManualReviewBy": "Jacob Stephens",
         "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "shared.limestone-boulder",
+      "role": "shared-set-piece",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game shared library Set Piece. A handsome, freestanding storybook Mediterranean limestone rock outcrop with warm cream and honey tones, smooth rounded weathered contours, small crevices with green moss, and miniature blooming golden wildflowers and purple lavender sprigs at its base. Isolated vertical rock Set Piece on transparent background. Clean alpha channel, no background, no ground plane outside the stone base, no characters, no text. Storybook picture-book illustration style matching Fairytale Sicily.",
+      "outputPath": "source-media/shared/limestone-boulder.png",
+      "sha256": "2735a7d35f586c90eac7e4996c04737689c437968a478cbc598688ae8fad6f54",
+      "costUsd": 0.21125,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-137 implementation review",
+        "reason": "Charming freestanding Mediterranean limestone rock outcrop with weathered contours and miniature wildflowers on transparent background.",
+        "ownerManualReview": "pending"
       }
     }
   ]

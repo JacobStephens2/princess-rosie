@@ -106,15 +106,6 @@ const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
       graphics.lineStyle(20, 0xfff1db, .72).strokeCircle(start + 220 + arch * 280, 400, 125);
     }
   },
-  peak: (graphics, start) => {
-    drawRollingHills(graphics, start);
-    for (let peakX = start; peakX < start + PLACE_COURSE_WIDTH; peakX += 1700) {
-      graphics.fillStyle(0x6d7f70, 1).fillTriangle(peakX, 650, peakX + 920, 120, peakX + 1700, 650);
-    }
-    graphics.fillStyle(0xf5e3ed, 1);
-    const flowerCount = Math.floor(PLACE_COURSE_WIDTH / 77);
-    for (let flower = 0; flower < flowerCount; flower += 1) graphics.fillCircle(start + 90 + flower * 77, 590 - (flower % 5) * 28, 10);
-  },
   sea: (graphics, start) => {
     graphics.fillRect(start, 520, PLACE_COURSE_WIDTH, 200);
     graphics.lineStyle(9, 0xa7efff, .55);
@@ -221,6 +212,8 @@ export class RosieGameScene extends Phaser.Scene {
     this.load.image("shared.rainbow-archway", resolveDerivativePath("shared.rainbow-archway"));
     this.load.image("lacewood.silver-ribbon", resolveDerivativePath("lacewood.silver-ribbon"));
     this.load.image("lacewood.lace-sprout", resolveDerivativePath("lacewood.lace-sprout"));
+    this.load.image("pellegrino-peak.flower-bank", resolveDerivativePath("pellegrino-peak.flower-bank"));
+    this.load.image("pellegrino-peak.mountain-blossom", resolveDerivativePath("pellegrino-peak.mountain-blossom"));
   }
 
   create(): void {
@@ -925,6 +918,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "flower-bank": {
+        if (this.textures.exists("pellegrino-peak.flower-bank")) {
+          const img = this.add.image(0, 0, "pellegrino-peak.flower-bank").setOrigin(0.5, 1);
+          img.setDisplaySize(72, 60);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0x6e7b75, 1);
         g.fillRoundedRect(-w * 0.45, -h * 0.65, w * 0.9, h * 0.65, 8);
         g.fillStyle(0x8a9e88, 1);
@@ -1078,6 +1077,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "mountain-blossom": {
+        if (this.textures.exists("pellegrino-peak.mountain-blossom")) {
+          const img = this.add.image(0, 0, "pellegrino-peak.mountain-blossom").setOrigin(0.5, 1);
+          img.setDisplaySize(80, 80);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0x56695e, 1);
         g.fillEllipse(0, -h * 0.25, w * 0.9, h * 0.4);
         g.fillStyle(0xf5e3ed, 1);

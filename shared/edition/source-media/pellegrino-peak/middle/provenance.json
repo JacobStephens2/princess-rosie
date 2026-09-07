@@ -1,0 +1,63 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "middle",
+  "depthFactor": 0.5,
+  "totalSpendUsd": 0.449555,
+  "assets": [
+    {
+      "id": "pellegrino-peak.terrace-overlook",
+      "role": "terrace-overlook",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery signature Set Piece. Preserve the composition and mountain botanical feel from the approved reference painting of Pellegrino Peak: a magnificent terraced mountain ridge with stepped warm cream-and-honey limestone rock ledges ascending on the left, covered with lush blooming pink mountain blossom trees, golden wildflower cushions, and purple lavender terraces overlooking the distant sea. Wide panoramic middle Set Piece on transparent background. Clean alpha channel through all gaps between rock ledges, branches, and open space above the ridge, no background sky, no ground plane below the base limestone rocks, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/pellegrino-peak/middle/terrace-overlook.png",
+      "sha256": "3290771449af1b3e6c76c76dfe16f08f960357cdb04add3ee49053557feade9f",
+      "costUsd": 0.11925,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-137 implementation review",
+        "reason": "Grand sunlit terraced mountain ridge with limestone rock ledges, blooming pink blossom trees, and wildflower terraces with clean alpha transparency framing arrival at Rainbow Archway.",
+        "ownerManualReview": "pending"
+      }
+    },
+    {
+      "id": "pellegrino-peak.blossom-tree",
+      "role": "blossom-tree",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A spreading, sunlit Mediterranean mountain blossom tree with gnarly weathered bark and abundant blush pink and white blossoms catching the golden sunlight, rooted on a small mossy limestone rock ledge with trailing wild lavender and golden mountain flowers. Isolated vertical tree Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane below rock base, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+      "outputPath": "source-media/pellegrino-peak/middle/blossom-tree.png",
+      "sha256": "ad6c80c00da32cde502a2ce7219b89ceebab0ec249ad0881d2f1984be8a4686f",
+      "costUsd": 0.16516,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-137 implementation review",
+        "reason": "Sunlit spreading mountain blossom tree with pink and white flowers rooted on limestone ledge on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    },
+    {
+      "id": "pellegrino-peak.flowered-ridge",
+      "role": "flowered-ridge",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral middle-ground limestone rock ridge and grassy mountain terrace carpeted with yellow wildflowers, blush rose blossoms, and purple alpine lavender, with rounded honey-colored boulders and low blossoming shrubs. Lateral Set Piece on transparent background. Clean alpha channel everywhere above and below the rock ridge, no sky, no ground below ridge base, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+      "outputPath": "source-media/pellegrino-peak/middle/flowered-ridge.png",
+      "sha256": "d37e0616dc8d04b8a4d0b8dd181fdaf27e1b6f756379467e168affeaa5af8d1e",
+      "costUsd": 0.165145,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-137 implementation review",
+        "reason": "Lateral limestone rock ridge and terrace covered in yellow wildflowers and purple lavender on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    }
+  ]
+}
