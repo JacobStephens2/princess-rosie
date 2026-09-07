@@ -168,7 +168,7 @@ describe("wing-puppet kinematics controller", () => {
     });
 
     const wingAngles: number[] = [];
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 20; i++) {
       state = updatePuppetKinematics(state, flutterRunner, 0.03);
       wingAngles.push(state.frontWingRotation);
     }
@@ -179,7 +179,7 @@ describe("wing-puppet kinematics controller", () => {
     expect(maxWing - minWing).toBeGreaterThan(0.25);
   });
 
-  test("flutter wing stroke completes a full cycle in 0.5 seconds (two strokes per second)", async () => {
+  test("flutter wing stroke completes a full cycle in 1.0 second (one stroke per second)", async () => {
     const { createPuppetKinematicState, updatePuppetKinematics } = await import("./wing-puppet");
     let state = createPuppetKinematicState({ flutterPhase: 0 });
     const flutterRunner = createRunnerState({
@@ -203,10 +203,10 @@ describe("wing-puppet kinematics controller", () => {
     const initialBackWing = state.backWingRotation;
     const initialBob = state.bobOffsetY;
 
-    // Step across 0.5 seconds (1 full wing stroke cycle at 2 strokes/s)
-    simulateSeconds(0.5);
+    // Step across 1.0 second (1 full wing stroke cycle at 1 stroke/s)
+    simulateSeconds(1.0);
 
-    // In 0.5 seconds, flutterPhase advances by exactly 2*PI radians (one full stroke cycle)
+    // In 1.0 second, flutterPhase advances by exactly 2*PI radians (one full stroke cycle)
     expect(state.flutterPhase).toBeCloseTo(2 * Math.PI, 4);
 
     // Front wing, back wing, and body bob return to starting cycle phase
@@ -217,8 +217,8 @@ describe("wing-puppet kinematics controller", () => {
     // Front and back wings maintain a phase offset (not locked identical)
     expect(state.frontWingRotation).not.toBeCloseTo(state.backWingRotation, 2);
 
-    // Step across another 0.5 seconds (total 1.0s elapsed: second full stroke cycle completes)
-    simulateSeconds(0.5);
+    // Step across another 1.0 second (total 2.0s elapsed: second full stroke cycle completes)
+    simulateSeconds(1.0);
     expect(state.flutterPhase).toBeCloseTo(4 * Math.PI, 4);
     expect(state.frontWingRotation).toBeCloseTo(initialFrontWing, 4);
     expect(state.backWingRotation).toBeCloseTo(initialBackWing, 4);
