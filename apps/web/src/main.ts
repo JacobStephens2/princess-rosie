@@ -61,7 +61,13 @@ export interface RosieRunnerInterface {
   getGrownUpCornerState?: () => GrownUpCornerState;
   resetJourney?: () => import("./domain/journey").Journey;
   flyAgain?: () => void;
+  getAudioTrack?: () => import("./domain/soundtrack-rotation").FlightSoundtrack;
+  isAudioCelebrating?: () => boolean;
+  isAudioCrossfading?: () => boolean;
+  getAudioPlaylistState?: () => import("./domain/soundtrack-rotation").SoundtrackPlaylistState;
+  isAudioEnabled?: () => boolean;
 }
+
 
 declare global {
   interface Window {
@@ -381,6 +387,7 @@ function renderCelebrationConstellation(): void {
 
 function flyAgain(): void {
   sound.play("button");
+  void sound.advanceToNextJourney();
   if (scene) {
     scene.resetJourney();
   }
@@ -397,11 +404,13 @@ function showEnding(): void {
   gameShell.hidden = true;
   ending.hidden = false;
   sound.play("celebrate");
+  void sound.crossfadeToCelebration();
   burstConfetti(260);
   renderCelebrationConstellation();
   renderCelebrationAlbum();
   window.setTimeout(() => flyAgainButton.focus(), 100);
 }
+
 
 function toggleSound(): void {
   sound.setEnabled(!sound.isEnabled());
@@ -703,7 +712,13 @@ window.__ROSIE_RUNNER__ = {
   getGrownUpCornerState: () => grownUpCornerState,
   resetJourney: () => scene?.resetJourney() ?? resetJourney(),
   flyAgain: () => flyAgain(),
+  getAudioTrack: () => sound.getActiveFlightTrack(),
+  isAudioCelebrating: () => sound.isCelebrationActive(),
+  isAudioCrossfading: () => sound.isCrossfading(),
+  getAudioPlaylistState: () => sound.getPlaylistState(),
+  isAudioEnabled: () => sound.isEnabled(),
 };
+
 
 renderDots();
 OPENING_STORYBOOK_MOMENTS_AFTER_COVER.forEach((momentContent) => void preloadStoryArtwork(momentContent.image));
