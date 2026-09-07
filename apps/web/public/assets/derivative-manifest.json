@@ -328,6 +328,76 @@
       "path": "/assets/derivatives/lacewood.lace-sprout.webp",
       "width": 256,
       "height": 256
+    },
+    {
+      "id": "abbey.far-layer",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/abbey.far-layer.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "abbey.cloister-arcade",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.cloister-arcade.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "abbey.bell-tower-belfry",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.bell-tower-belfry.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "abbey.rose-window-wall",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.rose-window-wall.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "shared.stone-fountain",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.stone-fountain.webp",
+      "width": 720,
+      "height": 720
+    },
+    {
+      "id": "abbey.stone-terrace-ground",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.stone-terrace-ground.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "abbey.lavender-herb-border",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.lavender-herb-border.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "abbey.vaulted-arch-canopy",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.vaulted-arch-canopy.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "abbey.bell-rope",
+      "role": "cutout",
+      "path": "/assets/derivatives/abbey.bell-rope.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "abbey.abbey-bell",
+      "role": "cutout",
+      "path": "/assets/derivatives/abbey.abbey-bell.webp",
+      "width": 256,
+      "height": 256
     }
   ]
 }

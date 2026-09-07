@@ -1,0 +1,19 @@
+{
+  "id": "abbey.bell-rope",
+  "role": "bell-rope",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/cutouts/bell-rope.png",
+  "sha256": "a331530c48d6a0ee8d90a739c8a31cee5540c7bb0aef4e14928eac03bd76b897",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 124,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.21134,
+  "elapsedSeconds": 175.0,
+  "prompt": "Use case: production game playful obstacle cutout. A charming, whimsical storybook bell rope obstacle cutout for a gentle children's game: a thick braided golden-amber pull rope hanging down from a carved honey-stone bracket, ending in a soft fluffy wool tassel and a small swinging polished golden bell, mounted above a small base of green moss and purple lavender sprigs. Genuine RGBA transparent background around the silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, whimsical storybook bell rope obstacle cutout for a gentle children's game: a thick braided golden-amber pull rope hanging down from a carved honey-stone bracket, ending in a soft fluffy wool tassel and a small swinging polished golden bell, mounted above a small base of green moss and purple lavender sprigs. Genuine RGBA transparent background around the silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+  "reason": "Charming braided golden bell rope obstacle with wool tassel and small swinging hand bell above lavender base on transparent background."
+}

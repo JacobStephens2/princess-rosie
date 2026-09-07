@@ -842,7 +842,8 @@ test("each Place Illustration renders at its painted 16:9 aspect ratio without v
   }).toBe("abbey");
 
   const abbeyDisplaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
-  expect(abbeyDisplaySize?.width).toBe(1280);
+  expect(abbeyDisplaySize).toBeDefined();
+  expect(abbeyDisplaySize?.width).toBeGreaterThanOrEqual(2160);
   expect(abbeyDisplaySize?.height).toBe(720);
 
   const abbeyPlaceObjects = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
@@ -906,7 +907,7 @@ test("Rose Garden declares three Scenery Layers with distinct factors and far la
   const expectedPaintings: Record<(typeof places)[number], string> = {
     garden: "garden.far-layer",
     lacewood: "lacewood.far-layer",
-    abbey: "abbey.background",
+    abbey: "abbey.far-layer",
     clouds: "cloister.background",
     peak: "pellegrino-peak.background",
     sea: "sapphire-sea.background",
@@ -947,8 +948,22 @@ test("Rose Garden declares three Scenery Layers with distinct factors and far la
   expect(lacewoodLayers[2]?.depthFactor).toBe(1.0);
   expect(lacewoodLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
 
-  // Other 5 places retain initial 0 factor
-  for (const place of ["abbey", "clouds", "peak", "sea", "castle"] as const) {
+  // Verify Golden Bell Abbey has distinct factors 0.2, 0.5, 1.0
+  const abbeyLayers = allPlacesLayers.abbey;
+  expect(abbeyLayers).toBeDefined();
+  expect(abbeyLayers).toHaveLength(3);
+  expect(abbeyLayers[0]?.depth).toBe("far");
+  expect(abbeyLayers[0]?.depthFactor).toBe(0.2);
+  expect(abbeyLayers[0]?.paintingAssetId).toBe("abbey.far-layer");
+  expect(abbeyLayers[1]?.depth).toBe("middle");
+  expect(abbeyLayers[1]?.depthFactor).toBe(0.5);
+  expect(abbeyLayers[1]?.setPieces.length).toBeGreaterThanOrEqual(6);
+  expect(abbeyLayers[2]?.depth).toBe("near");
+  expect(abbeyLayers[2]?.depthFactor).toBe(1.0);
+  expect(abbeyLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
+
+  // Other 4 places retain initial 0 factor
+  for (const place of ["clouds", "peak", "sea", "castle"] as const) {
     const placeFromAll = allPlacesLayers[place];
     expect(placeFromAll).toBeDefined();
     expect(placeFromAll).toHaveLength(3);
