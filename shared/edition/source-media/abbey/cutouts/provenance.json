@@ -16,10 +16,12 @@
       "sha256": "a331530c48d6a0ee8d90a739c8a31cee5540c7bb0aef4e14928eac03bd76b897",
       "costUsd": 0.21134,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-135 implementation review",
         "reason": "Charming braided golden bell rope obstacle with wool tassel and small swinging hand bell above lavender base on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -34,10 +36,12 @@
       "sha256": "1c38ea9b473993b0f7d876e32fd1bd5e7122ed0da7572fc9cd9552e8718c2862",
       "costUsd": 0.21133,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-135 implementation review",
         "reason": "Gleaming golden abbey bell springboard on springy bronze mount with ivy and musical star glints on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]

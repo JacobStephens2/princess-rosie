@@ -17,10 +17,12 @@
       "sha256": "a2834bea4683f8dffdada47e5bb3193c7b0fced406c04a1539d8d40cc0f1a207",
       "costUsd": 0.119345,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-135 implementation review",
         "reason": "Grand honey-stone abbey garden cloister arcade with carved capitals, open colonnade, hanging golden bells, and stained-glass roundels framing arrival at Rainbow Archway.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -35,10 +37,12 @@
       "sha256": "1612282c03ad858dffd25121970d886896da974afc0889fa2c55b84b462ae50b",
       "costUsd": 0.165175,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-135 implementation review",
         "reason": "Sunlit abbey bell tower belfry of warm honey-colored stone with tall arched openings revealing swinging golden church bells on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -53,10 +57,12 @@
       "sha256": "9745a98d5166a850234252a113dd4159b2a9671f044a6d26f2781b234ffd6138",
       "costUsd": 0.16522,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-135 implementation review",
         "reason": "Honey-stone abbey wall with glowing jewel-toned stained-glass rose window and carved pilasters on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]
