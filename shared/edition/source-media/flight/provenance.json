@@ -2,23 +2,29 @@
   "assets": [
     {
       "id": "flight.rose-garden-background",
-      "execution": "built-in OpenAI image-generation tool",
+      "execution": "gpt-image-2 masked edit (/v1/images/edits)",
+      "tool": "OpenAI Images API /v1/images/edits, model gpt-image-2",
       "input": {
-        "path": "source-media/opening-storybook/rosie-stella-departure.png",
-        "sha256": "ca7d2a1544eabb64cd9b926410eb50d4ed96c51dda32358c340d7e7d10bb67a6"
-      },
-      "output": {
         "path": "source-media/flight/rose-garden-background.png",
         "sha256": "da9eabdb23b01639e01b9d6f3b304ba10ae4876a44ce6a00ccd4a371d1ba6c81"
       },
-      "purpose": "A character-free Rosalia's Rose Garden flight plate derived from the approved departure illustration.",
+      "mask": {
+        "target": "painted Birthday Star in top center sky patch [x: 736-936, y: 15-215]",
+        "feather": 12
+      },
+      "output": {
+        "path": "source-media/flight/rose-garden-background.png",
+        "sha256": "c04a75e7f38fa3149cb6d51aed5b0ae32e8176e9beb0d76b2b55908969240aa7",
+        "size": "1672x941"
+      },
+      "purpose": "A character-free and star-free Rosalia's Rose Garden reference painting plate, cleaned of the painted Birthday Star.",
       "selection": {
         "status": "approved",
-        "selectedBy": "issue-17 implementation review",
-        "reason": "The packaged capture preserves the approved setting, gives flight a clear focal corridor, and contains no residual characters.",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "The cleaned capture preserves the approved setting and architectural language pixel-for-pixel outside the inpainted star region.",
         "ownerManualReview": "approved",
         "ownerManualReviewBy": "Jacob Stephens",
-        "ownerManualReviewDate": "2026-08-23"
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {

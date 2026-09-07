@@ -1,0 +1,69 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "middle",
+  "depthFactor": 0.5,
+  "totalSpendUsd": 0.461499,
+  "assets": [
+    {
+      "id": "garden.arch-cluster",
+      "role": "arch-cluster",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game scenery layer. Preserve the architectural and floral style from the reference Rose Garden painting: elegant sunlit cream stone archways, pergolas, and balustrades adorned with lush climbing pink roses, green foliage, and silver lace ribbons. Render this as a wide transparent Set Piece: a panoramic cluster of cream arches and flower-draped columns that will layer over the sky and distant hills. Ensure genuine transparent background everywhere outside the arches and balustrade, and through the open arch openings. Clean alpha channel, no background sky, no ground plane below the balustrade, no people, no characters, no text, premium flat modern picture-book illustration style.",
+      "outputPath": "source-media/garden/middle/arch-cluster.png",
+      "sha256": "6b5aa6bcf5171a6a418de75b64f21a2b8e3fa29f78b313c83fbaa2b2dd97d543",
+      "costUsd": 0.131334,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Provider bake-off winner (#131): flawless native RGBA transparency through arches, faithful reproduction of reference colonnade framing arrival.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "garden.column-ribbon",
+      "role": "column-ribbon",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. An elegant cream stone classical column wrapped in climbing pink roses, lush green leaves, and fluttering translucent silver lace ribbons. Standing vertically on transparent background. Clean alpha channel, isolated Set Piece, no background sky, no ground plane, no characters, no text. Storybook picture-book style matching Rosalia's Rose Garden.",
+      "outputPath": "source-media/garden/middle/column-ribbon.png",
+      "sha256": "1bd34a1bcf65e3cf076b428344648f55188d59b615bedc6d0474966a8efe49ac",
+      "costUsd": 0.16504,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Classical cream column wrapped in roses and silver lace ribbons on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "garden.balustrade-run",
+      "role": "balustrade-run",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A horizontal run of sunlit cream stone balustrade with carved balusters, topped with stone urns overflowing with blooming pink roses and trailing green vines. Transparent background everywhere outside the balustrade and flowers. Clean alpha channel, isolated lateral Set Piece, no background sky, no ground below balustrade base, no characters, no text. Storybook picture-book style matching Rosalia's Rose Garden.",
+      "outputPath": "source-media/garden/middle/balustrade-run.png",
+      "sha256": "3034eb7fe498f962f9560708a3fb8112de5a0f4aa75bb91e221040d202f26d74",
+      "costUsd": 0.165125,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Horizontal cream stone balustrade run with urns and climbing roses on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

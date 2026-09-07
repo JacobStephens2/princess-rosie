@@ -1,6 +1,8 @@
 export type MediaRole =
   | "illustration"
   | "illustration-layer"
+  | "set-piece"
+  | "cutout"
   | "character-layer"
   | "sprite"
   | "treatment"

@@ -89,19 +89,7 @@ function drawRollingHills(graphics: Phaser.GameObjects.Graphics, start: number):
   }
 }
 
-const LANDSCAPE_DRAWERS: Record<StarStop, LandscapeDrawer> = {
-  garden: (graphics, start) => {
-    graphics.fillStyle(0x5ca364, 1);
-    graphics.fillRect(start, 560, PLACE_COURSE_WIDTH, 160);
-    graphics.fillStyle(0x73b97b, 1);
-    graphics.fillRoundedRect(start, 555, PLACE_COURSE_WIDTH, 20, 8);
-    const rosesCount = Math.floor(PLACE_COURSE_WIDTH / 105);
-    for (let rose = 0; rose < rosesCount; rose += 1) {
-      const x = start + 40 + rose * 105;
-      const y = 575 + (rose % 3) * 20;
-      graphics.fillStyle(rose % 2 ? 0xf05a9d : 0xff9abb, 1).fillCircle(x, y, 15).fillCircle(x + 14, y, 15).fillCircle(x + 7, y - 12, 15);
-    }
-  },
+const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
   lacewood: (graphics, start) => {
     drawRollingHills(graphics, start);
     const treeCount = Math.floor(PLACE_COURSE_WIDTH / 145);
@@ -236,6 +224,11 @@ export class RosieGameScene extends Phaser.Scene {
     });
     this.load.image("birthday-star", getBirthdayStarDerivativePath());
     this.load.image("rainbow-path", getRainbowPathDerivativePath());
+
+    this.load.image("garden.rose-bush", resolveDerivativePath("garden.rose-bush"));
+    this.load.image("garden.giant-rose", resolveDerivativePath("garden.giant-rose"));
+    this.load.image("garden.star-sparkle", resolveDerivativePath("garden.star-sparkle"));
+    this.load.image("shared.rainbow-archway", resolveDerivativePath("shared.rainbow-archway"));
   }
 
   create(): void {
@@ -471,6 +464,14 @@ export class RosieGameScene extends Phaser.Scene {
     return getAllPlaceLayers();
   }
 
+  getActiveSceneryLayers(): readonly { depth: SceneryLayerDepth; depthFactor: number; x: number }[] {
+    return this.activeSceneryLayers.map((a) => ({
+      depth: a.layer.depth,
+      depthFactor: a.layer.depthFactor,
+      x: a.container.x,
+    }));
+  }
+
   getScenePlaceObjects(): {
     place: StarStop;
     obstacles: readonly PlayfulObstacle[];
@@ -480,6 +481,7 @@ export class RosieGameScene extends Phaser.Scene {
     guest?: FamilyGuest;
     displayedSize?: { width: number; height: number };
     layers?: readonly SceneryLayer[];
+    activeLayers?: readonly { depth: SceneryLayerDepth; depthFactor: number; x: number }[];
   } {
     const stop = STOP_STORIES[this.nextStop] ?? STOP_STORIES[0]!;
     return {
@@ -491,6 +493,7 @@ export class RosieGameScene extends Phaser.Scene {
       guest: stop.guest,
       displayedSize: this.getPlaceIllustrationDisplaySize(),
       layers: this.getPlaceLayers(stop.id),
+      activeLayers: this.getActiveSceneryLayers(),
     };
   }
 
@@ -757,7 +760,14 @@ export class RosieGameScene extends Phaser.Scene {
           layerImage = this.add
             .image(0, 0, textureKey)
             .setOrigin(0, 0);
-          layerImage.setDisplaySize(VIEW_WIDTH, VIEW_HEIGHT);
+          if (layer.depthFactor === 0) {
+            layerImage.setDisplaySize(VIEW_WIDTH, VIEW_HEIGHT);
+          } else {
+            const neededWidth = VIEW_WIDTH + Math.ceil(DEFAULT_RUNNER_CONFIG.courseLength * layer.depthFactor);
+            const naturalWidth = Math.round(layerImage.width * (VIEW_HEIGHT / layerImage.height));
+            const displayWidth = Math.max(VIEW_WIDTH, naturalWidth, neededWidth);
+            layerImage.setDisplaySize(displayWidth, VIEW_HEIGHT);
+          }
           container.add(layerImage);
 
           if (layer.depth === "far") {
@@ -958,6 +968,12 @@ export class RosieGameScene extends Phaser.Scene {
       }
       case "rose-bush":
       default: {
+        if (this.textures.exists("garden.rose-bush")) {
+          const img = this.add.image(0, 0, "garden.rose-bush").setOrigin(0.5, 1);
+          img.setDisplaySize(68, 60);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0x3e7a46, 1);
         g.fillEllipse(0, -h * 0.45, w, h * 0.85);
         g.fillStyle(0x5ca364, 1);
@@ -1091,6 +1107,12 @@ export class RosieGameScene extends Phaser.Scene {
       }
       case "giant-rose":
       default: {
+        if (this.textures.exists("garden.giant-rose")) {
+          const img = this.add.image(0, 0, "garden.giant-rose").setOrigin(0.5, 1);
+          img.setDisplaySize(80, 80);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0x2f6838, 1);
         g.fillEllipse(0, -h * 0.25, w * 0.95, h * 0.45);
         g.fillStyle(0x4a9456, 1);
@@ -1160,25 +1182,32 @@ export class RosieGameScene extends Phaser.Scene {
     const container = this.add.container(sparkle.x, sparkle.y).setDepth(18);
     container.setName(`sparkle-${sparkle.id}`);
 
-    const graphics = this.add.graphics();
-    // Warm outer starlight aura
-    graphics.fillStyle(0xffed97, 0.35);
-    graphics.fillCircle(0, 0, 18);
-    graphics.fillStyle(0xffdf63, 0.55);
-    graphics.fillCircle(0, 0, 11);
+    const currentStop = STOP_STORIES[this.nextStop]?.id;
+    if (currentStop === "garden" && this.textures.exists("garden.star-sparkle")) {
+      const img = this.add.image(0, 0, "garden.star-sparkle").setOrigin(0.5, 0.5);
+      img.setDisplaySize(44, 44);
+      container.add(img);
+    } else {
+      const graphics = this.add.graphics();
+      // Warm outer starlight aura
+      graphics.fillStyle(0xffed97, 0.35);
+      graphics.fillCircle(0, 0, 18);
+      graphics.fillStyle(0xffdf63, 0.55);
+      graphics.fillCircle(0, 0, 11);
 
-    // 4-pointed celestial star sparkle
-    graphics.fillStyle(0xfff7c8, 1);
-    graphics.fillTriangle(-2, 0, 2, 0, 0, -14);
-    graphics.fillTriangle(-2, 0, 2, 0, 0, 14);
-    graphics.fillTriangle(0, -2, 0, 2, -14, 0);
-    graphics.fillTriangle(0, -2, 0, 2, 14, 0);
+      // 4-pointed celestial star sparkle
+      graphics.fillStyle(0xfff7c8, 1);
+      graphics.fillTriangle(-2, 0, 2, 0, 0, -14);
+      graphics.fillTriangle(-2, 0, 2, 0, 0, 14);
+      graphics.fillTriangle(0, -2, 0, 2, -14, 0);
+      graphics.fillTriangle(0, -2, 0, 2, 14, 0);
 
-    // Radiant starlight core
-    graphics.fillStyle(0xffffff, 1);
-    graphics.fillCircle(0, 0, 3.5);
+      // Radiant starlight core
+      graphics.fillStyle(0xffffff, 1);
+      graphics.fillCircle(0, 0, 3.5);
 
-    container.add(graphics);
+      container.add(graphics);
+    }
 
     // Gentle hovering idle motion
     this.tweens.add({
@@ -1243,6 +1272,18 @@ export class RosieGameScene extends Phaser.Scene {
   private createRainbowArchway(archway: RainbowArchway): Phaser.GameObjects.Container {
     const container = this.add.container(archway.x, archway.y).setDepth(14);
     container.setName(`rainbow-archway-${archway.place}`);
+
+    const stop = STOP_STORIES.find((s) => s.id === archway.place);
+
+    if (this.textures.exists("shared.rainbow-archway")) {
+      const archwayImage = this.add.image(0, 0, "shared.rainbow-archway").setOrigin(0.5, 1);
+      archwayImage.setDisplaySize(240, 360);
+      if (stop?.archwayTint !== undefined) {
+        archwayImage.setTint(stop.archwayTint);
+      }
+      container.add(archwayImage);
+      return container;
+    }
 
     const graphics = this.add.graphics();
     const archCenterY = -140;

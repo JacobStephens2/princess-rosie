@@ -55,7 +55,9 @@ export interface RosieRunnerInterface {
     guest?: import("./domain/journey").FamilyGuest;
     displayedSize?: { width: number; height: number };
     layers?: readonly import("./domain/scenery").SceneryLayer[];
+    activeLayers?: readonly { depth: import("./domain/scenery").SceneryLayerDepth; depthFactor: number; x: number }[];
   } | undefined;
+  getActiveSceneryLayers?: () => readonly { depth: import("./domain/scenery").SceneryLayerDepth; depthFactor: number; x: number }[];
   getGrownUpCornerState?: () => GrownUpCornerState;
   resetJourney?: () => import("./domain/journey").Journey;
   flyAgain?: () => void;
@@ -684,6 +686,7 @@ window.__ROSIE_RUNNER__ = {
       ? scene?.getPlaceLayers(stopId) ?? getPlaceLayers(stopId)
       : scene?.getPlaceLayers() ?? getPlaceLayers(),
   getScenePlaceObjects: () => scene?.getScenePlaceObjects(),
+  getActiveSceneryLayers: () => scene?.getActiveSceneryLayers() ?? [],
   getGrownUpCornerState: () => grownUpCornerState,
   resetJourney: () => scene?.resetJourney() ?? resetJourney(),
   flyAgain: () => flyAgain(),

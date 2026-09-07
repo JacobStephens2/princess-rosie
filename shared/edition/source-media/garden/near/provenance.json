@@ -1,0 +1,69 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "near",
+  "depthFactor": 1.0,
+  "totalSpendUsd": 0.49523,
+  "assets": [
+    {
+      "id": "garden.rose-bush-cluster",
+      "role": "rose-bush-cluster",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A wide, lush lateral cluster of blooming pink garden rose bushes with rich green leaves, buds, and delicate falling petals. Transparent background everywhere outside the rose foliage. Clean alpha channel, isolated lateral foreground Set Piece, no background sky, no ground, no characters, no text. Storybook picture-book style matching Rosalia's Rose Garden.",
+      "outputPath": "source-media/garden/near/rose-bush-cluster.png",
+      "sha256": "d72383afc5214a92fd084b7e3f0048ab482d28ab7f6b777286af8129d937aff8",
+      "costUsd": 0.165055,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Lush lateral foreground cluster of blooming rose bushes on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "garden.border-strip",
+      "role": "border-strip",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground border strip of flowering purple lavender, green turf, and scattered pink rose petals, carrying the Storybook Ground. Low horizontal strip spanning the width. Transparent background everywhere above the low foliage. Clean alpha channel, isolated lateral Set Piece, no background, no characters, no text. Storybook picture-book style matching Rosalia's Rose Garden.",
+      "outputPath": "source-media/garden/near/border-strip.png",
+      "sha256": "9d5345512b83e345d8d17956f823c4afd9e02994707e11ed81a13d9e680ccb51",
+      "costUsd": 0.16507,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Horizontal lavender, grass, and petal ground border carrying Storybook Ground on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "garden.terrace-edge",
+      "role": "terrace-edge",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal edge of sunlit cream stone terrace with paved flagstones, small mossy crevices, and scattered fallen pink rose petals along the surface. Low horizontal stone edge spanning the width. Transparent background everywhere above the terrace surface. Clean alpha channel, isolated lateral Set Piece, no background, no characters, no text. Storybook picture-book style matching Rosalia's Rose Garden.",
+      "outputPath": "source-media/garden/near/terrace-edge.png",
+      "sha256": "635753558270a47eb0e15d4978f586d92f7b8a90093c2a109e97374bb0b91117",
+      "costUsd": 0.165105,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Sunlit cream stone terrace edge with flagstones and fallen rose petals on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}
