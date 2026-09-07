@@ -1,0 +1,18 @@
+{
+  "id": "shared.garden-lantern",
+  "role": "garden-lantern",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/shared/garden-lantern.png",
+  "sha256": "696eb3e1af9f8972e4e179092f58df23358596e2f27bcbb05b65ad4125ab63e8",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 97,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.211205,
+  "elapsedSeconds": 161.34,
+  "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook garden lantern of warm antiqued bronze and beveled glass glowing warmly with gentle golden candlelight, resting on an ornate carved cream stone pedestal wrapped with delicate green ivy and miniature rosebuds. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the stone base, no background, no characters, no text. Storybook picture-book illustration style.",
+  "revisedPrompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook garden lantern of warm antiqued bronze and beveled glass glowing warmly with gentle golden candlelight, resting on an ornate carved cream stone pedestal wrapped with delicate green ivy and miniature rosebuds. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the stone base, no background, no characters, no text. Storybook picture-book illustration style."
+}

@@ -1,0 +1,29 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "far",
+  "depthFactor": 0.2,
+  "totalSpendUsd": 0.119105,
+  "assets": [
+    {
+      "id": "lacewood.far-layer",
+      "role": "far-layer",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "opaque",
+      "prompt": "Use case: production game far scenery layer. A wide panoramic landscape of Zélie's Lacewood far layer: clear sunny sapphire blue sky with soft drifting fairytale clouds, distant Sicilian hillside village nestled among rolling green olive terraces, slender cypress spires, and distant purple misty mountains under warm golden Mediterranean light. Distant panoramic viewpoint, no foreground canopy, no foreground trees, no pavilion, no people, no characters, no text, no star. Painterly children's picture-book illustration matching Fairytale Sicily.",
+      "outputPath": "source-media/lacewood/far/far-layer.png",
+      "sha256": "35f9ff53f075f592d3346d3fda4cfc7ac69b0de190cce786e47c9c5720afef40",
+      "costUsd": 0.119105,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-134 implementation review",
+        "reason": "Opaque 3:1 panorama landscape vista with sunny sky, rolling terraces, and distant Sicilian mountains; no characters, text, or foreground arches.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

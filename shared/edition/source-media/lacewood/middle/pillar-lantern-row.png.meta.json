@@ -1,0 +1,18 @@
+{
+  "id": "lacewood.pillar-lantern-row",
+  "role": "pillar-lantern-row",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/middle/pillar-lantern-row.png",
+  "sha256": "ef5d45ed7d84a52f2004b822499220b22df27f8d8f4f2780b504c447e7c74027",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 106,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16517,
+  "elapsedSeconds": 120.23,
+  "prompt": "Use case: production game middle scenery Set Piece. A lateral row of classical cream stone pedestals and low balustrades adorned with climbing pink roses, green ivy, draped silver lace ribbons, and topped with glowing fairytale glass lanterns with golden candlelight and stone urns with trailing blossoms. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below pedestal bases, no characters, no text. Storybook picture-book style matching Z\u00e9lie's Lacewood.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral row of classical cream stone pedestals and low balustrades adorned with climbing pink roses, green ivy, draped silver lace ribbons, and topped with glowing fairytale glass lanterns with golden candlelight and stone urns with trailing blossoms. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below pedestal bases, no characters, no text. Storybook picture-book style matching Z\u00e9lie's Lacewood."
+}

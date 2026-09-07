@@ -807,19 +807,8 @@ test("each Place Illustration renders at its painted 16:9 aspect ratio without v
 
   const lacewoodDisplaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
   expect(lacewoodDisplaySize).toBeDefined();
-  expect(lacewoodDisplaySize?.width).toBe(1280);
+  expect(lacewoodDisplaySize?.width).toBeGreaterThanOrEqual(2160);
   expect(lacewoodDisplaySize?.height).toBe(720);
-  const lacewoodAspect = (lacewoodDisplaySize?.width ?? 0) / (lacewoodDisplaySize?.height ?? 1);
-  expect(Math.abs(lacewoodAspect - 16 / 9)).toBeLessThan(0.001);
-
-  // Assert aspect matches source painting asset
-  const lacewoodSourceAspect = await page.evaluate(async () => {
-    const img = new Image();
-    img.src = "/assets/derivatives/lacewood.background.webp";
-    await img.decode();
-    return img.naturalWidth / img.naturalHeight;
-  });
-  expect(Math.abs(lacewoodAspect - lacewoodSourceAspect)).toBeLessThan(0.01);
 
   const lacewoodPlaceObjects = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
   expect(lacewoodPlaceObjects?.place).toBe("lacewood");
@@ -916,7 +905,7 @@ test("Rose Garden declares three Scenery Layers with distinct factors and far la
   const places = ["garden", "lacewood", "abbey", "clouds", "peak", "sea", "castle"] as const;
   const expectedPaintings: Record<(typeof places)[number], string> = {
     garden: "garden.far-layer",
-    lacewood: "lacewood.background",
+    lacewood: "lacewood.far-layer",
     abbey: "abbey.background",
     clouds: "cloister.background",
     peak: "pellegrino-peak.background",
@@ -944,8 +933,22 @@ test("Rose Garden declares three Scenery Layers with distinct factors and far la
   expect(gardenLayers[2]?.depthFactor).toBe(1.0);
   expect(gardenLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
 
-  // Other 6 places retain initial 0 factor
-  for (const place of ["lacewood", "abbey", "clouds", "peak", "sea", "castle"] as const) {
+  // Verify Zélie's Lacewood has distinct factors 0.2, 0.5, 1.0
+  const lacewoodLayers = allPlacesLayers.lacewood;
+  expect(lacewoodLayers).toBeDefined();
+  expect(lacewoodLayers).toHaveLength(3);
+  expect(lacewoodLayers[0]?.depth).toBe("far");
+  expect(lacewoodLayers[0]?.depthFactor).toBe(0.2);
+  expect(lacewoodLayers[0]?.paintingAssetId).toBe("lacewood.far-layer");
+  expect(lacewoodLayers[1]?.depth).toBe("middle");
+  expect(lacewoodLayers[1]?.depthFactor).toBe(0.5);
+  expect(lacewoodLayers[1]?.setPieces.length).toBeGreaterThanOrEqual(6);
+  expect(lacewoodLayers[2]?.depth).toBe("near");
+  expect(lacewoodLayers[2]?.depthFactor).toBe(1.0);
+  expect(lacewoodLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
+
+  // Other 5 places retain initial 0 factor
+  for (const place of ["abbey", "clouds", "peak", "sea", "castle"] as const) {
     const placeFromAll = allPlacesLayers[place];
     expect(placeFromAll).toBeDefined();
     expect(placeFromAll).toHaveLength(3);

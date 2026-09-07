@@ -1,0 +1,18 @@
+{
+  "id": "lacewood.canopy-arch",
+  "role": "canopy-arch",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/near/canopy-arch.png",
+  "sha256": "d077d65dfc10ca685008a5bf83e469e60baa68d94022e972b9ea3c7d3b0ca7c9",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 97,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165125,
+  "elapsedSeconds": 125.74,
+  "prompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of lush leafy green woodland tree branches covered in climbing pink roses and draped with fluttering delicate translucent silver lace ribbons framing the top of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the upper canopy branches, no background sky, no ground, no characters, no text. Storybook picture-book style matching Z\u00e9lie's Lacewood.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of lush leafy green woodland tree branches covered in climbing pink roses and draped with fluttering delicate translucent silver lace ribbons framing the top of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the upper canopy branches, no background sky, no ground, no characters, no text. Storybook picture-book style matching Z\u00e9lie's Lacewood."
+}

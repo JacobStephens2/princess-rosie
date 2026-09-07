@@ -184,6 +184,56 @@
       "id": "shared.rainbow-archway",
       "role": "cutout",
       "path": "source-media/shared/rainbow-archway.png"
+    },
+    {
+      "id": "lacewood.far-layer",
+      "role": "illustration-layer",
+      "path": "source-media/lacewood/far/far-layer.png"
+    },
+    {
+      "id": "lacewood.lace-pavilion",
+      "role": "set-piece",
+      "path": "source-media/lacewood/middle/lace-pavilion.png"
+    },
+    {
+      "id": "lacewood.lace-ribbon-tree",
+      "role": "set-piece",
+      "path": "source-media/lacewood/middle/lace-ribbon-tree.png"
+    },
+    {
+      "id": "lacewood.pillar-lantern-row",
+      "role": "set-piece",
+      "path": "source-media/lacewood/middle/pillar-lantern-row.png"
+    },
+    {
+      "id": "shared.garden-lantern",
+      "role": "set-piece",
+      "path": "source-media/shared/garden-lantern.png"
+    },
+    {
+      "id": "lacewood.stone-tile-ground",
+      "role": "set-piece",
+      "path": "source-media/lacewood/near/stone-tile-ground.png"
+    },
+    {
+      "id": "lacewood.rose-woodland-border",
+      "role": "set-piece",
+      "path": "source-media/lacewood/near/rose-woodland-border.png"
+    },
+    {
+      "id": "lacewood.canopy-arch",
+      "role": "set-piece",
+      "path": "source-media/lacewood/near/canopy-arch.png"
+    },
+    {
+      "id": "lacewood.silver-ribbon",
+      "role": "cutout",
+      "path": "source-media/lacewood/cutouts/silver-ribbon.png"
+    },
+    {
+      "id": "lacewood.lace-sprout",
+      "role": "cutout",
+      "path": "source-media/lacewood/cutouts/lace-sprout.png"
     }
   ]
 }
