@@ -766,22 +766,11 @@ test("each Place Illustration renders at its painted 16:9 aspect ratio without v
   }).toBe(true);
 
   // 1. Initial Place (Rosalia's Rose Garden)
-  // Display size must be 1280x720 matching 16:9 painted aspect ratio with no vertical squash
+  // Far layer panorama covers stage and course offset without vertical squash
   const gardenDisplaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
   expect(gardenDisplaySize).toBeDefined();
-  expect(gardenDisplaySize?.width).toBe(1280);
+  expect(gardenDisplaySize?.width).toBeGreaterThanOrEqual(2160);
   expect(gardenDisplaySize?.height).toBe(720);
-  const gardenAspect = (gardenDisplaySize?.width ?? 0) / (gardenDisplaySize?.height ?? 1);
-  expect(Math.abs(gardenAspect - 16 / 9)).toBeLessThan(0.001);
-
-  // Assert aspect matches source painting asset
-  const gardenSourceAspect = await page.evaluate(async () => {
-    const img = new Image();
-    img.src = "/assets/derivatives/flight.rose-garden-background.webp";
-    await img.decode();
-    return img.naturalWidth / img.naturalHeight;
-  });
-  expect(Math.abs(gardenAspect - gardenSourceAspect)).toBeLessThan(0.01);
 
   // Scene holds only one place's objects at a time
   const gardenPlaceObjects = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
@@ -921,12 +910,12 @@ test("an e2e check flies one place without stumbling and confirms Rainbow Archwa
   expect(finalState?.arrivedAtArchway).toBe(true);
 });
 
-test("every place declares its existing painting as a single fixed far layer and the test hook lists each place's layers with their factors", async ({ page }) => {
+test("Rose Garden declares three Scenery Layers with distinct factors and far layer moves slower than near during flight", async ({ page }) => {
   await startStorybookFlight(page);
 
   const places = ["garden", "lacewood", "abbey", "clouds", "peak", "sea", "castle"] as const;
   const expectedPaintings: Record<(typeof places)[number], string> = {
-    garden: "flight.rose-garden-background",
+    garden: "garden.far-layer",
     lacewood: "lacewood.background",
     abbey: "abbey.background",
     clouds: "cloister.background",
@@ -941,7 +930,22 @@ test("every place declares its existing painting as a single fixed far layer and
   )) as Record<(typeof places)[number], Array<{ depth: string; depthFactor: number; paintingAssetId?: string; setPieces: any[] }>>;
   expect(allPlacesLayers).toBeDefined();
 
-  for (const place of places) {
+  // Verify Rose Garden has distinct factors 0.2, 0.5, 1.0
+  const gardenLayers = allPlacesLayers.garden;
+  expect(gardenLayers).toBeDefined();
+  expect(gardenLayers).toHaveLength(3);
+  expect(gardenLayers[0]?.depth).toBe("far");
+  expect(gardenLayers[0]?.depthFactor).toBe(0.2);
+  expect(gardenLayers[0]?.paintingAssetId).toBe("garden.far-layer");
+  expect(gardenLayers[1]?.depth).toBe("middle");
+  expect(gardenLayers[1]?.depthFactor).toBe(0.5);
+  expect(gardenLayers[1]?.setPieces.length).toBeGreaterThanOrEqual(5);
+  expect(gardenLayers[2]?.depth).toBe("near");
+  expect(gardenLayers[2]?.depthFactor).toBe(1.0);
+  expect(gardenLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
+
+  // Other 6 places retain initial 0 factor
+  for (const place of ["lacewood", "abbey", "clouds", "peak", "sea", "castle"] as const) {
     const placeFromAll = allPlacesLayers[place];
     expect(placeFromAll).toBeDefined();
     expect(placeFromAll).toHaveLength(3);
@@ -970,24 +974,46 @@ test("every place declares its existing painting as a single fixed far layer and
     expect(layers).toEqual(placeFromAll);
   }
 
-  // 3. Verify getScenePlaceObjects includes declared layers
+  // 3. Verify getScenePlaceObjects includes declared layers and activeLayers
   const sceneObjects = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
   expect(sceneObjects?.layers).toBeDefined();
   expect(sceneObjects?.layers).toHaveLength(3);
+  expect(sceneObjects?.activeLayers).toBeDefined();
+  expect(sceneObjects?.activeLayers).toHaveLength(3);
 
-  // 4. Verify no visual change: displayed illustration size remains 1280x720 at painted 16:9 aspect
+  // 4. Verify wide far layer display size covers the panorama
   const displaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
-  expect(displaySize?.width).toBe(1280);
+  expect(displaySize?.width).toBeGreaterThanOrEqual(2160);
   expect(displaySize?.height).toBe(720);
 
-  // Advance runner and verify far layer stays fixed at factor 0 (display size unchanged)
-  await page.waitForTimeout(500);
-  const runnerState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState?.());
-  expect(runnerState?.x).toBeGreaterThan(200);
+  // 5. Advance runner and verify far layer moves slower than near layer during flight
+  await page.waitForTimeout(600);
+  const snapshot = await page.evaluate(() => ({
+    runnerState: window.__ROSIE_RUNNER__?.getState?.(),
+    activeLayers: window.__ROSIE_RUNNER__?.getActiveSceneryLayers?.(),
+  }));
 
-  const advancedDisplaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
-  expect(advancedDisplaySize?.width).toBe(1280);
-  expect(advancedDisplaySize?.height).toBe(720);
+  expect(snapshot.runnerState?.x).toBeGreaterThan(200);
+  expect(snapshot.activeLayers).toBeDefined();
+  expect(snapshot.activeLayers).toHaveLength(3);
+
+  const farLayer = snapshot.activeLayers?.find((l) => l.depth === "far");
+  const middleLayer = snapshot.activeLayers?.find((l) => l.depth === "middle");
+  const nearLayer = snapshot.activeLayers?.find((l) => l.depth === "near");
+
+  expect(farLayer).toBeDefined();
+  expect(middleLayer).toBeDefined();
+  expect(nearLayer).toBeDefined();
+
+  // Far layer (depthFactor 0.2) moves slower than near layer (depthFactor 1.0)
+  expect(Math.abs(farLayer!.x)).toBeLessThan(Math.abs(nearLayer!.x));
+  expect(Math.abs(farLayer!.x)).toBeLessThan(Math.abs(middleLayer!.x));
+  expect(Math.abs(middleLayer!.x)).toBeLessThan(Math.abs(nearLayer!.x));
+
+  // Verify proportional offsets match runner position
+  expect(Math.abs(farLayer!.x)).toBeCloseTo(snapshot.runnerState!.x * 0.2, 0);
+  expect(Math.abs(middleLayer!.x)).toBeCloseTo(snapshot.runnerState!.x * 0.5, 0);
+  expect(Math.abs(nearLayer!.x)).toBeCloseTo(snapshot.runnerState!.x * 1.0, 0);
 });
 
 

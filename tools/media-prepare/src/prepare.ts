@@ -6,6 +6,19 @@ import type { DerivativeEntry, DerivativeManifest, MediaManifest, PrepareOptions
 export const MAX_TEXTURE_WIDTH = 4095;
 export const STAGE_HEIGHT = 720;
 
+function fitWithinBounds(
+  sourceWidth: number,
+  sourceHeight: number,
+  maxWidth: number,
+  maxHeight: number = maxWidth
+): { width: number; height: number } {
+  const scale = Math.min(maxWidth / sourceWidth, maxHeight / sourceHeight, 1);
+  return {
+    width: Math.round(sourceWidth * scale),
+    height: Math.round(sourceHeight * scale),
+  };
+}
+
 export function calculateTargetDimensions(
   entry: { id: string; role: string },
   sourceWidth: number,
@@ -16,24 +29,29 @@ export function calculateTargetDimensions(
 
   switch (entry.role) {
     case "illustration":
-    case "illustration-layer": {
+    case "illustration-layer":
+    case "set-piece": {
       height = STAGE_HEIGHT;
       width = Math.round((sourceWidth * height) / sourceHeight);
       break;
     }
+    case "cutout": {
+      const maxDim = entry.id.includes("archway") ? 512 : 256;
+      const fit = fitWithinBounds(sourceWidth, sourceHeight, maxDim);
+      width = fit.width;
+      height = fit.height;
+      break;
+    }
     case "sprite": {
-      const maxDim = 128;
-      const scale = Math.min(maxDim / sourceWidth, maxDim / sourceHeight, 1);
-      width = Math.round(sourceWidth * scale);
-      height = Math.round(sourceHeight * scale);
+      const fit = fitWithinBounds(sourceWidth, sourceHeight, 128);
+      width = fit.width;
+      height = fit.height;
       break;
     }
     case "treatment": {
-      const maxWidth = 768;
-      const maxHeight = 512;
-      const scale = Math.min(maxWidth / sourceWidth, maxHeight / sourceHeight, 1);
-      width = Math.round(sourceWidth * scale);
-      height = Math.round(sourceHeight * scale);
+      const fit = fitWithinBounds(sourceWidth, sourceHeight, 768, 512);
+      width = fit.width;
+      height = fit.height;
       break;
     }
     case "character-layer": {

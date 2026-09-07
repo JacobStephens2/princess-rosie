@@ -167,6 +167,97 @@
       "path": "/assets/derivatives/celebration.birthday-castle.webp",
       "width": 1281,
       "height": 720
+    },
+    {
+      "id": "garden.far-layer",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/garden.far-layer.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "garden.arch-cluster",
+      "role": "set-piece",
+      "path": "/assets/derivatives/garden.arch-cluster.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "garden.column-ribbon",
+      "role": "set-piece",
+      "path": "/assets/derivatives/garden.column-ribbon.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "garden.balustrade-run",
+      "role": "set-piece",
+      "path": "/assets/derivatives/garden.balustrade-run.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "garden.rose-bush-cluster",
+      "role": "set-piece",
+      "path": "/assets/derivatives/garden.rose-bush-cluster.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "garden.border-strip",
+      "role": "set-piece",
+      "path": "/assets/derivatives/garden.border-strip.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "garden.terrace-edge",
+      "role": "set-piece",
+      "path": "/assets/derivatives/garden.terrace-edge.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "shared.cypress-tree",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.cypress-tree.webp",
+      "width": 720,
+      "height": 720
+    },
+    {
+      "id": "shared.cloud-bank",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.cloud-bank.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "garden.rose-bush",
+      "role": "cutout",
+      "path": "/assets/derivatives/garden.rose-bush.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "garden.giant-rose",
+      "role": "cutout",
+      "path": "/assets/derivatives/garden.giant-rose.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "garden.star-sparkle",
+      "role": "cutout",
+      "path": "/assets/derivatives/garden.star-sparkle.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "shared.rainbow-archway",
+      "role": "cutout",
+      "path": "/assets/derivatives/shared.rainbow-archway.webp",
+      "width": 341,
+      "height": 512
     }
   ]
 }

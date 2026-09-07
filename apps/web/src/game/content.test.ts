@@ -23,7 +23,7 @@ describe("content and derivative place illustrations", () => {
     expect(STOP_STORIES).toHaveLength(7);
 
     const expectedMappings: Record<string, string> = {
-      garden: "/assets/derivatives/flight.rose-garden-background.webp",
+      garden: "/assets/derivatives/garden.far-layer.webp",
       lacewood: "/assets/derivatives/lacewood.background.webp",
       abbey: "/assets/derivatives/abbey.background.webp",
       clouds: "/assets/derivatives/cloister.background.webp",
@@ -89,17 +89,23 @@ describe("content and derivative place illustrations", () => {
       expect(stop.layers).toHaveLength(3);
       const [far, middle, near] = stop.layers;
       expect(far?.depth).toBe("far");
-      expect(far?.depthFactor).toBe(0);
       expect(far?.paintingAssetId).toBeDefined();
       expect(resolveDerivativePath(far!.paintingAssetId!)).toBe(stop.placeIllustration);
 
-      expect(middle?.depth).toBe("middle");
-      expect(middle?.depthFactor).toBe(0.5);
-      expect(middle?.setPieces).toEqual([]);
-
-      expect(near?.depth).toBe("near");
-      expect(near?.depthFactor).toBe(1.0);
-      expect(near?.setPieces).toEqual([]);
+      if (stop.id === "garden") {
+        expect(far?.depthFactor).toBe(0.2);
+        expect(middle?.depthFactor).toBe(0.5);
+        expect(middle?.setPieces.length).toBeGreaterThan(0);
+        expect(near?.depthFactor).toBe(1.0);
+        expect(near?.setPieces.length).toBeGreaterThan(0);
+        expect(stop.archwayTint).toBe(0xffd9e8);
+      } else {
+        expect(far?.depthFactor).toBe(0);
+        expect(middle?.depthFactor).toBe(0.5);
+        expect(middle?.setPieces).toEqual([]);
+        expect(near?.depthFactor).toBe(1.0);
+        expect(near?.setPieces).toEqual([]);
+      }
     }
   });
 });

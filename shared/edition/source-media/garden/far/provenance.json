@@ -1,0 +1,29 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "far",
+  "depthFactor": 0.2,
+  "totalSpendUsd": 0.119045,
+  "assets": [
+    {
+      "id": "garden.far-layer",
+      "role": "far-layer",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "opaque",
+      "prompt": "Use case: production game far scenery layer. A wide panoramic landscape of Rosalia's Rose Garden far layer: clear sunny sapphire blue sky with soft drifting clouds, sparkling sapphire Mediterranean sea along the coast, distant green rolling hills with a charming Sicilian hillside village and terracotta dome. Distant panoramic viewpoint, no foreground terrace, no foreground arches, no people, no characters, no text, no star. Painterly storybook illustration matching Fairytale Sicily.",
+      "outputPath": "source-media/garden/far/far-layer.png",
+      "sha256": "c5776cdff61ef82693d31c203536bedf653a2d2307666812ff4b7441c0f0393e",
+      "costUsd": 0.119045,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Opaque 3:1 panorama landscape vista with sunny sky, rolling hills, and distant sea; no characters, text, or foreground arches.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}
