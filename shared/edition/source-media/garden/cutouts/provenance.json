@@ -51,7 +51,7 @@
       "model": "gpt-image-2",
       "size": "1024x1024",
       "background": "transparent",
-      "prompt": "Use case: production game collectible Star Sparkle cutout. A magical, radiant four-pointed celestial star sparkle with glowing golden light rays, shimmering stardust particles, and a brilliant diamond-white core. Floating starlight emblem on transparent background. Clean alpha channel, no background, no circular badge border, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "prompt": "Use case: production game radiant Star Sparkle cutout. A magical, radiant four-pointed celestial star sparkle with glowing golden light rays, shimmering stardust particles, and a brilliant diamond-white core. Floating starlight emblem on transparent background. Clean alpha channel, no background, no circular badge border, no text. Storybook picture-book style matching Fairytale Sicily.",
       "outputPath": "source-media/garden/cutouts/star-sparkle.png",
       "sha256": "8de3f27e78403da32c7db6f27f25e6f0937828ee82731320a0f20ee436146931",
       "costUsd": 0.211125,

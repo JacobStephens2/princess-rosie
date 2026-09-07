@@ -177,7 +177,7 @@
     },
     {
       "id": "garden.star-sparkle",
-      "role": "sprite",
+      "role": "cutout",
       "path": "source-media/garden/cutouts/star-sparkle.png"
     },
     {

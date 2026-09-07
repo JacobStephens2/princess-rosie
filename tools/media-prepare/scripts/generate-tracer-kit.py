@@ -215,7 +215,7 @@ ITEMS_TO_GENERATE = [
         "output": os.path.join(REPO_ROOT, "shared", "edition", "source-media", "garden", "cutouts", "star-sparkle.png"),
         "size": "1024x1024",
         "transparent": True,
-        "prompt": "Use case: production game collectible Star Sparkle cutout. A magical, radiant four-pointed celestial star sparkle with glowing golden light rays, shimmering stardust particles, and a brilliant diamond-white core. Floating starlight emblem on transparent background. Clean alpha channel, no background, no circular badge border, no text. Storybook picture-book style matching Fairytale Sicily.",
+        "prompt": "Use case: production game radiant Star Sparkle cutout. A magical, radiant four-pointed celestial star sparkle with glowing golden light rays, shimmering stardust particles, and a brilliant diamond-white core. Floating starlight emblem on transparent background. Clean alpha channel, no background, no circular badge border, no text. Storybook picture-book style matching Fairytale Sicily.",
     },
     {
         "id": "shared.rainbow-archway",
@@ -223,7 +223,7 @@ ITEMS_TO_GENERATE = [
         "output": os.path.join(REPO_ROOT, "shared", "edition", "source-media", "shared", "rainbow-archway.png"),
         "size": "1024x1536",
         "transparent": True,
-        "prompt": "Use case: production game finish gate cutout. A grand classical storybook archway of warm cream-and-gold marble pillars with carved floral reliefs, crowned with vibrant shining rainbow bands spanning the semicircular arch, topped with a glowing golden six-pointed star crest. Wide open portal between the two pillars. Isolated archway on transparent background with clean alpha transparency through the arch opening and outside the structure. No background, no ground plane, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+        "prompt": "Use case: production game Rainbow Archway cutout. A grand classical storybook archway of warm cream-and-gold marble pillars with carved floral reliefs, crowned with vibrant shining rainbow bands spanning the semicircular arch, topped with a glowing golden six-pointed star crest. Wide open portal between the two pillars. Isolated archway on transparent background with clean alpha transparency through the arch opening and outside the structure. No background, no ground plane, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
     },
 ]
 

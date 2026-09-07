@@ -247,10 +247,10 @@
     },
     {
       "id": "garden.star-sparkle",
-      "role": "sprite",
+      "role": "cutout",
       "path": "/assets/derivatives/garden.star-sparkle.webp",
-      "width": 128,
-      "height": 128
+      "width": 256,
+      "height": 256
     },
     {
       "id": "shared.rainbow-archway",

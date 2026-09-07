@@ -87,14 +87,18 @@ describe("Place Scenery data declaration", () => {
 
     expect(middle?.depth).toBe("middle");
     expect(middle?.depthFactor).toBe(0.5);
-    expect(middle?.setPieces.length).toBeGreaterThanOrEqual(5);
+    expect(middle?.setPieces).toHaveLength(5);
+    const middleAssetIds = middle!.setPieces.map((p) => p.assetId);
+    expect(new Set(middleAssetIds).size).toBe(middleAssetIds.length);
     const archCluster = middle?.setPieces.find((p) => p.assetId === "garden.arch-cluster");
     expect(archCluster).toBeDefined();
     expect(archCluster?.positionAlongCourse).toBe(2890);
 
     expect(near?.depth).toBe("near");
     expect(near?.depthFactor).toBe(1.0);
-    expect(near?.setPieces.length).toBeGreaterThanOrEqual(3);
+    expect(near?.setPieces).toHaveLength(3);
+    const nearAssetIds = near!.setPieces.map((p) => p.assetId);
+    expect(new Set(nearAssetIds).size).toBe(nearAssetIds.length);
   });
 
   test("other places initially declare their existing painting as a single fixed far layer with factor 0", () => {
