@@ -386,6 +386,56 @@
       "path": "source-media/pellegrino-peak/cutouts/mountain-blossom.png"
     },
     {
+      "id": "sapphire-sea.far-layer",
+      "role": "illustration-layer",
+      "path": "source-media/sapphire-sea/far/far-layer.png"
+    },
+    {
+      "id": "sapphire-sea.sea-promontory",
+      "role": "set-piece",
+      "path": "source-media/sapphire-sea/middle/sea-promontory.png"
+    },
+    {
+      "id": "sapphire-sea.limestone-sea-stack",
+      "role": "set-piece",
+      "path": "source-media/sapphire-sea/middle/limestone-sea-stack.png"
+    },
+    {
+      "id": "sapphire-sea.coral-tide-terrace",
+      "role": "set-piece",
+      "path": "source-media/sapphire-sea/middle/coral-tide-terrace.png"
+    },
+    {
+      "id": "shared.flowered-coastal-rock",
+      "role": "set-piece",
+      "path": "source-media/shared/flowered-coastal-rock.png"
+    },
+    {
+      "id": "sapphire-sea.coastal-shelf-ground",
+      "role": "set-piece",
+      "path": "source-media/sapphire-sea/near/coastal-shelf-ground.png"
+    },
+    {
+      "id": "sapphire-sea.flowered-rock-border",
+      "role": "set-piece",
+      "path": "source-media/sapphire-sea/near/flowered-rock-border.png"
+    },
+    {
+      "id": "sapphire-sea.turquoise-shallows-pool",
+      "role": "set-piece",
+      "path": "source-media/sapphire-sea/near/turquoise-shallows-pool.png"
+    },
+    {
+      "id": "sapphire-sea.wave-crest",
+      "role": "cutout",
+      "path": "source-media/sapphire-sea/cutouts/wave-crest.png"
+    },
+    {
+      "id": "sapphire-sea.sea-geyser",
+      "role": "cutout",
+      "path": "source-media/sapphire-sea/cutouts/sea-geyser.png"
+    },
+    {
       "id": "castle.far-layer",
       "role": "illustration-layer",
       "path": "source-media/castle/far/far-layer.png"

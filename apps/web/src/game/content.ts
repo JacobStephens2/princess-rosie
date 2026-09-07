@@ -143,7 +143,8 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🌊",
     sky: 0x6fd3ef,
     ground: 0x168fc4,
-    placeIllustration: resolveDerivativePath("sapphire-sea.background"),
+    placeIllustration: resolveDerivativePath("sapphire-sea.far-layer"),
+    archwayTint: 0xa0e8f8,
     layers: getPlaceLayers("sea"),
     stamp: {
       title: "Uncle’s Sea Wave Stamp",

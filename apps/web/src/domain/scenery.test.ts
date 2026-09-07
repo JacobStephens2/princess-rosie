@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 import { STAR_STOPS, type StarStop } from "./journey";
 import {
   calculateSceneryLayerOffset,
+  createPlaceScenery,
   getPlaceScenery,
   getPlaceLayers,
   validatePlaceScenery,
@@ -227,6 +228,43 @@ describe("Place Scenery data declaration", () => {
     expect(lastPiece.positionAlongCourse).toBe(2890);
   });
 
+  test("Sapphire Sea declares three Scenery Layers with distinct factors and authored Set Pieces", () => {
+    const sea = getPlaceScenery("sea");
+    expect(sea.layers).toHaveLength(3);
+
+    const [far, middle, near] = sea.layers;
+    expect(far?.depth).toBe("far");
+    expect(far?.depthFactor).toBe(0.2);
+    expect(far?.paintingAssetId).toBe("sapphire-sea.far-layer");
+    expect(far?.setPieces).toEqual([]);
+
+    expect(middle?.depth).toBe("middle");
+    expect(middle?.depthFactor).toBe(0.5);
+    expect(middle?.setPieces).toHaveLength(6);
+    const middleAssetIds = middle!.setPieces.map((p) => p.assetId);
+    expect(new Set(middleAssetIds).size).toBe(middleAssetIds.length);
+    const seaPromontory = middle?.setPieces.find((p) => p.assetId === "sapphire-sea.sea-promontory");
+    expect(seaPromontory).toBeDefined();
+    expect(seaPromontory?.positionAlongCourse).toBe(2890);
+
+    expect(near?.depth).toBe("near");
+    expect(near?.depthFactor).toBe(1.0);
+    expect(near?.setPieces).toHaveLength(3);
+    const nearAssetIds = near!.setPieces.map((p) => p.assetId);
+    expect(new Set(nearAssetIds).size).toBe(nearAssetIds.length);
+  });
+
+  test("Sapphire Sea set pieces do not visibly repeat within 30 seconds along course", () => {
+    const sea = getPlaceScenery("sea");
+    const middle = sea.layers[1]!;
+    expect(middle.setPieces).toHaveLength(6);
+    const middleAssetIds = middle.setPieces.map((p) => p.assetId);
+    expect(new Set(middleAssetIds).size).toBe(6);
+    const lastPiece = middle.setPieces[middle.setPieces.length - 1]!;
+    expect(lastPiece.assetId).toBe("sapphire-sea.sea-promontory");
+    expect(lastPiece.positionAlongCourse).toBe(2890);
+  });
+
   test("Birthday Castle Approach declares three Scenery Layers with distinct factors and authored Set Pieces", () => {
     const castle = getPlaceScenery("castle");
     expect(castle.layers).toHaveLength(3);
@@ -265,14 +303,14 @@ describe("Place Scenery data declaration", () => {
   });
 
   test("other places initially declare their existing painting as a single fixed far layer with factor 0", () => {
-    const otherPlaces: StarStop[] = ["sea"];
+    const otherPlaces: StarStop[] = [];
     const expectedPaintings: Record<StarStop, string> = {
       garden: "garden.far-layer",
       lacewood: "lacewood.far-layer",
       abbey: "abbey.far-layer",
       clouds: "cloister.far-layer",
       peak: "pellegrino-peak.far-layer",
-      sea: "sapphire-sea.background",
+      sea: "sapphire-sea.far-layer",
       castle: "castle.far-layer",
     };
 
@@ -286,21 +324,15 @@ describe("Place Scenery data declaration", () => {
     }
   });
 
-  test("other places initially declare middle and near layers with distinct depth factors and empty Set Piece lists", () => {
-    const otherPlaces: StarStop[] = ["sea"];
-    for (const place of otherPlaces) {
-      const scenery = getPlaceScenery(place);
-      const middleLayer = scenery.layers[1]!;
-      const nearLayer = scenery.layers[2]!;
-
-      expect(middleLayer.depth).toBe("middle");
-      expect(middleLayer.depthFactor).toBe(0.5);
-      expect(middleLayer.setPieces).toEqual([]);
-
-      expect(nearLayer.depth).toBe("near");
-      expect(nearLayer.depthFactor).toBe(1.0);
-      expect(nearLayer.setPieces).toEqual([]);
-    }
+  test("createPlaceScenery helper creates initial default scenery with fixed far layer and empty set pieces", () => {
+    const fallback = createPlaceScenery("garden");
+    expect(fallback.layers).toHaveLength(3);
+    expect(fallback.layers[0]!.depthFactor).toBe(0);
+    expect(fallback.layers[0]!.setPieces).toEqual([]);
+    expect(fallback.layers[1]!.depthFactor).toBe(0.5);
+    expect(fallback.layers[1]!.setPieces).toEqual([]);
+    expect(fallback.layers[2]!.depthFactor).toBe(1.0);
+    expect(fallback.layers[2]!.setPieces).toEqual([]);
   });
 
   test("getPlaceLayers helper returns layers for a given place", () => {

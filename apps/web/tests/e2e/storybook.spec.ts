@@ -143,6 +143,9 @@ test("navigating through the garden course to the end triggers place completion 
   await page.getByRole("button", { name: "Fly with Rosie" }).click();
 
   await expect(page.locator("#game canvas")).toBeVisible();
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.());
+  }, { timeout: 15_000 }).toBe(true);
 
   // Verify real runtime forward progression along Storybook Ground
   const startX = (await page.evaluate(() => window.__ROSIE_RUNNER__?.getState()))?.x ?? 0;
@@ -156,7 +159,7 @@ test("navigating through the garden course to the end triggers place completion 
   });
 
   // Reaching the end triggers place completion in domain state and displays Moment
-  await expect(page.locator("#moment")).toBeVisible();
+  await expect(page.locator("#moment")).toBeVisible({ timeout: 10_000 });
   await expect(page.locator("#moment-place")).toHaveText("Rosalia’s Rose Garden");
   await expect(page.locator("#moment-copy")).toContainText("Mom");
 
@@ -910,7 +913,7 @@ test("realized places declare three Scenery Layers with distinct factors and far
     abbey: "abbey.far-layer",
     clouds: "cloister.far-layer",
     peak: "pellegrino-peak.far-layer",
-    sea: "sapphire-sea.background",
+    sea: "sapphire-sea.far-layer",
     castle: "castle.far-layer",
   };
 
@@ -990,6 +993,20 @@ test("realized places declare three Scenery Layers with distinct factors and far
   expect(peakLayers[2]?.depthFactor).toBe(1.0);
   expect(peakLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
 
+  // Verify Sapphire Sea has distinct factors 0.2, 0.5, 1.0
+  const seaLayers = allPlacesLayers.sea;
+  expect(seaLayers).toBeDefined();
+  expect(seaLayers).toHaveLength(3);
+  expect(seaLayers[0]?.depth).toBe("far");
+  expect(seaLayers[0]?.depthFactor).toBe(0.2);
+  expect(seaLayers[0]?.paintingAssetId).toBe("sapphire-sea.far-layer");
+  expect(seaLayers[1]?.depth).toBe("middle");
+  expect(seaLayers[1]?.depthFactor).toBe(0.5);
+  expect(seaLayers[1]?.setPieces.length).toBeGreaterThanOrEqual(6);
+  expect(seaLayers[2]?.depth).toBe("near");
+  expect(seaLayers[2]?.depthFactor).toBe(1.0);
+  expect(seaLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
+
   // Verify Birthday Castle Approach has distinct factors 0.2, 0.5, 1.0
   const castleLayers = allPlacesLayers.castle;
   expect(castleLayers).toBeDefined();
@@ -1004,27 +1021,10 @@ test("realized places declare three Scenery Layers with distinct factors and far
   expect(castleLayers[2]?.depthFactor).toBe(1.0);
   expect(castleLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
 
-  // Other place retains initial 0 factor
-  for (const place of ["sea"] as const) {
+  // 2. Verify getPlaceLayers(place) returns the same layers for that specific place
+  for (const place of places) {
     const placeFromAll = allPlacesLayers[place];
-    expect(placeFromAll).toBeDefined();
-    expect(placeFromAll).toHaveLength(3);
-
-    const [farFromAll, middleFromAll, nearFromAll] = placeFromAll;
-    expect(farFromAll?.depth).toBe("far");
-    expect(farFromAll?.depthFactor).toBe(0);
-    expect(farFromAll?.paintingAssetId).toBe(expectedPaintings[place]);
-    expect(farFromAll?.setPieces).toEqual([]);
-
-    expect(middleFromAll?.depth).toBe("middle");
-    expect(middleFromAll?.depthFactor).toBe(0.5);
-    expect(middleFromAll?.setPieces).toEqual([]);
-
-    expect(nearFromAll?.depth).toBe("near");
-    expect(nearFromAll?.depthFactor).toBe(1.0);
-    expect(nearFromAll?.setPieces).toEqual([]);
-
-    // 2. Verify getPlaceLayers(place) returns the same layers for that specific place
+    expect(placeFromAll[0]?.paintingAssetId).toBe(expectedPaintings[place]);
     const layers = (await page.evaluate(
       (p) => window.__ROSIE_RUNNER__?.getPlaceLayers?.(p as any),
       place

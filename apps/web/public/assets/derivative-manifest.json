@@ -540,6 +540,76 @@
       "height": 256
     },
     {
+      "id": "sapphire-sea.far-layer",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/sapphire-sea.far-layer.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "sapphire-sea.sea-promontory",
+      "role": "set-piece",
+      "path": "/assets/derivatives/sapphire-sea.sea-promontory.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "sapphire-sea.limestone-sea-stack",
+      "role": "set-piece",
+      "path": "/assets/derivatives/sapphire-sea.limestone-sea-stack.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "sapphire-sea.coral-tide-terrace",
+      "role": "set-piece",
+      "path": "/assets/derivatives/sapphire-sea.coral-tide-terrace.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "shared.flowered-coastal-rock",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.flowered-coastal-rock.webp",
+      "width": 720,
+      "height": 720
+    },
+    {
+      "id": "sapphire-sea.coastal-shelf-ground",
+      "role": "set-piece",
+      "path": "/assets/derivatives/sapphire-sea.coastal-shelf-ground.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "sapphire-sea.flowered-rock-border",
+      "role": "set-piece",
+      "path": "/assets/derivatives/sapphire-sea.flowered-rock-border.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "sapphire-sea.turquoise-shallows-pool",
+      "role": "set-piece",
+      "path": "/assets/derivatives/sapphire-sea.turquoise-shallows-pool.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "sapphire-sea.wave-crest",
+      "role": "cutout",
+      "path": "/assets/derivatives/sapphire-sea.wave-crest.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "sapphire-sea.sea-geyser",
+      "role": "cutout",
+      "path": "/assets/derivatives/sapphire-sea.sea-geyser.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
       "id": "castle.far-layer",
       "role": "illustration-layer",
       "path": "/assets/derivatives/castle.far-layer.webp",
