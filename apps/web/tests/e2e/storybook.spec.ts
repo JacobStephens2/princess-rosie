@@ -108,14 +108,14 @@ test("Gallop and Flutter input: jump on tap, flutter-glide on hold, mid-air flap
     return s && !s.isGrounded && (s.mode === "jumping" || s.velocityY < 0);
   }).toBe(true);
 
-  // 2. Sustaining Spacebar while airborne slows downward descent into a gentle flutter-glide
+  // 2. Sustaining Spacebar while airborne maintains steady altitude flutter-glide
   await page.keyboard.down("Space");
   await expect.poll(async () => {
     return (await page.evaluate(() => window.__ROSIE_RUNNER__?.getState()))?.isFluttering;
   }, { timeout: 3000 }).toBe(true);
   const flutterState = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
   expect(flutterState?.mode).toBe("fluttering");
-  expect(flutterState?.velocityY).toBeLessThanOrEqual(90);
+  expect(flutterState?.velocityY).toBe(0);
   await page.keyboard.up("Space");
 
   // 3. Tapping again while airborne provides an upward wing-flap impulse capped below ceiling
@@ -463,7 +463,7 @@ test("fullscreen touch ergonomics and keyboard Up Arrow mirror primary jump and 
   }, { timeout: 3000 }).toBe(true);
   let state = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
   expect(state?.mode).toBe("fluttering");
-  expect(state?.velocityY).toBeLessThanOrEqual(90);
+  expect(state?.velocityY).toBe(0);
   await page.mouse.up();
 
   // Wait to land
