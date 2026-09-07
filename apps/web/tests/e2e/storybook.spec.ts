@@ -908,7 +908,7 @@ test("Rose Garden declares three Scenery Layers with distinct factors and far la
     garden: "garden.far-layer",
     lacewood: "lacewood.far-layer",
     abbey: "abbey.far-layer",
-    clouds: "cloister.background",
+    clouds: "cloister.far-layer",
     peak: "pellegrino-peak.background",
     sea: "sapphire-sea.background",
     castle: "celebration.castle-approach",
@@ -962,8 +962,22 @@ test("Rose Garden declares three Scenery Layers with distinct factors and far la
   expect(abbeyLayers[2]?.depthFactor).toBe(1.0);
   expect(abbeyLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
 
-  // Other 4 places retain initial 0 factor
-  for (const place of ["clouds", "peak", "sea", "castle"] as const) {
+  // Verify Cloister of Clouds has distinct factors 0.2, 0.5, 1.0
+  const cloudsLayers = allPlacesLayers.clouds;
+  expect(cloudsLayers).toBeDefined();
+  expect(cloudsLayers).toHaveLength(3);
+  expect(cloudsLayers[0]?.depth).toBe("far");
+  expect(cloudsLayers[0]?.depthFactor).toBe(0.2);
+  expect(cloudsLayers[0]?.paintingAssetId).toBe("cloister.far-layer");
+  expect(cloudsLayers[1]?.depth).toBe("middle");
+  expect(cloudsLayers[1]?.depthFactor).toBe(0.5);
+  expect(cloudsLayers[1]?.setPieces.length).toBeGreaterThanOrEqual(5);
+  expect(cloudsLayers[2]?.depth).toBe("near");
+  expect(cloudsLayers[2]?.depthFactor).toBe(1.0);
+  expect(cloudsLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
+
+  // Other 3 places retain initial 0 factor
+  for (const place of ["peak", "sea", "castle"] as const) {
     const placeFromAll = allPlacesLayers[place];
     expect(placeFromAll).toBeDefined();
     expect(placeFromAll).toHaveLength(3);

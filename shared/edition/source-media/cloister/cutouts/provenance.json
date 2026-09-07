@@ -1,0 +1,48 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "category": "cutouts",
+  "totalSpendUsd": 0.42256,
+  "assets": [
+    {
+      "id": "cloister.soft-cloud",
+      "role": "soft-cloud",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game playful obstacle cutout. A charming, gentle storybook soft cloud obstacle cutout for a gentle children's game: a fluffy, pillowy rounded white cloud puff with gentle lavender-tinged shadows and a warm golden starlight outline, hovering softly above a small wisp of cloud mist. Genuine RGBA transparent background around the cloud silhouette. Isolated cutout, no background, no ground plane, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "outputPath": "source-media/cloister/cutouts/soft-cloud.png",
+      "sha256": "5223fbb110cb51319d605fb3bb59f1b631f6e4407fb690ccd48f81de2a441a39",
+      "costUsd": 0.211265,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-136 implementation review",
+        "reason": "Charming gentle fluffy pillowy cloud puff obstacle hovering with golden outline on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "cloister.cloud-updraft",
+      "role": "cloud-updraft",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a spiraling, springy cloud updraft swirling upward like a soft coiled vortex of luminous white cloud ribbons and glowing golden starlight pollen at its buoyant crest, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/cloister/cutouts/cloud-updraft.png",
+      "sha256": "352ceb069c1c6425223b132f2322c4cee24f0cd2e52afe28dfb03f6c89fca1db",
+      "costUsd": 0.211295,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-136 implementation review",
+        "reason": "Joyful spiraling springy cloud updraft vortex with glowing golden starlight crest on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}
