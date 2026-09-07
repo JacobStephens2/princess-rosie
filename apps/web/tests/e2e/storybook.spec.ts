@@ -900,7 +900,7 @@ test("an e2e check flies one place without stumbling and confirms Rainbow Archwa
   expect(finalState?.arrivedAtArchway).toBe(true);
 });
 
-test("Rose Garden declares three Scenery Layers with distinct factors and far layer moves slower than near during flight", async ({ page }) => {
+test("realized places declare three Scenery Layers with distinct factors and far layer moves slower than near during flight", async ({ page }) => {
   await startStorybookFlight(page);
 
   const places = ["garden", "lacewood", "abbey", "clouds", "peak", "sea", "castle"] as const;
