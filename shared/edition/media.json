@@ -384,6 +384,56 @@
       "id": "pellegrino-peak.mountain-blossom",
       "role": "cutout",
       "path": "source-media/pellegrino-peak/cutouts/mountain-blossom.png"
+    },
+    {
+      "id": "castle.far-layer",
+      "role": "illustration-layer",
+      "path": "source-media/castle/far/far-layer.png"
+    },
+    {
+      "id": "castle.gatehouse-pavilion",
+      "role": "set-piece",
+      "path": "source-media/castle/middle/gatehouse-pavilion.png"
+    },
+    {
+      "id": "castle.terrace-balustrade-row",
+      "role": "set-piece",
+      "path": "source-media/castle/middle/terrace-balustrade-row.png"
+    },
+    {
+      "id": "castle.mosaic-tower-spire",
+      "role": "set-piece",
+      "path": "source-media/castle/middle/mosaic-tower-spire.png"
+    },
+    {
+      "id": "shared.festive-banner-post",
+      "role": "set-piece",
+      "path": "source-media/shared/festive-banner-post.png"
+    },
+    {
+      "id": "castle.mosaic-stone-ground",
+      "role": "set-piece",
+      "path": "source-media/castle/near/mosaic-stone-ground.png"
+    },
+    {
+      "id": "castle.coastal-flower-border",
+      "role": "set-piece",
+      "path": "source-media/castle/near/coastal-flower-border.png"
+    },
+    {
+      "id": "castle.palace-garland-canopy",
+      "role": "set-piece",
+      "path": "source-media/castle/near/palace-garland-canopy.png"
+    },
+    {
+      "id": "castle.castle-bunting",
+      "role": "cutout",
+      "path": "source-media/castle/cutouts/castle-bunting.png"
+    },
+    {
+      "id": "castle.castle-drum",
+      "role": "cutout",
+      "path": "source-media/castle/cutouts/castle-drum.png"
     }
   ]
 }
