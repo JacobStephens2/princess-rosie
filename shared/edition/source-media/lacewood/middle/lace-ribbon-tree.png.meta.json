@@ -1,0 +1,18 @@
+{
+  "id": "lacewood.lace-ribbon-tree",
+  "role": "lace-ribbon-tree",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/middle/lace-ribbon-tree.png",
+  "sha256": "9ddbf2927bffffb1f8478da3a437a1b21af1efd57d24778c5c5242b032f57b8a",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 98,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16513,
+  "elapsedSeconds": 117.43,
+  "prompt": "Use case: production game middle scenery Set Piece. A graceful, spreading sunlit forest tree with textured brown bark and lush green foliage, wrapped in climbing pink garden roses and draped with fluttering delicate translucent silver lace ribbons flowing between branches in the gentle breeze. Isolated vertical tree Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane, no characters, no text. Storybook picture-book style matching Z\u00e9lie's Lacewood.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A graceful, spreading sunlit forest tree with textured brown bark and lush green foliage, wrapped in climbing pink garden roses and draped with fluttering delicate translucent silver lace ribbons flowing between branches in the gentle breeze. Isolated vertical tree Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane, no characters, no text. Storybook picture-book style matching Z\u00e9lie's Lacewood."
+}

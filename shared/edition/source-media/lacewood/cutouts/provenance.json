@@ -1,0 +1,48 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "category": "cutouts",
+  "totalSpendUsd": 0.422645,
+  "assets": [
+    {
+      "id": "lacewood.silver-ribbon",
+      "role": "obstacle-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game playful obstacle cutout. A charming, delicate storybook silver lace ribbon obstacle cutout for a gentle children's game: an ornate, fluttering loop of translucent silver lace ribbon tied in a soft airy bow, floating gracefully above a small rounded base of woodland moss and miniature pink rosebuds. Genuine RGBA transparent background around the ribbon silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "outputPath": "source-media/lacewood/cutouts/silver-ribbon.png",
+      "sha256": "321aefe43af93375cba11d30281636fe9163a9b33e193122d97fbb33bbb95758",
+      "costUsd": 0.21128,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-134 implementation review",
+        "reason": "Charming delicate silver lace ribbon bow obstacle fluttering above moss and rosebuds on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "lacewood.lace-sprout",
+      "role": "springboard-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a springy coiled green botanical sprout curling upward from a mossy base, unfurling into delicate, bouncy translucent silver-and-lilac lace petals and leaf pads, glowing with warm golden starlight pollen at its center, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/lacewood/cutouts/lace-sprout.png",
+      "sha256": "aef7278c4fadad9cfba2639a422b8a054340aac8a77de48b1461cde4ac3a0040",
+      "costUsd": 0.211365,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-134 implementation review",
+        "reason": "Bouncy coiled botanical lace sprout with golden starlight pollen center on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

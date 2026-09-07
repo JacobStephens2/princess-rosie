@@ -90,16 +90,6 @@ function drawRollingHills(graphics: Phaser.GameObjects.Graphics, start: number):
 }
 
 const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
-  lacewood: (graphics, start) => {
-    drawRollingHills(graphics, start);
-    const treeCount = Math.floor(PLACE_COURSE_WIDTH / 145);
-    for (let tree = 0; tree < treeCount; tree += 1) {
-      const x = start + 60 + tree * 145;
-      graphics.fillStyle(0x5e765a, 1).fillRect(x, 410, 28, 230);
-      graphics.fillStyle(0x397a5b, 1).fillCircle(x + 10, 390, 78);
-      graphics.lineStyle(5, 0xf8f5ff, .8).beginPath().moveTo(x - 65, 420).lineTo(x + 78, 505).strokePath();
-    }
-  },
   abbey: (graphics, start) => {
     drawRollingHills(graphics, start);
     graphics.fillStyle(0xf2d292, 1).fillRoundedRect(start + 760, 300, 470, 330, 35);
@@ -229,6 +219,8 @@ export class RosieGameScene extends Phaser.Scene {
     this.load.image("garden.giant-rose", resolveDerivativePath("garden.giant-rose"));
     this.load.image("garden.star-sparkle", resolveDerivativePath("garden.star-sparkle"));
     this.load.image("shared.rainbow-archway", resolveDerivativePath("shared.rainbow-archway"));
+    this.load.image("lacewood.silver-ribbon", resolveDerivativePath("lacewood.silver-ribbon"));
+    this.load.image("lacewood.lace-sprout", resolveDerivativePath("lacewood.lace-sprout"));
   }
 
   create(): void {
@@ -883,6 +875,12 @@ export class RosieGameScene extends Phaser.Scene {
 
     switch (obstacle.type) {
       case "silver-ribbon": {
+        if (this.textures.exists("lacewood.silver-ribbon")) {
+          const img = this.add.image(0, 0, "lacewood.silver-ribbon").setOrigin(0.5, 1);
+          img.setDisplaySize(72, 60);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0x44533c, 1);
         g.fillRoundedRect(-w * 0.45, -h * 0.6, w * 0.9, h * 0.6, 8);
         g.fillStyle(0x628052, 1);
@@ -1040,6 +1038,12 @@ export class RosieGameScene extends Phaser.Scene {
 
     switch (springboard.type) {
       case "lace-sprout": {
+        if (this.textures.exists("lacewood.lace-sprout")) {
+          const img = this.add.image(0, 0, "lacewood.lace-sprout").setOrigin(0.5, 1);
+          img.setDisplaySize(80, 80);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0x397a5b, 1);
         g.fillEllipse(0, -h * 0.25, w * 0.9, h * 0.4);
         g.fillStyle(0x9d72bd, 1);

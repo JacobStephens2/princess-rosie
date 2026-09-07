@@ -101,11 +101,37 @@ describe("Place Scenery data declaration", () => {
     expect(new Set(nearAssetIds).size).toBe(nearAssetIds.length);
   });
 
+  test("Zélie's Lacewood declares three Scenery Layers with distinct factors and authored Set Pieces", () => {
+    const lacewood = getPlaceScenery("lacewood");
+    expect(lacewood.layers).toHaveLength(3);
+
+    const [far, middle, near] = lacewood.layers;
+    expect(far?.depth).toBe("far");
+    expect(far?.depthFactor).toBe(0.2);
+    expect(far?.paintingAssetId).toBe("lacewood.far-layer");
+    expect(far?.setPieces).toEqual([]);
+
+    expect(middle?.depth).toBe("middle");
+    expect(middle?.depthFactor).toBe(0.5);
+    expect(middle?.setPieces).toHaveLength(6);
+    const middleAssetIds = middle!.setPieces.map((p) => p.assetId);
+    expect(new Set(middleAssetIds).size).toBe(middleAssetIds.length);
+    const lacePavilion = middle?.setPieces.find((p) => p.assetId === "lacewood.lace-pavilion");
+    expect(lacePavilion).toBeDefined();
+    expect(lacePavilion?.positionAlongCourse).toBe(2890);
+
+    expect(near?.depth).toBe("near");
+    expect(near?.depthFactor).toBe(1.0);
+    expect(near?.setPieces).toHaveLength(3);
+    const nearAssetIds = near!.setPieces.map((p) => p.assetId);
+    expect(new Set(nearAssetIds).size).toBe(nearAssetIds.length);
+  });
+
   test("other places initially declare their existing painting as a single fixed far layer with factor 0", () => {
-    const otherPlaces: StarStop[] = ["lacewood", "abbey", "clouds", "peak", "sea", "castle"];
+    const otherPlaces: StarStop[] = ["abbey", "clouds", "peak", "sea", "castle"];
     const expectedPaintings: Record<StarStop, string> = {
       garden: "garden.far-layer",
-      lacewood: "lacewood.background",
+      lacewood: "lacewood.far-layer",
       abbey: "abbey.background",
       clouds: "cloister.background",
       peak: "pellegrino-peak.background",
@@ -124,7 +150,7 @@ describe("Place Scenery data declaration", () => {
   });
 
   test("other places initially declare middle and near layers with distinct depth factors and empty Set Piece lists", () => {
-    const otherPlaces: StarStop[] = ["lacewood", "abbey", "clouds", "peak", "sea", "castle"];
+    const otherPlaces: StarStop[] = ["abbey", "clouds", "peak", "sea", "castle"];
     for (const place of otherPlaces) {
       const scenery = getPlaceScenery(place);
       const middleLayer = scenery.layers[1]!;

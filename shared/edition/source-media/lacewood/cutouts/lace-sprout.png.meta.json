@@ -1,0 +1,18 @@
+{
+  "id": "lacewood.lace-sprout",
+  "role": "lace-sprout",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/cutouts/lace-sprout.png",
+  "sha256": "aef7278c4fadad9cfba2639a422b8a054340aac8a77de48b1461cde4ac3a0040",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 129,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.211365,
+  "elapsedSeconds": 167.71,
+  "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a springy coiled green botanical sprout curling upward from a mossy base, unfurling into delicate, bouncy translucent silver-and-lilac lace petals and leaf pads, glowing with warm golden starlight pollen at its center, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a springy coiled green botanical sprout curling upward from a mossy base, unfurling into delicate, bouncy translucent silver-and-lilac lace petals and leaf pads, glowing with warm golden starlight pollen at its center, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "lacewood.silver-ribbon",
+  "role": "silver-ribbon",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/cutouts/silver-ribbon.png",
+  "sha256": "321aefe43af93375cba11d30281636fe9163a9b33e193122d97fbb33bbb95758",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 112,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.21128,
+  "elapsedSeconds": 165.21,
+  "prompt": "Use case: production game playful obstacle cutout. A charming, delicate storybook silver lace ribbon obstacle cutout for a gentle children's game: an ornate, fluttering loop of translucent silver lace ribbon tied in a soft airy bow, floating gracefully above a small rounded base of woodland moss and miniature pink rosebuds. Genuine RGBA transparent background around the ribbon silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, delicate storybook silver lace ribbon obstacle cutout for a gentle children's game: an ornate, fluttering loop of translucent silver lace ribbon tied in a soft airy bow, floating gracefully above a small rounded base of woodland moss and miniature pink rosebuds. Genuine RGBA transparent background around the ribbon silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+}

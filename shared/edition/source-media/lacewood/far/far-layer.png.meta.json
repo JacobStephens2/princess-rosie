@@ -1,0 +1,18 @@
+{
+  "id": "lacewood.far-layer",
+  "role": "far-layer",
+  "model": "gpt-image-2",
+  "size": "3072x1024",
+  "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/far/far-layer.png",
+  "sha256": "35f9ff53f075f592d3346d3fda4cfc7ac69b0de190cce786e47c9c5720afef40",
+  "background": "opaque",
+  "tokens": {
+    "text_in": 109,
+    "img_in": 0,
+    "img_out": 3952
+  },
+  "estimatedCostUsd": 0.119105,
+  "elapsedSeconds": 72.11,
+  "prompt": "Use case: production game far scenery layer. A wide panoramic landscape of Z\u00e9lie's Lacewood far layer: clear sunny sapphire blue sky with soft drifting fairytale clouds, distant Sicilian hillside village nestled among rolling green olive terraces, slender cypress spires, and distant purple misty mountains under warm golden Mediterranean light. Distant panoramic viewpoint, no foreground canopy, no foreground trees, no pavilion, no people, no characters, no text, no star. Painterly children's picture-book illustration matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game far scenery layer. A wide panoramic landscape of Z\u00e9lie's Lacewood far layer: clear sunny sapphire blue sky with soft drifting fairytale clouds, distant Sicilian hillside village nestled among rolling green olive terraces, slender cypress spires, and distant purple misty mountains under warm golden Mediterranean light. Distant panoramic viewpoint, no foreground canopy, no foreground trees, no pavilion, no people, no characters, no text, no star. Painterly children's picture-book illustration matching Fairytale Sicily."
+}
