@@ -1,0 +1,69 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "middle",
+  "depthFactor": 0.5,
+  "totalSpendUsd": 0.44957,
+  "assets": [
+    {
+      "id": "cloister.cloister-arcade",
+      "role": "cloister-arcade",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and atmospheric composition from the approved reference painting of Cloister of Clouds: a grand, sunlit classical cloister arcade of warm honey-colored stone pillars and semicircular arches floating gracefully in the open sky, catching radiant golden light, flanked by low stone balustrades, stone urns overflowing with blooming pink roses and lavender, with clouds drifting around the base. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and outside the stone structure, no background sky, no ground plane below the stone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/cloister/middle/cloister-arcade.png",
+      "sha256": "629604159dfe6d18554bae41d4bc0288ac97cdbe8d99159123335cbb9a949510",
+      "costUsd": 0.11926,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-136 implementation review",
+        "reason": "Grand sunlit classical cloister arcade of warm honey-colored stone arches and pillars on transparent background framing arrival at Rainbow Archway.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "cloister.cloud-colonnade-pavilion",
+      "role": "cloud-colonnade-pavilion",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A classical floating open pavilion or colonnade of warm honey stone pillars supporting elegant rounded arches and a delicate carved stone cornice, resting upon a soft voluminous white and blush cloud bank floating in mid-air. Lateral Set Piece on transparent background. Clean alpha channel through arch openings and around structure, no background sky, no ground below cloud base, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+      "outputPath": "source-media/cloister/middle/cloud-colonnade-pavilion.png",
+      "sha256": "542e10eb3737a1ad46b6ef141f178997020a4b0d9bcf361c81671e93f10cf733",
+      "costUsd": 0.165155,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-136 implementation review",
+        "reason": "Classical floating colonnade pavilion of warm honey stone arches resting upon a billowy cloud base on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "cloister.sunlit-stone-balustrade",
+      "role": "sunlit-stone-balustrade",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral run of classical sunlit cream-and-honey stone balustrades with carved balusters and stone pedestals topped with ornate urn planters of blooming blush roses, lavender, and trailing green vines, resting atop pillowy fairytale clouds. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below clouds, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+      "outputPath": "source-media/cloister/middle/sunlit-stone-balustrade.png",
+      "sha256": "c130253d92a715701c24fa4759ebd60b78f21159eee400aeb835a1a6672df586",
+      "costUsd": 0.165155,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-136 implementation review",
+        "reason": "Classical sunlit cream-and-honey stone balustrade with carved balusters and flowering urn planters on soft clouds on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

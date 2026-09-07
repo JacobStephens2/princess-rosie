@@ -2,7 +2,7 @@
   "manifestVersion": "1.0.0",
   "updatedAt": "2026-09-07",
   "category": "shared-library",
-  "totalSpendUsd": 0.96375,
+  "totalSpendUsd": 1.386165,
   "assets": [
     {
       "id": "shared.cypress-tree",
@@ -79,6 +79,46 @@
         "status": "approved",
         "selectedBy": "issue-134 implementation review",
         "reason": "Charming freestanding storybook garden lantern of bronze and glass glowing warmly on ornate stone pedestal on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "shared.stone-fountain",
+      "role": "shared-set-piece",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook tiered stone fountain of warm honey-colored limestone with gentle clear water spilling between scallop-carved basins, resting on an ornate pedestal carved with floral reliefs and surrounded by miniature potted lavender at its base. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the stone base, no background, no characters, no text. Storybook picture-book illustration style.",
+      "outputPath": "source-media/shared/stone-fountain.png",
+      "sha256": "e510b13a42c95d3ae8f1e87582ac4168234a5bd8a57f45bbe0428ee51ebe787a",
+      "costUsd": 0.211235,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-135 implementation review",
+        "reason": "Charming freestanding storybook tiered stone garden fountain of honey limestone with gentle spilling water on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "shared.stone-planter",
+      "role": "shared-set-piece",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game shared library Set Piece. A charming freestanding storybook classical stone urn planter of warm carved cream limestone, overflowing with vibrant blooming pink roses, purple lavender, and trailing ivy vines, resting on a sturdy carved stone pedestal. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside stone pedestal base, no background, no characters, no text. Storybook picture-book illustration style.",
+      "outputPath": "source-media/shared/stone-planter.png",
+      "sha256": "6ed8bebd720256d946709fc50e81cecd340b00b7654c02eeaf72ba3ff02d4bdf",
+      "costUsd": 0.21118,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-136 implementation review",
+        "reason": "Charming freestanding storybook classical stone urn planter overflowing with pink roses and lavender on carved pedestal on transparent background.",
         "ownerManualReview": "approved",
         "ownerManualReviewBy": "Jacob Stephens",
         "ownerManualReviewDate": "2026-09-07"

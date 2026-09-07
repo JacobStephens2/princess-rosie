@@ -1,0 +1,20 @@
+{
+  "id": "cloister.far-layer",
+  "role": "far-layer",
+  "category": "far",
+  "reason": "Opaque 3:1 panorama landscape vista of tranquil open sky, soft morning cloud banks, and distant Sicilian mountain peaks under warm Mediterranean light; no characters, text, or foreground arches.",
+  "model": "gpt-image-2",
+  "size": "3072x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/far/far-layer.png",
+  "sha256": "4ef5edda706d067e71599ff37821bb7e93321538b680e1cb6e11d579af18be63",
+  "background": "opaque",
+  "tokens": {
+    "text_in": 103,
+    "img_in": 0,
+    "img_out": 3952
+  },
+  "estimatedCostUsd": 0.119075,
+  "elapsedSeconds": 95.29,
+  "prompt": "Use case: production game far scenery layer. A wide panoramic landscape of Cloister of Clouds far layer: clear sunny sapphire blue and radiant golden sky with soft drifting fairytale clouds, distant Sicilian mountain peaks rising softly through a morning sea of pastel clouds, and golden sunbeams under warm Mediterranean light. Distant panoramic viewpoint, no foreground arches, no foreground buildings, no people, no characters, no text, no star. Painterly children's picture-book illustration matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game far scenery layer. A wide panoramic landscape of Cloister of Clouds far layer: clear sunny sapphire blue and radiant golden sky with soft drifting fairytale clouds, distant Sicilian mountain peaks rising softly through a morning sea of pastel clouds, and golden sunbeams under warm Mediterranean light. Distant panoramic viewpoint, no foreground arches, no foreground buildings, no people, no characters, no text, no star. Painterly children's picture-book illustration matching Fairytale Sicily."
+}

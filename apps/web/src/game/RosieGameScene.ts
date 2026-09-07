@@ -76,6 +76,70 @@ const SCENERY_LAYER_DEPTHS: Record<SceneryLayerDepth, number> = {
   near: -10,
 };
 
+interface CutoutConfig {
+  textureKey: string;
+  width: number;
+  height: number;
+  originX?: number;
+  originY?: number;
+}
+
+const OBSTACLE_CUTOUTS: Partial<Record<ObstacleType, CutoutConfig>> = {
+  "silver-ribbon": {
+    textureKey: "lacewood.silver-ribbon",
+    width: 72,
+    height: 60,
+  },
+  "bell-rope": {
+    textureKey: "abbey.bell-rope",
+    width: 70,
+    height: 60,
+  },
+  "soft-cloud": {
+    textureKey: "cloister.soft-cloud",
+    width: 72,
+    height: 60,
+  },
+  "rose-bush": {
+    textureKey: "garden.rose-bush",
+    width: 68,
+    height: 60,
+  },
+  "flower-bank": {
+    textureKey: "pellegrino-peak.flower-bank",
+    width: 72,
+    height: 60,
+  },
+};
+
+const SPRINGBOARD_CUTOUTS: Partial<Record<SpringboardType, CutoutConfig>> = {
+  "lace-sprout": {
+    textureKey: "lacewood.lace-sprout",
+    width: 80,
+    height: 80,
+  },
+  "abbey-bell": {
+    textureKey: "abbey.abbey-bell",
+    width: 80,
+    height: 80,
+  },
+  "cloud-updraft": {
+    textureKey: "cloister.cloud-updraft",
+    width: 80,
+    height: 80,
+  },
+  "mountain-blossom": {
+    textureKey: "pellegrino-peak.mountain-blossom",
+    width: 80,
+    height: 80,
+  },
+  "giant-rose": {
+    textureKey: "garden.giant-rose",
+    width: 80,
+    height: 80,
+  },
+};
+
 interface ActiveSceneryLayer {
   layer: SceneryLayer;
   container: Phaser.GameObjects.Container;
@@ -92,22 +156,6 @@ function drawRollingHills(graphics: Phaser.GameObjects.Graphics, start: number):
 }
 
 const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
-  abbey: (graphics, start) => {
-    drawRollingHills(graphics, start);
-    graphics.fillStyle(0xf2d292, 1).fillRoundedRect(start + 760, 300, 470, 330, 35);
-    graphics.fillStyle(0xe3ad54, 1).fillTriangle(start + 715, 320, start + 995, 150, start + 1280, 320);
-    graphics.fillStyle(0x7e71c7, 1).fillCircle(start + 995, 390, 65);
-    graphics.fillStyle(0xffd65e, 1).fillCircle(start + 900, 218, 34).fillCircle(start + 1080, 218, 34);
-  },
-  clouds: (graphics, start) => {
-    for (let cloudBaseX = start + 850; cloudBaseX < start + PLACE_COURSE_WIDTH; cloudBaseX += 1400) {
-      graphics.fillStyle(0xf4fbff, .95).fillEllipse(cloudBaseX, 670, 1850, 220);
-    }
-    const archCount = Math.floor(PLACE_COURSE_WIDTH / 280);
-    for (let arch = 0; arch < archCount; arch += 1) {
-      graphics.lineStyle(20, 0xfff1db, .72).strokeCircle(start + 220 + arch * 280, 400, 125);
-    }
-  },
   sea: (graphics, start) => {
     graphics.fillRect(start, 520, PLACE_COURSE_WIDTH, 200);
     graphics.lineStyle(9, 0xa7efff, .55);
@@ -119,23 +167,6 @@ const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
   },
 };
 
-interface CutoutConfig {
-  texture: string;
-  width: number;
-  height: number;
-}
-
-const OBSTACLE_CUTOUTS: Partial<Record<ObstacleType, CutoutConfig>> = {
-  "rose-bush": { texture: "garden.rose-bush", width: 68, height: 60 },
-  "silver-ribbon": { texture: "lacewood.silver-ribbon", width: 72, height: 60 },
-  "flower-bank": { texture: "pellegrino-peak.flower-bank", width: 72, height: 60 },
-};
-
-const SPRINGBOARD_CUTOUTS: Partial<Record<SpringboardType, CutoutConfig>> = {
-  "giant-rose": { texture: "garden.giant-rose", width: 80, height: 80 },
-  "lace-sprout": { texture: "lacewood.lace-sprout", width: 80, height: 80 },
-  "mountain-blossom": { texture: "pellegrino-peak.mountain-blossom", width: 80, height: 80 },
-};
 
 export interface GameCallbacks {
   onBirthdayStar: (stop: StopStory, count: number, isFinal: boolean) => void;
@@ -226,14 +257,14 @@ export class RosieGameScene extends Phaser.Scene {
     this.load.image("birthday-star", getBirthdayStarDerivativePath());
     this.load.image("rainbow-path", getRainbowPathDerivativePath());
 
-    this.load.image("garden.star-sparkle", resolveDerivativePath("garden.star-sparkle"));
-    this.load.image("shared.rainbow-archway", resolveDerivativePath("shared.rainbow-archway"));
     Object.values(OBSTACLE_CUTOUTS).forEach((cutout) => {
-      this.load.image(cutout.texture, resolveDerivativePath(cutout.texture));
+      this.load.image(cutout.textureKey, resolveDerivativePath(cutout.textureKey));
     });
     Object.values(SPRINGBOARD_CUTOUTS).forEach((cutout) => {
-      this.load.image(cutout.texture, resolveDerivativePath(cutout.texture));
+      this.load.image(cutout.textureKey, resolveDerivativePath(cutout.textureKey));
     });
+    this.load.image("garden.star-sparkle", resolveDerivativePath("garden.star-sparkle"));
+    this.load.image("shared.rainbow-archway", resolveDerivativePath("shared.rainbow-archway"));
   }
 
   create(): void {
@@ -879,10 +910,10 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   private tryAttachCutout(container: Phaser.GameObjects.Container, cutout?: CutoutConfig): boolean {
-    if (!cutout || !this.textures.exists(cutout.texture)) {
+    if (!cutout || !this.textures.exists(cutout.textureKey)) {
       return false;
     }
-    const img = this.add.image(0, 0, cutout.texture).setOrigin(0.5, 1);
+    const img = this.add.image(0, 0, cutout.textureKey).setOrigin(cutout.originX ?? 0.5, cutout.originY ?? 1);
     img.setDisplaySize(cutout.width, cutout.height);
     container.add(img);
     return true;
@@ -918,6 +949,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "bell-rope": {
+        if (this.textures.exists("abbey.bell-rope")) {
+          const img = this.add.image(0, 0, "abbey.bell-rope").setOrigin(0.5, 1);
+          img.setDisplaySize(70, 60);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0xd4aa68, 1);
         g.fillRoundedRect(-w * 0.42, -h * 0.7, w * 0.84, h * 0.7, 6);
         g.fillStyle(0xb88d4c, 1);
@@ -1054,6 +1091,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "abbey-bell": {
+        if (this.textures.exists("abbey.abbey-bell")) {
+          const img = this.add.image(0, 0, "abbey.abbey-bell").setOrigin(0.5, 1);
+          img.setDisplaySize(80, 80);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0xb88d4c, 1);
         g.fillRoundedRect(-w * 0.45, -h * 0.25, w * 0.9, h * 0.3, 4);
         g.fillStyle(0xe3ad54, 1);
