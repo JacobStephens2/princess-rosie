@@ -1,0 +1,18 @@
+{
+  "id": "pellegrino-peak.mountain-blossom",
+  "role": "mountain-blossom",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/cutouts/mountain-blossom.png",
+  "sha256": "365b0f211791758721ce4012b49634dbeb2060b56628b37f6f00a44c4eccdb7a",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 131,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.211375,
+  "elapsedSeconds": 159.87,
+  "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a giant, springy mountain blossom cushion resting on a small rounded limestone rock base, featuring wide, layered bouncy petals of luminous blush pink, peach, and lavender, with a glowing golden starlight pollen center, ready to joyfully launch Stella high into the mountain air. Upright and bouncy. Isolated cutout on transparent background with clean alpha channel. No sky, no background, no ground outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a giant, springy mountain blossom cushion resting on a small rounded limestone rock base, featuring wide, layered bouncy petals of luminous blush pink, peach, and lavender, with a glowing golden starlight pollen center, ready to joyfully launch Stella high into the mountain air. Upright and bouncy. Isolated cutout on transparent background with clean alpha channel. No sky, no background, no ground outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+}

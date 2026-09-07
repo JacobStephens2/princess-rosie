@@ -105,6 +105,11 @@ const OBSTACLE_CUTOUTS: Partial<Record<ObstacleType, CutoutConfig>> = {
     width: 68,
     height: 60,
   },
+  "flower-bank": {
+    textureKey: "pellegrino-peak.flower-bank",
+    width: 72,
+    height: 60,
+  },
 };
 
 const SPRINGBOARD_CUTOUTS: Partial<Record<SpringboardType, CutoutConfig>> = {
@@ -120,6 +125,11 @@ const SPRINGBOARD_CUTOUTS: Partial<Record<SpringboardType, CutoutConfig>> = {
   },
   "cloud-updraft": {
     textureKey: "cloister.cloud-updraft",
+    width: 80,
+    height: 80,
+  },
+  "mountain-blossom": {
+    textureKey: "pellegrino-peak.mountain-blossom",
     width: 80,
     height: 80,
   },
@@ -146,15 +156,6 @@ function drawRollingHills(graphics: Phaser.GameObjects.Graphics, start: number):
 }
 
 const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
-  peak: (graphics, start) => {
-    drawRollingHills(graphics, start);
-    for (let peakX = start; peakX < start + PLACE_COURSE_WIDTH; peakX += 1700) {
-      graphics.fillStyle(0x6d7f70, 1).fillTriangle(peakX, 650, peakX + 920, 120, peakX + 1700, 650);
-    }
-    graphics.fillStyle(0xf5e3ed, 1);
-    const flowerCount = Math.floor(PLACE_COURSE_WIDTH / 77);
-    for (let flower = 0; flower < flowerCount; flower += 1) graphics.fillCircle(start + 90 + flower * 77, 590 - (flower % 5) * 28, 10);
-  },
   sea: (graphics, start) => {
     graphics.fillRect(start, 520, PLACE_COURSE_WIDTH, 200);
     graphics.lineStyle(9, 0xa7efff, .55);
@@ -165,6 +166,7 @@ const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
     drawRollingHills(graphics, start);
   },
 };
+
 
 export interface GameCallbacks {
   onBirthdayStar: (stop: StopStory, count: number, isFinal: boolean) => void;
@@ -907,15 +909,21 @@ export class RosieGameScene extends Phaser.Scene {
     this.cameras.main.scrollX = 0;
   }
 
+  private tryAttachCutout(container: Phaser.GameObjects.Container, cutout?: CutoutConfig): boolean {
+    if (!cutout || !this.textures.exists(cutout.textureKey)) {
+      return false;
+    }
+    const img = this.add.image(0, 0, cutout.textureKey).setOrigin(cutout.originX ?? 0.5, cutout.originY ?? 1);
+    img.setDisplaySize(cutout.width, cutout.height);
+    container.add(img);
+    return true;
+  }
+
   private createObstacle(obstacle: PlayfulObstacle): Phaser.GameObjects.Container {
     const container = this.add.container(obstacle.x, obstacle.y).setDepth(15);
     container.setName(`obstacle-${obstacle.id}`);
 
-    const cutout = OBSTACLE_CUTOUTS[obstacle.type];
-    if (cutout && this.textures.exists(cutout.textureKey)) {
-      const img = this.add.image(0, 0, cutout.textureKey).setOrigin(cutout.originX ?? 0.5, cutout.originY ?? 1);
-      img.setDisplaySize(cutout.width, cutout.height);
-      container.add(img);
+    if (this.tryAttachCutout(container, OBSTACLE_CUTOUTS[obstacle.type])) {
       return container;
     }
 
@@ -972,21 +980,6 @@ export class RosieGameScene extends Phaser.Scene {
         g.fillCircle(-w * 0.2, -h * 0.45, w * 0.26);
         g.fillCircle(w * 0.2, -h * 0.45, w * 0.26);
         g.fillCircle(0, -h * 0.65, w * 0.3);
-        break;
-      }
-      case "flower-bank": {
-        g.fillStyle(0x6e7b75, 1);
-        g.fillRoundedRect(-w * 0.45, -h * 0.65, w * 0.9, h * 0.65, 8);
-        g.fillStyle(0x8a9e88, 1);
-        g.fillCircle(-w * 0.1, -h * 0.68, w * 0.32);
-        g.fillStyle(0xf05a9d, 1);
-        g.fillCircle(-w * 0.25, -h * 0.5, 7);
-        g.fillCircle(w * 0.2, -h * 0.55, 8);
-        g.fillCircle(0, -h * 0.75, 7);
-        g.fillStyle(0xffd65e, 1);
-        g.fillCircle(-w * 0.25, -h * 0.5, 3);
-        g.fillCircle(w * 0.2, -h * 0.55, 3);
-        g.fillCircle(0, -h * 0.75, 3);
         break;
       }
       case "wave-crest": {
@@ -1076,11 +1069,7 @@ export class RosieGameScene extends Phaser.Scene {
     const container = this.add.container(springboard.x, springboard.y).setDepth(16);
     container.setName(`springboard-${springboard.id}`);
 
-    const cutout = SPRINGBOARD_CUTOUTS[springboard.type];
-    if (cutout && this.textures.exists(cutout.textureKey)) {
-      const img = this.add.image(0, 0, cutout.textureKey).setOrigin(cutout.originX ?? 0.5, cutout.originY ?? 1);
-      img.setDisplaySize(cutout.width, cutout.height);
-      container.add(img);
+    if (this.tryAttachCutout(container, SPRINGBOARD_CUTOUTS[springboard.type])) {
       return container;
     }
 
@@ -1127,18 +1116,6 @@ export class RosieGameScene extends Phaser.Scene {
         g.fillCircle(0, -h * 0.78, w * 0.32);
         g.fillStyle(0xffea88, 1);
         g.fillCircle(0, -h * 0.78, 6);
-        break;
-      }
-      case "mountain-blossom": {
-        g.fillStyle(0x56695e, 1);
-        g.fillEllipse(0, -h * 0.25, w * 0.9, h * 0.4);
-        g.fillStyle(0xf5e3ed, 1);
-        g.fillEllipse(0, -h * 0.65, w * 0.85, h * 0.65);
-        g.fillStyle(0xff9abb, 1);
-        g.fillCircle(-w * 0.2, -h * 0.68, w * 0.25);
-        g.fillCircle(w * 0.2, -h * 0.68, w * 0.25);
-        g.fillStyle(0xffd65e, 1);
-        g.fillCircle(0, -h * 0.76, w * 0.14);
         break;
       }
       case "sea-geyser": {

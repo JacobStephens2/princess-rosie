@@ -183,23 +183,58 @@ describe("Place Scenery data declaration", () => {
     const clouds = getPlaceScenery("clouds");
     const middle = clouds.layers[1]!;
     expect(middle.setPieces).toHaveLength(6);
-    // All 6 middle set pieces have distinct asset IDs, guaranteeing zero repeats along course
     const middleAssetIds = middle.setPieces.map((p) => p.assetId);
     expect(new Set(middleAssetIds).size).toBe(6);
-    // Signature piece terminates the middle layer at Rainbow Archway
     const lastPiece = middle.setPieces[middle.setPieces.length - 1]!;
     expect(lastPiece.assetId).toBe("cloister.cloister-arcade");
     expect(lastPiece.positionAlongCourse).toBe(2890);
   });
 
+  test("Pellegrino Peak declares three Scenery Layers with distinct factors and authored Set Pieces", () => {
+    const peak = getPlaceScenery("peak");
+    expect(peak.layers).toHaveLength(3);
+
+    const [far, middle, near] = peak.layers;
+    expect(far?.depth).toBe("far");
+    expect(far?.depthFactor).toBe(0.2);
+    expect(far?.paintingAssetId).toBe("pellegrino-peak.far-layer");
+    expect(far?.setPieces).toEqual([]);
+
+    expect(middle?.depth).toBe("middle");
+    expect(middle?.depthFactor).toBe(0.5);
+    expect(middle?.setPieces).toHaveLength(6);
+    const middleAssetIds = middle!.setPieces.map((p) => p.assetId);
+    expect(new Set(middleAssetIds).size).toBe(middleAssetIds.length);
+    const terraceOverlook = middle?.setPieces.find((p) => p.assetId === "pellegrino-peak.terrace-overlook");
+    expect(terraceOverlook).toBeDefined();
+    expect(terraceOverlook?.positionAlongCourse).toBe(2890);
+
+    expect(near?.depth).toBe("near");
+    expect(near?.depthFactor).toBe(1.0);
+    expect(near?.setPieces).toHaveLength(3);
+    const nearAssetIds = near!.setPieces.map((p) => p.assetId);
+    expect(new Set(nearAssetIds).size).toBe(nearAssetIds.length);
+  });
+
+  test("Pellegrino Peak set pieces do not visibly repeat within 30 seconds along course", () => {
+    const peak = getPlaceScenery("peak");
+    const middle = peak.layers[1]!;
+    expect(middle.setPieces).toHaveLength(6);
+    const middleAssetIds = middle.setPieces.map((p) => p.assetId);
+    expect(new Set(middleAssetIds).size).toBe(6);
+    const lastPiece = middle.setPieces[middle.setPieces.length - 1]!;
+    expect(lastPiece.assetId).toBe("pellegrino-peak.terrace-overlook");
+    expect(lastPiece.positionAlongCourse).toBe(2890);
+  });
+
   test("other places initially declare their existing painting as a single fixed far layer with factor 0", () => {
-    const otherPlaces: StarStop[] = ["peak", "sea", "castle"];
+    const otherPlaces: StarStop[] = ["sea", "castle"];
     const expectedPaintings: Record<StarStop, string> = {
       garden: "garden.far-layer",
       lacewood: "lacewood.far-layer",
       abbey: "abbey.far-layer",
       clouds: "cloister.far-layer",
-      peak: "pellegrino-peak.background",
+      peak: "pellegrino-peak.far-layer",
       sea: "sapphire-sea.background",
       castle: "celebration.castle-approach",
     };
@@ -215,7 +250,7 @@ describe("Place Scenery data declaration", () => {
   });
 
   test("other places initially declare middle and near layers with distinct depth factors and empty Set Piece lists", () => {
-    const otherPlaces: StarStop[] = ["peak", "sea", "castle"];
+    const otherPlaces: StarStop[] = ["sea", "castle"];
     for (const place of otherPlaces) {
       const scenery = getPlaceScenery(place);
       const middleLayer = scenery.layers[1]!;

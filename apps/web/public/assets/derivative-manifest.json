@@ -468,6 +468,76 @@
       "path": "/assets/derivatives/cloister.cloud-updraft.webp",
       "width": 256,
       "height": 256
+    },
+    {
+      "id": "pellegrino-peak.far-layer",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/pellegrino-peak.far-layer.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.terrace-overlook",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.terrace-overlook.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.blossom-tree",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.blossom-tree.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.flowered-ridge",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.flowered-ridge.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "shared.limestone-boulder",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.limestone-boulder.webp",
+      "width": 720,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.flowered-ground",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.flowered-ground.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.wildflower-border",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.wildflower-border.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.overhang-crag",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.overhang-crag.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.flower-bank",
+      "role": "cutout",
+      "path": "/assets/derivatives/pellegrino-peak.flower-bank.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "pellegrino-peak.mountain-blossom",
+      "role": "cutout",
+      "path": "/assets/derivatives/pellegrino-peak.mountain-blossom.webp",
+      "width": 256,
+      "height": 256
     }
   ]
 }
