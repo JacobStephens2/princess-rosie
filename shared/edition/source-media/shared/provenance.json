@@ -156,9 +156,12 @@
       "sha256": "9a1e0c17dee71ee9b1dfacf3908cee7d222b0101dabd0e4f4d56a2563dc6a66e",
       "costUsd": 0.211265,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-139 implementation review",
-        "reason": "Freestanding storybook festive palace banner pole on carved stone pedestal with colorful pennants and rose garlands on transparent background."
+        "reason": "Freestanding storybook festive palace banner pole on carved stone pedestal with colorful pennants and rose garlands on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]

@@ -17,9 +17,12 @@
       "sha256": "77b2a15d4820bfaa7686431eeee301c5bfa30fb3514274b75301fe3e4e0c131f",
       "costUsd": 0.16517,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-139 implementation review",
-        "reason": "Sunlit cream stone flagstone courtyard path with golden mosaic inlays carrying Storybook Ground on transparent background."
+        "reason": "Sunlit cream stone flagstone courtyard path with golden mosaic inlays carrying Storybook Ground on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -34,9 +37,12 @@
       "sha256": "4bee552ddc719e50a965248fe29a34bd18d8439bf6ba3461947059ce09625213",
       "costUsd": 0.16511,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-139 implementation review",
-        "reason": "Lush foreground blush roses, lavender blooms, and festive golden ribbons on transparent background."
+        "reason": "Lush foreground blush roses, lavender blooms, and festive golden ribbons on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -51,9 +57,12 @@
       "sha256": "5ee9a19bc0b4283fa1bfe031c742f097cc0d1057c60279a7655d13767bac18d1",
       "costUsd": 0.165175,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-139 implementation review",
-        "reason": "Overarching top canopy palace trim with golden arches, cascading rose garlands, and fluttering rainbow ribbons on transparent background."
+        "reason": "Overarching top canopy palace trim with golden arches, cascading rose garlands, and fluttering rainbow ribbons on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]
