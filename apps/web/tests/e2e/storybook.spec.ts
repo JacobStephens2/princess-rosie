@@ -48,13 +48,14 @@ test("a grown-up can read the story and Rosie can begin flying", async ({ page }
   await expect(page.getByText("Far across the sparkling Sapphire Sea")).toBeVisible();
   await expect(page.locator("#story-copy")).toContainText("very first birthday");
   await page.getByRole("button", { name: "Turn the page" }).click();
-  await expect(page.getByText("a playful wind scattered seven Birthday Stars", { exact: false })).toBeVisible();
+  await expect(page.getByText("a playful wind scattered six Birthday Stars", { exact: false })).toBeVisible();
   await page.getByRole("button", { name: "Turn the page" }).click();
   await expect(page.getByText("Princess Rosie climbed onto Stella", { exact: false })).toBeVisible();
   await page.getByRole("button", { name: "Fly with Rosie" }).click();
 
   await expect(page.locator("#game canvas")).toBeVisible();
-  await expect(page.getByLabel("0 of 7 Birthday Stars")).toBeVisible();
+  await expect(page.locator("#star-tracker")).toHaveAttribute("aria-label", "0 of 6 scattered Stars recovered · Castle Star safe");
+  await expect(page.locator("#star-tracker .star--castle")).toHaveClass(/is-lit/);
   await expect(page.getByText("Tap to jump · Hold to flutter")).toBeVisible();
   await page.keyboard.down("Space");
   await page.waitForTimeout(250);
@@ -662,11 +663,17 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
     await expect(page.locator("#moment-stamp-icon")).toHaveText(stop.icon);
 
     // Verify Star Tracker counter
-    await expect(page.locator("#star-tracker")).toHaveAttribute("aria-label", `${i + 1} of 7 Birthday Stars`);
+    const expectedStarCount = Math.min(i + 1, 6);
+    await expect(page.locator("#star-tracker")).toHaveAttribute("aria-label", `${expectedStarCount} of 6 scattered Stars recovered · Castle Star safe`);
 
     // Verify domain state
     const journey = await page.evaluate(() => window.__ROSIE_RUNNER__?.getJourney());
-    expect(journey?.collectedStars).toContain(stop.id);
+    if (stop.id === "castle") {
+      expect(journey?.collectedStars).not.toContain("castle");
+      expect(journey?.collectedStars).toHaveLength(6);
+    } else {
+      expect(journey?.collectedStars).toContain(stop.id);
+    }
     expect(journey?.acquiredStamps).toContain(stop.id);
 
     if (!isFinal) {
@@ -734,8 +741,9 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
   await expect(page.locator("#game-shell")).toBeVisible();
   await expect(page.locator("#game canvas")).toBeVisible();
 
-  // Star tracker reset to 0 of 7
-  await expect(page.locator("#star-tracker")).toHaveAttribute("aria-label", "0 of 7 Birthday Stars");
+  // Star tracker reset to 0 of 6 with Castle Star safe
+  await expect(page.locator("#star-tracker")).toHaveAttribute("aria-label", "0 of 6 scattered Stars recovered · Castle Star safe");
+  await expect(page.locator("#star-tracker .star--castle")).toHaveClass(/is-lit/);
 
   // Wait for runner scene to be ready and grounded
   await expect.poll(async () => {

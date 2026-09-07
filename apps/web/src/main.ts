@@ -277,8 +277,11 @@ function continueFromCloudRest(): void {
 
 function updateStars(count: number): void {
   const tracker = getElement<HTMLElement>("star-tracker");
-  tracker.querySelectorAll(".star").forEach((star, index) => star.classList.toggle("is-lit", index < count));
-  tracker.setAttribute("aria-label", `${count} of ${STOP_STORIES.length} Birthday Stars`);
+  const scatteredStars = tracker.querySelectorAll<HTMLElement>(".star:not(.star--castle)");
+  scatteredStars.forEach((star, index) => star.classList.toggle("is-lit", index < count));
+  const castleStar = tracker.querySelector<HTMLElement>(".star--castle");
+  if (castleStar) castleStar.classList.add("is-lit");
+  tracker.setAttribute("aria-label", `${count} of 6 scattered Stars recovered · Castle Star safe`);
 }
 
 function updateConstellationMeter(count: number): void {

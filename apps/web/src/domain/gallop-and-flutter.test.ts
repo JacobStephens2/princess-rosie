@@ -1,5 +1,11 @@
 import { describe, expect, test } from "vitest";
-import { collectBirthdayStar, createJourney, STAR_STOPS } from "./journey";
+import {
+  collectBirthdayStar,
+  acquireStorybookStamp,
+  createJourney,
+  STAR_STOPS,
+  type StarStop,
+} from "./journey";
 import {
   createRunnerState,
   handleJumpInput,
@@ -175,6 +181,33 @@ describe("Gallop and Flutter Runner", () => {
     journey = collectBirthdayStar(journey, "garden");
     expect(journey.collectedStars).toContain("garden");
     expect(journey.openRainbowPaths).toContain("garden");
+  });
+
+  test("navigating through the castle course awards Dad's stamp without collecting Castle Star and transitions to celebrating", () => {
+    let journey = createJourney();
+    const scatteredPlaces: StarStop[] = ["garden", "lacewood", "abbey", "clouds", "peak", "sea"];
+    for (const place of scatteredPlaces) {
+      journey = collectBirthdayStar(journey, place);
+      journey = acquireStorybookStamp(journey, place);
+    }
+    expect(journey.collectedStars).toHaveLength(6);
+    expect(journey.phase).toBe("flying");
+
+    // Completing castle course
+    const castleState = createRunnerState({
+      x: DEFAULT_RUNNER_CONFIG.courseLength - 10,
+    });
+    const completed = updateRunner(castleState, 0.1, false);
+    expect(completed.courseCompleted).toBe(true);
+
+    // Castle arrival: star collection attempted is a no-op, stamp award triggers celebration
+    journey = collectBirthdayStar(journey, "castle");
+    expect(journey.collectedStars).not.toContain("castle");
+    expect(journey.collectedStars).toHaveLength(6);
+
+    journey = acquireStorybookStamp(journey, "castle");
+    expect(journey.acquiredStamps).toContain("castle");
+    expect(journey.phase).toBe("celebrating");
   });
 
   describe("Sprite Animation Pipeline and State Transitions", () => {

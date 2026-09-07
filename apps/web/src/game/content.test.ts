@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import {
   STOP_STORIES,
+  OPENING_STORYBOOK_MOMENTS_AFTER_COVER,
   resolveDerivativePath,
   getFamilyGuestDerivativePath,
   getBirthdayStarDerivativePath,
@@ -149,5 +150,19 @@ describe("content and derivative place illustrations", () => {
       }
     }
   });
+
+  test("opening moment copy aligns with ADR-0015 (six scattered stars, Dad kept the Castle Star safe)", () => {
+    const scatteredStarsMoment = OPENING_STORYBOOK_MOMENTS_AFTER_COVER[1];
+    expect(scatteredStarsMoment).toBeDefined();
+    expect(scatteredStarsMoment?.copy).toContain("scattered six Birthday Stars");
+    expect(scatteredStarsMoment?.copy).toContain("Dad kept the seventh, the Castle Star, safe at the Birthday Castle");
+  });
+
+  test("castle stop moment copy aligns with ADR-0015 (Dad kept Castle Star shining safe)", () => {
+    const castleStop = STOP_STORIES.find((s) => s.id === "castle");
+    expect(castleStop).toBeDefined();
+    expect(castleStop?.moment).toBe("Dad kept the Castle Star shining safe at the Birthday Castle gates!");
+  });
 });
+
 
