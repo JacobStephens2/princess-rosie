@@ -16,10 +16,12 @@
       "sha256": "f83b8916d3c5723805609fddfda46cf4f3ef314023cff8839325e1f766367bc7",
       "costUsd": 0.21134,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Charming rounded flower bank obstacle of warm limestone rocks and blooming pink and magenta mountain flowers on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -34,10 +36,12 @@
       "sha256": "365b0f211791758721ce4012b49634dbeb2060b56628b37f6f00a44c4eccdb7a",
       "costUsd": 0.211375,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Joyful bouncy mountain blossom springboard with layered pink and lavender petals and golden pollen center on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]

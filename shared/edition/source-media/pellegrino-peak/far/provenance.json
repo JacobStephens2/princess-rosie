@@ -17,10 +17,12 @@
       "sha256": "1d56c76a89340c5cc1bebd08b0cae7d44942064fe3f76a0be13303c3fa4264cd",
       "costUsd": 0.11925,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Opaque 3:1 panoramic vista with high mountain atmosphere, clear sapphire sky, and distant sparkling coastal bay; no characters, text, or foreground ledges.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]
