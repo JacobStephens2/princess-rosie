@@ -17,10 +17,12 @@
       "sha256": "5e400606808c2c223850fd1327ba49923db2f4f6da35a1fb053f7159eface8d4",
       "costUsd": 0.165215,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Sunlit terraced mountain slope with limestone stones and dense flower carpets carrying Storybook Ground on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -35,10 +37,12 @@
       "sha256": "e043732380ece13d1c190f288aae2b80ae930a8f4b0c4e1f6d21e7a4849270d9",
       "costUsd": 0.16515,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Lush foreground lateral border of blooming pink mountain blossoms, violet lavender, and golden chamomile on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -53,10 +57,12 @@
       "sha256": "2024d135f6ed387541030766ce69c439776cb484552a98945161f4c21d69fd51",
       "costUsd": 0.165165,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Overarching upper mountain limestone ledge with trailing blossoms framing the top of the scene on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]

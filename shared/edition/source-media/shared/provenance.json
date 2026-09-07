@@ -96,10 +96,12 @@
       "sha256": "2735a7d35f586c90eac7e4996c04737689c437968a478cbc598688ae8fad6f54",
       "costUsd": 0.21125,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Charming freestanding Mediterranean limestone rock outcrop with weathered contours and miniature wildflowers on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]

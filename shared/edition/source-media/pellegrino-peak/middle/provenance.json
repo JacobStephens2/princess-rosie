@@ -17,10 +17,12 @@
       "sha256": "3290771449af1b3e6c76c76dfe16f08f960357cdb04add3ee49053557feade9f",
       "costUsd": 0.11925,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Grand sunlit terraced mountain ridge with limestone rock ledges, blooming pink blossom trees, and wildflower terraces with clean alpha transparency framing arrival at Rainbow Archway.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -35,10 +37,12 @@
       "sha256": "ad6c80c00da32cde502a2ce7219b89ceebab0ec249ad0881d2f1984be8a4686f",
       "costUsd": 0.16516,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Sunlit spreading mountain blossom tree with pink and white flowers rooted on limestone ledge on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -53,10 +57,12 @@
       "sha256": "d37e0616dc8d04b8a4d0b8dd181fdaf27e1b6f756379467e168affeaa5af8d1e",
       "costUsd": 0.165145,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Lateral limestone rock ridge and terrace covered in yellow wildflowers and purple lavender on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]
