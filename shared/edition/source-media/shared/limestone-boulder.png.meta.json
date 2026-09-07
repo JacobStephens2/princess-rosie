@@ -1,0 +1,18 @@
+{
+  "id": "shared.limestone-boulder",
+  "role": "limestone-boulder",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/shared/limestone-boulder.png",
+  "sha256": "2735a7d35f586c90eac7e4996c04737689c437968a478cbc598688ae8fad6f54",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 106,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.21125,
+  "elapsedSeconds": 171.97,
+  "prompt": "Use case: production game shared library Set Piece. A handsome, freestanding storybook Mediterranean limestone rock outcrop with warm cream and honey tones, smooth rounded weathered contours, small crevices with green moss, and miniature blooming golden wildflowers and purple lavender sprigs at its base. Isolated vertical rock Set Piece on transparent background. Clean alpha channel, no background, no ground plane outside the stone base, no characters, no text. Storybook picture-book illustration style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game shared library Set Piece. A handsome, freestanding storybook Mediterranean limestone rock outcrop with warm cream and honey tones, smooth rounded weathered contours, small crevices with green moss, and miniature blooming golden wildflowers and purple lavender sprigs at its base. Isolated vertical rock Set Piece on transparent background. Clean alpha channel, no background, no ground plane outside the stone base, no characters, no text. Storybook picture-book illustration style matching Fairytale Sicily."
+}

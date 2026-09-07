@@ -1,0 +1,18 @@
+{
+  "id": "pellegrino-peak.overhang-crag",
+  "role": "overhang-crag",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/near/overhang-crag.png",
+  "sha256": "2024d135f6ed387541030766ce69c439776cb484552a98945161f4c21d69fd51",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 105,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165165,
+  "elapsedSeconds": 123.79,
+  "prompt": "Use case: production game near scenery Set Piece. An overarching upper mountain rock ledge of sunlit honey-colored limestone draped with trailing blush pink mountain blossoms, golden wildflower sprigs, and delicate drifting flower petals framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the rock ledge and trailing blossoms, no background sky, no ground, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. An overarching upper mountain rock ledge of sunlit honey-colored limestone draped with trailing blush pink mountain blossoms, golden wildflower sprigs, and delicate drifting flower petals framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the rock ledge and trailing blossoms, no background sky, no ground, no characters, no text. Storybook picture-book style matching Pellegrino Peak."
+}

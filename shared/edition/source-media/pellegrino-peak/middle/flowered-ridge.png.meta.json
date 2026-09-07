@@ -1,0 +1,18 @@
+{
+  "id": "pellegrino-peak.flowered-ridge",
+  "role": "flowered-ridge",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/middle/flowered-ridge.png",
+  "sha256": "d37e0616dc8d04b8a4d0b8dd181fdaf27e1b6f756379467e168affeaa5af8d1e",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 101,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165145,
+  "elapsedSeconds": 114.19,
+  "prompt": "Use case: production game middle scenery Set Piece. A lateral middle-ground limestone rock ridge and grassy mountain terrace carpeted with yellow wildflowers, blush rose blossoms, and purple alpine lavender, with rounded honey-colored boulders and low blossoming shrubs. Lateral Set Piece on transparent background. Clean alpha channel everywhere above and below the rock ridge, no sky, no ground below ridge base, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral middle-ground limestone rock ridge and grassy mountain terrace carpeted with yellow wildflowers, blush rose blossoms, and purple alpine lavender, with rounded honey-colored boulders and low blossoming shrubs. Lateral Set Piece on transparent background. Clean alpha channel everywhere above and below the rock ridge, no sky, no ground below ridge base, no characters, no text. Storybook picture-book style matching Pellegrino Peak."
+}
