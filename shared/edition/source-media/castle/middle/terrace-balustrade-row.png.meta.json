@@ -1,0 +1,18 @@
+{
+  "id": "castle.terrace-balustrade-row",
+  "role": "terrace-balustrade-row",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/middle/terrace-balustrade-row.png",
+  "sha256": "b480409abfcf7533756302c3c7d8b1851618d0cf1f8f1bea49509f3546efd4c4",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 102,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16515,
+  "elapsedSeconds": 117.09,
+  "prompt": "Use case: production game middle scenery Set Piece. A lateral row of classical cream stone courtyard terrace balustrades with golden mosaic borders, adorned with climbing pink roses, green ivy, draped festive rainbow ribbons, small celebratory pennants, and glowing storybook lanterns. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below pedestal and balustrade base, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral row of classical cream stone courtyard terrace balustrades with golden mosaic borders, adorned with climbing pink roses, green ivy, draped festive rainbow ribbons, small celebratory pennants, and glowing storybook lanterns. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below pedestal and balustrade base, no characters, no text. Storybook picture-book style matching the Birthday Castle."
+}

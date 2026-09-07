@@ -1,0 +1,18 @@
+{
+  "id": "castle.palace-garland-canopy",
+  "role": "palace-garland-canopy",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/near/palace-garland-canopy.png",
+  "sha256": "5ee9a19bc0b4283fa1bfe031c742f097cc0d1057c60279a7655d13767bac18d1",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 107,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165175,
+  "elapsedSeconds": 120.92,
+  "prompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of sunlit palace courtyard awnings, ornate carved golden arch trims, cascading blush-rose garlands, and fluttering celebratory rainbow silk ribbon swags framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the upper arch and garland trim, no background sky, no ground, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of sunlit palace courtyard awnings, ornate carved golden arch trims, cascading blush-rose garlands, and fluttering celebratory rainbow silk ribbon swags framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the upper arch and garland trim, no background sky, no ground, no characters, no text. Storybook picture-book style matching the Birthday Castle."
+}

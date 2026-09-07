@@ -1,0 +1,42 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "category": "cutouts",
+  "totalSpendUsd": 0.42263,
+  "assets": [
+    {
+      "id": "castle.castle-bunting",
+      "role": "obstacle-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game playful obstacle cutout. A charming, festive storybook castle bunting obstacle cutout for a gentle children's game: a cheerful swag of rich berry-rose and golden silk bunting pennants strung between two ornamental carved cream stone posts adorned with rosebuds and tied with fluttering rainbow ribbons, resting on a small stone base. Genuine RGBA transparent background around the bunting silhouette. Isolated cutout, no background, no ground plane outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "outputPath": "source-media/castle/cutouts/castle-bunting.png",
+      "sha256": "f7429c573dcdfb7be113a4345a73cc43ddc058b3e0480e42c68b5931f2d1fbd7",
+      "costUsd": 0.21132,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-139 implementation review",
+        "reason": "Charming festive castle bunting obstacle strung between carved stone posts with rosebuds and rainbow ribbons on transparent background."
+      }
+    },
+    {
+      "id": "castle.castle-drum",
+      "role": "springboard-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, festive storybook celebration drum springboard cutout: a rounded ceremonial birthday castle drum in royal berry-crimson and golden mosaic trim, with a bouncy taut ivory drumhead glowing with warm golden starlight dust at its center, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/castle/cutouts/castle-drum.png",
+      "sha256": "ab1f540eb2cc4fc6f2ace58a3780c59af1f345d2c745acab9096189af1fef23c",
+      "costUsd": 0.21131,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-139 implementation review",
+        "reason": "Ceremonial birthday castle celebration drum with bouncy ivory drumhead and golden starlight dust on transparent background."
+      }
+    }
+  ]
+}

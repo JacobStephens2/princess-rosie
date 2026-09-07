@@ -1,0 +1,18 @@
+{
+  "id": "castle.far-layer",
+  "role": "far-layer",
+  "model": "gpt-image-2",
+  "size": "3072x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/far/far-layer.png",
+  "sha256": "e0186f747e2f050c8b096e6ad59116e5150b40b4ec394023c86da318d6b2c1b8",
+  "background": "opaque",
+  "tokens": {
+    "text_in": 180,
+    "img_in": 0,
+    "img_out": 3952
+  },
+  "estimatedCostUsd": 0.11946,
+  "elapsedSeconds": 87.74,
+  "prompt": "Use case: production game far scenery layer. A wide panoramic landscape of the Birthday Castle Approach far layer: luminous sapphire and powder-blue sunny sky with soft drifting fairytale clouds. In the right half of the panorama, the warm golden mosaic Birthday Castle stands waiting ahead under bright Mediterranean sun with rounded Arab-Norman domes, mosaic gold and cream walls, open arches, and colorful festive pennants. High in the luminous sky above the castle, the radiant golden Castle Star already shines brightly, casting a warm golden glow, and six gentle convergent rainbow light trails sweep across the sky toward the castle gates. Below, the sparkling Sapphire Sea meets gentle flowered coastal terraces. Distant panoramic viewpoint, wide open flight corridor through the left two-thirds. Scenery and architecture only, no people, no characters, no text. Painterly children's picture-book illustration matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game far scenery layer. A wide panoramic landscape of the Birthday Castle Approach far layer: luminous sapphire and powder-blue sunny sky with soft drifting fairytale clouds. In the right half of the panorama, the warm golden mosaic Birthday Castle stands waiting ahead under bright Mediterranean sun with rounded Arab-Norman domes, mosaic gold and cream walls, open arches, and colorful festive pennants. High in the luminous sky above the castle, the radiant golden Castle Star already shines brightly, casting a warm golden glow, and six gentle convergent rainbow light trails sweep across the sky toward the castle gates. Below, the sparkling Sapphire Sea meets gentle flowered coastal terraces. Distant panoramic viewpoint, wide open flight corridor through the left two-thirds. Scenery and architecture only, no people, no characters, no text. Painterly children's picture-book illustration matching Fairytale Sicily."
+}

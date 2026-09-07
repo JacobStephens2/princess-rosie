@@ -1,0 +1,18 @@
+{
+  "id": "castle.mosaic-stone-ground",
+  "role": "mosaic-stone-ground",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/near/mosaic-stone-ground.png",
+  "sha256": "77b2a15d4820bfaa7686431eeee301c5bfa30fb3514274b75301fe3e4e0c131f",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 106,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16517,
+  "elapsedSeconds": 115.08,
+  "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit cream stone flagstones with ornate golden mosaic inlay patterns, soft dappled shadows, and scattered fallen blush-rose petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved stone surface, no sky, no background, no characters, no text. Storybook picture-book style matching the Birthday Castle Approach.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit cream stone flagstones with ornate golden mosaic inlay patterns, soft dappled shadows, and scattered fallen blush-rose petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved stone surface, no sky, no background, no characters, no text. Storybook picture-book style matching the Birthday Castle Approach."
+}

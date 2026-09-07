@@ -2,7 +2,7 @@
   "manifestVersion": "1.0.0",
   "updatedAt": "2026-09-07",
   "category": "shared-library",
-  "totalSpendUsd": 1.386165,
+  "totalSpendUsd": 1.59743,
   "assets": [
     {
       "id": "shared.cypress-tree",
@@ -142,6 +142,23 @@
         "ownerManualReview": "approved",
         "ownerManualReviewBy": "Jacob Stephens",
         "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "shared.festive-banner-post",
+      "role": "shared-set-piece",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook festive palace pennant banner pole: an ornate carved cream stone pedestal supporting a gilded post with fluttering colorful silk pennants and rainbow ribbons, draped with miniature pink rose garlands and glowing with subtle golden sparkle dust. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the pedestal base, no background, no characters, no text. Storybook picture-book illustration style matching Fairytale Sicily.",
+      "outputPath": "source-media/shared/festive-banner-post.png",
+      "sha256": "9a1e0c17dee71ee9b1dfacf3908cee7d222b0101dabd0e4f4d56a2563dc6a66e",
+      "costUsd": 0.211265,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-139 implementation review",
+        "reason": "Freestanding storybook festive palace banner pole on carved stone pedestal with colorful pennants and rose garlands on transparent background."
       }
     }
   ]
