@@ -10,13 +10,19 @@ export const FAMILY_GUESTS = [
 
 export type FamilyGuest = (typeof FAMILY_GUESTS)[number];
 
-export const STAR_STOPS = [
+export const SCATTERED_STAR_STOPS = [
   "garden",
   "lacewood",
   "abbey",
   "clouds",
   "peak",
   "sea",
+] as const;
+
+export type ScatteredStarStop = (typeof SCATTERED_STAR_STOPS)[number];
+
+export const STAR_STOPS = [
+  ...SCATTERED_STAR_STOPS,
   "castle",
 ] as const;
 
@@ -25,8 +31,8 @@ export type JourneyPhase = "flying" | "cloud-rest" | "celebrating";
 
 export interface Journey {
   phase: JourneyPhase;
-  collectedStars: StarStop[];
-  openRainbowPaths: StarStop[];
+  collectedStars: ScatteredStarStop[];
+  openRainbowPaths: ScatteredStarStop[];
   acquiredStamps: StarStop[];
   bumpStreak: number;
   helpLevel: number;
@@ -45,20 +51,26 @@ export function createJourney(): Journey {
 
 export function acquireStorybookStamp(journey: Journey, stop: StarStop): Journey {
   if (journey.acquiredStamps.includes(stop)) return journey;
+  const acquiredStamps = [...journey.acquiredStamps, stop];
+  const phase: JourneyPhase =
+    stop === "castle" && journey.collectedStars.length === SCATTERED_STAR_STOPS.length
+      ? "celebrating"
+      : journey.phase;
   return {
     ...journey,
-    acquiredStamps: [...journey.acquiredStamps, stop],
+    acquiredStamps,
+    phase,
   };
 }
 
 export function collectBirthdayStar(journey: Journey, stop: StarStop): Journey {
+  if (stop === "castle") return journey;
   if (journey.collectedStars.includes(stop)) return journey;
 
   const collectedStars = [...journey.collectedStars, stop];
 
   return {
     ...journey,
-    phase: collectedStars.length === STAR_STOPS.length ? "celebrating" : "flying",
     collectedStars,
     openRainbowPaths: [...journey.openRainbowPaths, stop],
     bumpStreak: 0,

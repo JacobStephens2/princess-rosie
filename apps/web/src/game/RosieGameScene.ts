@@ -605,6 +605,14 @@ export class RosieGameScene extends Phaser.Scene {
     };
     this.pause();
 
+    if (stop.id === "castle") {
+      // Dad waits with the Castle Star already shining — it is not gathered in flight
+      this.time.delayedCall(300, () => {
+        this.awardStorybookStamp(stop);
+      });
+      return;
+    }
+
     const star = this.children.getByName(`star-${stop.id}`) as Phaser.GameObjects.Image | null;
     if (star) {
       this.tweens.killTweensOf(star);

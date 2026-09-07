@@ -308,6 +308,9 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 }
 
 .star.is-lit { color: var(--gold); transform: scale(1.08) rotate(8deg); text-shadow: 0 0 12px #fff, 0 2px 0 #d69027; }
+.star.star--castle {
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.7));
+}
 .game-hud .round-button,
 .game-hud .grown-up-corner-button {
   justify-self: end;

@@ -7,7 +7,7 @@ import { getPlaceLayers } from "./domain/scenery";
 import { GAME_SIZE, RosieGameScene } from "./game/RosieGameScene";
 import { GameAudio } from "./game/sound";
 import { createRunnerState } from "./domain/gallop-and-flutter";
-import { createJourney, resetJourney } from "./domain/journey";
+import { createJourney, resetJourney, SCATTERED_STAR_STOPS } from "./domain/journey";
 import {
   cancelGrownUpHold,
   closeGrownUpCorner,
@@ -207,7 +207,12 @@ function startGame(): void {
   scene = new RosieGameScene({
     onBirthdayStar: showBirthdayStar,
     onStarGatherChime: () => sound.play("star"),
-    onStorybookStampAwarded: () => sound.play("stamp"),
+    onStorybookStampAwarded: (stop) => {
+      sound.play("stamp");
+      if (stop.id === "castle") {
+        sound.play("chime");
+      }
+    },
     onStumble: () => sound.play("stumble"),
     onNearMiss: () => sound.play("near-miss"),
     onSpringboard: () => sound.play("chime"),
@@ -237,6 +242,11 @@ function showBirthdayStar(stop: StopStory, count: number, isFinal: boolean): voi
   momentPlace.textContent = stop.place;
   momentCopy.textContent = stop.moment;
   momentIcon.textContent = stop.icon;
+
+  const momentPath = document.getElementById("moment-path");
+  if (momentPath) {
+    momentPath.hidden = stop.id === "castle";
+  }
 
   const stampIcon = document.getElementById("moment-stamp-icon");
   if (stampIcon) stampIcon.textContent = stop.stamp.icon;
@@ -277,8 +287,11 @@ function continueFromCloudRest(): void {
 
 function updateStars(count: number): void {
   const tracker = getElement<HTMLElement>("star-tracker");
-  tracker.querySelectorAll(".star").forEach((star, index) => star.classList.toggle("is-lit", index < count));
-  tracker.setAttribute("aria-label", `${count} of ${STOP_STORIES.length} Birthday Stars`);
+  const scatteredStars = tracker.querySelectorAll<HTMLElement>(".star:not(.star--castle)");
+  scatteredStars.forEach((star, index) => star.classList.toggle("is-lit", index < count));
+  const castleStar = tracker.querySelector<HTMLElement>(".star--castle");
+  if (castleStar) castleStar.classList.add("is-lit");
+  tracker.setAttribute("aria-label", `${count} of ${SCATTERED_STAR_STOPS.length} scattered Stars recovered · Castle Star safe`);
 }
 
 function updateConstellationMeter(count: number): void {
