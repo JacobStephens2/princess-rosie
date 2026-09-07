@@ -75,7 +75,8 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🎀",
     sky: 0xb4ddee,
     ground: 0x5fa273,
-    placeIllustration: resolveDerivativePath("lacewood.background"),
+    placeIllustration: resolveDerivativePath("lacewood.far-layer"),
+    archwayTint: 0xe8e4ff,
     layers: getPlaceLayers("lacewood"),
     stamp: {
       title: "Gram’s Lace Ribbon Stamp",

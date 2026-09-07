@@ -1,0 +1,63 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "near",
+  "depthFactor": 1.0,
+  "totalSpendUsd": 0.495425,
+  "assets": [
+    {
+      "id": "lacewood.stone-tile-ground",
+      "role": "stone-tile-ground",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit cream-and-gold patterned stone courtyard flagstones and mosaic tiles with soft dappled leaf shadows and scattered fallen pink rose petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Zélie's Lacewood.",
+      "outputPath": "source-media/lacewood/near/stone-tile-ground.png",
+      "sha256": "503255b9c4ba75016aed53d4ddc676a1ecb06a227dd37f230b8ce74f9ccabb0d",
+      "costUsd": 0.165175,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-134 implementation review",
+        "reason": "Sunlit patterned cream-and-gold paved flagstone courtyard path carrying Storybook Ground on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    },
+    {
+      "id": "lacewood.rose-woodland-border",
+      "role": "rose-woodland-border",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of wild woodland rose bushes blooming with vibrant pink roses, rich dark green foliage, and delicate silver lace ribbons entwined through the leafy branches. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the bush foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Zélie's Lacewood.",
+      "outputPath": "source-media/lacewood/near/rose-woodland-border.png",
+      "sha256": "ac1527d57f6dc133fbc0530250a2a7845dcb9380dfa99162939c5103784e3cc3",
+      "costUsd": 0.165125,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-134 implementation review",
+        "reason": "Lush foreground rose bushes with dark green foliage and entwined silver lace ribbons on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    },
+    {
+      "id": "lacewood.canopy-arch",
+      "role": "canopy-arch",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of lush leafy green woodland tree branches covered in climbing pink roses and draped with fluttering delicate translucent silver lace ribbons framing the top of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the upper canopy branches, no background sky, no ground, no characters, no text. Storybook picture-book style matching Zélie's Lacewood.",
+      "outputPath": "source-media/lacewood/near/canopy-arch.png",
+      "sha256": "d077d65dfc10ca685008a5bf83e469e60baa68d94022e972b9ea3c7d3b0ca7c9",
+      "costUsd": 0.165125,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-134 implementation review",
+        "reason": "Overarching top canopy branches with climbing roses and draped silver lace ribbons on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    }
+  ]
+}

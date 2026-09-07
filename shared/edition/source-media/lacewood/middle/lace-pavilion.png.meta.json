@@ -1,0 +1,18 @@
+{
+  "id": "lacewood.lace-pavilion",
+  "role": "lace-pavilion",
+  "model": "gpt-image-2",
+  "size": "3072x1024",
+  "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/middle/lace-pavilion.png",
+  "sha256": "d62160f6d0a5e29cc03676f1f5c103385e8b444a8cbb70d6840478c7600b1cd8",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 150,
+    "img_in": 0,
+    "img_out": 3952
+  },
+  "estimatedCostUsd": 0.11931,
+  "elapsedSeconds": 82.47,
+  "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and floral composition from the approved reference painting of Z\u00e9lie's Lacewood: a grand, sunlit classical circular gazebo or garden pavilion of cream-and-honey stone pillars with delicate carved archways, supporting an ornate golden dome, flanked by low stone balustrades, stone urns overflowing with blooming pink roses, glowing glass lanterns, and tall cypress spires. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and gazebo pillars and outside the structure, no background sky, no ground plane below the stone steps and balustrade base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and floral composition from the approved reference painting of Z\u00e9lie's Lacewood: a grand, sunlit classical circular gazebo or garden pavilion of cream-and-honey stone pillars with delicate carved archways, supporting an ornate golden dome, flanked by low stone balustrades, stone urns overflowing with blooming pink roses, glowing glass lanterns, and tall cypress spires. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and gazebo pillars and outside the structure, no background sky, no ground plane below the stone steps and balustrade base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+}

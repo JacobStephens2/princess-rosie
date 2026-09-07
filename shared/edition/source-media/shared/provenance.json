@@ -2,7 +2,7 @@
   "manifestVersion": "1.0.0",
   "updatedAt": "2026-09-07",
   "category": "shared-library",
-  "totalSpendUsd": 0.541295,
+  "totalSpendUsd": 0.7525,
   "assets": [
     {
       "id": "shared.cypress-tree",
@@ -62,6 +62,24 @@
         "ownerManualReview": "approved",
         "ownerManualReviewBy": "Jacob Stephens",
         "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "shared.garden-lantern",
+      "role": "shared-set-piece",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook garden lantern of warm antiqued bronze and beveled glass glowing warmly with gentle golden candlelight, resting on an ornate carved cream stone pedestal wrapped with delicate green ivy and miniature rosebuds. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the stone base, no background, no characters, no text. Storybook picture-book illustration style.",
+      "outputPath": "source-media/shared/garden-lantern.png",
+      "sha256": "696eb3e1af9f8972e4e179092f58df23358596e2f27bcbb05b65ad4125ab63e8",
+      "costUsd": 0.211205,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-134 implementation review",
+        "reason": "Charming freestanding storybook garden lantern of bronze and glass glowing warmly on ornate stone pedestal on transparent background.",
+        "ownerManualReview": "pending"
       }
     }
   ]
