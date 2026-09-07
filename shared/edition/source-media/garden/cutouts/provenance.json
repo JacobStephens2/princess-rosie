@@ -1,0 +1,68 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "category": "cutouts",
+  "totalSpendUsd": 0.63365,
+  "assets": [
+    {
+      "id": "garden.rose-bush",
+      "role": "obstacle-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game obstacle cutout. A charming, rounded storybook rose bush obstacle cutout for a gentle children's game: a lush green leafy bush clustered with blooming bright pink roses, soft rounded thorns, and cheerful golden flower centers, resting on a small patch of storybook garden grass. Genuine RGBA transparent background around the bush silhouette. Isolated cutout, no background, no ground plane outside the bush base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "outputPath": "source-media/garden/cutouts/rose-bush.png",
+      "sha256": "29861df60c88405afa2e25844ba9cf10045ad2b68ae9748204baa45e82708043",
+      "costUsd": 0.21127,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Provider bake-off winner (#131): charming picture-book styling with zero fringe alpha transparency.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "garden.giant-rose",
+      "role": "springboard-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, oversized giant blooming pink rose growing on a sturdy, springy green coiled stem with bouncy curved leaf pads at its base, designed for Stella to bounce high into the sky. Upright and bouncy, glowing with warm golden pollen in its center. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/garden/cutouts/giant-rose.png",
+      "sha256": "d63e7ab10645cb94f1b21e6e204f627bfd5bf3109a4010492e7f940471cddd8b",
+      "costUsd": 0.211255,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Oversized springy pink rose on coiled stem with golden pollen center on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "garden.star-sparkle",
+      "role": "sparkle-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game collectible Star Sparkle cutout. A magical, radiant four-pointed celestial star sparkle with glowing golden light rays, shimmering stardust particles, and a brilliant diamond-white core. Floating starlight emblem on transparent background. Clean alpha channel, no background, no circular badge border, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/garden/cutouts/star-sparkle.png",
+      "sha256": "8de3f27e78403da32c7db6f27f25e6f0937828ee82731320a0f20ee436146931",
+      "costUsd": 0.211125,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Radiant 4-pointed celestial star sparkle with starlight aura on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

@@ -16,9 +16,17 @@ export function calculateTargetDimensions(
 
   switch (entry.role) {
     case "illustration":
-    case "illustration-layer": {
+    case "illustration-layer":
+    case "set-piece": {
       height = STAGE_HEIGHT;
       width = Math.round((sourceWidth * height) / sourceHeight);
+      break;
+    }
+    case "cutout": {
+      const maxDim = entry.id.includes("archway") ? 512 : 256;
+      const scale = Math.min(maxDim / sourceWidth, maxDim / sourceHeight, 1);
+      width = Math.round(sourceWidth * scale);
+      height = Math.round(sourceHeight * scale);
       break;
     }
     case "sprite": {
