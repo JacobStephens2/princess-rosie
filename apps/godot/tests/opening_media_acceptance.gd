@@ -6,7 +6,7 @@ const ACCEPTANCE_TEST := preload("res://tests/acceptance_test.gd")
 const APPROVED_MEDIA := {
 	"opening.celebration-preparations": {
 		"path": "source-media/opening-storybook/celebration-preparations.png",
-		"sha256": "d301c682d75db0c96d0a0750543ef9876bc1c252dde74ef70492c7bd5ce1220f",
+		"sha256": "8704d4a411c743ba0533d942535a5f9e7e5cd7e17b8f30b02a82bf7527805a24",
 	},
 	"opening.scattered-stars": {
 		"path": "source-media/opening-storybook/scattered-stars.png",

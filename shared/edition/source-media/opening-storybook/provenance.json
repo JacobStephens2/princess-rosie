@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "assets": [
+    {
+      "id": "opening.celebration-preparations",
+      "asset": "celebration-preparations.png",
+      "sha256": "8704d4a411c743ba0533d942535a5f9e7e5cd7e17b8f30b02a82bf7527805a24",
+      "purpose": "The Opening Storybook Moment illustration, showing Gigi preparing Princess Zélie's celebration with rose garlands and ribbons, an unlit birthday cake, and an expectant golden high chair.",
+      "generation": {
+        "provider": "OpenAI",
+        "providerHeadquarters": "United States",
+        "endpoint": "https://api.openai.com/v1/images/edits",
+        "model": "gpt-image-2",
+        "quality": "high",
+        "size": "1680x944",
+        "outputFormat": "png",
+        "mode": "reference-guided edit",
+        "referenceAsset": "source-media/celebration/birthday-castle-celebration.png",
+        "prompt": "Use case: illustration-story. Asset type: 16:9 Opening Storybook Moment illustration (\"celebration preparations\") for a gentle children's storybook game. Inside the magnificent warm golden mosaic Birthday Castle terrace in bright fairytale Sicily, strictly preserving architectural, garland, and lighting continuity from the reference image: warm cream and mosaic gold Arab-Norman arches, sunny open sky arches overlooking the sparkling Sapphire Sea, and warm mosaic terrace floor. Gigi, the tall friendly stylized giraffe party keeper, stands full-height on the warm mosaic terrace floor on the right side of the frame, with all four giraffe hooves firmly on the floor. Gigi gracefully stretches her long slender neck upward to fasten lush pink rose garlands and fluttering translucent rainbow ribbons along the golden arches. On the left side of the terrace floor, a festive draped banquet table holds Princess Zélie's rose-decorated first-birthday cake with exactly one unlit candle (short dark wick, strictly no flame, no fire, no smoke), while an empty ornate golden storybook high chair waits expectantly beside it with a tiny gold baby crown resting on its front tray. Princess Zélie, Princess Rosie, Stella the winged unicorn, Beasley the cat, and all Family Guests remain deliberately offscreen. Gigi is the sole character in the illustration, preparing the castle before anyone arrives. Composition/framing: wide cinematic 16:9 composition. Keep Gigi's face, neck, and decorating action, the arches, the cake, unlit candle, and the empty high chair with the tiny crown clearly visible in the central crop-safe area above the lower 35 percent reserved for the HTML story card. Style/medium: premium flat modern children's picture-book illustration, solid color blocks, gently rounded shapes, limited soft shadows, subtle paper texture, warm sunny morning lighting, expressive friendly face. Color palette: luminous mosaic gold, warm cream, blush pink, rose, lavender, sapphire, and restrained rainbow accents. Lighting/mood: warm sunny morning, safe, expectant, buoyant, celebratory. Constraints: exactly one giraffe standing full-height on the terrace floor; exactly one cake with exactly one unlit candle (dark wick, no flame); exactly one empty golden storybook high chair with one tiny baby crown on its tray; no humans, no children, no unicorn, no cat, no extra giraffes; no flame, no fire, no smoke, no lit candle; no written text, no numbers, no watermark, no logos, no photorealism, no scary imagery, no weapons, no peril, no religious figures. Original style, not Disney or any named studio, no 3D render, no anime, no realistic portrait.",
+        "tokens": {
+          "text_in": 2069,
+          "img_in": 0,
+          "img_out": 4648
+        },
+        "estimatedCostUsd": 0.149785
+      },
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-159 candidate selection",
+        "reason": "Chosen by project owner from candidate illustrations generated with direct OpenAI Images API (gpt-image-2) referencing the approved Birthday Castle finale illustration (#158). Depicts right-staged full-height Gigi decorating golden arches with rose garlands and ribbons, single-candle cake with dark unlit wick, and centered ornate golden storybook high chair with tiny gold baby crown.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}
