@@ -108,7 +108,8 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🐈",
     sky: 0x76ccef,
     ground: 0xe8f7ff,
-    placeIllustration: resolveDerivativePath("cloister.background"),
+    placeIllustration: resolveDerivativePath("cloister.far-layer"),
+    archwayTint: 0xe0f2fe,
     layers: getPlaceLayers("clouds"),
     stamp: {
       title: "Beasley’s Cloud Paws Stamp",

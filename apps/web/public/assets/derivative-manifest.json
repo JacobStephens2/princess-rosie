@@ -328,6 +328,76 @@
       "path": "/assets/derivatives/lacewood.lace-sprout.webp",
       "width": 256,
       "height": 256
+    },
+    {
+      "id": "cloister.far-layer",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/cloister.far-layer.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "cloister.cloister-arcade",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.cloister-arcade.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "cloister.cloud-colonnade-pavilion",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.cloud-colonnade-pavilion.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "cloister.sunlit-stone-balustrade",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.sunlit-stone-balustrade.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "shared.stone-planter",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.stone-planter.webp",
+      "width": 720,
+      "height": 720
+    },
+    {
+      "id": "cloister.soft-cloud-ground",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.soft-cloud-ground.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "cloister.cloud-stepping-stones",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.cloud-stepping-stones.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "cloister.sunlit-arch-canopy",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.sunlit-arch-canopy.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "cloister.soft-cloud",
+      "role": "cutout",
+      "path": "/assets/derivatives/cloister.soft-cloud.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "cloister.cloud-updraft",
+      "role": "cutout",
+      "path": "/assets/derivatives/cloister.cloud-updraft.webp",
+      "width": 256,
+      "height": 256
     }
   ]
 }
