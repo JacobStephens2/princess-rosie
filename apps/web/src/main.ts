@@ -61,8 +61,10 @@ export interface RosieRunnerInterface {
   getGrownUpCornerState?: () => GrownUpCornerState;
   resetJourney?: () => import("./domain/journey").Journey;
   flyAgain?: () => void;
+  getActiveFlightTrack?: () => import("./domain/soundtrack-rotation").FlightSoundtrack;
   getAudioTrack?: () => import("./domain/soundtrack-rotation").FlightSoundtrack;
   isAudioCelebrating?: () => boolean;
+
   isAudioCrossfading?: () => boolean;
   getAudioPlaylistState?: () => import("./domain/soundtrack-rotation").SoundtrackPlaylistState;
   isAudioEnabled?: () => boolean;
@@ -187,8 +189,8 @@ function renderOpeningStorybookMoment(): void {
   if (buttonText) buttonText.textContent = openingMomentIndex === OPENING_STORYBOOK_MOMENTS_AFTER_COVER.length ? "Fly with Rosie" : "Turn the page";
 }
 
-async function advanceStory(): Promise<void> {
-  await sound.start();
+function advanceStory(): void {
+  void sound.start();
   sound.play("button");
   if (openingMomentIndex < OPENING_STORYBOOK_MOMENTS_AFTER_COVER.length) {
     openingMomentIndex += 1;
@@ -197,6 +199,7 @@ async function advanceStory(): Promise<void> {
   }
   startGame();
 }
+
 
 function startGame(): void {
   storybook.hidden = true;
@@ -712,8 +715,10 @@ window.__ROSIE_RUNNER__ = {
   getGrownUpCornerState: () => grownUpCornerState,
   resetJourney: () => scene?.resetJourney() ?? resetJourney(),
   flyAgain: () => flyAgain(),
+  getActiveFlightTrack: () => sound.getActiveFlightTrack(),
   getAudioTrack: () => sound.getActiveFlightTrack(),
   isAudioCelebrating: () => sound.isCelebrationActive(),
+
   isAudioCrossfading: () => sound.isCrossfading(),
   getAudioPlaylistState: () => sound.getPlaylistState(),
   isAudioEnabled: () => sound.isEnabled(),

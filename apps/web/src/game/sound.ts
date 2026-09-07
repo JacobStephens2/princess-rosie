@@ -12,9 +12,10 @@ import {
 import {
   CrossfadeController,
   DEFAULT_CROSSFADE_DURATION_MS,
-  DEFAULT_MUSIC_VOLUME,
+  DEFAULT_SOUNDTRACK_VOLUME,
   type AudioChannel,
 } from "../domain/crossfade";
+
 
 export type SoundName = "star" | "bump" | "stumble" | "near-miss" | "rest" | "button" | "celebrate" | "chime" | "stamp";
 
@@ -121,7 +122,7 @@ class HtmlAudioChannel implements AudioChannel {
   constructor(src: string, loop: boolean) {
     this.audio = new Audio(src);
     this.audio.loop = loop;
-    this.audio.preload = "auto";
+    this.audio.preload = "none";
   }
 
   setVolume(volume: number): void {
@@ -138,11 +139,8 @@ class HtmlAudioChannel implements AudioChannel {
   }
 
   async play(): Promise<void> {
-    try {
-      await this.audio.play();
-    } catch {
-      // Autoplay or background decoding error silently caught
-    }
+    this.audio.preload = "auto";
+    await this.audio.play();
   }
 }
 
@@ -169,8 +167,8 @@ export interface GameAudioOptions {
 export class GameAudio {
   private context: AudioContext | undefined;
   private master: GainNode | undefined;
-  private musicTimer: number | undefined;
-  private musicStep = 0;
+  private fallbackTimer: number | undefined;
+  private fallbackStep = 0;
   private enabled = true;
 
   private readonly catalog: SoundtrackCatalog;
@@ -191,7 +189,7 @@ export class GameAudio {
     this.catalog = options?.catalog ?? DEFAULT_SOUNDTRACK_CATALOG;
     this.storage = options?.storage ?? (typeof window !== "undefined" ? window.localStorage : undefined);
     this.crossfadeDurationMs = options?.crossfadeDurationMs ?? DEFAULT_CROSSFADE_DURATION_MS;
-    this.baseVolume = options?.baseVolume ?? DEFAULT_MUSIC_VOLUME;
+    this.baseVolume = options?.baseVolume ?? DEFAULT_SOUNDTRACK_VOLUME;
 
     if (options?.channelFactory) {
       this.channelFactory = options.channelFactory;
@@ -248,7 +246,7 @@ export class GameAudio {
     try {
       await this.currentChannel.play();
     } catch {
-      this.startMusic();
+      this.startFallbackSoundtrack();
     }
 
     this.preloadSecondaryTracks();
@@ -257,23 +255,22 @@ export class GameAudio {
     }
   }
 
-  preloadSecondaryTracks(): void {
-    if (typeof Audio === "undefined") return;
+  private preloadTrack(src: string): void {
+    if (typeof Audio === "undefined" || this.preloadedTracks.has(src)) return;
+    this.preloadedTracks.add(src);
+    const preloadAudio = new Audio(src);
+    preloadAudio.preload = "auto";
+  }
 
+  preloadSecondaryTracks(): void {
     for (const track of this.catalog.flightTracks) {
-      if (track.id !== this.playlistState.currentTrack.id && !this.preloadedTracks.has(track.src)) {
-        this.preloadedTracks.add(track.src);
-        const preloadAudio = new Audio(track.src);
-        preloadAudio.preload = "auto";
+      if (track.id !== this.playlistState.currentTrack.id) {
+        this.preloadTrack(track.src);
       }
     }
-
-    if (!this.preloadedTracks.has(this.catalog.celebrationTheme.src)) {
-      this.preloadedTracks.add(this.catalog.celebrationTheme.src);
-      const preloadAudio = new Audio(this.catalog.celebrationTheme.src);
-      preloadAudio.preload = "auto";
-    }
+    this.preloadTrack(this.catalog.celebrationTheme.src);
   }
+
 
   async crossfadeToCelebration(): Promise<void> {
     if (this.isCelebrating) return;
@@ -358,18 +355,19 @@ export class GameAudio {
     }, 30) as unknown as number;
   }
 
-  private startMusic(): void {
-    if (this.musicTimer !== undefined) return;
+  private startFallbackSoundtrack(): void {
+    if (this.fallbackTimer !== undefined) return;
     const melody = [523, 659, 784, 659, 587, 698, 880, 698, 659, 784, 988, 784, 587, 659, 784, 523];
-    this.musicTimer = window.setInterval(() => {
+    this.fallbackTimer = window.setInterval(() => {
       if (this.enabled) {
-        const frequency = melody[this.musicStep % melody.length] ?? 523;
+        const frequency = melody[this.fallbackStep % melody.length] ?? 523;
         this.tone(frequency, 0, "sine", .035, .38);
-        if (this.musicStep % 4 === 0) this.tone(frequency / 2, 0, "triangle", .022, .72);
-        this.musicStep += 1;
+        if (this.fallbackStep % 4 === 0) this.tone(frequency / 2, 0, "triangle", .022, .72);
+        this.fallbackStep += 1;
       }
     }, 420);
   }
+
 
   private tone(frequency: number, delay: number, type: OscillatorType, volume: number, duration = .24): void {
     if (!this.context || !this.master) return;

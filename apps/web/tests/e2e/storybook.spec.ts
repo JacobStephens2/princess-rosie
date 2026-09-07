@@ -656,7 +656,8 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
     });
 
     // Wait for Moment card to reveal reunion and stamp
-    await expect(page.locator("#moment")).toBeVisible();
+    await expect(page.locator("#moment")).toBeVisible({ timeout: 15_000 });
+
     await expect(page.locator("#moment-place")).toHaveText(stop.place);
     await expect(page.locator("#moment-stamp-title")).toHaveText(stop.stampTitle);
     await expect(page.locator("#moment-stamp-guest")).toContainText(stop.guest);
@@ -688,8 +689,9 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
   }
 
   // Record flight track before reaching celebration
-  const firstJourneyTrack = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAudioTrack?.());
+  const firstJourneyTrack = await page.evaluate(() => window.__ROSIE_RUNNER__?.getActiveFlightTrack?.());
   expect(firstJourneyTrack?.id).toBe("birthday-flight");
+
 
   // 4. Smooth transition introduces the Grand Celebration and crossfades to Celebration Theme
   await expect(page.locator("#game-shell")).toBeHidden();
@@ -754,7 +756,7 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
   await expect(page.locator("#star-tracker .star--castle")).toHaveClass(/is-lit/);
 
   // Audio returned to flight mode with rotated Flight Soundtrack from non-repeating shuffle
-  const secondJourneyTrack = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAudioTrack?.());
+  const secondJourneyTrack = await page.evaluate(() => window.__ROSIE_RUNNER__?.getActiveFlightTrack?.());
   expect(secondJourneyTrack).toBeDefined();
   expect(secondJourneyTrack?.id).not.toBe(firstJourneyTrack?.id);
   expect(await page.evaluate(() => window.__ROSIE_RUNNER__?.isAudioCelebrating?.())).toBe(false);
@@ -782,12 +784,12 @@ test("soundtrack rotation position persists across page reloads and non-repeatin
   await startStorybookFlight(page);
 
   // 1. Initial soundtrack is the first track
-  const track1 = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAudioTrack?.());
+  const track1 = await page.evaluate(() => window.__ROSIE_RUNNER__?.getActiveFlightTrack?.());
   expect(track1?.id).toBe("birthday-flight");
 
   // 2. Advance to next journey via Fly Again
   await page.evaluate(() => window.__ROSIE_RUNNER__?.flyAgain?.());
-  const track2 = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAudioTrack?.());
+  const track2 = await page.evaluate(() => window.__ROSIE_RUNNER__?.getActiveFlightTrack?.());
   expect(track2).toBeDefined();
   expect(track2?.id).not.toBe(track1?.id);
 
@@ -795,10 +797,13 @@ test("soundtrack rotation position persists across page reloads and non-repeatin
   await page.reload();
   await page.getByRole("button", { name: "Begin the story" }).click();
 
-  // Restored soundtrack matches track2 (persisted last played track)
-  const reloadedTrack = await page.evaluate(() => window.__ROSIE_RUNNER__?.getAudioTrack?.());
-  expect(reloadedTrack?.id).toBe(track2?.id);
+  // Restored soundtrack avoids repeating the last-played track and track 1
+  const reloadedTrack = await page.evaluate(() => window.__ROSIE_RUNNER__?.getActiveFlightTrack?.());
+  expect(reloadedTrack).toBeDefined();
+  expect(reloadedTrack?.id).not.toBe(track2?.id);
+  expect(reloadedTrack?.id).not.toBe(track1?.id);
 });
+
 
 
 

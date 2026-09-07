@@ -16,7 +16,8 @@ export interface CrossfadeOptions {
 }
 
 export const DEFAULT_CROSSFADE_DURATION_MS = 1500;
-export const DEFAULT_MUSIC_VOLUME = 0.46;
+export const DEFAULT_SOUNDTRACK_VOLUME = 0.46;
+
 
 /**
  * Calculates equal-power crossfade gains for a given progress in [0, 1].
@@ -46,8 +47,9 @@ export class CrossfadeController {
 
   constructor(initialChannel: AudioChannel, options?: CrossfadeOptions) {
     this.activeChannel = initialChannel;
-    this.baseVolume = options?.baseVolume ?? DEFAULT_MUSIC_VOLUME;
+    this.baseVolume = options?.baseVolume ?? DEFAULT_SOUNDTRACK_VOLUME;
     this.durationMs = options?.durationMs ?? DEFAULT_CROSSFADE_DURATION_MS;
+
   }
 
   isCrossfading(): boolean {
