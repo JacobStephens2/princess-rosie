@@ -1,15 +1,9 @@
 import path from "node:path";
-import { fileURLToPath } from "node:url";
-import { generateContactSheet } from "./composite-contact-sheet";
+import { generateContactSheet, REPO_ROOT, STAGE_WIDTH, GROUND_Y } from "./composite-contact-sheet";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const REPO_ROOT = path.resolve(__dirname, "../../..");
 const GARDEN_DIR = path.join(REPO_ROOT, "shared/edition/source-media/garden");
 const SHARED_DIR = path.join(REPO_ROOT, "shared/edition/source-media/shared");
 const JOURNEY_DIR = path.join(REPO_ROOT, "shared/edition/source-media/journey");
-
-const STAGE_WIDTH = 1280;
-const GROUND_Y = 560;
 
 async function main() {
   const sparkle = path.join(GARDEN_DIR, "cutouts/star-sparkle.png");
