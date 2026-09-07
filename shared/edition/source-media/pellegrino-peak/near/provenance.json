@@ -1,0 +1,63 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "near",
+  "depthFactor": 1.0,
+  "totalSpendUsd": 0.49553,
+  "assets": [
+    {
+      "id": "pellegrino-peak.flowered-ground",
+      "role": "flowered-ground",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit terraced mountain slope with warm cream limestone flagstones, soft gravel path, and vibrant dense carpets of blush rose, lavender, and golden mountain wildflowers with scattered drifting flower petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+      "outputPath": "source-media/pellegrino-peak/near/flowered-ground.png",
+      "sha256": "5e400606808c2c223850fd1327ba49923db2f4f6da35a1fb053f7159eface8d4",
+      "costUsd": 0.165215,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-137 implementation review",
+        "reason": "Sunlit terraced mountain slope with limestone stones and dense flower carpets carrying Storybook Ground on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    },
+    {
+      "id": "pellegrino-peak.wildflower-border",
+      "role": "wildflower-border",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of blooming mountain wildflowers: rich clusters of blush pink blossoms, deep violet lavender spires, and golden chamomile with dark green foliage and small smooth rounded limestone rocks. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the flower foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+      "outputPath": "source-media/pellegrino-peak/near/wildflower-border.png",
+      "sha256": "e043732380ece13d1c190f288aae2b80ae930a8f4b0c4e1f6d21e7a4849270d9",
+      "costUsd": 0.16515,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-137 implementation review",
+        "reason": "Lush foreground lateral border of blooming pink mountain blossoms, violet lavender, and golden chamomile on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    },
+    {
+      "id": "pellegrino-peak.overhang-crag",
+      "role": "overhang-crag",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. An overarching upper mountain rock ledge of sunlit honey-colored limestone draped with trailing blush pink mountain blossoms, golden wildflower sprigs, and delicate drifting flower petals framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the rock ledge and trailing blossoms, no background sky, no ground, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+      "outputPath": "source-media/pellegrino-peak/near/overhang-crag.png",
+      "sha256": "2024d135f6ed387541030766ce69c439776cb484552a98945161f4c21d69fd51",
+      "costUsd": 0.165165,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-137 implementation review",
+        "reason": "Overarching upper mountain limestone ledge with trailing blossoms framing the top of the scene on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    }
+  ]
+}

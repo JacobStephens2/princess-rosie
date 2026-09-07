@@ -1,0 +1,44 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "category": "cutouts",
+  "totalSpendUsd": 0.422715,
+  "assets": [
+    {
+      "id": "pellegrino-peak.flower-bank",
+      "role": "flower-bank",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game playful obstacle cutout. A charming, gentle storybook flower bank obstacle cutout for a gentle children's game: a low rounded bank of warm cream limestone rocks and soft earth covered in lush clusters of blooming blush pink and magenta mountain flowers, golden chamomile, and purple lavender with fresh green leaves. Gentle and inviting, low obstacle resting on Storybook Ground. Isolated cutout on transparent background with clean alpha channel. No sky, no background, no ground outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "outputPath": "source-media/pellegrino-peak/cutouts/flower-bank.png",
+      "sha256": "f83b8916d3c5723805609fddfda46cf4f3ef314023cff8839325e1f766367bc7",
+      "costUsd": 0.21134,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-137 implementation review",
+        "reason": "Charming rounded flower bank obstacle of warm limestone rocks and blooming pink and magenta mountain flowers on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    },
+    {
+      "id": "pellegrino-peak.mountain-blossom",
+      "role": "mountain-blossom",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a giant, springy mountain blossom cushion resting on a small rounded limestone rock base, featuring wide, layered bouncy petals of luminous blush pink, peach, and lavender, with a glowing golden starlight pollen center, ready to joyfully launch Stella high into the mountain air. Upright and bouncy. Isolated cutout on transparent background with clean alpha channel. No sky, no background, no ground outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "outputPath": "source-media/pellegrino-peak/cutouts/mountain-blossom.png",
+      "sha256": "365b0f211791758721ce4012b49634dbeb2060b56628b37f6f00a44c4eccdb7a",
+      "costUsd": 0.211375,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-137 implementation review",
+        "reason": "Joyful bouncy mountain blossom springboard with layered pink and lavender petals and golden pollen center on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    }
+  ]
+}

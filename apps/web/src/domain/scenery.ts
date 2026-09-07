@@ -137,12 +137,45 @@ export const LACEWOOD_SCENERY: PlaceScenery = {
   ],
 };
 
+export const PELLEGRINO_PEAK_SCENERY: PlaceScenery = {
+  place: "peak",
+  layers: [
+    {
+      depth: "far",
+      depthFactor: 0.2,
+      paintingAssetId: "pellegrino-peak.far-layer",
+      setPieces: [],
+    },
+    {
+      depth: "middle",
+      depthFactor: 0.5,
+      setPieces: [
+        { assetId: "shared.cloud-bank", positionAlongCourse: 450, groundAnchor: 0.25 },
+        { assetId: "shared.cypress-tree", positionAlongCourse: 1050, groundAnchor: 0.78 },
+        { assetId: "pellegrino-peak.flowered-ridge", positionAlongCourse: 1600, groundAnchor: 0.78 },
+        { assetId: "shared.limestone-boulder", positionAlongCourse: 2050, groundAnchor: 0.78 },
+        { assetId: "pellegrino-peak.blossom-tree", positionAlongCourse: 2500, groundAnchor: 0.78 },
+        { assetId: "pellegrino-peak.terrace-overlook", positionAlongCourse: 2890, groundAnchor: 0.78 },
+      ],
+    },
+    {
+      depth: "near",
+      depthFactor: 1.0,
+      setPieces: [
+        { assetId: "pellegrino-peak.flowered-ground", positionAlongCourse: 800, groundAnchor: 0.95 },
+        { assetId: "pellegrino-peak.wildflower-border", positionAlongCourse: 2200, groundAnchor: 0.92 },
+        { assetId: "pellegrino-peak.overhang-crag", positionAlongCourse: 3600, groundAnchor: 0.78 },
+      ],
+    },
+  ],
+};
+
 export const AUTHORED_PLACE_SCENERY: Record<StarStop, PlaceScenery> = {
   garden: ROSE_GARDEN_SCENERY,
   lacewood: LACEWOOD_SCENERY,
   abbey: createPlaceScenery("abbey"),
   clouds: createPlaceScenery("clouds"),
-  peak: createPlaceScenery("peak"),
+  peak: PELLEGRINO_PEAK_SCENERY,
   sea: createPlaceScenery("sea"),
   castle: createPlaceScenery("castle"),
 };
