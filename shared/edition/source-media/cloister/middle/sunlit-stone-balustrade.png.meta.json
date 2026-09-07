@@ -1,0 +1,20 @@
+{
+  "id": "cloister.sunlit-stone-balustrade",
+  "role": "sunlit-stone-balustrade",
+  "category": "middle",
+  "reason": "Classical sunlit cream-and-honey stone balustrade with carved balusters and flowering urn planters on soft clouds on transparent background.",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/sunlit-stone-balustrade.png",
+  "sha256": "c130253d92a715701c24fa4759ebd60b78f21159eee400aeb835a1a6672df586",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 103,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165155,
+  "elapsedSeconds": 119.43,
+  "prompt": "Use case: production game middle scenery Set Piece. A lateral run of classical sunlit cream-and-honey stone balustrades with carved balusters and stone pedestals topped with ornate urn planters of blooming blush roses, lavender, and trailing green vines, resting atop pillowy fairytale clouds. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below clouds, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral run of classical sunlit cream-and-honey stone balustrades with carved balusters and stone pedestals topped with ornate urn planters of blooming blush roses, lavender, and trailing green vines, resting atop pillowy fairytale clouds. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below clouds, no characters, no text. Storybook picture-book style matching Cloister of Clouds."
+}

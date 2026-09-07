@@ -1,0 +1,206 @@
+{
+  "totalCostUsd": 1.6979,
+  "itemCount": 10,
+  "items": [
+    {
+      "id": "cloister.cloister-arcade",
+      "role": "cloister-arcade",
+      "category": "middle",
+      "reason": "Grand sunlit classical cloister arcade of warm honey-colored stone arches and pillars on transparent background framing arrival at Rainbow Archway.",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/cloister-arcade.png",
+      "sha256": "629604159dfe6d18554bae41d4bc0288ac97cdbe8d99159123335cbb9a949510",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 140,
+        "img_in": 0,
+        "img_out": 3952
+      },
+      "estimatedCostUsd": 0.11926,
+      "elapsedSeconds": 76.04,
+      "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and atmospheric composition from the approved reference painting of Cloister of Clouds: a grand, sunlit classical cloister arcade of warm honey-colored stone pillars and semicircular arches floating gracefully in the open sky, catching radiant golden light, flanked by low stone balustrades, stone urns overflowing with blooming pink roses and lavender, with clouds drifting around the base. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and outside the stone structure, no background sky, no ground plane below the stone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and atmospheric composition from the approved reference painting of Cloister of Clouds: a grand, sunlit classical cloister arcade of warm honey-colored stone pillars and semicircular arches floating gracefully in the open sky, catching radiant golden light, flanked by low stone balustrades, stone urns overflowing with blooming pink roses and lavender, with clouds drifting around the base. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and outside the stone structure, no background sky, no ground plane below the stone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+    },
+    {
+      "id": "cloister.far-layer",
+      "role": "far-layer",
+      "category": "far",
+      "reason": "Opaque 3:1 panorama landscape vista of tranquil open sky, soft morning cloud banks, and distant Sicilian mountain peaks under warm Mediterranean light; no characters, text, or foreground arches.",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/far/far-layer.png",
+      "sha256": "4ef5edda706d067e71599ff37821bb7e93321538b680e1cb6e11d579af18be63",
+      "background": "opaque",
+      "tokens": {
+        "text_in": 103,
+        "img_in": 0,
+        "img_out": 3952
+      },
+      "estimatedCostUsd": 0.119075,
+      "elapsedSeconds": 95.29,
+      "prompt": "Use case: production game far scenery layer. A wide panoramic landscape of Cloister of Clouds far layer: clear sunny sapphire blue and radiant golden sky with soft drifting fairytale clouds, distant Sicilian mountain peaks rising softly through a morning sea of pastel clouds, and golden sunbeams under warm Mediterranean light. Distant panoramic viewpoint, no foreground arches, no foreground buildings, no people, no characters, no text, no star. Painterly children's picture-book illustration matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game far scenery layer. A wide panoramic landscape of Cloister of Clouds far layer: clear sunny sapphire blue and radiant golden sky with soft drifting fairytale clouds, distant Sicilian mountain peaks rising softly through a morning sea of pastel clouds, and golden sunbeams under warm Mediterranean light. Distant panoramic viewpoint, no foreground arches, no foreground buildings, no people, no characters, no text, no star. Painterly children's picture-book illustration matching Fairytale Sicily."
+    },
+    {
+      "id": "cloister.sunlit-stone-balustrade",
+      "role": "sunlit-stone-balustrade",
+      "category": "middle",
+      "reason": "Classical sunlit cream-and-honey stone balustrade with carved balusters and flowering urn planters on soft clouds on transparent background.",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/sunlit-stone-balustrade.png",
+      "sha256": "c130253d92a715701c24fa4759ebd60b78f21159eee400aeb835a1a6672df586",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 103,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165155,
+      "elapsedSeconds": 119.43,
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral run of classical sunlit cream-and-honey stone balustrades with carved balusters and stone pedestals topped with ornate urn planters of blooming blush roses, lavender, and trailing green vines, resting atop pillowy fairytale clouds. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below clouds, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral run of classical sunlit cream-and-honey stone balustrades with carved balusters and stone pedestals topped with ornate urn planters of blooming blush roses, lavender, and trailing green vines, resting atop pillowy fairytale clouds. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below clouds, no characters, no text. Storybook picture-book style matching Cloister of Clouds."
+    },
+    {
+      "id": "cloister.cloud-colonnade-pavilion",
+      "role": "cloud-colonnade-pavilion",
+      "category": "middle",
+      "reason": "Classical floating colonnade pavilion of warm honey stone arches resting upon a billowy cloud base on transparent background.",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/cloud-colonnade-pavilion.png",
+      "sha256": "542e10eb3737a1ad46b6ef141f178997020a4b0d9bcf361c81671e93f10cf733",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 103,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165155,
+      "elapsedSeconds": 125.28,
+      "prompt": "Use case: production game middle scenery Set Piece. A classical floating open pavilion or colonnade of warm honey stone pillars supporting elegant rounded arches and a delicate carved stone cornice, resting upon a soft voluminous white and blush cloud bank floating in mid-air. Lateral Set Piece on transparent background. Clean alpha channel through arch openings and around structure, no background sky, no ground below cloud base, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. A classical floating open pavilion or colonnade of warm honey stone pillars supporting elegant rounded arches and a delicate carved stone cornice, resting upon a soft voluminous white and blush cloud bank floating in mid-air. Lateral Set Piece on transparent background. Clean alpha channel through arch openings and around structure, no background sky, no ground below cloud base, no characters, no text. Storybook picture-book style matching Cloister of Clouds."
+    },
+    {
+      "id": "cloister.soft-cloud-ground",
+      "role": "soft-cloud-ground",
+      "category": "near",
+      "reason": "Soft voluminous rounded banked cumulus clouds with golden rim highlights carrying Storybook Ground on transparent background.",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/soft-cloud-ground.png",
+      "sha256": "6d1834a98ae1431fa75e59b4854fe43ee43db09bd8e5666f1f85776de3dc99b8",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 113,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165205,
+      "elapsedSeconds": 120.97,
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of soft, voluminous banked cumulus clouds, pale and pillowy and rounded, with warm golden sunlit rim highlights and pastel pink and lavender shaded undersides, carrying the Storybook Ground along the bottom of the screen. Low horizontal cloud bank spanning the width on transparent background. Clean alpha channel everywhere above the upper billowing cloud contour, no sky, no ground below, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of soft, voluminous banked cumulus clouds, pale and pillowy and rounded, with warm golden sunlit rim highlights and pastel pink and lavender shaded undersides, carrying the Storybook Ground along the bottom of the screen. Low horizontal cloud bank spanning the width on transparent background. Clean alpha channel everywhere above the upper billowing cloud contour, no sky, no ground below, no characters, no text. Storybook picture-book style matching Cloister of Clouds."
+    },
+    {
+      "id": "cloister.cloud-stepping-stones",
+      "role": "cloud-stepping-stones",
+      "category": "near",
+      "reason": "Smooth cream flagstone pavers and stepping stones nestled in soft clouds carrying Storybook Ground on transparent background.",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/cloud-stepping-stones.png",
+      "sha256": "d461102f4d741002a6072c05ac27359e4366505409f94eb6845e80c722f0cb1a",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 101,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165145,
+      "elapsedSeconds": 117.34,
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of smooth cream flagstone pavers and stepping stones nestled among billowy soft white clouds with scattered fallen flower petals and tiny flowering cloud-moss, carrying the Storybook Ground. Low horizontal paved stone and cloud strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of smooth cream flagstone pavers and stepping stones nestled among billowy soft white clouds with scattered fallen flower petals and tiny flowering cloud-moss, carrying the Storybook Ground. Low horizontal paved stone and cloud strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Cloister of Clouds."
+    },
+    {
+      "id": "shared.stone-planter",
+      "role": "stone-planter",
+      "category": "shared",
+      "reason": "Charming freestanding storybook classical stone urn planter overflowing with pink roses and lavender on carved pedestal on transparent background.",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/shared/stone-planter.png",
+      "sha256": "6ed8bebd720256d946709fc50e81cecd340b00b7654c02eeaf72ba3ff02d4bdf",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 92,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.21118,
+      "elapsedSeconds": 168.8,
+      "prompt": "Use case: production game shared library Set Piece. A charming freestanding storybook classical stone urn planter of warm carved cream limestone, overflowing with vibrant blooming pink roses, purple lavender, and trailing ivy vines, resting on a sturdy carved stone pedestal. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside stone pedestal base, no background, no characters, no text. Storybook picture-book illustration style.",
+      "revisedPrompt": "Use case: production game shared library Set Piece. A charming freestanding storybook classical stone urn planter of warm carved cream limestone, overflowing with vibrant blooming pink roses, purple lavender, and trailing ivy vines, resting on a sturdy carved stone pedestal. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside stone pedestal base, no background, no characters, no text. Storybook picture-book illustration style."
+    },
+    {
+      "id": "cloister.sunlit-arch-canopy",
+      "role": "sunlit-arch-canopy",
+      "category": "near",
+      "reason": "Overarching upper canopy of sunlit honey stone arches and carved mouldings framing the top of the scene on transparent background.",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/sunlit-arch-canopy.png",
+      "sha256": "ef64331fa42dcac7f826dd3aa4a8061504c889290615c6a74128f5bcce33e18f",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 108,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16518,
+      "elapsedSeconds": 126.18,
+      "prompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of sunlit honey-colored stone arches and classical carved architectural mouldings framing the top of the scene, with climbing pink roses and soft wisps of cloud curling around the arch keystones. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the arched stone openings and lower border, no background sky, no ground, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of sunlit honey-colored stone arches and classical carved architectural mouldings framing the top of the scene, with climbing pink roses and soft wisps of cloud curling around the arch keystones. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the arched stone openings and lower border, no background sky, no ground, no characters, no text. Storybook picture-book style matching Cloister of Clouds."
+    },
+    {
+      "id": "cloister.soft-cloud",
+      "role": "soft-cloud",
+      "category": "cutouts",
+      "reason": "Charming gentle fluffy pillowy cloud puff obstacle hovering with golden outline on transparent background.",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/cutouts/soft-cloud.png",
+      "sha256": "5223fbb110cb51319d605fb3bb59f1b631f6e4407fb690ccd48f81de2a441a39",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 109,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.211265,
+      "elapsedSeconds": 158.93,
+      "prompt": "Use case: production game playful obstacle cutout. A charming, gentle storybook soft cloud obstacle cutout for a gentle children's game: a fluffy, pillowy rounded white cloud puff with gentle lavender-tinged shadows and a warm golden starlight outline, hovering softly above a small wisp of cloud mist. Genuine RGBA transparent background around the cloud silhouette. Isolated cutout, no background, no ground plane, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, gentle storybook soft cloud obstacle cutout for a gentle children's game: a fluffy, pillowy rounded white cloud puff with gentle lavender-tinged shadows and a warm golden starlight outline, hovering softly above a small wisp of cloud mist. Genuine RGBA transparent background around the cloud silhouette. Isolated cutout, no background, no ground plane, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+    },
+    {
+      "id": "cloister.cloud-updraft",
+      "role": "cloud-updraft",
+      "category": "cutouts",
+      "reason": "Joyful spiraling springy cloud updraft vortex with glowing golden starlight crest on transparent background.",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/cutouts/cloud-updraft.png",
+      "sha256": "352ceb069c1c6425223b132f2322c4cee24f0cd2e52afe28dfb03f6c89fca1db",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 115,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.211295,
+      "elapsedSeconds": 164.27,
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a spiraling, springy cloud updraft swirling upward like a soft coiled vortex of luminous white cloud ribbons and glowing golden starlight pollen at its buoyant crest, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a spiraling, springy cloud updraft swirling upward like a soft coiled vortex of luminous white cloud ribbons and glowing golden starlight pollen at its buoyant crest, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+    }
+  ]
+}

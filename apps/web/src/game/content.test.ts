@@ -25,9 +25,9 @@ describe("content and derivative place illustrations", () => {
     const expectedMappings: Record<string, string> = {
       garden: "/assets/derivatives/garden.far-layer.webp",
       lacewood: "/assets/derivatives/lacewood.far-layer.webp",
-      abbey: "/assets/derivatives/abbey.background.webp",
-      clouds: "/assets/derivatives/cloister.background.webp",
-      peak: "/assets/derivatives/pellegrino-peak.background.webp",
+      abbey: "/assets/derivatives/abbey.far-layer.webp",
+      clouds: "/assets/derivatives/cloister.far-layer.webp",
+      peak: "/assets/derivatives/pellegrino-peak.far-layer.webp",
       sea: "/assets/derivatives/sapphire-sea.far-layer.webp",
       castle: "/assets/derivatives/celebration.castle-approach.webp",
     };
@@ -98,7 +98,6 @@ describe("content and derivative place illustrations", () => {
         expect(middle?.setPieces.length).toBeGreaterThan(0);
         expect(near?.depthFactor).toBe(1.0);
         expect(near?.setPieces.length).toBeGreaterThan(0);
-        expect(stop.archwayTint).toBe(0xffd9e8);
       } else if (stop.id === "lacewood") {
         expect(far?.depthFactor).toBe(0.2);
         expect(middle?.depthFactor).toBe(0.5);
@@ -106,6 +105,27 @@ describe("content and derivative place illustrations", () => {
         expect(near?.depthFactor).toBe(1.0);
         expect(near?.setPieces.length).toBeGreaterThan(0);
         expect(stop.archwayTint).toBe(0xe8e4ff);
+      } else if (stop.id === "abbey") {
+        expect(far?.depthFactor).toBe(0.2);
+        expect(middle?.depthFactor).toBe(0.5);
+        expect(middle?.setPieces.length).toBeGreaterThan(0);
+        expect(near?.depthFactor).toBe(1.0);
+        expect(near?.setPieces.length).toBeGreaterThan(0);
+        expect(stop.archwayTint).toBe(0xffe899);
+      } else if (stop.id === "clouds") {
+        expect(far?.depthFactor).toBe(0.2);
+        expect(middle?.depthFactor).toBe(0.5);
+        expect(middle?.setPieces.length).toBeGreaterThan(0);
+        expect(near?.depthFactor).toBe(1.0);
+        expect(near?.setPieces.length).toBeGreaterThan(0);
+        expect(stop.archwayTint).toBe(0xe0f2fe);
+      } else if (stop.id === "peak") {
+        expect(far?.depthFactor).toBe(0.2);
+        expect(middle?.depthFactor).toBe(0.5);
+        expect(middle?.setPieces.length).toBeGreaterThan(0);
+        expect(near?.depthFactor).toBe(1.0);
+        expect(near?.setPieces.length).toBeGreaterThan(0);
+        expect(stop.archwayTint).toBe(0xffe0c2);
       } else if (stop.id === "sea") {
         expect(far?.depthFactor).toBe(0.2);
         expect(middle?.depthFactor).toBe(0.5);

@@ -1,0 +1,18 @@
+{
+  "id": "pellegrino-peak.flowered-ground",
+  "role": "flowered-ground",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/near/flowered-ground.png",
+  "sha256": "5e400606808c2c223850fd1327ba49923db2f4f6da35a1fb053f7159eface8d4",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 115,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165215,
+  "elapsedSeconds": 112.86,
+  "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit terraced mountain slope with warm cream limestone flagstones, soft gravel path, and vibrant dense carpets of blush rose, lavender, and golden mountain wildflowers with scattered drifting flower petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit terraced mountain slope with warm cream limestone flagstones, soft gravel path, and vibrant dense carpets of blush rose, lavender, and golden mountain wildflowers with scattered drifting flower petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Pellegrino Peak."
+}

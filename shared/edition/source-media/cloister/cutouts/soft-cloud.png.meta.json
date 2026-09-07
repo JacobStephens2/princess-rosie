@@ -1,0 +1,20 @@
+{
+  "id": "cloister.soft-cloud",
+  "role": "soft-cloud",
+  "category": "cutouts",
+  "reason": "Charming gentle fluffy pillowy cloud puff obstacle hovering with golden outline on transparent background.",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/cutouts/soft-cloud.png",
+  "sha256": "5223fbb110cb51319d605fb3bb59f1b631f6e4407fb690ccd48f81de2a441a39",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 109,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.211265,
+  "elapsedSeconds": 158.93,
+  "prompt": "Use case: production game playful obstacle cutout. A charming, gentle storybook soft cloud obstacle cutout for a gentle children's game: a fluffy, pillowy rounded white cloud puff with gentle lavender-tinged shadows and a warm golden starlight outline, hovering softly above a small wisp of cloud mist. Genuine RGBA transparent background around the cloud silhouette. Isolated cutout, no background, no ground plane, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, gentle storybook soft cloud obstacle cutout for a gentle children's game: a fluffy, pillowy rounded white cloud puff with gentle lavender-tinged shadows and a warm golden starlight outline, hovering softly above a small wisp of cloud mist. Genuine RGBA transparent background around the cloud silhouette. Isolated cutout, no background, no ground plane, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+}

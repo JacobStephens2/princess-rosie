@@ -1,0 +1,20 @@
+{
+  "id": "cloister.cloister-arcade",
+  "role": "cloister-arcade",
+  "category": "middle",
+  "reason": "Grand sunlit classical cloister arcade of warm honey-colored stone arches and pillars on transparent background framing arrival at Rainbow Archway.",
+  "model": "gpt-image-2",
+  "size": "3072x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/cloister-arcade.png",
+  "sha256": "629604159dfe6d18554bae41d4bc0288ac97cdbe8d99159123335cbb9a949510",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 140,
+    "img_in": 0,
+    "img_out": 3952
+  },
+  "estimatedCostUsd": 0.11926,
+  "elapsedSeconds": 76.04,
+  "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and atmospheric composition from the approved reference painting of Cloister of Clouds: a grand, sunlit classical cloister arcade of warm honey-colored stone pillars and semicircular arches floating gracefully in the open sky, catching radiant golden light, flanked by low stone balustrades, stone urns overflowing with blooming pink roses and lavender, with clouds drifting around the base. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and outside the stone structure, no background sky, no ground plane below the stone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and atmospheric composition from the approved reference painting of Cloister of Clouds: a grand, sunlit classical cloister arcade of warm honey-colored stone pillars and semicircular arches floating gracefully in the open sky, catching radiant golden light, flanked by low stone balustrades, stone urns overflowing with blooming pink roses and lavender, with clouds drifting around the base. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and outside the stone structure, no background sky, no ground plane below the stone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+}

@@ -1,0 +1,196 @@
+{
+  "totalCostUsd": 1.6982,
+  "itemCount": 10,
+  "items": [
+    {
+      "id": "abbey.cloister-arcade",
+      "role": "cloister-arcade",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/middle/cloister-arcade.png",
+      "sha256": "a2834bea4683f8dffdada47e5bb3193c7b0fced406c04a1539d8d40cc0f1a207",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 157,
+        "img_in": 0,
+        "img_out": 3952
+      },
+      "estimatedCostUsd": 0.119345,
+      "elapsedSeconds": 76.77,
+      "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and cloister composition from the approved reference painting of Golden Bell Abbey: a grand, sunlit abbey garden cloister arcade of warm honey-colored stone arches with carved capitals, an open colonnade hung with small swinging golden bells, high arched openings, colorful stained-glass rose roundels catching the light, flanked by low stone balustrades and carved stone urns overflowing with blooming purple lavender and blush roses. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and colonnade pillars and outside the structure, no background sky, no ground plane below the stone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and cloister composition from the approved reference painting of Golden Bell Abbey: a grand, sunlit abbey garden cloister arcade of warm honey-colored stone arches with carved capitals, an open colonnade hung with small swinging golden bells, high arched openings, colorful stained-glass rose roundels catching the light, flanked by low stone balustrades and carved stone urns overflowing with blooming purple lavender and blush roses. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and colonnade pillars and outside the structure, no background sky, no ground plane below the stone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "reason": "Grand honey-stone abbey garden cloister arcade with carved capitals, open colonnade, hanging golden bells, and stained-glass roundels framing arrival at Rainbow Archway."
+    },
+    {
+      "id": "abbey.far-layer",
+      "role": "far-layer",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/far/far-layer.png",
+      "sha256": "c3b2f7ee8d2d97644ecabe739539664f198ee65a65776cc56f59ad8c9c08ab60",
+      "background": "opaque",
+      "tokens": {
+        "text_in": 116,
+        "img_in": 0,
+        "img_out": 3952
+      },
+      "estimatedCostUsd": 0.11914,
+      "elapsedSeconds": 82.52,
+      "prompt": "Use case: production game far scenery layer. A wide panoramic landscape of Golden Bell Abbey far layer: clear sunny sapphire blue sky with soft drifting fairytale clouds, distant Sicilian hillside with warm honey-colored stone abbey bell tower and terracotta roofs nestled among rolling green olive terraces, slender cypress spires, and distant purple misty mountains under warm golden Mediterranean light. Distant panoramic viewpoint, no foreground arcade, no foreground arches, no people, no characters, no text, no star. Painterly children's picture-book illustration matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game far scenery layer. A wide panoramic landscape of Golden Bell Abbey far layer: clear sunny sapphire blue sky with soft drifting fairytale clouds, distant Sicilian hillside with warm honey-colored stone abbey bell tower and terracotta roofs nestled among rolling green olive terraces, slender cypress spires, and distant purple misty mountains under warm golden Mediterranean light. Distant panoramic viewpoint, no foreground arcade, no foreground arches, no people, no characters, no text, no star. Painterly children's picture-book illustration matching Fairytale Sicily.",
+      "reason": "Opaque 3:1 panorama landscape vista of Golden Bell Abbey with sunny sapphire sky, distant Sicilian hillside bell tower, terracotta roofs, and rolling olive terraces; no characters, text, or foreground arches."
+    },
+    {
+      "id": "abbey.bell-tower-belfry",
+      "role": "bell-tower-belfry",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/middle/bell-tower-belfry.png",
+      "sha256": "1612282c03ad858dffd25121970d886896da974afc0889fa2c55b84b462ae50b",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 107,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165175,
+      "elapsedSeconds": 120.13,
+      "prompt": "Use case: production game middle scenery Set Piece. A graceful, sunlit abbey bell tower belfry of warm honey-colored stone with tall arched openings revealing swinging polished golden church bells, topped with a gentle terracotta tiled roof and delicate carved architectural finial. Isolated vertical tower Set Piece on transparent background. Clean alpha channel through open archways and around the tower silhouette, no background sky, no ground plane, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. A graceful, sunlit abbey bell tower belfry of warm honey-colored stone with tall arched openings revealing swinging polished golden church bells, topped with a gentle terracotta tiled roof and delicate carved architectural finial. Isolated vertical tower Set Piece on transparent background. Clean alpha channel through open archways and around the tower silhouette, no background sky, no ground plane, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "reason": "Sunlit abbey bell tower belfry of warm honey-colored stone with tall arched openings revealing swinging golden church bells on transparent background."
+    },
+    {
+      "id": "abbey.rose-window-wall",
+      "role": "rose-window-wall",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/middle/rose-window-wall.png",
+      "sha256": "9745a98d5166a850234252a113dd4159b2a9671f044a6d26f2781b234ffd6138",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 116,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16522,
+      "elapsedSeconds": 125.32,
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral section of warm honey-colored stone abbey wall featuring a large, ornate stained-glass rose window glowing with jewel-toned sapphire, blush rose, and golden mosaic glass catching warm sunlight, flanked by carved stone columns with hanging small golden bells and climbing garden roses. Lateral Set Piece on transparent background. Clean alpha channel outside the stone structure and through wall cutouts, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral section of warm honey-colored stone abbey wall featuring a large, ornate stained-glass rose window glowing with jewel-toned sapphire, blush rose, and golden mosaic glass catching warm sunlight, flanked by carved stone columns with hanging small golden bells and climbing garden roses. Lateral Set Piece on transparent background. Clean alpha channel outside the stone structure and through wall cutouts, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "reason": "Honey-stone abbey wall with glowing jewel-toned stained-glass rose window and carved pilasters on transparent background."
+    },
+    {
+      "id": "abbey.stone-terrace-ground",
+      "role": "stone-terrace-ground",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/near/stone-terrace-ground.png",
+      "sha256": "3df93017d41b7b12bb70f5882d65e9da2b9fe86dd96f07cd6283c0e05d6895b2",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 106,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16517,
+      "elapsedSeconds": 114.3,
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit warm honey-and-terracotta stone courtyard flagstones and mosaic tiles with soft dappled arch shadows and scattered purple lavender sprigs, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit warm honey-and-terracotta stone courtyard flagstones and mosaic tiles with soft dappled arch shadows and scattered purple lavender sprigs, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "reason": "Sunlit warm honey-and-terracotta paved stone terrace flagstones carrying Storybook Ground on transparent background."
+    },
+    {
+      "id": "abbey.lavender-herb-border",
+      "role": "lavender-herb-border",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/near/lavender-herb-border.png",
+      "sha256": "7f5c2265cd7837838231cf4bc62e4b26a85ae2473646d46f5e5287a02838b161",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 94,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16511,
+      "elapsedSeconds": 118.45,
+      "prompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of blooming fragrant purple lavender bushes, golden marigolds, and climbing blush roses along a low carved honey-stone garden kerb. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the herb foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of blooming fragrant purple lavender bushes, golden marigolds, and climbing blush roses along a low carved honey-stone garden kerb. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the herb foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "reason": "Lush foreground border strip of fragrant purple lavender, marigolds, and climbing blush roses along carved stone garden kerb on transparent background."
+    },
+    {
+      "id": "shared.stone-fountain",
+      "role": "shared-set-piece",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/shared/stone-fountain.png",
+      "sha256": "e510b13a42c95d3ae8f1e87582ac4168234a5bd8a57f45bbe0428ee51ebe787a",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 103,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.211235,
+      "elapsedSeconds": 167.37,
+      "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook tiered stone fountain of warm honey-colored limestone with gentle clear water spilling between scallop-carved basins, resting on an ornate pedestal carved with floral reliefs and surrounded by miniature potted lavender at its base. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the stone base, no background, no characters, no text. Storybook picture-book illustration style.",
+      "revisedPrompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook tiered stone fountain of warm honey-colored limestone with gentle clear water spilling between scallop-carved basins, resting on an ornate pedestal carved with floral reliefs and surrounded by miniature potted lavender at its base. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the stone base, no background, no characters, no text. Storybook picture-book illustration style.",
+      "reason": "Charming freestanding storybook tiered stone garden fountain of honey limestone with gentle spilling water on transparent background."
+    },
+    {
+      "id": "abbey.vaulted-arch-canopy",
+      "role": "vaulted-arch-canopy",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/near/vaulted-arch-canopy.png",
+      "sha256": "4363421e90d14f2fc23bcc7c1bde0c6dcddcf884d7f74f5931efe7c40bd93901",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 97,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165125,
+      "elapsedSeconds": 122.97,
+      "prompt": "Use case: production game near scenery Set Piece. An overarching upper foreground canopy of carved honey-stone cloister rib vaulting and warm gothic stone arches hung with small decorative swinging golden bells, framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the arched vaulting, no background sky, no ground, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. An overarching upper foreground canopy of carved honey-stone cloister rib vaulting and warm gothic stone arches hung with small decorative swinging golden bells, framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the arched vaulting, no background sky, no ground, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "reason": "Overarching top cloister rib vaulting and warm stone arches hung with small decorative golden bells on transparent background."
+    },
+    {
+      "id": "abbey.bell-rope",
+      "role": "bell-rope",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/cutouts/bell-rope.png",
+      "sha256": "a331530c48d6a0ee8d90a739c8a31cee5540c7bb0aef4e14928eac03bd76b897",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 124,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.21134,
+      "elapsedSeconds": 175.0,
+      "prompt": "Use case: production game playful obstacle cutout. A charming, whimsical storybook bell rope obstacle cutout for a gentle children's game: a thick braided golden-amber pull rope hanging down from a carved honey-stone bracket, ending in a soft fluffy wool tassel and a small swinging polished golden bell, mounted above a small base of green moss and purple lavender sprigs. Genuine RGBA transparent background around the silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, whimsical storybook bell rope obstacle cutout for a gentle children's game: a thick braided golden-amber pull rope hanging down from a carved honey-stone bracket, ending in a soft fluffy wool tassel and a small swinging polished golden bell, mounted above a small base of green moss and purple lavender sprigs. Genuine RGBA transparent background around the silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "reason": "Charming braided golden bell rope obstacle with wool tassel and small swinging hand bell above lavender base on transparent background."
+    },
+    {
+      "id": "abbey.abbey-bell",
+      "role": "abbey-bell",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/cutouts/abbey-bell.png",
+      "sha256": "1c38ea9b473993b0f7d876e32fd1bd5e7122ed0da7572fc9cd9552e8718c2862",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 122,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.21133,
+      "elapsedSeconds": 162.81,
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: an ornate, gleaming golden abbey bell resting on a springy, coiled bronze mount with soft leafy ivy and lavender accents, with a rounded clapper and glowing warm musical star chime glints, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: an ornate, gleaming golden abbey bell resting on a springy, coiled bronze mount with soft leafy ivy and lavender accents, with a rounded clapper and glowing warm musical star chime glints, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "reason": "Gleaming golden abbey bell springboard on springy bronze mount with ivy and musical star glints on transparent background."
+    }
+  ]
+}

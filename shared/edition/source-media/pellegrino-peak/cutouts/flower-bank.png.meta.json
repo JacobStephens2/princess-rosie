@@ -1,0 +1,18 @@
+{
+  "id": "pellegrino-peak.flower-bank",
+  "role": "flower-bank",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/cutouts/flower-bank.png",
+  "sha256": "f83b8916d3c5723805609fddfda46cf4f3ef314023cff8839325e1f766367bc7",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 124,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.21134,
+  "elapsedSeconds": 165.21,
+  "prompt": "Use case: production game playful obstacle cutout. A charming, gentle storybook flower bank obstacle cutout for a gentle children's game: a low rounded bank of warm cream limestone rocks and soft earth covered in lush clusters of blooming blush pink and magenta mountain flowers, golden chamomile, and purple lavender with fresh green leaves. Gentle and inviting, low obstacle resting on Storybook Ground. Isolated cutout on transparent background with clean alpha channel. No sky, no background, no ground outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, gentle storybook flower bank obstacle cutout for a gentle children's game: a low rounded bank of warm cream limestone rocks and soft earth covered in lush clusters of blooming blush pink and magenta mountain flowers, golden chamomile, and purple lavender with fresh green leaves. Gentle and inviting, low obstacle resting on Storybook Ground. Isolated cutout on transparent background with clean alpha channel. No sky, no background, no ground outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+}

@@ -4,8 +4,18 @@ Generate the complete Sapphire Sea scenery kit, shared library additions,
 and interactive cutouts using direct OpenAI Images API calls with parallel execution.
 """
 
+import json
 import os
-from openai_image_kit import REPO_ROOT, run_kit_generation
+import sys
+
+from kit_generator import (
+    PRICING_PER_1M_TOKENS,
+    calculate_cost,
+    generate_image,
+    run_kit_generation,
+)
+
+REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 
 ITEMS_TO_GENERATE = [
     {
@@ -91,8 +101,25 @@ ITEMS_TO_GENERATE = [
 ]
 
 def main():
+    api_key = os.environ.get("OPENAI_API_KEY")
+    if not api_key:
+        print("Error: OPENAI_API_KEY is not set", file=sys.stderr, flush=True)
+        sys.exit(1)
+
+    print(f"Starting parallel generation of {len(ITEMS_TO_GENERATE)} Sapphire Sea kit assets (workers=4)...", flush=True)
+    results_map, total_cost = run_kit_generation(api_key, ITEMS_TO_GENERATE, max_workers=4)
+    results = list(results_map.values())
+
     summary_file = os.path.join(REPO_ROOT, "shared", "edition", "source-media", "sapphire-sea", "generation_summary.json")
-    run_kit_generation(ITEMS_TO_GENERATE, "Sapphire Sea kit", summary_file)
+    with open(summary_file, "w") as f:
+        json.dump({
+            "totalCostUsd": round(total_cost, 4),
+            "itemCount": len(results),
+            "items": results
+        }, f, indent=2)
+
+    print(f"\nAll generations complete! Total cost: ${round(total_cost, 4)}", flush=True)
+    print(f"Summary written to {summary_file}", flush=True)
 
 if __name__ == "__main__":
     main()

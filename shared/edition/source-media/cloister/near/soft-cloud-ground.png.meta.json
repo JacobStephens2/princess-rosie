@@ -1,0 +1,20 @@
+{
+  "id": "cloister.soft-cloud-ground",
+  "role": "soft-cloud-ground",
+  "category": "near",
+  "reason": "Soft voluminous rounded banked cumulus clouds with golden rim highlights carrying Storybook Ground on transparent background.",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/soft-cloud-ground.png",
+  "sha256": "6d1834a98ae1431fa75e59b4854fe43ee43db09bd8e5666f1f85776de3dc99b8",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 113,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165205,
+  "elapsedSeconds": 120.97,
+  "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of soft, voluminous banked cumulus clouds, pale and pillowy and rounded, with warm golden sunlit rim highlights and pastel pink and lavender shaded undersides, carrying the Storybook Ground along the bottom of the screen. Low horizontal cloud bank spanning the width on transparent background. Clean alpha channel everywhere above the upper billowing cloud contour, no sky, no ground below, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of soft, voluminous banked cumulus clouds, pale and pillowy and rounded, with warm golden sunlit rim highlights and pastel pink and lavender shaded undersides, carrying the Storybook Ground along the bottom of the screen. Low horizontal cloud bank spanning the width on transparent background. Clean alpha channel everywhere above the upper billowing cloud contour, no sky, no ground below, no characters, no text. Storybook picture-book style matching Cloister of Clouds."
+}

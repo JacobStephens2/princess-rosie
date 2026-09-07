@@ -1,0 +1,18 @@
+{
+  "id": "pellegrino-peak.blossom-tree",
+  "role": "blossom-tree",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/middle/blossom-tree.png",
+  "sha256": "ad6c80c00da32cde502a2ce7219b89ceebab0ec249ad0881d2f1984be8a4686f",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 104,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16516,
+  "elapsedSeconds": 120.28,
+  "prompt": "Use case: production game middle scenery Set Piece. A spreading, sunlit Mediterranean mountain blossom tree with gnarly weathered bark and abundant blush pink and white blossoms catching the golden sunlight, rooted on a small mossy limestone rock ledge with trailing wild lavender and golden mountain flowers. Isolated vertical tree Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane below rock base, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A spreading, sunlit Mediterranean mountain blossom tree with gnarly weathered bark and abundant blush pink and white blossoms catching the golden sunlight, rooted on a small mossy limestone rock ledge with trailing wild lavender and golden mountain flowers. Isolated vertical tree Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane below rock base, no characters, no text. Storybook picture-book style matching Pellegrino Peak."
+}
