@@ -1,0 +1,19 @@
+{
+  "id": "shared.stone-fountain",
+  "role": "shared-set-piece",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/shared/stone-fountain.png",
+  "sha256": "e510b13a42c95d3ae8f1e87582ac4168234a5bd8a57f45bbe0428ee51ebe787a",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 103,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.211235,
+  "elapsedSeconds": 167.37,
+  "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook tiered stone fountain of warm honey-colored limestone with gentle clear water spilling between scallop-carved basins, resting on an ornate pedestal carved with floral reliefs and surrounded by miniature potted lavender at its base. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the stone base, no background, no characters, no text. Storybook picture-book illustration style.",
+  "revisedPrompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook tiered stone fountain of warm honey-colored limestone with gentle clear water spilling between scallop-carved basins, resting on an ornate pedestal carved with floral reliefs and surrounded by miniature potted lavender at its base. Isolated vertical Set Piece on transparent background. Clean alpha channel, no ground plane outside the stone base, no background, no characters, no text. Storybook picture-book illustration style.",
+  "reason": "Charming freestanding storybook tiered stone garden fountain of honey limestone with gentle spilling water on transparent background."
+}
