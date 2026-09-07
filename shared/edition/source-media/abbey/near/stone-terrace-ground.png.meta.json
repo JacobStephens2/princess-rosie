@@ -1,0 +1,19 @@
+{
+  "id": "abbey.stone-terrace-ground",
+  "role": "stone-terrace-ground",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/near/stone-terrace-ground.png",
+  "sha256": "3df93017d41b7b12bb70f5882d65e9da2b9fe86dd96f07cd6283c0e05d6895b2",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 106,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16517,
+  "elapsedSeconds": 114.3,
+  "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit warm honey-and-terracotta stone courtyard flagstones and mosaic tiles with soft dappled arch shadows and scattered purple lavender sprigs, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit warm honey-and-terracotta stone courtyard flagstones and mosaic tiles with soft dappled arch shadows and scattered purple lavender sprigs, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+  "reason": "Sunlit warm honey-and-terracotta paved stone terrace flagstones carrying Storybook Ground on transparent background."
+}
