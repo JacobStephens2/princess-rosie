@@ -37,13 +37,13 @@ describe("Gallop and Flutter Runner", () => {
     const fullSpeedDurationSeconds = DEFAULT_RUNNER_CONFIG.courseLength / DEFAULT_RUNNER_CONFIG.forwardSpeed;
     expect(fullSpeedDurationSeconds).toBeCloseTo(30, 1);
 
-    // Jump velocity, flap impulse, flutter fall speed, gravity, and springboard launch are unchanged
+    // Jump velocity, flap impulse, gravity, springboard launch, and flutter fall speed
     expect(DEFAULT_RUNNER_CONFIG.jumpVelocity).toBe(-450);
     expect(DEFAULT_RUNNER_CONFIG.flapVelocity).toBe(-320);
     expect(DEFAULT_RUNNER_CONFIG.springboardVelocity).toBe(-680);
     expect(DEFAULT_RUNNER_CONFIG.gravity).toBe(900);
     expect(DEFAULT_RUNNER_CONFIG.maxFallSpeed).toBe(450);
-    expect(DEFAULT_RUNNER_CONFIG.flutterMaxFallSpeed).toBe(90);
+    expect(DEFAULT_RUNNER_CONFIG.flutterMaxFallSpeed).toBe(0);
   });
 
   test("Princess Rosie and Stella gallop forward automatically along Storybook Ground", () => {
@@ -76,33 +76,34 @@ describe("Gallop and Flutter Runner", () => {
     expect(airborne.isGrounded).toBe(false);
   });
 
-  test("sustaining input while airborne slows downward descent into a gentle flutter-glide", () => {
-    // Runner is airborne and cresting/falling
-    const airborne = createRunnerState({
+  test("sustaining input while airborne maintains steady altitude flutter-glide without downward drift", () => {
+    // Runner is airborne at zero vertical velocity (e.g. at the apex of a jump or flap)
+    const apex = createRunnerState({
       isGrounded: false,
       y: 350,
-      velocityY: 50,
-      mode: "falling",
+      velocityY: 0,
+      mode: "jumping",
     });
 
-    const fluttering = updateRunner(airborne, 0.4, true);
-    const falling = updateRunner(airborne, 0.4, false);
+    const fluttering = updateRunner(apex, 0.4, true);
+    const falling = updateRunner(apex, 0.4, false);
 
     expect(fluttering.isFluttering).toBe(true);
     expect(fluttering.mode).toBe("fluttering");
-    expect(fluttering.velocityY).toBeLessThanOrEqual(DEFAULT_RUNNER_CONFIG.flutterMaxFallSpeed);
+    expect(fluttering.velocityY).toBe(0);
+    expect(fluttering.y).toBe(350);
 
     expect(falling.isFluttering).toBe(false);
     expect(falling.mode).toBe("falling");
-    expect(falling.velocityY).toBeGreaterThan(fluttering.velocityY);
-    expect(fluttering.y).toBeLessThan(falling.y);
+    expect(falling.velocityY).toBeGreaterThan(0);
+    expect(falling.y).toBeGreaterThan(350);
   });
 
   test("releasing sustained input while airborne resumes normal falling descent", () => {
     const fluttering = createRunnerState({
       isGrounded: false,
       y: 350,
-      velocityY: 90,
+      velocityY: 0,
       isFluttering: true,
       mode: "fluttering",
     });
@@ -110,7 +111,62 @@ describe("Gallop and Flutter Runner", () => {
     const released = updateRunner(fluttering, 0.2, false);
     expect(released.isFluttering).toBe(false);
     expect(released.mode).toBe("falling");
-    expect(released.velocityY).toBeGreaterThan(DEFAULT_RUNNER_CONFIG.flutterMaxFallSpeed);
+    expect(released.velocityY).toBeGreaterThan(0);
+  });
+
+  test("airborne descent smoothly arrests into steady flutter-glide when input is sustained", () => {
+    const descending = createRunnerState({
+      isGrounded: false,
+      y: 320,
+      velocityY: 180,
+      mode: "falling",
+    });
+
+    // Partial arrest after 0.05s
+    const partiallyArrested = updateRunner(descending, 0.05, true);
+    expect(partiallyArrested.isFluttering).toBe(true);
+    expect(partiallyArrested.mode).toBe("fluttering");
+    expect(partiallyArrested.velocityY).toBeLessThan(180);
+    expect(partiallyArrested.velocityY).toBeGreaterThan(0);
+
+    // Fully arrested into level flight
+    const leveled = updateRunner(partiallyArrested, 0.1, true);
+    expect(leveled.velocityY).toBe(0);
+    expect(leveled.mode).toBe("fluttering");
+
+    // Continues steady level flight on subsequent updates
+    const steady = updateRunner(leveled, 0.2, true);
+    expect(steady.velocityY).toBe(0);
+    expect(steady.y).toBe(leveled.y);
+  });
+
+  test("holding input from grounded jump rises to apex and transitions into steady flutter-glide", () => {
+    const initial = createRunnerState();
+    const jumped = handleJumpInput(initial);
+    expect(jumped.isGrounded).toBe(false);
+    expect(jumped.velocityY).toBe(DEFAULT_RUNNER_CONFIG.jumpVelocity);
+
+    // Advance through the rising leap phase while holding input (0.4s)
+    const rising = updateRunner(jumped, 0.4, true);
+    expect(rising.isGrounded).toBe(false);
+    expect(rising.velocityY).toBeLessThan(0);
+    expect(rising.y).toBeLessThan(initial.y);
+
+    // Cross the apex at ~0.5s total (0.15s more)
+    const soaring = updateRunner(rising, 0.15, true);
+    expect(soaring.isFluttering).toBe(true);
+    expect(soaring.mode).toBe("fluttering");
+    expect(soaring.velocityY).toBe(0);
+
+    const apexY = soaring.y;
+
+    // Continue holding input for another 0.8s: Stella flutters steadily at altitude
+    const sustainedSoar = updateRunner(soaring, 0.8, true);
+    expect(sustainedSoar.isFluttering).toBe(true);
+    expect(sustainedSoar.mode).toBe("fluttering");
+    expect(sustainedSoar.velocityY).toBe(0);
+    expect(sustainedSoar.y).toBe(apexY);
+    expect(sustainedSoar.x).toBeGreaterThan(soaring.x);
   });
 
   test("tapping again while airborne provides an upward wing-flap impulse capped below ceiling", () => {

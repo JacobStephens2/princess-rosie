@@ -125,7 +125,7 @@ export const DEFAULT_RUNNER_CONFIG: RunnerConfig = {
   springboardVelocity: -680,
   gravity: 900,
   maxFallSpeed: 450,
-  flutterMaxFallSpeed: 90,
+  flutterMaxFallSpeed: 0,
   courseLength: 4500,
   stumbleDuration: 0.6,
   stumbleSpeedMultiplier: 0.6,
@@ -683,16 +683,32 @@ export function updateRunner(
   const isStumbling = nextStumbleRemaining > 0;
 
   if (!state.isGrounded) {
-    if (flutterHeld && nextVelocityY >= 0 && !isStumbling) {
-      nextIsFluttering = true;
-      nextVelocityY = Math.min(
-        nextVelocityY + config.gravity * 0.25 * deltaSeconds,
-        config.flutterMaxFallSpeed
-      );
+    if (flutterHeld && !isStumbling) {
+      if (state.velocityY >= 0) {
+        nextIsFluttering = true;
+        if (state.velocityY > config.flutterMaxFallSpeed) {
+          const arrestDeceleration = config.gravity * 2;
+          nextVelocityY = Math.max(
+            config.flutterMaxFallSpeed,
+            state.velocityY - arrestDeceleration * deltaSeconds
+          );
+        } else {
+          nextVelocityY = config.flutterMaxFallSpeed;
+        }
+      } else {
+        const naturalNextVelocityY = state.velocityY + config.gravity * deltaSeconds;
+        if (naturalNextVelocityY >= 0) {
+          nextIsFluttering = true;
+          nextVelocityY = config.flutterMaxFallSpeed;
+        } else {
+          nextIsFluttering = false;
+          nextVelocityY = naturalNextVelocityY;
+        }
+      }
     } else {
       nextIsFluttering = false;
       nextVelocityY = Math.min(
-        nextVelocityY + config.gravity * deltaSeconds,
+        state.velocityY + config.gravity * deltaSeconds,
         config.maxFallSpeed
       );
     }
