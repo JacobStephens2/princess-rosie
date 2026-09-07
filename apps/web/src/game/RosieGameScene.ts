@@ -30,7 +30,9 @@ import {
   getPlaceFamilyGuest,
   type RunnerState,
   type PlayfulObstacle,
+  type ObstacleType,
   type Springboard,
+  type SpringboardType,
   type StarSparkle,
   type RainbowArchway,
 } from "../domain/gallop-and-flutter";
@@ -72,6 +74,50 @@ const SCENERY_LAYER_DEPTHS: Record<SceneryLayerDepth, number> = {
   far: -30,
   middle: -20,
   near: -10,
+};
+
+interface CutoutConfig {
+  textureKey: string;
+  width: number;
+  height: number;
+  originX?: number;
+  originY?: number;
+}
+
+const OBSTACLE_CUTOUTS: Partial<Record<ObstacleType, CutoutConfig>> = {
+  "silver-ribbon": {
+    textureKey: "lacewood.silver-ribbon",
+    width: 72,
+    height: 60,
+  },
+  "soft-cloud": {
+    textureKey: "cloister.soft-cloud",
+    width: 72,
+    height: 60,
+  },
+  "rose-bush": {
+    textureKey: "garden.rose-bush",
+    width: 68,
+    height: 60,
+  },
+};
+
+const SPRINGBOARD_CUTOUTS: Partial<Record<SpringboardType, CutoutConfig>> = {
+  "lace-sprout": {
+    textureKey: "lacewood.lace-sprout",
+    width: 80,
+    height: 80,
+  },
+  "cloud-updraft": {
+    textureKey: "cloister.cloud-updraft",
+    width: 80,
+    height: 80,
+  },
+  "giant-rose": {
+    textureKey: "garden.giant-rose",
+    width: 80,
+    height: 80,
+  },
 };
 
 interface ActiveSceneryLayer {
@@ -206,14 +252,14 @@ export class RosieGameScene extends Phaser.Scene {
     this.load.image("birthday-star", getBirthdayStarDerivativePath());
     this.load.image("rainbow-path", getRainbowPathDerivativePath());
 
-    this.load.image("garden.rose-bush", resolveDerivativePath("garden.rose-bush"));
-    this.load.image("garden.giant-rose", resolveDerivativePath("garden.giant-rose"));
+    Object.values(OBSTACLE_CUTOUTS).forEach((cutout) => {
+      this.load.image(cutout.textureKey, resolveDerivativePath(cutout.textureKey));
+    });
+    Object.values(SPRINGBOARD_CUTOUTS).forEach((cutout) => {
+      this.load.image(cutout.textureKey, resolveDerivativePath(cutout.textureKey));
+    });
     this.load.image("garden.star-sparkle", resolveDerivativePath("garden.star-sparkle"));
     this.load.image("shared.rainbow-archway", resolveDerivativePath("shared.rainbow-archway"));
-    this.load.image("lacewood.silver-ribbon", resolveDerivativePath("lacewood.silver-ribbon"));
-    this.load.image("lacewood.lace-sprout", resolveDerivativePath("lacewood.lace-sprout"));
-    this.load.image("cloister.soft-cloud", resolveDerivativePath("cloister.soft-cloud"));
-    this.load.image("cloister.cloud-updraft", resolveDerivativePath("cloister.cloud-updraft"));
   }
 
   create(): void {
@@ -862,18 +908,20 @@ export class RosieGameScene extends Phaser.Scene {
     const container = this.add.container(obstacle.x, obstacle.y).setDepth(15);
     container.setName(`obstacle-${obstacle.id}`);
 
+    const cutout = OBSTACLE_CUTOUTS[obstacle.type];
+    if (cutout && this.textures.exists(cutout.textureKey)) {
+      const img = this.add.image(0, 0, cutout.textureKey).setOrigin(cutout.originX ?? 0.5, cutout.originY ?? 1);
+      img.setDisplaySize(cutout.width, cutout.height);
+      container.add(img);
+      return container;
+    }
+
     const g = this.add.graphics();
     const w = obstacle.width;
     const h = obstacle.height;
 
     switch (obstacle.type) {
       case "silver-ribbon": {
-        if (this.textures.exists("lacewood.silver-ribbon")) {
-          const img = this.add.image(0, 0, "lacewood.silver-ribbon").setOrigin(0.5, 1);
-          img.setDisplaySize(72, 60);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0x44533c, 1);
         g.fillRoundedRect(-w * 0.45, -h * 0.6, w * 0.9, h * 0.6, 8);
         g.fillStyle(0x628052, 1);
@@ -907,12 +955,6 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "soft-cloud": {
-        if (this.textures.exists("cloister.soft-cloud")) {
-          const img = this.add.image(0, 0, "cloister.soft-cloud").setOrigin(0.5, 1);
-          img.setDisplaySize(72, 60);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0xd6ecfa, 0.9);
         g.fillCircle(-w * 0.24, -h * 0.4, w * 0.32);
         g.fillCircle(w * 0.24, -h * 0.4, w * 0.32);
@@ -965,12 +1007,6 @@ export class RosieGameScene extends Phaser.Scene {
       }
       case "rose-bush":
       default: {
-        if (this.textures.exists("garden.rose-bush")) {
-          const img = this.add.image(0, 0, "garden.rose-bush").setOrigin(0.5, 1);
-          img.setDisplaySize(68, 60);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0x3e7a46, 1);
         g.fillEllipse(0, -h * 0.45, w, h * 0.85);
         g.fillStyle(0x5ca364, 1);
@@ -1031,18 +1067,20 @@ export class RosieGameScene extends Phaser.Scene {
     const container = this.add.container(springboard.x, springboard.y).setDepth(16);
     container.setName(`springboard-${springboard.id}`);
 
+    const cutout = SPRINGBOARD_CUTOUTS[springboard.type];
+    if (cutout && this.textures.exists(cutout.textureKey)) {
+      const img = this.add.image(0, 0, cutout.textureKey).setOrigin(cutout.originX ?? 0.5, cutout.originY ?? 1);
+      img.setDisplaySize(cutout.width, cutout.height);
+      container.add(img);
+      return container;
+    }
+
     const g = this.add.graphics();
     const w = springboard.width;
     const h = springboard.height;
 
     switch (springboard.type) {
       case "lace-sprout": {
-        if (this.textures.exists("lacewood.lace-sprout")) {
-          const img = this.add.image(0, 0, "lacewood.lace-sprout").setOrigin(0.5, 1);
-          img.setDisplaySize(80, 80);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0x397a5b, 1);
         g.fillEllipse(0, -h * 0.25, w * 0.9, h * 0.4);
         g.fillStyle(0x9d72bd, 1);
@@ -1066,12 +1104,6 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "cloud-updraft": {
-        if (this.textures.exists("cloister.cloud-updraft")) {
-          const img = this.add.image(0, 0, "cloister.cloud-updraft").setOrigin(0.5, 1);
-          img.setDisplaySize(80, 80);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0xa4dcf4, 0.8);
         g.fillEllipse(0, -h * 0.25, w * 0.95, h * 0.4);
         g.fillStyle(0xedf8ff, 0.95);
@@ -1116,12 +1148,6 @@ export class RosieGameScene extends Phaser.Scene {
       }
       case "giant-rose":
       default: {
-        if (this.textures.exists("garden.giant-rose")) {
-          const img = this.add.image(0, 0, "garden.giant-rose").setOrigin(0.5, 1);
-          img.setDisplaySize(80, 80);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0x2f6838, 1);
         g.fillEllipse(0, -h * 0.25, w * 0.95, h * 0.45);
         g.fillStyle(0x4a9456, 1);
