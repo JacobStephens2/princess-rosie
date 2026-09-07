@@ -1,0 +1,69 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "middle",
+  "depthFactor": 0.5,
+  "totalSpendUsd": 0.44974,
+  "assets": [
+    {
+      "id": "abbey.cloister-arcade",
+      "role": "cloister-arcade",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and cloister composition from the approved reference painting of Golden Bell Abbey: a grand, sunlit abbey garden cloister arcade of warm honey-colored stone arches with carved capitals, an open colonnade hung with small swinging golden bells, high arched openings, colorful stained-glass rose roundels catching the light, flanked by low stone balustrades and carved stone urns overflowing with blooming purple lavender and blush roses. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and colonnade pillars and outside the structure, no background sky, no ground plane below the stone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/abbey/middle/cloister-arcade.png",
+      "sha256": "a2834bea4683f8dffdada47e5bb3193c7b0fced406c04a1539d8d40cc0f1a207",
+      "costUsd": 0.119345,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-135 implementation review",
+        "reason": "Grand honey-stone abbey garden cloister arcade with carved capitals, open colonnade, hanging golden bells, and stained-glass roundels framing arrival at Rainbow Archway.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "abbey.bell-tower-belfry",
+      "role": "bell-tower-belfry",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A graceful, sunlit abbey bell tower belfry of warm honey-colored stone with tall arched openings revealing swinging polished golden church bells, topped with a gentle terracotta tiled roof and delicate carved architectural finial. Isolated vertical tower Set Piece on transparent background. Clean alpha channel through open archways and around the tower silhouette, no background sky, no ground plane, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "outputPath": "source-media/abbey/middle/bell-tower-belfry.png",
+      "sha256": "1612282c03ad858dffd25121970d886896da974afc0889fa2c55b84b462ae50b",
+      "costUsd": 0.165175,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-135 implementation review",
+        "reason": "Sunlit abbey bell tower belfry of warm honey-colored stone with tall arched openings revealing swinging golden church bells on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "abbey.rose-window-wall",
+      "role": "rose-window-wall",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral section of warm honey-colored stone abbey wall featuring a large, ornate stained-glass rose window glowing with jewel-toned sapphire, blush rose, and golden mosaic glass catching warm sunlight, flanked by carved stone columns with hanging small golden bells and climbing garden roses. Lateral Set Piece on transparent background. Clean alpha channel outside the stone structure and through wall cutouts, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "outputPath": "source-media/abbey/middle/rose-window-wall.png",
+      "sha256": "9745a98d5166a850234252a113dd4159b2a9671f044a6d26f2781b234ffd6138",
+      "costUsd": 0.16522,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-135 implementation review",
+        "reason": "Honey-stone abbey wall with glowing jewel-toned stained-glass rose window and carved pilasters on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

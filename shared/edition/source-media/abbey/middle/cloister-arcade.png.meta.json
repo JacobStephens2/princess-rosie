@@ -1,0 +1,19 @@
+{
+  "id": "abbey.cloister-arcade",
+  "role": "cloister-arcade",
+  "model": "gpt-image-2",
+  "size": "3072x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/middle/cloister-arcade.png",
+  "sha256": "a2834bea4683f8dffdada47e5bb3193c7b0fced406c04a1539d8d40cc0f1a207",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 157,
+    "img_in": 0,
+    "img_out": 3952
+  },
+  "estimatedCostUsd": 0.119345,
+  "elapsedSeconds": 76.77,
+  "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and cloister composition from the approved reference painting of Golden Bell Abbey: a grand, sunlit abbey garden cloister arcade of warm honey-colored stone arches with carved capitals, an open colonnade hung with small swinging golden bells, high arched openings, colorful stained-glass rose roundels catching the light, flanked by low stone balustrades and carved stone urns overflowing with blooming purple lavender and blush roses. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and colonnade pillars and outside the structure, no background sky, no ground plane below the stone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and cloister composition from the approved reference painting of Golden Bell Abbey: a grand, sunlit abbey garden cloister arcade of warm honey-colored stone arches with carved capitals, an open colonnade hung with small swinging golden bells, high arched openings, colorful stained-glass rose roundels catching the light, flanked by low stone balustrades and carved stone urns overflowing with blooming purple lavender and blush roses. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and colonnade pillars and outside the structure, no background sky, no ground plane below the stone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "reason": "Grand honey-stone abbey garden cloister arcade with carved capitals, open colonnade, hanging golden bells, and stained-glass roundels framing arrival at Rainbow Archway."
+}
