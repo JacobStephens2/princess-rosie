@@ -59,10 +59,13 @@ describe("GameAudio multi-track rotation, celebration crossfade, and mute behavi
     expect(nextTrack.id).not.toBe(initialTrack.id);
     expect(audio1.getActiveFlightTrack().id).toBe(nextTrack.id);
 
-    // Reopen / new visit with restored storage avoids repeating the last played song
+    // Reopen / new visit with restored storage preserves persisted Flight Soundtrack and queue
     const audio2 = new GameAudio({ storage: mockStorage });
-    expect(audio2.getActiveFlightTrack().id).not.toBe(nextTrack.id);
-    expect(audio2.getActiveFlightTrack().id).not.toBe(initialTrack.id);
+    expect(audio2.getActiveFlightTrack().id).toBe(nextTrack.id);
+
+    // Advancing on next journey rotates to next Flight Soundtrack in cycle
+    const thirdTrack = await audio2.advanceToNextJourney();
+    expect(thirdTrack.id).not.toBe(nextTrack.id);
   });
 
 

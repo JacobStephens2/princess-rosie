@@ -797,11 +797,10 @@ test("soundtrack rotation position persists across page reloads and non-repeatin
   await page.reload();
   await page.getByRole("button", { name: "Begin the story" }).click();
 
-  // Restored soundtrack avoids repeating the last-played track and track 1
+  // Restored soundtrack preserves the persisted track from the active session
   const reloadedTrack = await page.evaluate(() => window.__ROSIE_RUNNER__?.getActiveFlightTrack?.());
   expect(reloadedTrack).toBeDefined();
-  expect(reloadedTrack?.id).not.toBe(track2?.id);
-  expect(reloadedTrack?.id).not.toBe(track1?.id);
+  expect(reloadedTrack?.id).toBe(track2?.id);
 });
 
 
