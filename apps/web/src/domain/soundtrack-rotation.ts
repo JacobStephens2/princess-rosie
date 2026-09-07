@@ -117,11 +117,19 @@ export function restorePlaylistState(
       queue = shuffleIds(allIds, lastPlayedId);
     }
 
+    const lastPlayedIndex =
+      typeof parsed.lastPlayedIndex === "number" &&
+      parsed.lastPlayedIndex >= 0 &&
+      parsed.lastPlayedIndex < catalog.flightTracks.length &&
+      catalog.flightTracks[parsed.lastPlayedIndex]?.id === lastPlayedId
+        ? parsed.lastPlayedIndex
+        : trackIndex;
+
     return {
       catalog,
       currentTrack: track,
       lastPlayedId: track.id,
-      lastPlayedIndex: trackIndex,
+      lastPlayedIndex,
       queue,
     };
   } catch {
@@ -160,10 +168,7 @@ export function createSoundtrackPlaylist(
 ): SoundtrackPlaylistState {
   if (options?.storage) {
     const restored = restorePlaylistState(catalog, options.storage);
-    if (restored) {
-      // Advance to next queued track so subsequent visits/reopening never repeats the last-played song
-      return advanceSoundtrackPlaylist(restored, options.random);
-    }
+    if (restored) return restored;
   }
 
   const initialTrack = catalog.flightTracks[0];

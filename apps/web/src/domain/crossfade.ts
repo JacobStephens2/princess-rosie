@@ -79,7 +79,10 @@ export class CrossfadeController {
 
     incoming.setMuted(this.muted);
     incoming.setVolume(0);
-    void incoming.play();
+    const playResult = incoming.play();
+    if (playResult && typeof playResult.catch === "function") {
+      playResult.catch(() => {});
+    }
 
     this.applyGains(0);
   }

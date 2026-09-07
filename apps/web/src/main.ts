@@ -62,7 +62,6 @@ export interface RosieRunnerInterface {
   resetJourney?: () => import("./domain/journey").Journey;
   flyAgain?: () => void;
   getActiveFlightTrack?: () => import("./domain/soundtrack-rotation").FlightSoundtrack;
-  getAudioTrack?: () => import("./domain/soundtrack-rotation").FlightSoundtrack;
   isAudioCelebrating?: () => boolean;
 
   isAudioCrossfading?: () => boolean;
@@ -716,7 +715,6 @@ window.__ROSIE_RUNNER__ = {
   resetJourney: () => scene?.resetJourney() ?? resetJourney(),
   flyAgain: () => flyAgain(),
   getActiveFlightTrack: () => sound.getActiveFlightTrack(),
-  getAudioTrack: () => sound.getActiveFlightTrack(),
   isAudioCelebrating: () => sound.isCelebrationActive(),
 
   isAudioCrossfading: () => sound.isCrossfading(),

@@ -144,16 +144,11 @@ class HtmlAudioChannel implements AudioChannel {
   }
 }
 
-class MockAudioChannel implements AudioChannel {
-  volume = 0.46;
-  muted = false;
-  stopped = false;
-  playing = false;
-
-  setVolume(v: number): void { this.volume = v; }
-  setMuted(m: boolean): void { this.muted = m; }
-  stop(): void { this.stopped = true; this.playing = false; }
-  play(): void { this.playing = true; this.stopped = false; }
+class NullAudioChannel implements AudioChannel {
+  setVolume(_v: number): void {}
+  setMuted(_m: boolean): void {}
+  stop(): void {}
+  async play(): Promise<void> {}
 }
 
 export interface GameAudioOptions {
@@ -196,7 +191,7 @@ export class GameAudio {
     } else if (typeof Audio !== "undefined") {
       this.channelFactory = (src, loop) => new HtmlAudioChannel(src, loop);
     } else {
-      this.channelFactory = () => new MockAudioChannel();
+      this.channelFactory = () => new NullAudioChannel();
     }
 
     this.playlistState = createSoundtrackPlaylist(this.catalog, { storage: this.storage });
@@ -263,12 +258,20 @@ export class GameAudio {
   }
 
   preloadSecondaryTracks(): void {
-    for (const track of this.catalog.flightTracks) {
-      if (track.id !== this.playlistState.currentTrack.id) {
-        this.preloadTrack(track.src);
+    const loadLazily = (): void => {
+      for (const track of this.catalog.flightTracks) {
+        if (track.id !== this.playlistState.currentTrack.id) {
+          this.preloadTrack(track.src);
+        }
       }
+      this.preloadTrack(this.catalog.celebrationTheme.src);
+    };
+
+    if (typeof window !== "undefined" && typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(() => loadLazily());
+    } else {
+      setTimeout(loadLazily, 1000);
     }
-    this.preloadTrack(this.catalog.celebrationTheme.src);
   }
 
 
@@ -280,7 +283,13 @@ export class GameAudio {
       this.celebrationChannel = this.channelFactory(this.catalog.celebrationTheme.src, true);
     }
 
+    if (this.fallbackTimer !== undefined) {
+      window.clearInterval(this.fallbackTimer);
+      this.fallbackTimer = undefined;
+    }
+
     this.crossfadeController.startCrossfade(this.celebrationChannel, this.crossfadeDurationMs);
+    this.currentChannel = this.celebrationChannel;
     this.startCrossfadeLoop();
   }
 
