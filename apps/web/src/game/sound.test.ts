@@ -59,10 +59,12 @@ describe("GameAudio multi-track rotation, celebration crossfade, and mute behavi
     expect(nextTrack.id).not.toBe(initialTrack.id);
     expect(audio1.getActiveFlightTrack().id).toBe(nextTrack.id);
 
-    // Reopen / new visit with restored storage
+    // Reopen / new visit with restored storage avoids repeating the last played song
     const audio2 = new GameAudio({ storage: mockStorage });
-    expect(audio2.getActiveFlightTrack().id).toBe(nextTrack.id);
+    expect(audio2.getActiveFlightTrack().id).not.toBe(nextTrack.id);
+    expect(audio2.getActiveFlightTrack().id).not.toBe(initialTrack.id);
   });
+
 
   test("initiates equal-power crossfade to celebration theme and transitions state", async () => {
     const audio = new GameAudio();

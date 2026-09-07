@@ -54,13 +54,13 @@ export interface SoundtrackPlaylistState {
   readonly catalog: SoundtrackCatalog;
   readonly currentTrack: FlightSoundtrack;
   readonly lastPlayedId: string;
+  readonly lastPlayedIndex: number;
   readonly queue: readonly string[];
 }
 
 export interface StorageLike {
   getItem(key: string): string | null;
   setItem(key: string, value: string): void;
-  removeItem?(key: string): void;
 }
 
 export const SOUNDTRACK_STORAGE_KEY = "rosie.soundtrack-rotation";
@@ -77,6 +77,7 @@ export function savePlaylistState(
   try {
     const payload = JSON.stringify({
       lastPlayedId: state.lastPlayedId,
+      lastPlayedIndex: state.lastPlayedIndex,
       queue: state.queue,
     });
     storage.setItem(SOUNDTRACK_STORAGE_KEY, payload);
@@ -99,8 +100,9 @@ export function restorePlaylistState(
     const lastPlayedId = typeof parsed.lastPlayedId === "string" ? parsed.lastPlayedId : undefined;
     if (!lastPlayedId) return null;
 
-    const track = catalog.flightTracks.find((t) => t.id === lastPlayedId);
-    if (!track) return null;
+    const trackIndex = catalog.flightTracks.findIndex((t) => t.id === lastPlayedId);
+    if (trackIndex === -1) return null;
+    const track = catalog.flightTracks[trackIndex]!;
 
     const allIds = catalog.flightTracks.map((t) => t.id);
     let queue: string[] = [];
@@ -111,7 +113,6 @@ export function restorePlaylistState(
       );
     }
 
-
     if (queue.length === 0) {
       queue = shuffleIds(allIds, lastPlayedId);
     }
@@ -120,13 +121,13 @@ export function restorePlaylistState(
       catalog,
       currentTrack: track,
       lastPlayedId: track.id,
+      lastPlayedIndex: trackIndex,
       queue,
     };
   } catch {
     return null;
   }
 }
-
 
 export function shuffleIds(
   ids: readonly string[],
@@ -136,7 +137,6 @@ export function shuffleIds(
   if (ids.length <= 1) return [...ids];
 
   const result = [...ids];
-  // Standard Fisher-Yates shuffle
   for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(random() * (i + 1));
     const temp = result[i]!;
@@ -144,7 +144,6 @@ export function shuffleIds(
     result[j] = temp;
   }
 
-  // Guarantee that first item in new cycle does not match avoidFirstId
   if (avoidFirstId && result[0] === avoidFirstId && result.length > 1) {
     const swapIndex = 1 + Math.floor(random() * (result.length - 1));
     const temp = result[0]!;
@@ -161,7 +160,10 @@ export function createSoundtrackPlaylist(
 ): SoundtrackPlaylistState {
   if (options?.storage) {
     const restored = restorePlaylistState(catalog, options.storage);
-    if (restored) return restored;
+    if (restored) {
+      // Advance to next queued track so subsequent visits/reopening never repeats the last-played song
+      return advanceSoundtrackPlaylist(restored, options.random);
+    }
   }
 
   const initialTrack = catalog.flightTracks[0];
@@ -177,39 +179,25 @@ export function createSoundtrackPlaylist(
     catalog,
     currentTrack: initialTrack,
     lastPlayedId: initialTrack.id,
+    lastPlayedIndex: 0,
     queue,
   };
 }
-
 
 export function advanceSoundtrackPlaylist(
   state: SoundtrackPlaylistState,
   random: () => number = Math.random
 ): SoundtrackPlaylistState {
   const allIds = state.catalog.flightTracks.map((t) => t.id);
+  const queue = state.queue.length > 0 ? [...state.queue] : shuffleIds(allIds, state.lastPlayedId, random);
 
-  let nextId: string;
-  let nextQueue: string[];
+  const nextId = queue[0]!;
+  const remaining = queue.slice(1);
+  const nextQueue = remaining.length === 0 ? shuffleIds(allIds, nextId, random) : remaining;
 
-  if (state.queue.length > 0) {
-    nextId = state.queue[0]!;
-    const remaining = state.queue.slice(1);
-    if (remaining.length === 0) {
-      // End of cycle reached: generate a new cycle avoiding nextId as the first track
-      nextQueue = shuffleIds(allIds, nextId, random);
-    } else {
-      nextQueue = remaining;
-    }
-  } else {
-    // Queue was empty: generate new cycle avoiding lastPlayedId
-    const newCycle = shuffleIds(allIds, state.lastPlayedId, random);
-    nextId = newCycle[0]!;
-    const remaining = newCycle.slice(1);
-    nextQueue = remaining.length === 0 ? shuffleIds(allIds, nextId, random) : remaining;
-  }
-
-  const nextTrack = state.catalog.flightTracks.find((t) => t.id === nextId);
-  if (!nextTrack) {
+  const nextIndex = state.catalog.flightTracks.findIndex((t) => t.id === nextId);
+  const nextTrack = state.catalog.flightTracks[nextIndex];
+  if (!nextTrack || nextIndex === -1) {
     throw new Error(`Track ${nextId} not found in catalog`);
   }
 
@@ -217,7 +205,7 @@ export function advanceSoundtrackPlaylist(
     catalog: state.catalog,
     currentTrack: nextTrack,
     lastPlayedId: nextId,
+    lastPlayedIndex: nextIndex,
     queue: nextQueue,
   };
 }
-
