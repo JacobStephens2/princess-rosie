@@ -6,17 +6,20 @@ Contact Sheet: [`shared/edition/source-media/garden/bake-off/contact-sheet.png`]
 
 ## Decision
 
-**gpt-image-2 through inkvoke is selected as the image provider for all Princess Rosie Scenery Layers and cutouts to come.**
+**OpenAI gpt-image-2 (invoked directly via the OpenAI Images API) is selected as the image provider for all Princess Rosie Scenery Layers and cutouts to come.**
 
 The owner evaluated the three entrants across the two hardest pieces — the Rose Garden arch-cluster Set Piece (3072×1024 transparent, reference-guided) and the rose bush obstacle cutout (1024×1024 transparent) — composited over each entrant's far-layer attempt at 1280×720 Stage size with the obstacle on the Storybook Ground ($y=560$).
 
 All losing entrant assets (Recraft and FLUX-2 Pro) as well as the bake-off candidate assets are preserved under `shared/edition/source-media/garden/bake-off/` with `"status": "candidate"` in [`provenance.json`](../../shared/edition/source-media/garden/bake-off/provenance.json); none are marked approved (per ADR-0017).
 
+> [!TIP]
+> **API Invocation Preference for Future Generations:** While the bake-off initially exercised `inkvoke`, future Scenery Layer and cutout generation tasks should invoke the OpenAI Images API (`/v1/images/generations` and `/v1/images/edits`) directly via scripts or SDKs rather than CLI wrappers like `inkvoke`. Direct API calls capture full response metadata (timings, token usage, exact pricing, dimensions) directly into provenance manifests and eliminate wrapper file-handling quirks.
+
 ---
 
 ## What Decided It
 
-| Evaluation Axis | gpt-image-2 (OpenAI via inkvoke) | Recraft (Recraft V4 Styles) | FLUX-2 Pro (fal.ai + rembg) |
+| Evaluation Axis | gpt-image-2 (OpenAI Images API) | Recraft (Recraft V4 Styles) | FLUX-2 Pro (fal.ai + rembg) |
 |---|---|---|---|
 | **Alpha Transparency** | **Flawless native RGBA.** Clean transparency through the arch openings allows the far-layer sea and rolling hills to show naturally behind the colonnade. Obstacle cutout has zero fringe. | **Flawed.** Recraft `removeBackground` failed to isolate arches from the terrace floor, leaving an opaque lower ground strip across the middle layer. | **Matting artifacts.** Local `rembg` (`isnet-anime`) struggled on fine climbing vines and left edge fringing and blurred voids. |
 | **Reference Fidelity** | **Superior.** Faithfully reproduced the approved Rose Garden departure painting's architectural language: warm cream stone arches, climbing pink roses, and silver lace ribbons in flat picture-book style. | **Mixed.** Matched the soft pink palette via `POST /v1/styles`, but copied the reference star into the daytime sky and struggled with side-scrolling Set Piece semantics. | **Poor.** Prompted arch cluster produced ground flower beds and distant hillocks rather than vertical arches and pergolas. |
@@ -29,7 +32,7 @@ All losing entrant assets (Recraft and FLUX-2 Pro) as well as the bake-off candi
 
 Every generation was executed at production quality, with provider, model, size, prompt, and cost recorded in `shared/edition/source-media/garden/bake-off/provenance.json`:
 
-### 1. gpt-image-2 (OpenAI via inkvoke)
+### 1. gpt-image-2 (OpenAI)
 - **Arch-cluster Set Piece** (`3072x1024`, transparent):
   - Model: `gpt-image-2` via `inkvoke edit` with `shared/edition/source-media/flight/rose-garden-background.png`
   - Output: `shared/edition/source-media/garden/bake-off/gpt-image-2-arch-cluster.png`

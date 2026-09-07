@@ -25,3 +25,7 @@ trailers naming an AI assistant, `Claude-Session` or other session-link trailers
 ### Audio evaluation
 
 For tasks that generate, select, or review audio assets, follow `docs/agents/audio-evaluation.md`.
+
+### Image generation
+
+When generating artwork with OpenAI `gpt-image-2`, invoke the OpenAI Images API directly (via script or SDK) rather than CLI wrappers like `inkvoke`. Direct API calls provide full response metadata for provenance records and avoid wrapper file-handling quirks.
