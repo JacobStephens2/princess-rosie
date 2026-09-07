@@ -76,10 +76,12 @@
       "sha256": "696eb3e1af9f8972e4e179092f58df23358596e2f27bcbb05b65ad4125ab63e8",
       "costUsd": 0.211205,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-134 implementation review",
         "reason": "Charming freestanding storybook garden lantern of bronze and glass glowing warmly on ornate stone pedestal on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]
