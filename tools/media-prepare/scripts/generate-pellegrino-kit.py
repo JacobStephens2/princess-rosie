@@ -143,7 +143,7 @@ ITEMS_TO_GENERATE = [
         "output": os.path.join(REPO_ROOT, "shared", "edition", "source-media", "pellegrino-peak", "far", "far-layer.png"),
         "size": "3072x1024",
         "transparent": False,
-        "prompt": "Use case: production game far scenery layer. A wide 3:1 panoramic landscape of Pellegrino Peak far layer: high mountain atmosphere above a sunlit coast in wide cool air. Luminous clear sapphire blue sky with soft drifting fairytale clouds, pale blossom clouds catching the light, and distant rolling Sicilian mountain ridges and purple hills fading into the sunny haze. Deep below in the distance, a sparkling azure coastal bay with glimmering Mediterranean water and golden shoreline. No foreground rock ledges, no foreground trees, no flower carpets, no characters, no text, no Birthday Star. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+        "prompt": "Use case: production game far scenery layer. A wide 3:1 panoramic landscape of Pellegrino Peak far layer: high mountain atmosphere above a sunlit coast in wide cool air. Luminous clear sapphire blue sky with soft drifting fairytale clouds, pale blossom clouds catching the light, and distant rolling Sicilian mountain ridges and purple hills fading into the sunny haze. Deep below in the distance, a sparkling azure coastal bay with glimmering Sapphire Sea water and golden shoreline. No foreground rock ledges, no foreground trees, no flower carpets, no characters, no text, no Birthday Star. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
     },
     {
         "id": "pellegrino-peak.terrace-overlook",
