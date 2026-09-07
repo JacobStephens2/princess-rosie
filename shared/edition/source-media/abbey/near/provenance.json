@@ -1,0 +1,69 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "near",
+  "depthFactor": 1.0,
+  "totalSpendUsd": 0.495405,
+  "assets": [
+    {
+      "id": "abbey.stone-terrace-ground",
+      "role": "stone-terrace-ground",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit warm honey-and-terracotta stone courtyard flagstones and mosaic tiles with soft dappled arch shadows and scattered purple lavender sprigs, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "outputPath": "source-media/abbey/near/stone-terrace-ground.png",
+      "sha256": "3df93017d41b7b12bb70f5882d65e9da2b9fe86dd96f07cd6283c0e05d6895b2",
+      "costUsd": 0.16517,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-135 implementation review",
+        "reason": "Sunlit warm honey-and-terracotta paved stone terrace flagstones carrying Storybook Ground on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "abbey.lavender-herb-border",
+      "role": "lavender-herb-border",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of blooming fragrant purple lavender bushes, golden marigolds, and climbing blush roses along a low carved honey-stone garden kerb. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the herb foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "outputPath": "source-media/abbey/near/lavender-herb-border.png",
+      "sha256": "7f5c2265cd7837838231cf4bc62e4b26a85ae2473646d46f5e5287a02838b161",
+      "costUsd": 0.16511,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-135 implementation review",
+        "reason": "Lush foreground border strip of fragrant purple lavender, marigolds, and climbing blush roses along carved stone garden kerb on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "abbey.vaulted-arch-canopy",
+      "role": "vaulted-arch-canopy",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. An overarching upper foreground canopy of carved honey-stone cloister rib vaulting and warm gothic stone arches hung with small decorative swinging golden bells, framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the arched vaulting, no background sky, no ground, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+      "outputPath": "source-media/abbey/near/vaulted-arch-canopy.png",
+      "sha256": "4363421e90d14f2fc23bcc7c1bde0c6dcddcf884d7f74f5931efe7c40bd93901",
+      "costUsd": 0.165125,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-135 implementation review",
+        "reason": "Overarching top cloister rib vaulting and warm stone arches hung with small decorative golden bells on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

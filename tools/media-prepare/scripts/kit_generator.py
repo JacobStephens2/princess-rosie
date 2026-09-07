@@ -1,6 +1,8 @@
+#!/usr/bin/env python3
 """
-Shared direct OpenAI Images API generation and token accounting engine for scenery kits.
-Zero third-party dependencies (uses Python standard library).
+Shared kit generation helpers for Princess Rosie scenery and cutout kits.
+Provides OpenAI Images API invoker, token pricing calculations, parallel execution,
+and standardized provenance manifest generation.
 """
 
 import concurrent.futures
@@ -11,18 +13,6 @@ import sys
 import time
 import urllib.request
 import urllib.error
-from typing import TypedDict, Optional
-
-REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
-
-class ImageGenerationItem(TypedDict, total=False):
-    id: str
-    role: str
-    output: str
-    size: str
-    transparent: bool
-    prompt: str
-    model: Optional[str]
 
 PRICING_PER_1M_TOKENS = {
     "text_in": 5.00,
@@ -38,12 +28,12 @@ def calculate_cost(text_in: int, img_in: int, img_out: int) -> float:
     )
     return round(cost, 6)
 
-def generate_image(api_key: str, item: ImageGenerationItem) -> dict:
+def generate_image(api_key: str, item: dict, default_model: str = "gpt-image-2") -> dict:
     prompt = item["prompt"]
     output_path = item["output"]
     size = item["size"]
-    transparent = item["transparent"]
-    model = item.get("model", "gpt-image-2")
+    transparent = item.get("transparent", True)
+    model = item.get("model", default_model)
 
     if os.path.exists(output_path):
         print(f"Skipping existing: {os.path.basename(output_path)}", flush=True)
@@ -55,10 +45,16 @@ def generate_image(api_key: str, item: ImageGenerationItem) -> dict:
                 meta = json.load(f)
                 meta["id"] = item["id"]
                 meta["role"] = item["role"]
+                if "reason" in item:
+                    meta["reason"] = item["reason"]
+                if "category" in item:
+                    meta["category"] = item["category"]
                 return meta
         return {
             "id": item["id"],
             "role": item["role"],
+            "category": item.get("category", ""),
+            "reason": item.get("reason", ""),
             "model": model,
             "size": size,
             "output": output_path,
@@ -122,6 +118,8 @@ def generate_image(api_key: str, item: ImageGenerationItem) -> dict:
     metadata = {
         "id": item["id"],
         "role": item["role"],
+        "category": item.get("category", ""),
+        "reason": item.get("reason", ""),
         "model": model,
         "size": size,
         "output": output_path,
@@ -145,35 +143,72 @@ def generate_image(api_key: str, item: ImageGenerationItem) -> dict:
     print(f"Done: {os.path.basename(output_path)} ({sha256[:8]}..., ${cost}, {elapsed}s)", flush=True)
     return metadata
 
-def run_kit_generation(items: list[ImageGenerationItem], kit_label: str, summary_file: str, max_workers: int = 4) -> None:
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        print("Error: OPENAI_API_KEY is not set", file=sys.stderr, flush=True)
-        sys.exit(1)
-
-    print(f"Starting parallel generation of {len(items)} {kit_label} assets (workers={max_workers})...", flush=True)
-    results = []
+def build_provenance_manifest(
+    items: list,
+    category: str,
+    depth_factor: float = None,
+    repo_root: str = None,
+    selected_by: str = "implementation review",
+    date_str: str = "2026-09-07",
+) -> dict:
+    assets = []
     total_cost = 0.0
+    for it in items:
+        cost = it.get("estimatedCostUsd", 0.0)
+        total_cost += cost
+        output_path = it["output"]
+        if repo_root:
+            rel_output = os.path.relpath(output_path, os.path.join(repo_root, "shared", "edition"))
+        else:
+            rel_output = output_path
+        assets.append({
+            "id": it["id"],
+            "role": it["role"],
+            "provider": "OpenAI OpCo, LLC",
+            "model": it.get("model", "gpt-image-2"),
+            "size": it["size"],
+            "background": it.get("background", "transparent"),
+            "prompt": it["prompt"],
+            "outputPath": rel_output,
+            "sha256": it["sha256"],
+            "costUsd": cost,
+            "selection": {
+                "status": "candidate",
+                "selectedBy": selected_by,
+                "reason": it.get("reason", ""),
+                "ownerManualReview": "pending"
+            }
+        })
+    manifest = {
+        "manifestVersion": "1.0.0",
+        "updatedAt": date_str,
+    }
+    if category in ("far", "middle", "near"):
+        manifest["layer"] = category
+        if depth_factor is not None:
+            manifest["depthFactor"] = depth_factor
+    else:
+        manifest["category"] = category
+    manifest["totalSpendUsd"] = round(total_cost, 6)
+    manifest["assets"] = assets
+    return manifest
 
+def run_kit_generation(
+    api_key: str,
+    items: list,
+    max_workers: int = 4,
+) -> tuple[dict[str, dict], float]:
+    results = {}
+    total_cost = 0.0
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures = {executor.submit(generate_image, api_key, item): item for item in items}
         for future in concurrent.futures.as_completed(futures):
             item = futures[future]
             try:
                 meta = future.result()
-                results.append(meta)
+                results[item["id"]] = meta
                 total_cost += meta.get("estimatedCostUsd", 0.0)
             except Exception as e:
                 print(f"Error generating {item['id']}: {e}", file=sys.stderr, flush=True)
-                sys.exit(1)
-
-    os.makedirs(os.path.dirname(os.path.abspath(summary_file)), exist_ok=True)
-    with open(summary_file, "w") as f:
-        json.dump({
-            "totalCostUsd": round(total_cost, 4),
-            "itemCount": len(results),
-            "items": results
-        }, f, indent=2)
-
-    print(f"\nAll generations complete! Total cost: ${round(total_cost, 4)}", flush=True)
-    print(f"Summary written to {summary_file}", flush=True)
+                raise
+    return results, total_cost

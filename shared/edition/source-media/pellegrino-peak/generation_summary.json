@@ -1,0 +1,186 @@
+{
+  "totalCostUsd": 1.6983,
+  "itemCount": 10,
+  "items": [
+    {
+      "id": "pellegrino-peak.far-layer",
+      "role": "far-layer",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/far/far-layer.png",
+      "sha256": "1d56c76a89340c5cc1bebd08b0cae7d44942064fe3f76a0be13303c3fa4264cd",
+      "background": "opaque",
+      "tokens": {
+        "text_in": 138,
+        "img_in": 0,
+        "img_out": 3952
+      },
+      "estimatedCostUsd": 0.11925,
+      "elapsedSeconds": 70.79,
+      "prompt": "Use case: production game far scenery layer. A wide 3:1 panoramic landscape of Pellegrino Peak far layer: high mountain atmosphere above a sunlit coast in wide cool air. Luminous clear sapphire blue sky with soft drifting fairytale clouds, pale blossom clouds catching the light, and distant rolling Sicilian mountain ridges and purple hills fading into the sunny haze. Deep below in the distance, a sparkling azure coastal bay with glimmering Mediterranean water and golden shoreline. No foreground rock ledges, no foreground trees, no flower carpets, no characters, no text, no Birthday Star. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game far scenery layer. A wide 3:1 panoramic landscape of Pellegrino Peak far layer: high mountain atmosphere above a sunlit coast in wide cool air. Luminous clear sapphire blue sky with soft drifting fairytale clouds, pale blossom clouds catching the light, and distant rolling Sicilian mountain ridges and purple hills fading into the sunny haze. Deep below in the distance, a sparkling azure coastal bay with glimmering Mediterranean water and golden shoreline. No foreground rock ledges, no foreground trees, no flower carpets, no characters, no text, no Birthday Star. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+    },
+    {
+      "id": "pellegrino-peak.terrace-overlook",
+      "role": "terrace-overlook",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/middle/terrace-overlook.png",
+      "sha256": "3290771449af1b3e6c76c76dfe16f08f960357cdb04add3ee49053557feade9f",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 138,
+        "img_in": 0,
+        "img_out": 3952
+      },
+      "estimatedCostUsd": 0.11925,
+      "elapsedSeconds": 75.34,
+      "prompt": "Use case: production game middle scenery signature Set Piece. Preserve the composition and mountain botanical feel from the approved reference painting of Pellegrino Peak: a magnificent terraced mountain ridge with stepped warm cream-and-honey limestone rock ledges ascending on the left, covered with lush blooming pink mountain blossom trees, golden wildflower cushions, and purple lavender terraces overlooking the distant sea. Wide panoramic middle Set Piece on transparent background. Clean alpha channel through all gaps between rock ledges, branches, and open space above the ridge, no background sky, no ground plane below the base limestone rocks, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game middle scenery signature Set Piece. Preserve the composition and mountain botanical feel from the approved reference painting of Pellegrino Peak: a magnificent terraced mountain ridge with stepped warm cream-and-honey limestone rock ledges ascending on the left, covered with lush blooming pink mountain blossom trees, golden wildflower cushions, and purple lavender terraces overlooking the distant sea. Wide panoramic middle Set Piece on transparent background. Clean alpha channel through all gaps between rock ledges, branches, and open space above the ridge, no background sky, no ground plane below the base limestone rocks, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+    },
+    {
+      "id": "pellegrino-peak.flowered-ridge",
+      "role": "flowered-ridge",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/middle/flowered-ridge.png",
+      "sha256": "d37e0616dc8d04b8a4d0b8dd181fdaf27e1b6f756379467e168affeaa5af8d1e",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 101,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165145,
+      "elapsedSeconds": 114.19,
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral middle-ground limestone rock ridge and grassy mountain terrace carpeted with yellow wildflowers, blush rose blossoms, and purple alpine lavender, with rounded honey-colored boulders and low blossoming shrubs. Lateral Set Piece on transparent background. Clean alpha channel everywhere above and below the rock ridge, no sky, no ground below ridge base, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral middle-ground limestone rock ridge and grassy mountain terrace carpeted with yellow wildflowers, blush rose blossoms, and purple alpine lavender, with rounded honey-colored boulders and low blossoming shrubs. Lateral Set Piece on transparent background. Clean alpha channel everywhere above and below the rock ridge, no sky, no ground below ridge base, no characters, no text. Storybook picture-book style matching Pellegrino Peak."
+    },
+    {
+      "id": "pellegrino-peak.blossom-tree",
+      "role": "blossom-tree",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/middle/blossom-tree.png",
+      "sha256": "ad6c80c00da32cde502a2ce7219b89ceebab0ec249ad0881d2f1984be8a4686f",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 104,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16516,
+      "elapsedSeconds": 120.28,
+      "prompt": "Use case: production game middle scenery Set Piece. A spreading, sunlit Mediterranean mountain blossom tree with gnarly weathered bark and abundant blush pink and white blossoms catching the golden sunlight, rooted on a small mossy limestone rock ledge with trailing wild lavender and golden mountain flowers. Isolated vertical tree Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane below rock base, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. A spreading, sunlit Mediterranean mountain blossom tree with gnarly weathered bark and abundant blush pink and white blossoms catching the golden sunlight, rooted on a small mossy limestone rock ledge with trailing wild lavender and golden mountain flowers. Isolated vertical tree Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane below rock base, no characters, no text. Storybook picture-book style matching Pellegrino Peak."
+    },
+    {
+      "id": "pellegrino-peak.flowered-ground",
+      "role": "flowered-ground",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/near/flowered-ground.png",
+      "sha256": "5e400606808c2c223850fd1327ba49923db2f4f6da35a1fb053f7159eface8d4",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 115,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165215,
+      "elapsedSeconds": 112.86,
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit terraced mountain slope with warm cream limestone flagstones, soft gravel path, and vibrant dense carpets of blush rose, lavender, and golden mountain wildflowers with scattered drifting flower petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit terraced mountain slope with warm cream limestone flagstones, soft gravel path, and vibrant dense carpets of blush rose, lavender, and golden mountain wildflowers with scattered drifting flower petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Pellegrino Peak."
+    },
+    {
+      "id": "pellegrino-peak.wildflower-border",
+      "role": "wildflower-border",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/near/wildflower-border.png",
+      "sha256": "e043732380ece13d1c190f288aae2b80ae930a8f4b0c4e1f6d21e7a4849270d9",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 102,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16515,
+      "elapsedSeconds": 120.14,
+      "prompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of blooming mountain wildflowers: rich clusters of blush pink blossoms, deep violet lavender spires, and golden chamomile with dark green foliage and small smooth rounded limestone rocks. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the flower foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of blooming mountain wildflowers: rich clusters of blush pink blossoms, deep violet lavender spires, and golden chamomile with dark green foliage and small smooth rounded limestone rocks. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the flower foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Pellegrino Peak."
+    },
+    {
+      "id": "shared.limestone-boulder",
+      "role": "limestone-boulder",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/shared/limestone-boulder.png",
+      "sha256": "2735a7d35f586c90eac7e4996c04737689c437968a478cbc598688ae8fad6f54",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 106,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.21125,
+      "elapsedSeconds": 171.97,
+      "prompt": "Use case: production game shared library Set Piece. A handsome, freestanding storybook Mediterranean limestone rock outcrop with warm cream and honey tones, smooth rounded weathered contours, small crevices with green moss, and miniature blooming golden wildflowers and purple lavender sprigs at its base. Isolated vertical rock Set Piece on transparent background. Clean alpha channel, no background, no ground plane outside the stone base, no characters, no text. Storybook picture-book illustration style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game shared library Set Piece. A handsome, freestanding storybook Mediterranean limestone rock outcrop with warm cream and honey tones, smooth rounded weathered contours, small crevices with green moss, and miniature blooming golden wildflowers and purple lavender sprigs at its base. Isolated vertical rock Set Piece on transparent background. Clean alpha channel, no background, no ground plane outside the stone base, no characters, no text. Storybook picture-book illustration style matching Fairytale Sicily."
+    },
+    {
+      "id": "pellegrino-peak.overhang-crag",
+      "role": "overhang-crag",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/near/overhang-crag.png",
+      "sha256": "2024d135f6ed387541030766ce69c439776cb484552a98945161f4c21d69fd51",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 105,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165165,
+      "elapsedSeconds": 123.79,
+      "prompt": "Use case: production game near scenery Set Piece. An overarching upper mountain rock ledge of sunlit honey-colored limestone draped with trailing blush pink mountain blossoms, golden wildflower sprigs, and delicate drifting flower petals framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the rock ledge and trailing blossoms, no background sky, no ground, no characters, no text. Storybook picture-book style matching Pellegrino Peak.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. An overarching upper mountain rock ledge of sunlit honey-colored limestone draped with trailing blush pink mountain blossoms, golden wildflower sprigs, and delicate drifting flower petals framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the rock ledge and trailing blossoms, no background sky, no ground, no characters, no text. Storybook picture-book style matching Pellegrino Peak."
+    },
+    {
+      "id": "pellegrino-peak.flower-bank",
+      "role": "flower-bank",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/cutouts/flower-bank.png",
+      "sha256": "f83b8916d3c5723805609fddfda46cf4f3ef314023cff8839325e1f766367bc7",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 124,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.21134,
+      "elapsedSeconds": 165.21,
+      "prompt": "Use case: production game playful obstacle cutout. A charming, gentle storybook flower bank obstacle cutout for a gentle children's game: a low rounded bank of warm cream limestone rocks and soft earth covered in lush clusters of blooming blush pink and magenta mountain flowers, golden chamomile, and purple lavender with fresh green leaves. Gentle and inviting, low obstacle resting on Storybook Ground. Isolated cutout on transparent background with clean alpha channel. No sky, no background, no ground outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, gentle storybook flower bank obstacle cutout for a gentle children's game: a low rounded bank of warm cream limestone rocks and soft earth covered in lush clusters of blooming blush pink and magenta mountain flowers, golden chamomile, and purple lavender with fresh green leaves. Gentle and inviting, low obstacle resting on Storybook Ground. Isolated cutout on transparent background with clean alpha channel. No sky, no background, no ground outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+    },
+    {
+      "id": "pellegrino-peak.mountain-blossom",
+      "role": "mountain-blossom",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/cutouts/mountain-blossom.png",
+      "sha256": "365b0f211791758721ce4012b49634dbeb2060b56628b37f6f00a44c4eccdb7a",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 131,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.211375,
+      "elapsedSeconds": 159.87,
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a giant, springy mountain blossom cushion resting on a small rounded limestone rock base, featuring wide, layered bouncy petals of luminous blush pink, peach, and lavender, with a glowing golden starlight pollen center, ready to joyfully launch Stella high into the mountain air. Upright and bouncy. Isolated cutout on transparent background with clean alpha channel. No sky, no background, no ground outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a giant, springy mountain blossom cushion resting on a small rounded limestone rock base, featuring wide, layered bouncy petals of luminous blush pink, peach, and lavender, with a glowing golden starlight pollen center, ready to joyfully launch Stella high into the mountain air. Upright and bouncy. Isolated cutout on transparent background with clean alpha channel. No sky, no background, no ground outside base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+    }
+  ]
+}

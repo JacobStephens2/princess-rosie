@@ -845,7 +845,8 @@ test("each Place Illustration renders at its painted 16:9 aspect ratio without v
   }).toBe("abbey");
 
   const abbeyDisplaySize = await page.evaluate(() => window.__ROSIE_RUNNER__?.getPlaceIllustrationDisplaySize?.());
-  expect(abbeyDisplaySize?.width).toBe(1280);
+  expect(abbeyDisplaySize).toBeDefined();
+  expect(abbeyDisplaySize?.width).toBeGreaterThanOrEqual(2160);
   expect(abbeyDisplaySize?.height).toBe(720);
 
   const abbeyPlaceObjects = await page.evaluate(() => window.__ROSIE_RUNNER__?.getScenePlaceObjects?.());
@@ -909,9 +910,9 @@ test("authored places declare three Scenery Layers with distinct factors and far
   const expectedPaintings: Record<(typeof places)[number], string> = {
     garden: "garden.far-layer",
     lacewood: "lacewood.far-layer",
-    abbey: "abbey.background",
-    clouds: "cloister.background",
-    peak: "pellegrino-peak.background",
+    abbey: "abbey.far-layer",
+    clouds: "cloister.far-layer",
+    peak: "pellegrino-peak.far-layer",
     sea: "sapphire-sea.far-layer",
     castle: "celebration.castle-approach",
   };
@@ -950,6 +951,48 @@ test("authored places declare three Scenery Layers with distinct factors and far
   expect(lacewoodLayers[2]?.depthFactor).toBe(1.0);
   expect(lacewoodLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
 
+  // Verify Golden Bell Abbey has distinct factors 0.2, 0.5, 1.0
+  const abbeyLayers = allPlacesLayers.abbey;
+  expect(abbeyLayers).toBeDefined();
+  expect(abbeyLayers).toHaveLength(3);
+  expect(abbeyLayers[0]?.depth).toBe("far");
+  expect(abbeyLayers[0]?.depthFactor).toBe(0.2);
+  expect(abbeyLayers[0]?.paintingAssetId).toBe("abbey.far-layer");
+  expect(abbeyLayers[1]?.depth).toBe("middle");
+  expect(abbeyLayers[1]?.depthFactor).toBe(0.5);
+  expect(abbeyLayers[1]?.setPieces.length).toBeGreaterThanOrEqual(6);
+  expect(abbeyLayers[2]?.depth).toBe("near");
+  expect(abbeyLayers[2]?.depthFactor).toBe(1.0);
+  expect(abbeyLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
+
+  // Verify Cloister of Clouds has distinct factors 0.2, 0.5, 1.0
+  const cloudsLayers = allPlacesLayers.clouds;
+  expect(cloudsLayers).toBeDefined();
+  expect(cloudsLayers).toHaveLength(3);
+  expect(cloudsLayers[0]?.depth).toBe("far");
+  expect(cloudsLayers[0]?.depthFactor).toBe(0.2);
+  expect(cloudsLayers[0]?.paintingAssetId).toBe("cloister.far-layer");
+  expect(cloudsLayers[1]?.depth).toBe("middle");
+  expect(cloudsLayers[1]?.depthFactor).toBe(0.5);
+  expect(cloudsLayers[1]?.setPieces.length).toBeGreaterThanOrEqual(5);
+  expect(cloudsLayers[2]?.depth).toBe("near");
+  expect(cloudsLayers[2]?.depthFactor).toBe(1.0);
+  expect(cloudsLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
+
+  // Verify Pellegrino Peak has distinct factors 0.2, 0.5, 1.0
+  const peakLayers = allPlacesLayers.peak;
+  expect(peakLayers).toBeDefined();
+  expect(peakLayers).toHaveLength(3);
+  expect(peakLayers[0]?.depth).toBe("far");
+  expect(peakLayers[0]?.depthFactor).toBe(0.2);
+  expect(peakLayers[0]?.paintingAssetId).toBe("pellegrino-peak.far-layer");
+  expect(peakLayers[1]?.depth).toBe("middle");
+  expect(peakLayers[1]?.depthFactor).toBe(0.5);
+  expect(peakLayers[1]?.setPieces.length).toBeGreaterThanOrEqual(6);
+  expect(peakLayers[2]?.depth).toBe("near");
+  expect(peakLayers[2]?.depthFactor).toBe(1.0);
+  expect(peakLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
+
   // Verify Sapphire Sea has distinct factors 0.2, 0.5, 1.0
   const seaLayers = allPlacesLayers.sea;
   expect(seaLayers).toBeDefined();
@@ -964,8 +1007,8 @@ test("authored places declare three Scenery Layers with distinct factors and far
   expect(seaLayers[2]?.depthFactor).toBe(1.0);
   expect(seaLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
 
-  // Other 4 places retain initial 0 factor
-  for (const place of ["abbey", "clouds", "peak", "castle"] as const) {
+  // Other place (castle) retains initial 0 factor
+  for (const place of ["castle"] as const) {
     const placeFromAll = allPlacesLayers[place];
     expect(placeFromAll).toBeDefined();
     expect(placeFromAll).toHaveLength(3);

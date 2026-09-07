@@ -330,6 +330,216 @@
       "height": 256
     },
     {
+      "id": "abbey.far-layer",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/abbey.far-layer.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "abbey.cloister-arcade",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.cloister-arcade.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "abbey.bell-tower-belfry",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.bell-tower-belfry.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "abbey.rose-window-wall",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.rose-window-wall.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "shared.stone-fountain",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.stone-fountain.webp",
+      "width": 720,
+      "height": 720
+    },
+    {
+      "id": "abbey.stone-terrace-ground",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.stone-terrace-ground.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "abbey.lavender-herb-border",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.lavender-herb-border.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "abbey.vaulted-arch-canopy",
+      "role": "set-piece",
+      "path": "/assets/derivatives/abbey.vaulted-arch-canopy.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "abbey.bell-rope",
+      "role": "cutout",
+      "path": "/assets/derivatives/abbey.bell-rope.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "abbey.abbey-bell",
+      "role": "cutout",
+      "path": "/assets/derivatives/abbey.abbey-bell.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "cloister.far-layer",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/cloister.far-layer.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "cloister.cloister-arcade",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.cloister-arcade.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "cloister.cloud-colonnade-pavilion",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.cloud-colonnade-pavilion.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "cloister.sunlit-stone-balustrade",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.sunlit-stone-balustrade.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "shared.stone-planter",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.stone-planter.webp",
+      "width": 720,
+      "height": 720
+    },
+    {
+      "id": "cloister.soft-cloud-ground",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.soft-cloud-ground.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "cloister.cloud-stepping-stones",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.cloud-stepping-stones.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "cloister.sunlit-arch-canopy",
+      "role": "set-piece",
+      "path": "/assets/derivatives/cloister.sunlit-arch-canopy.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "cloister.soft-cloud",
+      "role": "cutout",
+      "path": "/assets/derivatives/cloister.soft-cloud.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "cloister.cloud-updraft",
+      "role": "cutout",
+      "path": "/assets/derivatives/cloister.cloud-updraft.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "pellegrino-peak.far-layer",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/pellegrino-peak.far-layer.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.terrace-overlook",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.terrace-overlook.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.blossom-tree",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.blossom-tree.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.flowered-ridge",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.flowered-ridge.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "shared.limestone-boulder",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.limestone-boulder.webp",
+      "width": 720,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.flowered-ground",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.flowered-ground.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.wildflower-border",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.wildflower-border.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.overhang-crag",
+      "role": "set-piece",
+      "path": "/assets/derivatives/pellegrino-peak.overhang-crag.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "pellegrino-peak.flower-bank",
+      "role": "cutout",
+      "path": "/assets/derivatives/pellegrino-peak.flower-bank.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "pellegrino-peak.mountain-blossom",
+      "role": "cutout",
+      "path": "/assets/derivatives/pellegrino-peak.mountain-blossom.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
       "id": "sapphire-sea.far-layer",
       "role": "illustration-layer",
       "path": "/assets/derivatives/sapphire-sea.far-layer.webp",

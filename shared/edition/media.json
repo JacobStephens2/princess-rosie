@@ -236,6 +236,156 @@
       "path": "source-media/lacewood/cutouts/lace-sprout.png"
     },
     {
+      "id": "abbey.far-layer",
+      "role": "illustration-layer",
+      "path": "source-media/abbey/far/far-layer.png"
+    },
+    {
+      "id": "abbey.cloister-arcade",
+      "role": "set-piece",
+      "path": "source-media/abbey/middle/cloister-arcade.png"
+    },
+    {
+      "id": "abbey.bell-tower-belfry",
+      "role": "set-piece",
+      "path": "source-media/abbey/middle/bell-tower-belfry.png"
+    },
+    {
+      "id": "abbey.rose-window-wall",
+      "role": "set-piece",
+      "path": "source-media/abbey/middle/rose-window-wall.png"
+    },
+    {
+      "id": "shared.stone-fountain",
+      "role": "set-piece",
+      "path": "source-media/shared/stone-fountain.png"
+    },
+    {
+      "id": "abbey.stone-terrace-ground",
+      "role": "set-piece",
+      "path": "source-media/abbey/near/stone-terrace-ground.png"
+    },
+    {
+      "id": "abbey.lavender-herb-border",
+      "role": "set-piece",
+      "path": "source-media/abbey/near/lavender-herb-border.png"
+    },
+    {
+      "id": "abbey.vaulted-arch-canopy",
+      "role": "set-piece",
+      "path": "source-media/abbey/near/vaulted-arch-canopy.png"
+    },
+    {
+      "id": "abbey.bell-rope",
+      "role": "cutout",
+      "path": "source-media/abbey/cutouts/bell-rope.png"
+    },
+    {
+      "id": "abbey.abbey-bell",
+      "role": "cutout",
+      "path": "source-media/abbey/cutouts/abbey-bell.png"
+    },
+    {
+      "id": "cloister.far-layer",
+      "role": "illustration-layer",
+      "path": "source-media/cloister/far/far-layer.png"
+    },
+    {
+      "id": "cloister.cloister-arcade",
+      "role": "set-piece",
+      "path": "source-media/cloister/middle/cloister-arcade.png"
+    },
+    {
+      "id": "cloister.cloud-colonnade-pavilion",
+      "role": "set-piece",
+      "path": "source-media/cloister/middle/cloud-colonnade-pavilion.png"
+    },
+    {
+      "id": "cloister.sunlit-stone-balustrade",
+      "role": "set-piece",
+      "path": "source-media/cloister/middle/sunlit-stone-balustrade.png"
+    },
+    {
+      "id": "shared.stone-planter",
+      "role": "set-piece",
+      "path": "source-media/shared/stone-planter.png"
+    },
+    {
+      "id": "cloister.soft-cloud-ground",
+      "role": "set-piece",
+      "path": "source-media/cloister/near/soft-cloud-ground.png"
+    },
+    {
+      "id": "cloister.cloud-stepping-stones",
+      "role": "set-piece",
+      "path": "source-media/cloister/near/cloud-stepping-stones.png"
+    },
+    {
+      "id": "cloister.sunlit-arch-canopy",
+      "role": "set-piece",
+      "path": "source-media/cloister/near/sunlit-arch-canopy.png"
+    },
+    {
+      "id": "cloister.soft-cloud",
+      "role": "cutout",
+      "path": "source-media/cloister/cutouts/soft-cloud.png"
+    },
+    {
+      "id": "cloister.cloud-updraft",
+      "role": "cutout",
+      "path": "source-media/cloister/cutouts/cloud-updraft.png"
+    },
+    {
+      "id": "pellegrino-peak.far-layer",
+      "role": "illustration-layer",
+      "path": "source-media/pellegrino-peak/far/far-layer.png"
+    },
+    {
+      "id": "pellegrino-peak.terrace-overlook",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/middle/terrace-overlook.png"
+    },
+    {
+      "id": "pellegrino-peak.blossom-tree",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/middle/blossom-tree.png"
+    },
+    {
+      "id": "pellegrino-peak.flowered-ridge",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/middle/flowered-ridge.png"
+    },
+    {
+      "id": "shared.limestone-boulder",
+      "role": "set-piece",
+      "path": "source-media/shared/limestone-boulder.png"
+    },
+    {
+      "id": "pellegrino-peak.flowered-ground",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/near/flowered-ground.png"
+    },
+    {
+      "id": "pellegrino-peak.wildflower-border",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/near/wildflower-border.png"
+    },
+    {
+      "id": "pellegrino-peak.overhang-crag",
+      "role": "set-piece",
+      "path": "source-media/pellegrino-peak/near/overhang-crag.png"
+    },
+    {
+      "id": "pellegrino-peak.flower-bank",
+      "role": "cutout",
+      "path": "source-media/pellegrino-peak/cutouts/flower-bank.png"
+    },
+    {
+      "id": "pellegrino-peak.mountain-blossom",
+      "role": "cutout",
+      "path": "source-media/pellegrino-peak/cutouts/mountain-blossom.png"
+    },
+    {
       "id": "sapphire-sea.far-layer",
       "role": "illustration-layer",
       "path": "source-media/sapphire-sea/far/far-layer.png"
