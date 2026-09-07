@@ -46,7 +46,7 @@ const PLACE_PAINTINGS: Record<StarStop, string> = {
   castle: "celebration.castle-approach",
 };
 
-function createPlaceScenery(place: StarStop): PlaceScenery {
+export function createPlaceScenery(place: StarStop): PlaceScenery {
   const farLayer: SceneryLayer = {
     depth: "far",
     depthFactor: 0,
@@ -269,6 +269,39 @@ export const SAPPHIRE_SEA_SCENERY: PlaceScenery = {
   ],
 };
 
+export const CASTLE_SCENERY: PlaceScenery = {
+  place: "castle",
+  layers: [
+    {
+      depth: "far",
+      depthFactor: 0.2,
+      paintingAssetId: "castle.far-layer",
+      setPieces: [],
+    },
+    {
+      depth: "middle",
+      depthFactor: 0.5,
+      setPieces: [
+        { assetId: "shared.cloud-bank", positionAlongCourse: 450, groundAnchor: 0.25 },
+        { assetId: "shared.cypress-tree", positionAlongCourse: 1050, groundAnchor: 0.78 },
+        { assetId: "castle.terrace-balustrade-row", positionAlongCourse: 1600, groundAnchor: 0.788 },
+        { assetId: "shared.festive-banner-post", positionAlongCourse: 2050, groundAnchor: 0.78 },
+        { assetId: "castle.mosaic-tower-spire", positionAlongCourse: 2500, groundAnchor: 0.78 },
+        { assetId: "castle.gatehouse-pavilion", positionAlongCourse: 2890, groundAnchor: 0.78 },
+      ],
+    },
+    {
+      depth: "near",
+      depthFactor: 1.0,
+      setPieces: [
+        { assetId: "castle.mosaic-stone-ground", positionAlongCourse: 800, groundAnchor: 0.95 },
+        { assetId: "castle.coastal-flower-border", positionAlongCourse: 2200, groundAnchor: 0.92 },
+        { assetId: "castle.palace-garland-canopy", positionAlongCourse: 3600, groundAnchor: 0.78 },
+      ],
+    },
+  ],
+};
+
 export const AUTHORED_PLACE_SCENERY: Record<StarStop, PlaceScenery> = {
   garden: ROSE_GARDEN_SCENERY,
   lacewood: LACEWOOD_SCENERY,
@@ -276,7 +309,7 @@ export const AUTHORED_PLACE_SCENERY: Record<StarStop, PlaceScenery> = {
   clouds: CLOISTER_SCENERY,
   peak: PELLEGRINO_PEAK_SCENERY,
   sea: SAPPHIRE_SEA_SCENERY,
-  castle: createPlaceScenery("castle"),
+  castle: CASTLE_SCENERY,
 };
 
 export function getPlaceScenery(place: StarStop): PlaceScenery {

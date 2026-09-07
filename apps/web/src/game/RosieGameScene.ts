@@ -100,6 +100,11 @@ const OBSTACLE_CUTOUTS: Partial<Record<ObstacleType, CutoutConfig>> = {
     width: 72,
     height: 60,
   },
+  "castle-bunting": {
+    textureKey: "castle.castle-bunting",
+    width: 72,
+    height: 60,
+  },
   "rose-bush": {
     textureKey: "garden.rose-bush",
     width: 68,
@@ -138,6 +143,11 @@ const SPRINGBOARD_CUTOUTS: Partial<Record<SpringboardType, CutoutConfig>> = {
     width: 80,
     height: 80,
   },
+  "castle-drum": {
+    textureKey: "castle.castle-drum",
+    width: 80,
+    height: 80,
+  },
   "giant-rose": {
     textureKey: "garden.giant-rose",
     width: 80,
@@ -159,17 +169,8 @@ interface ActiveSceneryLayer {
 
 type LandscapeDrawer = (graphics: Phaser.GameObjects.Graphics, start: number) => void;
 
-function drawRollingHills(graphics: Phaser.GameObjects.Graphics, start: number): void {
-  for (let hillX = start + 520; hillX < start + PLACE_COURSE_WIDTH; hillX += 900) {
-    graphics.fillEllipse(hillX, 690, 1200, 330);
-  }
-}
 
-const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
-  castle: (graphics, start) => {
-    drawRollingHills(graphics, start);
-  },
-};
+const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {};
 
 export interface GameCallbacks {
   onBirthdayStar: (stop: StopStory, count: number, isFinal: boolean) => void;
@@ -776,9 +777,6 @@ export class RosieGameScene extends Phaser.Scene {
     backgrounds.fillStyle(stop.sky, 1).fillRect(0, 0, PLACE_COURSE_WIDTH, VIEW_HEIGHT);
     this.drawClouds(backgrounds, 0, stopIndex);
     this.drawLandscape(backgrounds, 0, stop);
-    if (stop.id === "castle") {
-      this.drawCastle(backgrounds, archway.x, 520);
-    }
     this.currentBackgroundGraphics = backgrounds;
 
     // 2. Scenery Layers rendered in depth order beneath all interactive elements.
@@ -998,6 +996,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "castle-bunting": {
+        if (this.textures.exists("castle.castle-bunting")) {
+          const img = this.add.image(0, 0, "castle.castle-bunting").setOrigin(0.5, 1);
+          img.setDisplaySize(72, 60);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0x9b3260, 1);
         g.fillRoundedRect(-w * 0.45, -h * 0.6, w * 0.9, h * 0.6, 6);
         g.fillStyle(0xf4c45c, 1);
@@ -1133,6 +1137,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "castle-drum": {
+        if (this.textures.exists("castle.castle-drum")) {
+          const img = this.add.image(0, 0, "castle.castle-drum").setOrigin(0.5, 1);
+          img.setDisplaySize(80, 80);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0x7d284a, 1);
         g.fillRoundedRect(-w * 0.42, -h * 0.55, w * 0.84, h * 0.55, 6);
         g.fillStyle(0xf4c45c, 1);
@@ -1476,17 +1486,6 @@ export class RosieGameScene extends Phaser.Scene {
       ease: "Sine.easeInOut",
       onComplete: () => this.tweens.add({ targets: guest, alpha: 0, duration: 180 }),
     });
-  }
-
-  private drawCastle(graphics: Phaser.GameObjects.Graphics, x: number, groundY: number): void {
-    graphics.fillStyle(0xf4c45c, 1).fillRoundedRect(x, groundY - 270, 560, 300, 25);
-    graphics.fillStyle(0xe7a643, 1);
-    [x + 15, x + 185, x + 355, x + 525].forEach((towerX) => graphics.fillRect(towerX, groundY - 370, 90, 400));
-    graphics.fillStyle(0x866fc3, 1).fillTriangle(x - 10, groundY - 370, x + 60, groundY - 470, x + 130, groundY - 370);
-    graphics.fillTriangle(x + 160, groundY - 370, x + 230, groundY - 470, x + 300, groundY - 370);
-    graphics.fillTriangle(x + 330, groundY - 370, x + 400, groundY - 470, x + 470, groundY - 370);
-    graphics.fillStyle(0x8b4d78, 1).fillRoundedRect(x + 225, groundY - 160, 110, 190, 55);
-    graphics.fillStyle(0xf1e8ff, 1).fillCircle(x + 280, groundY - 235, 48);
   }
 }
 

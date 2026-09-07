@@ -1,0 +1,29 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "far",
+  "depthFactor": 0.2,
+  "totalSpendUsd": 0.11946,
+  "assets": [
+    {
+      "id": "castle.far-layer",
+      "role": "far-layer",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "opaque",
+      "prompt": "Use case: production game far scenery layer. A wide panoramic landscape of the Birthday Castle Approach far layer: luminous sapphire and powder-blue sunny sky with soft drifting fairytale clouds. In the right half of the panorama, the warm golden mosaic Birthday Castle stands waiting ahead under bright Mediterranean sun with rounded Arab-Norman domes, mosaic gold and cream walls, open arches, and colorful festive pennants. High in the luminous sky above the castle, the radiant golden Castle Star already shines brightly, casting a warm golden glow, and six gentle convergent rainbow light trails sweep across the sky toward the castle gates. Below, the sparkling Sapphire Sea meets gentle flowered coastal terraces. Distant panoramic viewpoint, wide open flight corridor through the left two-thirds. Scenery and architecture only, no people, no characters, no text. Painterly children's picture-book illustration matching Fairytale Sicily.",
+      "outputPath": "source-media/castle/far/far-layer.png",
+      "sha256": "e0186f747e2f050c8b096e6ad59116e5150b40b4ec394023c86da318d6b2c1b8",
+      "costUsd": 0.11946,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-139 implementation review",
+        "reason": "Opaque 3:1 panorama landscape vista with sunny sky, sapphire sea, converging rainbow trails, the Castle Star shining above, and Birthday Castle waiting ahead in the right portion; no characters or text.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}
