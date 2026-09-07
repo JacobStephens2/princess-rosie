@@ -115,12 +115,6 @@ const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
     const flowerCount = Math.floor(PLACE_COURSE_WIDTH / 77);
     for (let flower = 0; flower < flowerCount; flower += 1) graphics.fillCircle(start + 90 + flower * 77, 590 - (flower % 5) * 28, 10);
   },
-  sea: (graphics, start) => {
-    graphics.fillRect(start, 520, PLACE_COURSE_WIDTH, 200);
-    graphics.lineStyle(9, 0xa7efff, .55);
-    const waveCount = Math.floor(PLACE_COURSE_WIDTH / 210);
-    for (let wave = 0; wave < waveCount; wave += 1) graphics.strokeCircle(start + 90 + wave * 210, 555 + (wave % 2) * 45, 100);
-  },
   castle: (graphics, start) => {
     drawRollingHills(graphics, start);
   },
@@ -221,6 +215,8 @@ export class RosieGameScene extends Phaser.Scene {
     this.load.image("shared.rainbow-archway", resolveDerivativePath("shared.rainbow-archway"));
     this.load.image("lacewood.silver-ribbon", resolveDerivativePath("lacewood.silver-ribbon"));
     this.load.image("lacewood.lace-sprout", resolveDerivativePath("lacewood.lace-sprout"));
+    this.load.image("sapphire-sea.wave-crest", resolveDerivativePath("sapphire-sea.wave-crest"));
+    this.load.image("sapphire-sea.sea-geyser", resolveDerivativePath("sapphire-sea.sea-geyser"));
   }
 
   create(): void {
@@ -940,6 +936,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "wave-crest": {
+        if (this.textures.exists("sapphire-sea.wave-crest")) {
+          const img = this.add.image(0, 0, "sapphire-sea.wave-crest").setOrigin(0.5, 1);
+          img.setDisplaySize(72, 60);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0x168fc4, 0.95);
         g.fillEllipse(0, -h * 0.4, w * 0.85, h * 0.8);
         g.fillStyle(0x6fd3ef, 0.95);
@@ -1090,6 +1092,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "sea-geyser": {
+        if (this.textures.exists("sapphire-sea.sea-geyser")) {
+          const img = this.add.image(0, 0, "sapphire-sea.sea-geyser").setOrigin(0.5, 1);
+          img.setDisplaySize(80, 80);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0x0e6e99, 1);
         g.fillEllipse(0, -h * 0.25, w * 0.95, h * 0.4);
         g.fillStyle(0x6fd3ef, 0.95);

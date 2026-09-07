@@ -1,0 +1,48 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "category": "cutouts",
+  "totalSpendUsd": 0.42265,
+  "assets": [
+    {
+      "id": "sapphire-sea.wave-crest",
+      "role": "obstacle-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game playful obstacle cutout. A charming, stylized storybook wave crest obstacle cutout for a gentle children's game: a sparkling curved curl of deep sapphire and luminous turquoise sea water with a soft foamy pearly-white frothing crest and glistening sunlit water droplets floating above a small base of sea spray. Genuine RGBA transparent background around the wave silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "outputPath": "source-media/sapphire-sea/cutouts/wave-crest.png",
+      "sha256": "5e5e91bb820f2b7f0aa52524aaeceed5369d80e43b1d8a7bb76ada885081e010",
+      "costUsd": 0.21131,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-138 implementation review",
+        "reason": "Charming stylized wave crest obstacle with sparkling turquoise curl and pearly foam on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "sapphire-sea.sea-geyser",
+      "role": "springboard-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a springy vertical sea geyser spout shooting upward from a bubbly turquoise pool, unfurling into frothy translucent water crests and crystalline bouncing droplets, glowing with warm golden starlight spray at its crest, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/sapphire-sea/cutouts/sea-geyser.png",
+      "sha256": "ff0c677451ffee23c2dfbc9f76aaf6376b812105d6552534937e36e89fdafba1",
+      "costUsd": 0.21134,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-138 implementation review",
+        "reason": "Joyful vertical sea geyser springboard spout with frothy crest and golden starlight spray on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

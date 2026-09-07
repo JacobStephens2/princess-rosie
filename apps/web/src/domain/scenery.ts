@@ -42,7 +42,7 @@ const PLACE_PAINTINGS: Record<StarStop, string> = {
   abbey: "abbey.background",
   clouds: "cloister.background",
   peak: "pellegrino-peak.background",
-  sea: "sapphire-sea.background",
+  sea: "sapphire-sea.far-layer",
   castle: "celebration.castle-approach",
 };
 
@@ -137,13 +137,46 @@ export const LACEWOOD_SCENERY: PlaceScenery = {
   ],
 };
 
+export const SAPPHIRE_SEA_SCENERY: PlaceScenery = {
+  place: "sea",
+  layers: [
+    {
+      depth: "far",
+      depthFactor: 0.2,
+      paintingAssetId: "sapphire-sea.far-layer",
+      setPieces: [],
+    },
+    {
+      depth: "middle",
+      depthFactor: 0.5,
+      setPieces: [
+        { assetId: "shared.cloud-bank", positionAlongCourse: 450, groundAnchor: 0.25 },
+        { assetId: "shared.cypress-tree", positionAlongCourse: 1050, groundAnchor: 0.78 },
+        { assetId: "sapphire-sea.coral-tide-terrace", positionAlongCourse: 1600, groundAnchor: 0.788 },
+        { assetId: "shared.flowered-coastal-rock", positionAlongCourse: 2050, groundAnchor: 0.78 },
+        { assetId: "sapphire-sea.limestone-sea-stack", positionAlongCourse: 2500, groundAnchor: 0.78 },
+        { assetId: "sapphire-sea.sea-promontory", positionAlongCourse: 2890, groundAnchor: 0.78 },
+      ],
+    },
+    {
+      depth: "near",
+      depthFactor: 1.0,
+      setPieces: [
+        { assetId: "sapphire-sea.coastal-shelf-ground", positionAlongCourse: 800, groundAnchor: 0.95 },
+        { assetId: "sapphire-sea.flowered-rock-border", positionAlongCourse: 2200, groundAnchor: 0.92 },
+        { assetId: "sapphire-sea.turquoise-shallows-pool", positionAlongCourse: 3600, groundAnchor: 0.78 },
+      ],
+    },
+  ],
+};
+
 export const AUTHORED_PLACE_SCENERY: Record<StarStop, PlaceScenery> = {
   garden: ROSE_GARDEN_SCENERY,
   lacewood: LACEWOOD_SCENERY,
   abbey: createPlaceScenery("abbey"),
   clouds: createPlaceScenery("clouds"),
   peak: createPlaceScenery("peak"),
-  sea: createPlaceScenery("sea"),
+  sea: SAPPHIRE_SEA_SCENERY,
   castle: createPlaceScenery("castle"),
 };
 

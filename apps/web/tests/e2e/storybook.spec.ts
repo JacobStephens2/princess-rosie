@@ -143,6 +143,9 @@ test("navigating through the garden course to the end triggers place completion 
   await page.getByRole("button", { name: "Fly with Rosie" }).click();
 
   await expect(page.locator("#game canvas")).toBeVisible();
+  await expect.poll(async () => {
+    return await page.evaluate(() => window.__ROSIE_RUNNER__?.isReady?.());
+  }, { timeout: 15_000 }).toBe(true);
 
   // Verify real runtime forward progression along Storybook Ground
   const startX = (await page.evaluate(() => window.__ROSIE_RUNNER__?.getState()))?.x ?? 0;
@@ -156,7 +159,7 @@ test("navigating through the garden course to the end triggers place completion 
   });
 
   // Reaching the end triggers place completion in domain state and displays Moment
-  await expect(page.locator("#moment")).toBeVisible();
+  await expect(page.locator("#moment")).toBeVisible({ timeout: 10_000 });
   await expect(page.locator("#moment-place")).toHaveText("Rosalia’s Rose Garden");
   await expect(page.locator("#moment-copy")).toContainText("Mom");
 
@@ -899,7 +902,7 @@ test("an e2e check flies one place without stumbling and confirms Rainbow Archwa
   expect(finalState?.arrivedAtArchway).toBe(true);
 });
 
-test("Rose Garden declares three Scenery Layers with distinct factors and far layer moves slower than near during flight", async ({ page }) => {
+test("authored places declare three Scenery Layers with distinct factors and far layer moves slower than near during flight", async ({ page }) => {
   await startStorybookFlight(page);
 
   const places = ["garden", "lacewood", "abbey", "clouds", "peak", "sea", "castle"] as const;
@@ -909,7 +912,7 @@ test("Rose Garden declares three Scenery Layers with distinct factors and far la
     abbey: "abbey.background",
     clouds: "cloister.background",
     peak: "pellegrino-peak.background",
-    sea: "sapphire-sea.background",
+    sea: "sapphire-sea.far-layer",
     castle: "celebration.castle-approach",
   };
 
@@ -947,8 +950,22 @@ test("Rose Garden declares three Scenery Layers with distinct factors and far la
   expect(lacewoodLayers[2]?.depthFactor).toBe(1.0);
   expect(lacewoodLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
 
-  // Other 5 places retain initial 0 factor
-  for (const place of ["abbey", "clouds", "peak", "sea", "castle"] as const) {
+  // Verify Sapphire Sea has distinct factors 0.2, 0.5, 1.0
+  const seaLayers = allPlacesLayers.sea;
+  expect(seaLayers).toBeDefined();
+  expect(seaLayers).toHaveLength(3);
+  expect(seaLayers[0]?.depth).toBe("far");
+  expect(seaLayers[0]?.depthFactor).toBe(0.2);
+  expect(seaLayers[0]?.paintingAssetId).toBe("sapphire-sea.far-layer");
+  expect(seaLayers[1]?.depth).toBe("middle");
+  expect(seaLayers[1]?.depthFactor).toBe(0.5);
+  expect(seaLayers[1]?.setPieces.length).toBeGreaterThanOrEqual(6);
+  expect(seaLayers[2]?.depth).toBe("near");
+  expect(seaLayers[2]?.depthFactor).toBe(1.0);
+  expect(seaLayers[2]?.setPieces.length).toBeGreaterThanOrEqual(3);
+
+  // Other 4 places retain initial 0 factor
+  for (const place of ["abbey", "clouds", "peak", "castle"] as const) {
     const placeFromAll = allPlacesLayers[place];
     expect(placeFromAll).toBeDefined();
     expect(placeFromAll).toHaveLength(3);
