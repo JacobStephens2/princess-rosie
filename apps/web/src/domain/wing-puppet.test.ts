@@ -214,8 +214,13 @@ describe("wing-puppet kinematics controller", () => {
     expect(state.backWingRotation).toBeCloseTo(initialBackWing, 4);
     expect(state.bobOffsetY).toBeCloseTo(initialBob, 4);
 
-    // Front and back wings maintain a phase offset (not locked identical)
-    expect(state.frontWingRotation).not.toBeCloseTo(state.backWingRotation, 2);
+    // Both wings sweep down in unison at peak downstroke (t = 0.25s), lifting body upward
+    let downstrokeState = createPuppetKinematicState({ flutterPhase: 0 });
+    downstrokeState = updatePuppetKinematics(downstrokeState, flutterRunner, 0.25);
+    // Front wing rotates clockwise (+) to sweep down; back wing rotates counter-clockwise (-) to sweep down
+    expect(downstrokeState.frontWingRotation).toBeGreaterThan(0.3);
+    expect(downstrokeState.backWingRotation).toBeLessThan(-0.3);
+    expect(downstrokeState.bobOffsetY).toBeLessThan(-1.0);
 
     // Step across another 1.0 second (total 2.0s elapsed: second full stroke cycle completes)
     simulateSeconds(1.0);

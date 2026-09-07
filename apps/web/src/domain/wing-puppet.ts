@@ -155,8 +155,8 @@ export function updatePuppetKinematics(
   } else if (animationName === "rosie-stella-flutter") {
     flutterPhase += deltaSeconds * FLUTTER_ANGULAR_VELOCITY;
     targetFrontWing = Math.sin(flutterPhase) * 0.38;
-    targetBackWing = Math.sin(flutterPhase + 0.25) * 0.35;
-    bobOffsetY = Math.sin(flutterPhase) * 1.5;
+    targetBackWing = -Math.sin(flutterPhase) * 0.35;
+    bobOffsetY = -Math.sin(flutterPhase) * 1.5;
     stumbleTimer = 0;
   } else if (animationName === "rosie-stella-leap") {
     // Airborne (leap / fall)
