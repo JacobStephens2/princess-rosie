@@ -589,8 +589,8 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
   -webkit-overflow-scrolling: touch;
   padding: 24px 0;
 }
-.ending__art { background: url("/assets/celebration-art.png") center 42% / cover no-repeat; }
-.ending-character { position: absolute; inset: -3%; z-index: -1; background: url("/assets/celebration-art.png") center 42% / cover no-repeat; pointer-events: none; }
+.ending__art { background: url("/assets/derivatives/celebration.birthday-castle.webp") center 42% / cover no-repeat; }
+.ending-character { position: absolute; inset: -3%; z-index: -1; background: url("/assets/derivatives/celebration.birthday-castle.webp") center 42% / cover no-repeat; pointer-events: none; }
 .ending-character--rosie { clip-path: polygon(10% 42%, 40% 42%, 40% 100%, 8% 100%); transform-origin: 25% 76%; }
 .ending-character--stella { clip-path: polygon(18% 12%, 48% 12%, 48% 66%, 18% 66%); transform-origin: 33% 40%; }
 .ending-character--gigi { clip-path: polygon(0 8%, 27% 8%, 27% 100%, 0 100%); transform-origin: 12% 72%; }
