@@ -687,10 +687,21 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
     }
   }
 
-  // 4. Smooth transition introduces the Grand Celebration
+  // 4. Smooth transition introduces the Grand Celebration Beat 1 (Celebration Reveal)
   await expect(page.locator("#game-shell")).toBeHidden();
   await expect(page.locator("#ending")).toBeVisible();
+  await expect(page.locator("#ending")).toHaveAttribute("data-beat", "celebration-view");
   await expect(page.getByRole("heading", { name: /Happy Birthday/i })).toBeVisible();
+
+  // Fragile hardcoded polygon character cutouts removed in favor of ambient confetti
+  await expect(page.locator(".ending-character")).toHaveCount(0);
+
+  // In Beat 1: Celebration illustration is completely unobstructed by opaque modal card
+  const celebrationCue = page.locator("#celebration-cue");
+  await expect(celebrationCue).toBeVisible();
+  await expect(celebrationCue).toContainText("Rosie’s Stamp Album");
+  const albumModal = page.locator("#celebration-album-modal");
+  await expect(albumModal).toBeHidden();
 
   // 5. Constellation: all 6 recovered stars join Dad's Castle Star above Princess Zélie
   const constellation = page.locator("#celebration-constellation");
@@ -702,7 +713,12 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
   await expect(castleStar).toHaveClass(/constellation-star--castle/);
   await expect(castleStar).toHaveClass(/is-lit/);
 
-  // 6. Celebration Album: displays all 7 earned stamps with interactive preview switching
+  // 6. Transition to Beat 2 (Celebration Album & Fly Again)
+  await celebrationCue.click();
+  await expect(page.locator("#ending")).toHaveAttribute("data-beat", "album-view");
+  await expect(albumModal).toBeVisible();
+
+  // Celebration Album: displays all 7 earned stamps with interactive preview switching
   const albumGrid = page.locator("#celebration-album-grid");
   await expect(albumGrid).toBeVisible();
   const stampButtons = albumGrid.locator(".album-stamp-item");
@@ -730,7 +746,39 @@ test("complete 6-place journey across Birthday Castle Approach into grand celebr
   await expect(page.locator("#album-preview-title")).toHaveText("Beasley’s Cloud Paws Stamp");
   await expect(page.locator("#album-preview-guest")).toContainText("Beasley");
 
-  // 7. Fly Again cleanly resets journey state and begins adventure from Rosalia's Rose Garden
+  // Keyboard accessibility: pressing Space on a focused control in Beat 2 activates it without resetting flight
+  const momTab = albumGrid.locator('[data-stamp-id="garden"]');
+  await momTab.focus();
+  await page.keyboard.press("Space");
+  await expect(momTab).toHaveAttribute("aria-selected", "true");
+  await expect(page.locator("#album-preview-title")).toHaveText("Mom’s Rose Stamp");
+  await expect(page.locator("#ending")).toBeVisible();
+
+  // 7. Bidirectional navigation: return to Beat 1 via '← Look at the party'
+  const backBtn = page.locator("#album-back-button");
+  await expect(backBtn).toBeVisible();
+  await backBtn.click();
+  await expect(page.locator("#ending")).toHaveAttribute("data-beat", "celebration-view");
+  await expect(albumModal).toBeHidden();
+  await expect(celebrationCue).toBeVisible();
+
+  // Advance to Beat 2 via Spacebar
+  await page.keyboard.press("Space");
+  await expect(page.locator("#ending")).toHaveAttribute("data-beat", "album-view");
+  await expect(albumModal).toBeVisible();
+
+  // Dismiss back to Beat 1 via backdrop click
+  const backdrop = page.locator("#celebration-modal-backdrop");
+  await backdrop.click({ position: { x: 20, y: 20 } });
+  await expect(page.locator("#ending")).toHaveAttribute("data-beat", "celebration-view");
+  await expect(albumModal).toBeHidden();
+
+  // Advance to Beat 2 via stage click
+  await page.locator("#ending").click({ position: { x: 100, y: 100 } });
+  await expect(page.locator("#ending")).toHaveAttribute("data-beat", "album-view");
+  await expect(albumModal).toBeVisible();
+
+  // 8. Fly Again cleanly resets journey state and begins adventure from Rosalia's Rose Garden
   const flyAgainBtn = page.locator("#fly-again-button");
   await expect(flyAgainBtn).toBeVisible();
   await flyAgainBtn.scrollIntoViewIfNeeded();
