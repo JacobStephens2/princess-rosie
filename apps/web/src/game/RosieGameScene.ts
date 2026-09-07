@@ -1182,7 +1182,8 @@ export class RosieGameScene extends Phaser.Scene {
     const container = this.add.container(sparkle.x, sparkle.y).setDepth(18);
     container.setName(`sparkle-${sparkle.id}`);
 
-    if (this.textures.exists("garden.star-sparkle")) {
+    const currentStop = STOP_STORIES[this.nextStop]?.id;
+    if (currentStop === "garden" && this.textures.exists("garden.star-sparkle")) {
       const img = this.add.image(0, 0, "garden.star-sparkle").setOrigin(0.5, 0.5);
       img.setDisplaySize(44, 44);
       container.add(img);
