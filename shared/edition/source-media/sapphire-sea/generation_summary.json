@@ -1,0 +1,186 @@
+{
+  "totalCostUsd": 1.6977,
+  "itemCount": 10,
+  "items": [
+    {
+      "id": "sapphire-sea.far-layer",
+      "role": "far-layer",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/far/far-layer.png",
+      "sha256": "ffe6cdd167f7090f89e2915127d92d3e20f62c9ee877980f21beaa61f0e2a8ff",
+      "background": "opaque",
+      "tokens": {
+        "text_in": 112,
+        "img_in": 0,
+        "img_out": 3952
+      },
+      "estimatedCostUsd": 0.11912,
+      "elapsedSeconds": 62.12,
+      "prompt": "Use case: production game far scenery layer. A wide panoramic seascape of Sapphire Sea far layer: clear sunny sapphire blue sky with soft drifting clouds, wide open sparkling sapphire Mediterranean ocean beneath warm golden sunlight, soft trails of sun sparkle across the open water, and distant low purple coastal headlands on the far horizon. Distant panoramic viewpoint, no foreground shore, no foreground rocks, no obstacles, no people, no characters, no text, no star, no boats. Painterly children's picture-book illustration matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game far scenery layer. A wide panoramic seascape of Sapphire Sea far layer: clear sunny sapphire blue sky with soft drifting clouds, wide open sparkling sapphire Mediterranean ocean beneath warm golden sunlight, soft trails of sun sparkle across the open water, and distant low purple coastal headlands on the far horizon. Distant panoramic viewpoint, no foreground shore, no foreground rocks, no obstacles, no people, no characters, no text, no star, no boats. Painterly children's picture-book illustration matching Fairytale Sicily."
+    },
+    {
+      "id": "sapphire-sea.sea-promontory",
+      "role": "sea-promontory",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/middle/sea-promontory.png",
+      "sha256": "7dc1f032aa3d2deb951576a58148224d10a8980e15e60c87c333b0e0d3525951",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 134,
+        "img_in": 0,
+        "img_out": 3952
+      },
+      "estimatedCostUsd": 0.11923,
+      "elapsedSeconds": 72.53,
+      "prompt": "Use case: production game middle scenery Set Piece. Preserve the coastal and floral composition from the approved reference painting of Sapphire Sea: a grand sunlit coastal promontory of warm cream limestone with a natural arched sea grotto framing glowing turquoise tide pools, draped with blooming blush-rose rock-roses, purple sea lavender, and glistening sunlit water ripples. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and outside the rock promontory, no background sky, no ground plane below the limestone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. Preserve the coastal and floral composition from the approved reference painting of Sapphire Sea: a grand sunlit coastal promontory of warm cream limestone with a natural arched sea grotto framing glowing turquoise tide pools, draped with blooming blush-rose rock-roses, purple sea lavender, and glistening sunlit water ripples. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and outside the rock promontory, no background sky, no ground plane below the limestone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+    },
+    {
+      "id": "sapphire-sea.limestone-sea-stack",
+      "role": "limestone-sea-stack",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/middle/limestone-sea-stack.png",
+      "sha256": "b089048bb3b16e6c1a2079f1ac29920d5980d9658ea6616be8195ac52b56b327",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 98,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16513,
+      "elapsedSeconds": 118.42,
+      "prompt": "Use case: production game middle scenery Set Piece. A picturesque sunlit limestone sea stack rising from gentle turquoise coastal water, with warm honey-cream textured rock, small ledges adorned with blooming pink coastal flowers and green samphire, glowing under warm Mediterranean sun. Vertical Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane outside the sea stack base, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. A picturesque sunlit limestone sea stack rising from gentle turquoise coastal water, with warm honey-cream textured rock, small ledges adorned with blooming pink coastal flowers and green samphire, glowing under warm Mediterranean sun. Vertical Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane outside the sea stack base, no characters, no text. Storybook picture-book style matching Sapphire Sea."
+    },
+    {
+      "id": "sapphire-sea.coral-tide-terrace",
+      "role": "coral-tide-terrace",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/middle/coral-tide-terrace.png",
+      "sha256": "d628f9ee5800f0a192b07138e2104cadb1cbcae605c7f846bde708bbf70bba75",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 90,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16509,
+      "elapsedSeconds": 122.46,
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral stepped terrace of warm cream-and-gold limestone tide pools glowing with clear turquoise water, trailing blush-rose coastal blossoms, delicate sea lavender, and sparkling gentle ripples. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below the limestone terrace base, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+      "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral stepped terrace of warm cream-and-gold limestone tide pools glowing with clear turquoise water, trailing blush-rose coastal blossoms, delicate sea lavender, and sparkling gentle ripples. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below the limestone terrace base, no characters, no text. Storybook picture-book style matching Sapphire Sea."
+    },
+    {
+      "id": "sapphire-sea.coastal-shelf-ground",
+      "role": "coastal-shelf-ground",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/near/coastal-shelf-ground.png",
+      "sha256": "d630f385cb94c77359f25ea931ffa0ca3d7af6d632d0581816ef63bd1fbe9708",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 100,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16514,
+      "elapsedSeconds": 113.91,
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit pale cream limestone shore and shallow glowing turquoise tide pools with smooth sea pebbles and scattered pink and lavender petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit pale cream limestone shore and shallow glowing turquoise tide pools with smooth sea pebbles and scattered pink and lavender petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Sapphire Sea."
+    },
+    {
+      "id": "shared.flowered-coastal-rock",
+      "role": "flowered-coastal-rock",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/shared/flowered-coastal-rock.png",
+      "sha256": "c28a6a4403a1dbf405ea342292de64327d77503d6133b0a5b58d212c8ad3c8fe",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 87,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.211155,
+      "elapsedSeconds": 164.23,
+      "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook rounded cream limestone rock boulder adorned with clusters of blooming blush-rose wildflowers, delicate purple sea lavender, and soft green moss. Isolated compact Set Piece on transparent background. Clean alpha channel, no ground plane outside the rock base, no background, no characters, no text. Storybook picture-book illustration style.",
+      "revisedPrompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook rounded cream limestone rock boulder adorned with clusters of blooming blush-rose wildflowers, delicate purple sea lavender, and soft green moss. Isolated compact Set Piece on transparent background. Clean alpha channel, no ground plane outside the rock base, no background, no characters, no text. Storybook picture-book illustration style."
+    },
+    {
+      "id": "sapphire-sea.flowered-rock-border",
+      "role": "flowered-rock-border",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/near/flowered-rock-border.png",
+      "sha256": "71d3db8e3ff4e5e60c5a726e14d6698798abd2776680214a0f83a87f1cfe3bf4",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 99,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.165135,
+      "elapsedSeconds": 119.45,
+      "prompt": "Use case: production game near scenery Set Piece. A wide foreground lateral border strip of warm cream limestone coastal rocks blooming with clusters of blush-rose rock-roses, dark green succulent leaves, and purple sea lavender trailing over glowing turquoise water edges. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the rocks and foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A wide foreground lateral border strip of warm cream limestone coastal rocks blooming with clusters of blush-rose rock-roses, dark green succulent leaves, and purple sea lavender trailing over glowing turquoise water edges. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the rocks and foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Sapphire Sea."
+    },
+    {
+      "id": "sapphire-sea.turquoise-shallows-pool",
+      "role": "turquoise-shallows-pool",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/near/turquoise-shallows-pool.png",
+      "sha256": "2b6a5fbc14098afdd62b62bc36d2b668d551bdeb38dad3f799329d28f715ac13",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 88,
+        "img_in": 0,
+        "img_out": 5488
+      },
+      "estimatedCostUsd": 0.16508,
+      "elapsedSeconds": 117.57,
+      "prompt": "Use case: production game near scenery Set Piece. A lateral foreground border of sparkling crystalline turquoise tide pools with gently glowing ripples, rounded cream sea stones, and tiny scattered pink coastal flower petals along the water's edge. Low lateral foreground Set Piece on transparent background. Clean alpha channel everywhere above the pool and stones, no background sky, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+      "revisedPrompt": "Use case: production game near scenery Set Piece. A lateral foreground border of sparkling crystalline turquoise tide pools with gently glowing ripples, rounded cream sea stones, and tiny scattered pink coastal flower petals along the water's edge. Low lateral foreground Set Piece on transparent background. Clean alpha channel everywhere above the pool and stones, no background sky, no characters, no text. Storybook picture-book style matching Sapphire Sea."
+    },
+    {
+      "id": "sapphire-sea.wave-crest",
+      "role": "wave-crest",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/cutouts/wave-crest.png",
+      "sha256": "5e5e91bb820f2b7f0aa52524aaeceed5369d80e43b1d8a7bb76ada885081e010",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 118,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.21131,
+      "elapsedSeconds": 163.48,
+      "prompt": "Use case: production game playful obstacle cutout. A charming, stylized storybook wave crest obstacle cutout for a gentle children's game: a sparkling curved curl of deep sapphire and luminous turquoise sea water with a soft foamy pearly-white frothing crest and glistening sunlit water droplets floating above a small base of sea spray. Genuine RGBA transparent background around the wave silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, stylized storybook wave crest obstacle cutout for a gentle children's game: a sparkling curved curl of deep sapphire and luminous turquoise sea water with a soft foamy pearly-white frothing crest and glistening sunlit water droplets floating above a small base of sea spray. Genuine RGBA transparent background around the wave silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+    },
+    {
+      "id": "sapphire-sea.sea-geyser",
+      "role": "sea-geyser",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/cutouts/sea-geyser.png",
+      "sha256": "ff0c677451ffee23c2dfbc9f76aaf6376b812105d6552534937e36e89fdafba1",
+      "background": "transparent",
+      "tokens": {
+        "text_in": 124,
+        "img_in": 0,
+        "img_out": 7024
+      },
+      "estimatedCostUsd": 0.21134,
+      "elapsedSeconds": 159.9,
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a springy vertical sea geyser spout shooting upward from a bubbly turquoise pool, unfurling into frothy translucent water crests and crystalline bouncing droplets, glowing with warm golden starlight spray at its crest, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "revisedPrompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a springy vertical sea geyser spout shooting upward from a bubbly turquoise pool, unfurling into frothy translucent water crests and crystalline bouncing droplets, glowing with warm golden starlight spray at its crest, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+    }
+  ]
+}

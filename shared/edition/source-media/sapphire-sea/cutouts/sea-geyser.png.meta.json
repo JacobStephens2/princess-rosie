@@ -1,0 +1,18 @@
+{
+  "id": "sapphire-sea.sea-geyser",
+  "role": "sea-geyser",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/cutouts/sea-geyser.png",
+  "sha256": "ff0c677451ffee23c2dfbc9f76aaf6376b812105d6552534937e36e89fdafba1",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 124,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.21134,
+  "elapsedSeconds": 159.9,
+  "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a springy vertical sea geyser spout shooting upward from a bubbly turquoise pool, unfurling into frothy translucent water crests and crystalline bouncing droplets, glowing with warm golden starlight spray at its crest, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: a springy vertical sea geyser spout shooting upward from a bubbly turquoise pool, unfurling into frothy translucent water crests and crystalline bouncing droplets, glowing with warm golden starlight spray at its crest, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+}
