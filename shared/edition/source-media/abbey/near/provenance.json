@@ -17,10 +17,12 @@
       "sha256": "3df93017d41b7b12bb70f5882d65e9da2b9fe86dd96f07cd6283c0e05d6895b2",
       "costUsd": 0.16517,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-135 implementation review",
         "reason": "Sunlit warm honey-and-terracotta paved stone terrace flagstones carrying Storybook Ground on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -35,10 +37,12 @@
       "sha256": "7f5c2265cd7837838231cf4bc62e4b26a85ae2473646d46f5e5287a02838b161",
       "costUsd": 0.16511,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-135 implementation review",
         "reason": "Lush foreground border strip of fragrant purple lavender, marigolds, and climbing blush roses along carved stone garden kerb on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -53,10 +57,12 @@
       "sha256": "4363421e90d14f2fc23bcc7c1bde0c6dcddcf884d7f74f5931efe7c40bd93901",
       "costUsd": 0.165125,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-135 implementation review",
         "reason": "Overarching top cloister rib vaulting and warm stone arches hung with small decorative golden bells on transparent background.",
-        "ownerManualReview": "pending"
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]
