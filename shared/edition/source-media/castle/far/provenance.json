@@ -17,9 +17,12 @@
       "sha256": "e0186f747e2f050c8b096e6ad59116e5150b40b4ec394023c86da318d6b2c1b8",
       "costUsd": 0.11946,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-139 implementation review",
-        "reason": "Opaque 3:1 panorama landscape vista with sunny sky, sapphire sea, converging rainbow trails, the Castle Star shining above, and Birthday Castle waiting ahead in the right portion; no characters or text."
+        "reason": "Opaque 3:1 panorama landscape vista with sunny sky, sapphire sea, converging rainbow trails, the Castle Star shining above, and Birthday Castle waiting ahead in the right portion; no characters or text.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]

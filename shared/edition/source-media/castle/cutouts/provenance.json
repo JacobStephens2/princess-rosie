@@ -16,9 +16,12 @@
       "sha256": "f7429c573dcdfb7be113a4345a73cc43ddc058b3e0480e42c68b5931f2d1fbd7",
       "costUsd": 0.21132,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-139 implementation review",
-        "reason": "Charming festive castle bunting obstacle strung between carved stone posts with rosebuds and rainbow ribbons on transparent background."
+        "reason": "Charming festive castle bunting obstacle strung between carved stone posts with rosebuds and rainbow ribbons on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -33,9 +36,12 @@
       "sha256": "ab1f540eb2cc4fc6f2ace58a3780c59af1f345d2c745acab9096189af1fef23c",
       "costUsd": 0.21131,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-139 implementation review",
-        "reason": "Ceremonial birthday castle celebration drum with bouncy ivory drumhead and golden starlight dust on transparent background."
+        "reason": "Ceremonial birthday castle celebration drum with bouncy ivory drumhead and golden starlight dust on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]

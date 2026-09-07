@@ -17,9 +17,12 @@
       "sha256": "57f6b1ec90067973979c33da88cd1a243fcfed575c728b0939a448b1594188bf",
       "costUsd": 0.11939,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-139 implementation review",
-        "reason": "Grand golden-domed Arab-Norman gatehouse entrance arcade with clean alpha channel through arches framing arrival at the Rainbow Archway."
+        "reason": "Grand golden-domed Arab-Norman gatehouse entrance arcade with clean alpha channel through arches framing arrival at the Rainbow Archway.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -34,9 +37,12 @@
       "sha256": "b480409abfcf7533756302c3c7d8b1851618d0cf1f8f1bea49509f3546efd4c4",
       "costUsd": 0.16515,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-139 implementation review",
-        "reason": "Classical cream stone terrace balustrades with golden mosaic borders, climbing roses, and festive rainbow ribbons on transparent background."
+        "reason": "Classical cream stone terrace balustrades with golden mosaic borders, climbing roses, and festive rainbow ribbons on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     },
     {
@@ -51,9 +57,12 @@
       "sha256": "3e05f69603bb2e54f49ac51d0db8e501cb9bdc11793ee3716464e7c12df7920d",
       "costUsd": 0.16515,
       "selection": {
-        "status": "candidate",
+        "status": "approved",
         "selectedBy": "issue-139 implementation review",
-        "reason": "Slender Arab-Norman palace watchtower with golden dome, colorful pennants, and climbing blush roses on transparent background."
+        "reason": "Slender Arab-Norman palace watchtower with golden dome, colorful pennants, and climbing blush roses on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
       }
     }
   ]
