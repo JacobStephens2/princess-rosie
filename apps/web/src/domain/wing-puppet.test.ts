@@ -95,6 +95,10 @@ describe("wing-puppet kinematics controller", () => {
     }
     // Upward tilt (negative rotation)
     expect(state.containerRotation).toBeLessThan(0);
+    // Continue past initial leap propulsion flap (0.5s total) to observe spread wings
+    for (let i = 0; i < 6; i++) {
+      state = updatePuppetKinematics(state, risingRunner, 0.05);
+    }
     // Wings spread/lifted (not folded down)
     expect(state.frontWingRotation).toBeLessThanOrEqual(0.05);
 
@@ -229,5 +233,64 @@ describe("wing-puppet kinematics controller", () => {
     expect(state.backWingRotation).toBeCloseTo(initialBackWing, 4);
     expect(state.bobOffsetY).toBeCloseTo(initialBob, 4);
   });
+
+  test("ground jump triggers a powerful unison wing flap propelling into the leap", async () => {
+    const { createPuppetKinematicState, updatePuppetKinematics } = await import("./wing-puppet");
+    let state = createPuppetKinematicState({ wasGrounded: true });
+    const jumpingRunner = createRunnerState({ isGrounded: false, mode: "jumping", velocityY: -440 });
+
+    // Step to peak downstroke (0.25s)
+    for (let i = 0; i < 5; i++) {
+      state = updatePuppetKinematics(state, jumpingRunner, 0.05);
+    }
+
+    // Wings flap down in unison and body lifts
+    expect(state.frontWingRotation).toBeGreaterThan(0.3);
+    expect(state.backWingRotation).toBeLessThan(-0.3);
+    expect(state.bobOffsetY).toBeLessThan(-1.0);
+
+    // Step to end of flap stroke (0.5s total)
+    for (let i = 0; i < 5; i++) {
+      state = updatePuppetKinematics(state, jumpingRunner, 0.05);
+    }
+
+    // Wings return to spread leap/glide pose
+    expect(state.frontWingRotation).toBeLessThanOrEqual(0.05);
+    expect(state.backWingRotation).toBeLessThanOrEqual(0.05);
+  });
+
+  test("airborne flap impulse triggers a powerful unison wing flap propelling upward", async () => {
+    const { createPuppetKinematicState, updatePuppetKinematics } = await import("./wing-puppet");
+    let state = createPuppetKinematicState({
+      wasGrounded: false,
+      previousMode: "falling",
+      previousVelocityY: 200,
+    });
+    const flappedRunner = createRunnerState({
+      isGrounded: false,
+      mode: "flapping",
+      velocityY: -320,
+    });
+
+    // Step to peak downstroke (0.25s)
+    for (let i = 0; i < 5; i++) {
+      state = updatePuppetKinematics(state, flappedRunner, 0.05);
+    }
+
+    // Wings flap down in unison and body lifts
+    expect(state.frontWingRotation).toBeGreaterThan(0.3);
+    expect(state.backWingRotation).toBeLessThan(-0.3);
+    expect(state.bobOffsetY).toBeLessThan(-1.0);
+
+    // Step to end of flap stroke (0.5s total)
+    for (let i = 0; i < 5; i++) {
+      state = updatePuppetKinematics(state, flappedRunner, 0.05);
+    }
+
+    // Wings return to spread glide pose
+    expect(state.frontWingRotation).toBeLessThanOrEqual(0.05);
+    expect(state.backWingRotation).toBeLessThanOrEqual(0.05);
+  });
 });
+
 
