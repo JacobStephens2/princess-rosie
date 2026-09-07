@@ -18,3 +18,5 @@ UserSettings/
 Builds/
 *.csproj
 *.sln
+__pycache__/
+*.pyc

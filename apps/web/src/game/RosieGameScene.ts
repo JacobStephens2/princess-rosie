@@ -30,7 +30,9 @@ import {
   getPlaceFamilyGuest,
   type RunnerState,
   type PlayfulObstacle,
+  type ObstacleType,
   type Springboard,
+  type SpringboardType,
   type StarSparkle,
   type RainbowArchway,
 } from "../domain/gallop-and-flutter";
@@ -118,6 +120,24 @@ const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
   castle: (graphics, start) => {
     drawRollingHills(graphics, start);
   },
+};
+
+interface CutoutVisualConfig {
+  textureKey: string;
+  width: number;
+  height: number;
+}
+
+const OBSTACLE_CUTOUTS: Partial<Record<ObstacleType, CutoutVisualConfig>> = {
+  "rose-bush": { textureKey: "garden.rose-bush", width: 68, height: 60 },
+  "silver-ribbon": { textureKey: "lacewood.silver-ribbon", width: 72, height: 60 },
+  "wave-crest": { textureKey: "sapphire-sea.wave-crest", width: 72, height: 60 },
+};
+
+const SPRINGBOARD_CUTOUTS: Partial<Record<SpringboardType, CutoutVisualConfig>> = {
+  "giant-rose": { textureKey: "garden.giant-rose", width: 80, height: 80 },
+  "lace-sprout": { textureKey: "lacewood.lace-sprout", width: 80, height: 80 },
+  "sea-geyser": { textureKey: "sapphire-sea.sea-geyser", width: 80, height: 80 },
 };
 
 export interface GameCallbacks {
@@ -865,18 +885,20 @@ export class RosieGameScene extends Phaser.Scene {
     const container = this.add.container(obstacle.x, obstacle.y).setDepth(15);
     container.setName(`obstacle-${obstacle.id}`);
 
+    const cutout = OBSTACLE_CUTOUTS[obstacle.type];
+    if (cutout && this.textures.exists(cutout.textureKey)) {
+      const img = this.add.image(0, 0, cutout.textureKey).setOrigin(0.5, 1);
+      img.setDisplaySize(cutout.width, cutout.height);
+      container.add(img);
+      return container;
+    }
+
     const g = this.add.graphics();
     const w = obstacle.width;
     const h = obstacle.height;
 
     switch (obstacle.type) {
       case "silver-ribbon": {
-        if (this.textures.exists("lacewood.silver-ribbon")) {
-          const img = this.add.image(0, 0, "lacewood.silver-ribbon").setOrigin(0.5, 1);
-          img.setDisplaySize(72, 60);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0x44533c, 1);
         g.fillRoundedRect(-w * 0.45, -h * 0.6, w * 0.9, h * 0.6, 8);
         g.fillStyle(0x628052, 1);
@@ -936,12 +958,6 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "wave-crest": {
-        if (this.textures.exists("sapphire-sea.wave-crest")) {
-          const img = this.add.image(0, 0, "sapphire-sea.wave-crest").setOrigin(0.5, 1);
-          img.setDisplaySize(72, 60);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0x168fc4, 0.95);
         g.fillEllipse(0, -h * 0.4, w * 0.85, h * 0.8);
         g.fillStyle(0x6fd3ef, 0.95);
@@ -968,12 +984,6 @@ export class RosieGameScene extends Phaser.Scene {
       }
       case "rose-bush":
       default: {
-        if (this.textures.exists("garden.rose-bush")) {
-          const img = this.add.image(0, 0, "garden.rose-bush").setOrigin(0.5, 1);
-          img.setDisplaySize(68, 60);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0x3e7a46, 1);
         g.fillEllipse(0, -h * 0.45, w, h * 0.85);
         g.fillStyle(0x5ca364, 1);
@@ -1034,18 +1044,20 @@ export class RosieGameScene extends Phaser.Scene {
     const container = this.add.container(springboard.x, springboard.y).setDepth(16);
     container.setName(`springboard-${springboard.id}`);
 
+    const cutout = SPRINGBOARD_CUTOUTS[springboard.type];
+    if (cutout && this.textures.exists(cutout.textureKey)) {
+      const img = this.add.image(0, 0, cutout.textureKey).setOrigin(0.5, 1);
+      img.setDisplaySize(cutout.width, cutout.height);
+      container.add(img);
+      return container;
+    }
+
     const g = this.add.graphics();
     const w = springboard.width;
     const h = springboard.height;
 
     switch (springboard.type) {
       case "lace-sprout": {
-        if (this.textures.exists("lacewood.lace-sprout")) {
-          const img = this.add.image(0, 0, "lacewood.lace-sprout").setOrigin(0.5, 1);
-          img.setDisplaySize(80, 80);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0x397a5b, 1);
         g.fillEllipse(0, -h * 0.25, w * 0.9, h * 0.4);
         g.fillStyle(0x9d72bd, 1);
@@ -1092,12 +1104,6 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "sea-geyser": {
-        if (this.textures.exists("sapphire-sea.sea-geyser")) {
-          const img = this.add.image(0, 0, "sapphire-sea.sea-geyser").setOrigin(0.5, 1);
-          img.setDisplaySize(80, 80);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0x0e6e99, 1);
         g.fillEllipse(0, -h * 0.25, w * 0.95, h * 0.4);
         g.fillStyle(0x6fd3ef, 0.95);
@@ -1119,12 +1125,6 @@ export class RosieGameScene extends Phaser.Scene {
       }
       case "giant-rose":
       default: {
-        if (this.textures.exists("garden.giant-rose")) {
-          const img = this.add.image(0, 0, "garden.giant-rose").setOrigin(0.5, 1);
-          img.setDisplaySize(80, 80);
-          container.add(img);
-          break;
-        }
         g.fillStyle(0x2f6838, 1);
         g.fillEllipse(0, -h * 0.25, w * 0.95, h * 0.45);
         g.fillStyle(0x4a9456, 1);
