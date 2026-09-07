@@ -1,0 +1,18 @@
+{
+  "id": "castle.mosaic-tower-spire",
+  "role": "mosaic-tower-spire",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/middle/mosaic-tower-spire.png",
+  "sha256": "3e05f69603bb2e54f49ac51d0db8e501cb9bdc11793ee3716464e7c12df7920d",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 102,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16515,
+  "elapsedSeconds": 118.24,
+  "prompt": "Use case: production game middle scenery Set Piece. A slender, elegant Arab-Norman palace watchtower and turret of warm cream and golden mosaic masonry, crowned with a small rounded golden dome, fluttering colorful pennants, and climbing blush roses entwined around arched windows. Isolated vertical tower Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane outside tower base, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A slender, elegant Arab-Norman palace watchtower and turret of warm cream and golden mosaic masonry, crowned with a small rounded golden dome, fluttering colorful pennants, and climbing blush roses entwined around arched windows. Isolated vertical tower Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane outside tower base, no characters, no text. Storybook picture-book style matching the Birthday Castle."
+}

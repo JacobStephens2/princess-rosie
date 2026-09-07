@@ -1,0 +1,18 @@
+{
+  "id": "castle.castle-drum",
+  "role": "castle-drum",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/cutouts/castle-drum.png",
+  "sha256": "ab1f540eb2cc4fc6f2ace58a3780c59af1f345d2c745acab9096189af1fef23c",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 118,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.21131,
+  "elapsedSeconds": 170.5,
+  "prompt": "Use case: production game interactive springboard cutout. A joyful, festive storybook celebration drum springboard cutout: a rounded ceremonial birthday castle drum in royal berry-crimson and golden mosaic trim, with a bouncy taut ivory drumhead glowing with warm golden starlight dust at its center, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game interactive springboard cutout. A joyful, festive storybook celebration drum springboard cutout: a rounded ceremonial birthday castle drum in royal berry-crimson and golden mosaic trim, with a bouncy taut ivory drumhead glowing with warm golden starlight dust at its center, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+}

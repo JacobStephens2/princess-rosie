@@ -1,0 +1,69 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "near",
+  "depthFactor": 1.0,
+  "totalSpendUsd": 0.495455,
+  "assets": [
+    {
+      "id": "castle.mosaic-stone-ground",
+      "role": "mosaic-stone-ground",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit cream stone flagstones with ornate golden mosaic inlay patterns, soft dappled shadows, and scattered fallen blush-rose petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the paved stone surface, no sky, no background, no characters, no text. Storybook picture-book style matching the Birthday Castle Approach.",
+      "outputPath": "source-media/castle/near/mosaic-stone-ground.png",
+      "sha256": "77b2a15d4820bfaa7686431eeee301c5bfa30fb3514274b75301fe3e4e0c131f",
+      "costUsd": 0.16517,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-139 implementation review",
+        "reason": "Sunlit cream stone flagstone courtyard path with golden mosaic inlays carrying Storybook Ground on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "castle.coastal-flower-border",
+      "role": "coastal-flower-border",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of coastal blush-rose bushes, lavender blooms, gentle leafy shrubs, and fluttering festive golden ribbons entwined along the garden edge. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the plant foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+      "outputPath": "source-media/castle/near/coastal-flower-border.png",
+      "sha256": "4bee552ddc719e50a965248fe29a34bd18d8439bf6ba3461947059ce09625213",
+      "costUsd": 0.16511,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-139 implementation review",
+        "reason": "Lush foreground blush roses, lavender blooms, and festive golden ribbons on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "castle.palace-garland-canopy",
+      "role": "palace-garland-canopy",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. An overarching upper canopy border of sunlit palace courtyard awnings, ornate carved golden arch trims, cascading blush-rose garlands, and fluttering celebratory rainbow silk ribbon swags framing the top edge of the scene. Overhanging top-edge Set Piece on transparent background. Clean alpha channel everywhere below the upper arch and garland trim, no background sky, no ground, no characters, no text. Storybook picture-book style matching the Birthday Castle.",
+      "outputPath": "source-media/castle/near/palace-garland-canopy.png",
+      "sha256": "5ee9a19bc0b4283fa1bfe031c742f097cc0d1057c60279a7655d13767bac18d1",
+      "costUsd": 0.165175,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-139 implementation review",
+        "reason": "Overarching top canopy palace trim with golden arches, cascading rose garlands, and fluttering rainbow ribbons on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

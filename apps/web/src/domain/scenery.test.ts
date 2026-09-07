@@ -227,8 +227,45 @@ describe("Place Scenery data declaration", () => {
     expect(lastPiece.positionAlongCourse).toBe(2890);
   });
 
+  test("Birthday Castle Approach declares three Scenery Layers with distinct factors and authored Set Pieces", () => {
+    const castle = getPlaceScenery("castle");
+    expect(castle.layers).toHaveLength(3);
+
+    const [far, middle, near] = castle.layers;
+    expect(far?.depth).toBe("far");
+    expect(far?.depthFactor).toBe(0.2);
+    expect(far?.paintingAssetId).toBe("castle.far-layer");
+    expect(far?.setPieces).toEqual([]);
+
+    expect(middle?.depth).toBe("middle");
+    expect(middle?.depthFactor).toBe(0.5);
+    expect(middle?.setPieces).toHaveLength(6);
+    const middleAssetIds = middle!.setPieces.map((p) => p.assetId);
+    expect(new Set(middleAssetIds).size).toBe(middleAssetIds.length);
+    const gatehousePavilion = middle?.setPieces.find((p) => p.assetId === "castle.gatehouse-pavilion");
+    expect(gatehousePavilion).toBeDefined();
+    expect(gatehousePavilion?.positionAlongCourse).toBe(2890);
+
+    expect(near?.depth).toBe("near");
+    expect(near?.depthFactor).toBe(1.0);
+    expect(near?.setPieces).toHaveLength(3);
+    const nearAssetIds = near!.setPieces.map((p) => p.assetId);
+    expect(new Set(nearAssetIds).size).toBe(nearAssetIds.length);
+  });
+
+  test("Birthday Castle Approach set pieces do not visibly repeat within 30 seconds along course", () => {
+    const castle = getPlaceScenery("castle");
+    const middle = castle.layers[1]!;
+    expect(middle.setPieces).toHaveLength(6);
+    const middleAssetIds = middle.setPieces.map((p) => p.assetId);
+    expect(new Set(middleAssetIds).size).toBe(6);
+    const lastPiece = middle.setPieces[middle.setPieces.length - 1]!;
+    expect(lastPiece.assetId).toBe("castle.gatehouse-pavilion");
+    expect(lastPiece.positionAlongCourse).toBe(2890);
+  });
+
   test("other places initially declare their existing painting as a single fixed far layer with factor 0", () => {
-    const otherPlaces: StarStop[] = ["sea", "castle"];
+    const otherPlaces: StarStop[] = ["sea"];
     const expectedPaintings: Record<StarStop, string> = {
       garden: "garden.far-layer",
       lacewood: "lacewood.far-layer",
@@ -236,7 +273,7 @@ describe("Place Scenery data declaration", () => {
       clouds: "cloister.far-layer",
       peak: "pellegrino-peak.far-layer",
       sea: "sapphire-sea.background",
-      castle: "celebration.castle-approach",
+      castle: "castle.far-layer",
     };
 
     for (const place of otherPlaces) {
@@ -250,7 +287,7 @@ describe("Place Scenery data declaration", () => {
   });
 
   test("other places initially declare middle and near layers with distinct depth factors and empty Set Piece lists", () => {
-    const otherPlaces: StarStop[] = ["sea", "castle"];
+    const otherPlaces: StarStop[] = ["sea"];
     for (const place of otherPlaces) {
       const scenery = getPlaceScenery(place);
       const middleLayer = scenery.layers[1]!;
