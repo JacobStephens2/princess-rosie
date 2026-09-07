@@ -1,0 +1,63 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "middle",
+  "depthFactor": 0.5,
+  "totalSpendUsd": 0.44961,
+  "assets": [
+    {
+      "id": "lacewood.lace-pavilion",
+      "role": "lace-pavilion",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. Preserve the architectural and floral composition from the approved reference painting of Zélie's Lacewood: a grand, sunlit classical circular gazebo or garden pavilion of cream-and-honey stone pillars with delicate carved archways, supporting an ornate golden dome, flanked by low stone balustrades, stone urns overflowing with blooming pink roses, glowing glass lanterns, and tall cypress spires. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and gazebo pillars and outside the structure, no background sky, no ground plane below the stone steps and balustrade base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/lacewood/middle/lace-pavilion.png",
+      "sha256": "d62160f6d0a5e29cc03676f1f5c103385e8b444a8cbb70d6840478c7600b1cd8",
+      "costUsd": 0.11931,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-134 implementation review",
+        "reason": "Grand golden-domed classical garden gazebo and lace pavilion with flawless alpha transparency framing arrival at Rainbow Archway.",
+        "ownerManualReview": "pending"
+      }
+    },
+    {
+      "id": "lacewood.lace-ribbon-tree",
+      "role": "lace-ribbon-tree",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A graceful, spreading sunlit forest tree with textured brown bark and lush green foliage, wrapped in climbing pink garden roses and draped with fluttering delicate translucent silver lace ribbons flowing between branches in the gentle breeze. Isolated vertical tree Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane, no characters, no text. Storybook picture-book style matching Zélie's Lacewood.",
+      "outputPath": "source-media/lacewood/middle/lace-ribbon-tree.png",
+      "sha256": "9ddbf2927bffffb1f8478da3a437a1b21af1efd57d24778c5c5242b032f57b8a",
+      "costUsd": 0.16513,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-134 implementation review",
+        "reason": "Graceful sunlit tree with climbing pink roses and draped translucent silver lace ribbons on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    },
+    {
+      "id": "lacewood.pillar-lantern-row",
+      "role": "pillar-lantern-row",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral row of classical cream stone pedestals and low balustrades adorned with climbing pink roses, green ivy, draped silver lace ribbons, and topped with glowing fairytale glass lanterns with golden candlelight and stone urns with trailing blossoms. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below pedestal bases, no characters, no text. Storybook picture-book style matching Zélie's Lacewood.",
+      "outputPath": "source-media/lacewood/middle/pillar-lantern-row.png",
+      "sha256": "ef5d45ed7d84a52f2004b822499220b22df27f8d8f4f2780b504c447e7c74027",
+      "costUsd": 0.16517,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-134 implementation review",
+        "reason": "Classical cream stone pedestals and balustrades with climbing roses, lace ribbons, and glowing lanterns on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    }
+  ]
+}

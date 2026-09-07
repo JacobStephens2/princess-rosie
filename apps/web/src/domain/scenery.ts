@@ -104,9 +104,42 @@ export const ROSE_GARDEN_SCENERY: PlaceScenery = {
   ],
 };
 
+export const LACEWOOD_SCENERY: PlaceScenery = {
+  place: "lacewood",
+  layers: [
+    {
+      depth: "far",
+      depthFactor: 0.2,
+      paintingAssetId: "lacewood.far-layer",
+      setPieces: [],
+    },
+    {
+      depth: "middle",
+      depthFactor: 0.5,
+      setPieces: [
+        { assetId: "shared.cloud-bank", positionAlongCourse: 450, groundAnchor: 0.25 },
+        { assetId: "shared.cypress-tree", positionAlongCourse: 1050, groundAnchor: 0.78 },
+        { assetId: "lacewood.pillar-lantern-row", positionAlongCourse: 1600, groundAnchor: 0.788 },
+        { assetId: "shared.garden-lantern", positionAlongCourse: 2050, groundAnchor: 0.78 },
+        { assetId: "lacewood.lace-ribbon-tree", positionAlongCourse: 2500, groundAnchor: 0.78 },
+        { assetId: "lacewood.lace-pavilion", positionAlongCourse: 2890, groundAnchor: 0.78 },
+      ],
+    },
+    {
+      depth: "near",
+      depthFactor: 1.0,
+      setPieces: [
+        { assetId: "lacewood.stone-tile-ground", positionAlongCourse: 800, groundAnchor: 0.95 },
+        { assetId: "lacewood.rose-woodland-border", positionAlongCourse: 2200, groundAnchor: 0.92 },
+        { assetId: "lacewood.canopy-arch", positionAlongCourse: 3600, groundAnchor: 0.78 },
+      ],
+    },
+  ],
+};
+
 export const AUTHORED_PLACE_SCENERY: Record<StarStop, PlaceScenery> = {
   garden: ROSE_GARDEN_SCENERY,
-  lacewood: createPlaceScenery("lacewood"),
+  lacewood: LACEWOOD_SCENERY,
   abbey: createPlaceScenery("abbey"),
   clouds: createPlaceScenery("clouds"),
   peak: createPlaceScenery("peak"),

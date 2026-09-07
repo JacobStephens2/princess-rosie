@@ -258,6 +258,76 @@
       "path": "/assets/derivatives/shared.rainbow-archway.webp",
       "width": 341,
       "height": 512
+    },
+    {
+      "id": "lacewood.far-layer",
+      "role": "illustration-layer",
+      "path": "/assets/derivatives/lacewood.far-layer.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "lacewood.lace-pavilion",
+      "role": "set-piece",
+      "path": "/assets/derivatives/lacewood.lace-pavilion.webp",
+      "width": 2160,
+      "height": 720
+    },
+    {
+      "id": "lacewood.lace-ribbon-tree",
+      "role": "set-piece",
+      "path": "/assets/derivatives/lacewood.lace-ribbon-tree.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "lacewood.pillar-lantern-row",
+      "role": "set-piece",
+      "path": "/assets/derivatives/lacewood.pillar-lantern-row.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "shared.garden-lantern",
+      "role": "set-piece",
+      "path": "/assets/derivatives/shared.garden-lantern.webp",
+      "width": 720,
+      "height": 720
+    },
+    {
+      "id": "lacewood.stone-tile-ground",
+      "role": "set-piece",
+      "path": "/assets/derivatives/lacewood.stone-tile-ground.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "lacewood.rose-woodland-border",
+      "role": "set-piece",
+      "path": "/assets/derivatives/lacewood.rose-woodland-border.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "lacewood.canopy-arch",
+      "role": "set-piece",
+      "path": "/assets/derivatives/lacewood.canopy-arch.webp",
+      "width": 1080,
+      "height": 720
+    },
+    {
+      "id": "lacewood.silver-ribbon",
+      "role": "cutout",
+      "path": "/assets/derivatives/lacewood.silver-ribbon.webp",
+      "width": 256,
+      "height": 256
+    },
+    {
+      "id": "lacewood.lace-sprout",
+      "role": "cutout",
+      "path": "/assets/derivatives/lacewood.lace-sprout.webp",
+      "width": 256,
+      "height": 256
     }
   ]
 }

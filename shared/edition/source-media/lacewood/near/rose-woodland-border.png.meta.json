@@ -1,0 +1,18 @@
+{
+  "id": "lacewood.rose-woodland-border",
+  "role": "rose-woodland-border",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/near/rose-woodland-border.png",
+  "sha256": "ac1527d57f6dc133fbc0530250a2a7845dcb9380dfa99162939c5103784e3cc3",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 97,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165125,
+  "elapsedSeconds": 125.51,
+  "prompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of wild woodland rose bushes blooming with vibrant pink roses, rich dark green foliage, and delicate silver lace ribbons entwined through the leafy branches. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the bush foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Z\u00e9lie's Lacewood.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of wild woodland rose bushes blooming with vibrant pink roses, rich dark green foliage, and delicate silver lace ribbons entwined through the leafy branches. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the bush foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Z\u00e9lie's Lacewood."
+}
