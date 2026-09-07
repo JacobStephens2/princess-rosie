@@ -1,0 +1,20 @@
+{
+  "id": "cloister.cloud-colonnade-pavilion",
+  "role": "cloud-colonnade-pavilion",
+  "category": "middle",
+  "reason": "Classical floating colonnade pavilion of warm honey stone arches resting upon a billowy cloud base on transparent background.",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/cloud-colonnade-pavilion.png",
+  "sha256": "542e10eb3737a1ad46b6ef141f178997020a4b0d9bcf361c81671e93f10cf733",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 103,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165155,
+  "elapsedSeconds": 125.28,
+  "prompt": "Use case: production game middle scenery Set Piece. A classical floating open pavilion or colonnade of warm honey stone pillars supporting elegant rounded arches and a delicate carved stone cornice, resting upon a soft voluminous white and blush cloud bank floating in mid-air. Lateral Set Piece on transparent background. Clean alpha channel through arch openings and around structure, no background sky, no ground below cloud base, no characters, no text. Storybook picture-book style matching Cloister of Clouds.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A classical floating open pavilion or colonnade of warm honey stone pillars supporting elegant rounded arches and a delicate carved stone cornice, resting upon a soft voluminous white and blush cloud bank floating in mid-air. Lateral Set Piece on transparent background. Clean alpha channel through arch openings and around structure, no background sky, no ground below cloud base, no characters, no text. Storybook picture-book style matching Cloister of Clouds."
+}
