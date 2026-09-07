@@ -1,0 +1,19 @@
+{
+  "id": "abbey.lavender-herb-border",
+  "role": "lavender-herb-border",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/near/lavender-herb-border.png",
+  "sha256": "7f5c2265cd7837838231cf4bc62e4b26a85ae2473646d46f5e5287a02838b161",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 94,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16511,
+  "elapsedSeconds": 118.45,
+  "prompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of blooming fragrant purple lavender bushes, golden marigolds, and climbing blush roses along a low carved honey-stone garden kerb. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the herb foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. A wide, lush foreground lateral border strip of blooming fragrant purple lavender bushes, golden marigolds, and climbing blush roses along a low carved honey-stone garden kerb. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the herb foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+  "reason": "Lush foreground border strip of fragrant purple lavender, marigolds, and climbing blush roses along carved stone garden kerb on transparent background."
+}

@@ -1,0 +1,44 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "category": "cutouts",
+  "totalSpendUsd": 0.42267,
+  "assets": [
+    {
+      "id": "abbey.bell-rope",
+      "role": "obstacle-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game playful obstacle cutout. A charming, whimsical storybook bell rope obstacle cutout for a gentle children's game: a thick braided golden-amber pull rope hanging down from a carved honey-stone bracket, ending in a soft fluffy wool tassel and a small swinging polished golden bell, mounted above a small base of green moss and purple lavender sprigs. Genuine RGBA transparent background around the silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+      "outputPath": "source-media/abbey/cutouts/bell-rope.png",
+      "sha256": "a331530c48d6a0ee8d90a739c8a31cee5540c7bb0aef4e14928eac03bd76b897",
+      "costUsd": 0.21134,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-135 implementation review",
+        "reason": "Charming braided golden bell rope obstacle with wool tassel and small swinging hand bell above lavender base on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    },
+    {
+      "id": "abbey.abbey-bell",
+      "role": "springboard-cutout",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game interactive springboard cutout. A joyful, magical storybook springboard cutout: an ornate, gleaming golden abbey bell resting on a springy, coiled bronze mount with soft leafy ivy and lavender accents, with a rounded clapper and glowing warm musical star chime glints, designed for Stella to bounce high into the sky. Upright and bouncy. Isolated cutout on transparent background. Clean alpha channel, no background, no ground outside base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/abbey/cutouts/abbey-bell.png",
+      "sha256": "1c38ea9b473993b0f7d876e32fd1bd5e7122ed0da7572fc9cd9552e8718c2862",
+      "costUsd": 0.21133,
+      "selection": {
+        "status": "candidate",
+        "selectedBy": "issue-135 implementation review",
+        "reason": "Gleaming golden abbey bell springboard on springy bronze mount with ivy and musical star glints on transparent background.",
+        "ownerManualReview": "pending"
+      }
+    }
+  ]
+}
