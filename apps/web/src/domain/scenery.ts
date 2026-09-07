@@ -137,6 +137,39 @@ export const LACEWOOD_SCENERY: PlaceScenery = {
   ],
 };
 
+export const GOLDEN_BELL_ABBEY_SCENERY: PlaceScenery = {
+  place: "abbey",
+  layers: [
+    {
+      depth: "far",
+      depthFactor: 0.2,
+      paintingAssetId: "abbey.far-layer",
+      setPieces: [],
+    },
+    {
+      depth: "middle",
+      depthFactor: 0.5,
+      setPieces: [
+        { assetId: "shared.cloud-bank", positionAlongCourse: 450, groundAnchor: 0.25 },
+        { assetId: "shared.cypress-tree", positionAlongCourse: 1000, groundAnchor: 0.78 },
+        { assetId: "abbey.rose-window-wall", positionAlongCourse: 1550, groundAnchor: 0.788 },
+        { assetId: "shared.stone-fountain", positionAlongCourse: 2000, groundAnchor: 0.78 },
+        { assetId: "abbey.bell-tower-belfry", positionAlongCourse: 2450, groundAnchor: 0.78 },
+        { assetId: "abbey.cloister-arcade", positionAlongCourse: 2890, groundAnchor: 0.78 },
+      ],
+    },
+    {
+      depth: "near",
+      depthFactor: 1.0,
+      setPieces: [
+        { assetId: "abbey.stone-terrace-ground", positionAlongCourse: 800, groundAnchor: 0.95 },
+        { assetId: "abbey.lavender-herb-border", positionAlongCourse: 2200, groundAnchor: 0.92 },
+        { assetId: "abbey.vaulted-arch-canopy", positionAlongCourse: 3600, groundAnchor: 0.78 },
+      ],
+    },
+  ],
+};
+
 export const CLOISTER_SCENERY: PlaceScenery = {
   place: "clouds",
   layers: [
@@ -173,7 +206,7 @@ export const CLOISTER_SCENERY: PlaceScenery = {
 export const AUTHORED_PLACE_SCENERY: Record<StarStop, PlaceScenery> = {
   garden: ROSE_GARDEN_SCENERY,
   lacewood: LACEWOOD_SCENERY,
-  abbey: createPlaceScenery("abbey"),
+  abbey: GOLDEN_BELL_ABBEY_SCENERY,
   clouds: CLOISTER_SCENERY,
   peak: createPlaceScenery("peak"),
   sea: createPlaceScenery("sea"),

@@ -1,0 +1,19 @@
+{
+  "id": "abbey.rose-window-wall",
+  "role": "rose-window-wall",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/middle/rose-window-wall.png",
+  "sha256": "9745a98d5166a850234252a113dd4159b2a9671f044a6d26f2781b234ffd6138",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 116,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16522,
+  "elapsedSeconds": 125.32,
+  "prompt": "Use case: production game middle scenery Set Piece. A lateral section of warm honey-colored stone abbey wall featuring a large, ornate stained-glass rose window glowing with jewel-toned sapphire, blush rose, and golden mosaic glass catching warm sunlight, flanked by carved stone columns with hanging small golden bells and climbing garden roses. Lateral Set Piece on transparent background. Clean alpha channel outside the stone structure and through wall cutouts, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral section of warm honey-colored stone abbey wall featuring a large, ornate stained-glass rose window glowing with jewel-toned sapphire, blush rose, and golden mosaic glass catching warm sunlight, flanked by carved stone columns with hanging small golden bells and climbing garden roses. Lateral Set Piece on transparent background. Clean alpha channel outside the stone structure and through wall cutouts, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Golden Bell Abbey.",
+  "reason": "Honey-stone abbey wall with glowing jewel-toned stained-glass rose window and carved pilasters on transparent background."
+}

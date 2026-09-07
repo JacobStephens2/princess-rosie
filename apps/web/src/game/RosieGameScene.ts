@@ -90,6 +90,11 @@ const OBSTACLE_CUTOUTS: Partial<Record<ObstacleType, CutoutConfig>> = {
     width: 72,
     height: 60,
   },
+  "bell-rope": {
+    textureKey: "abbey.bell-rope",
+    width: 70,
+    height: 60,
+  },
   "soft-cloud": {
     textureKey: "cloister.soft-cloud",
     width: 72,
@@ -105,6 +110,11 @@ const OBSTACLE_CUTOUTS: Partial<Record<ObstacleType, CutoutConfig>> = {
 const SPRINGBOARD_CUTOUTS: Partial<Record<SpringboardType, CutoutConfig>> = {
   "lace-sprout": {
     textureKey: "lacewood.lace-sprout",
+    width: 80,
+    height: 80,
+  },
+  "abbey-bell": {
+    textureKey: "abbey.abbey-bell",
     width: 80,
     height: 80,
   },
@@ -136,13 +146,6 @@ function drawRollingHills(graphics: Phaser.GameObjects.Graphics, start: number):
 }
 
 const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
-  abbey: (graphics, start) => {
-    drawRollingHills(graphics, start);
-    graphics.fillStyle(0xf2d292, 1).fillRoundedRect(start + 760, 300, 470, 330, 35);
-    graphics.fillStyle(0xe3ad54, 1).fillTriangle(start + 715, 320, start + 995, 150, start + 1280, 320);
-    graphics.fillStyle(0x7e71c7, 1).fillCircle(start + 995, 390, 65);
-    graphics.fillStyle(0xffd65e, 1).fillCircle(start + 900, 218, 34).fillCircle(start + 1080, 218, 34);
-  },
   peak: (graphics, start) => {
     drawRollingHills(graphics, start);
     for (let peakX = start; peakX < start + PLACE_COURSE_WIDTH; peakX += 1700) {
@@ -938,6 +941,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "bell-rope": {
+        if (this.textures.exists("abbey.bell-rope")) {
+          const img = this.add.image(0, 0, "abbey.bell-rope").setOrigin(0.5, 1);
+          img.setDisplaySize(70, 60);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0xd4aa68, 1);
         g.fillRoundedRect(-w * 0.42, -h * 0.7, w * 0.84, h * 0.7, 6);
         g.fillStyle(0xb88d4c, 1);
@@ -1093,6 +1102,12 @@ export class RosieGameScene extends Phaser.Scene {
         break;
       }
       case "abbey-bell": {
+        if (this.textures.exists("abbey.abbey-bell")) {
+          const img = this.add.image(0, 0, "abbey.abbey-bell").setOrigin(0.5, 1);
+          img.setDisplaySize(80, 80);
+          container.add(img);
+          break;
+        }
         g.fillStyle(0xb88d4c, 1);
         g.fillRoundedRect(-w * 0.45, -h * 0.25, w * 0.9, h * 0.3, 4);
         g.fillStyle(0xe3ad54, 1);
