@@ -438,6 +438,70 @@ describe("prepareMedia", () => {
     }
   });
 
+  test("scales set-piece to stage height and cutout to cutout sizing budget", async () => {
+    const tempDir = await mkdtemp(join(tmpdir(), "media-prepare-test-"));
+    try {
+      const outputDir = join(tempDir, "derivatives");
+      const manifestPath = join(tempDir, "media.json");
+      const derivativeManifestPath = join(tempDir, "derivative-manifest.json");
+
+      // Set Piece: 1536x1024
+      await sharp({
+        create: { width: 1536, height: 1024, channels: 4, background: { r: 100, g: 200, b: 100, alpha: 0.8 } },
+      })
+        .png()
+        .toFile(join(tempDir, "column-ribbon.png"));
+
+      // Obstacle cutout: 1024x1024
+      await sharp({
+        create: { width: 1024, height: 1024, channels: 4, background: { r: 255, g: 50, b: 150, alpha: 0.9 } },
+      })
+        .png()
+        .toFile(join(tempDir, "rose-bush.png"));
+
+      // Archway cutout: 1024x1536
+      await sharp({
+        create: { width: 1024, height: 1536, channels: 4, background: { r: 255, g: 215, b: 0, alpha: 0.9 } },
+      })
+        .png()
+        .toFile(join(tempDir, "rainbow-archway.png"));
+
+      const fixtureManifest = {
+        media: [
+          { id: "garden.column-ribbon", role: "set-piece", path: "column-ribbon.png" },
+          { id: "garden.rose-bush", role: "cutout", path: "rose-bush.png" },
+          { id: "shared.rainbow-archway", role: "cutout", path: "rainbow-archway.png" },
+        ],
+      };
+      await writeFile(manifestPath, JSON.stringify(fixtureManifest));
+
+      const result = await prepareMedia({
+        mediaManifestPath: manifestPath,
+        sourceRoot: tempDir,
+        outputDir,
+        manifestOutputPath: derivativeManifestPath,
+      });
+
+      expect(result.derivatives).toHaveLength(3);
+      // Set piece scaled to STAGE_HEIGHT (720)
+      expect(result.derivatives[0]?.id).toBe("garden.column-ribbon");
+      expect(result.derivatives[0]?.height).toBe(720);
+      expect(result.derivatives[0]?.width).toBe(Math.round((1536 * 720) / 1024)); // 1080
+
+      // Obstacle cutout scaled to maxDim 256
+      expect(result.derivatives[1]?.id).toBe("garden.rose-bush");
+      expect(result.derivatives[1]?.width).toBe(256);
+      expect(result.derivatives[1]?.height).toBe(256);
+
+      // Archway cutout scaled to maxDim 512
+      expect(result.derivatives[2]?.id).toBe("shared.rainbow-archway");
+      expect(result.derivatives[2]?.height).toBe(512);
+      expect(result.derivatives[2]?.width).toBe(Math.round((1024 * 512) / 1536)); // 341
+    } finally {
+      await rm(tempDir, { recursive: true, force: true });
+    }
+  });
+
   test("CLI returns non-zero exitCode on missing arguments", async () => {
     const errors: string[] = [];
     const result = await runMediaPrepareCli({

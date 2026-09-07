@@ -72,8 +72,45 @@ function createPlaceScenery(place: StarStop): PlaceScenery {
   };
 }
 
+export const ROSE_GARDEN_SCENERY: PlaceScenery = {
+  place: "garden",
+  layers: [
+    {
+      depth: "far",
+      depthFactor: 0.2,
+      paintingAssetId: "garden.far-layer",
+      setPieces: [],
+    },
+    {
+      depth: "middle",
+      depthFactor: 0.5,
+      setPieces: [
+        { assetId: "shared.cloud-bank", positionAlongCourse: 400, groundAnchor: 0.25 },
+        { assetId: "garden.balustrade-run", positionAlongCourse: 600, groundAnchor: 0.788 },
+        { assetId: "shared.cypress-tree", positionAlongCourse: 1200, groundAnchor: 0.78 },
+        { assetId: "garden.column-ribbon", positionAlongCourse: 1700, groundAnchor: 0.78 },
+        { assetId: "shared.cloud-bank", positionAlongCourse: 2100, groundAnchor: 0.25 },
+        { assetId: "garden.balustrade-run", positionAlongCourse: 2300, groundAnchor: 0.788 },
+        { assetId: "shared.cypress-tree", positionAlongCourse: 2600, groundAnchor: 0.78 },
+        { assetId: "garden.arch-cluster", positionAlongCourse: 2890, groundAnchor: 0.78 },
+      ],
+    },
+    {
+      depth: "near",
+      depthFactor: 1.0,
+      setPieces: [
+        { assetId: "garden.border-strip", positionAlongCourse: 400, groundAnchor: 0.95 },
+        { assetId: "garden.terrace-edge", positionAlongCourse: 1300, groundAnchor: 0.98 },
+        { assetId: "garden.rose-bush-cluster", positionAlongCourse: 2200, groundAnchor: 0.92 },
+        { assetId: "garden.border-strip", positionAlongCourse: 3100, groundAnchor: 0.95 },
+        { assetId: "garden.terrace-edge", positionAlongCourse: 4000, groundAnchor: 0.98 },
+      ],
+    },
+  ],
+};
+
 export const AUTHORED_PLACE_SCENERY: Record<StarStop, PlaceScenery> = {
-  garden: createPlaceScenery("garden"),
+  garden: ROSE_GARDEN_SCENERY,
   lacewood: createPlaceScenery("lacewood"),
   abbey: createPlaceScenery("abbey"),
   clouds: createPlaceScenery("clouds"),

@@ -20,6 +20,7 @@ export interface StopStory {
   sky: number;
   ground: number;
   placeIllustration?: string;
+  archwayTint?: number;
   layers: readonly SceneryLayer[];
   stamp: StorybookStampInfo;
 }
@@ -57,7 +58,8 @@ export const STOP_STORIES: readonly StopStory[] = [
     icon: "🌹",
     sky: 0x8bd8f1,
     ground: 0x76bd7a,
-    placeIllustration: resolveDerivativePath("flight.rose-garden-background"),
+    placeIllustration: resolveDerivativePath("garden.far-layer"),
+    archwayTint: 0xffd9e8,
     layers: getPlaceLayers("garden"),
     stamp: {
       title: "Mom’s Rose Stamp",

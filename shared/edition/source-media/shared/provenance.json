@@ -1,0 +1,68 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "category": "shared-library",
+  "totalSpendUsd": 0.541295,
+  "assets": [
+    {
+      "id": "shared.cypress-tree",
+      "role": "shared-set-piece",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game shared library Set Piece. A classic slender Sicilian cypress tree with dense, textured emerald green foliage, standing tall in a gentle breeze. Isolated vertical tree on transparent background. Clean alpha channel, no ground plane, no background, no characters, no text. Storybook picture-book illustration style.",
+      "outputPath": "source-media/shared/cypress-tree.png",
+      "sha256": "f48412b925477e1423f53db8091a11528db7bd31350fc114e51cb4bb264aad2c",
+      "costUsd": 0.211075,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Classic slender Sicilian cypress tree with emerald foliage on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "shared.cloud-bank",
+      "role": "shared-set-piece",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game shared library Set Piece. A soft, voluminous bank of fairytale clouds with billowy cumulus mounds, luminous warm sunlight highlights, and pastel pink undersides. Isolated cloud cluster on transparent background. Clean alpha channel, no blue sky, no ground, no characters, no text. Storybook picture-book illustration style.",
+      "outputPath": "source-media/shared/cloud-bank.png",
+      "sha256": "5dc7ab531b58fd22cb175295f5691968ae710615010506a10cd8be1d27c756c1",
+      "costUsd": 0.165025,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Soft voluminous cumulus cloud bank with warm sunlit highlights on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "shared.rainbow-archway",
+      "role": "shared-finish-gate",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1536",
+      "background": "transparent",
+      "prompt": "Use case: production game finish gate cutout. A grand classical storybook archway of warm cream-and-gold marble pillars with carved floral reliefs, crowned with vibrant shining rainbow bands spanning the semicircular arch, topped with a glowing golden six-pointed star crest. Wide open portal between the two pillars. Isolated archway on transparent background with clean alpha transparency through the arch opening and outside the structure. No background, no ground plane, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/shared/rainbow-archway.png",
+      "sha256": "793bbd0c073a2c086f1141096ec229c448ba6068772b53c26d3f703ec4e425e6",
+      "costUsd": 0.165195,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-133 implementation review",
+        "reason": "Grand storybook archway of cream-and-gold marble pillars with shining rainbow bands and golden star crest on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

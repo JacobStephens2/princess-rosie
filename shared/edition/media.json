@@ -119,6 +119,71 @@
       "id": "celebration.birthday-castle",
       "role": "illustration",
       "path": "source-media/celebration/birthday-castle-celebration.png"
+    },
+    {
+      "id": "garden.far-layer",
+      "role": "illustration-layer",
+      "path": "source-media/garden/far/far-layer.png"
+    },
+    {
+      "id": "garden.arch-cluster",
+      "role": "set-piece",
+      "path": "source-media/garden/middle/arch-cluster.png"
+    },
+    {
+      "id": "garden.column-ribbon",
+      "role": "set-piece",
+      "path": "source-media/garden/middle/column-ribbon.png"
+    },
+    {
+      "id": "garden.balustrade-run",
+      "role": "set-piece",
+      "path": "source-media/garden/middle/balustrade-run.png"
+    },
+    {
+      "id": "garden.rose-bush-cluster",
+      "role": "set-piece",
+      "path": "source-media/garden/near/rose-bush-cluster.png"
+    },
+    {
+      "id": "garden.border-strip",
+      "role": "set-piece",
+      "path": "source-media/garden/near/border-strip.png"
+    },
+    {
+      "id": "garden.terrace-edge",
+      "role": "set-piece",
+      "path": "source-media/garden/near/terrace-edge.png"
+    },
+    {
+      "id": "shared.cypress-tree",
+      "role": "set-piece",
+      "path": "source-media/shared/cypress-tree.png"
+    },
+    {
+      "id": "shared.cloud-bank",
+      "role": "set-piece",
+      "path": "source-media/shared/cloud-bank.png"
+    },
+    {
+      "id": "garden.rose-bush",
+      "role": "cutout",
+      "path": "source-media/garden/cutouts/rose-bush.png"
+    },
+    {
+      "id": "garden.giant-rose",
+      "role": "cutout",
+      "path": "source-media/garden/cutouts/giant-rose.png"
+    },
+    {
+      "id": "garden.star-sparkle",
+      "role": "sprite",
+      "path": "source-media/garden/cutouts/star-sparkle.png"
+    },
+    {
+      "id": "shared.rainbow-archway",
+      "role": "cutout",
+      "path": "source-media/shared/rainbow-archway.png"
     }
   ]
 }
