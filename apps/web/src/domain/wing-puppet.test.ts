@@ -178,4 +178,51 @@ describe("wing-puppet kinematics controller", () => {
     // Flapping range is noticeable (at least ~0.25 rad / 15 deg)
     expect(maxWing - minWing).toBeGreaterThan(0.25);
   });
+
+  test("flutter wing stroke completes a full cycle in 0.5 seconds (two strokes per second)", async () => {
+    const { createPuppetKinematicState, updatePuppetKinematics } = await import("./wing-puppet");
+    let state = createPuppetKinematicState({ flutterPhase: 0 });
+    const flutterRunner = createRunnerState({
+      isGrounded: false,
+      mode: "fluttering",
+      isFluttering: true,
+      velocityY: -40,
+    });
+
+    const stepDelta = 0.05;
+    const simulateSeconds = (durationSeconds: number) => {
+      const steps = Math.round(durationSeconds / stepDelta);
+      for (let i = 0; i < steps; i++) {
+        state = updatePuppetKinematics(state, flutterRunner, stepDelta);
+      }
+    };
+
+    // Transition into initial flutter state (t = 0)
+    state = updatePuppetKinematics(state, flutterRunner, 0);
+    const initialFrontWing = state.frontWingRotation;
+    const initialBackWing = state.backWingRotation;
+    const initialBob = state.bobOffsetY;
+
+    // Step across 0.5 seconds (1 full wing stroke cycle at 2 strokes/s)
+    simulateSeconds(0.5);
+
+    // In 0.5 seconds, flutterPhase advances by exactly 2*PI radians (one full stroke cycle)
+    expect(state.flutterPhase).toBeCloseTo(2 * Math.PI, 4);
+
+    // Front wing, back wing, and body bob return to starting cycle phase
+    expect(state.frontWingRotation).toBeCloseTo(initialFrontWing, 4);
+    expect(state.backWingRotation).toBeCloseTo(initialBackWing, 4);
+    expect(state.bobOffsetY).toBeCloseTo(initialBob, 4);
+
+    // Front and back wings maintain a phase offset (not locked identical)
+    expect(state.frontWingRotation).not.toBeCloseTo(state.backWingRotation, 2);
+
+    // Step across another 0.5 seconds (total 1.0s elapsed: second full stroke cycle completes)
+    simulateSeconds(0.5);
+    expect(state.flutterPhase).toBeCloseTo(4 * Math.PI, 4);
+    expect(state.frontWingRotation).toBeCloseTo(initialFrontWing, 4);
+    expect(state.backWingRotation).toBeCloseTo(initialBackWing, 4);
+    expect(state.bobOffsetY).toBeCloseTo(initialBob, 4);
+  });
 });
+

@@ -52,6 +52,12 @@ export function getWingAttachmentOffset(piece: "frontWing" | "backWing"): { x: n
 
 import { getSpriteAnimationState, type RunnerState } from "./gallop-and-flutter";
 
+/**
+ * Wing stroke rate during flutter-glide: two full strokes per second.
+ */
+const FLUTTER_STROKES_PER_SECOND = 2;
+const FLUTTER_ANGULAR_VELOCITY = FLUTTER_STROKES_PER_SECOND * 2 * Math.PI;
+
 export type PuppetAnimationName =
   | "rosie-stella-gallop"
   | "rosie-stella-leap"
@@ -147,7 +153,7 @@ export function updatePuppetKinematics(
       targetBackWing = -0.08;
     }
   } else if (animationName === "rosie-stella-flutter") {
-    flutterPhase += deltaSeconds * 28;
+    flutterPhase += deltaSeconds * FLUTTER_ANGULAR_VELOCITY;
     targetFrontWing = Math.sin(flutterPhase) * 0.38;
     targetBackWing = Math.sin(flutterPhase + 0.25) * 0.35;
     bobOffsetY = Math.sin(flutterPhase * 2) * 1.5;
