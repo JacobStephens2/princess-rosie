@@ -115,6 +115,11 @@ const OBSTACLE_CUTOUTS: Partial<Record<ObstacleType, CutoutConfig>> = {
     width: 72,
     height: 60,
   },
+  "wave-crest": {
+    textureKey: "sapphire-sea.wave-crest",
+    width: 72,
+    height: 60,
+  },
 };
 
 const SPRINGBOARD_CUTOUTS: Partial<Record<SpringboardType, CutoutConfig>> = {
@@ -148,6 +153,11 @@ const SPRINGBOARD_CUTOUTS: Partial<Record<SpringboardType, CutoutConfig>> = {
     width: 80,
     height: 80,
   },
+  "sea-geyser": {
+    textureKey: "sapphire-sea.sea-geyser",
+    width: 80,
+    height: 80,
+  },
 };
 
 interface ActiveSceneryLayer {
@@ -160,15 +170,7 @@ interface ActiveSceneryLayer {
 type LandscapeDrawer = (graphics: Phaser.GameObjects.Graphics, start: number) => void;
 
 
-const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {
-  sea: (graphics, start) => {
-    graphics.fillRect(start, 520, PLACE_COURSE_WIDTH, 200);
-    graphics.lineStyle(9, 0xa7efff, .55);
-    const waveCount = Math.floor(PLACE_COURSE_WIDTH / 210);
-    for (let wave = 0; wave < waveCount; wave += 1) graphics.strokeCircle(start + 90 + wave * 210, 555 + (wave % 2) * 45, 100);
-  },
-};
-
+const LANDSCAPE_DRAWERS: Partial<Record<StarStop, LandscapeDrawer>> = {};
 
 export interface GameCallbacks {
   onBirthdayStar: (stop: StopStory, count: number, isFinal: boolean) => void;

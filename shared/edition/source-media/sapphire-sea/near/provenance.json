@@ -1,0 +1,69 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "near",
+  "depthFactor": 1.0,
+  "totalSpendUsd": 0.495355,
+  "assets": [
+    {
+      "id": "sapphire-sea.coastal-shelf-ground",
+      "role": "coastal-shelf-ground",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit pale cream limestone shore and shallow glowing turquoise tide pools with smooth sea pebbles and scattered pink and lavender petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+      "outputPath": "source-media/sapphire-sea/near/coastal-shelf-ground.png",
+      "sha256": "d630f385cb94c77359f25ea931ffa0ca3d7af6d632d0581816ef63bd1fbe9708",
+      "costUsd": 0.16514,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-138 implementation review",
+        "reason": "Horizontal limestone shore ground strip with shallow turquoise pools and smooth pebbles carrying Storybook Ground on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "sapphire-sea.flowered-rock-border",
+      "role": "flowered-rock-border",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A wide foreground lateral border strip of warm cream limestone coastal rocks blooming with clusters of blush-rose rock-roses, dark green succulent leaves, and purple sea lavender trailing over glowing turquoise water edges. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the rocks and foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+      "outputPath": "source-media/sapphire-sea/near/flowered-rock-border.png",
+      "sha256": "71d3db8e3ff4e5e60c5a726e14d6698798abd2776680214a0f83a87f1cfe3bf4",
+      "costUsd": 0.165135,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-138 implementation review",
+        "reason": "Lush foreground border of cream coastal rocks with blush rock-roses and sea lavender trailing over turquoise pools on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "sapphire-sea.turquoise-shallows-pool",
+      "role": "turquoise-shallows-pool",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game near scenery Set Piece. A lateral foreground border of sparkling crystalline turquoise tide pools with gently glowing ripples, rounded cream sea stones, and tiny scattered pink coastal flower petals along the water's edge. Low lateral foreground Set Piece on transparent background. Clean alpha channel everywhere above the pool and stones, no background sky, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+      "outputPath": "source-media/sapphire-sea/near/turquoise-shallows-pool.png",
+      "sha256": "2b6a5fbc14098afdd62b62bc36d2b668d551bdeb38dad3f799329d28f715ac13",
+      "costUsd": 0.16508,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-138 implementation review",
+        "reason": "Sparkling crystalline turquoise tide pool border with glowing ripples and rounded sea stones on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

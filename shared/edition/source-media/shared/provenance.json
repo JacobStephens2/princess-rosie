@@ -2,7 +2,7 @@
   "manifestVersion": "1.0.0",
   "updatedAt": "2026-09-07",
   "category": "shared-library",
-  "totalSpendUsd": 1.59743,
+  "totalSpendUsd": 1.808585,
   "assets": [
     {
       "id": "shared.cypress-tree",
@@ -139,6 +139,26 @@
         "status": "approved",
         "selectedBy": "issue-137 implementation review",
         "reason": "Charming freestanding Mediterranean limestone rock outcrop with weathered contours and miniature wildflowers on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "shared.flowered-coastal-rock",
+      "role": "shared-set-piece",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1024x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook rounded cream limestone rock boulder adorned with clusters of blooming blush-rose wildflowers, delicate purple sea lavender, and soft green moss. Isolated compact Set Piece on transparent background. Clean alpha channel, no ground plane outside the rock base, no background, no characters, no text. Storybook picture-book illustration style.",
+      "outputPath": "source-media/shared/flowered-coastal-rock.png",
+      "sha256": "c28a6a4403a1dbf405ea342292de64327d77503d6133b0a5b58d212c8ad3c8fe",
+      "costUsd": 0.211155,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-138 implementation review",
+        "reason": "Charming freestanding storybook rounded limestone rock boulder with blooming wildflowers and sea lavender on transparent background.",
         "ownerManualReview": "approved",
         "ownerManualReviewBy": "Jacob Stephens",
         "ownerManualReviewDate": "2026-09-07"

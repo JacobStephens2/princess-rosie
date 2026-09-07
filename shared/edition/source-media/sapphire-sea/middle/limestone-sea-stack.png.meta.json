@@ -1,0 +1,18 @@
+{
+  "id": "sapphire-sea.limestone-sea-stack",
+  "role": "limestone-sea-stack",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/middle/limestone-sea-stack.png",
+  "sha256": "b089048bb3b16e6c1a2079f1ac29920d5980d9658ea6616be8195ac52b56b327",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 98,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16513,
+  "elapsedSeconds": 118.42,
+  "prompt": "Use case: production game middle scenery Set Piece. A picturesque sunlit limestone sea stack rising from gentle turquoise coastal water, with warm honey-cream textured rock, small ledges adorned with blooming pink coastal flowers and green samphire, glowing under warm Mediterranean sun. Vertical Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane outside the sea stack base, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A picturesque sunlit limestone sea stack rising from gentle turquoise coastal water, with warm honey-cream textured rock, small ledges adorned with blooming pink coastal flowers and green samphire, glowing under warm Mediterranean sun. Vertical Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane outside the sea stack base, no characters, no text. Storybook picture-book style matching Sapphire Sea."
+}

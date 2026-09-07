@@ -1,0 +1,18 @@
+{
+  "id": "sapphire-sea.sea-promontory",
+  "role": "sea-promontory",
+  "model": "gpt-image-2",
+  "size": "3072x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/middle/sea-promontory.png",
+  "sha256": "7dc1f032aa3d2deb951576a58148224d10a8980e15e60c87c333b0e0d3525951",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 134,
+    "img_in": 0,
+    "img_out": 3952
+  },
+  "estimatedCostUsd": 0.11923,
+  "elapsedSeconds": 72.53,
+  "prompt": "Use case: production game middle scenery Set Piece. Preserve the coastal and floral composition from the approved reference painting of Sapphire Sea: a grand sunlit coastal promontory of warm cream limestone with a natural arched sea grotto framing glowing turquoise tide pools, draped with blooming blush-rose rock-roses, purple sea lavender, and glistening sunlit water ripples. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and outside the rock promontory, no background sky, no ground plane below the limestone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. Preserve the coastal and floral composition from the approved reference painting of Sapphire Sea: a grand sunlit coastal promontory of warm cream limestone with a natural arched sea grotto framing glowing turquoise tide pools, draped with blooming blush-rose rock-roses, purple sea lavender, and glistening sunlit water ripples. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and outside the rock promontory, no background sky, no ground plane below the limestone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily."
+}

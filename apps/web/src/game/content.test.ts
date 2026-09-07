@@ -28,7 +28,7 @@ describe("content and derivative place illustrations", () => {
       abbey: "/assets/derivatives/abbey.far-layer.webp",
       clouds: "/assets/derivatives/cloister.far-layer.webp",
       peak: "/assets/derivatives/pellegrino-peak.far-layer.webp",
-      sea: "/assets/derivatives/sapphire-sea.background.webp",
+      sea: "/assets/derivatives/sapphire-sea.far-layer.webp",
       castle: "/assets/derivatives/castle.far-layer.webp",
     };
 
@@ -126,6 +126,13 @@ describe("content and derivative place illustrations", () => {
         expect(near?.depthFactor).toBe(1.0);
         expect(near?.setPieces.length).toBeGreaterThan(0);
         expect(stop.archwayTint).toBe(0xffe0c2);
+      } else if (stop.id === "sea") {
+        expect(far?.depthFactor).toBe(0.2);
+        expect(middle?.depthFactor).toBe(0.5);
+        expect(middle?.setPieces.length).toBeGreaterThan(0);
+        expect(near?.depthFactor).toBe(1.0);
+        expect(near?.setPieces.length).toBeGreaterThan(0);
+        expect(stop.archwayTint).toBe(0xa0e8f8);
       } else if (stop.id === "castle") {
         expect(far?.depthFactor).toBe(0.2);
         expect(middle?.depthFactor).toBe(0.5);

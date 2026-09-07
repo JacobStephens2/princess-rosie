@@ -1,0 +1,18 @@
+{
+  "id": "sapphire-sea.coral-tide-terrace",
+  "role": "coral-tide-terrace",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/middle/coral-tide-terrace.png",
+  "sha256": "d628f9ee5800f0a192b07138e2104cadb1cbcae605c7f846bde708bbf70bba75",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 90,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16509,
+  "elapsedSeconds": 122.46,
+  "prompt": "Use case: production game middle scenery Set Piece. A lateral stepped terrace of warm cream-and-gold limestone tide pools glowing with clear turquoise water, trailing blush-rose coastal blossoms, delicate sea lavender, and sparkling gentle ripples. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below the limestone terrace base, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+  "revisedPrompt": "Use case: production game middle scenery Set Piece. A lateral stepped terrace of warm cream-and-gold limestone tide pools glowing with clear turquoise water, trailing blush-rose coastal blossoms, delicate sea lavender, and sparkling gentle ripples. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below the limestone terrace base, no characters, no text. Storybook picture-book style matching Sapphire Sea."
+}

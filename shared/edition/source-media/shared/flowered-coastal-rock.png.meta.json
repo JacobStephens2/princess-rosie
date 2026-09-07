@@ -1,0 +1,18 @@
+{
+  "id": "shared.flowered-coastal-rock",
+  "role": "flowered-coastal-rock",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/shared/flowered-coastal-rock.png",
+  "sha256": "c28a6a4403a1dbf405ea342292de64327d77503d6133b0a5b58d212c8ad3c8fe",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 87,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.211155,
+  "elapsedSeconds": 164.23,
+  "prompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook rounded cream limestone rock boulder adorned with clusters of blooming blush-rose wildflowers, delicate purple sea lavender, and soft green moss. Isolated compact Set Piece on transparent background. Clean alpha channel, no ground plane outside the rock base, no background, no characters, no text. Storybook picture-book illustration style.",
+  "revisedPrompt": "Use case: production game shared library Set Piece. A charming, freestanding storybook rounded cream limestone rock boulder adorned with clusters of blooming blush-rose wildflowers, delicate purple sea lavender, and soft green moss. Isolated compact Set Piece on transparent background. Clean alpha channel, no ground plane outside the rock base, no background, no characters, no text. Storybook picture-book illustration style."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "sapphire-sea.far-layer",
+  "role": "far-layer",
+  "model": "gpt-image-2",
+  "size": "3072x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/far/far-layer.png",
+  "sha256": "ffe6cdd167f7090f89e2915127d92d3e20f62c9ee877980f21beaa61f0e2a8ff",
+  "background": "opaque",
+  "tokens": {
+    "text_in": 112,
+    "img_in": 0,
+    "img_out": 3952
+  },
+  "estimatedCostUsd": 0.11912,
+  "elapsedSeconds": 62.12,
+  "prompt": "Use case: production game far scenery layer. A wide panoramic seascape of Sapphire Sea far layer: clear sunny sapphire blue sky with soft drifting clouds, wide open sparkling sapphire Mediterranean ocean beneath warm golden sunlight, soft trails of sun sparkle across the open water, and distant low purple coastal headlands on the far horizon. Distant panoramic viewpoint, no foreground shore, no foreground rocks, no obstacles, no people, no characters, no text, no star, no boats. Painterly children's picture-book illustration matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game far scenery layer. A wide panoramic seascape of Sapphire Sea far layer: clear sunny sapphire blue sky with soft drifting clouds, wide open sparkling sapphire Mediterranean ocean beneath warm golden sunlight, soft trails of sun sparkle across the open water, and distant low purple coastal headlands on the far horizon. Distant panoramic viewpoint, no foreground shore, no foreground rocks, no obstacles, no people, no characters, no text, no star, no boats. Painterly children's picture-book illustration matching Fairytale Sicily."
+}

@@ -1,0 +1,18 @@
+{
+  "id": "sapphire-sea.coastal-shelf-ground",
+  "role": "coastal-shelf-ground",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/near/coastal-shelf-ground.png",
+  "sha256": "d630f385cb94c77359f25ea931ffa0ca3d7af6d632d0581816ef63bd1fbe9708",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 100,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.16514,
+  "elapsedSeconds": 113.91,
+  "prompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit pale cream limestone shore and shallow glowing turquoise tide pools with smooth sea pebbles and scattered pink and lavender petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. A horizontal ground strip of sunlit pale cream limestone shore and shallow glowing turquoise tide pools with smooth sea pebbles and scattered pink and lavender petals, carrying the Storybook Ground along the bottom of the screen. Low horizontal paved ground strip spanning the width on transparent background. Clean alpha channel everywhere above the ground surface, no sky, no background, no characters, no text. Storybook picture-book style matching Sapphire Sea."
+}

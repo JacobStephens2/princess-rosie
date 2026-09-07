@@ -1,0 +1,69 @@
+{
+  "manifestVersion": "1.0.0",
+  "updatedAt": "2026-09-07",
+  "layer": "middle",
+  "depthFactor": 0.5,
+  "totalSpendUsd": 0.44945,
+  "assets": [
+    {
+      "id": "sapphire-sea.sea-promontory",
+      "role": "sea-promontory",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "3072x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. Preserve the coastal and floral composition from the approved reference painting of Sapphire Sea: a grand sunlit coastal promontory of warm cream limestone with a natural arched sea grotto framing glowing turquoise tide pools, draped with blooming blush-rose rock-roses, purple sea lavender, and glistening sunlit water ripples. Wide panoramic Set Piece on transparent background. Clean alpha channel through all arch openings and outside the rock promontory, no background sky, no ground plane below the limestone base, no characters, no text. Storybook picture-book style matching Fairytale Sicily.",
+      "outputPath": "source-media/sapphire-sea/middle/sea-promontory.png",
+      "sha256": "7dc1f032aa3d2deb951576a58148224d10a8980e15e60c87c333b0e0d3525951",
+      "costUsd": 0.11923,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-138 implementation review",
+        "reason": "Grand sunlit cream limestone coastal promontory with arched grotto framing arrival at Rainbow Archway with clean alpha transparency.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "sapphire-sea.limestone-sea-stack",
+      "role": "limestone-sea-stack",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A picturesque sunlit limestone sea stack rising from gentle turquoise coastal water, with warm honey-cream textured rock, small ledges adorned with blooming pink coastal flowers and green samphire, glowing under warm Mediterranean sun. Vertical Set Piece on transparent background. Clean alpha channel, no background sky, no ground plane outside the sea stack base, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+      "outputPath": "source-media/sapphire-sea/middle/limestone-sea-stack.png",
+      "sha256": "b089048bb3b16e6c1a2079f1ac29920d5980d9658ea6616be8195ac52b56b327",
+      "costUsd": 0.16513,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-138 implementation review",
+        "reason": "Picturesque sunlit limestone sea stack with pink coastal flowers rising from turquoise water on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    },
+    {
+      "id": "sapphire-sea.coral-tide-terrace",
+      "role": "coral-tide-terrace",
+      "provider": "OpenAI OpCo, LLC",
+      "model": "gpt-image-2",
+      "size": "1536x1024",
+      "background": "transparent",
+      "prompt": "Use case: production game middle scenery Set Piece. A lateral stepped terrace of warm cream-and-gold limestone tide pools glowing with clear turquoise water, trailing blush-rose coastal blossoms, delicate sea lavender, and sparkling gentle ripples. Lateral Set Piece on transparent background. Clean alpha channel, no sky, no ground below the limestone terrace base, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+      "outputPath": "source-media/sapphire-sea/middle/coral-tide-terrace.png",
+      "sha256": "d628f9ee5800f0a192b07138e2104cadb1cbcae605c7f846bde708bbf70bba75",
+      "costUsd": 0.16509,
+      "selection": {
+        "status": "approved",
+        "selectedBy": "issue-138 implementation review",
+        "reason": "Stepped limestone tide pools terrace glowing with clear turquoise water and trailing coastal flowers on transparent background.",
+        "ownerManualReview": "approved",
+        "ownerManualReviewBy": "Jacob Stephens",
+        "ownerManualReviewDate": "2026-09-07"
+      }
+    }
+  ]
+}

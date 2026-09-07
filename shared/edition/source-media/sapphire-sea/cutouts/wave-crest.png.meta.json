@@ -1,0 +1,18 @@
+{
+  "id": "sapphire-sea.wave-crest",
+  "role": "wave-crest",
+  "model": "gpt-image-2",
+  "size": "1024x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/cutouts/wave-crest.png",
+  "sha256": "5e5e91bb820f2b7f0aa52524aaeceed5369d80e43b1d8a7bb76ada885081e010",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 118,
+    "img_in": 0,
+    "img_out": 7024
+  },
+  "estimatedCostUsd": 0.21131,
+  "elapsedSeconds": 163.48,
+  "prompt": "Use case: production game playful obstacle cutout. A charming, stylized storybook wave crest obstacle cutout for a gentle children's game: a sparkling curved curl of deep sapphire and luminous turquoise sea water with a soft foamy pearly-white frothing crest and glistening sunlit water droplets floating above a small base of sea spray. Genuine RGBA transparent background around the wave silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily.",
+  "revisedPrompt": "Use case: production game playful obstacle cutout. A charming, stylized storybook wave crest obstacle cutout for a gentle children's game: a sparkling curved curl of deep sapphire and luminous turquoise sea water with a soft foamy pearly-white frothing crest and glistening sunlit water droplets floating above a small base of sea spray. Genuine RGBA transparent background around the wave silhouette. Isolated cutout, no background, no ground plane outside the small base, no characters, no text. Flat modern children's picture-book illustration style matching Fairytale Sicily."
+}

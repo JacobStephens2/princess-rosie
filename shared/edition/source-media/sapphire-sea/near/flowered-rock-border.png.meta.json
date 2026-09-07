@@ -1,0 +1,18 @@
+{
+  "id": "sapphire-sea.flowered-rock-border",
+  "role": "flowered-rock-border",
+  "model": "gpt-image-2",
+  "size": "1536x1024",
+  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/near/flowered-rock-border.png",
+  "sha256": "71d3db8e3ff4e5e60c5a726e14d6698798abd2776680214a0f83a87f1cfe3bf4",
+  "background": "transparent",
+  "tokens": {
+    "text_in": 99,
+    "img_in": 0,
+    "img_out": 5488
+  },
+  "estimatedCostUsd": 0.165135,
+  "elapsedSeconds": 119.45,
+  "prompt": "Use case: production game near scenery Set Piece. A wide foreground lateral border strip of warm cream limestone coastal rocks blooming with clusters of blush-rose rock-roses, dark green succulent leaves, and purple sea lavender trailing over glowing turquoise water edges. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the rocks and foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Sapphire Sea.",
+  "revisedPrompt": "Use case: production game near scenery Set Piece. A wide foreground lateral border strip of warm cream limestone coastal rocks blooming with clusters of blush-rose rock-roses, dark green succulent leaves, and purple sea lavender trailing over glowing turquoise water edges. Low lateral foreground border Set Piece on transparent background. Clean alpha channel everywhere above the rocks and foliage, no sky, no ground below base, no characters, no text. Storybook picture-book style matching Sapphire Sea."
+}
