@@ -10,7 +10,7 @@ The live site is still `rosi.stephens.page`; ADR-0021 and issue #103 already nam
 
 ## Consequences
 
-- `rosi.stephens.page` stays a working HTTPS vhost on the new document root, not a redirect, until a later decision retires it.
+- `rosi.stephens.page` originally stayed a working HTTPS vhost during initial cutover, and has now been retired to a permanent 301 redirect to `https://rosie.stephens.page`.
 - The GitHub `production` environment URL, HTML canonical/og tags, README, deploy runbook, and smoke tests advertise `rosie.stephens.page`.
 - The restricted deploy key’s `rrsync` jail must move with the directory; the GitHub secret itself does not encode the path.
 - Wildcard DNS already points `rosie` at the droplet; the remaining server work is the vhost, Let’s Encrypt cert, jail, and closing the leak that currently serves 15 East on unknown names.
