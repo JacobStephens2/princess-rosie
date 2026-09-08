@@ -5,7 +5,7 @@
   "providerHeadquarters": "United States",
   "size": "1680x944",
   "quality": "high",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/gigi/shared/edition/source-media/celebration/candidates/celebration-candidate-4.png",
+  "output": "shared/edition/source-media/celebration/candidates/celebration-candidate-4.png",
   "sha256": "d8f19c7a65a56c920ad3e36d13fd64ae07adf6fe430d770fe7dc337859680350",
   "background": "opaque",
   "tokens": {

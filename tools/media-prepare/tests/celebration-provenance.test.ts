@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { join } from "node:path";
+import { isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, test } from "vitest";
 
@@ -56,8 +56,9 @@ describe("celebration provenance and candidate metadata", () => {
       expect(item.sha256).toBeDefined();
       expect(item.tokens).toBeDefined();
       expect(item.estimatedCostUsd).toBeGreaterThan(0);
+      expect(isAbsolute(item.output), `candidate output path should be repo-relative, found absolute: ${item.output}`).toBe(false);
 
-      const candidateBytes = await readFile(item.output);
+      const candidateBytes = await readFile(join(repoRoot, item.output));
       const hash = createHash("sha256").update(candidateBytes).digest("hex");
       expect(item.sha256).toBe(hash);
     }
