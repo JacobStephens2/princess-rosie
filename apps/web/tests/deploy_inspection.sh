@@ -35,6 +35,8 @@ test -f "$adr" || fail "ADR-0022 is missing"
 
 grep -q '^name: Deploy production$' "$workflow" \
   || fail "the production workflow is no longer named Deploy production"
+has "ffmpeg" "$workflow" \
+  || fail "the Deploy production workflow does not install ffmpeg for soundtrack DSP verification"
 
 python3 - "$lockfile" <<'PY' || fail "package-lock.json workspaces are not apps/web, tools/soundscape-build, and tools/media-prepare"
 import json, sys

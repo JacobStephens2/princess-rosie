@@ -307,7 +307,7 @@ def generate_candidate(api_key: str, candidate_id: str, prompt: str, output_path
         "providerHeadquarters": "United States",
         "size": "1680x944",
         "quality": "high",
-        "output": output_path,
+        "output": os.path.relpath(output_path, REPO_ROOT),
         "sha256": sha256,
         "background": "opaque",
         "tokens": {
