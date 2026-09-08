@@ -1,7 +1,11 @@
 import { describe, expect, test } from "vitest";
-import { GameAudio, PENTATONIC_SCALE } from "./sound";
+import { DEFAULT_SFX_VOLUME, GameAudio, PENTATONIC_SCALE } from "./sound";
 
 describe("GameAudio sound profiles and pentatonic melodies", () => {
+  test("defines default SFX master volume", () => {
+    expect(DEFAULT_SFX_VOLUME).toBe(0.48);
+  });
+
   test("defines ascending pentatonic scale frequencies for celesta and harp notes", () => {
     expect(PENTATONIC_SCALE).toBeDefined();
     expect(PENTATONIC_SCALE.length).toBeGreaterThanOrEqual(5);
