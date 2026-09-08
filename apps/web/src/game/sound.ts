@@ -71,7 +71,7 @@ const SOUND_PROFILES: Record<SoundName, SoundProfile> = {
     type: "triangle",
     initialDelay: 0.03,
     stepDelay: 0.05,
-    volume: 0.07,
+    volume: 0.10,
     duration: 0.18,
   },
   rest: {
@@ -115,6 +115,8 @@ const SOUND_PROFILES: Record<SoundName, SoundProfile> = {
     duration: 0.36,
   },
 };
+
+export const DEFAULT_SFX_VOLUME = 0.48;
 
 class HtmlAudioChannel implements AudioChannel {
   private readonly audio: HTMLAudioElement;
@@ -230,7 +232,7 @@ export class GameAudio {
     if (typeof AudioContext !== "undefined" && !this.context) {
       this.context = new AudioContext();
       this.master = this.context.createGain();
-      this.master.gain.value = this.enabled ? 0.22 : 0;
+      this.master.gain.value = this.enabled ? DEFAULT_SFX_VOLUME : 0;
       this.master.connect(this.context.destination);
     }
     if (this.context) {
@@ -313,7 +315,7 @@ export class GameAudio {
   setEnabled(enabled: boolean): void {
     this.enabled = enabled;
     if (this.context && this.master) {
-      this.master.gain.setTargetAtTime(enabled ? 0.22 : 0, this.context.currentTime, 0.04);
+      this.master.gain.setTargetAtTime(enabled ? DEFAULT_SFX_VOLUME : 0, this.context.currentTime, 0.04);
     }
     this.crossfadeController.setMuted(!enabled);
   }
