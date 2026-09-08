@@ -121,14 +121,11 @@
         </div>
       </section>
 
-      <section id="ending" class="ending" hidden aria-live="polite">
+      <section id="ending" class="ending" hidden aria-live="polite" data-beat="celebration-view">
         <div class="ending__art" aria-hidden="true"></div>
-        <div class="ending-character ending-character--rosie" aria-hidden="true"></div>
-        <div class="ending-character ending-character--stella" aria-hidden="true"></div>
-        <div class="ending-character ending-character--gigi" aria-hidden="true"></div>
-        <div class="ending-character ending-character--guests" aria-hidden="true"></div>
         <canvas id="confetti" aria-hidden="true"></canvas>
-        <div class="ending__card">
+
+        <header class="celebration-header">
           <!-- Seven-Star Constellation above Princess Zélie -->
           <div id="celebration-constellation" class="celebration-constellation" aria-label="Seven Birthday Stars constellation shining above Princess Zélie">
             <div class="constellation-glow" aria-hidden="true"></div>
@@ -156,39 +153,53 @@
             </div>
           </div>
 
-          <p class="eyebrow">Every Birthday Star shone. Every Rainbow Path opened.</p>
-          <h2>Happy Birthday,<br /><span>Princess Zélie!</span></h2>
-          <p>Princess Rosie and Stella had brought the whole family together for Princess Zélie’s very first birthday.</p>
-          <div class="party-dancers" aria-hidden="true">
-            <span class="party-dancers__rosie">👸</span>
-            <span class="party-dancers__stella">🦄</span>
-            <span class="party-dancers__gigi">🦒</span>
-            <span class="party-dancers__guests">👏 👏 👏</span>
+          <div class="celebration-banner">
+            <p class="eyebrow celebration-banner__eyebrow">Every Birthday Star shone. Every Rainbow Path opened.</p>
+            <h2 class="celebration-banner__title">Happy Birthday,<br /><span>Princess Zélie!</span></h2>
           </div>
+        </header>
 
-          <!-- Celebration Album -->
-          <div id="celebration-album" class="celebration-album" aria-label="Celebration Album of Storybook Stamps">
-            <div class="celebration-album__header">
-              <span class="eyebrow">Rosie’s Storybook Stamps</span>
-              <h3 class="celebration-album__title">Celebration Album</h3>
+        <button id="celebration-cue" class="celebration-cue" type="button" aria-label="Open Rosie’s Stamp Album">
+          <span class="celebration-cue__sparkle" aria-hidden="true">✨</span>
+          <span class="celebration-cue__label">Rosie’s Stamp Album</span>
+          <span class="celebration-cue__arrow" aria-hidden="true">↓</span>
+          <span class="celebration-cue__hint" aria-hidden="true">Tap or Space</span>
+        </button>
+
+        <div id="celebration-album-modal" class="celebration-modal" hidden role="dialog" aria-modal="true" aria-labelledby="celebration-album-heading">
+          <div id="celebration-modal-backdrop" class="celebration-modal__backdrop" aria-hidden="true"></div>
+          <div class="celebration-modal__card">
+            <div class="celebration-modal__nav">
+              <button id="album-back-button" class="storybook-button storybook-button--secondary album-back-button" type="button">
+                <span>← Look at the party</span>
+              </button>
             </div>
-            <div id="celebration-album-grid" class="celebration-album__grid" role="tablist" aria-label="Collected Storybook Stamps">
-              <!-- Dynamically populated from STOP_STORIES -->
-            </div>
-            <div id="celebration-album-preview" class="celebration-album__preview" aria-live="polite">
-              <span id="album-preview-icon" class="album-preview__icon" aria-hidden="true">🌹</span>
-              <div class="album-preview__content">
-                <strong id="album-preview-title" class="album-preview__title">Mom’s Rose Stamp</strong>
-                <span id="album-preview-guest" class="album-preview__guest">Presented by Mom</span>
-                <p id="album-preview-desc" class="album-preview__desc">Awakened the waking roses of Rosalia’s Rose Garden</p>
+
+            <!-- Celebration Album -->
+            <div id="celebration-album" class="celebration-album" aria-label="Celebration Album of Storybook Stamps">
+              <div class="celebration-album__header">
+                <span class="eyebrow">Rosie’s Storybook Stamps</span>
+                <h3 id="celebration-album-heading" class="celebration-album__title">Celebration Album</h3>
+                <p class="celebration-album__narrative">Princess Rosie and Stella had brought the whole family together for Princess Zélie’s very first birthday.</p>
+              </div>
+              <div id="celebration-album-grid" class="celebration-album__grid" role="tablist" aria-label="Collected Storybook Stamps">
+                <!-- Dynamically populated from STOP_STORIES -->
+              </div>
+              <div id="celebration-album-preview" class="celebration-album__preview" aria-live="polite">
+                <span id="album-preview-icon" class="album-preview__icon" aria-hidden="true">🌹</span>
+                <div class="album-preview__content">
+                  <strong id="album-preview-title" class="album-preview__title">Mom’s Rose Stamp</strong>
+                  <span id="album-preview-guest" class="album-preview__guest">Presented by Mom</span>
+                  <p id="album-preview-desc" class="album-preview__desc">Awakened the waking roses of Rosalia’s Rose Garden</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="ending__actions">
-            <button id="fly-again-button" class="storybook-button storybook-button--fly-again" type="button">
-              <span>Fly Again</span> <b aria-hidden="true">↺</b>
-            </button>
+            <div class="ending__actions">
+              <button id="fly-again-button" class="storybook-button storybook-button--fly-again" type="button">
+                <span>Fly Again</span> <b aria-hidden="true">↺</b>
+              </button>
+            </div>
           </div>
         </div>
       </section>

@@ -17,6 +17,12 @@ import {
   updateGrownUpHold,
   type GrownUpCornerState,
 } from "./domain/grown-up-corner";
+import {
+  advanceToAlbum,
+  createFinaleState,
+  returnToCelebration,
+  type FinaleState,
+} from "./domain/finale";
 
 export interface RosieRunnerInterface {
   getState: () => import("./domain/gallop-and-flutter").RunnerState;
@@ -59,9 +65,17 @@ export interface RosieRunnerInterface {
   } | undefined;
   getActiveSceneryLayers?: () => readonly { depth: import("./domain/scenery").SceneryLayerDepth; depthFactor: number; x: number }[];
   getGrownUpCornerState?: () => GrownUpCornerState;
+  getFinaleState?: () => FinaleState;
   resetJourney?: () => import("./domain/journey").Journey;
   flyAgain?: () => void;
+  getActiveFlightTrack?: () => import("./domain/soundtrack-rotation").FlightSoundtrack;
+  isAudioCelebrating?: () => boolean;
+
+  isAudioCrossfading?: () => boolean;
+  getAudioPlaylistState?: () => import("./domain/soundtrack-rotation").SoundtrackPlaylistState;
+  isAudioEnabled?: () => boolean;
 }
+
 
 declare global {
   interface Window {
@@ -98,6 +112,10 @@ const grownUpSoundLabel = getElement<HTMLElement>("grown-up-sound-label");
 const grownUpRestartButton = getElement<HTMLButtonElement>("grown-up-restart-button");
 const grownUpResumeButton = getElement<HTMLButtonElement>("grown-up-resume-button");
 const flyAgainButton = getElement<HTMLButtonElement>("fly-again-button");
+const celebrationCue = getElement<HTMLButtonElement>("celebration-cue");
+const celebrationAlbumModal = getElement<HTMLElement>("celebration-album-modal");
+const celebrationModalBackdrop = getElement<HTMLElement>("celebration-modal-backdrop");
+const albumBackButton = getElement<HTMLButtonElement>("album-back-button");
 const celebrationAlbumGrid = getElement<HTMLElement>("celebration-album-grid");
 const albumPreviewIcon = getElement<HTMLElement>("album-preview-icon");
 const albumPreviewTitle = getElement<HTMLElement>("album-preview-title");
@@ -106,6 +124,8 @@ const albumPreviewDesc = getElement<HTMLElement>("album-preview-desc");
 const soundButtons = [getElement<HTMLButtonElement>("sound-toggle"), grownUpSoundToggle];
 const storyArtworks = Array.from(storybook.querySelectorAll<HTMLImageElement>(".storybook__art"));
 const sound = new GameAudio();
+
+let finaleState: FinaleState = createFinaleState();
 
 let grownUpCornerState: GrownUpCornerState = createGrownUpCornerState();
 let holdRafId: number | undefined;
@@ -181,8 +201,8 @@ function renderOpeningStorybookMoment(): void {
   if (buttonText) buttonText.textContent = openingMomentIndex === OPENING_STORYBOOK_MOMENTS_AFTER_COVER.length ? "Fly with Rosie" : "Turn the page";
 }
 
-async function advanceStory(): Promise<void> {
-  await sound.start();
+function advanceStory(): void {
+  void sound.start();
   sound.play("button");
   if (openingMomentIndex < OPENING_STORYBOOK_MOMENTS_AFTER_COVER.length) {
     openingMomentIndex += 1;
@@ -191,6 +211,7 @@ async function advanceStory(): Promise<void> {
   }
   startGame();
 }
+
 
 function startGame(): void {
   storybook.hidden = true;
@@ -358,6 +379,12 @@ function renderCelebrationAlbum(): void {
         button.setAttribute("aria-selected", "true");
         updateAlbumPreview(stop);
       });
+      button.addEventListener("keydown", (event) => {
+        if (event.key === " " || event.key === "Enter") {
+          event.preventDefault();
+          button.click();
+        }
+      });
       return button;
     })
   );
@@ -379,8 +406,43 @@ function renderCelebrationConstellation(): void {
   });
 }
 
+function updateFinaleUi(): void {
+  ending.setAttribute("data-beat", finaleState.beat);
+  if (finaleState.beat === "celebration-view") {
+    celebrationAlbumModal.hidden = true;
+    celebrationCue.hidden = false;
+    window.setTimeout(() => celebrationCue.focus(), 60);
+  } else {
+    celebrationAlbumModal.hidden = false;
+    celebrationCue.hidden = true;
+    window.setTimeout(() => albumBackButton.focus(), 80);
+  }
+}
+
+function openCelebrationAlbum(): void {
+  if (finaleState.beat === "album-view") return;
+  sound.play("button");
+  celebrationAlbumModal.classList.remove("is-dismissing");
+  finaleState = advanceToAlbum(finaleState);
+  updateFinaleUi();
+}
+
+function dismissAlbumToCelebration(): void {
+  if (finaleState.beat === "celebration-view" || celebrationAlbumModal.classList.contains("is-dismissing")) return;
+  sound.play("button");
+  celebrationAlbumModal.classList.add("is-dismissing");
+  window.setTimeout(() => {
+    celebrationAlbumModal.classList.remove("is-dismissing");
+    finaleState = returnToCelebration(finaleState);
+    updateFinaleUi();
+  }, 180);
+}
+
 function flyAgain(): void {
   sound.play("button");
+  celebrationAlbumModal.classList.remove("is-dismissing");
+  finaleState = createFinaleState();
+  void sound.advanceToNextJourney();
   if (scene) {
     scene.resetJourney();
   }
@@ -396,12 +458,16 @@ function flyAgain(): void {
 function showEnding(): void {
   gameShell.hidden = true;
   ending.hidden = false;
+  celebrationAlbumModal.classList.remove("is-dismissing");
+  finaleState = createFinaleState();
+  updateFinaleUi();
   sound.play("celebrate");
+  void sound.crossfadeToCelebration();
   burstConfetti(260);
   renderCelebrationConstellation();
   renderCelebrationAlbum();
-  window.setTimeout(() => flyAgainButton.focus(), 100);
 }
+
 
 function toggleSound(): void {
   sound.setEnabled(!sound.isEnabled());
@@ -590,6 +656,8 @@ function onGrownUpPointerUp(event?: PointerEvent): void {
 function restartJourney(): void {
   sound.play("button");
   closeGrownUpCornerDialog();
+  celebrationAlbumModal.classList.remove("is-dismissing");
+  finaleState = createFinaleState();
   gameShell.hidden = true;
   moment.hidden = true;
   cloudRest.hidden = true;
@@ -609,6 +677,23 @@ momentNext.addEventListener("click", continueFromMoment);
 restNext.addEventListener("click", continueFromCloudRest);
 soundButtons.forEach((button) => button.addEventListener("click", toggleSound));
 flyAgainButton.addEventListener("click", flyAgain);
+celebrationCue.addEventListener("click", (event) => {
+  event.stopPropagation();
+  openCelebrationAlbum();
+});
+albumBackButton.addEventListener("click", (event) => {
+  event.stopPropagation();
+  dismissAlbumToCelebration();
+});
+celebrationModalBackdrop.addEventListener("click", (event) => {
+  event.stopPropagation();
+  dismissAlbumToCelebration();
+});
+ending.addEventListener("click", () => {
+  if (finaleState.beat === "celebration-view") {
+    openCelebrationAlbum();
+  }
+});
 
 grownUpButton.addEventListener("pointerdown", onGrownUpPointerDown);
 grownUpButton.addEventListener("pointerup", onGrownUpPointerUp);
@@ -668,7 +753,12 @@ document.addEventListener("keydown", (event) => {
   if (!grownUpDialog.hidden) return;
   if (!moment.hidden) { event.preventDefault(); continueFromMoment(); }
   else if (!cloudRest.hidden) { event.preventDefault(); continueFromCloudRest(); }
-  else if (!ending.hidden) { event.preventDefault(); flyAgain(); }
+  else if (!ending.hidden) {
+    if (finaleState.beat === "celebration-view") {
+      event.preventDefault();
+      openCelebrationAlbum();
+    }
+  }
 });
 
 window.__ROSIE_RUNNER__ = {
@@ -701,9 +791,17 @@ window.__ROSIE_RUNNER__ = {
   getScenePlaceObjects: () => scene?.getScenePlaceObjects(),
   getActiveSceneryLayers: () => scene?.getActiveSceneryLayers() ?? [],
   getGrownUpCornerState: () => grownUpCornerState,
+  getFinaleState: () => finaleState,
   resetJourney: () => scene?.resetJourney() ?? resetJourney(),
   flyAgain: () => flyAgain(),
+  getActiveFlightTrack: () => sound.getActiveFlightTrack(),
+  isAudioCelebrating: () => sound.isCelebrationActive(),
+
+  isAudioCrossfading: () => sound.isCrossfading(),
+  getAudioPlaylistState: () => sound.getPlaylistState(),
+  isAudioEnabled: () => sound.isEnabled(),
 };
+
 
 renderDots();
 OPENING_STORYBOOK_MOMENTS_AFTER_COVER.forEach((momentContent) => void preloadStoryArtwork(momentContent.image));
