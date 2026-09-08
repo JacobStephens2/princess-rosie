@@ -1,6 +1,6 @@
 # Deployment
 
-Use this runbook to publish a revision to [rosie.stephens.page](https://rosie.stephens.page/). The production site is the static Vite build in `dist/`, served by Apache from `jacob@stephens.page:/var/www/rosie.stephens.page/public/`. `rosi.stephens.page` serves the same files so an installed PWA on that origin still receives deploys; it is not a redirect.
+Use this runbook to publish a revision to [rosie.stephens.page](https://rosie.stephens.page/). The production site is the static Vite build in `dist/`, served by Apache from `jacob@stephens.page:/var/www/rosie.stephens.page/public/`. `rosi.stephens.page` permanently redirects to `rosie.stephens.page`.
 
 ## Automatic production deployments
 
@@ -68,7 +68,8 @@ test "$(curl -sS -o /dev/null -w '%{http_code}' https://rosie.stephens.page/)" =
 test "$(curl -sS -o /dev/null -w '%{http_code}' https://rosie.stephens.page/manifest.webmanifest)" = 200
 test "$(curl -sS -o /dev/null -w '%{http_code}' https://rosie.stephens.page/sw.js)" = 200
 test "$(curl -sS -o /dev/null -w '%{http_code}' http://rosi.stephens.page/)" = 301
-test "$(curl -sS -o /dev/null -w '%{http_code}' https://rosi.stephens.page/)" = 200
+test "$(curl -sS -o /dev/null -w '%{http_code}' https://rosi.stephens.page/)" = 301
+test "$(curl -sS -L -o /dev/null -w '%{http_code}' https://rosi.stephens.page/)" = 200
 ```
 
 Open the live site in a browser and exercise the revised behavior. Check that the game starts, input responds, sound can be toggled, and the browser console has no new errors. The deployment is complete when these checks pass and the intended revision is visible.
@@ -77,7 +78,7 @@ Open the live site in a browser and exercise the revised behavior. Check that th
 
 - Canonical Apache configuration: `/etc/apache2/sites-available/rosie.stephens.page.conf`
 - Canonical Apache HTTPS configuration: `/etc/apache2/sites-available/rosie.stephens.page-le-ssl.conf`
-- Legacy Apache configuration: `/etc/apache2/sites-available/rosi.stephens.page.conf` (same document root, not a redirect)
+- Legacy Apache configuration: `/etc/apache2/sites-available/rosi.stephens.page.conf` and `/etc/apache2/sites-available/rosi.stephens.page-le-ssl.conf` (redirects permanently to `https://rosie.stephens.page`)
 - Canonical TLS certificate: Let's Encrypt certificate named `rosie.stephens.page`, renewed automatically by Certbot
 
 A routine game deployment changes only the files under the production document root. If Apache configuration changes, run `sudo apache2ctl configtest` on the server before reloading Apache.

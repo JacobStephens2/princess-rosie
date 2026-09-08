@@ -75,7 +75,9 @@ jobs:
             http://rosie.stephens.page/)" = 301
           test "$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
             http://rosi.stephens.page/)" = 301
-          test "$(curl --fail --silent --show-error --output /dev/null --write-out '%{http_code}' \
+          test "$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' \
+            https://rosi.stephens.page/)" = 301
+          test "$(curl --fail --silent --show-error --location --output /dev/null --write-out '%{http_code}' \
             https://rosi.stephens.page/)" = 200
           for rosie_path in manifest.webmanifest sw.js \
             assets/storybook-celebration-preparations.webp \
