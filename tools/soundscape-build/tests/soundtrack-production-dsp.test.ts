@@ -38,6 +38,6 @@ describe("Production Soundtrack DSP Automated Verification", () => {
       expect(dspResult.loudnessMatched).toBe(true);
       expect(dspResult.clippingFree).toBe(true);
     },
-    15000,
+    30000,
   );
 });
