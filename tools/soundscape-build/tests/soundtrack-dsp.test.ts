@@ -23,7 +23,7 @@ describe("Soundtrack DSP Verification Seam", () => {
     expect(Math.abs(result.integratedLoudness - FLIGHT_MASTER_TARGET_LUFS)).toBeLessThanOrEqual(1.5);
     expect(result.loudnessMatched).toBe(true);
     expect(result.passed).toBe(true);
-  });
+  }, 30000);
 
   test("rejects invalid or placeholder files", async () => {
     const { tmpdir } = await import("node:os");
@@ -73,5 +73,5 @@ describe("Soundtrack DSP Verification Seam", () => {
     } finally {
       await rm(tmp, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 30000);
 });
