@@ -241,13 +241,82 @@ Deployed output: `apps/web/public/assets/derivatives/celebration.birthday-castle
 
 Provenance: `shared/edition/source-media/celebration/provenance.json`
 
-## Instrumental soundtrack
+## Soundtrack catalog
 
-Execution: Mureka API, model `mureka-9`, one non-streaming instrumental; locally reduced in volume and encoded to 128 kbps MP3.
+Execution: Mureka API, model `mureka-9`, non-streaming instrumentals adhering to ADR-0024. Screened against deterministic waveform checks, evaluated blindly by Gemini 3.8 Flash via native audio input across semantic fit, gentleness, nonverbalness, startle risk, and fatigue risk, normalized to the existing flight master (-21.9 LUFS, peak ceiling <= -6.0 dBFS), and encoded to 128 kbps stereo MP3.
+
+### Flight Soundtrack: Birthday Flight (Waltz)
+
+Execution: Mureka API, model `mureka-9`, one non-streaming instrumental; locally reduced in volume and encoded to 128 kbps MP3. Reference flight master for loudness matching.
 
 > Joyful whimsical instrumental soundtrack for a gentle childrens picture-book flying game, about two minutes, bright fairytale Sicily, pizzicato strings, celesta, glockenspiel, soft hand percussion, warm woodwinds, graceful three-four waltz pulse, playful and magical, calm enough for a four-year-old, clear celebratory lift near the ending, no vocals, no darkness, seamless-feeling loop
 
-Output: `public/assets/audio/birthday-flight.mp3`
+Parameters: 44.1 kHz stereo MP3, 128 kbps. Peak: -7.5 dBFS, Integrated loudness: -21.9 LUFS.
+Output: `public/assets/audio/birthday-flight.mp3` (also deployed to `apps/web/public/assets/audio/birthday-flight.mp3`)
+
+### Flight Soundtrack: Pastoral Lilt
+
+Execution: Mureka API, model `mureka-9`. 3 blinded candidates generated and screened with waveform checks. Perceptually evaluated via native audio input by Gemini 3.8 Flash. Mastered with EBU R128 loudness normalization and peak limiter.
+
+> Joyful whimsical instrumental soundtrack for a gentle childrens picture-book flying game, about two minutes, bright fairytale Sicily, acoustic woodwinds, soft flute, gentle nylon-string guitar, warm cello and violin, lyrical swaying 6/8 pastoral lilt, peaceful, safe and comforting for a four-year-old, no vocals, no darkness, seamless-feeling loop
+
+Parameters: Model `mureka-9`. Mastered to 44.1 kHz stereo MP3, 128 kbps. Peak: -7.3 dBFS, Integrated loudness: -21.7 LUFS.
+Evaluation: Blinded native-audio evaluation with paid Gemini 3.8 Flash ranked Candidate Bravo > Candidate Alpha > Candidate Charlie. Evaluator reported no uncertainty.
+Selection: Candidate Bravo captures the "Pastoral Lilt" cue with the greatest warmth and authentic Sicilian fairytale charm. Its rich blend of soft flute, delicate nylon-string plucking, and warm violin/cello delivers the ultimate safe, comforting, and fatigue-free soundscape for a 4-year-old.
+Human listening pass: Pending final human listening pass checklist sign-off.
+Output: `apps/web/public/assets/audio/pastoral-lilt.mp3`
+
+### Flight Soundtrack: Playful Marimba and Celesta
+
+Execution: Mureka API, model `mureka-9`. 3 blinded candidates generated and screened with waveform checks. Perceptually evaluated via native audio input by Gemini 3.8 Flash. Mastered with EBU R128 loudness normalization and peak limiter.
+
+> Playful lighthearted instrumental soundtrack for a gentle childrens picture-book flying game, about two minutes, bright fairytale Sicily, wooden marimba, celesta, glockenspiel, pizzicato strings, soft bassoon, buoyant bouncy rhythm, curious and friendly, gentle on small speakers, calm enough for a four-year-old, no vocals, no darkness, seamless-feeling loop
+
+Parameters: Model `mureka-9`. Mastered to 44.1 kHz stereo MP3, 128 kbps. Peak: -6.2 dBFS, Integrated loudness: -21.4 LUFS.
+Evaluation: Blinded native-audio evaluation with paid Gemini 3.8 Flash ranked Candidate Charlie > Candidate Bravo > Candidate Alpha. Evaluator reported no uncertainty.
+Selection: Candidate Charlie perfectly balances the "buoyant bouncy rhythm" of playful flight with the necessary calm, gentle warmth for a 4-year-old. It seamlessly features every requested instrument (marimba, celesta, glockenspiel, pizzicato, soft bassoon) without veering into the hyperactive pace of Candidate Alpha or the sleepy lullaby tempo of Candidate Bravo.
+Human listening pass: Pending final human listening pass checklist sign-off.
+Output: `apps/web/public/assets/audio/playful-bounce.mp3`
+
+### Flight Soundtrack: Epic Soaring Flight
+
+Execution: Mureka API, model `mureka-9`. 3 blinded candidates generated and screened with waveform checks. Perceptually evaluated via native audio input by Gemini 3.8 Flash. Mastered with EBU R128 loudness normalization and peak limiter.
+
+> Epic soaring instrumental soundtrack for a gentle childrens picture-book flying game, about two minutes, bright fairytale Sicily, sweeping acoustic strings, warm French horn accents, shimmering harp glissandos, airy woodwinds, expansive uplifting melody that feels vast over sparkling sea and mountains yet completely gentle and safe for a four-year-old, no harsh brass crashes, no heavy percussion, no vocals, no darkness, seamless-feeling loop
+
+Parameters: Model `mureka-9`. Mastered to 44.1 kHz stereo MP3, 128 kbps. Peak: -6.3 dBFS, Integrated loudness: -21.9 LUFS.
+Evaluation: Blinded native-audio evaluation with paid Gemini 3.8 Flash ranked Candidate Bravo > Candidate Alpha > Candidate Charlie. Evaluator reported no uncertainty. Candidates Alpha and Charlie were disqualified for introducing vocal sighs/chants violating the strict nonverbal rule.
+Selection: Candidate Bravo fully and flawlessly fulfills the cue specifications, featuring gorgeous harp glissandos, airy woodwinds, warm horns, and sweeping strings while remaining strictly nonverbal.
+Human listening pass: Pending final human listening pass checklist sign-off.
+Output: `apps/web/public/assets/audio/soaring-flight.mp3`
+
+### Celebration Theme: Birthday Castle Celebration Theme
+
+Execution: Mureka API, model `mureka-9`. 3 blinded candidates generated and screened with waveform checks. Perceptually evaluated via native audio input by Gemini 3.8 Flash. Mastered with EBU R128 loudness normalization and peak limiter.
+
+> Festive joyful celebration theme soundtrack for arriving at Princess Zelies first-birthday party at the Birthday Castle, about two minutes, bright fairytale Sicily, celebratory bells, celesta, bright gentle brass in picture-book register, joyful dancing strings, acoustic percussion, happy birthday party atmosphere, welcoming and triumphant for a four-year-old, no vocals, no darkness
+
+Parameters: Model `mureka-9`. Mastered to 44.1 kHz stereo MP3, 128 kbps. Peak: -6.6 dBFS, Integrated loudness: -21.8 LUFS.
+Evaluation: Blinded native-audio evaluation with paid Gemini 3.8 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo. Evaluator reported no uncertainty.
+Selection: Candidate Charlie directly embodies the prompt's vision of a welcoming, triumphant birthday celebration at a fairytale castle. It perfectly balances celebratory bells, celesta, dancing strings, and gentle picture-book brass, whereas Candidate Alpha is too subdued/tiptoe-oriented and Candidate Bravo is overly bombastic.
+Human listening pass: Pending final human listening pass checklist sign-off.
+Output: `apps/web/public/assets/audio/celebration-theme.mp3`
+
+### Soundtrack human listening pass checklist
+
+Per `docs/agents/audio-evaluation.md`, all candidate selections screened by deterministic DSP checks and approved by native-audio model evaluation require human verification on physical hardware before final release:
+
+- [ ] **MacBook built-in speakers pass**:
+  - [ ] `pastoral-lilt.mp3`: Balanced mid-range, gentle woodwinds, clear nylon-string guitar transients without harsh clicks, uncompressed warmth.
+  - [ ] `playful-bounce.mp3`: Crisp, friendly marimba and celesta notes without resonant speaker buzzing or piercing highs.
+  - [ ] `soaring-flight.mp3`: Expansive strings and French horn warmth without low-mid mud, gentle brass presence without harshness.
+  - [ ] `celebration-theme.mp3`: Buoyant celebratory fanfare, crisp party bells, gentle brass without tinny small-speaker distortion.
+- [ ] **Headphone pass**:
+  - [ ] Clean stereo image distribution across left/right channels for all 4 tracks.
+  - [ ] Absence of sub-bass rumble, DC offset thumps, or synthetic aliasing artifacts.
+  - [ ] Verification of seamless loop transition continuity during repeated playback.
+  - [ ] Verification of smooth 1.5-second equal-power crossfade between Flight Soundtracks and Celebration Theme upon castle arrival.
+
 
 ## Shared journey media
 

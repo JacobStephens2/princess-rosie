@@ -10,6 +10,7 @@
     "remaster": "node --import tsx src/bin.ts remaster",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
+    "soundtrack:build": "node --import tsx src/soundtrack-cli.ts",
     "validate": "node --import tsx src/bin.ts validate"
   },
   "dependencies": {
