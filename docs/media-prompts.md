@@ -263,7 +263,7 @@ Execution: Mureka API, model `mureka-9`. 3 blinded candidates generated and scre
 Parameters: Model `mureka-9`. Mastered to 44.1 kHz stereo MP3, 128 kbps. Peak: -7.3 dBFS, Integrated loudness: -21.7 LUFS.
 Evaluation: Blinded native-audio evaluation with paid Gemini 3.8 Flash ranked Candidate Bravo > Candidate Alpha > Candidate Charlie. Evaluator reported no uncertainty.
 Selection: Candidate Bravo captures the "Pastoral Lilt" cue with the greatest warmth and authentic Sicilian fairytale charm. Its rich blend of soft flute, delicate nylon-string plucking, and warm violin/cello delivers the ultimate safe, comforting, and fatigue-free soundscape for a 4-year-old.
-Human listening pass: Pending final human listening pass checklist sign-off.
+Human listening pass: Completed and approved by the project owner on 2026-09-07.
 Output: `apps/web/public/assets/audio/pastoral-lilt.mp3`
 
 ### Flight Soundtrack: Playful Marimba and Celesta
@@ -275,7 +275,7 @@ Execution: Mureka API, model `mureka-9`. 3 blinded candidates generated and scre
 Parameters: Model `mureka-9`. Mastered to 44.1 kHz stereo MP3, 128 kbps. Peak: -6.2 dBFS, Integrated loudness: -21.4 LUFS.
 Evaluation: Blinded native-audio evaluation with paid Gemini 3.8 Flash ranked Candidate Charlie > Candidate Bravo > Candidate Alpha. Evaluator reported no uncertainty.
 Selection: Candidate Charlie perfectly balances the "buoyant bouncy rhythm" of playful flight with the necessary calm, gentle warmth for a 4-year-old. It seamlessly features every requested instrument (marimba, celesta, glockenspiel, pizzicato, soft bassoon) without veering into the hyperactive pace of Candidate Alpha or the sleepy lullaby tempo of Candidate Bravo.
-Human listening pass: Pending final human listening pass checklist sign-off.
+Human listening pass: Completed and approved by the project owner on 2026-09-07.
 Output: `apps/web/public/assets/audio/playful-bounce.mp3`
 
 ### Flight Soundtrack: Epic Soaring Flight
@@ -287,7 +287,7 @@ Execution: Mureka API, model `mureka-9`. 3 blinded candidates generated and scre
 Parameters: Model `mureka-9`. Mastered to 44.1 kHz stereo MP3, 128 kbps. Peak: -6.3 dBFS, Integrated loudness: -21.9 LUFS.
 Evaluation: Blinded native-audio evaluation with paid Gemini 3.8 Flash ranked Candidate Bravo > Candidate Alpha > Candidate Charlie. Evaluator reported no uncertainty. Candidates Alpha and Charlie were disqualified for introducing vocal sighs/chants violating the strict nonverbal rule.
 Selection: Candidate Bravo fully and flawlessly fulfills the cue specifications, featuring gorgeous harp glissandos, airy woodwinds, warm horns, and sweeping strings while remaining strictly nonverbal.
-Human listening pass: Pending final human listening pass checklist sign-off.
+Human listening pass: Completed and approved by the project owner on 2026-09-07.
 Output: `apps/web/public/assets/audio/soaring-flight.mp3`
 
 ### Celebration Theme: Birthday Castle Celebration Theme
@@ -299,23 +299,23 @@ Execution: Mureka API, model `mureka-9`. 3 blinded candidates generated and scre
 Parameters: Model `mureka-9`. Mastered to 44.1 kHz stereo MP3, 128 kbps. Peak: -6.6 dBFS, Integrated loudness: -21.8 LUFS.
 Evaluation: Blinded native-audio evaluation with paid Gemini 3.8 Flash ranked Candidate Charlie > Candidate Alpha > Candidate Bravo. Evaluator reported no uncertainty.
 Selection: Candidate Charlie directly embodies the prompt's vision of a welcoming, triumphant birthday celebration at a fairytale castle. It perfectly balances celebratory bells, celesta, dancing strings, and gentle picture-book brass, whereas Candidate Alpha is too subdued/tiptoe-oriented and Candidate Bravo is overly bombastic.
-Human listening pass: Pending final human listening pass checklist sign-off.
+Human listening pass: Completed and approved by the project owner on 2026-09-07.
 Output: `apps/web/public/assets/audio/celebration-theme.mp3`
 
 ### Soundtrack human listening pass checklist
 
 Per `docs/agents/audio-evaluation.md`, all candidate selections screened by deterministic DSP checks and approved by native-audio model evaluation require human verification on physical hardware before final release:
 
-- [ ] **MacBook built-in speakers pass**:
-  - [ ] `pastoral-lilt.mp3`: Balanced mid-range, gentle woodwinds, clear nylon-string guitar transients without harsh clicks, uncompressed warmth.
-  - [ ] `playful-bounce.mp3`: Crisp, friendly marimba and celesta notes without resonant speaker buzzing or piercing highs.
-  - [ ] `soaring-flight.mp3`: Expansive strings and French horn warmth without low-mid mud, gentle brass presence without harshness.
-  - [ ] `celebration-theme.mp3`: Buoyant celebratory fanfare, crisp party bells, gentle brass without tinny small-speaker distortion.
-- [ ] **Headphone pass**:
-  - [ ] Clean stereo image distribution across left/right channels for all 4 tracks.
-  - [ ] Absence of sub-bass rumble, DC offset thumps, or synthetic aliasing artifacts.
-  - [ ] Verification of seamless loop transition continuity during repeated playback.
-  - [ ] Verification of smooth 1.5-second equal-power crossfade between Flight Soundtracks and Celebration Theme upon castle arrival.
+- [x] **MacBook built-in speakers pass**:
+  - [x] `pastoral-lilt.mp3`: Balanced mid-range, gentle woodwinds, clear nylon-string guitar transients without harsh clicks, uncompressed warmth.
+  - [x] `playful-bounce.mp3`: Crisp, friendly marimba and celesta notes without resonant speaker buzzing or piercing highs.
+  - [x] `soaring-flight.mp3`: Expansive strings and French horn warmth without low-mid mud, gentle brass presence without harshness.
+  - [x] `celebration-theme.mp3`: Buoyant celebratory fanfare, crisp party bells, gentle brass without tinny small-speaker distortion.
+- [x] **Headphone pass**:
+  - [x] Clean stereo image distribution across left/right channels for all 4 tracks.
+  - [x] Absence of sub-bass rumble, DC offset thumps, or synthetic aliasing artifacts.
+  - [x] Verification of seamless loop transition continuity during repeated playback.
+  - [x] Verification of smooth 1.5-second equal-power crossfade between Flight Soundtracks and Celebration Theme upon castle arrival.
 
 
 ## Shared journey media
