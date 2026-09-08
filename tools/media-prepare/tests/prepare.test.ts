@@ -2,10 +2,13 @@ import { mkdtemp, rm, readFile, stat, writeFile } from "node:fs/promises";
 import { setTimeout } from "node:timers/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 import { describe, expect, test } from "vitest";
 import { prepareMedia } from "../src/prepare";
 import { runMediaPrepareCli } from "../src/cli";
+
+const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
 
 describe("prepareMedia", () => {
   test("carries through ids and roles, emits WebP derivatives, and emits derivative manifest", async () => {
@@ -511,5 +514,60 @@ describe("prepareMedia", () => {
 
     expect(result.exitCode).toBe(1);
     expect(errors.some((e) => e.includes("Missing required arguments"))).toBe(true);
+  });
+
+  async function expectWebpDimensions(filePath: string, expectedWidth = 1281, expectedHeight = 720): Promise<void> {
+    const meta = await sharp(filePath).metadata();
+    expect(meta.format).toBe("webp");
+    expect(meta.width).toBe(expectedWidth);
+    expect(meta.height).toBe(expectedHeight);
+  }
+
+  test("emits and verifies 720p WebP derivatives and deployed assets for opening preparations and birthday castle celebration", async () => {
+    const manifestPath = join(repoRoot, "apps", "web", "public", "assets", "derivative-manifest.json");
+    const manifestRaw = await readFile(manifestPath, "utf8");
+    const manifest = JSON.parse(manifestRaw);
+
+    // Opening Storybook Moment ("celebration preparations")
+    const openingEntry = manifest.derivatives.find((d: { id: string }) => d.id === "opening.celebration-preparations");
+    expect(openingEntry).toBeDefined();
+    expect(openingEntry.role).toBe("illustration");
+    expect(openingEntry.height).toBe(720);
+    expect(openingEntry.width).toBe(1281);
+    expect(openingEntry.path).toBe("/assets/derivatives/opening.celebration-preparations.webp");
+
+    const openingDerivativeFile = join(repoRoot, "apps", "web", "public", "assets", "derivatives", "opening.celebration-preparations.webp");
+    await expectWebpDimensions(openingDerivativeFile);
+
+    // Birthday Castle Finale Celebration
+    const celebrationEntry = manifest.derivatives.find((d: { id: string }) => d.id === "celebration.birthday-castle");
+    expect(celebrationEntry).toBeDefined();
+    expect(celebrationEntry.role).toBe("illustration");
+    expect(celebrationEntry.height).toBe(720);
+    expect(celebrationEntry.width).toBe(1281);
+    expect(celebrationEntry.path).toBe("/assets/derivatives/celebration.birthday-castle.webp");
+
+    const celebrationDerivativeFile = join(repoRoot, "apps", "web", "public", "assets", "derivatives", "celebration.birthday-castle.webp");
+    await expectWebpDimensions(celebrationDerivativeFile);
+
+    // Deployed web assets in apps/web/public/assets
+    // 1. Web app opening storybook asset
+    const deployedOpeningFile = join(repoRoot, "apps", "web", "public", "assets", "storybook-celebration-preparations.webp");
+    await expectWebpDimensions(deployedOpeningFile);
+
+    // 2. Web asset canonical alias for opening preparations
+    const deployedOpeningDirect = join(repoRoot, "apps", "web", "public", "assets", "opening.celebration-preparations.webp");
+    await expectWebpDimensions(deployedOpeningDirect);
+
+    // 3. Web asset canonical alias for birthday castle celebration
+    const deployedCelebrationFile = join(repoRoot, "apps", "web", "public", "assets", "celebration.birthday-castle.webp");
+    await expectWebpDimensions(deployedCelebrationFile);
+
+    // 4. Canonical high-resolution source art in web public assets
+    const deployedCelebrationArt = join(repoRoot, "apps", "web", "public", "assets", "celebration-art.png");
+    const celebrationArtMeta = await sharp(deployedCelebrationArt).metadata();
+    expect(celebrationArtMeta.format).toBe("png");
+    expect(celebrationArtMeta.width).toBe(1680);
+    expect(celebrationArtMeta.height).toBe(944);
   });
 });

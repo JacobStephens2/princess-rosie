@@ -51,6 +51,10 @@
       "path": "source-media/opening-storybook/rosie-stella-departure.png"
     },
     {
+      "role": "source-media-provenance",
+      "path": "source-media/opening-storybook/provenance.json"
+    },
+    {
       "role": "source-media",
       "path": "source-media/flight/rose-garden-background.png"
     },

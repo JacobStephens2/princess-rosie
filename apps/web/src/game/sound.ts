@@ -1,3 +1,22 @@
+import {
+  DEFAULT_SOUNDTRACK_CATALOG,
+  createSoundtrackPlaylist,
+  advanceSoundtrackPlaylist,
+  savePlaylistState,
+  type FlightSoundtrack,
+  type CelebrationTheme,
+  type SoundtrackCatalog,
+  type SoundtrackPlaylistState,
+  type StorageLike,
+} from "../domain/soundtrack-rotation";
+import {
+  CrossfadeController,
+  DEFAULT_CROSSFADE_DURATION_MS,
+  DEFAULT_SOUNDTRACK_VOLUME,
+  type AudioChannel,
+} from "../domain/crossfade";
+
+
 export type SoundName = "star" | "bump" | "stumble" | "near-miss" | "rest" | "button" | "celebrate" | "chime" | "stamp";
 
 export const PENTATONIC_SCALE = [
@@ -99,34 +118,198 @@ const SOUND_PROFILES: Record<SoundName, SoundProfile> = {
 
 export const DEFAULT_SFX_VOLUME = 0.48;
 
+class HtmlAudioChannel implements AudioChannel {
+  private readonly audio: HTMLAudioElement;
+
+  constructor(src: string, loop: boolean) {
+    this.audio = new Audio(src);
+    this.audio.loop = loop;
+    this.audio.preload = "none";
+  }
+
+  setVolume(volume: number): void {
+    this.audio.volume = Math.max(0, Math.min(1, volume));
+  }
+
+  setMuted(muted: boolean): void {
+    this.audio.muted = muted;
+  }
+
+  stop(): void {
+    this.audio.pause();
+    this.audio.currentTime = 0;
+  }
+
+  async play(): Promise<void> {
+    this.audio.preload = "auto";
+    await this.audio.play();
+  }
+}
+
+class NullAudioChannel implements AudioChannel {
+  setVolume(_v: number): void {}
+  setMuted(_m: boolean): void {}
+  stop(): void {}
+  async play(): Promise<void> {}
+}
+
+export interface GameAudioOptions {
+  readonly catalog?: SoundtrackCatalog;
+  readonly storage?: StorageLike;
+  readonly crossfadeDurationMs?: number;
+  readonly baseVolume?: number;
+  readonly channelFactory?: (src: string, loop: boolean) => AudioChannel;
+}
+
 export class GameAudio {
   private context: AudioContext | undefined;
   private master: GainNode | undefined;
-  private musicTimer: number | undefined;
-  private soundtrack: HTMLAudioElement | undefined;
-  private musicStep = 0;
+  private fallbackTimer: number | undefined;
+  private fallbackStep = 0;
   private enabled = true;
 
+  private readonly catalog: SoundtrackCatalog;
+  private readonly storage: StorageLike | undefined;
+  private readonly crossfadeDurationMs: number;
+  private readonly baseVolume: number;
+  private readonly channelFactory: (src: string, loop: boolean) => AudioChannel;
+
+  private playlistState: SoundtrackPlaylistState;
+  private currentChannel: AudioChannel;
+  private celebrationChannel: AudioChannel | undefined;
+  private crossfadeController: CrossfadeController;
+  private crossfadeTimer: number | undefined;
+  private isCelebrating = false;
+  private readonly preloadedTracks = new Set<string>();
+
+  constructor(options?: GameAudioOptions) {
+    this.catalog = options?.catalog ?? DEFAULT_SOUNDTRACK_CATALOG;
+    this.storage = options?.storage ?? (typeof window !== "undefined" ? window.localStorage : undefined);
+    this.crossfadeDurationMs = options?.crossfadeDurationMs ?? DEFAULT_CROSSFADE_DURATION_MS;
+    this.baseVolume = options?.baseVolume ?? DEFAULT_SOUNDTRACK_VOLUME;
+
+    if (options?.channelFactory) {
+      this.channelFactory = options.channelFactory;
+    } else if (typeof Audio !== "undefined") {
+      this.channelFactory = (src, loop) => new HtmlAudioChannel(src, loop);
+    } else {
+      this.channelFactory = () => new NullAudioChannel();
+    }
+
+    this.playlistState = createSoundtrackPlaylist(this.catalog, { storage: this.storage });
+    this.currentChannel = this.channelFactory(this.playlistState.currentTrack.src, true);
+    this.crossfadeController = new CrossfadeController(this.currentChannel, {
+      baseVolume: this.baseVolume,
+      durationMs: this.crossfadeDurationMs,
+    });
+  }
+
+  getCatalog(): SoundtrackCatalog {
+    return this.catalog;
+  }
+
+  getActiveFlightTrack(): FlightSoundtrack {
+    return this.playlistState.currentTrack;
+  }
+
+  getCelebrationTheme(): CelebrationTheme {
+    return this.catalog.celebrationTheme;
+  }
+
+  getPlaylistState(): SoundtrackPlaylistState {
+    return this.playlistState;
+  }
+
+  isCrossfading(): boolean {
+    return this.crossfadeController.isCrossfading();
+  }
+
+  isCelebrationActive(): boolean {
+    return this.isCelebrating;
+  }
+
   async start(): Promise<void> {
-    if (!this.context) {
+    if (typeof AudioContext !== "undefined" && !this.context) {
       this.context = new AudioContext();
       this.master = this.context.createGain();
       this.master.gain.value = this.enabled ? DEFAULT_SFX_VOLUME : 0;
       this.master.connect(this.context.destination);
     }
-    await this.context.resume();
-    if (!this.soundtrack) {
-      this.soundtrack = new Audio("/assets/audio/birthday-flight.mp3");
-      this.soundtrack.loop = true;
-      this.soundtrack.preload = "auto";
-      this.soundtrack.volume = .46;
+    if (this.context) {
+      await this.context.resume();
     }
-    this.soundtrack.muted = !this.enabled;
+
+    this.crossfadeController.setMuted(!this.enabled);
     try {
-      await this.soundtrack.play();
+      await this.currentChannel.play();
     } catch {
-      this.startMusic();
+      this.startFallbackSoundtrack();
     }
+
+    this.preloadSecondaryTracks();
+    if (this.storage) {
+      savePlaylistState(this.playlistState, this.storage);
+    }
+  }
+
+  private preloadTrack(src: string): void {
+    if (typeof Audio === "undefined" || this.preloadedTracks.has(src)) return;
+    this.preloadedTracks.add(src);
+    const preloadAudio = new Audio(src);
+    preloadAudio.preload = "auto";
+  }
+
+  preloadSecondaryTracks(): void {
+    const loadLazily = (): void => {
+      for (const track of this.catalog.flightTracks) {
+        if (track.id !== this.playlistState.currentTrack.id) {
+          this.preloadTrack(track.src);
+        }
+      }
+      this.preloadTrack(this.catalog.celebrationTheme.src);
+    };
+
+    if (typeof window !== "undefined" && typeof window.requestIdleCallback === "function") {
+      window.requestIdleCallback(() => loadLazily());
+    } else {
+      setTimeout(loadLazily, 1000);
+    }
+  }
+
+
+  async crossfadeToCelebration(): Promise<void> {
+    if (this.isCelebrating) return;
+    this.isCelebrating = true;
+
+    if (!this.celebrationChannel) {
+      this.celebrationChannel = this.channelFactory(this.catalog.celebrationTheme.src, true);
+    }
+
+    if (this.fallbackTimer !== undefined) {
+      window.clearInterval(this.fallbackTimer);
+      this.fallbackTimer = undefined;
+    }
+
+    this.crossfadeController.startCrossfade(this.celebrationChannel, this.crossfadeDurationMs);
+    this.currentChannel = this.celebrationChannel;
+    this.startCrossfadeLoop();
+  }
+
+  async advanceToNextJourney(): Promise<FlightSoundtrack> {
+    this.playlistState = advanceSoundtrackPlaylist(this.playlistState);
+    if (this.storage) {
+      savePlaylistState(this.playlistState, this.storage);
+    }
+
+    const nextTrack = this.playlistState.currentTrack;
+    const nextChannel = this.channelFactory(nextTrack.src, true);
+
+    this.crossfadeController.startCrossfade(nextChannel, this.crossfadeDurationMs);
+    this.currentChannel = nextChannel;
+    this.isCelebrating = false;
+    this.startCrossfadeLoop();
+
+    return nextTrack;
   }
 
   setEnabled(enabled: boolean): void {
@@ -134,7 +317,7 @@ export class GameAudio {
     if (this.context && this.master) {
       this.master.gain.setTargetAtTime(enabled ? DEFAULT_SFX_VOLUME : 0, this.context.currentTime, 0.04);
     }
-    if (this.soundtrack) this.soundtrack.muted = !enabled;
+    this.crossfadeController.setMuted(!enabled);
   }
 
   isEnabled(): boolean { return this.enabled; }
@@ -162,18 +345,40 @@ export class GameAudio {
     this.tone(frequency * 2, 0.012, "triangle", 0.05, 0.26);
   }
 
-  private startMusic(): void {
-    if (this.musicTimer !== undefined) return;
+  private startCrossfadeLoop(): void {
+    if (this.crossfadeTimer !== undefined) return;
+    let lastTime = typeof performance !== "undefined" ? performance.now() : Date.now();
+
+    const interval = typeof window !== "undefined" ? window.setInterval : setInterval;
+    const clear = typeof window !== "undefined" ? window.clearInterval : clearInterval;
+
+    this.crossfadeTimer = interval(() => {
+      const now = typeof performance !== "undefined" ? performance.now() : Date.now();
+      const delta = now - lastTime;
+      lastTime = now;
+      const finished = this.crossfadeController.update(delta);
+      if (finished) {
+        if (this.crossfadeTimer !== undefined) {
+          clear(this.crossfadeTimer);
+          this.crossfadeTimer = undefined;
+        }
+      }
+    }, 30) as unknown as number;
+  }
+
+  private startFallbackSoundtrack(): void {
+    if (this.fallbackTimer !== undefined) return;
     const melody = [523, 659, 784, 659, 587, 698, 880, 698, 659, 784, 988, 784, 587, 659, 784, 523];
-    this.musicTimer = window.setInterval(() => {
+    this.fallbackTimer = window.setInterval(() => {
       if (this.enabled) {
-        const frequency = melody[this.musicStep % melody.length] ?? 523;
+        const frequency = melody[this.fallbackStep % melody.length] ?? 523;
         this.tone(frequency, 0, "sine", .035, .38);
-        if (this.musicStep % 4 === 0) this.tone(frequency / 2, 0, "triangle", .022, .72);
-        this.musicStep += 1;
+        if (this.fallbackStep % 4 === 0) this.tone(frequency / 2, 0, "triangle", .022, .72);
+        this.fallbackStep += 1;
       }
     }, 420);
   }
+
 
   private tone(frequency: number, delay: number, type: OscillatorType, volume: number, duration = .24): void {
     if (!this.context || !this.master) return;
@@ -191,3 +396,4 @@ export class GameAudio {
     oscillator.stop(start + duration + .02);
   }
 }
+
