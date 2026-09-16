@@ -7,7 +7,7 @@
       "role": "gatehouse-pavilion",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/middle/gatehouse-pavilion.png",
+      "output": "shared/edition/source-media/castle/middle/gatehouse-pavilion.png",
       "sha256": "57f6b1ec90067973979c33da88cd1a243fcfed575c728b0939a448b1594188bf",
       "background": "transparent",
       "tokens": {
@@ -25,7 +25,7 @@
       "role": "far-layer",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/far/far-layer.png",
+      "output": "shared/edition/source-media/castle/far/far-layer.png",
       "sha256": "e0186f747e2f050c8b096e6ad59116e5150b40b4ec394023c86da318d6b2c1b8",
       "background": "opaque",
       "tokens": {
@@ -43,7 +43,7 @@
       "role": "terrace-balustrade-row",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/middle/terrace-balustrade-row.png",
+      "output": "shared/edition/source-media/castle/middle/terrace-balustrade-row.png",
       "sha256": "b480409abfcf7533756302c3c7d8b1851618d0cf1f8f1bea49509f3546efd4c4",
       "background": "transparent",
       "tokens": {
@@ -61,7 +61,7 @@
       "role": "mosaic-tower-spire",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/middle/mosaic-tower-spire.png",
+      "output": "shared/edition/source-media/castle/middle/mosaic-tower-spire.png",
       "sha256": "3e05f69603bb2e54f49ac51d0db8e501cb9bdc11793ee3716464e7c12df7920d",
       "background": "transparent",
       "tokens": {
@@ -79,7 +79,7 @@
       "role": "mosaic-stone-ground",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/near/mosaic-stone-ground.png",
+      "output": "shared/edition/source-media/castle/near/mosaic-stone-ground.png",
       "sha256": "77b2a15d4820bfaa7686431eeee301c5bfa30fb3514274b75301fe3e4e0c131f",
       "background": "transparent",
       "tokens": {
@@ -97,7 +97,7 @@
       "role": "palace-garland-canopy",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/near/palace-garland-canopy.png",
+      "output": "shared/edition/source-media/castle/near/palace-garland-canopy.png",
       "sha256": "5ee9a19bc0b4283fa1bfe031c742f097cc0d1057c60279a7655d13767bac18d1",
       "background": "transparent",
       "tokens": {
@@ -115,7 +115,7 @@
       "role": "shared-set-piece",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/shared/festive-banner-post.png",
+      "output": "shared/edition/source-media/shared/festive-banner-post.png",
       "sha256": "9a1e0c17dee71ee9b1dfacf3908cee7d222b0101dabd0e4f4d56a2563dc6a66e",
       "background": "transparent",
       "tokens": {
@@ -133,7 +133,7 @@
       "role": "coastal-flower-border",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/near/coastal-flower-border.png",
+      "output": "shared/edition/source-media/castle/near/coastal-flower-border.png",
       "sha256": "4bee552ddc719e50a965248fe29a34bd18d8439bf6ba3461947059ce09625213",
       "background": "transparent",
       "tokens": {
@@ -151,7 +151,7 @@
       "role": "castle-bunting",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/cutouts/castle-bunting.png",
+      "output": "shared/edition/source-media/castle/cutouts/castle-bunting.png",
       "sha256": "f7429c573dcdfb7be113a4345a73cc43ddc058b3e0480e42c68b5931f2d1fbd7",
       "background": "transparent",
       "tokens": {
@@ -169,7 +169,7 @@
       "role": "castle-drum",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/cutouts/castle-drum.png",
+      "output": "shared/edition/source-media/castle/cutouts/castle-drum.png",
       "sha256": "ab1f540eb2cc4fc6f2ace58a3780c59af1f345d2c745acab9096189af1fef23c",
       "background": "transparent",
       "tokens": {

@@ -5,7 +5,7 @@
   "reason": "Overarching upper canopy of sunlit honey stone arches and carved mouldings framing the top of the scene on transparent background.",
   "model": "gpt-image-2",
   "size": "1536x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/sunlit-arch-canopy.png",
+  "output": "shared/edition/source-media/cloister/near/sunlit-arch-canopy.png",
   "sha256": "ef64331fa42dcac7f826dd3aa4a8061504c889290615c6a74128f5bcce33e18f",
   "background": "transparent",
   "tokens": {

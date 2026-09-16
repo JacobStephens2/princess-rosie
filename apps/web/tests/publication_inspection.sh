@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# In-repo contract for publication (issue #183, ADR-0025, ADR-0026).
+# In-repo contract for publication (issue #183, issue #184, issue #186, ADR-0025, ADR-0026).
 # Uses grep and python3 so `npm run check` works on GitHub-hosted Ubuntu runners.
 # git ls-files names the tracked-file set; git show reads origin/main's glossary.
 
@@ -11,6 +11,8 @@ media_terms="$repo_root/MEDIA-TERMS.md"
 godot_notice="$repo_root/apps/godot/notices/NOTICE.txt"
 skills_notice="$repo_root/.agents/skills/LICENSE"
 readme="$repo_root/README.md"
+contributing="$repo_root/CONTRIBUTING.md"
+tracker="$repo_root/docs/agents/issue-tracker.md"
 context="$repo_root/CONTEXT.md"
 adr_0014="$repo_root/docs/adr/0014-package-only-player-facing-files-in-release-builds.md"
 adr_0017="$repo_root/docs/adr/0017-allow-pre-acceptance-candidate-assets-to-be-replaced.md"
@@ -37,6 +39,8 @@ test -f "$media_terms" || fail "MEDIA-TERMS.md is missing"
 test -f "$godot_notice" || fail "the Godot Edition notice is missing"
 test -f "$skills_notice" || fail "the vendored skills MIT notice is missing"
 test -f "$readme" || fail "README.md is missing"
+test -f "$contributing" || fail "CONTRIBUTING.md is missing"
+test -f "$tracker" || fail "the tracker documentation is missing"
 test -f "$context" || fail "CONTEXT.md is missing"
 test -f "$adr_0014" || fail "ADR-0014 is missing"
 test -f "$adr_0017" || fail "ADR-0017 is missing"
@@ -86,6 +90,9 @@ has "](LICENSE)" "$readme" \
   || fail "README.md does not link the license"
 has "](MEDIA-TERMS.md)" "$readme" \
   || fail "README.md does not link the media terms"
+
+has "**PRs as a request surface: yes.**" "$tracker" \
+  || fail "the tracker documentation does not flag external pull requests as a request surface"
 
 has "Her full given name" "$context" \
   || fail "CONTEXT.md Princess Zélie glossary no longer withholds her full given name"
@@ -142,9 +149,13 @@ except subprocess.CalledProcessError:
     pass
 given_name = encoded.encode("utf-8")
 private_family = " ".join(("private", "family")).encode("ascii")
+# Pieces are not the path; do not concatenate them in comments or commits.
+macos_home = bytes(n for n in (47, 85, 115, 101, 114, 115, 47))
+linux_home = bytes(n for n in (47, 104, 111, 109, 101, 47))
 hits = {
     "the full given name": [],
     "the private-family wording": [],
+    "an absolute home-directory path": [],
 }
 
 listed = subprocess.check_output(["git", "-C", repo_root, "ls-files", "-z"])
@@ -160,6 +171,8 @@ for raw in listed.split(b"\0"):
         hits["the full given name"].append(path)
     if private_family in data.lower():
         hits["the private-family wording"].append(path)
+    if macos_home in data or linux_home in data:
+        hits["an absolute home-directory path"].append(path)
 
 failed = False
 for label, paths in hits.items():
