@@ -7,7 +7,7 @@
       "role": "far-layer",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/far/far-layer.png",
+      "output": "shared/edition/source-media/pellegrino-peak/far/far-layer.png",
       "sha256": "1d56c76a89340c5cc1bebd08b0cae7d44942064fe3f76a0be13303c3fa4264cd",
       "background": "opaque",
       "tokens": {
@@ -25,7 +25,7 @@
       "role": "terrace-overlook",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/middle/terrace-overlook.png",
+      "output": "shared/edition/source-media/pellegrino-peak/middle/terrace-overlook.png",
       "sha256": "3290771449af1b3e6c76c76dfe16f08f960357cdb04add3ee49053557feade9f",
       "background": "transparent",
       "tokens": {
@@ -43,7 +43,7 @@
       "role": "flowered-ridge",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/middle/flowered-ridge.png",
+      "output": "shared/edition/source-media/pellegrino-peak/middle/flowered-ridge.png",
       "sha256": "d37e0616dc8d04b8a4d0b8dd181fdaf27e1b6f756379467e168affeaa5af8d1e",
       "background": "transparent",
       "tokens": {
@@ -61,7 +61,7 @@
       "role": "blossom-tree",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/middle/blossom-tree.png",
+      "output": "shared/edition/source-media/pellegrino-peak/middle/blossom-tree.png",
       "sha256": "ad6c80c00da32cde502a2ce7219b89ceebab0ec249ad0881d2f1984be8a4686f",
       "background": "transparent",
       "tokens": {
@@ -79,7 +79,7 @@
       "role": "flowered-ground",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/near/flowered-ground.png",
+      "output": "shared/edition/source-media/pellegrino-peak/near/flowered-ground.png",
       "sha256": "5e400606808c2c223850fd1327ba49923db2f4f6da35a1fb053f7159eface8d4",
       "background": "transparent",
       "tokens": {
@@ -97,7 +97,7 @@
       "role": "wildflower-border",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/near/wildflower-border.png",
+      "output": "shared/edition/source-media/pellegrino-peak/near/wildflower-border.png",
       "sha256": "e043732380ece13d1c190f288aae2b80ae930a8f4b0c4e1f6d21e7a4849270d9",
       "background": "transparent",
       "tokens": {
@@ -115,7 +115,7 @@
       "role": "limestone-boulder",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/shared/limestone-boulder.png",
+      "output": "shared/edition/source-media/shared/limestone-boulder.png",
       "sha256": "2735a7d35f586c90eac7e4996c04737689c437968a478cbc598688ae8fad6f54",
       "background": "transparent",
       "tokens": {
@@ -133,7 +133,7 @@
       "role": "overhang-crag",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/near/overhang-crag.png",
+      "output": "shared/edition/source-media/pellegrino-peak/near/overhang-crag.png",
       "sha256": "2024d135f6ed387541030766ce69c439776cb484552a98945161f4c21d69fd51",
       "background": "transparent",
       "tokens": {
@@ -151,7 +151,7 @@
       "role": "flower-bank",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/cutouts/flower-bank.png",
+      "output": "shared/edition/source-media/pellegrino-peak/cutouts/flower-bank.png",
       "sha256": "f83b8916d3c5723805609fddfda46cf4f3ef314023cff8839325e1f766367bc7",
       "background": "transparent",
       "tokens": {
@@ -169,7 +169,7 @@
       "role": "mountain-blossom",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/cutouts/mountain-blossom.png",
+      "output": "shared/edition/source-media/pellegrino-peak/cutouts/mountain-blossom.png",
       "sha256": "365b0f211791758721ce4012b49634dbeb2060b56628b37f6f00a44c4eccdb7a",
       "background": "transparent",
       "tokens": {

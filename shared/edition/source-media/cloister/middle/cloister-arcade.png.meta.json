@@ -5,7 +5,7 @@
   "reason": "Grand sunlit classical cloister arcade of warm honey-colored stone arches and pillars on transparent background framing arrival at Rainbow Archway.",
   "model": "gpt-image-2",
   "size": "3072x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/cloister-arcade.png",
+  "output": "shared/edition/source-media/cloister/middle/cloister-arcade.png",
   "sha256": "629604159dfe6d18554bae41d4bc0288ac97cdbe8d99159123335cbb9a949510",
   "background": "transparent",
   "tokens": {

@@ -3,7 +3,7 @@
   "role": "sea-promontory",
   "model": "gpt-image-2",
   "size": "3072x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/middle/sea-promontory.png",
+  "output": "shared/edition/source-media/sapphire-sea/middle/sea-promontory.png",
   "sha256": "7dc1f032aa3d2deb951576a58148224d10a8980e15e60c87c333b0e0d3525951",
   "background": "transparent",
   "tokens": {

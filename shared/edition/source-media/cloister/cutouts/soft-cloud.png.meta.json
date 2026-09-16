@@ -5,7 +5,7 @@
   "reason": "Charming gentle fluffy pillowy cloud puff obstacle hovering with golden outline on transparent background.",
   "model": "gpt-image-2",
   "size": "1024x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/cutouts/soft-cloud.png",
+  "output": "shared/edition/source-media/cloister/cutouts/soft-cloud.png",
   "sha256": "5223fbb110cb51319d605fb3bb59f1b631f6e4407fb690ccd48f81de2a441a39",
   "background": "transparent",
   "tokens": {
