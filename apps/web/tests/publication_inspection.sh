@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# In-repo contract for publication (issue #183, issue #186, issue #189, ADR-0025, ADR-0026).
+# In-repo contract for publication (issue #183, issue #184, issue #186, issue #189, ADR-0025, ADR-0026).
 # Uses grep and python3 so `npm run check` works on GitHub-hosted Ubuntu runners.
 # git ls-files names the tracked-file set; git show reads origin/main's glossary.
 # --history additionally walks reachable objects of a clone (issue #189).
@@ -39,6 +39,8 @@ media_terms="$repo_root/MEDIA-TERMS.md"
 godot_notice="$repo_root/apps/godot/notices/NOTICE.txt"
 skills_notice="$repo_root/.agents/skills/LICENSE"
 readme="$repo_root/README.md"
+contributing="$repo_root/CONTRIBUTING.md"
+tracker="$repo_root/docs/agents/issue-tracker.md"
 context="$repo_root/CONTEXT.md"
 adr_0014="$repo_root/docs/adr/0014-package-only-player-facing-files-in-release-builds.md"
 adr_0017="$repo_root/docs/adr/0017-allow-pre-acceptance-candidate-assets-to-be-replaced.md"
@@ -67,6 +69,8 @@ test -f "$media_terms" || fail "MEDIA-TERMS.md is missing"
 test -f "$godot_notice" || fail "the Godot Edition notice is missing"
 test -f "$skills_notice" || fail "the vendored skills MIT notice is missing"
 test -f "$readme" || fail "README.md is missing"
+test -f "$contributing" || fail "CONTRIBUTING.md is missing"
+test -f "$tracker" || fail "the tracker documentation is missing"
 test -f "$context" || fail "CONTEXT.md is missing"
 test -f "$adr_0014" || fail "ADR-0014 is missing"
 test -f "$adr_0017" || fail "ADR-0017 is missing"
@@ -118,6 +122,9 @@ has "](LICENSE)" "$readme" \
   || fail "README.md does not link the license"
 has "](MEDIA-TERMS.md)" "$readme" \
   || fail "README.md does not link the media terms"
+
+has "**PRs as a request surface: yes.**" "$tracker" \
+  || fail "the tracker documentation does not flag external pull requests as a request surface"
 
 has "Her full given name" "$context" \
   || fail "CONTEXT.md Princess Zélie glossary no longer withholds her full given name"
@@ -174,6 +181,8 @@ has "--throwaway-clone" "$rewrite_script" \
   || fail "the history rewrite script does not require --throwaway-clone"
 has "apps/godot/edition-pack.zip" "$rewrite_script" \
   || fail "the history rewrite script does not drop the edition-pack archive"
+has "--replace-message" "$rewrite_script" \
+  || fail "the history rewrite script does not replace the full given name in commit and tag messages"
 
 python3 - "$root_manifest" "$web_manifest" "$soundscape_manifest" "$media_prepare_manifest" <<'PY' \
   || fail "the root and workspace manifests do not declare the MIT license"
@@ -206,9 +215,13 @@ try:
     )
     if match:
         candidate = match.group(1).strip()
-        if candidate and candidate != placeholder and encoded not in candidate:
+        if (
+            candidate
+            and encoded not in candidate
+            and placeholder not in candidate
+        ):
             print(
-                "FAIL: the encoded given name is not in origin/main's Avoid token",
+                "FAIL: origin/main's Avoid token is neither the placeholder nor the encoded given name",
                 file=sys.stderr,
             )
             raise SystemExit(1)
@@ -247,6 +260,53 @@ for label, paths in hits.items():
         failed = True
         print(f"FAIL: {label} is present in tracked files: {', '.join(paths)}", file=sys.stderr)
 if failed:
+    raise SystemExit(1)
+PY
+
+python3 - "$repo_root" <<'PY' || fail "a Web Edition soundtrack piece has no Mureka provenance record"
+import json, subprocess, sys
+from pathlib import Path
+
+repo_root = Path(sys.argv[1])
+listed = subprocess.check_output(
+    ["git", "-C", str(repo_root), "ls-files", "-z", "--", "apps/web/public/assets/audio"],
+)
+mp3s = sorted(
+    raw.decode()
+    for raw in listed.split(b"\0")
+    if raw.endswith(b".mp3")
+)
+if not mp3s:
+    print("FAIL: the Web Edition audio assets have no soundtrack pieces", file=sys.stderr)
+    raise SystemExit(1)
+
+provenance_path = repo_root / "shared" / "edition" / "soundscape" / "provenance.json"
+try:
+    provenance = json.loads(provenance_path.read_text())
+except (OSError, json.JSONDecodeError):
+    print("FAIL: the soundscape provenance schema is missing or invalid", file=sys.stderr)
+    raise SystemExit(1)
+
+covered = set()
+for record in provenance.get("records") or []:
+    if not isinstance(record, dict):
+        continue
+    role = str(record.get("role", ""))
+    provider = str(record.get("provider", "")).lower()
+    asset = str(record.get("asset", "")).replace("\\", "/")
+    if role != "provenance.commercial-generated-soundtrack":
+        continue
+    if "mureka" not in provider or not asset:
+        continue
+    covered.add(asset)
+
+missing = [path for path in mp3s if path not in covered]
+if missing:
+    print(
+        "FAIL: Web Edition soundtrack pieces have no Mureka provenance record: "
+        + ", ".join(missing),
+        file=sys.stderr,
+    )
     raise SystemExit(1)
 PY
 
