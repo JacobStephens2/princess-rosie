@@ -135,6 +135,72 @@ describe("Edition Pack role declarations", () => {
     expect(stderr.join("\n")).toContain("provenance.commercial-generated-effect");
   });
 
+  test("rejects a provenance record whose role is not declared", async () => {
+    const { exitCode, stderr } = await validateEdition({
+      provenance: {
+        roles: PROVENANCE.roles,
+        records: [
+          {
+            id: "birthday-flight",
+            role: "provenance.undeclared",
+            provider: "Mureka",
+          },
+        ],
+      },
+    });
+    expect(exitCode).toBe(1);
+    expect(stderr.join("\n")).toContain("provenance.undeclared");
+  });
+
+  test("rejects a provenance record missing required evidence", async () => {
+    const { exitCode, stderr } = await validateEdition({
+      provenance: {
+        roles: [
+          ...PROVENANCE.roles,
+          {
+            id: "provenance.commercial-generated-soundtrack",
+            requiredEvidence: ["provider", "legalEntity", "model"],
+          },
+        ],
+        records: [
+          {
+            id: "birthday-flight",
+            role: "provenance.commercial-generated-soundtrack",
+            provider: "Mureka",
+          },
+        ],
+      },
+    });
+    expect(exitCode).toBe(1);
+    expect(stderr.join("\n")).toContain("legalEntity");
+  });
+
+  test("rejects a provenance record whose billing figures are not owner-attested", async () => {
+    const { exitCode, stderr } = await validateEdition({
+      provenance: {
+        roles: [
+          ...PROVENANCE.roles,
+          {
+            id: "provenance.commercial-generated-soundtrack",
+            requiredEvidence: ["provider", "legalEntity", "model", "paidApiTopUp"],
+          },
+        ],
+        records: [
+          {
+            id: "birthday-flight",
+            role: "provenance.commercial-generated-soundtrack",
+            provider: "Mureka",
+            legalEntity: "SKYWORK AI PTE. LTD.",
+            model: "mureka-9",
+            paidApiTopUp: { rechargeUsd: 10 },
+          },
+        ],
+      },
+    });
+    expect(exitCode).toBe(1);
+    expect(stderr.join("\n")).toContain("owner-attested");
+  });
+
   test("rejects a duplicate reserved soundscape role in the Edition Pack manifest", async () => {
     const { exitCode, stderr } = await validateEdition({
       manifest: {
