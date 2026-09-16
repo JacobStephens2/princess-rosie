@@ -2,6 +2,7 @@
   "name": "rosie-soundscape-build",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "build": "node --import tsx src/bin.ts build",
