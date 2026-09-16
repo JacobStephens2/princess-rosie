@@ -9,7 +9,7 @@
       "reason": "Grand sunlit classical cloister arcade of warm honey-colored stone arches and pillars on transparent background framing arrival at Rainbow Archway.",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/cloister-arcade.png",
+      "output": "shared/edition/source-media/cloister/middle/cloister-arcade.png",
       "sha256": "629604159dfe6d18554bae41d4bc0288ac97cdbe8d99159123335cbb9a949510",
       "background": "transparent",
       "tokens": {
@@ -29,7 +29,7 @@
       "reason": "Opaque 3:1 panorama landscape vista of tranquil open sky, soft morning cloud banks, and distant Sicilian mountain peaks under warm Mediterranean light; no characters, text, or foreground arches.",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/far/far-layer.png",
+      "output": "shared/edition/source-media/cloister/far/far-layer.png",
       "sha256": "4ef5edda706d067e71599ff37821bb7e93321538b680e1cb6e11d579af18be63",
       "background": "opaque",
       "tokens": {
@@ -49,7 +49,7 @@
       "reason": "Classical sunlit cream-and-honey stone balustrade with carved balusters and flowering urn planters on soft clouds on transparent background.",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/sunlit-stone-balustrade.png",
+      "output": "shared/edition/source-media/cloister/middle/sunlit-stone-balustrade.png",
       "sha256": "c130253d92a715701c24fa4759ebd60b78f21159eee400aeb835a1a6672df586",
       "background": "transparent",
       "tokens": {
@@ -69,7 +69,7 @@
       "reason": "Classical floating colonnade pavilion of warm honey stone arches resting upon a billowy cloud base on transparent background.",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/cloud-colonnade-pavilion.png",
+      "output": "shared/edition/source-media/cloister/middle/cloud-colonnade-pavilion.png",
       "sha256": "542e10eb3737a1ad46b6ef141f178997020a4b0d9bcf361c81671e93f10cf733",
       "background": "transparent",
       "tokens": {
@@ -89,7 +89,7 @@
       "reason": "Soft voluminous rounded banked cumulus clouds with golden rim highlights carrying Storybook Ground on transparent background.",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/soft-cloud-ground.png",
+      "output": "shared/edition/source-media/cloister/near/soft-cloud-ground.png",
       "sha256": "6d1834a98ae1431fa75e59b4854fe43ee43db09bd8e5666f1f85776de3dc99b8",
       "background": "transparent",
       "tokens": {
@@ -109,7 +109,7 @@
       "reason": "Smooth cream flagstone pavers and stepping stones nestled in soft clouds carrying Storybook Ground on transparent background.",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/cloud-stepping-stones.png",
+      "output": "shared/edition/source-media/cloister/near/cloud-stepping-stones.png",
       "sha256": "d461102f4d741002a6072c05ac27359e4366505409f94eb6845e80c722f0cb1a",
       "background": "transparent",
       "tokens": {
@@ -129,7 +129,7 @@
       "reason": "Charming freestanding storybook classical stone urn planter overflowing with pink roses and lavender on carved pedestal on transparent background.",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/shared/stone-planter.png",
+      "output": "shared/edition/source-media/shared/stone-planter.png",
       "sha256": "6ed8bebd720256d946709fc50e81cecd340b00b7654c02eeaf72ba3ff02d4bdf",
       "background": "transparent",
       "tokens": {
@@ -149,7 +149,7 @@
       "reason": "Overarching upper canopy of sunlit honey stone arches and carved mouldings framing the top of the scene on transparent background.",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/sunlit-arch-canopy.png",
+      "output": "shared/edition/source-media/cloister/near/sunlit-arch-canopy.png",
       "sha256": "ef64331fa42dcac7f826dd3aa4a8061504c889290615c6a74128f5bcce33e18f",
       "background": "transparent",
       "tokens": {
@@ -169,7 +169,7 @@
       "reason": "Charming gentle fluffy pillowy cloud puff obstacle hovering with golden outline on transparent background.",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/cutouts/soft-cloud.png",
+      "output": "shared/edition/source-media/cloister/cutouts/soft-cloud.png",
       "sha256": "5223fbb110cb51319d605fb3bb59f1b631f6e4407fb690ccd48f81de2a441a39",
       "background": "transparent",
       "tokens": {
@@ -189,7 +189,7 @@
       "reason": "Joyful spiraling springy cloud updraft vortex with glowing golden starlight crest on transparent background.",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/cutouts/cloud-updraft.png",
+      "output": "shared/edition/source-media/cloister/cutouts/cloud-updraft.png",
       "sha256": "352ceb069c1c6425223b132f2322c4cee24f0cd2e52afe28dfb03f6c89fca1db",
       "background": "transparent",
       "tokens": {
