@@ -5,7 +5,7 @@
   "reason": "Classical floating colonnade pavilion of warm honey stone arches resting upon a billowy cloud base on transparent background.",
   "model": "gpt-image-2",
   "size": "1536x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/cloud-colonnade-pavilion.png",
+  "output": "shared/edition/source-media/cloister/middle/cloud-colonnade-pavilion.png",
   "sha256": "542e10eb3737a1ad46b6ef141f178997020a4b0d9bcf361c81671e93f10cf733",
   "background": "transparent",
   "tokens": {
