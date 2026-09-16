@@ -116,10 +116,9 @@ import re, subprocess, sys
 repo_root = sys.argv[1]
 # Pieces are not the name; do not concatenate them in comments or commits.
 encoded = "".join(chr(n) for n in (
-    80, 114, 105, 110, 99, 101, 115, 115, 32, 65, 122, 233, 108, 105, 101,
+    65, 122, 233, 108, 105, 101,
 ))
 placeholder = "Her full given name"
-given_name = encoded
 try:
     glossary = subprocess.check_output(
         ["git", "-C", repo_root, "show", "origin/main:CONTEXT.md"],
@@ -133,24 +132,22 @@ try:
     )
     if match:
         candidate = match.group(1).strip()
-        if candidate and candidate != placeholder:
-            if candidate != encoded:
-                print(
-                    "FAIL: the encoded glossary needle does not match origin/main",
-                    file=sys.stderr,
-                )
-                raise SystemExit(1)
-            given_name = candidate
+        if candidate and candidate != placeholder and encoded not in candidate:
+            print(
+                "FAIL: the encoded given name is not in origin/main's Avoid token",
+                file=sys.stderr,
+            )
+            raise SystemExit(1)
 except subprocess.CalledProcessError:
     pass
-private_family = " ".join(("private", "family", "gift"))
-needles = (
-    ("the full given name", given_name.encode("utf-8")),
-    ("the private-family wording", private_family.encode("utf-8")),
-)
+given_name = encoded.encode("utf-8")
+private_family = " ".join(("private", "family")).encode("ascii")
+hits = {
+    "the full given name": [],
+    "the private-family wording": [],
+}
 
 listed = subprocess.check_output(["git", "-C", repo_root, "ls-files", "-z"])
-hits = {label: [] for label, _needle in needles}
 for raw in listed.split(b"\0"):
     if not raw:
         continue
@@ -159,9 +156,10 @@ for raw in listed.split(b"\0"):
         data = open(f"{repo_root}/{path}", "rb").read()
     except OSError:
         continue
-    for label, needle in needles:
-        if needle in data:
-            hits[label].append(path)
+    if given_name in data:
+        hits["the full given name"].append(path)
+    if private_family in data.lower():
+        hits["the private-family wording"].append(path)
 
 failed = False
 for label, paths in hits.items():
