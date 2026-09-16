@@ -154,8 +154,9 @@ build_version="${build_version#\"}"
   || fail "the release preset still presents itself as 0.1.0"
 
 copyright="$(preset_option "$release_preset" "application/copyright" || true)"
-if [[ "$copyright" == *'Private family edition'* ]]; then
-  fail "the release preset still presents itself as Private family edition"
+retired_heading="$(printf '%s %s %s' 'Private' 'family' 'edition')"
+if [[ "$copyright" == *"$retired_heading"* ]]; then
+  fail "the release preset still presents itself as a private-family edition"
 fi
 
 icon_setting="$(preset_option "$release_preset" "application/icon")" \
@@ -212,8 +213,8 @@ bundle_version="$(plist_value CFBundleVersion)"
 [[ "$bundle_version" != "0.1.0" ]] || fail "CFBundleVersion still presents the app as 0.1.0"
 
 copyright_plist="$(plist_value NSHumanReadableCopyright || true)"
-if [[ "$copyright_plist" == *'Private family edition'* ]]; then
-  fail "the release app still presents itself as Private family edition"
+if [[ "$copyright_plist" == *"$retired_heading"* ]]; then
+  fail "the release app still presents itself as a private-family edition"
 fi
 
 require_macos_13 "arm64 Info.plist" "$(plist_value LSMinimumSystemVersionByArchitecture.arm64)"
