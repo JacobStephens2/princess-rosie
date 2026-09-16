@@ -3,7 +3,7 @@
   "role": "mosaic-tower-spire",
   "model": "gpt-image-2",
   "size": "1536x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/middle/mosaic-tower-spire.png",
+  "output": "shared/edition/source-media/castle/middle/mosaic-tower-spire.png",
   "sha256": "3e05f69603bb2e54f49ac51d0db8e501cb9bdc11793ee3716464e7c12df7920d",
   "background": "transparent",
   "tokens": {

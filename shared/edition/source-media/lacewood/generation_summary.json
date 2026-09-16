@@ -7,7 +7,7 @@
       "role": "far-layer",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/far/far-layer.png",
+      "output": "shared/edition/source-media/lacewood/far/far-layer.png",
       "sha256": "35f9ff53f075f592d3346d3fda4cfc7ac69b0de190cce786e47c9c5720afef40",
       "background": "opaque",
       "tokens": {
@@ -25,7 +25,7 @@
       "role": "lace-pavilion",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/middle/lace-pavilion.png",
+      "output": "shared/edition/source-media/lacewood/middle/lace-pavilion.png",
       "sha256": "d62160f6d0a5e29cc03676f1f5c103385e8b444a8cbb70d6840478c7600b1cd8",
       "background": "transparent",
       "tokens": {
@@ -43,7 +43,7 @@
       "role": "lace-ribbon-tree",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/middle/lace-ribbon-tree.png",
+      "output": "shared/edition/source-media/lacewood/middle/lace-ribbon-tree.png",
       "sha256": "9ddbf2927bffffb1f8478da3a437a1b21af1efd57d24778c5c5242b032f57b8a",
       "background": "transparent",
       "tokens": {
@@ -61,7 +61,7 @@
       "role": "pillar-lantern-row",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/middle/pillar-lantern-row.png",
+      "output": "shared/edition/source-media/lacewood/middle/pillar-lantern-row.png",
       "sha256": "ef5d45ed7d84a52f2004b822499220b22df27f8d8f4f2780b504c447e7c74027",
       "background": "transparent",
       "tokens": {
@@ -79,7 +79,7 @@
       "role": "stone-tile-ground",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/near/stone-tile-ground.png",
+      "output": "shared/edition/source-media/lacewood/near/stone-tile-ground.png",
       "sha256": "503255b9c4ba75016aed53d4ddc676a1ecb06a227dd37f230b8ce74f9ccabb0d",
       "background": "transparent",
       "tokens": {
@@ -97,7 +97,7 @@
       "role": "garden-lantern",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/shared/garden-lantern.png",
+      "output": "shared/edition/source-media/shared/garden-lantern.png",
       "sha256": "696eb3e1af9f8972e4e179092f58df23358596e2f27bcbb05b65ad4125ab63e8",
       "background": "transparent",
       "tokens": {
@@ -115,7 +115,7 @@
       "role": "rose-woodland-border",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/near/rose-woodland-border.png",
+      "output": "shared/edition/source-media/lacewood/near/rose-woodland-border.png",
       "sha256": "ac1527d57f6dc133fbc0530250a2a7845dcb9380dfa99162939c5103784e3cc3",
       "background": "transparent",
       "tokens": {
@@ -133,7 +133,7 @@
       "role": "canopy-arch",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/near/canopy-arch.png",
+      "output": "shared/edition/source-media/lacewood/near/canopy-arch.png",
       "sha256": "d077d65dfc10ca685008a5bf83e469e60baa68d94022e972b9ea3c7d3b0ca7c9",
       "background": "transparent",
       "tokens": {
@@ -151,7 +151,7 @@
       "role": "silver-ribbon",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/cutouts/silver-ribbon.png",
+      "output": "shared/edition/source-media/lacewood/cutouts/silver-ribbon.png",
       "sha256": "321aefe43af93375cba11d30281636fe9163a9b33e193122d97fbb33bbb95758",
       "background": "transparent",
       "tokens": {
@@ -169,7 +169,7 @@
       "role": "lace-sprout",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/cutouts/lace-sprout.png",
+      "output": "shared/edition/source-media/lacewood/cutouts/lace-sprout.png",
       "sha256": "aef7278c4fadad9cfba2639a422b8a054340aac8a77de48b1461cde4ac3a0040",
       "background": "transparent",
       "tokens": {
