@@ -7,7 +7,7 @@
       "role": "cloister-arcade",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/middle/cloister-arcade.png",
+      "output": "shared/edition/source-media/abbey/middle/cloister-arcade.png",
       "sha256": "a2834bea4683f8dffdada47e5bb3193c7b0fced406c04a1539d8d40cc0f1a207",
       "background": "transparent",
       "tokens": {
@@ -26,7 +26,7 @@
       "role": "far-layer",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/far/far-layer.png",
+      "output": "shared/edition/source-media/abbey/far/far-layer.png",
       "sha256": "c3b2f7ee8d2d97644ecabe739539664f198ee65a65776cc56f59ad8c9c08ab60",
       "background": "opaque",
       "tokens": {
@@ -45,7 +45,7 @@
       "role": "bell-tower-belfry",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/middle/bell-tower-belfry.png",
+      "output": "shared/edition/source-media/abbey/middle/bell-tower-belfry.png",
       "sha256": "1612282c03ad858dffd25121970d886896da974afc0889fa2c55b84b462ae50b",
       "background": "transparent",
       "tokens": {
@@ -64,7 +64,7 @@
       "role": "rose-window-wall",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/middle/rose-window-wall.png",
+      "output": "shared/edition/source-media/abbey/middle/rose-window-wall.png",
       "sha256": "9745a98d5166a850234252a113dd4159b2a9671f044a6d26f2781b234ffd6138",
       "background": "transparent",
       "tokens": {
@@ -83,7 +83,7 @@
       "role": "stone-terrace-ground",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/near/stone-terrace-ground.png",
+      "output": "shared/edition/source-media/abbey/near/stone-terrace-ground.png",
       "sha256": "3df93017d41b7b12bb70f5882d65e9da2b9fe86dd96f07cd6283c0e05d6895b2",
       "background": "transparent",
       "tokens": {
@@ -102,7 +102,7 @@
       "role": "lavender-herb-border",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/near/lavender-herb-border.png",
+      "output": "shared/edition/source-media/abbey/near/lavender-herb-border.png",
       "sha256": "7f5c2265cd7837838231cf4bc62e4b26a85ae2473646d46f5e5287a02838b161",
       "background": "transparent",
       "tokens": {
@@ -121,7 +121,7 @@
       "role": "shared-set-piece",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/shared/stone-fountain.png",
+      "output": "shared/edition/source-media/shared/stone-fountain.png",
       "sha256": "e510b13a42c95d3ae8f1e87582ac4168234a5bd8a57f45bbe0428ee51ebe787a",
       "background": "transparent",
       "tokens": {
@@ -140,7 +140,7 @@
       "role": "vaulted-arch-canopy",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/near/vaulted-arch-canopy.png",
+      "output": "shared/edition/source-media/abbey/near/vaulted-arch-canopy.png",
       "sha256": "4363421e90d14f2fc23bcc7c1bde0c6dcddcf884d7f74f5931efe7c40bd93901",
       "background": "transparent",
       "tokens": {
@@ -159,7 +159,7 @@
       "role": "bell-rope",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/cutouts/bell-rope.png",
+      "output": "shared/edition/source-media/abbey/cutouts/bell-rope.png",
       "sha256": "a331530c48d6a0ee8d90a739c8a31cee5540c7bb0aef4e14928eac03bd76b897",
       "background": "transparent",
       "tokens": {
@@ -178,7 +178,7 @@
       "role": "abbey-bell",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/cutouts/abbey-bell.png",
+      "output": "shared/edition/source-media/abbey/cutouts/abbey-bell.png",
       "sha256": "1c38ea9b473993b0f7d876e32fd1bd5e7122ed0da7572fc9cd9552e8718c2862",
       "background": "transparent",
       "tokens": {

@@ -5,7 +5,7 @@
   "reason": "Classical sunlit cream-and-honey stone balustrade with carved balusters and flowering urn planters on soft clouds on transparent background.",
   "model": "gpt-image-2",
   "size": "1536x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/middle/sunlit-stone-balustrade.png",
+  "output": "shared/edition/source-media/cloister/middle/sunlit-stone-balustrade.png",
   "sha256": "c130253d92a715701c24fa4759ebd60b78f21159eee400aeb835a1a6672df586",
   "background": "transparent",
   "tokens": {
