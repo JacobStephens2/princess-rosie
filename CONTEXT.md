@@ -18,8 +18,8 @@ The storybook hero and elder sister through whom the child experiences the adven
 _Avoid_: Rosie's avatar, digital Rosie
 
 **Princess Zélie**:
-Princess Rosie's one-year-old storybook baby sister and the child celebrated at the Birthday Castle for her very first birthday. She shares Azélie's saint-inspired nickname and may use an expressly approved likeness without unrelated identifying personal details.
-_Avoid_: Princess Azélie, the objective
+Princess Rosie's one-year-old storybook baby sister and the child celebrated at the Birthday Castle for her very first birthday. She shares the birthday child's saint-inspired nickname and may use an expressly approved likeness without unrelated identifying personal details.
+_Avoid_: Her full given name, the objective
 
 **Birthday Castle**:
 The joyful destination where Princess Zélie's birthday is celebrated and Princess Rosie's adventure concludes. Its celebration is one authored ending, reached identically on every journey across the Birthday Castle Approach and painted once — the Phaser Edition's approved illustration, reused rather than repainted — where the six recovered Birthday Stars join the Castle Star and Fly Again is the only invitation.
