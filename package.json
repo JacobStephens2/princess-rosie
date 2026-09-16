@@ -2,6 +2,7 @@
   "name": "princess-rosie-editions",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "workspaces": [
     "apps/web",
     "tools/soundscape-build",
@@ -24,6 +25,6 @@
     "soundtrack:build": "npm run soundtrack:build --workspace rosie-soundscape-build --",
     "test:e2e": "npm run test:e2e --workspace princess-rosie-web",
     "test:e2e:install": "npm run test:e2e:install --workspace princess-rosie-web",
-    "check": "apps/web/tests/deploy_inspection.sh && npm run typecheck --workspace rosie-soundscape-build && npm run test:soundscape-build && npm run typecheck --workspace rosie-media-prepare && npm run test:media-prepare && npm run check --workspace princess-rosie-web"
+    "check": "apps/web/tests/deploy_inspection.sh && apps/web/tests/publication_inspection.sh && npm run typecheck --workspace rosie-soundscape-build && npm run test:soundscape-build && npm run typecheck --workspace rosie-media-prepare && npm run test:media-prepare && npm run check --workspace princess-rosie-web"
   }
 }

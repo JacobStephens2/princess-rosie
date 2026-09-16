@@ -2,6 +2,7 @@
   "name": "rosie-media-prepare",
   "version": "1.0.0",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "scripts": {
     "prepare-media": "node --import tsx src/bin.ts",

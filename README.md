@@ -44,7 +44,7 @@ npm run test:e2e
 
 The production build is a static site in `dist/`.
 
-To publish a verified Web Edition build, follow the [deployment runbook](docs/deployment.md). To construct the private Godot Edition macOS archive, follow the [Godot Edition release runbook](docs/godot-release.md).
+To publish a verified Web Edition build, follow the [deployment runbook](docs/deployment.md). To construct the Godot Edition macOS archive, follow the [Godot Edition release runbook](docs/godot-release.md).
 
 ## Media
 
@@ -57,3 +57,7 @@ To publish a verified Web Edition build, follow the [deployment runbook](docs/de
 API keys are build-time secrets only. They are never included in the application or repository.
 
 The exact media prompts are recorded in [`docs/media-prompts.md`](docs/media-prompts.md).
+
+## License
+
+The code and documentation are licensed under [MIT](LICENSE). The generated art, cutouts, soundtrack, and sound effects are [all rights reserved and view-only](MEDIA-TERMS.md).

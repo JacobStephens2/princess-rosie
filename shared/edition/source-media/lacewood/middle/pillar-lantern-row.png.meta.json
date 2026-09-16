@@ -3,7 +3,7 @@
   "role": "pillar-lantern-row",
   "model": "gpt-image-2",
   "size": "1536x1024",
-  "output": "/Users/jacob/GitHub/JacobStephens2/princess-rosie/shared/edition/source-media/lacewood/middle/pillar-lantern-row.png",
+  "output": "shared/edition/source-media/lacewood/middle/pillar-lantern-row.png",
   "sha256": "ef5d45ed7d84a52f2004b822499220b22df27f8d8f4f2780b504c447e7c74027",
   "background": "transparent",
   "tokens": {

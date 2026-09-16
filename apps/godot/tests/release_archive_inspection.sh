@@ -221,11 +221,13 @@ test -f "$unpacked_plist" || fail "unzipping did not preserve the app bundle Inf
 test -s "$unpacked_icon" || fail "unzipping did not preserve the app icon"
 test -s "$unpacked_pck" || fail "unzipping did not preserve the packaged Runtime Edition Pack"
 test -s "$unpack_dir/NOTICE.txt" \
-  || fail "the archive is missing the top-level private-use notice"
+  || fail "the archive is missing the top-level edition notice"
 test -s "$unpack_dir/THIRD-PARTY-NOTICES.txt" \
   || fail "the archive is missing the top-level third-party notices"
-rg -F -q 'not licensed for' "$unpack_dir/NOTICE.txt" \
-  || fail "the private-family/no-redistribution notice is incomplete"
+rg -F -q 'archived' "$unpack_dir/NOTICE.txt" \
+  || fail "the archived edition notice is incomplete"
+rg -F -q 'media terms' "$unpack_dir/NOTICE.txt" \
+  || fail "the archived edition notice does not follow the media terms"
 rg -F -q 'Copyright (c) 2014-present Godot Engine contributors' \
   "$unpack_dir/THIRD-PARTY-NOTICES.txt" \
   || fail "Godot license notice is missing from third-party notices"

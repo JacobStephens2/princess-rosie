@@ -5,7 +5,7 @@
   "reason": "Opaque 3:1 panorama landscape vista of tranquil open sky, soft morning cloud banks, and distant Sicilian mountain peaks under warm Mediterranean light; no characters, text, or foreground arches.",
   "model": "gpt-image-2",
   "size": "3072x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/far/far-layer.png",
+  "output": "shared/edition/source-media/cloister/far/far-layer.png",
   "sha256": "4ef5edda706d067e71599ff37821bb7e93321538b680e1cb6e11d579af18be63",
   "background": "opaque",
   "tokens": {

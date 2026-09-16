@@ -5,7 +5,7 @@
   "reason": "Soft voluminous rounded banked cumulus clouds with golden rim highlights carrying Storybook Ground on transparent background.",
   "model": "gpt-image-2",
   "size": "1536x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/near/soft-cloud-ground.png",
+  "output": "shared/edition/source-media/cloister/near/soft-cloud-ground.png",
   "sha256": "6d1834a98ae1431fa75e59b4854fe43ee43db09bd8e5666f1f85776de3dc99b8",
   "background": "transparent",
   "tokens": {
