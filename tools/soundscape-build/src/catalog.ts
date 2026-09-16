@@ -206,6 +206,13 @@ export interface EditionRoleInputPaths {
   manifestPath: string;
 }
 
+function isOwnerAttestedTopUp(value: unknown): boolean {
+  if (value === null || typeof value !== "object" || Array.isArray(value)) {
+    return false;
+  }
+  return (value as { attestation?: unknown }).attestation === "owner-attested";
+}
+
 function assertUniqueRoleIds(
   roles: Array<{ id?: string }> | undefined,
   label: string,
@@ -237,7 +244,10 @@ export async function validateEditionRoles(args: EditionRoleInputPaths): Promise
     fallbackRoles?: Array<{ id?: string }>;
     sourceMasters?: Array<{ id?: string; role?: string; provenanceRole?: string }>;
   };
-  const provenance = JSON.parse(provenanceText) as { roles?: Array<{ id?: string }> };
+  const provenance = JSON.parse(provenanceText) as {
+    roles?: Array<{ id?: string; requiredEvidence?: string[] }>;
+    records?: Array<{ id?: string; role?: string } & Record<string, unknown>>;
+  };
   const manifest = JSON.parse(manifestText) as {
     files?: Array<{ role?: string; path?: string }>;
   };
@@ -245,6 +255,13 @@ export async function validateEditionRoles(args: EditionRoleInputPaths): Promise
   const sourceMediaRoleIds = assertUniqueRoleIds(sourceMedia.roles, "source-media role");
   assertUniqueRoleIds(sourceMedia.fallbackRoles, "fallback role");
   const provenanceRoleIds = assertUniqueRoleIds(provenance.roles, "provenance role");
+  const provenanceRolesById = new Map(
+    (provenance.roles ?? [])
+      .filter((role): role is { id: string; requiredEvidence?: string[] } =>
+        typeof role.id === "string" && role.id.trim() !== "",
+      )
+      .map((role) => [role.id, role]),
+  );
 
   for (const sourceMaster of sourceMedia.sourceMasters ?? []) {
     const label = sourceMaster.id ?? "an unnamed source master";
@@ -257,6 +274,31 @@ export async function validateEditionRoles(args: EditionRoleInputPaths): Promise
       throw new Error(
         `Source master ${label} has an undeclared provenance role: ${sourceMaster.provenanceRole}`,
       );
+    }
+  }
+
+  for (const record of provenance.records ?? []) {
+    const label = typeof record.id === "string" && record.id.trim()
+      ? record.id
+      : "an unnamed provenance record";
+    if (!record.role || !provenanceRoleIds.has(record.role)) {
+      throw new Error(
+        `Provenance record ${label} has an undeclared role: ${record.role}`,
+      );
+    }
+    const requiredEvidence = provenanceRolesById.get(record.role)?.requiredEvidence ?? [];
+    for (const field of requiredEvidence) {
+      const value = record[field];
+      if (value === undefined || value === null || value === "") {
+        throw new Error(
+          `Provenance record ${label} is missing required evidence: ${field}`,
+        );
+      }
+      if (field === "paidApiTopUp" && !isOwnerAttestedTopUp(value)) {
+        throw new Error(
+          `Provenance record ${label} does not mark billing figures as owner-attested`,
+        );
+      }
     }
   }
 

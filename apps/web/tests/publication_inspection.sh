@@ -183,4 +183,51 @@ if failed:
     raise SystemExit(1)
 PY
 
+python3 - "$repo_root" <<'PY' || fail "a Web Edition soundtrack piece has no Mureka provenance record"
+import json, subprocess, sys
+from pathlib import Path
+
+repo_root = Path(sys.argv[1])
+listed = subprocess.check_output(
+    ["git", "-C", str(repo_root), "ls-files", "-z", "--", "apps/web/public/assets/audio"],
+)
+mp3s = sorted(
+    raw.decode()
+    for raw in listed.split(b"\0")
+    if raw.endswith(b".mp3")
+)
+if not mp3s:
+    print("FAIL: the Web Edition audio assets have no soundtrack pieces", file=sys.stderr)
+    raise SystemExit(1)
+
+provenance_path = repo_root / "shared" / "edition" / "soundscape" / "provenance.json"
+try:
+    provenance = json.loads(provenance_path.read_text())
+except (OSError, json.JSONDecodeError):
+    print("FAIL: the soundscape provenance schema is missing or invalid", file=sys.stderr)
+    raise SystemExit(1)
+
+covered = set()
+for record in provenance.get("records") or []:
+    if not isinstance(record, dict):
+        continue
+    role = str(record.get("role", ""))
+    provider = str(record.get("provider", "")).lower()
+    asset = str(record.get("asset", "")).replace("\\", "/")
+    if role != "provenance.commercial-generated-soundtrack":
+        continue
+    if "mureka" not in provider or not asset:
+        continue
+    covered.add(asset)
+
+missing = [path for path in mp3s if path not in covered]
+if missing:
+    print(
+        "FAIL: Web Edition soundtrack pieces have no Mureka provenance record: "
+        + ", ".join(missing),
+        file=sys.stderr,
+    )
+    raise SystemExit(1)
+PY
+
 echo "OK: publication contract"

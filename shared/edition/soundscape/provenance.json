@@ -29,6 +29,114 @@
       "id": "provenance.project-authored-fallback",
       "description": "Evidence for a deterministic fallback authored and retained by the project.",
       "requiredEvidence": ["implementationRevision", "sourceHash"]
+    },
+    {
+      "id": "provenance.commercial-generated-soundtrack",
+      "description": "Evidence for a selected Flight Soundtrack or Celebration Theme generated under a commercial plan, with owner-attested paid API top-up evidence.",
+      "requiredEvidence": [
+        "provider",
+        "legalEntity",
+        "model",
+        "paidApiTopUp",
+        "introducingCommit"
+      ]
+    }
+  ],
+  "records": [
+    {
+      "id": "birthday-flight",
+      "role": "provenance.commercial-generated-soundtrack",
+      "asset": "apps/web/public/assets/audio/birthday-flight.mp3",
+      "provider": "Mureka",
+      "legalEntity": "SKYWORK AI PTE. LTD.",
+      "model": "mureka-9",
+      "introducingCommit": "e9c0b81ce2b9b7e7dea56c9d04b0fa857dfd791f",
+      "paidApiTopUp": {
+        "rechargeUsd": 10,
+        "rechargedAt": "2026-08-22T12:22:00Z",
+        "bonusUsd": 0,
+        "spentUsd": 8.89,
+        "remainingUsd": 1.11,
+        "observedAt": "2026-09-15",
+        "source": "https://platform.mureka.ai/billing",
+        "attestation": "owner-attested"
+      }
+    },
+    {
+      "id": "pastoral-lilt",
+      "role": "provenance.commercial-generated-soundtrack",
+      "asset": "apps/web/public/assets/audio/pastoral-lilt.mp3",
+      "provider": "Mureka",
+      "legalEntity": "SKYWORK AI PTE. LTD.",
+      "model": "mureka-9",
+      "introducingCommit": "d3cf1e3108c5c9851b454596534b5365c8f84380",
+      "paidApiTopUp": {
+        "rechargeUsd": 10,
+        "rechargedAt": "2026-08-22T12:22:00Z",
+        "bonusUsd": 0,
+        "spentUsd": 8.89,
+        "remainingUsd": 1.11,
+        "observedAt": "2026-09-15",
+        "source": "https://platform.mureka.ai/billing",
+        "attestation": "owner-attested"
+      }
+    },
+    {
+      "id": "playful-bounce",
+      "role": "provenance.commercial-generated-soundtrack",
+      "asset": "apps/web/public/assets/audio/playful-bounce.mp3",
+      "provider": "Mureka",
+      "legalEntity": "SKYWORK AI PTE. LTD.",
+      "model": "mureka-9",
+      "introducingCommit": "d3cf1e3108c5c9851b454596534b5365c8f84380",
+      "paidApiTopUp": {
+        "rechargeUsd": 10,
+        "rechargedAt": "2026-08-22T12:22:00Z",
+        "bonusUsd": 0,
+        "spentUsd": 8.89,
+        "remainingUsd": 1.11,
+        "observedAt": "2026-09-15",
+        "source": "https://platform.mureka.ai/billing",
+        "attestation": "owner-attested"
+      }
+    },
+    {
+      "id": "soaring-flight",
+      "role": "provenance.commercial-generated-soundtrack",
+      "asset": "apps/web/public/assets/audio/soaring-flight.mp3",
+      "provider": "Mureka",
+      "legalEntity": "SKYWORK AI PTE. LTD.",
+      "model": "mureka-9",
+      "introducingCommit": "d3cf1e3108c5c9851b454596534b5365c8f84380",
+      "paidApiTopUp": {
+        "rechargeUsd": 10,
+        "rechargedAt": "2026-08-22T12:22:00Z",
+        "bonusUsd": 0,
+        "spentUsd": 8.89,
+        "remainingUsd": 1.11,
+        "observedAt": "2026-09-15",
+        "source": "https://platform.mureka.ai/billing",
+        "attestation": "owner-attested"
+      }
+    },
+    {
+      "id": "celebration-theme",
+      "role": "provenance.commercial-generated-soundtrack",
+      "asset": "apps/web/public/assets/audio/celebration-theme.mp3",
+      "provider": "Mureka",
+      "legalEntity": "SKYWORK AI PTE. LTD.",
+      "model": "mureka-9",
+      "introducingCommit": "d3cf1e3108c5c9851b454596534b5365c8f84380",
+      "paidApiTopUp": {
+        "rechargeUsd": 10,
+        "rechargedAt": "2026-08-22T12:22:00Z",
+        "bonusUsd": 0,
+        "spentUsd": 8.89,
+        "remainingUsd": 1.11,
+        "observedAt": "2026-09-15",
+        "source": "https://platform.mureka.ai/billing",
+        "attestation": "owner-attested"
+      }
     }
   ]
 }
