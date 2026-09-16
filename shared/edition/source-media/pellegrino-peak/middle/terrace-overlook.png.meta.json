@@ -3,7 +3,7 @@
   "role": "terrace-overlook",
   "model": "gpt-image-2",
   "size": "3072x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/137/shared/edition/source-media/pellegrino-peak/middle/terrace-overlook.png",
+  "output": "shared/edition/source-media/pellegrino-peak/middle/terrace-overlook.png",
   "sha256": "3290771449af1b3e6c76c76dfe16f08f960357cdb04add3ee49053557feade9f",
   "background": "transparent",
   "tokens": {

@@ -3,7 +3,7 @@
   "role": "mosaic-stone-ground",
   "model": "gpt-image-2",
   "size": "1536x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/139/shared/edition/source-media/castle/near/mosaic-stone-ground.png",
+  "output": "shared/edition/source-media/castle/near/mosaic-stone-ground.png",
   "sha256": "77b2a15d4820bfaa7686431eeee301c5bfa30fb3514274b75301fe3e4e0c131f",
   "background": "transparent",
   "tokens": {

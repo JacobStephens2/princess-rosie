@@ -7,7 +7,7 @@
       "role": "limestone-sea-stack",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/middle/limestone-sea-stack.png",
+      "output": "shared/edition/source-media/sapphire-sea/middle/limestone-sea-stack.png",
       "sha256": "b089048bb3b16e6c1a2079f1ac29920d5980d9658ea6616be8195ac52b56b327",
       "background": "transparent",
       "tokens": {
@@ -25,7 +25,7 @@
       "role": "far-layer",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/far/far-layer.png",
+      "output": "shared/edition/source-media/sapphire-sea/far/far-layer.png",
       "sha256": "ffe6cdd167f7090f89e2915127d92d3e20f62c9ee877980f21beaa61f0e2a8ff",
       "background": "opaque",
       "tokens": {
@@ -43,7 +43,7 @@
       "role": "coral-tide-terrace",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/middle/coral-tide-terrace.png",
+      "output": "shared/edition/source-media/sapphire-sea/middle/coral-tide-terrace.png",
       "sha256": "d628f9ee5800f0a192b07138e2104cadb1cbcae605c7f846bde708bbf70bba75",
       "background": "transparent",
       "tokens": {
@@ -61,7 +61,7 @@
       "role": "coastal-shelf-ground",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/near/coastal-shelf-ground.png",
+      "output": "shared/edition/source-media/sapphire-sea/near/coastal-shelf-ground.png",
       "sha256": "d630f385cb94c77359f25ea931ffa0ca3d7af6d632d0581816ef63bd1fbe9708",
       "background": "transparent",
       "tokens": {
@@ -79,7 +79,7 @@
       "role": "flowered-coastal-rock",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/shared/flowered-coastal-rock.png",
+      "output": "shared/edition/source-media/shared/flowered-coastal-rock.png",
       "sha256": "c28a6a4403a1dbf405ea342292de64327d77503d6133b0a5b58d212c8ad3c8fe",
       "background": "transparent",
       "tokens": {
@@ -97,7 +97,7 @@
       "role": "flowered-rock-border",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/near/flowered-rock-border.png",
+      "output": "shared/edition/source-media/sapphire-sea/near/flowered-rock-border.png",
       "sha256": "71d3db8e3ff4e5e60c5a726e14d6698798abd2776680214a0f83a87f1cfe3bf4",
       "background": "transparent",
       "tokens": {
@@ -115,7 +115,7 @@
       "role": "turquoise-shallows-pool",
       "model": "gpt-image-2",
       "size": "1536x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/near/turquoise-shallows-pool.png",
+      "output": "shared/edition/source-media/sapphire-sea/near/turquoise-shallows-pool.png",
       "sha256": "2b6a5fbc14098afdd62b62bc36d2b668d551bdeb38dad3f799329d28f715ac13",
       "background": "transparent",
       "tokens": {
@@ -133,7 +133,7 @@
       "role": "sea-promontory",
       "model": "gpt-image-2",
       "size": "3072x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/middle/sea-promontory.png",
+      "output": "shared/edition/source-media/sapphire-sea/middle/sea-promontory.png",
       "sha256": "7dc1f032aa3d2deb951576a58148224d10a8980e15e60c87c333b0e0d3525951",
       "background": "transparent",
       "tokens": {
@@ -151,7 +151,7 @@
       "role": "wave-crest",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/cutouts/wave-crest.png",
+      "output": "shared/edition/source-media/sapphire-sea/cutouts/wave-crest.png",
       "sha256": "5e5e91bb820f2b7f0aa52524aaeceed5369d80e43b1d8a7bb76ada885081e010",
       "background": "transparent",
       "tokens": {
@@ -169,7 +169,7 @@
       "role": "sea-geyser",
       "model": "gpt-image-2",
       "size": "1024x1024",
-      "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/cutouts/sea-geyser.png",
+      "output": "shared/edition/source-media/sapphire-sea/cutouts/sea-geyser.png",
       "sha256": "ff0c677451ffee23c2dfbc9f76aaf6376b812105d6552534937e36e89fdafba1",
       "background": "transparent",
       "tokens": {

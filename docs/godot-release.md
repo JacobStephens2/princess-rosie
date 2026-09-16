@@ -10,16 +10,13 @@ different artifact. Its evidence is the `Deploy production` workflow in
 `.github/workflows/deploy.yml`. Do not treat that workflow as Godot Edition
 release evidence.
 
-Godot Edition construction evidence is the `Verify Godot Edition` workflow in
-`.github/workflows/verify-godot.yml`. It runs on relevant pull requests and
-`main`, installs and checks Godot 4.7.2 Standard, runs the headless acceptance
-suite, and performs Runtime Edition Pack, release-export, and static archive
-inspections that do not need Finder. Those inspections may construct the ZIP
-in order to list it, checksum it, and prove forbidden content is absent.
-That construction is inspection, not publication. The workflow never publishes
-a GitHub Release and does not upload the large app archive as an Actions
-artifact. Finder launch, packaged visual smoke, audio judgment, ad-hoc signing,
-and publication remain target-MacBook gates on the verification issue. The
+Godot Edition construction evidence is the headless acceptance suite and the
+Runtime Edition Pack, release-export, and static archive inspections under
+`apps/godot/tests/` and `apps/godot/packaging/`. Those inspections do not need
+Finder. They may construct the ZIP in order to list it, checksum it, and prove
+forbidden content is absent. That construction is inspection, not publication.
+Finder launch, packaged visual smoke, audio judgment, ad-hoc signing, and
+publication remain target-MacBook gates on the verification issue. The
 publication archive for `gh release` is still repaired and verified on the
 target MacBook.
 
@@ -105,8 +102,8 @@ apps/godot/tests/release_candidate_repackage_inspection.sh \
   /path/to/downloaded/Princess-Rosie-v1.0.0-rc.1-macOS.zip
 ```
 
-This inspection invokes ad-hoc signing and therefore is not part of
-`.github/workflows/verify-godot.yml`.
+This inspection invokes ad-hoc signing and therefore stays a target-MacBook
+gate.
 
 ## 3. Verify the checksum and unzip
 

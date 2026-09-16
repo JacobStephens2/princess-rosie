@@ -5,7 +5,7 @@
   "reason": "Joyful spiraling springy cloud updraft vortex with glowing golden starlight crest on transparent background.",
   "model": "gpt-image-2",
   "size": "1024x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/136/shared/edition/source-media/cloister/cutouts/cloud-updraft.png",
+  "output": "shared/edition/source-media/cloister/cutouts/cloud-updraft.png",
   "sha256": "352ceb069c1c6425223b132f2322c4cee24f0cd2e52afe28dfb03f6c89fca1db",
   "background": "transparent",
   "tokens": {

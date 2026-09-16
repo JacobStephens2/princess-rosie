@@ -3,7 +3,7 @@
   "role": "flowered-rock-border",
   "model": "gpt-image-2",
   "size": "1536x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/138/shared/edition/source-media/sapphire-sea/near/flowered-rock-border.png",
+  "output": "shared/edition/source-media/sapphire-sea/near/flowered-rock-border.png",
   "sha256": "71d3db8e3ff4e5e60c5a726e14d6698798abd2776680214a0f83a87f1cfe3bf4",
   "background": "transparent",
   "tokens": {
