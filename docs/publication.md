@@ -40,11 +40,16 @@ Keep those values for the release-note line below.
 ## 2. Clone a throwaway mirror
 
 Do not run the rewrite against the real working copy or any linked worktree.
-Clone a throwaway mirror of the GitHub repository:
+Clone a throwaway mirror of the GitHub repository, then a work tree of that
+mirror checked out at `publication-contract`. The history flag needs the
+working-tree files (`LICENSE` and the rest); do not point it at the bare
+mirror.
 
 ```sh
 git clone --mirror git@github.com:JacobStephens2/princess-rosie.git \
   /tmp/princess-rosie-rewrite.git
+git clone /tmp/princess-rosie-rewrite.git /tmp/princess-rosie-rewrite
+git -C /tmp/princess-rosie-rewrite checkout publication-contract
 ```
 
 Install `git-filter-repo` on that machine if it is missing (`brew install
@@ -52,22 +57,11 @@ git-filter-repo` on macOS).
 
 ## 3. Prove the history flag is red, then rewrite
 
-From a checkout that has this runbook (or by copying the two scripts onto the
-PATH), run the publication inspection against the mirror. It must fail while
-the archive blobs and the full given name are still in history:
+From a checkout that has this runbook, run the publication inspection against
+the work tree. It must fail while the archive blobs and the full given name
+are still in history:
 
 ```sh
-apps/web/tests/publication_inspection.sh --history /tmp/princess-rosie-rewrite.git
-```
-
-The working-tree half of that command looks for `LICENSE` and the other
-guarded files, so either pass a non-bare clone checked out at
-`publication-contract`, or run the history flag from a work tree of the
-mirror:
-
-```sh
-git clone /tmp/princess-rosie-rewrite.git /tmp/princess-rosie-rewrite
-git -C /tmp/princess-rosie-rewrite checkout publication-contract
 apps/web/tests/publication_inspection.sh --history /tmp/princess-rosie-rewrite
 ```
 
@@ -80,16 +74,21 @@ tools/rewrite-publication-history.sh --throwaway-clone \
 ```
 
 `git-filter-repo` rewrites every branch and the three release-candidate tags
-in that clone. It does not push. Confirm the inspection is now green and
-record the pack size on #190:
+in the mirror. It does not push. Discard the pre-rewrite work tree and clone
+a fresh one from the rewritten mirror so the inspection sees the new objects:
 
 ```sh
+rm -rf /tmp/princess-rosie-rewrite
+git clone /tmp/princess-rosie-rewrite.git /tmp/princess-rosie-rewrite
+git -C /tmp/princess-rosie-rewrite checkout publication-contract
 apps/web/tests/publication_inspection.sh --history /tmp/princess-rosie-rewrite
 git -C /tmp/princess-rosie-rewrite.git count-objects -vH
-git rev-parse --verify 'v1.0.0-rc.1^{commit}'
-git rev-parse --verify 'v1.0.0-rc.2^{commit}'
-git rev-parse --verify 'v1.0.0-rc.3^{commit}'
+git -C /tmp/princess-rosie-rewrite rev-parse --verify 'v1.0.0-rc.1^{commit}'
+git -C /tmp/princess-rosie-rewrite rev-parse --verify 'v1.0.0-rc.2^{commit}'
+git -C /tmp/princess-rosie-rewrite rev-parse --verify 'v1.0.0-rc.3^{commit}'
 ```
+
+Confirm the inspection is now green and record the pack size on #190.
 
 ## 4. Force-push the rewritten refs
 
