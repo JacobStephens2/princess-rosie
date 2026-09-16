@@ -209,10 +209,10 @@ func _init() -> void:
 	test.expect(media.get("ok") == true, "runtime media loads through the adapter")
 
 	var notice_root := ProjectSettings.globalize_path("res://notices")
-	var family_notice := FileAccess.get_file_as_string(notice_root.path_join("NOTICE.txt"))
+	var edition_notice := FileAccess.get_file_as_string(notice_root.path_join("NOTICE.txt"))
 	test.expect(
-		family_notice.contains("not licensed for") and family_notice.contains("Private family edition"),
-		"the private-family/no-redistribution notice is present",
+		edition_notice.contains("archived") and edition_notice.contains("media terms"),
+		"the archived edition notice is present",
 	)
 	var third_party_notice := FileAccess.get_file_as_string(notice_root.path_join("THIRD-PARTY-NOTICES.txt"))
 	test.expect(
