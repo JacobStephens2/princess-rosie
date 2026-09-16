@@ -1,8 +1,7 @@
 Princess Rosie and the Seven Birthday Stars
-Private family edition
+Godot Edition (archived)
 
-This application is a private family gift. It is not licensed for
-redistribution, public posting, resale, or any other public or commercial use.
-
-A full provider-terms and public-distribution audit remains deferred until a
-public release is planned.
+The Godot Edition is archived. Its code and documentation follow the MIT
+license in the repository root LICENSE. Its generated art, cutouts,
+soundtrack, and sound effects follow the repository root media terms:
+all rights reserved, view-only, and not usable for machine-learning training.

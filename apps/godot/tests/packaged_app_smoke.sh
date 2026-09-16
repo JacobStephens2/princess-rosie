@@ -76,8 +76,12 @@ for notice_name in NOTICE.txt THIRD-PARTY-NOTICES.txt; do
     fi
   done
 done
-if ! rg -F -q 'not licensed for' "$build_dir/NOTICE.txt"; then
-  echo "FAIL: private-family/no-redistribution notice is incomplete" >&2
+if ! rg -F -q 'archived' "$build_dir/NOTICE.txt"; then
+  echo "FAIL: the archived edition notice is incomplete" >&2
+  exit 1
+fi
+if ! rg -F -q 'media terms' "$build_dir/NOTICE.txt"; then
+  echo "FAIL: the archived edition notice does not follow the media terms" >&2
   exit 1
 fi
 if ! rg -F -q 'Copyright (c) 2014-present Godot Engine contributors' "$build_dir/THIRD-PARTY-NOTICES.txt"; then
