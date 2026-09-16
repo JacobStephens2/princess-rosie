@@ -1,11 +1,39 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# In-repo contract for publication (issue #183, issue #184, issue #186, ADR-0025, ADR-0026).
+# In-repo contract for publication (issue #183, issue #184, issue #186, issue #189, ADR-0025, ADR-0026).
 # Uses grep and python3 so `npm run check` works on GitHub-hosted Ubuntu runners.
 # git ls-files names the tracked-file set; git show reads origin/main's glossary.
+# --history additionally walks reachable objects of a clone (issue #189).
+
+usage() {
+  echo "usage: $0 [--history] [repo]" >&2
+  exit 2
+}
+
+check_history=false
+target_repo=""
+while (($# > 0)); do
+  case "$1" in
+    --history)
+      check_history=true
+      shift
+      ;;
+    -*)
+      usage
+      ;;
+    *)
+      [[ -z "$target_repo" ]] || usage
+      target_repo="$1"
+      shift
+      ;;
+  esac
+done
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
+if [[ -n "$target_repo" ]]; then
+  repo_root="$(cd "$target_repo" && pwd)"
+fi
 license="$repo_root/LICENSE"
 media_terms="$repo_root/MEDIA-TERMS.md"
 godot_notice="$repo_root/apps/godot/notices/NOTICE.txt"
@@ -20,6 +48,8 @@ adr_0025="$repo_root/docs/adr/0025-publish-the-development-record.md"
 adr_0026="$repo_root/docs/adr/0026-license-code-under-mit-and-keep-media-view-only.md"
 adr_0027="$repo_root/docs/adr/0027-approve-mureka-as-a-non-us-provider-exception.md"
 mureka_research="$repo_root/docs/research/mureka-distribution-rights.md"
+publication_runbook="$repo_root/docs/publication.md"
+rewrite_script="$repo_root/tools/rewrite-publication-history.sh"
 root_manifest="$repo_root/package.json"
 web_manifest="$repo_root/apps/web/package.json"
 soundscape_manifest="$repo_root/tools/soundscape-build/package.json"
@@ -48,6 +78,8 @@ test -f "$adr_0025" || fail "ADR-0025 is missing"
 test -f "$adr_0026" || fail "ADR-0026 is missing"
 test -f "$adr_0027" || fail "ADR-0027 is missing"
 test -f "$mureka_research" || fail "docs/research/mureka-distribution-rights.md is missing"
+test -f "$publication_runbook" || fail "docs/publication.md is missing"
+test -f "$rewrite_script" || fail "the history rewrite script is missing"
 test -f "$root_manifest" || fail "the root package manifest is missing"
 test -f "$web_manifest" || fail "the Web Edition package manifest is missing"
 test -f "$soundscape_manifest" || fail "the soundscape-build package manifest is missing"
@@ -108,6 +140,50 @@ has "License code under MIT" "$adr_0026" \
 has "Approve Mureka as a non-US provider exception" "$adr_0027" \
   || fail "ADR-0027 does not record the Mureka exception"
 
+has "tools/rewrite-publication-history.sh" "$publication_runbook" \
+  || fail "docs/publication.md does not name the rewrite script"
+has "--throwaway-clone" "$publication_runbook" \
+  || fail "docs/publication.md does not require a throwaway clone"
+has "publication_inspection.sh --history" "$publication_runbook" \
+  || fail "docs/publication.md does not run the publication inspection history flag"
+has "#190" "$publication_runbook" \
+  || fail "docs/publication.md does not name issue #190 as the rewrite gate"
+has "#191" "$publication_runbook" \
+  || fail "docs/publication.md does not name issue #191 as the visibility gate"
+has 'commented "go"' "$publication_runbook" \
+  || fail "docs/publication.md does not gate irreversible steps on the owner's go"
+has "v1.0.0-rc.1" "$publication_runbook" \
+  || fail "docs/publication.md does not name release-candidate tag v1.0.0-rc.1"
+has "v1.0.0-rc.2" "$publication_runbook" \
+  || fail "docs/publication.md does not name release-candidate tag v1.0.0-rc.2"
+has "v1.0.0-rc.3" "$publication_runbook" \
+  || fail "docs/publication.md does not name release-candidate tag v1.0.0-rc.3"
+has "gh release edit" "$publication_runbook" \
+  || fail "docs/publication.md does not update release notes"
+has "--visibility public" "$publication_runbook" \
+  || fail "docs/publication.md does not change repository visibility to public"
+has "--accept-visibility-change-consequences" "$publication_runbook" \
+  || fail "docs/publication.md does not accept visibility-change consequences"
+has "vulnerability-alerts" "$publication_runbook" \
+  || fail "docs/publication.md does not enable Dependabot alerts"
+has "automated-security-fixes" "$publication_runbook" \
+  || fail "docs/publication.md does not enable Dependabot security updates"
+has "secret_scanning_push_protection" "$publication_runbook" \
+  || fail "docs/publication.md does not enable secret-scanning push protection"
+has "environments/production" "$publication_runbook" \
+  || fail "docs/publication.md does not require a reviewer on the production environment"
+has "git-filter-repo" "$publication_runbook" \
+  || fail "docs/publication.md does not name git-filter-repo"
+has "apps/godot/edition-pack.zip" "$publication_runbook" \
+  || fail "docs/publication.md does not name the edition-pack archive path"
+
+has "--throwaway-clone" "$rewrite_script" \
+  || fail "the history rewrite script does not require --throwaway-clone"
+has "apps/godot/edition-pack.zip" "$rewrite_script" \
+  || fail "the history rewrite script does not drop the edition-pack archive"
+has "--replace-message" "$rewrite_script" \
+  || fail "the history rewrite script does not replace the full given name in commit and tag messages"
+
 python3 - "$root_manifest" "$web_manifest" "$soundscape_manifest" "$media_prepare_manifest" <<'PY' \
   || fail "the root and workspace manifests do not declare the MIT license"
 import json, sys
@@ -139,9 +215,13 @@ try:
     )
     if match:
         candidate = match.group(1).strip()
-        if candidate and candidate != placeholder and encoded not in candidate:
+        if (
+            candidate
+            and encoded not in candidate
+            and placeholder not in candidate
+        ):
             print(
-                "FAIL: the encoded given name is not in origin/main's Avoid token",
+                "FAIL: origin/main's Avoid token is neither the placeholder nor the encoded given name",
                 file=sys.stderr,
             )
             raise SystemExit(1)
@@ -229,5 +309,102 @@ if missing:
     )
     raise SystemExit(1)
 PY
+
+if $check_history; then
+  python3 - "$repo_root" <<'PY' || fail "publication history is not clean"
+import subprocess
+import sys
+
+repo_root = sys.argv[1]
+# Pieces are not the name; do not concatenate them in comments or commits.
+encoded = "".join(chr(n) for n in (
+    65, 122, 233, 108, 105, 101,
+)).encode("utf-8")
+archive_path = b"apps/godot/edition-pack.zip"
+tags = ("v1.0.0-rc.1", "v1.0.0-rc.2", "v1.0.0-rc.3")
+failed = False
+
+for tag in tags:
+    try:
+        subprocess.check_output(
+            ["git", "-C", repo_root, "rev-parse", "--verify", f"{tag}^{{commit}}"],
+            stderr=subprocess.DEVNULL,
+        )
+    except subprocess.CalledProcessError:
+        print(f"FAIL: release-candidate tag {tag} does not resolve", file=sys.stderr)
+        failed = True
+
+listed = subprocess.check_output(
+    ["git", "-C", repo_root, "rev-list", "--objects", "--all"]
+)
+archive_hits = False
+for line in listed.splitlines():
+    path = line.split(b" ", 1)[1] if b" " in line else b""
+    if path == archive_path:
+        archive_hits = True
+        break
+if archive_hits:
+    print("FAIL: the edition-pack archive is present in history", file=sys.stderr)
+    failed = True
+
+commits = subprocess.check_output(
+    ["git", "-C", repo_root, "rev-list", "--all"]
+).split()
+name_hits = False
+if commits:
+    grep = subprocess.run(
+        [
+            "git",
+            "-C",
+            repo_root,
+            "grep",
+            "-F",
+            "-q",
+            "-e",
+            encoded.decode(),
+        ]
+        + [c.decode() for c in commits],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    if grep.returncode == 0:
+        name_hits = True
+
+log = subprocess.check_output(
+    ["git", "-C", repo_root, "log", "--all", "--format=%B"]
+)
+if encoded in log:
+    name_hits = True
+
+tags_listed = subprocess.check_output(
+    [
+        "git",
+        "-C",
+        repo_root,
+        "for-each-ref",
+        "--format=%(objectname) %(objecttype)",
+        "refs/tags",
+    ],
+    text=True,
+)
+for line in tags_listed.splitlines():
+    if not line.strip():
+        continue
+    oid, kind = line.split()
+    if kind != "tag":
+        continue
+    body = subprocess.check_output(["git", "-C", repo_root, "cat-file", "tag", oid])
+    if encoded in body:
+        name_hits = True
+        break
+
+if name_hits:
+    print("FAIL: the full given name is present in history", file=sys.stderr)
+    failed = True
+
+if failed:
+    raise SystemExit(1)
+PY
+fi
 
 echo "OK: publication contract"
