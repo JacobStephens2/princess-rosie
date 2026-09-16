@@ -55,6 +55,7 @@ git filter-repo \
   --force \
   --invert-paths \
   --path apps/godot/edition-pack.zip \
-  --replace-text "$replace_file"
+  --replace-text "$replace_file" \
+  --replace-message "$replace_file"
 
 echo "OK: publication history rewritten"

@@ -44,7 +44,7 @@ npm run test:e2e
 
 The production build is a static site in `dist/`.
 
-To publish a verified Web Edition build, follow the [deployment runbook](docs/deployment.md). To construct the private Godot Edition macOS archive, follow the [Godot Edition release runbook](docs/godot-release.md).
+To publish a verified Web Edition build, follow the [deployment runbook](docs/deployment.md). To construct the Godot Edition macOS archive, follow the [Godot Edition release runbook](docs/godot-release.md).
 
 ## Media
 
