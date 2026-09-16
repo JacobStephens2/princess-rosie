@@ -3,7 +3,7 @@
   "role": "vaulted-arch-canopy",
   "model": "gpt-image-2",
   "size": "1536x1024",
-  "output": "/Users/jacob/.herdr/worktrees/princess-rosie/135/shared/edition/source-media/abbey/near/vaulted-arch-canopy.png",
+  "output": "shared/edition/source-media/abbey/near/vaulted-arch-canopy.png",
   "sha256": "4363421e90d14f2fc23bcc7c1bde0c6dcddcf884d7f74f5931efe7c40bd93901",
   "background": "transparent",
   "tokens": {
