@@ -78,6 +78,10 @@ test -f "$adr_0025" || fail "ADR-0025 is missing"
 test -f "$adr_0026" || fail "ADR-0026 is missing"
 test -f "$adr_0027" || fail "ADR-0027 is missing"
 test -f "$mureka_research" || fail "docs/research/mureka-distribution-rights.md is missing"
+has "written confirmation" "$mureka_research" \
+  || fail "docs/research/mureka-distribution-rights.md does not record Mureka's written confirmation"
+has "does not constitute a violation of Section 4.1" "$mureka_research" \
+  || fail "docs/research/mureka-distribution-rights.md does not record that publishing Output does not violate API Service Agreement §4.1"
 test -f "$publication_runbook" || fail "docs/publication.md is missing"
 test -f "$rewrite_script" || fail "the history rewrite script is missing"
 test -f "$root_manifest" || fail "the root package manifest is missing"

@@ -1,12 +1,24 @@
 # Mureka instrumental distribution rights
 
-Checked 2026-09-15 against official API documents, the signed-in account billing page, repository history, and GitHub issues.
+Checked 2026-09-15 against official API documents, the signed-in account billing page, repository history, and GitHub issues. Updated 2026-09-19 after Mureka API Team's written confirmation.
 
 ## Conclusion
 
-Mureka's paid API permits commercial use and platform distribution of generated content. The API agreement assigns its rights in Output to the customer, to the extent permitted by law. These provisions support distributing the game's instrumentals publicly, including alongside the game in a public repository. This is an interpretation of the distribution permission; the documents do not specifically name GitHub. [API FAQ, Commercial Authorization](https://platform.mureka.ai/docs/en/faq.html#commercial-authorization); [API Service Agreement, §3.2](https://platform.mureka.ai/service_terms.pdf).
+Mureka's paid API permits commercial use and platform distribution of generated content. The API agreement assigns its rights in Output to the customer, to the extent permitted by law. On 2026-09-19, Mureka API Team gave written confirmation that, for paid API calls, the customer owns the generated Output and may publish, distribute, and use it in this public GitHub repository and game. API Service Agreement §4.1 does not restrict that; the FAQ's commercial-authorization grant prevails over §4.1. [API FAQ, Commercial Authorization](https://platform.mureka.ai/docs/en/faq.html#commercial-authorization); [API Service Agreement, §3.2 and §4.1](https://platform.mureka.ai/service_terms.pdf); [issue #188](https://github.com/JacobStephens2/princess-rosie/issues/188).
 
 The relevant product is the API platform, whose billing is separate from consumer website membership. The signed-in [API billing page](https://platform.mureka.ai/billing), observed on the check date, showed a $10 paid recharge on 2026-08-22 at 12:22 UTC, $0 total bonus, $8.89 spent, and $1.11 remaining. This establishes paid API credit and use; it is not an invoice-to-generation match for every committed track. [API FAQ, Billing & Usage](https://platform.mureka.ai/docs/en/faq.html#billing-usage).
+
+## Written confirmation
+
+On 2026-09-16 the owner wrote to Mureka API support quoting the FAQ commercial-authorization grant and API Service Agreement §3.2 and §4.1, and asked whether publishing paid-API Output in a public GitHub repository alongside the game is permitted. The request is on [issue #188](https://github.com/JacobStephens2/princess-rosie/issues/188).
+
+Mureka API Team replied (received 2026-09-19):
+
+- As a paid API user, the customer holds full ownership of the generated Output and has complete authorization to publish, distribute, and use the Output in the public GitHub repository and game as described.
+- Section 4.1 is a protection for the customer's benefit. The FAQ prevails over §4.1. It does not restrict the customer from exercising ownership rights or publicly releasing their own Output.
+- Publishing the generated instrumental tracks in the public GitHub repository alongside the project does not constitute a violation of Section 4.1.
+
+The 2026-09-15 document-only reading treated GitHub publication as an interpretation because the API documents do not name GitHub. The written confirmation names the public GitHub repository and the game.
 
 ## Limits relevant to a public repository
 
