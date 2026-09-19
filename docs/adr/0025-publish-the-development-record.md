@@ -1,5 +1,5 @@
 ---
-status: Mureka API Team confirmed in writing on 2026-09-19 that publishing paid-API Output in the public GitHub repository does not violate API Service Agreement §4.1; the FAQ prevails. See the research note.
+status: accepted
 ---
 
 # Publish the development record

@@ -80,6 +80,8 @@ test -f "$adr_0027" || fail "ADR-0027 is missing"
 test -f "$mureka_research" || fail "docs/research/mureka-distribution-rights.md is missing"
 has "written confirmation" "$mureka_research" \
   || fail "docs/research/mureka-distribution-rights.md does not record Mureka's written confirmation"
+has "The FAQ prevails over §4.1" "$mureka_research" \
+  || fail "docs/research/mureka-distribution-rights.md does not record that the FAQ prevails over API Service Agreement §4.1"
 has "does not constitute a violation of Section 4.1" "$mureka_research" \
   || fail "docs/research/mureka-distribution-rights.md does not record that publishing Output does not violate API Service Agreement §4.1"
 test -f "$publication_runbook" || fail "docs/publication.md is missing"
@@ -154,6 +156,8 @@ has "#190" "$publication_runbook" \
   || fail "docs/publication.md does not name issue #190 as the rewrite gate"
 has "#191" "$publication_runbook" \
   || fail "docs/publication.md does not name issue #191 as the visibility gate"
+has "Mureka API Team replied on 2026-09-19" "$publication_runbook" \
+  || fail "docs/publication.md does not record that #188 closed on Mureka's 2026-09-19 reply"
 has 'commented "go"' "$publication_runbook" \
   || fail "docs/publication.md does not gate irreversible steps on the owner's go"
 has "v1.0.0-rc.1" "$publication_runbook" \

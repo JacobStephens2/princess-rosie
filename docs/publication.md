@@ -11,7 +11,8 @@ commented "go" on #190. Do not change visibility until the owner has
 commented "go" on #191. An agent must not take either step on its own. The
 rewrite invalidates every open branch and every local clone, including the
 worktrees kept under the repository, so it runs when no other work is in
-flight.
+flight. #188 closed on Mureka API Team's 2026-09-19 reply; the
+confidentiality wait ended on that reply.
 
 The rewrite drops every `apps/godot/edition-pack.zip` blob and replaces the
 full given name throughout history. It does not push. Force-pushing the
@@ -23,7 +24,7 @@ Continue only when all of these are true:
 
 - The owner has commented "go" on #190.
 - No other branch or worktree has work in flight.
-- #188 is closed (Mureka replied, or 2026-09-29 passed without a reply).
+- #188 is closed (Mureka API Team replied on 2026-09-19).
 - The working-tree publication tickets have landed on `publication-contract`.
 
 Record the current release-candidate tag hashes before anything is rewritten:
