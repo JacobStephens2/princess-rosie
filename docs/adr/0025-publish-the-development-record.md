@@ -1,3 +1,7 @@
+---
+status: accepted
+---
+
 # Publish the development record
 
 ADR-0014 kept the complete development record private so that a later public release could not expose production or family-personalization details. On 2026-09-15 the project owner decided to make the whole repository public, including `shared/`, the media prompts, and the provenance records, so that the workflow that built the game can be read and the game can be forked for another child. The record is close to publishable because ADR-0001 has bounded personalization from the start; its bounds now apply to the repository as well as to the indexable game, and Princess Zélie's full given name joins the excluded details. Before the visibility change the history is rewritten once to remove that name from every past revision and to drop the 21 committed copies of the Godot edition-pack archive, which otherwise make a clone weigh 600 MB. The Godot Edition release-candidate archives are removed from their GitHub Releases, keeping the tags and notes as the audit trail, and the tags are re-pointed at the rewritten commits.
@@ -13,4 +17,4 @@ ADR-0014 kept the complete development record private so that a later public rel
 - ADR-0017's promise that a release-candidate tag never moves is broken once, deliberately, by the history rewrite. Release notes record the old and new commit hashes.
 - Commit hashes quoted in issues, release notes, and research documents before the rewrite are stale.
 - Server operational details in issue #118 and pull request #119 are edited out and their edit history deleted before the visibility change.
-- The Mureka API agreement's confidentiality clause is ambiguous about publishing generated output; the owner asks Mureka API support for written confirmation and proceeds after a reply or two weeks of silence, relying on the API FAQ's grant of distribution rights for paid calls.
+- The Mureka API agreement's confidentiality clause was ambiguous about publishing generated output. The owner asked Mureka API support for written confirmation on 2026-09-16 (#188). Mureka API Team replied on 2026-09-19 that paid-API Output may be published in the public GitHub repository and game, and that §4.1 does not restrict the customer's ownership rights; the FAQ prevails. Recorded in `docs/research/mureka-distribution-rights.md`.
