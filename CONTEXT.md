@@ -155,11 +155,11 @@ A celebratory illustrated memento of a Family Guest, awarded upon completing a p
 _Avoid_: Achievement, trophy, badge
 
 **Storybook Moment**:
-A short, lightly animated illustrated scene with a few large sentences intended for the Grown-up Helper to read aloud with the child.
+A short, lightly animated illustrated scene with a few large sentences intended for the Grown-up Helper to read aloud with the child; the painting stays in view with the sentences rather than being replaced by them.
 _Avoid_: Cutscene, exposition screen
 
 **Storybook Stage**:
-The cinematic 16:9 frame containing every essential story, play, and text element; taller displays extend its illustrated surroundings without cropping the frame.
+The cinematic frame containing every essential story, play, and text element. When the visible display is wider than it is tall, the Stage is 16:9 and extra height extends the illustrated surroundings without cropping; when the visible display is taller than it is wide, the Stage is that display, a portrait window into the same world that shows the full height of the Place Illustration and follows Stella without stretching.
 _Avoid_: Canvas, viewport, black bars
 
 **Flight Presentation**:
