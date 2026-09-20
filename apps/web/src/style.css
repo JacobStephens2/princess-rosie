@@ -13,7 +13,12 @@
 
 * { box-sizing: border-box; }
 
-html, body, #app { width: 100%; height: 100%; margin: 0; overflow: hidden; }
+html, body, #app {
+  width: var(--visible-width, 100%);
+  height: var(--visible-height, 100dvh);
+  margin: 0;
+  overflow: hidden;
+}
 
 body {
   background: #f9d8e9;
@@ -71,7 +76,7 @@ button:focus-visible { outline: 5px solid #fff; outline-offset: 4px; }
 }
 
 .storybook__card, .ending__card {
-  width: min(940px, calc(100vw - 40px));
+  width: min(940px, calc(100% - 40px));
   margin: 0 20px max(5vh, 24px);
   padding: clamp(24px, 3.5vw, 46px) clamp(24px, 5vw, 64px);
   color: var(--ink);
@@ -167,11 +172,15 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 
 .game {
   position: relative;
-  width: min(100vw, calc(100vh * 16 / 9));
-  height: min(100vh, calc(100vw * 9 / 16));
-  aspect-ratio: 16 / 9;
+  width: min(var(--visible-width, 100%), calc(var(--visible-height, 100dvh) * 16 / 9));
+  height: min(var(--visible-height, 100dvh), calc(var(--visible-width, 100%) * 9 / 16));
   background: #8bd9f4;
   overflow: hidden;
+}
+
+html[data-stage-mode="portrait-window"] .game {
+  width: 100%;
+  height: 100%;
 }
 
 .game canvas {
@@ -402,7 +411,8 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
   position: fixed;
   z-index: 4;
   left: 50%;
-  bottom: max(24px, env(safe-area-inset-bottom));
+  top: max(72px, calc(env(safe-area-inset-top) + 64px));
+  bottom: auto;
   transform: translateX(-50%);
   padding: 10px 18px;
   color: #744068;
@@ -1041,7 +1051,75 @@ h1 span { display: block; margin-top: 10px; color: var(--lavender); font-size: .
 @keyframes cloud-bob { 50% { transform: translateY(-8px); } }
 @keyframes hint-fade { 0%,70% { opacity: 1; } 100% { opacity: 0; visibility: hidden; } }
 
-@media (pointer: coarse) { .flight-hint { left: 24px; transform: none; } }
+html[data-stage-mode="portrait-window"] .game-hud {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: 6px;
+}
+
+html[data-stage-mode="portrait-window"] .game-hud__left {
+  justify-self: center;
+  align-items: center;
+}
+
+html[data-stage-mode="portrait-window"] .game-hud .grown-up-corner-button {
+  justify-self: center;
+}
+
+html[data-stage-mode="portrait-window"] .star-tracker {
+  padding: 6px 10px;
+  gap: 4px;
+}
+
+html[data-stage-mode="portrait-window"] .star {
+  font-size: 18px;
+}
+
+html[data-stage-mode="portrait-window"] .flight-hint {
+  top: max(148px, calc(env(safe-area-inset-top) + 132px));
+}
+
+html[data-stage-mode="portrait-window"] .storybook__card {
+  width: min(940px, calc(100% - 24px));
+  max-height: 42%;
+  margin: 0 12px max(12px, env(safe-area-inset-bottom));
+  padding: 16px 16px 18px;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 28px;
+}
+
+html[data-stage-mode="portrait-window"] h1 {
+  font-size: clamp(28px, 9vw, 44px);
+}
+
+html[data-stage-mode="portrait-window"] #story-copy {
+  min-height: 0;
+  max-height: 7.5em;
+  margin: 10px auto 12px;
+  overflow: auto;
+  font-size: clamp(15px, 4.2vw, 18px);
+}
+
+html[data-stage-mode="portrait-window"] .storybook-button {
+  min-height: 48px;
+}
+
+html[data-stage-mode="portrait-window"] .moment {
+  align-items: end;
+  padding: 12px;
+}
+
+html[data-stage-mode="portrait-window"] .moment__card {
+  max-height: 92%;
+  overflow: auto;
+  padding: 20px 16px;
+}
+
+html[data-stage-mode="portrait-window"] .celebration-modal__card {
+  max-height: 92%;
+  overflow: auto;
+}
 @media (max-height: 650px) {
   .storybook__card { padding-block: 18px; margin-bottom: 14px; }
   #story-copy { margin-block: 9px 10px; min-height: 2.2em; }

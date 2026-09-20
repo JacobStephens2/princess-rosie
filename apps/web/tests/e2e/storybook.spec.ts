@@ -489,47 +489,158 @@ test("fullscreen touch ergonomics and keyboard Up Arrow mirror primary jump and 
   await page.keyboard.up("ArrowUp");
 });
 
-test("Storybook Stage maintains a sharp, letterboxed 16:9 aspect ratio across iPad, mobile, and desktop viewports", async ({ page }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Begin the story" }).click();
-  await page.getByRole("button", { name: "Turn the page" }).click();
-  await page.getByRole("button", { name: "Turn the page" }).click();
-  await page.getByRole("button", { name: "Fly with Rosie" }).click();
-  await expect(page.locator("#game canvas")).toBeVisible();
+async function startStorybookFlightAt(page: Page, size: { width: number; height: number }): Promise<void> {
+  await page.setViewportSize(size);
+  await startStorybookFlight(page);
+}
 
-  // Desktop 1280x720 (native 16:9)
-  await page.setViewportSize({ width: 1280, height: 720 });
-  await page.waitForTimeout(300);
+test("on a 360×800 tall display the Storybook Stage is a portrait window filling the visible display", async ({ page }) => {
+  await startStorybookFlightAt(page, { width: 360, height: 800 });
+
+  const canvasBox = await page.locator("#game canvas").boundingBox();
+  expect(canvasBox).not.toBeNull();
+  expect(canvasBox?.width).toBeGreaterThanOrEqual(350);
+  expect(canvasBox?.height).toBeGreaterThanOrEqual(790);
+  expect((canvasBox?.width ?? 0) / (canvasBox?.height ?? 1)).not.toBeCloseTo(16 / 9, 1);
+
+  const stage = await page.evaluate(() => window.__ROSIE_RUNNER__?.getStorybookStage?.());
+  expect(stage?.mode).toBe("portrait-window");
+  expect(stage?.cameraZoom).toBeCloseTo(800 / 720);
+  expect(stage?.visibleWorldWidth).toBeLessThan(1280);
+  expect(stage?.followOffsetX).toBeLessThan(0);
+
+  const hudBox = await page.locator(".game-hud").boundingBox();
+  const hintBox = await page.locator("#flight-hint").boundingBox();
+  expect(hudBox).not.toBeNull();
+  expect((hudBox?.y ?? 0) + (hudBox?.height ?? 0)).toBeLessThan(400);
+  if (hintBox) {
+    expect(hintBox.y + hintBox.height).toBeLessThan(500);
+  }
+});
+
+test("wider-than-tall displays keep a 16:9 Storybook Stage", async ({ page }) => {
+  await startStorybookFlightAt(page, { width: 1280, height: 720 });
   let canvasBox = await page.locator("#game canvas").boundingBox();
   expect(canvasBox).not.toBeNull();
-  if (canvasBox) {
-    const ratio = canvasBox.width / canvasBox.height;
-    expect(ratio).toBeCloseTo(16 / 9, 1);
-  }
+  expect((canvasBox?.width ?? 0) / (canvasBox?.height ?? 1)).toBeCloseTo(16 / 9, 1);
+  expect(await page.evaluate(() => window.__ROSIE_RUNNER__?.getStorybookStage?.()?.mode)).toBe("wide-16-9");
 
-  // iPad 1024x768 (4:3 aspect ratio)
   await page.setViewportSize({ width: 1024, height: 768 });
-  await page.waitForTimeout(300);
+  await startStorybookFlight(page);
   canvasBox = await page.locator("#game canvas").boundingBox();
   expect(canvasBox).not.toBeNull();
-  if (canvasBox) {
-    const ratio = canvasBox.width / canvasBox.height;
-    expect(ratio).toBeCloseTo(16 / 9, 1);
-    expect(canvasBox.height).toBeLessThanOrEqual(578);
-    expect(canvasBox.height).toBeGreaterThanOrEqual(574);
+  expect((canvasBox?.width ?? 0) / (canvasBox?.height ?? 1)).toBeCloseTo(16 / 9, 1);
+  expect(canvasBox?.height).toBeGreaterThanOrEqual(574);
+  expect(canvasBox?.height).toBeLessThanOrEqual(578);
+
+  await page.setViewportSize({ width: 844, height: 390 });
+  await startStorybookFlight(page);
+  canvasBox = await page.locator("#game canvas").boundingBox();
+  expect(canvasBox).not.toBeNull();
+  expect((canvasBox?.width ?? 0) / (canvasBox?.height ?? 1)).toBeCloseTo(16 / 9, 1);
+  expect(await page.evaluate(() => window.__ROSIE_RUNNER__?.getStorybookStage?.()?.mode)).toBe("wide-16-9");
+});
+
+test("an address-bar resize during Gallop and Flutter does not jump-zoom the world", async ({ page }) => {
+  await startStorybookFlightAt(page, { width: 360, height: 800 });
+  const locked = await page.evaluate(() => window.__ROSIE_RUNNER__?.getStorybookStage?.());
+  expect(locked?.cameraZoom).toBeCloseTo(800 / 720);
+
+  await page.setViewportSize({ width: 360, height: 700 });
+  await page.waitForTimeout(300);
+  const afterBar = await page.evaluate(() => window.__ROSIE_RUNNER__?.getStorybookStage?.());
+  expect(afterBar?.cameraZoom).toBe(locked?.cameraZoom);
+  expect(afterBar?.width).toBe(locked?.width);
+  expect(afterBar?.height).toBe(locked?.height);
+
+  await page.goto("/");
+  await page.setViewportSize({ width: 360, height: 700 });
+  const card = page.locator(".storybook__card");
+  await expect(card).toBeVisible();
+  const cardBox = await card.boundingBox();
+  expect(cardBox).not.toBeNull();
+  expect(cardBox?.height).toBeLessThan(700 * 0.5);
+});
+
+test("rotating a tall phone to landscape switches the Stage to 16:9 without breaking jump input", async ({ page }) => {
+  await startStorybookFlightAt(page, { width: 360, height: 800 });
+  expect(await page.evaluate(() => window.__ROSIE_RUNNER__?.getStorybookStage?.()?.mode)).toBe("portrait-window");
+
+  await page.setViewportSize({ width: 800, height: 360 });
+  await page.waitForTimeout(300);
+  const landscape = await page.evaluate(() => window.__ROSIE_RUNNER__?.getStorybookStage?.());
+  expect(landscape?.mode).toBe("wide-16-9");
+  const canvasBox = await page.locator("#game canvas").boundingBox();
+  expect((canvasBox?.width ?? 0) / (canvasBox?.height ?? 1)).toBeCloseTo(16 / 9, 1);
+
+  await page.keyboard.press("Space");
+  await expect.poll(async () => {
+    const state = await page.evaluate(() => window.__ROSIE_RUNNER__?.getState());
+    return Boolean(state && !state.isGrounded);
+  }).toBe(true);
+});
+
+test("Cover and Opening Storybook Moments keep the painting visible above a bottom-docked card on a tall phone", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto("/");
+
+  const artwork = page.locator(".storybook__art.is-visible");
+  const card = page.locator(".storybook__card");
+  const begin = page.getByRole("button", { name: "Begin the story" });
+  await expect(artwork).toBeVisible();
+  await expect(card).toBeVisible();
+  await expect(begin).toBeVisible();
+
+  const artBox = await artwork.boundingBox();
+  const cardBox = await card.boundingBox();
+  const buttonBox = await begin.boundingBox();
+  expect(artBox).not.toBeNull();
+  expect(cardBox).not.toBeNull();
+  expect(buttonBox).not.toBeNull();
+  expect(cardBox?.y ?? 0).toBeGreaterThan(800 * 0.45);
+  expect((cardBox?.height ?? 800)).toBeLessThan(800 * 0.5);
+  expect((artBox?.y ?? 1) + 40).toBeLessThan(cardBox?.y ?? 0);
+  expect(buttonBox?.height ?? 0).toBeGreaterThanOrEqual(44);
+  expect(await begin.evaluate((el) => getComputedStyle(el).overflowX)).not.toBe("scroll");
+  expect(
+    await page.locator("#story-copy").evaluate((el) => el.scrollWidth <= el.clientWidth + 1),
+  ).toBe(true);
+
+  await begin.click();
+  await expect(page.getByText("Far across the sparkling Sapphire Sea")).toBeVisible();
+  const openingCard = await card.boundingBox();
+  expect((openingCard?.height ?? 800)).toBeLessThan(800 * 0.5);
+});
+
+test("Grown-up Corner remains usable on a tall display", async ({ page }) => {
+  await startStorybookFlightAt(page, { width: 360, height: 800 });
+
+  const grownUpButton = page.locator("#grown-up-corner-button");
+  const buttonBox = await grownUpButton.boundingBox();
+  expect(buttonBox).not.toBeNull();
+  if (buttonBox) {
+    await page.mouse.move(buttonBox.x + buttonBox.width / 2, buttonBox.y + buttonBox.height / 2);
+    await page.mouse.down();
+    await page.waitForTimeout(2100);
+    await page.mouse.up();
   }
 
-  // Mobile 390x844 (tall phone)
-  await page.setViewportSize({ width: 390, height: 844 });
-  await page.waitForTimeout(300);
-  canvasBox = await page.locator("#game canvas").boundingBox();
-  expect(canvasBox).not.toBeNull();
-  if (canvasBox) {
-    const ratio = canvasBox.width / canvasBox.height;
-    expect(ratio).toBeCloseTo(16 / 9, 1);
-    expect(canvasBox.height).toBeLessThanOrEqual(222);
-    expect(canvasBox.height).toBeGreaterThanOrEqual(217);
-  }
+  await expect(page.locator("#grown-up-dialog")).toBeVisible();
+  await expect(page.locator("#grown-up-resume-button")).toBeVisible();
+  const resumeBox = await page.locator("#grown-up-resume-button").boundingBox();
+  expect(resumeBox?.height ?? 0).toBeGreaterThanOrEqual(44);
+  await page.locator("#grown-up-resume-button").click();
+  await expect(page.locator("#grown-up-dialog")).toBeHidden();
+  expect(await page.evaluate(() => window.__ROSIE_RUNNER__?.isPaused?.())).toBe(false);
+});
+
+test("the installed PWA does not force landscape", async ({ page }) => {
+  await page.goto("/");
+  const manifest = await page.evaluate(async () => {
+    const response = await fetch("/manifest.webmanifest");
+    return response.json() as Promise<{ orientation?: string }>;
+  });
+  expect(manifest.orientation === "any" || manifest.orientation === undefined).toBe(true);
 });
 
 test("Grown-up Corner requires 2-second hold to reveal controls and pause play while ignoring brief accidental taps", async ({ page }) => {

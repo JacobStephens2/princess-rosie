@@ -4,7 +4,13 @@ import { registerSW } from "virtual:pwa-register";
 import "./style.css";
 import { OPENING_STORYBOOK_MOMENTS_AFTER_COVER, STOP_STORIES, type StopStory } from "./game/content";
 import { getPlaceLayers } from "./domain/scenery";
-import { GAME_SIZE, RosieGameScene } from "./game/RosieGameScene";
+import { RosieGameScene } from "./game/RosieGameScene";
+import {
+  layoutStorybookStage,
+  shouldApplyStageLayout,
+  type StorybookStageLayout,
+  type VisibleDisplay,
+} from "./domain/storybook-stage";
 import { GameAudio } from "./game/sound";
 import { createRunnerState } from "./domain/gallop-and-flutter";
 import { createJourney, resetJourney, SCATTERED_STAR_STOPS } from "./domain/journey";
@@ -74,6 +80,7 @@ export interface RosieRunnerInterface {
   isAudioCrossfading?: () => boolean;
   getAudioPlaylistState?: () => import("./domain/soundtrack-rotation").SoundtrackPlaylistState;
   isAudioEnabled?: () => boolean;
+  getStorybookStage?: () => StorybookStageLayout | undefined;
 }
 
 
@@ -137,6 +144,69 @@ let visibleStoryArtworkIndex = 0;
 let scene: RosieGameScene | undefined;
 let phaserGame: Phaser.Game | undefined;
 let finalStarWaiting = false;
+let appliedStage: StorybookStageLayout | undefined;
+let gallopAndFlutterActive = false;
+
+function readVisibleDisplay(): VisibleDisplay {
+  const viewport = window.visualViewport;
+  return {
+    width: viewport?.width ?? window.innerWidth,
+    height: viewport?.height ?? window.innerHeight,
+  };
+}
+
+function stagePixelSize(layout: StorybookStageLayout): { width: number; height: number } {
+  return {
+    width: Math.max(1, Math.round(layout.width)),
+    height: Math.max(1, Math.round(layout.height)),
+  };
+}
+
+function applyVisibleDisplayChrome(): void {
+  const display = readVisibleDisplay();
+  document.documentElement.style.setProperty("--visible-width", `${display.width}px`);
+  document.documentElement.style.setProperty("--visible-height", `${display.height}px`);
+  document.documentElement.dataset.stageMode = layoutStorybookStage(display).mode;
+}
+
+function applyStagePresentation(layout: StorybookStageLayout): void {
+  appliedStage = layout;
+  applyVisibleDisplayChrome();
+  const size = stagePixelSize(layout);
+  const game = document.getElementById("game");
+  if (game) {
+    game.style.width = `${size.width}px`;
+    game.style.height = `${size.height}px`;
+  }
+  scene?.applyStageLayout(layout);
+  phaserGame?.scale.resize(size.width, size.height);
+}
+
+function syncStorybookStage(options: { force?: boolean } = {}): StorybookStageLayout {
+  applyVisibleDisplayChrome();
+  const next = layoutStorybookStage(readVisibleDisplay());
+  if (
+    !options.force &&
+    !shouldApplyStageLayout({
+      locked: appliedStage,
+      next,
+      flightActive: gallopAndFlutterActive,
+    })
+  ) {
+    return appliedStage ?? next;
+  }
+  applyStagePresentation(next);
+  return next;
+}
+
+function pauseGallopAndFlutter(): void {
+  gallopAndFlutterActive = false;
+}
+
+function resumeGallopAndFlutter(): void {
+  gallopAndFlutterActive = true;
+  syncStorybookStage({ force: true });
+}
 
 const storyArtworkLoads = new Map<string, Promise<boolean>>();
 
@@ -244,14 +314,18 @@ function startGame(): void {
     onCloudRest: showCloudRest,
     onCelebration: showEnding,
   });
+  gallopAndFlutterActive = true;
+  const layout = syncStorybookStage({ force: true });
+  scene.applyStageLayout(layout);
+  const size = stagePixelSize(layout);
   phaserGame = new Phaser.Game({
     type: import.meta.env.VITE_PHASER_CANVAS === "1" ? Phaser.CANVAS : Phaser.AUTO,
     parent: "game",
-    width: GAME_SIZE.width,
-    height: GAME_SIZE.height,
+    width: size.width,
+    height: size.height,
     backgroundColor: "#8bd8f1",
     physics: { default: "arcade", arcade: { gravity: { x: 0, y: 0 }, debug: false } },
-    scale: { mode: Phaser.Scale.FIT, autoCenter: Phaser.Scale.CENTER_BOTH, width: GAME_SIZE.width, height: GAME_SIZE.height },
+    scale: { mode: Phaser.Scale.NONE, width: size.width, height: size.height },
     render: { antialias: true, roundPixels: false },
     scene: [scene],
   });
@@ -283,6 +357,7 @@ function showBirthdayStar(stop: StopStory, count: number, isFinal: boolean): voi
   }
 
   momentNext.innerHTML = isFinal ? "To the celebration <b aria-hidden=\"true\">★</b>" : "Keep flying <b aria-hidden=\"true\">→</b>";
+  pauseGallopAndFlutter();
   moment.hidden = false;
   window.setTimeout(() => momentNext.focus(), 80);
 }
@@ -291,11 +366,15 @@ function continueFromMoment(): void {
   sound.play("button");
   scene?.continueAfterBirthdayStar();
   moment.hidden = true;
-  if (!finalStarWaiting) getElement<HTMLElement>("game").focus();
+  if (!finalStarWaiting) {
+    resumeGallopAndFlutter();
+    getElement<HTMLElement>("game").focus();
+  }
 }
 
 function showCloudRest(): void {
   sound.play("rest");
+  pauseGallopAndFlutter();
   cloudRest.hidden = false;
   window.setTimeout(() => restNext.focus(), 80);
 }
@@ -304,6 +383,7 @@ function continueFromCloudRest(): void {
   sound.play("button");
   cloudRest.hidden = true;
   scene?.continueAfterCloudRest();
+  resumeGallopAndFlutter();
 }
 
 function updateStars(count: number): void {
@@ -456,6 +536,7 @@ function flyAgain(): void {
 }
 
 function showEnding(): void {
+  pauseGallopAndFlutter();
   gameShell.hidden = true;
   ending.hidden = false;
   celebrationAlbumModal.classList.remove("is-dismissing");
@@ -590,6 +671,7 @@ function openGrownUpCorner(): void {
   grownUpButton.classList.remove("is-holding");
   grownUpButton.setAttribute("aria-expanded", "true");
   grownUpDialog.hidden = false;
+  pauseGallopAndFlutter();
   scene?.pause();
   updateSoundUi();
   window.setTimeout(() => grownUpResumeButton.focus(), 80);
@@ -603,6 +685,9 @@ function closeGrownUpCornerDialog(): void {
   grownUpDialog.hidden = true;
   updateHoldMeter();
   scene?.resume();
+  if (!gameShell.hidden && moment.hidden && cloudRest.hidden && ending.hidden) {
+    resumeGallopAndFlutter();
+  }
 }
 
 function startHoldLoop(): void {
@@ -658,6 +743,7 @@ function restartJourney(): void {
   closeGrownUpCornerDialog();
   celebrationAlbumModal.classList.remove("is-dismissing");
   finaleState = createFinaleState();
+  pauseGallopAndFlutter();
   gameShell.hidden = true;
   moment.hidden = true;
   cloudRest.hidden = true;
@@ -670,6 +756,7 @@ function restartJourney(): void {
     phaserGame = undefined;
   }
   scene = undefined;
+  syncStorybookStage({ force: true });
 }
 
 storyNext.addEventListener("click", () => void advanceStory());
@@ -800,8 +887,18 @@ window.__ROSIE_RUNNER__ = {
   isAudioCrossfading: () => sound.isCrossfading(),
   getAudioPlaylistState: () => sound.getPlaylistState(),
   isAudioEnabled: () => sound.isEnabled(),
+  getStorybookStage: () => scene?.getStageLayout() ?? appliedStage,
 };
 
+
+const onVisibleDisplayChange = (): void => {
+  syncStorybookStage();
+};
+window.visualViewport?.addEventListener("resize", onVisibleDisplayChange);
+window.visualViewport?.addEventListener("scroll", onVisibleDisplayChange);
+window.addEventListener("resize", onVisibleDisplayChange);
+window.addEventListener("orientationchange", onVisibleDisplayChange);
+syncStorybookStage({ force: true });
 
 renderDots();
 OPENING_STORYBOOK_MOMENTS_AFTER_COVER.forEach((momentContent) => void preloadStoryArtwork(momentContent.image));

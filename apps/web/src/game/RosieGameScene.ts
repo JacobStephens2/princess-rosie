@@ -55,9 +55,15 @@ import {
   type SceneryLayerDepth,
 } from "../domain/scenery";
 import { WingPuppet, WING_PUPPET_TEXTURES } from "./WingPuppet";
+import {
+  WORLD_HEIGHT,
+  WORLD_WIDTH,
+  layoutStorybookStage,
+  type StorybookStageLayout,
+} from "../domain/storybook-stage";
 
-const VIEW_WIDTH = 1280;
-const VIEW_HEIGHT = 720;
+const VIEW_WIDTH = WORLD_WIDTH;
+const VIEW_HEIGHT = WORLD_HEIGHT;
 const PLACE_COURSE_WIDTH = DEFAULT_RUNNER_CONFIG.courseLength + 1100;
 
 const GUEST_ORIGIN_Y: Record<FamilyGuest, number> = {
@@ -217,6 +223,10 @@ export class RosieGameScene extends Phaser.Scene {
   private sparkleTrail!: Phaser.GameObjects.Particles.ParticleEmitter;
   private reunionInProgress = false;
   private ready = false;
+  private stageLayout: StorybookStageLayout = layoutStorybookStage({
+    width: WORLD_WIDTH,
+    height: WORLD_HEIGHT,
+  });
 
   constructor(callbacks: GameCallbacks) {
     super("rosie-adventure");
@@ -286,7 +296,7 @@ export class RosieGameScene extends Phaser.Scene {
     this.player = this.createPlayer(this.runnerState.x, this.runnerState.y);
     this.buildPlace(STOP_STORIES[0]!);
 
-    this.cameras.main.startFollow(this.player, true, .08, .08, -340, 0);
+    this.applyStageLayout(this.stageLayout);
     this.cameras.main.setBackgroundColor("#8bd8f1");
     this.spaceKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.upKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -552,6 +562,21 @@ export class RosieGameScene extends Phaser.Scene {
   }
 
   setTouchHeld(held: boolean): void { this.touchHeld = held; }
+
+  applyStageLayout(layout: StorybookStageLayout): void {
+    this.stageLayout = layout;
+    const camera = this.cameras?.main;
+    if (!camera) return;
+    camera.setZoom(layout.cameraZoom);
+    if (this.player) {
+      camera.startFollow(this.player, true, 0.08, 0.08, layout.followOffsetX, 0);
+    }
+    camera.setBounds(0, 0, PLACE_COURSE_WIDTH, VIEW_HEIGHT);
+  }
+
+  getStageLayout(): StorybookStageLayout {
+    return this.stageLayout;
+  }
 
   continueAfterBirthdayStar(): void {
     this.reunionInProgress = false;
@@ -914,8 +939,7 @@ export class RosieGameScene extends Phaser.Scene {
     }
 
     // 11. Camera bounds and reset
-    this.cameras.main.setBounds(0, 0, PLACE_COURSE_WIDTH, VIEW_HEIGHT);
-    this.cameras.main.scrollX = 0;
+    this.applyStageLayout(this.stageLayout);
   }
 
   private tryAttachCutout(container: Phaser.GameObjects.Container, cutout?: CutoutConfig): boolean {
